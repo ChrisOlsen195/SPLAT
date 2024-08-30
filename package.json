@@ -3,7 +3,7 @@
     "splat": "jdeploy-bundle/jdeploy.js"
   },
   "author": "Chris Olsen",
-  "description": "null",
+  "description": "A statistical package",
   "main": "index.js",
   "preferGlobal": true,
   "repository": "",
@@ -13,7 +13,7 @@
     "javaVersion": "11",
     "jar": "target\\Splat_Maven-1.0.jar",
     "javafx": true,
-    "title": "Splat_Maven"
+    "title": "SPLAT"
   },
   "dependencies": {
     "command-exists-promise": "^2.0.2",
@@ -23,7 +23,7 @@
     "yauzl": "^2.10.0"
   },
   "license": "ISC",
-  "name": "Splat_Maven",
+  "name": "splat",
   "files": [
     "jdeploy-bundle"
   ],
