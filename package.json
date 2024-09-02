@@ -1,0 +1,33 @@
+{
+  "bin": {
+    "splat": "jdeploy-bundle/jdeploy.js"
+  },
+  "author": "Chris Olsen",
+  "description": "A statistical package",
+  "main": "index.js",
+  "preferGlobal": true,
+  "repository": "",
+  "version": "1.0",
+  "jdeploy": {
+    "jdk": false,
+    "javaVersion": "11",
+    "jar": "target\\Splat_Maven-1.0.jar",
+    "javafx": true,
+    "title": "SPLAT"
+  },
+  "dependencies": {
+    "command-exists-promise": "^2.0.2",
+    "node-fetch": "2.6.7",
+    "shelljs": "^0.8.4",
+    "tar": "^4.4.8",
+    "yauzl": "^2.10.0"
+  },
+  "license": "ISC",
+  "name": "splat",
+  "files": [
+    "jdeploy-bundle"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
