@@ -1,12 +1,11 @@
 /**************************************************
  *                 MLR_Reg_Dialog                 *
- *                   05/27/24                     *
- *                     12:00                      *
+ *                   09/13/24                     *
+ *                     00:00                      *
  *************************************************/
 package dialogs.regression;
 
 import dataObjects.ColumnOfData;
-import dialogs.MyDialogs;
 import dialogs.Splat_Dialog;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
@@ -27,10 +26,9 @@ import utilityClasses.MyAlerts;
 public class MLR_Dialog extends Splat_Dialog {
     // POJOs
     private boolean ok = true; 
-    private int numSelected;
-    private final int minVars = 2, maxIVs = 12;    
+    private int numSelected;  
     private int dvSelected = -1;    
-    private final int minSampleSize = 5;
+    private int minSampleSize;
     private ArrayList<Integer> ivSelected; 
 
     private String DVText; 
@@ -39,8 +37,7 @@ public class MLR_Dialog extends Splat_Dialog {
     
     // My classes
     ColumnOfData tempCol;
-    Label titleLabel;
-    private MyDialogs msgDiag;    
+    Label titleLabel; 
     ArrayList<ColumnOfData> mlr_ColOfData;
     
     // POJOs / FX
@@ -49,7 +46,6 @@ public class MLR_Dialog extends Splat_Dialog {
         super(dm);
         // waldoFile = "MLR_Dialog";
         waldoFile = "";
-        msgDiag = new MyDialogs();
         ivSelected = new ArrayList();
         varLabel = new ArrayList();
 
@@ -151,7 +147,7 @@ public class MLR_Dialog extends Splat_Dialog {
 
             int tempNum = var_List_2.getVarIndices().size();
 
-            if ((ok) && (tempNum < maxIVs)) {
+            if (ok) {
                 var_List_2.addVarName(selected);
                 var_List_1.delVarName(selected);
             }
@@ -184,9 +180,8 @@ public class MLR_Dialog extends Splat_Dialog {
                 dvPresent = 1;
             }
 
-            if ((numSelected + dvPresent) < minVars) {
-                msgDiag.NoChoiceMessage(2, "Variable Selection",
-                        "You must select at least " + minVars + " variable(s) to analyze.");
+            if ((numSelected < 2) || (dvPresent == 0)) {
+                MyAlerts.showMultReg_TooFewVarsAlert();
                 ok = false;
             }
             
@@ -203,6 +198,7 @@ public class MLR_Dialog extends Splat_Dialog {
                 // Column 0 contains the strY variable
                 mlr_ColOfData.add(tempCol);
 
+                minSampleSize = 5 * numSelected;
                 for (int j = 0; j < numSelected; j++) {
                     varLabel.add(dm.getVariableName(ivSelected.get(j)));
                     strX[j] = new ArrayList();
@@ -210,19 +206,19 @@ public class MLR_Dialog extends Splat_Dialog {
                     tempCol = new ColumnOfData(dm, dm.getVariableName(ivSelected.get(j)), "MLRDial",  strX[j]);
                     mlr_ColOfData.add(tempCol);
                     
-                    if (strX[j].size() < minSampleSize) {
+                    // Five legal values for this variable?
+                    if (strX[j].size() < minSampleSize) { 
                         ok = false;
                     }
                 }
-
+              
+                // Five legal values for the response variable?
                 if (strY.size() < minSampleSize) {
                     ok = false;
                 }
-
+                
                 if (!ok) {
-                    MyDialogs msgDiag = new MyDialogs();
-                    msgDiag.NoChoiceMessage(1, "Low Sample Size", "This procedure requires a sample size of "
-                            + minSampleSize + " in each group/variable.");
+                    MyAlerts.showSampleSizeTooSmallAlert(minSampleSize);
                 } else {
                     strReturnStatus = "OK";
                     close();
@@ -240,12 +236,6 @@ public class MLR_Dialog extends Splat_Dialog {
     public ArrayList<String>[] getXMatrix() { return strX; }
     public ArrayList<String> getYMatrix() { return strY; }
     public int getNumVars() { return numSelected; }
-
-    //public boolean runTheAnalysis() {
-    //    return runAnalysis;
-    //}
-    
-    //public String getReturnStatus() {return strReturnStatus; }
 } // class
 
 

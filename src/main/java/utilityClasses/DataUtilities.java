@@ -1,7 +1,7 @@
 /**************************************************
  *                  DataUtilities                 *
- *                    05/13/24                    *
- *                      15:00                     *
+ *                    09/07/24                    *
+ *                      12:00                     *
  *************************************************/
 package utilityClasses;
 
@@ -236,6 +236,32 @@ public static double roundDoubleToNDigits(double theDouble, int nDigits) {
     
     private static String getRightmostNChars(int nChars, String ofThisString) {
         return ofThisString.substring(ofThisString.length() - nChars);
+    }
+    
+    public static void printArrayOfIntegers(String intDescr, int[] inArray) {
+        int nInArray = inArray.length;
+        if (nInArray == 0) {
+            System.out.println(" integerArray is Empty");
+        }
+        else {
+            System.out.println("intDescr = " + intDescr);
+            for (int ithInteger = 0; ithInteger < nInArray; ithInteger++) {
+                System.out.println("--> " + ithInteger + " / " + inArray[ithInteger]);
+            }
+        }
+    }
+    
+    public static void printArrayOfDoubles(String dblDescr, double[] inArray) {
+        int nInArray = inArray.length;
+        if (nInArray == 0) {
+            System.out.println(" doubleArray is Empty");
+        }
+        else {
+            System.out.println("dblDescr = " + dblDescr);
+            for (int ithDouble = 0; ithDouble < nInArray; ithDouble++) {
+                System.out.println("--> " + ithDouble + " / " + inArray[ithDouble]);
+            }
+        }
     }
     
     public ArrayList<String> getOffendingStrings() { return offendingStrings; }

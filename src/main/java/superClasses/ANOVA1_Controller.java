@@ -1,7 +1,7 @@
 /**************************************************
  *                ANOVA1_Controller               *
- *                    02/10/24                    *
- *                     15:00                      *
+ *                    09/03/24                    *
+ *                     09:00                      *
  *************************************************/
 package superClasses;
 
@@ -27,7 +27,7 @@ public class ANOVA1_Controller {
     public ArrayList<String> varLabel;
     public CatQuantDataVariable cqdv;
     public QuantitativeDataVariable tempQDV;
-    public ArrayList<QuantitativeDataVariable> allTheQDVs;
+    public ArrayList<QuantitativeDataVariable> incomingQDVs, allTheQDVs;
     public Data_Manager dm;
     
     // POJOs / FX

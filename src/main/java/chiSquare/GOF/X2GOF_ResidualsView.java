@@ -63,7 +63,7 @@ public class X2GOF_ResidualsView {
     public X2GOF_ResidualsView(X2GOF_Model x2GOF_Model, X2GOF_Dashboard x2GOF_Dashboard, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("66 X2GOF_ResidualsView, constructing");
+        System.out.println("\n66 X2GOF_ResidualsView, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         
@@ -87,7 +87,7 @@ public class X2GOF_ResidualsView {
     }
     
     public void completeTheDeal() {
-        //System.out.println("90 X2GOF_ResidualsView, completeTheDeal()");
+        //System.out.println("90 *** X2GOF_ResidualsView, completeTheDeal()");
         initializeGraphParameters();
         setUpUI();       
         setUpGridPane();        
@@ -118,7 +118,7 @@ public class X2GOF_ResidualsView {
     }
     
     private void initializeGraphParameters() {
-        //System.out.println("121 X2GOF_ResidualsView, initializeGraphParameters()");
+        //System.out.println("121 *** X2GOF_ResidualsView, initializeGraphParameters()");
         initial_yMin = 0.0; initial_yMax = 0.0;
 
         for (int i = 0; i < nCategories; i++) {
@@ -156,7 +156,7 @@ public class X2GOF_ResidualsView {
     }
 
     public void doTheGraph() {
-        //System.out.println("159 X2GOF_ResidualsView, doTheGraph()");
+        //System.out.println("159 *** X2GOF_ResidualsView, doTheGraph()");
         double standResidBarTop, standResidBarHeight, xStart, xStop, yStart, yStop;
         double text1Width = txtTitle1.getLayoutBounds().getWidth();
         double text2Width = txtTitle2.getLayoutBounds().getWidth();

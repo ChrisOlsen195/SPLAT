@@ -46,7 +46,7 @@ public class Single_t_Controller {
             Single_t_SumStats_Controller singleT_SumStats_Controller = new Single_t_SumStats_Controller();
             returnStatus = singleT_SumStats_Controller.getReturnStatus();
             if (returnStatus.equals("OK")) {
-                returnStatus = singleT_SumStats_Controller.doTheProcedure();
+                returnStatus = singleT_SumStats_Controller.doTheControllerThing();
             }
         } 
         

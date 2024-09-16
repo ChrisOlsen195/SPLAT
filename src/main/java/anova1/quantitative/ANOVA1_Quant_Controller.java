@@ -1,7 +1,7 @@
 /**************************************************
  *            ANOVA1_Quant_Controller             *
- *                    02/12/24                    *
- *                     00:00                      *
+ *                    09/03/24                    *
+ *                     15:00                      *
  *************************************************/
 package anova1.quantitative;
 
@@ -19,10 +19,14 @@ import utilityClasses.MyAlerts;
 public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     //  POJOs
     
+    public int[] theNewOrder;
+    
     String thisVarLabel, thisVarDescr, stackedOrSeparate;
+    String[] incomingLabels;
+    
     // Make empty if no-print
-    //String waldoFile = "ANOVA1_Quant_Controller";
-    String waldoFile = "";
+    String waldoFile = "ANOVA1_Quant_Controller";
+    //String waldoFile = "";
     
     public ObservableList<String> varLabels;
     boolean[] isNumeric;
@@ -30,6 +34,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     private ANOVA1_Quant_Dashboard anova1_Quant_Dashboard;
     ANOVA1_Quant_NotStacked_Dialog anova1_Quant_NS_Dialog;
     ANOVA1_Quant_Stacked_Dialog anova1_Quant_S_Dialog;
+    ReOrderStringDisplay_Dialog reOrderStrings_Dialog;
     
     public ANOVA1_Quant_Controller(Data_Manager dm) {
         super(dm);
@@ -65,7 +70,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
             }
             
             anova1_ColsOfData = anova1_Quant_S_Dialog.getData();
-            dm.whereIsWaldo(68, waldoFile, "doStacked()");
+            //dm.whereIsWaldo(68, waldoFile, "doStacked()");
             int nLevels = anova1_ColsOfData.get(0).getNumberOfDistinctValues();
             if (nLevels < 3) {
                 MyAlerts.showAnova1_LT3_LevelsAlert();
@@ -76,14 +81,14 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
             checkForLegalChoices = validateStackChoices();
         } while (!checkForLegalChoices);
         
-        dm.whereIsWaldo(79, waldoFile, "doStacked()");
+        //dm.whereIsWaldo(79, waldoFile, "doStacked()");
         explVarDescr = anova1_Quant_S_Dialog.getPreferredFirstVarDescription();
         respVarDescr = anova1_Quant_S_Dialog.getPreferredSecondVarDescription();
   
         //                                Categorical,             Quantitative            return All and individuals
         cqdv = new CatQuantDataVariable(dm, anova1_ColsOfData.get(0), anova1_ColsOfData.get(1), true, "ANOVA1_Cat_Controller");   
         returnStatus = cqdv.finishConstructingStacked();
-        dm.whereIsWaldo(86, waldoFile, " --- doStacked()");
+        //dm.whereIsWaldo(86, waldoFile, " --- doStacked()");
         
         if(returnStatus.equals("OK")) { 
             allTheQDVs = new ArrayList();
@@ -186,12 +191,41 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
         return true;
     }
     
+    private void askAboutReOrdering() {
+        System.out.println("  *** 202 MultUni_Model, askAboutReOrdering()");
+        n_QDVs = incomingQDVs.size();
+        theNewOrder = new int[n_QDVs];
+        // Default
+        for (int ithQDV= 0; ithQDV < n_QDVs; ithQDV++) {
+            theNewOrder[ithQDV] = ithQDV;
+        }
+        incomingLabels = new String[n_QDVs];
+        for (int iVars = 0; iVars < n_QDVs; iVars++) {
+            incomingLabels[iVars] = incomingQDVs.get(iVars).getTheVarLabel();
+        }        
+        
+        reOrderStrings_Dialog = new ReOrderStringDisplay_Dialog(this, incomingLabels);
+        reOrderStrings_Dialog.showAndWait();
+
+        allTheQDVs = new ArrayList<>();
+        for (int ithQDV = 0; ithQDV < n_QDVs; ithQDV++) {
+            allTheQDVs.add(incomingQDVs.get(theNewOrder[ithQDV]));
+        }
+
+        collectAllTheLabels(); 
+    }
+    
     private void collectAllTheLabels() {
         varLabels = FXCollections.observableArrayList();         
-        for (int ithVar = 0; ithVar < n_QDVs; ithVar++) {
-            varLabels.add(allTheQDVs.get(ithVar).getTheVarLabel());
+        for (int iVars = 0; iVars < n_QDVs; iVars++) {
+            varLabels.add(allTheQDVs.get(iVars).getTheVarLabel());
         }
     }
+    
+    public void closeTheReOrderDialog(int[] returnedOrder) {
+        System.arraycopy(returnedOrder, 0, theNewOrder, 0, n_QDVs);
+        reOrderStrings_Dialog.close();
+    } 
     
     public ObservableList <String> getVarLabels() { 
         return varLabels; 

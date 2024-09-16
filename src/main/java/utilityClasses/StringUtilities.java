@@ -1,13 +1,15 @@
 /****************************************************************************
  *                        StringUtilities                                   * 
- *                            05/13/24                                      *
- *                             12:00                                        *
+ *                            09/14/24                                      *
+ *                             21:00                                        *
  ***************************************************************************/
 package utilityClasses;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import smarttextfield.DoublyLinkedSTF;
 
 public class StringUtilities {
     
@@ -108,7 +110,7 @@ public class StringUtilities {
             if (DataUtilities.strIsADouble(tempString)) {
                 alDoubles[ith] = Double.parseDouble(tempString);
             } else {
-                System.out.println("Unclean Data! Conversion error in 109 StringUtilities!!");
+                System.out.println("Unclean Data! Conversion error in 113 StringUtilities!!");
                 alDoubles[ith] = Double.NaN;
             }       
         }
@@ -174,9 +176,69 @@ public class StringUtilities {
         newString = soFar.toString();
         return newString;
     }
+    
+    public static void printArrayOfStrings(String strDescr, String[] inArray) {
+        int nInArray = inArray.length;
+        if (nInArray == 0) {
+            System.out.println(" StringArray is Empty");
+        }
+        else {
+            System.out.println("strArrayDescr = " + strDescr);
+            for (int ithString = 0; ithString < nInArray; ithString++) {
+                System.out.println("--> " + ithString + " / " + inArray[ithString]);
+            }
+        }
+    }
 
     public static boolean stringIsEmpty (String str) {
         boolean isEmpty = (str == null || str.trim().isEmpty());
         return isEmpty;
     }
+    
+    public static boolean checkForUniqueStrings(String[] arrayOfStrings) {
+        int nCategories = arrayOfStrings.length;       
+        for (int ithString = 0; ithString < nCategories - 1; ithString++) {
+            String temp1 = arrayOfStrings[ithString];   
+            for (int jthString = ithString + 1; jthString < nCategories; jthString++) {
+                String temp2 = arrayOfStrings[jthString];
+                if (temp1.equals(temp2)) {
+                    MyAlerts.showNonUniqueCategoriesAlert();
+                    return false;
+                } 
+            }
+        }
+        //System.out.println("415  *** X2GOF_DataByHand, ALMOST END checkForUniqueCategories()");
+        return true;        
+    }
+    
+    public static boolean checkForUniqueStrings(DoublyLinkedSTF dlSTF) {
+        int nCategories = dlSTF.getSize();       
+        for (int ithString = 0; ithString < nCategories - 1; ithString++) {
+            String temp1 = dlSTF.get(ithString).getText(); 
+            for (int jthString = ithString + 1; jthString < nCategories; jthString++) {
+                String temp2 = dlSTF.get(jthString).getText();
+                if (temp1.equals(temp2)) {
+                    MyAlerts.showNonUniqueCategoriesAlert();
+                    return false;
+                } 
+            }
+        }
+        //System.out.println("415  *** X2GOF_DataByHand, ALMOST END checkForUniqueCategories()");
+        return true;        
+    }
+    
+    public static boolean checkForUniqueStrings(Text[] arrayOfTXT) {
+        int nCategories = arrayOfTXT.length;       
+        for (int ithText = 0; ithText < nCategories - 1; ithText++) {
+            String temp1 = arrayOfTXT[ithText].getText(); 
+            for (int jthText = ithText + 1; jthText < nCategories; jthText++) {
+                String temp2 = arrayOfTXT[jthText].getText();;
+                if (temp1.equals(temp2)) {
+                    MyAlerts.showNonUniqueCategoriesAlert();
+                    return false;
+                } 
+            }
+        }
+        return true;        
+    }  
 }

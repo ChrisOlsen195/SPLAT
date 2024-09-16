@@ -1,7 +1,7 @@
 /****************************************************************************
  *                         BivCat_Model                                     *
- *                           08/18/24                                       *
- *                             18:00                                        *
+ *                           09/07/24                                       *
+ *                             06:00                                        *
  ***************************************************************************/
 package bivariateProcedures_Categorical;
 
@@ -118,8 +118,8 @@ public class BivCat_Model {
         nCols = ucdo_Left.getNUniques();
         constructNecessaryArrays();
 
-        strTopLabels = ucdo_Left.getUniqueCategories();
-        strLeftLabels = ucdo_Top.getUniqueCategories();
+        strTopLabels = ucdo_Left.getCategories();
+        strLeftLabels = ucdo_Top.getCategories();
         dataAreMissing = false;
         
         //   Count the replications for each treatment combination        
@@ -180,8 +180,8 @@ public class BivCat_Model {
 
         constructNecessaryArrays();
 
-        strTopLabels = ucdo_Top.getUniqueCategories();
-        strLeftLabels = ucdo_Left.getUniqueCategories();
+        strTopLabels = ucdo_Top.getCategories();
+        strLeftLabels = ucdo_Left.getCategories();
         for (int ithRow = 0; ithRow < nRows; ithRow++) {            
             for (int jthCol = 0; jthCol < nCols; jthCol++) {                 
                 String tempTopValue = strTopLabels[jthCol];                

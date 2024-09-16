@@ -1,6 +1,6 @@
 /****************************************************************************
  *                   X2GOF_PrintAdvStats                                    * 
- *                        05/23/24                                          *
+ *                        09/07/24                                          *
  *                          12:00                                           *
  ***************************************************************************/
 package chiSquare.GOF;
@@ -32,7 +32,7 @@ public class X2GOF_PrintAdvStats extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("35 X2GOF_PrintAdvStats, constructing");
+        System.out.println("\n35 X2GOF_PrintAdvStats, constructing");
         this.x2GOF_Model = x2GOF_Model;        
         
         sourceString = new String();
@@ -47,7 +47,7 @@ public class X2GOF_PrintAdvStats extends PrintTextReport_View {
         standResids = new double[nCategories];        
         observedValues = new int[nCategories];
         
-        observedValues = x2GOF_Model.getObservedCounts();
+        observedValues = x2GOF_Model.getObservedValues();
         expProportions = x2GOF_Model.getExpectedProportions();  
         chiSquareContribution = x2GOF_Model.getX2Contributions();         
         expValues = x2GOF_Model.getExpectedValues(); 
@@ -65,7 +65,7 @@ public class X2GOF_PrintAdvStats extends PrintTextReport_View {
     }
     
     public void constructPrintLines() {  
-        //System.out.println("68 X2GOF_PrintAdvStats, constructPrintLines()");
+        //System.out.println("68  *** X2GOF_PrintAdvStats, constructPrintLines()");
         String tempString;
         addNBlankLines(2);
         tempString = "                                Variable of interest: " + strGOFVariable;

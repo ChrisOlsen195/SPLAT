@@ -1,7 +1,7 @@
 /************************************************************
  *                    MatchedPairs_Dialog                   *
- *                         11/02/23                         *
- *                          09:00                           *
+ *                         09/14/24                         *
+ *                          12:00                           *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -34,7 +34,7 @@ public class MatchedPairs_Dialog extends Two_Variables_Dialog{
     int alphaIndex, ciIndex, confidenceLevel;
     int[] confLevels; 
     boolean okToContinue;
-    double hypothesizedDifference, /*levelOfSignificance, daNullDiff,*/ alpha;
+    double hypothesizedDifference, alpha;
     Double daNewNullDiff;  
     double[] alphaLevels; 
     
@@ -66,7 +66,7 @@ public class MatchedPairs_Dialog extends Two_Variables_Dialog{
    
     public MatchedPairs_Dialog(Data_Manager dm, String variableType) {
         super(dm, "MatchedPairs_Dialog", "None");
-        dm.whereIsWaldo(69, waldoFile, "Constructing");        
+        dm.whereIsWaldo(69, waldoFile, "\nConstructing");        
         lblTitle.setText("Matched pairs t inference");
         lblExplanVar.setText("Variable #1:");   //  Not really explan
         lblResponseVar.setText("Variable #2:"); //  Not really resp

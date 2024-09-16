@@ -66,8 +66,8 @@ public class X2Assoc_Model {
 
         constructNecessaryArrays();
 
-        strTopValues = ucdo_Top.getUniqueCategories();
-        strLeftValues = ucdo_Left.getUniqueCategories();
+        strTopValues = ucdo_Top.getCategories();
+        strLeftValues = ucdo_Left.getCategories();
         for (int iRow = 0; iRow < nRows; iRow++) {            
             for (int jCol = 0; jCol < nCols; jCol++) {                 
                 String tempTopValue = strTopValues[jCol];                

@@ -1,7 +1,7 @@
 /**************************************************
  *               Indep_t_Controller               *
- *                    06/15/24                    *
- *                     12:00                      *
+ *                   09/13/24                     *
+ *                     18:00                      *
  *************************************************/
 package the_t_procedures;
 
@@ -29,7 +29,8 @@ public class Indep_t_Controller {
     ArrayList<ColumnOfData> quantColsOfData, catQualColumns;
     CatQuantDataVariable catQuantVar;
     Indep_t_Dialog ind_t_Dialog;
-    Indep_t_PrepStructs ind_t_prepStructs;    
+    Indep_t_PrepStructs ind_t_prepStructs;   
+    MyYesNoAlerts myYesNoAlerts;
     QuantitativeDataVariable qdv_forBBSL;
     ArrayList<QuantitativeDataVariable> allTheQDVs;
     Data_Manager dm;
@@ -41,15 +42,16 @@ public class Indep_t_Controller {
     // ******  Constructor called from Main Menu  ******
     public Indep_t_Controller(Data_Manager dm) {
         this.dm = dm; 
-        dm.whereIsWaldo(44, waldoFile, "Constructing");
+        dm.whereIsWaldo(45, waldoFile, "\nConstructing");
         quantColsOfData = new ArrayList();
         catQualColumns = new ArrayList();
+        myYesNoAlerts = new MyYesNoAlerts();
         TWO = 2;
     }
   
     //  Called from MainMenu
     public String chooseTheStructureOfData() {
-        dm.whereIsWaldo(52, waldoFile, "chooseTheStructureOfData()");
+        dm.whereIsWaldo(54, waldoFile, "chooseTheStructureOfData()");
         DataStructChoice_Dialog_t_Indep_Means sed = new DataStructChoice_Dialog_t_Indep_Means(this);
         
         if (dataOrSummary.equals("Data")) { doPrepColumnsFromNonStacked(); }        
@@ -70,7 +72,7 @@ public class Indep_t_Controller {
     
     private String doPrepColumnsFromStacked() {
         ColumnOfData tempCol;
-        dm.whereIsWaldo(73, waldoFile, "doPrepColumnsFromStacked()");
+        dm.whereIsWaldo(75, waldoFile, "doPrepColumnsFromStacked()");
         returnStatus = "OK";
         
         MyAlerts.showNeedToUnstackAlert();
@@ -91,7 +93,7 @@ public class Indep_t_Controller {
     }
     
     public String doPrepColumnsFromNonStacked() {
-        dm.whereIsWaldo(94, waldoFile, "doPrepColumnsFromNonStacked()");
+        dm.whereIsWaldo(96, waldoFile, "doPrepColumnsFromNonStacked()");
         returnStatus = "Cancel";
         int casesInStruct = dm.getNCasesInStruct();
         
@@ -116,13 +118,12 @@ public class Indep_t_Controller {
     } 
     
     private String doTheNonStackedProcedure() {
-        dm.whereIsWaldo(119, waldoFile, "doTheNonStackedProcedure()");
+        dm.whereIsWaldo(121, waldoFile, "doTheNonStackedProcedure()");
         String strVarLabel = "All";
         ArrayList<String> tempAlStr = new ArrayList<>();
         
         for (int ith = 0; ith < TWO; ith++) {
             ColumnOfData tempCol = quantColsOfData.get(ith);
-            System.out.println("125 Ind_t_Controller, ith/descr = " + ith + " / " + tempCol.getVarDescription());
             int nColSize = tempCol.getColumnSize();            
             for (int jth = 0; jth < nColSize; jth++) {
                 tempAlStr.add(tempCol.getTheCases_ArrayList().get(jth));
@@ -145,26 +146,21 @@ public class Indep_t_Controller {
     }
     
     public String doTheSumStatsProcedure() {
-        dm.whereIsWaldo(148, waldoFile, "doTheSumStatsProcedure()");        
+        dm.whereIsWaldo(149, waldoFile, "doTheSumStatsProcedure()");        
         String doItAgain = "Yes";
         
         while (doItAgain.equals("Yes")) {
             returnStatus = "Cancel";
             ind_t_SummaryStats_Dialog = new Ind_t_SumStats_Dialog();
             returnStatus = ind_t_SummaryStats_Dialog.getReturnStatus();
-            
-            if (returnStatus.equals("Cancel")) { return returnStatus; }
-
+ 
             indep_t_SumStats_Model = new Indep_t_SumStats_Model(this, ind_t_SummaryStats_Dialog);
             indep_t_SumStats_Model.doIndepTAnalysis();
             indep_t_SumStats_Dashboard = new Indep_t_SumStats_Dashboard(this);
             showTheSumStatsDashboard();
-
-            String title = "I'm doing homework Alert";
-            String header = "On the theory you might be doing lots of these," +
-                            "\n would you like to do more right away?";
-            YesNoCancel_Alert ync = new YesNoCancel_Alert(title, header);            
-            doItAgain = ync.getReturnString();
+            
+            myYesNoAlerts.showAvoidRepetitiousClicksAlert();
+            doItAgain = myYesNoAlerts.getYesOrNo();
         }
         returnStatus = "Finished";
         return returnStatus;

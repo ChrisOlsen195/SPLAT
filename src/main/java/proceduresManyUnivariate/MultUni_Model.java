@@ -1,7 +1,7 @@
 /**************************************************
- *                 MultiUni_Model                 *
- *                    03/19/24                    *
- *                      12:00                     *
+ *                  MultUni_Model                 *
+ *                    09/03/24                    *
+ *                      09:00                     *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -15,17 +15,16 @@ import splat.Data_Manager;
 
 public class MultUni_Model {
     // POJOs
-    int nVariables;
-    
+    int n_QDVs;
+    public int[] theNewOrder;
     private String subTitle;
     String strAxisLabels[];
-    
     // Make empty if no-print
     //String waldoFile = "MultUni_Model";
     String waldoFile = "";
 
     ArrayList<PrintUStats_Model> printUStats_Models;
-    private ObservableList<String> categoryLabels;
+    private ObservableList<String> varLabels;
 
     // My classes
     Data_Manager dm;
@@ -35,43 +34,36 @@ public class MultUni_Model {
 
     public MultUni_Model (MultUni_Controller multUni_Controller, 
                                  String subTitle,
-                                 ArrayList<QuantitativeDataVariable>  allTheQDVs,
-                                 ArrayList<String> allTheLabels) {
+                                 ArrayList<QuantitativeDataVariable>  allTheQDVs) {
         dm = multUni_Controller.getDataManager();
-        dm.whereIsWaldo(41, waldoFile, "Constructing");
-        this.subTitle = subTitle;
+        dm.whereIsWaldo(39, waldoFile, "\nConstructing");
         this.multUni_Controller = multUni_Controller;
-        categoryLabels = FXCollections.observableArrayList();
+        this.subTitle = subTitle;
         this.allTheQDVs = new ArrayList();
         this.allTheQDVs = allTheQDVs;
-             
-        for (int ithLabel = 0; ithLabel < allTheLabels.size(); ithLabel++) {
-            categoryLabels.add(allTheLabels.get(ithLabel));
-        }
-               
-        //int nQDVs = allTheQDVs.size();
-        allData_QDV = allTheQDVs.get(0);        
-        nVariables = allTheQDVs.size();        
+        n_QDVs = allTheQDVs.size();
         printUStats_Models = new ArrayList();
-        
-        for (int ithVar = 0; ithVar < nVariables; ithVar++) {
+        varLabels = FXCollections.observableArrayList();
+        for (int ithVar = 0; ithVar < n_QDVs; ithVar++) {
             String tempStr = allTheQDVs.get(ithVar).getTheVarLabel();
+            varLabels.add(tempStr);
             printUStats_Models.add(new PrintUStats_Model(tempStr,
                                    allTheQDVs.get(ithVar), false));
         }
     }
-    
+
     public ArrayList<QuantitativeDataVariable> getAllQDVs() { return allTheQDVs; }
 
     public QuantitativeDataVariable getIthQDV(int ith) {
         return allTheQDVs.get(ith);
     }
-   
-    public int getNVariables() {  return nVariables; }   
+    
+    public int getNVariables() {  return n_QDVs; }   
     public String getSubTitle() { return subTitle; }
-    public ObservableList <String> getCatLabels() { return categoryLabels;}
+    public ObservableList <String> getCatLabels() { return varLabels;}
    
-    public QuantitativeDataVariable getAllData_QDV() { return allData_QDV; }  
+    public QuantitativeDataVariable getAllData_QDV() { return allData_QDV; }
+    
     public ArrayList<QuantitativeDataVariable> getAllTheQDVs() {
         return allTheQDVs; 
     }  

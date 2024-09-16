@@ -1,7 +1,7 @@
 /**************************************************
  *          ANOVA1_Cat_NotStacked_Dialog          *
- *                    05/26/24                    *
- *                     09:00                      *
+ *                    09/02/24                    *
+ *                     15:00                      *
  *************************************************/
 package dialogs;
 
@@ -61,7 +61,7 @@ public class ANOVA1_Cat_NotStacked_Dialog extends Splat_Dialog {
         //waldoFile = "ANOVA1_Cat_NotStacked_Dialog";
         waldoFile = "";
         
-        dm.whereIsWaldo(64, waldoFile, "Constructing");
+        dm.whereIsWaldo(64, waldoFile, "\n Constructing");
         THREE = 3;
         createANOVA_NS_Dialog();
     }

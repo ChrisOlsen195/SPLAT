@@ -1,11 +1,10 @@
 /**************************************************
  *             ANOVA1_Cat_Controller              *
- *                    06/22/24                    *
- *                     18:00                      *
+ *                    09/03/24                    *
+ *                     09:00                      *
  *************************************************/
 package anova1.categorical;
 
-//import dialogs.DataChoice_StackedOrNot;
 import superClasses.ANOVA1_Controller;
 import dataObjects.CatQuantDataVariable;
 import dataObjects.QuantitativeDataVariable;
@@ -20,7 +19,9 @@ import utilityClasses.MyAlerts;
 public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
     //  POJOs
     
+    public int[] theNewOrder;
     String thisVarLabel, thisVarDescr, stackedOrSeparate;
+    String[] incomingLabels;
     // Make empty if no-print
     //String waldoFile = "ANOVA1_Cat_Controller";
     String waldoFile = "";
@@ -31,17 +32,18 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
     private ANOVA1_Cat_Dashboard anova1_Cat_Dashboard;
     ANOVA1_Cat_NotStacked_Dialog anova1_Cat_NS_Dialog;
     ANOVA1_Cat_Stacked_Dialog anova1_Cat_S_Dialog;
+    ReOrderStringDisplay_Dialog reOrderStrings_Dialog;
     
     public ANOVA1_Cat_Controller(Data_Manager dm) {
         super(dm);
         this.dm = dm;
-        dm.whereIsWaldo(38, waldoFile, "Constructing");
+        dm.whereIsWaldo(40, waldoFile, "\nConstructing");
         anova1_ColsOfData = new ArrayList();
         returnStatus = "OK";
     }
     
     public void doStackedOrNot() {
-       // DataChoice_StackedOrNot stackedYesOrNo = new DataChoice_StackedOrNot(this);
+       DataChoice_StackedOrNot stackedYesOrNo = new DataChoice_StackedOrNot(this);
         
         // stackedOrSeparate is set by the dialog         
         if (stackedOrSeparate.equals("Group & Data")) { doStacked(); }
@@ -49,7 +51,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
     }
 
     protected boolean doStacked() {
-        dm.whereIsWaldo(52, waldoFile, "doStacked()");
+        dm.whereIsWaldo(54, waldoFile, "doStacked()");
         do {
             int casesInStruct = dm.getNCasesInStruct();            
             if (casesInStruct == 0) {
@@ -67,7 +69,6 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
             }
             
             anova1_ColsOfData = anova1_Cat_S_Dialog.getData();
-            dm.whereIsWaldo(70, waldoFile, "doStacked()");
             int nLevels = anova1_ColsOfData.get(0).getNumberOfDistinctValues();
             if (nLevels < 3) {
                 MyAlerts.showAnova1_LT3_LevelsAlert();
@@ -78,14 +79,12 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
             checkForLegalChoices = validateStackChoices();
         } while (!checkForLegalChoices);
         
-        dm.whereIsWaldo(81, waldoFile, "doStacked()");
         explVarDescr = anova1_Cat_S_Dialog.getPreferredFirstVarDescription();
         respVarDescr = anova1_Cat_S_Dialog.getPreferredSecondVarDescription();
   
         //                                Categorical,             Quantitative            return All and individuals
         cqdv = new CatQuantDataVariable(dm, anova1_ColsOfData.get(0), anova1_ColsOfData.get(1), true, "ANOVA1_Cat_Controller");   
         returnStatus = cqdv.finishConstructingStacked();
-        dm.whereIsWaldo(91, waldoFile, "doStacked()");
         
         if(returnStatus.equals("OK")) { 
             allTheQDVs = new ArrayList();
@@ -101,7 +100,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
     }
 
     protected boolean doNotStacked() {
-        dm.whereIsWaldo(104, waldoFile, "doNotStacked()");
+        dm.whereIsWaldo(103, waldoFile, "  *** doNotStacked()");
         goodToGo = true;
         int casesInStruct = dm.getNCasesInStruct();
         
@@ -115,40 +114,41 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
         returnStatus = anova1_Cat_NS_Dialog.getReturnStatus();
         
         goodToGo = returnStatus.equals("OK"); 
-            if (!goodToGo) { return false; }
+        if (!goodToGo) { return false; }
         // else...
         explVarDescr = anova1_Cat_NS_Dialog.getExplanatoryVariable();
         respVarDescr = anova1_Cat_NS_Dialog.getResponseVariable();
         
         int nColumnsOfData = anova1_Cat_NS_Dialog.getNLevels();
-        
-        System.out.println("125 -- ANOVA1_Quant_Controller, nCols" + nColumnsOfData );
-        
+
         if (nColumnsOfData == 0) { 
             goodToGo = false;
             returnStatus = "Cancel";            
             return goodToGo; 
         }
-        
+ 
         if (nColumnsOfData < 3) {
             MyAlerts.showAnova1_LT3_LevelsAlert();
             goodToGo = false;
             return false;
         }
-        
+
         // else...
         anova1_ColsOfData = anova1_Cat_NS_Dialog.getData();
-        allTheQDVs = new ArrayList();
+        incomingQDVs = new ArrayList();
 
         for (int ith = 0; ith < nColumnsOfData; ith++) {
             thisVarLabel = anova1_ColsOfData.get(ith).getVarLabel();
             thisVarDescr = anova1_ColsOfData.get(ith).getVarDescription();
             tempQDV = new QuantitativeDataVariable(thisVarLabel, thisVarDescr, anova1_ColsOfData.get(ith));  
-            allTheQDVs.add(tempQDV);                 
+            incomingQDVs.add(tempQDV);                 
         } 
-        n_QDVs = allTheQDVs.size();
-        collectAllTheLabels();  
+        n_QDVs = incomingQDVs.size();
+        askAboutReOrdering();
+ 
         doTheANOVA();
+
+        dm.whereIsWaldo(151, waldoFile, "END doNotStacked()");
         return goodToGo;
     }
     
@@ -172,6 +172,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
         anova1_Cat_Dashboard.showAndWait();
         returnStatus = anova1_Cat_Dashboard.getReturnStatus();
         returnStatus = "OK";
+        dm.whereIsWaldo(175, waldoFile, " END doTheANOVA()");
         return true;        
     } 
     
@@ -180,7 +181,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
     }
     
     private boolean validateStackChoices() {
-        dm.whereIsWaldo(183, waldoFile, "validateStackChoices()");
+        dm.whereIsWaldo(184, waldoFile, "validateStackChoices()");
         isNumeric = new boolean[2];
         
         for (int ithCol = 0; ithCol < 2; ithCol++){
@@ -189,12 +190,41 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
         return true;
     }
     
+    private void askAboutReOrdering() {
+        dm.whereIsWaldo(194, waldoFile, "  *** askAboutReOrdering()");
+        n_QDVs = incomingQDVs.size();
+        theNewOrder = new int[n_QDVs];
+        // Default
+        for (int ithQDV= 0; ithQDV < n_QDVs; ithQDV++) {
+            theNewOrder[ithQDV] = ithQDV;
+        }
+        incomingLabels = new String[n_QDVs];
+        for (int iVars = 0; iVars < n_QDVs; iVars++) {
+            incomingLabels[iVars] = incomingQDVs.get(iVars).getTheVarLabel();
+        }        
+        
+        reOrderStrings_Dialog = new ReOrderStringDisplay_Dialog(this, incomingLabels);
+        reOrderStrings_Dialog.showAndWait();
+
+        allTheQDVs = new ArrayList<>();
+        for (int ithQDV = 0; ithQDV < n_QDVs; ithQDV++) {
+            allTheQDVs.add(incomingQDVs.get(theNewOrder[ithQDV]));
+        }
+
+        collectAllTheLabels(); 
+    }
+    
     private void collectAllTheLabels() {
         varLabels = FXCollections.observableArrayList();         
-        for (int ithVar = 0; ithVar < n_QDVs; ithVar++) {
-            varLabels.add(allTheQDVs.get(ithVar).getTheVarLabel());
+        for (int iVars = 0; iVars < n_QDVs; iVars++) {
+            varLabels.add(allTheQDVs.get(iVars).getTheVarLabel());
         }
     }
+    
+    public void closeTheReOrderDialog(int[] returnedOrder) {
+        System.arraycopy(returnedOrder, 0, theNewOrder, 0, n_QDVs);
+        reOrderStrings_Dialog.close();
+    } 
         
     public ObservableList <String> getVarLabels() { 
         return varLabels; 

@@ -37,8 +37,8 @@ import utilityClasses.Colors_and_CSS_Strings;
 public class MultUni_DotPlotView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
     
-    //boolean printTheStuff = true;
-    boolean printTheStuff = false;
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
     
     int nLegalDataPoints, nBinsToLeft, nBinsToRight, nBinsTotal, nLevels;
     
@@ -73,23 +73,23 @@ public class MultUni_DotPlotView extends BivariateScale_W_CheckBoxes_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("77 *** MultUni_DotPlotView, constructing");
         }
         this.multUni_DotPlotModel = multUni_DotPlotModel;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.multUni_DotPlotModel = multUni_DotPlotModel;
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("84 *** MultUni_DotPlotView, constructing");
         }
         cqdv = multUni_DotPlotModel.getCQDV();
         categoryLevels = new ArrayList();
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("89 *** MultUni_DotPlotView, constructing");
         }
         categoryLevels = cqdv.getCategoryLevels();
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("93 *** MultUni_DotPlotView, constructing");
         }
         nLevels = categoryLevels.size();
@@ -97,8 +97,8 @@ public class MultUni_DotPlotView extends BivariateScale_W_CheckBoxes_View {
     }
     
     private void finishConstruction() {
-        if (printTheStuff == true) {
-            System.out.println("92 *** MultUni_DotPlotView, finishConstruction()");
+        if (printTheStuff) {
+            System.out.println("101 *** MultUni_DotPlotView, finishConstruction()");
         }
         nLegalDataPoints = multUni_DotPlotModel.getQDV().getLegalN();
         ithBinLimits = multUni_DotPlotModel.getBinLimits();
@@ -156,8 +156,8 @@ public class MultUni_DotPlotView extends BivariateScale_W_CheckBoxes_View {
     }
         
     public void completeTheDeal() { 
-        if (printTheStuff == true) {
-            System.out.println("151 *** MultUni_DotPlotView, completeTheDeal()");
+        if (printTheStuff) {
+            System.out.println("160 *** MultUni_DotPlotView, completeTheDeal()");
         }
         initializeGraphParameters();
         setUpUI();       

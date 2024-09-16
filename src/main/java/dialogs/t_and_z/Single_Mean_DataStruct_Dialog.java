@@ -33,11 +33,11 @@ public class Single_Mean_DataStruct_Dialog extends Splat_Dialog {
     // *****************************************************************
       
     public Single_Mean_DataStruct_Dialog() {
-        System.out.println("36 Single_Mean_DataStruct_Dialog, constructing");
+        System.out.println("\n36 Single_Mean_DataStruct_Dialog, Constructing");
         colOfData = new RadioButton("Data are in an existing column");
         selectedLabel = "Data are in separate columns";
         summarized = new RadioButton("Data are summarized");
-        // userSelectionMsg = new Label("How is your data structured?");    
+   
         // Add all buttons to a toggle group
         group = new ToggleGroup();
         group.getToggles().addAll(colOfData, summarized);
@@ -73,7 +73,6 @@ public class Single_Mean_DataStruct_Dialog extends Splat_Dialog {
         Scene scene = new Scene(root);
         setScene(scene);
         setTitle("Data structure inquiry...");
-        // showAndWait();
     }
     
     // A change listener to track the selection in the group
@@ -84,7 +83,6 @@ public class Single_Mean_DataStruct_Dialog extends Splat_Dialog {
         if (newBtn != null) {
             selectedLabel = ((Labeled)newBtn).getText();
         }
-        //userSelectionMsg.setText("Your selection: " + selectedLabel);
     }
     
     public String getTheChoice() { return selectedLabel; }

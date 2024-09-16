@@ -1,7 +1,7 @@
 /**************************************************
  *             ANOVA2_RCB_Dialog                  *
- *                  05/24/24                      *
- *                   12:00                        *
+ *                  09/12/24                      *
+ *                   21:00                        *
  *************************************************/
 package anova2;
 
@@ -27,7 +27,6 @@ import utilityClasses.*;
 import splat.*;
 import dataObjects.*;
 import bivariateProcedures_Categorical.*;
-import dialogs.MyDialogs;
 import dialogs.Splat_Dialog;
 import java.util.Collections;
 
@@ -63,6 +62,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
     
     public ANOVA2_RCB_Dialog(Data_Manager dm, String whichANOVA2) {
         super(dm);
+        dm.whereIsWaldo(65, waldoFile, "\nConstructing");
         this.whichANOVA2 = whichANOVA2; 
         strReturnStatus = "OK";
     }
@@ -135,20 +135,12 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 lblFactorA = new Label("  Factor:");
             break;
             
-            /*
-            case "RM":      // Repeated measures  
-                lblTitle = new Label("Two-way ANOVA: Repeated Measures");
-                lblFactorA = new Label("Factor A:");
-                System.out.println("145 ANOVA2_Dialog, lblTitle  " + lblTitle);
-            break;
-            */
-            
             default:
-                String switchFailure = "Switch failure: ANOVA2_RCB_Dialog 147 " + whichANOVA2;
+                String switchFailure = "Switch failure: ANOVA2_RCB_Dialog 139 " + whichANOVA2;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }   
         
-        dm.whereIsWaldo(151, waldoFile, "doTheDialog()");
+        dm.whereIsWaldo(143, waldoFile, "doTheDialog()");
         
         lblFactorA.setPadding(new Insets(0, 0, 5, 0));
         tf_FactorA = new TextField("");
@@ -166,17 +158,13 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
             case "RCB":     // Randomized complete block
                 lblFactorB = new Label("  Block:");
             break;
-            /*
-            case "RM":      // Repeated measures  
-                lblFactorB = new Label("Subjects:");
-            break;
-            */
+
             default:
-                String switchFailure = "Switch failure:  ANOVA2_RCB_Dialog 175 " + whichANOVA2;
+                String switchFailure = "Switch failure:  ANOVA2_RCB_Dialog 163 " + whichANOVA2;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }
         
-        dm.whereIsWaldo(178, waldoFile, "doTheDialog()");
+        dm.whereIsWaldo(167, waldoFile, "doTheDialog()");
         lblFactorB.setPadding(new Insets(0, 0, 5, 0));
         tf_FactorB = new TextField("");
         tf_FactorB.setPrefWidth(125.0);
@@ -252,15 +240,8 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 index_FactorA = dm.getVariableIndex(str_NameFactorA);
                 int numGroups = dm.numDistinctVals(index_FactorA);
                 
-                if (numGroups < 2) {
-                    MyDialogs msgDiag = new MyDialogs();
-                    msgDiag.NoChoiceMessage(2, "Levels of Explanatory variable?",
-                            "Each explanatory variable must have 2 or more different values.");
-                    ok = false;
-                } else if (numGroups > 5) {    // To handle RCB
-                    MyDialogs msgDiag = new MyDialogs();
-                    msgDiag.NoChoiceMessage(2,"Levels of Explanatory variable?",
-                            "Each explanatory variable must have no more than 5 different values.");
+               if ((numGroups < 2) || (numGroups > 5)) {
+                    MyAlerts.showRCB_2_5_VarAlert();
                     ok = false;
                 } else {
                     tf_FactorA.setText(str_NameFactorA);
@@ -277,15 +258,8 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 index_FactorB = dm.getVariableIndex(str_NameFactorB);
                 int numGroups = dm.numDistinctVals(index_FactorB);
                 
-                if (numGroups < 2) {
-                    MyDialogs msgDiag = new MyDialogs();
-                    msgDiag.NoChoiceMessage(2, "Levels of Explanatory variable?",
-                            "Each explanatory variable must have 2 or more different values.");
-                    ok = false;
-                } else if (numGroups > 99) {    //  To handle RCB
-                    MyDialogs msgDiag = new MyDialogs();
-                    msgDiag.NoChoiceMessage(2, "Levels of Explanatory variable?",
-                            "Each explanatory variable must have no more than 5 different values.");
+                if ((numGroups < 2) || (numGroups > 5)) {
+                    MyAlerts.showRCB_2_5_VarAlert();
                     ok = false;
                 } else {
                     tf_FactorB.setText(str_NameFactorB);
@@ -310,17 +284,14 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
         });
 
         btn_Compute.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(313, waldoFile, "btn_Compute");
+            dm.whereIsWaldo(287, waldoFile, "btn_Compute");
             boolean ok = true;
             
             if ((tf_FactorA.getText().equals(""))
                     || (tf_FactorB.getText().equals(""))
                     || (tf_ResponseVar.getText().equals(""))) {
                 ok = false;
-                MyDialogs msgDiag = new MyDialogs();
-                msgDiag.NoChoiceMessage(2, "Missing Variable(s)",
-                        "You must specify two explanatory variables "
-                        + "\nand one response variable.");                    
+                MyAlerts.showRCB_TooFewVarsAlert();                    
             }
 
             if (ok) {
@@ -373,11 +344,11 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
 
         stageDialog.setScene(sceneDialog);
         stageDialog.setTitle("Step #1");
-        dm.whereIsWaldo(380, waldoFile, "End ShowStep1()");
+        dm.whereIsWaldo(347, waldoFile, "End ShowStep1()");
     }
     
     public ArrayList<String> getDummyCodes(int groupingVar) {
-        dm.whereIsWaldo(380, waldoFile, "getDummyCodes()");
+        dm.whereIsWaldo(351, waldoFile, "getDummyCodes()");
         ArrayList<String> alstr_SortedTempCodes = new ArrayList();
         ArrayList<String> alstr_DumsToReturn = new ArrayList();
         ArrayList<String> alstr_TempData = dm.getSpreadsheetColumnAsStrings(groupingVar, -1, null);

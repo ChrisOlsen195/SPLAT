@@ -1,7 +1,7 @@
 /************************************************************
  *                    One_Variable_Dialog                   *
- *                          03/04/24                        *
- *                            09:00                         *
+ *                          09/04/24                        *
+ *                            21:00                         *
  ***********************************************************/
 package dialogs;
 
@@ -31,6 +31,9 @@ public class One_Variable_Dialog extends Splat_Dialog {
 
     boolean dmIsPresent;
     
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     public int minVars, maxVars, varIndex, nCheckBoxes, minSampleSize;
     
     String strDataType, strVarLabel, strVarDescription, subTitle;
@@ -55,7 +58,9 @@ public class One_Variable_Dialog extends Splat_Dialog {
     
     public One_Variable_Dialog(String strDataType) {
         super();
-        //System.out.println("58 One_Var_Dialog, constructing, dm not present");
+        if (printTheStuff) {
+            System.out.println("\n62 One_Variable_Dialog, Constructing");
+        }
         this.strDataType = strDataType;
         dmIsPresent = false;
         proceed();
@@ -63,6 +68,9 @@ public class One_Variable_Dialog extends Splat_Dialog {
 
     public One_Variable_Dialog(Data_Manager dm, String strDataType) {
         super();
+        if (printTheStuff) {
+            System.out.println("\n72 One_Variable_Dialog, Constructing");
+        }
         this.dm = dm;
         dmIsPresent = true;
         this.strDataType = strDataType;
@@ -70,7 +78,9 @@ public class One_Variable_Dialog extends Splat_Dialog {
     }
     
     private String proceed() {
-        //System.out.println("73 One_Var_Dialog, proceed()");
+        if (printTheStuff) {
+            System.out.println("82  *** One_Variable_Dialog, proceed()");
+        }
         strReturnStatus = "OK";
         boolGoodToGo = true;
         lbl_Title = new Label("One-variable dialog");
@@ -78,7 +88,9 @@ public class One_Variable_Dialog extends Splat_Dialog {
         lbl_Title.setPadding(new Insets(10, 10, 10, 10));
 
         if (dmIsPresent) {
-            //System.out.println("81 One_Var_Dialog, proceed() with dm present");
+        if (printTheStuff) {
+            System.out.println("92  *** One_Variable_Dialog, proceed()");
+        }
             selectionDirections = new Label("Please select the variable of interest below...");
             selectionDirections.setPadding(new Insets(25, 0, 0, 0));      
             vBoxVars2ChooseFrom = new VBox();
@@ -106,7 +118,9 @@ public class One_Variable_Dialog extends Splat_Dialog {
         
         tf_DescriptionOfVarSelected.setPrefColumnCount(15);
         tf_DescriptionOfVarSelected.textProperty().addListener(this::changeExplanVar);     
-        
+        if (printTheStuff) {
+            System.out.println("122  *** One_Variable_Dialog, proceed()");
+        }
         if(dmIsPresent) {
             gridChoicesMade = new GridPane();
             gridChoicesMade.setHgap(10);
@@ -135,9 +149,10 @@ public class One_Variable_Dialog extends Splat_Dialog {
         middlePanel = new HBox();
         middlePanel.setAlignment(Pos.CENTER);
         middlePanel.getChildren().add(leftPanel);    
-        
+        if (printTheStuff) {
+            System.out.println("153  *** One_Variable_Dialog, proceed()");
+        }
         if (dmIsPresent) {
-            //System.out.println("140 One_Var_Dialog, proceed() with dm present");
             middlePanel.getChildren().add(vBoxVars2ChooseFrom);
             middlePanel.getChildren().add(rightPanel);
             middlePanel.setPadding(new Insets(10, 0, 10, 0));
@@ -177,7 +192,9 @@ public class One_Variable_Dialog extends Splat_Dialog {
             strReturnStatus = "Cancel";
             close();
         });        
-        
+        if (printTheStuff) {
+            System.out.println("196  *** One_Variable_Dialog, proceed()");
+        }
         if (dmIsPresent) {
             selectVariable.setOnAction((ActionEvent event) -> {                
                 if (listOfVars.getNamesSelected().size() == 1) {
@@ -188,7 +205,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
                 }
             });
         }
-        
+
         btnOK.setOnAction((ActionEvent event) -> {
             boolGoodToGo = true;
             strVarLabel = tf_labelOfVarSelected.getText();
@@ -219,8 +236,8 @@ public class One_Variable_Dialog extends Splat_Dialog {
                 strReturnStatus = "OK";
                 close();
             } 
-            
         });   
+
         return strReturnStatus;
     }
     
