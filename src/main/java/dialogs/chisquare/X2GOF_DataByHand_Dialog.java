@@ -1,7 +1,7 @@
 /*******************************************************************************
  *                   GOF_DataByHandDialog                                      *
- *                        05/23/24                                             *
- *                         12:00                                               *
+ *                        09/07/24                                             *
+ *                         18:00                                               *
  ******************************************************************************/
 package dialogs.chisquare;
 
@@ -67,13 +67,13 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
     
     public X2GOF_DataByHand_Dialog(X2GOF_Model x2GOFModel) {
         super();
-        //System.out.println("\n70 X2GOF_DataByHand_Dialog, Constructing");
+        System.out.println("\n70 X2GOF_DataByHand_Dialog, Constructing");
         this.x2GOF_Model = x2GOFModel;
         initialize();
     }
     
     private void initialize() {
-        //System.out.println("76 x2gof_dataByHand  -- initialize");
+        //System.out.println("76  *** x2gof_dataByHand, initialize");
         nCategories = x2GOF_Model.getNCategories();
         vBoxVisual = new VBox();
         StackPane root = new StackPane();
@@ -86,14 +86,14 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
         setHeight(200);  
         
         hide();
-        //System.out.println("89 x2gof_dataByHand  -- END initialize");
+        //System.out.println("89  *** x2gof_dataByHand  -- END initialize");
     }   //  End constructor
         
 /****************************************************************************
  *                      Guts of the dialog                                  * 
  ***************************************************************************/
     public void constructDialogGuts() {
-        //System.out.println("96 x2gof_dataByHand  -- constructDialogGuts");
+        //System.out.println("96 *** x2gof_dataByHand, constructDialogGuts");
         vBoxGOF = new VBox();
         txtGOFControlTitle = new Text("X2 Goodness of Fit");  
         vBoxGOF.getChildren().add(txtGOFControlTitle);
@@ -148,11 +148,11 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
 
         hBoxGOFDirectionBtns = new HBox();
         vBoxVisual.getChildren().addAll(txtGOFControlTitle, gridPane_GOF, hBoxGOFDirectionBtns);
-        //System.out.println("151 x2gof_dataByHand  -- END constructDialogGuts");
+        //System.out.println("151 *** x2gof_dataByHand, END constructDialogGuts");
     } 
     
     private void constructButtons() {   //  and CheckBox
-        //System.out.println("155 x2gof_dataByHand  -- constructButtons");
+        //System.out.println("155 *** x2gof_dataByHand, constructButtons");
         chBoxDoEqualProps = new CheckBox("H0 Equal Props");
         chBoxDoEqualProps.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -237,7 +237,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
         }
     });
         
-        btnOkForGOFCategories = new Button("Proceed to categories");
+    btnOkForGOFCategories = new Button("Proceed to categories");
         
         btnOkForGOFCategories.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {      
@@ -308,11 +308,12 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
 /***************************************************************************
  *                    Check for Data Entry Problems                        *
  **************************************************************************/ 
-                boolGoodToGo = checkForBlanks();                
+                boolGoodToGo = checkForBlanks(); 
+                System.out.println("312 X2GOF_DataByHand, boolGoodToGo = " + boolGoodToGo);
                 if (boolGoodToGo) {
                     boolGoodToGo =  checkForUniqueCategories();
                 }
-                
+                System.out.println("316 X2GOF_DataByHand, boolGoodToGo = " + boolGoodToGo);
                 if (boolGoodToGo){
                     sumExpectedProps = 0.0;
                     
@@ -388,36 +389,29 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
                             break;
 
                             default:
-                                String switchFailure = "Switch failure: 389 X2GOF_DataByHand " + choice;
+                                String switchFailure = "Switch failure: 391 X2GOF_DataByHand " + choice;
                                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
                         }    
                     }   //  end else 
                 }
             }   //  End handle
         });  
-        //System.out.println("398 x2gof_dataByHand  -- END constructButtons");
+        //System.out.println("398  *** x2gof_dataByHand, END constructButtons");
     }
     
     
     private boolean checkForUniqueCategories() {
-        //System.out.println("403 X2GOF_DataByHand, checkForUniqueCategories()");
-        // Check for unique categories.  Unique is necessary for Category Axis        
-        for (int ithCategory = 0; ithCategory < nCategories - 1; ithCategory++) {
-            String temp1 = al_TheGrid_STF.get(3 * ithCategory).getText();           
-            for (int jthCategory = ithCategory + 1; jthCategory < nCategories; jthCategory++) {
-                String temp2 = al_TheGrid_STF.get(3 * jthCategory).getText();
-                if (temp1.equals(temp2)) {
-                    MyAlerts.showNonUniqueCategoriesAlert();
-                    return false;
-                } 
-            }
+        String[] catsToCheck = new String[nCategories];
+        for (int ithCat = 0; ithCat < nCategories; ithCat++) {
+            catsToCheck[ithCat] = al_TheGrid_STF.get(3 * ithCat).getText();
+            System.out.println("423 X2GOD_DataByHand, " + catsToCheck[ithCat]);
         }
-        //System.out.println("415 X2GOF_DataByHand, ALMOST END checkForUniqueCategories()");
-        return true;
+        System.out.println("420 X2GOF_DataByHand, al_TheGrid_STF...");
+        return StringUtilities.checkForUniqueStrings(catsToCheck);
     }
     
     private boolean checkForBlanks() {
-        //System.out.println("420 GOF_DataByHandDialog, checkForNoBlanks()");
+        //System.out.println("420  *** GOF_DataByHandDialog, checkForNoBlanks()");
         boolGoodToGo = true;
         
         for (int ithCategory = 0; ithCategory < nCategories; ithCategory++) {            
@@ -431,7 +425,6 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
             return boolGoodToGo;
         }
         
-        //System.out.println("434 gofByHand, checking for empty Expected");
         for (int ithCategory = 0; ithCategory < nCategories; ithCategory++) {            
             if (al_TheGrid_STF.get(3 * ithCategory + 1).isEmpty()) {
                 boolGoodToGo = false;
@@ -453,7 +446,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
             MyAlerts.showEmptyObservedValuesAlert();
             return false;
         }        
-        //System.out.println("456 GOF_DataByHandDialog, ALMOST END checkForNoBlanks()");
+        //System.out.println("455  *** GOF_DataByHandDialog, ALMOST END checkForNoBlanks()");
         return true;
     }
 
@@ -462,7 +455,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
 *******************************************************************************/    
     
     public String doSumExpPropsDialog() {
-        //System.out.println("465 GOF_DataByHandDialog, doSumExpPropsDialog()");
+        //System.out.println("464  *** GOF_DataByHandDialog, doSumExpPropsDialog()");
         String returnString;
         Alert nonSumToOneAlert = new Alert(Alert.AlertType.CONFIRMATION);   
         nonSumToOneAlert.setTitle("Uh-oh, possible problem here...");

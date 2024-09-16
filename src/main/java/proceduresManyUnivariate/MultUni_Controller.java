@@ -1,7 +1,7 @@
 /**************************************************
  *                MultiUni_Controller             *
- *                    04/02/24                    *
- *                     09:00                      *
+ *                    09/03/24                    *
+ *                     00:00                      *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -11,6 +11,8 @@ import dataObjects.ColumnOfData;
 import dataObjects.QuantitativeDataVariable;
 import dialogs.*;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import splat.*;
 
 public class MultUni_Controller {
@@ -19,14 +21,18 @@ public class MultUni_Controller {
     public boolean checkForLegalChoices;
     public boolean[] isNumeric;
     public int n_QDVs; 
+    public int[] theNewOrder;
     public String returnStatus, daProcedure, stackedOrSeparate;
     public String genVarDescr, varLabel, varDescr;
     String explanatoryVariable, responseVariable;
     public ArrayList<String> allTheLabels;
+    private ObservableList<String> varLabels;
     
     // Make empty if no-print
-    //String waldoFile = "MultUni_Controller";
-    String waldoFile = "";
+    String waldoFile = "MultUni_Controller";
+    //String waldoFile = "";
+    
+    String[] incomingLabels;
  
     // My classes
     ColumnOfData colOfCats, colOfQuants;
@@ -35,7 +41,8 @@ public class MultUni_Controller {
     public ArrayList<String> arStr_VarLabels;
     public CatQuantDataVariable cqdv;
     public QuantitativeDataVariable tempQDV;
-    public ArrayList<QuantitativeDataVariable> allTheQDVs;
+    public ArrayList<QuantitativeDataVariable> incomingQDVs, allTheQDVs;
+    
     public Data_Manager dm;
     
     private MultUni_DotPlotModel multUni_DotPlotModel;
@@ -43,12 +50,13 @@ public class MultUni_Controller {
     private MultUni_Dashboard multUni_Dashboard;
     MultUni_Stacked_Dialog multUni_S_Dialog;
     private MultUni_NotStackedDialog multUni_NS_Dialog;
+    ReOrderStringDisplay_Dialog reOrderStrings_Dialog;
     
     // POJOs / FX
 
     public MultUni_Controller(Data_Manager dm) {
         this.dm = dm;
-        dm.whereIsWaldo(51, waldoFile, "Constructing with dm");
+        dm.whereIsWaldo(59, waldoFile, "\nConstructing with dm");
         al_ColOfData = new ArrayList();
         arStr_VarLabels = new ArrayList();
         returnStatus = "OK";
@@ -63,7 +71,7 @@ public class MultUni_Controller {
     }      
     
     protected String doStacked() {
-        dm.whereIsWaldo(66, waldoFile, "doStacked()");
+        dm.whereIsWaldo(74, waldoFile, "doStacked()");
         returnStatus = "OK";
         do {
             // multUni_S_Dialog's superclass is Two_Variables_Dialog
@@ -82,8 +90,10 @@ public class MultUni_Controller {
         returnStatus = cqdv.finishConstructingStacked();
         
         if (returnStatus.equals("OK")) {
-            allTheQDVs = new ArrayList();
-            allTheQDVs = cqdv.getAllQDVs();
+            incomingQDVs = new ArrayList();
+            incomingQDVs = cqdv.getAllQDVs();
+
+            askAboutReOrdering();
             explanatoryVariable = multUni_S_Dialog.getPreferredFirstVarDescription();
             responseVariable = multUni_S_Dialog.getPreferredSecondVarDescription();
             prepareTheStructs();
@@ -93,7 +103,7 @@ public class MultUni_Controller {
     }
 
     protected String doNotStacked() {
-        dm.whereIsWaldo(92, waldoFile, "doNotStacked()");
+        dm.whereIsWaldo(106, waldoFile, "doNotStacked()");
         returnStatus = "OK";
         multUni_NS_Dialog = new MultUni_NotStackedDialog( dm );
         multUni_NS_Dialog.show_NS_Dialog();
@@ -104,14 +114,13 @@ public class MultUni_Controller {
         genVarDescr = multUni_NS_Dialog.getSubTitle();
         // Get the arrayList of ColumnsOfData
         al_ColOfData = multUni_NS_Dialog.getData();
-         
         int nColumnsOfData = al_ColOfData.size();
         // Stack the columns into one, put in allTheQDVs[0]
         // Construct a ColumnOfData, make the QDV
         varLabel = "All";
         varDescr = "All";
         ArrayList<String> tempAlStr = new ArrayList<>();
-        dm.whereIsWaldo(111, waldoFile, "doNotStacked()");
+        dm.whereIsWaldo(123, waldoFile, "doNotStacked()");
      
         colOfCats = new ColumnOfData();
         colOfQuants = new ColumnOfData();   
@@ -119,10 +128,10 @@ public class MultUni_Controller {
         colOfQuants.setVarLabel("QuantLabel");
         colOfCats.setVarDescription("CatDescr");
         colOfQuants.setVarDescription("QuantDescr");
-        dm.whereIsWaldo(122, waldoFile, "doNotStacked()");
+        dm.whereIsWaldo(131, waldoFile, "doingNotStacked()");
     // Build Columns for the catQuantDataVariable
         for (int ith = 0; ith < nColumnsOfData; ith++) {
-            dm.whereIsWaldo(125, waldoFile, "Looping");
+            dm.whereIsWaldo(134, waldoFile, "Looping");
             ColumnOfData tempCol = al_ColOfData.get(ith);
             String catValue = tempCol.getVarLabel();
             int nColSize = tempCol.getColumnSize();
@@ -132,59 +141,47 @@ public class MultUni_Controller {
                 colOfQuants.addNCasesOfThese(1, tempCol.getTheCases_ArrayList().get(jth));
             }
         }
-        dm.whereIsWaldo(135, waldoFile, "doNotStacked()");        
+        
         cqdv = new CatQuantDataVariable(dm, colOfCats, colOfQuants, true, "MultUni_Controller");
-        dm.whereIsWaldo(137, waldoFile, "doNotStacked()"); 
         cqdv.finishConstructingStacked();
         cqdv.sortByQuantValue();
-        dm.whereIsWaldo(140, waldoFile, "doNotStacked()");
         catQuantPairs = new ArrayList();
         catQuantPairs = cqdv.getCatQuantPairs();
-        dm.whereIsWaldo(143, waldoFile, "doNotStacked()");
         ColumnOfData tempCOD = new ColumnOfData(dm, varLabel, varDescr, tempAlStr);
         tempQDV = new QuantitativeDataVariable(varLabel, varDescr, tempCOD);
-        dm.whereIsWaldo(146, waldoFile, "doNotStacked()");
-        allTheQDVs = new ArrayList();
-        allTheQDVs.add(tempQDV);
-        dm.whereIsWaldo(149, waldoFile, "doNotStacked()");
+        incomingQDVs = new ArrayList();
         for (int ith = 0; ith < nColumnsOfData; ith++) {
             varLabel = al_ColOfData.get(ith).getVarLabel();
             varDescr = al_ColOfData.get(ith).getVarDescription();
             tempQDV = new QuantitativeDataVariable(varLabel, varDescr, al_ColOfData.get(ith)); 
-            allTheQDVs.add(tempQDV);                 
+            incomingQDVs.add(tempQDV);                 
         } 
-        dm.whereIsWaldo(156, waldoFile, "doNotStacked()");        
+        askAboutReOrdering();      
         prepareTheStructs();
         return returnStatus;
     }
     
     protected String prepareTheStructs() {  // for the MultUniModel
-        dm.whereIsWaldo(162, waldoFile, "prepareTheStructs()");
+        dm.whereIsWaldo(165, waldoFile, "prepareTheStructs()");
         n_QDVs = allTheQDVs.size();
         allTheLabels = new ArrayList<>();
         
         for (int iVars = 0; iVars < n_QDVs; iVars++) {
             allTheLabels.add(allTheQDVs.get(iVars).getTheVarLabel());
         }
-
-        allTheQDVs.remove(0);
-        allTheLabels.remove(0);
+        
         n_QDVs = allTheQDVs.size(); 
-        dm.whereIsWaldo(173, waldoFile, "prepareTheStructs()");        
+        dm.whereIsWaldo(174, waldoFile, "prepareTheStructs()");        
         multUni_Model = new MultUni_Model(this, 
                                           genVarDescr,  // subTitle 
-                                          allTheQDVs, 
-                                          allTheLabels); 
+                                          allTheQDVs); 
         multUni_DotPlotModel = new MultUni_DotPlotModel(genVarDescr, cqdv);
-        dm.whereIsWaldo(179, waldoFile, "prepareTheStructs()");
         multUni_Dashboard = new MultUni_Dashboard(this, multUni_Model);
         multUni_Dashboard.populateTheBackGround();
         multUni_Dashboard.putEmAllUp();
         multUni_Dashboard.showAndWait();
-        dm.whereIsWaldo(184, waldoFile, "prepareTheStructs()");
         returnStatus = multUni_Dashboard.getReturnStatus();
         returnStatus = "Ok";
-        dm.whereIsWaldo(187, waldoFile, "end prepareTheStructs()");
         return returnStatus;        
     }
     
@@ -193,7 +190,6 @@ public class MultUni_Controller {
     }
     
     private boolean validateStackChoices() {
-        dm.whereIsWaldo(194, waldoFile, "validateStackChoices()");
         isNumeric = new boolean[2];
         
         for (int ithCol = 0; ithCol < 2; ithCol++){
@@ -201,6 +197,42 @@ public class MultUni_Controller {
         }
         return true;
     }
+    
+    private void askAboutReOrdering() {
+        System.out.println("202 MultUni_Controller, askAboutReOrdering()");
+        n_QDVs = incomingQDVs.size();
+        theNewOrder = new int[n_QDVs];
+        // Default
+        for (int ithQDV= 0; ithQDV < n_QDVs; ithQDV++) {
+            theNewOrder[ithQDV] = ithQDV;
+        }
+        incomingLabels = new String[n_QDVs];
+        for (int iVars = 0; iVars < n_QDVs; iVars++) {
+            incomingLabels[iVars] = incomingQDVs.get(iVars).getTheVarLabel();
+        }        
+        
+        reOrderStrings_Dialog = new ReOrderStringDisplay_Dialog(this, incomingLabels);
+        reOrderStrings_Dialog.showAndWait();
+
+        allTheQDVs = new ArrayList<>();
+        for (int ithQDV = 0; ithQDV < n_QDVs; ithQDV++) {
+            allTheQDVs.add(incomingQDVs.get(theNewOrder[ithQDV]));
+        }
+
+        collectAllTheLabels(); 
+    }
+    
+    private void collectAllTheLabels() {
+        varLabels = FXCollections.observableArrayList();         
+        for (int iVars = 0; iVars < n_QDVs; iVars++) {
+            varLabels.add(allTheQDVs.get(iVars).getTheVarLabel());
+        }
+    }
+    
+    public void closeTheReOrderDialog(int[] returnedOrder) {
+        System.arraycopy(returnedOrder, 0, theNewOrder, 0, n_QDVs);
+        reOrderStrings_Dialog.close();
+    }  
     
     public ArrayList<CatQuantPair> getCatQuantPairs() {return catQuantPairs; }    
     public String getVarDescr() { return genVarDescr; }    

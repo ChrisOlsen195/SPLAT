@@ -1,7 +1,7 @@
 /**************************************************
  *                  QuantCat_View                 *
- *                    02/09/24                    *
- *                      21:00                     *
+ *                    09/03/24                    *
+ *                      00:00                     *
  *************************************************/
 package superClasses;
 
@@ -94,7 +94,7 @@ public class QuantCat_View extends Region {
     public QuantCat_View(VerticalBoxPlot_Model vBoxModel, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight)  {
-        System.out.println("97 QuantCat_View, constructing");
+        System.out.println("\n97 QuantCat_View, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.vBoxModel = vBoxModel;
@@ -123,7 +123,7 @@ public class QuantCat_View extends Region {
                          String whichView, 
                          double placeHoriz, double placeVert, 
                          double withThisWidth, double withThisHeight) {
-        //System.out.println("126 QuantCat_View, constructing");
+        System.out.println("\n126 QuantCat_View, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.whichView = whichView;
@@ -134,7 +134,7 @@ public class QuantCat_View extends Region {
         anchorTitleInfo = new AnchorPane();
         allTheLabels = FXCollections.observableArrayList();
         categoryLabels = FXCollections.observableArrayList();
-        allTheLabels = multiUni_Model.getCatLabels();
+        allTheLabels = multiUni_Model.getCatLabels();   // returns varLabels
         quantCatCanvas.heightProperty().addListener(ov-> {doTheGraph();});
         quantCatCanvas.widthProperty().addListener(ov-> {doTheGraph();});
         gcQuantCat = quantCatCanvas.getGraphicsContext2D();
@@ -147,7 +147,7 @@ public class QuantCat_View extends Region {
                          String whichView, 
                          double placeHoriz, double placeVert, 
                          double withThisWidth, double withThisHeight) {
-        //System.out.println("150 QuantCat_View, constructing");
+        System.out.println("\n150 QuantCat_View, Constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.whichView = whichView;
@@ -173,7 +173,7 @@ public class QuantCat_View extends Region {
                          String whichView, 
                          double placeHoriz, double placeVert, 
                          double withThisWidth, double withThisHeight)  {
-        //System.out.println("176 QuantCat_View, constructing");
+        System.out.println("\n176 QuantCat_View, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.whichView = whichView;
@@ -220,9 +220,7 @@ public class QuantCat_View extends Region {
         }
         
         // Reconstruct category labels w/o the "All"
-        
         for (int ithLab = 0; ithLab < allTheLabels.size(); ithLab++) {
-            //System.out.println("226 ith/lab = " + ithLab + " / " + allTheLabels.get(ithLab));
             categoryLabels.add(allTheLabels.get(ithLab));
         }
 
@@ -263,7 +261,7 @@ public class QuantCat_View extends Region {
                     break;
                     
                 default:
-                    String switchFailure = "Switch failure: QuantCat_View 262 " + whichModel;
+                    String switchFailure = "Switch failure: QuantCat_View 264 " + whichModel;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 break;                 
             }
@@ -303,7 +301,7 @@ public class QuantCat_View extends Region {
                     break;
 
                 default:
-                    String switchFailure = "Switch failure: QuantCat_View 306 " + whichView;
+                    String switchFailure = "Switch failure: QuantCat_View 304 " + whichView;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
             }   
         }

@@ -1,7 +1,7 @@
 /****************************************************************************
  *                            MyAlerts                                      *
- *                            08/12/24                                      *
- *                             15:00                                        *
+ *                            09/12/24                                      *
+ *                             00:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -460,10 +460,11 @@ public class MyAlerts {
         backToTheRealWorld();
     }
    
+
     public static void showNonUniqueCategoriesAlert() { 
         showingAnAlert = true;
         alertTitle = "Ack!  An adamant assertion of adverse ambiguity appears amok anon!!";
-        alertHeader = "Your 'category' information is not unique.";
+        alertHeader = "Your categorical information is not unique.";
         alertContext = "Ok, so here's the thing.  There haven't been many Henrys, but there "
                         + " was -- thank goodness!!! -- only one Henry VIII, for which  "
                         + " Bolyns everywhere are thankful.  But I, SPLAT, digress. You, "
@@ -473,6 +474,7 @@ public class MyAlerts {
         
         backToTheRealWorld();
     }
+
     
     public static void showMoreThanOneSelectionAlert() { 
         showingAnAlert = true;
@@ -1448,8 +1450,8 @@ public class MyAlerts {
     
         public static void showAintGotNoDataAlert() { 
         showingAnAlert = true;
-        alertTitle = " Yo! User! You with the empty head -- there ain't no good data here!!";
-        alertHeader = "Wake up and smell the roses! Data analysis requires data!!";
+        alertTitle = " Yo! User! You with the empty head -- there ain't no data here!!";
+        alertHeader = "Wake up and smell the roses!!!";
         alertContext = "SPLAT hates to be a bearer of bad news, but we have a slight"
                         + " problem with your data: there isn't any.  What sort of game are you playing here?"
                         + " This is a major violation of the Statistical Penal Code, Section 3.1416.  The"
@@ -1581,6 +1583,79 @@ public class MyAlerts {
                         + "\n to fix this is return to the spreadsheet and change the label to something that "
                         + "\n looks like a number.  Go for it!\n\n";
         
+        backToTheRealWorld();
+    }
+    
+    public static void showInsertRemorseAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Ack! Buyers' Insert Remorse??";
+        alertHeader = "Uh-oh, User, you have transgressed slightly...";
+        alertContext = "So, having second thoughts about inserting, are we?  Well, if so, the PROPER course"
+                        + "\nof action is to click on the 'Cancel', not the 'Insert' button.  That is why I,"
+                        +  "\nSPLAT the Magnificent, put the 'Cancel' button there. Now, let's get with the"
+                        +  "\nprogram and try clicking again...\n\n";
+    }
+    
+    public static void showDeleteRemorseAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Ack! Buyers' Delete Remorse??";
+        alertHeader = "Uh-oh, User, you have transgressed slightly...";
+        alertContext = "So, having second thoughts about deleting, are we?  Well, if so, the PROPER course"
+                        + "\nof action is to click on the 'Cancel', not the 'Delete' button.  That is why I,"
+                        +  "\nSPLAT the Magnificent, put the 'Cancel' button there. Now, let's get with the"
+                        +  "\nprogram and try clicking again...\n\n";
+    }
+    
+    public static void showRCB_2_5_VarAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Uh-oh, we could be in some difficulty here...";
+        alertHeader = "There is a bit of a problem with your explanatory variable.";
+        alertContext = "I am not quite sure what the problem is, dear User, but you gotta have more than 2"
+                        + "\n values for your explanatory variable. Also, for whatever reason, my programmer"
+                        + "\n-- limited as he is -- will not allow me, SPLAT, to proceed if there are more"
+                        + "\nthan 5 values.  (I think it has something to do with too much crowding in some"
+                        + "\nof the plots.) \n\n";
+    }
+    
+    public static void showRCB_TooFewVarsAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Uh-oh, we could be in some difficulty here...";
+        alertHeader = "There is a bit of a problem with your variables.";
+        alertContext = "Dear User, in a randomized block design you are required to have three variables:"
+                        + "\n (1) an explanatory variable, (2) a response variable, and (3) a blocking"
+                        + "\nvariable. I, SPLAT the Magnificent, don't make the experimental design rules;"
+                        + "\n I do, however, ruthlessly enforce them.  Let's get with the program here!\n\n";
+    }   
+    
+    public static void showMultReg_TooFewVarsAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Uh-oh, we could be in some difficulty here...";
+        alertHeader = "There is a bit of a problem with your variables.";
+        alertContext = "Dear User, the reason for doing multiple regression is that you have more than one"
+                        + "\nexplanatory variable. And, of course, you need a response variable.  So let's"
+                        + "\ndo the math: 'More than one' plus 'one' = more than two, which you ain't got!"
+                        + "\n et's get with the program here!\n\n";
+    }  
+    
+    public static void showSampleSizeTooSmallAlert(int minSize) { 
+        showingAnAlert = true;
+        alertTitle = "Uh-oh, we could be in some difficulty here...";
+        alertHeader = "There is a bit of a problem with your sample size.";
+        alertContext = "Dear User, you are bereft of sufficient data. Some procedures need a sample size"
+                        + "\nlarge enough to do the mathematics of the procedure, some need a sample size"
+                        + "\n large enough to justify doing the procedure. (I.e. power seriously small.)"
+                        + "\nFor this procedure you need at the very least " + minSize + " to do the math."
+                        + "\nLet's get out there and get more data for the Gipper!\n\n";
+    } 
+    
+    public static void showNoPowerVarIdentifiedAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Warning!  Some fields left blank!!";
+        alertHeader = "A slight Tabula Rasa here...";
+        alertContext ="Ok, so here's the deal.  I don't care how tired you are, you gotta give me something"
+                        + "\nto work with here. In this case, I need a variable.  If you don't specify one, "
+                        + "\nI really am not authorized to just randomly pick one -- that's YOUR job!"
+                        + "\nLet's try this again, this time with your eyes open.\n\n";        
         backToTheRealWorld();
     }
         

@@ -68,7 +68,7 @@ public class ANOVA1_Cat_CirclePlotView extends QuantCat_View{
                            .remove(checkBoxRow);
         String graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();
         dragableAnchorPane.getStylesheets().add(graphsCSS);
-        dm.whereIsWaldo(68, waldoFile, "completeTheDeal()");
+        dm.whereIsWaldo(71, waldoFile, "completeTheDeal()");
         doTheGraph();   
     }   
     

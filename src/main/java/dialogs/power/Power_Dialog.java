@@ -1,7 +1,7 @@
 /************************************************************
  *                        Power_Dialog                      *
- *                          05/29/24                        *
- *                            15:00                         *
+ *                          09/12/24                        *
+ *                            21:00                         *
  ***********************************************************/
 package dialogs.power;
 
@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import splat.Var_List;
 import dialogs.*;
+import utilityClasses.MyAlerts;
 
 /*****************************************************************
  *                    This is a super class!                     *
@@ -57,8 +58,8 @@ public class Power_Dialog extends Splat_Dialog {
     //public Data_Manager dm;
 
     public Power_Dialog(String strMessageOfSomeSort) {
-        //System.out.println("\n60 Power_Dialog, Constructing");
-        //System.out.println("61 Power_Dialog, message of some sort = " + strMessageOfSomeSort);
+        //System.out.println("\n61 Power_Dialog, Constructing");
+        //System.out.println("62 Power_Dialog, message of some sort = " + strMessageOfSomeSort);
         this.strMessageOfSomeSort = strMessageOfSomeSort;
         strReturnStatus = "Ok";
         ok = true;
@@ -179,7 +180,6 @@ public class Power_Dialog extends Splat_Dialog {
             if (varIndexForX == -1) { ok = false; }
             
             if (ok) {
-
                 varIndexForX = dm.getVariableIndex(strSelected);
                 colData = new ColumnOfData(dm.getSpreadsheetColumn(varIndexForX));
 
@@ -187,12 +187,7 @@ public class Power_Dialog extends Splat_Dialog {
                 strReturnStatus = "OK";
                 close();
             } else {
-                MyDialogs msgDiag = new MyDialogs();
-                String msgTitle = "Alas and Alack!  I am bereft of needed information!";
-                String msg = "I am unable to do any computation until you identify" + 
-                             "\n a variable.  You have to do that arrow thing to" +
-                             "\nselect a variable for analysis.";
-                msgDiag.NoChoiceMessage(2, msgTitle, msg);             
+                MyAlerts.showNoPowerVarIdentifiedAlert();             
             }  
         });       
     }

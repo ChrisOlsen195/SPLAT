@@ -97,7 +97,7 @@ public class UnivariateCategoricalDataObj {
     
     public int getNUniques() { return nUniques; }    
     public String getIthValue(int ith) { return str_al_LegalValues.get(ith); }    
-    public String[] getUniqueCategories() {return strUniqueCategories; }    
+    public String[] getCategories() {return strUniqueCategories; }    
     public int[] getObservedCounts() { return observedCounts; }   
     public UnivariateCategoricalDataObj getUnivCatDataObj() { return this; }  
 }

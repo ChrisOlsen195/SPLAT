@@ -1,7 +1,7 @@
 /**********************0****************************
  *                X2GOF_Dashboard                 *
- *                    08/20/24                    *
- *                     21:00                      *
+ *                    09/05/24                    *
+ *                     15:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -38,7 +38,7 @@ public class X2GOF_Dashboard extends Dashboard {
             
     public X2GOF_Dashboard(X2GOF_Controller x2GOF_Controller, X2GOF_Model x2GOF_Model) {
         super(5);
-        //System.out.println("\n41 X2GOF_Dashboard, Constructing");
+        System.out.println("\n41 X2GOF_Dashboard, Constructing");
         // nCheckBoxes = 5;
         checkBoxDescr = new String[nCheckBoxes];
         

@@ -1,7 +1,7 @@
 /************************************************************
  *                   Single_t_SumStats_Dialog               *
- *                          10/15/23                        *
- *                            15:00                         *
+ *                          09/13/24                        *
+ *                            21:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -29,18 +29,14 @@ import utilityClasses.MyAlerts;
 public class Single_t_SumStats_Dialog extends One_Variable_Dialog { 
     
     // POJOs
-    boolean okToContinue, /*runAnalysis, ok, caughtYa,*/ dataPresent, 
+    boolean okToContinue, dataPresent, 
             valuesLeftBlank, bool_MeanGood, bool_SigmaGood, bool_NGood, 
-            /*bool_AlphaGood,*/ allFieldsGood; // , showValuesLeftBlankAlert, 
-            //showNotAllFieldsGoodAlert;
+            allFieldsGood; 
     
-    int  n, alphaIndex, ciIndex; //, valuesLeftBlankIndex, notAllFieldsGoodIndex;
-    
-    //Integer suspectedCount;
-    
-    double sigma1, alphaLevel, /*ciLevel, nullHypothesis,*/ hypothesizedMean, 
-           nullDiffRequested, mean;
-    double[] theAlphaLevs; //, theCILevs; 
+    int  n, alphaIndex, ciIndex;
+
+    double sigma1, alphaLevel, hypothesizedMean,  nullDiffRequested, mean;
+    double[] theAlphaLevs; 
     
     String strHypNE, strHypLT, strHypGT, strHypNull, strNullAndAlt, 
            strAltHypChosen, str_Group_Title, str_Group_SumInfo, str_OROne, 
@@ -52,26 +48,21 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
     ListView<String> ciView, alphaView;
     
     // My classes
-    //SmartTextField stf_Mean, stf_Sigma, stf_N;
-    //SmartTextFieldHandler meansHandler;
-    //ArrayList<SmartTextField> al_stfForEntry; 
     SmartTextFieldsController stf_Controller;
     DoublyLinkedSTF al_STF;
     
     // JavaFX POJOs
-    //Alert valuesLeftBlankAlert, notAllFieldsGoodAlert;
     Button changeNull;
 
-    HBox bottomPanel, hBox_GPOne_SuccessRow, //hBox_GPTwo_SuccessRow,
-         alphaAndCI, /*nullDiffInfo,*/ hBoxCurrDiff;
+    HBox bottomPanel, hBox_GPOne_SuccessRow, alphaAndCI, hBoxCurrDiff;
     
-    Label lblNullAndAlt, /*lblSigLevel,*/ ciLabel, alphaLabel; //, lbl_nullDiffInfo;
+    Label lblNullAndAlt, ciLabel, alphaLabel;
     
-    RadioButton hypNE, hypLT, hypGT; //, hypNull;
+    RadioButton hypNE, hypLT, hypGT;
     
     Scene scene;
     Separator sep_NullsFromInf, sep_InfFromNumbers, sep_MiddleAndBottom,
-              /*sep_Prop1_and_Prop2,*/ sep_Alpha, sep; 
+              sep_Alpha, sep; 
     
     VBox root, nullsPanel, numValsPanel, group, explanVarStuff,
          ciBox, alphaBox, infChoicesPanel; 
@@ -83,9 +74,8 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
 
     public Single_t_SumStats_Dialog() {
         super("Quantitative");
-        //System.out.println("86 Single_t_SumStats_Dialog, constructing");
+        System.out.println("\n86 Single_t_SumStats_Dialog, Constructing");
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
-        //theCILevs = new double[] {0.90, 0.95, 0.99};
         sep = new Separator();
         sep.setOrientation(Orientation.VERTICAL);
         
@@ -112,7 +102,6 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
         sep_InfFromNumbers = new Separator();
         sep_InfFromNumbers.setOrientation(Orientation.VERTICAL);
         sep_MiddleAndBottom = new Separator();
-        // sep_Prop1_and_Prop2 = new Separator();
         sep_Alpha = new Separator();
         sep_Alpha.setMinHeight(10);
 
@@ -243,8 +232,7 @@ private void makeNullsPanel() {
                         okToContinue = false;
                         nullDiffRequested = 0.0;
                     }
-                }
-                else {
+                } else {
                     nullDiffRequested = 0.0;    // Null returns to 0.0 if Cancel
                 }
             }
@@ -357,7 +345,6 @@ private void makeNullsPanel() {
     
     private void makeInfDecisionsPanel() {
         hypothesizedMean = 0.;
-        //nullHypothesis = 0.0;
        
         ciLabel = new Label("   Select conf level");
         ciLabel.setMaxWidth(120);
@@ -453,7 +440,6 @@ private void makeNullsPanel() {
             bool_MeanGood = false; 
             bool_SigmaGood = false;  
             bool_NGood = false; 
-            
         });
         
         bottomPanel.getChildren().addAll(btnOK, btnCancel, resetButton);
@@ -465,7 +451,6 @@ private void makeNullsPanel() {
         ciIndex = ciView.getSelectionModel().getSelectedIndex();
         alphaView.getSelectionModel().select(ciIndex);
         alphaLevel = theAlphaLevs[ciIndex];
-        //ciLevel = theCILevs[ciIndex];
     }
 
     public void alphaChanged(ObservableValue<? extends String> observable,
@@ -473,8 +458,7 @@ private void makeNullsPanel() {
                                                     String newValue) {
         alphaIndex = alphaView.getSelectionModel().getSelectedIndex();
         ciView.getSelectionModel().select(alphaIndex);
-        alphaLevel = theAlphaLevs[alphaIndex];
-        //ciLevel = theCILevs[alphaIndex];    
+        alphaLevel = theAlphaLevs[alphaIndex];    
     }
     
     // The evaluations here will be specific to the dialog
@@ -495,8 +479,6 @@ private void makeNullsPanel() {
     public int getN() { return n; }
     public double getStDev() {return sigma1; }
     public double getXBar() { return mean; }
-    //public String getReturnStatus() { return strReturnStatus; }
-    //public String getDescriptionOfVariable() { return tf_DescriptionOfVarSelected.getText(); }
 }
 
 

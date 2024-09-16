@@ -1,7 +1,7 @@
 /**************************************************
  *              ANOVA1_Cat_Dashboard              *
- *                    06/22/24                    *
- *                     18:00                      *
+ *                    09/03/24                    *
+ *                     09:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -29,7 +29,7 @@ public class ANOVA1_Cat_Dashboard extends Dashboard {
     private final String responseVariable;
     
     // Make empty if no-print
-    // String waldoFile = "ANOVA1_Cat_Dashboard";
+    //String waldoFile = "ANOVA1_Cat_Dashboard";
     String waldoFile = "";
     
     private final String[] anova1CheckBoxDescr = { " FDist \n (Inference)",  
@@ -60,7 +60,7 @@ public class ANOVA1_Cat_Dashboard extends Dashboard {
     public ANOVA1_Cat_Dashboard(ANOVA1_Cat_Controller anova1_cat_controller, ANOVA1_Cat_Model anova1Model) {
         super(7);
         dm = anova1_cat_controller.getDataManager();
-        dm.whereIsWaldo(63, waldoFile, "Constructing");
+        dm.whereIsWaldo(63, waldoFile, "\nConstructing");
         explanatoryVariable = anova1_cat_controller.getExplanatoryVariable();
         responseVariable = anova1_cat_controller.getResponseVariable();
         checkBoxDescr = new String[nCheckBoxes];
@@ -135,25 +135,27 @@ public class ANOVA1_Cat_Dashboard extends Dashboard {
         vertBoxPlotView.completeTheDeal();
         boxPlotContainingPane = vertBoxPlotView.getTheContainingPane(); 
 
+        initWidth[2] = 500;
+        initHeight[2] = 350;
         anova1_Cat_CirclePlotView = new ANOVA1_Cat_CirclePlotView(anova_Cat_Model, this, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
         anova1_Cat_CirclePlotView.completeTheDeal();        
         circlePlotContainingPane = anova1_Cat_CirclePlotView.getTheContainingPane();
 
-        initWidth[3] = 450;
+        initWidth[3] = 475;
         initHeight[3] = 350;
         normProb_Model = anova_Cat_Model.getNormProbModel();
         normProb_View = new NormProb_View(normProb_Model, this, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
         normProb_View.completeTheDeal();
         normalPlotContainingPane = normProb_View.getTheContainingPane();
         
-        initWidth[4] = 450;
+        initWidth[4] = 475;
         initHeight[4] = 350;
         normProb_DiffModel = anova_Cat_Model.getNormProbDiffModel();
         normProb_DiffView = new NormProb_DiffView(normProb_DiffModel, this, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
         normProb_DiffView.completeTheDeal();
         diffPlotContainingPane = normProb_DiffView.getTheContainingPane(); 
         
-        initWidth[5] = 450;
+        initWidth[5] = 475;
         initHeight[5] = 350;
         anova1_Cat_HomogeneityCheck_View = new ANOVA1_Cat_HomogeneityCheck_View(anova_Cat_Model, this, sixteenths_across[5], sixteenths_down[5], initWidth[5], initHeight[5]);
         anova1_Cat_HomogeneityCheck_View.completeTheDeal();

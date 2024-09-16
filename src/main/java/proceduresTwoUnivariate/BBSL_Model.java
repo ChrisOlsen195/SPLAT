@@ -1,7 +1,7 @@
 /**************************************************
  *                   BBSL_Model                   *
- *                    02/07/24                    *
- *                     18:00                      *
+ *                    09/14/24                    *
+ *                     12:00                      *
  *************************************************/
 package proceduresTwoUnivariate;
 
@@ -22,12 +22,12 @@ public final class BBSL_Model {
     
     int maxCharsInLine, maxLineInBBSL;
     
-    int maxBbslLineSize_01, maxBbslLineSize_02, maxBbslLineSize_05;
-    int nStemsNeeded_1, nStemsNeeded_2, nStemsNeeded_5;
+    //int maxBbslLineSize_01, maxBbslLineSize_02, maxBbslLineSize_05;
+    // int nStemsNeeded_1, nStemsNeeded_2, nStemsNeeded_5;
     double maxValue;
 
     String blanx, subTitle_And,
-           leftDataLabel, rightDataLabel,
+           //leftDataLabel, rightDataLabel,
            leftLeafString, rightLeafString, 
            tempLeftString, tempRightString,
            firstVarDescription, secondVarDescription,
@@ -37,8 +37,8 @@ public final class BBSL_Model {
     //String waldoFile = "BBL_Model";
     String waldoFile = "";
     
-    ArrayList<String> oneLineStemPlotLeft, twoLineStemPlotLeft, fiveLineStemPlotLeft,
-                      oneLineStemPlotRight, twoLineStemPlotRight, fiveLineStemPlotRight,
+    ArrayList<String> //oneLineStemPlotLeft, twoLineStemPlotLeft, fiveLineStemPlotLeft,
+                      //oneLineStemPlotRight, twoLineStemPlotRight, fiveLineStemPlotRight,
                       oneLineBBSL, twoLineBBSL, fiveLineBBSL;
     
     // My classes
@@ -54,7 +54,7 @@ public final class BBSL_Model {
             QuantitativeDataVariable pooledQDV,
             ArrayList<QuantitativeDataVariable> allTheQDVs) {
         dm = explore_2Ind_Controller.getDataManager();
-        dm.whereIsWaldo(54, waldoFile, "Constructing from explore_2_Ind_Controller");
+        dm.whereIsWaldo(57, waldoFile, "Constructing from explore_2_Ind_Controller");
         subTitle_And = explore_2Ind_Controller.getSubTitleAnd();
         bbslAllTheQDVs = new ArrayList<>();
         this.pooledQDV = pooledQDV;
@@ -67,7 +67,7 @@ public final class BBSL_Model {
             QuantitativeDataVariable pooledQDV,
             ArrayList<QuantitativeDataVariable> allTheQDVs) {
         dm = exp_2Ind_Structs.getDataManager();
-        dm.whereIsWaldo(65, waldoFile, "Constructing from exp_2Ind_Structs");
+        dm.whereIsWaldo(70, waldoFile, "Constructing from exp_2Ind_Structs");
         firstVarDescription = exp_2Ind_Structs.getFirstVarDescription();
         secondVarDescription = exp_2Ind_Structs.getSecondVarDescription();
         firstAndSecondDescription = firstVarDescription + " vs. " + secondVarDescription;
@@ -88,7 +88,8 @@ public final class BBSL_Model {
         textArea2.setFont(Font.font("Courier New"));        
         textArea5 = new TextArea();
         textArea5.setFont(Font.font("Courier New"));
-                        
+          
+        /*
         oneLineStemPlotLeft = new ArrayList<>();
         twoLineStemPlotLeft = new ArrayList<>();
         fiveLineStemPlotLeft = new ArrayList<>();
@@ -96,14 +97,15 @@ public final class BBSL_Model {
         oneLineStemPlotRight = new ArrayList<>();
         twoLineStemPlotRight = new ArrayList<>();
         fiveLineStemPlotRight = new ArrayList<>();
+        */
         
         oneLineBBSL = new ArrayList<>();
         twoLineBBSL = new ArrayList<>();
         fiveLineBBSL = new ArrayList<>();
         
         maxValue = (int)pooledQDV.getMaxValue();
-        leftDataLabel = bbslAllTheQDVs.get(0).getTheVarLabel();
-        rightDataLabel = bbslAllTheQDVs.get(1).getTheVarLabel();
+        //leftDataLabel = bbslAllTheQDVs.get(0).getTheVarLabel();
+        //rightDataLabel = bbslAllTheQDVs.get(1).getTheVarLabel();
 
         StemNLeaf_Model sandLAll = new StemNLeaf_Model("Null", pooledQDV, false, 0, 0, 0);
         int orderOfMagnitude = sandLAll.getOrderOfMagnitude();  // for 1|0 in SL
@@ -172,7 +174,7 @@ public final class BBSL_Model {
         }  
 
         maxBbslLineSize = maxLeftSize + maxRightSize;
-        maxBbslLineSize_01 = maxBbslLineSize;
+        //maxBbslLineSize_01 = maxBbslLineSize;
         
         if (maxBbslLineSize > maxCharsInLine) {
             witchesWarned = true;
@@ -215,7 +217,7 @@ public final class BBSL_Model {
             oneLineBBSL.add(printLine);
         }
         
-        nStemsNeeded_1 = oneLineBBSL.size();
+        //nStemsNeeded_1 = oneLineBBSL.size();
        
 /****************************************************************************
  *                        Start Code for two liners                         *
@@ -232,7 +234,7 @@ public final class BBSL_Model {
         } 
 
         maxBbslLineSize = maxLeftSize + maxRightSize;
-        maxBbslLineSize_02 = maxBbslLineSize;
+        //maxBbslLineSize_02 = maxBbslLineSize;
         
         for (int ithTwoLiner = 0; ithTwoLiner < nAllTwoLiners; ithTwoLiner++) {
             initStrings();
@@ -270,7 +272,7 @@ public final class BBSL_Model {
             twoLineBBSL.add(printLine);
         }
         
-        nStemsNeeded_2 = twoLineBBSL.size();
+        //nStemsNeeded_2 = twoLineBBSL.size();
 
 /****************************************************************************
  *                        Start Code for five liners                         *
@@ -287,7 +289,7 @@ public final class BBSL_Model {
         }
 
         maxBbslLineSize = maxLeftSize + maxRightSize;
-        maxBbslLineSize_05 = maxBbslLineSize;
+        //maxBbslLineSize_05 = maxBbslLineSize;
         
         for (int ithFiveLiner = 0; ithFiveLiner < nAllFiveLiners; ithFiveLiner++) {
             initStrings();  
@@ -325,9 +327,9 @@ public final class BBSL_Model {
             fiveLineBBSL.add(printLine);
         }
         
-        nStemsNeeded_5 = fiveLineBBSL.size();
+        //nStemsNeeded_5 = fiveLineBBSL.size();
   
-        if ((nStemsNeeded_5 > maxLineInBBSL) && !witchesWarned) {
+        if ((fiveLineBBSL.size() > maxLineInBBSL) && !witchesWarned) {
             MyAlerts.showStemAndLeafAlert();
         } 
     }

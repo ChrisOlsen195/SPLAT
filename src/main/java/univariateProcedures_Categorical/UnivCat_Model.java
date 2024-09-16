@@ -76,7 +76,7 @@ public class UnivCat_Model {
             observedCounts = new int[nCategories]; 
             observedProps = new double[nCategories];
            // Fill some of arrays
-           categoriesAsStrings = univCatDataObj.getUniqueCategories();
+           categoriesAsStrings = univCatDataObj.getCategories();
            categoryLabels = FXCollections.observableArrayList(categoriesAsStrings);
            observedCounts = univCatDataObj.getObservedCounts();
            

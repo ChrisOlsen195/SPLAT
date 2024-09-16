@@ -36,7 +36,7 @@ public class QuantitativeDataVariable {
     }
     
     //  Copy constructor
-    /*
+
     public QuantitativeDataVariable(QuantitativeDataVariable original_qdv) {
         
         System.out.println("43 QDV, Copy Constructor!!!");
@@ -45,7 +45,7 @@ public class QuantitativeDataVariable {
          this.doublesFound = original_qdv.getDoublesFound();   
          this.variableIsQuant = original_qdv.getVariableIsQuant();
          this.nOriginalDataPoints = original_qdv.get_nDataPointsOriginal();
-         this.nLegalDataPoints = original_qdv.get_nLegalDataPoints();
+         this.nLegalDataPoints = original_qdv.getLegalN();
 
          this.dbl_legalData = new double[nLegalDataPoints];
          // arrayCopy dbl_legalData
@@ -71,11 +71,11 @@ public class QuantitativeDataVariable {
              alString_AllTheCases.add(original_qdv.alString_AllTheCases.get(i));
          }
 
-        this.ucdo = new UnivariateContinDataObj(this);
+        this.ucdo = new UnivariateContinDataObj("QDV", this);
         System.out.println("80 QDV");
         System.out.println("81, new qdv = " + this.toString());
     }
-*/
+
     // The data will be added as we go...  (bootstrapping needs this).
     public QuantitativeDataVariable (String varLabel, String varDescription) {
         if (printTheStuff == true) {

@@ -1,7 +1,7 @@
 /**************************************************
  *               VerticalBoxPlotView              *
- *                    04/02/24                    *
- *                     09:00                      *
+ *                    09/03/24                    *
+ *                     00:00                      *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -51,8 +51,8 @@ public class VerticalBoxPlot_View extends Region {
     private boolean areDragging;
     private boolean[] vBoxCheckBoxSettings;    
     
-    //boolean printTheStuff = true;
-    boolean printTheStuff = false;
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
     
     private int nVariables, nCheckBoxes, nDataPoints, n_Uniques;
     private int[] whiskerEndRanks;
@@ -98,7 +98,7 @@ public class VerticalBoxPlot_View extends Region {
     public VerticalBoxPlot_View(VerticalBoxPlot_Model vBoxModel, Exploration_Dashboard explore_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("102 *** VerticalBoxPlot_View, constructing");
         }
         this.vBoxModel = vBoxModel;
@@ -112,7 +112,7 @@ public class VerticalBoxPlot_View extends Region {
     public VerticalBoxPlot_View(VerticalBoxPlot_Model vBoxModel, Explore_2Ind_Dashboard explore_2Ind_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("116 *** VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -124,7 +124,7 @@ public class VerticalBoxPlot_View extends Region {
     public VerticalBoxPlot_View(VerticalBoxPlot_Model vBoxModel, Indep_t_Dashboard independent_t_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("128 *** VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -136,7 +136,7 @@ public class VerticalBoxPlot_View extends Region {
     public VerticalBoxPlot_View(VerticalBoxPlot_Model vBoxModel, Single_t_Dashboard single_t_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("140 *** VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -149,7 +149,7 @@ public class VerticalBoxPlot_View extends Region {
     public VerticalBoxPlot_View(VerticalBoxPlot_Model vBoxModel, Matched_t_Dashboard matched_t_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("153 *** VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -162,7 +162,7 @@ public class VerticalBoxPlot_View extends Region {
     public VerticalBoxPlot_View(VerticalBoxPlot_Model vBoxModel, ANOVA1_Cat_Dashboard anova1_Cat_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("166 *** VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -175,7 +175,7 @@ public class VerticalBoxPlot_View extends Region {
     public VerticalBoxPlot_View(VerticalBoxPlot_Model vBoxModel, ANOVA1_Quant_Dashboard anova1_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("179 *** VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -187,7 +187,7 @@ public class VerticalBoxPlot_View extends Region {
     public VerticalBoxPlot_View(VerticalBoxPlot_Model vBoxModel, ANOVA2_RM_Dashboard anova2_RM_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("191 *** VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -199,7 +199,7 @@ public class VerticalBoxPlot_View extends Region {
     public VerticalBoxPlot_View(VerticalBoxPlot_Model vBoxModel, MultUni_Dashboard multUni_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("203 *** VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -238,7 +238,6 @@ public class VerticalBoxPlot_View extends Region {
     
     private void makeItHappen() {       
         theContainingPane = new Pane();
-
         gcVBox = graphCanvas.getGraphicsContext2D();
         gcVBox.setFont(Font.font("Times New Roman", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 14));
         graphCanvas.heightProperty().addListener(ov-> {doTheGraph();});
@@ -246,8 +245,8 @@ public class VerticalBoxPlot_View extends Region {
     }
     
     public void completeTheDeal() { 
-        if (printTheStuff == true) {
-            System.out.println("250 *** VerticalBoxPlot_View, completeTheDeal()");
+        if (printTheStuff) {
+            System.out.println("249 *** VerticalBoxPlot_View, completeTheDeal()");
         }
         initializeGraphParameters();
         setUpUI();       
@@ -314,7 +313,7 @@ public class VerticalBoxPlot_View extends Region {
                         break;
                         
                     default:
-                        String switchFailure = "Switch failure: VerticalBoxPlot_View 314 " + daID;
+                        String switchFailure = "Switch failure: VerticalBoxPlot_View 316 " + daID;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);
                     break;
                 }

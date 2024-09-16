@@ -1,7 +1,7 @@
 /************************************************************
  *                        Splat_FileOps                     *
- *                           11/10/23                       *
- *                            12:00                         *
+ *                           09/13/24                       *
+ *                            18:00                         *
  ***********************************************************/
 /**************************************************
 *  All coordinate systems are zero-based:         *
@@ -15,16 +15,15 @@
 **************************************************/
 package splat;
 
-import dialogs.MyDialogs;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import utilityClasses.PrintExceptionInfo;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import printFile.*;
+import utilityClasses.MyAlerts;
+import utilityClasses.MyYesNoAlerts;
 
 public class File_Ops {
     // POJOs
@@ -33,7 +32,7 @@ public class File_Ops {
     
     int nVarsInFile, nCasesInFile, maxCasesInGrid, startVariable;
     
-    String returnStatus;
+    String returnStatus, yesOrNo;
     
     //  Make empty if no-print
     //String waldoFile = "File_Ops";
@@ -42,36 +41,37 @@ public class File_Ops {
     // My classes
     CSV_FileParser fileParser;
     Data_Manager dm;
+    MyYesNoAlerts myYesNoAlerts;
     PositionTracker tracker;
     PrintFile_Controller printFile_Controller;
     
     File theFile;
 
     public File_Ops(Data_Manager dm) {
-        dm.whereIsWaldo(49, waldoFile, "Constructing File_Ops, no file name");
+        dm.whereIsWaldo(52, waldoFile, "\nConstructing File_Ops, no file name");
         this.dm = dm;
         tracker = dm.getPositionTracker();
+        dm.setDataAreClean(true);
         returnStatus = "Ok";
+        myYesNoAlerts = new MyYesNoAlerts();
     }
     
     public File_Ops( String fileName, Data_Manager dm) {
-        dm.whereIsWaldo(56, waldoFile, "Constructing File_Ops with file name");
+        dm.whereIsWaldo(61, waldoFile, "\nConstructing File_Ops with file name");
         this.dm = dm;
         tracker = dm.getPositionTracker();
         theFile = new File(fileName);
         dm.getMainMenu().setFileLabel(fileName);
         parseAndRead(theFile);
+        myYesNoAlerts = new MyYesNoAlerts();
     }
 
     public void ClearTable() {
-        //dm.whereIsWaldo(65, waldoFile, "Clear table");        
+        dm.whereIsWaldo(71, waldoFile, "Clear table");        
         if (!dm.getDataAreClean()) {
-            MyDialogs newDiag = new MyDialogs();
-            String yesNo = newDiag.YesNo(1, "Clear Data?",
-                    "Your data have not been saved. \n"
-                    + "Do you wish to clear these data?");
-
-            if (yesNo.equals("No")) { return; }
+            myYesNoAlerts.showUnsavedDataAlert();
+            yesOrNo = myYesNoAlerts.getYesOrNo();
+            if (yesOrNo.equals("No")) { return; }
         }
 
         maxCasesInGrid = dm.getMaxVisCases();
@@ -81,7 +81,7 @@ public class File_Ops {
     
 
     public String getDataFromFile(int startVariable) throws Exception {
-        //dm.whereIsWaldo(82, waldoFile, "getDataFromFile(int startVariable)");
+        dm.whereIsWaldo(85, waldoFile, "getDataFromFile(int startVariable)");
         try {
             FileChooser fChoose = new FileChooser();
             fChoose.setTitle("Get Data");
@@ -118,7 +118,7 @@ public class File_Ops {
 
     
     private String parseAndRead(File fileName) {
-        //dm.whereIsWaldo(119, waldoFile, "parseAndRead(File fileName)");
+        dm.whereIsWaldo(122, waldoFile, "parseAndRead(File fileName)");
         fileParser = new CSV_FileParser(fileName, dm.getDelimiter());
         returnStatus = fileParser.parseTheFile();
         
@@ -143,7 +143,7 @@ public class File_Ops {
         for (int iRow = 0; iRow < nCasesInFile; iRow++) {           
             for (int jCol = 0; jCol < nVarsInFile; jCol++) {                
                 tracker.set_CurrentDS(jCol, iRow);  //  DS only b/c dataGrid doesn't exist yet
-                dm.setDataInStruct("149 fo", 
+                dm.setDataInStruct("147 file_Ops", 
                         jCol,
                         iRow,
                         fileParser.getDataElementColRow(jCol, iRow + 1));
@@ -162,9 +162,7 @@ public class File_Ops {
         
         tracker.set_CurrentDG_and_DS(0, 0);
         dm.setDataExists(true);
-        
-        //System.out.println("****  164 FileOps -- checking for unneeded variables ********");
-        
+
         for (int ithInitColumn = 0; ithInitColumn < nVarsInFile; ithInitColumn++) {
             dm.getAllTheColumns().get(ithInitColumn).determineDataType();
             boolean isNumeric = dm.getAllTheColumns().get(ithInitColumn).getIsNumeric();            
@@ -181,7 +179,6 @@ public class File_Ops {
             int ithCol_nCases = dm.getDataStruct().get(ithCol).getColumnSize();
             
             if (ithCol_nCases < sizeOfCol_0) {
-                //int sizeDiff = sizeOfCol_0 - ithCol_nCases;
                 dm.getDataStruct().get(ithCol).addUntilNCases(sizeOfCol_0);
             }            
         }
@@ -190,16 +187,11 @@ public class File_Ops {
     } // OpenData
 
     public void SaveData(Data_Manager dm, boolean getFileName) {
-        dm.whereIsWaldo(200, waldoFile, "SaveData(Data_Manager dm, boolean getFileName)");
+        dm.whereIsWaldo(191, waldoFile, "  *** SaveData(Data_Manager dm, boolean getFileName)");
         int i, j, currVars, currCases;
         
         if (tracker.getNVarsInStruct() == 0) {            
-            Alert noDataAlert = new Alert(AlertType.ERROR);
-            noDataAlert.setTitle("Looking for Mr. GoodData...");
-            noDataAlert.setHeaderText("Seeking but not finding...");
-            noDataAlert.setContentText("Not being critical or anything, but there"
-                                     + "\ndoes not appear to be any data to save.");
-            noDataAlert.showAndWait();
+            MyAlerts.showAintGotNoDataAlert(); 
             return;
         }
 
@@ -263,26 +255,23 @@ public class File_Ops {
             dm.setFileName(fileName);
             dm.setLastPath(fileName);
 
-        } catch (IOException e) { String str = toString();}           
+        } catch (IOException e) { String str = this.toString();}           
     } // SaveData
     
     public String PrintFile(Data_Manager dm) {
         printFile_Controller = new PrintFile_Controller(dm) ;
         returnStatus = printFile_Controller.doTheProcedure();
-        return returnStatus;
-        
+        return returnStatus;        
     }
 
     public void ExitProgram(Data_Manager dm) {
-        dm.whereIsWaldo(269, waldoFile, "ExitProgram(Data_Manager dm)");
-        Boolean exit = true;
+        dm.whereIsWaldo(269, waldoFile, "  *** ExitProgram(Data_Manager dm)");
+        boolean exit = true;
 
         if (!dm.getDataAreClean()) {           
-            MyDialogs newDiag = new MyDialogs();
-            String yesNo = newDiag.YesNo(1, "Exit Program?",
-                    "Your data have not been saved. \n"
-                    + "Do you wish to exit without saving?");
-            if (yesNo.equals("No")) { exit = false; }
+            myYesNoAlerts.showUnsavedDataAlert();
+            yesOrNo = myYesNoAlerts.getYesOrNo();
+            if (yesOrNo.equals("No")) { exit = false; }
         }
 
         if (exit) { System.exit(0); }

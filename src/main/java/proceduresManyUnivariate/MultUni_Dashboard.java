@@ -1,7 +1,7 @@
 /**************************************************
  *               MultUni_Dashboard                *
- *                    04/02/24                    *
- *                     09:00                      *
+ *                    09/03/24                    *
+ *                     00:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -48,7 +48,6 @@ public class MultUni_Dashboard extends Dashboard {
     
     // POJOs / FX
 
-
     Pane vertBoxPlotContainingPane, horizBoxPlotContainingPane, 
          circlePlotContainingPane,  meanAndBarsContainingPane, 
          dotPlotContainingPane, printReportContainingPane;
@@ -56,12 +55,11 @@ public class MultUni_Dashboard extends Dashboard {
     public MultUni_Dashboard(MultUni_Controller multUni_Controller, MultUni_Model multUni_Model) {
         super(6);
         dm = multUni_Controller.getDataManager();
-        dm.whereIsWaldo(59, waldoFile, "MultUni_Dashboard, constructing");
+        dm.whereIsWaldo(58, waldoFile, "\nMultUni_Dashboard, constructing");
         this.multUni_Model = multUni_Model;
         multUni_DotPlotModel = multUni_Controller.getMultUni_DotPlotModel();
         varDescr = multUni_Controller.getVarDescr();
         checkBoxDescr = new String[nCheckBoxes];
-        dm.whereIsWaldo(64, waldoFile, "MultUni_Dashboard, constructing");
         for (int ithCheckBox = 0; ithCheckBox < nCheckBoxes; ithCheckBox++) {
             checkBoxDescr[ithCheckBox] = anova1CheckBoxDescr[ithCheckBox];
             checkBoxes[ithCheckBox].setText(checkBoxDescr[ithCheckBox]);
@@ -76,7 +74,7 @@ public class MultUni_Dashboard extends Dashboard {
     }  
     
     public void putEmAllUp() { 
-        dm.whereIsWaldo(79, waldoFile, "MultUni_Dashboard, putEmAllUp()");
+        dm.whereIsWaldo(77, waldoFile, "MultUni_Dashboard, putEmAllUp()");
         if (checkBoxSettings[0] == true) {
             vertBoxPlotContainingPane.setVisible(true);
             verticalBoxPlot_View.doTheGraph();
@@ -113,7 +111,7 @@ public class MultUni_Dashboard extends Dashboard {
     }
     
     public void populateTheBackGround() {
-        dm.whereIsWaldo(116, waldoFile, "MultUni_Dashboard, populateTheBackGround()");
+        dm.whereIsWaldo(114, waldoFile, "MultUni_Dashboard, populateTheBackGround()");
         initWidth[0] = 625;    
         allTheQDVs = new ArrayList<>();
         allTheQDVs = multUni_Model.getAllQDVs();
@@ -121,32 +119,33 @@ public class MultUni_Dashboard extends Dashboard {
         verticalBoxPlot_View = new VerticalBoxPlot_View(verticalBoxPlot_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         verticalBoxPlot_View.completeTheDeal();
         vertBoxPlotContainingPane = verticalBoxPlot_View.getTheContainingPane(); 
-        dm.whereIsWaldo(124, waldoFile, "MultUni_Dashboard, populateTheBackGround()");
-        initWidth[1] = 625;    
-        initHeight[1] = 400.;
+        
+        initWidth[1] = 675;    
+        initHeight[1] = 450.;
         allTheQDVs = new ArrayList<>();
         allTheQDVs = multUni_Model.getAllQDVs();
         horizontalBoxPlot_Model = new HorizontalBoxPlot_Model(multUni_Model, allTheQDVs);
         horizontalBoxPlot_View = new HorizontalBoxPlot_View(horizontalBoxPlot_Model, this, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]);
         horizontalBoxPlot_View.completeTheDeal();
         horizBoxPlotContainingPane = horizontalBoxPlot_View.getTheContainingPane(); 
-        dm.whereIsWaldo(133, waldoFile, "MultUni_Dashboard, populateTheBackGround()");
+        
+        initWidth[2] = 625; 
         circlePlotView = new MultUni_CirclePlotView(multUni_Model, this, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
         circlePlotView.completeTheDeal();        
         circlePlotContainingPane = circlePlotView.getTheContainingPane();  
-        dm.whereIsWaldo(137, waldoFile, "MultUni_Dashboard, populateTheBackGround()");
+
         initWidth[3] = 650;
         meanAndBarsView = new MultUni_MeanAndErrorView(multUni_Model, this, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
         meanAndBarsView.completeTheDeal();
         meanAndBarsContainingPane = meanAndBarsView.getTheContainingPane();
-        dm.whereIsWaldo(142, waldoFile, "MultUni_Dashboard, populateTheBackGround()");        
-        initWidth[4] = 150. * nVariables;
+
+        initWidth[4] = 175. * nVariables;
         initHeight[4] = 400.;
         multUni_DotPlotView = new MultUni_DotPlotView(multUni_DotPlotModel, this, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
         multUni_DotPlotView.completeTheDeal();
         dotPlotContainingPane = multUni_DotPlotView.getTheContainingPane();
         multUni_DotPlotView.doTheGraph();
-        dm.whereIsWaldo(149, waldoFile, "MultUni_Dashboard, populateTheBackGround()");
+        
         // "Override
         initWidth[5] = 290. * nVariables;
         initHeight[5] = 625.;

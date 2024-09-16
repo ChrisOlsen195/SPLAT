@@ -1,7 +1,7 @@
 /**************************************************
  *                ANOVA1_Quant_View               *
- *                    02/10/24                    *
- *                      15:00                     *
+ *                    09/03/24                    *
+ *                      09:00                     *
  *************************************************/
 package anova1.quantitative;
 
@@ -43,8 +43,8 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
     String[] strCheckBoxDescriptions;
     
     // Make empty if no-print
-    String waldoFile = "ANOVA1_Quant_View";
-    //String waldoFile = "";
+    //String waldoFile = "ANOVA1_Quant_View";
+    String waldoFile = "";
     
     ObservableList<String> allTheLabels;
 
@@ -75,7 +75,7 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
                          double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
         dm = anova1_Quant_Model.getDataManager();
-        dm.whereIsWaldo(78, waldoFile, " *** Constructing...");        
+        dm.whereIsWaldo(78, waldoFile, " \nConstructing...");        
         allTheLabels = FXCollections.observableArrayList();
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -93,7 +93,7 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
     }
         
     public void completeTheDeal() { 
-        dm.whereIsWaldo(96, waldoFile, "completeTheDeal()");
+        dm.whereIsWaldo(96, waldoFile, "*** completeTheDeal()");
         initializeGraphParameters();
         makeTheCheckBoxes();    
         setUpAnchorPane();
@@ -104,7 +104,7 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
     
     public void initializeGraphParameters() {  
         double tempUpDown;
-        dm.whereIsWaldo(107, waldoFile, " *** initializeGraphParameters()");
+        dm.whereIsWaldo(107, waldoFile, "  *** initializeGraphParameters()");
         allTheQDVs = anova1_Quant_Model.getAllTheQDVs();
         nVariables = allTheQDVs.size() - 1;   //  Excluding 0
         means = new double[nVariables];
@@ -129,7 +129,6 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
         xDataMax = Double.MIN_VALUE;  
         
         for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
-            System.out.println("132ANOVA1_Quant_View, label = " + allTheQDVs.get(ithLevel).getTheVarLabel());
             double daValue = Double.parseDouble(allTheQDVs.get(ithLevel).getTheVarLabel());
             if (daValue < xDataMin) { xDataMin = daValue; }
             if (daValue > xDataMax) { xDataMax = daValue; }
@@ -173,7 +172,7 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
                 break;
 
                 default:
-                    String switchFailure = "Switch failure: ANOVA1 QuantView 176 " + whichView;
+                    String switchFailure = "Switch failure: ANOVA1 QuantView 175 " + whichView;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 break;
             }
@@ -204,7 +203,7 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
    
 
     public void setUpAnchorPane() {
-        dm.whereIsWaldo(207, waldoFile, " *** setUpAnchorPane()");
+        dm.whereIsWaldo(204, waldoFile, "  *** setUpAnchorPane()");
         dragableAnchorPane = new DragableAnchorPane();
         anova1_Quant_Canvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
         anova1_Quant_Canvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
@@ -247,7 +246,7 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
                 break;
                 
                 default:
-                    String switchFailure = "Switch failure: ANOVA1 QuantView 248  " + nCheckBoxes;
+                    String switchFailure = "Switch failure: ANOVA1 QuantView 249  " + nCheckBoxes;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 break;         
             }
@@ -266,7 +265,7 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
     public void doTheGraph() { }    //  Subclassed
     
     public void makeTheCheckBoxes() {  
-        dm.whereIsWaldo(269, waldoFile, "makeTheCheckBoxes()");
+        dm.whereIsWaldo(268, waldoFile, "  *** makeTheCheckBoxes()");
         checkBoxSettings = new boolean[nCheckBoxes];
         
         for (int ithSetting = 0; ithSetting < nCheckBoxes; ithSetting++) {
@@ -299,8 +298,8 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
                 CheckBox tb = ((CheckBox) e.getTarget());                
                 String daID = tb.getId();
                 Boolean checkValue = tb.selectedProperty().getValue();
-                // Reset selected color
                 
+                // Reset selected color
                 if (checkValue == true) {
                     tb.setTextFill(Color.GREEN); }
                 else { tb.setTextFill(Color.RED); }

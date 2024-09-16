@@ -68,10 +68,10 @@ public class Epi_Model {
         strLeftVariable =  al_ColumnsOfData.get(1).getVarLabel();
 
         catUCDOExposures = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(1));
-        strUniqueExposures = catUCDOExposures.getUniqueCategories();    
+        strUniqueExposures = catUCDOExposures.getCategories();    
 
         catUCDO_Outcomes = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(0));
-        strUniqueOutcomes = catUCDO_Outcomes.getUniqueCategories();
+        strUniqueOutcomes = catUCDO_Outcomes.getCategories();
 
         cleanReturn = "NO";
          do {
