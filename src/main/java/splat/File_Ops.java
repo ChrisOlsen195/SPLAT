@@ -35,8 +35,8 @@ public class File_Ops {
     String returnStatus, yesOrNo;
     
     //  Make empty if no-print
-    //String waldoFile = "File_Ops";
-    String waldoFile = "";
+    String waldoFile = "File_Ops";
+    //String waldoFile = "";
     
     // My classes
     CSV_FileParser fileParser;
@@ -267,8 +267,8 @@ public class File_Ops {
     public void ExitProgram(Data_Manager dm) {
         dm.whereIsWaldo(269, waldoFile, "  *** ExitProgram(Data_Manager dm)");
         boolean exit = true;
-
-        if (!dm.getDataAreClean()) {           
+        System.out.println("269 File_Ops, dataAreClean = " + dm.getDataAreClean());
+        if (dm.getDataExists()) {           
             myYesNoAlerts.showUnsavedDataAlert();
             yesOrNo = myYesNoAlerts.getYesOrNo();
             if (yesOrNo.equals("No")) { exit = false; }

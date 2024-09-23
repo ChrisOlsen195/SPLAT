@@ -5,7 +5,7 @@
  *************************************************/
 package the_t_procedures;
 
-import dialogs.t_and_z.Ind_t_SumStats_Dialog;
+import dialogs.t_and_z.Indep_t_SumStats_Dialog;
 import java.util.ArrayList;
 import theRProbDists.*;
 import utilityClasses.MyAlerts;
@@ -37,12 +37,12 @@ public class Indep_t_SumStats_Model {
     ArrayList<String> sumStatsIndTReport;
 
     Indep_t_Controller indep_t_Controller;
-    Ind_t_SumStats_Dialog twoMeansDialog;
+    Indep_t_SumStats_Dialog twoMeansDialog;
     
     T_double_df tDist_Pooled, tDist_Mean1, tDist_Mean2, theTParty;
     
     public Indep_t_SumStats_Model (Indep_t_Controller indep_t_Controller, 
-                                       Ind_t_SumStats_Dialog twoMeansDialog) {
+                                       Indep_t_SumStats_Dialog twoMeansDialog) {
         this.indep_t_Controller = indep_t_Controller;
         //System.out.println("47 Indep_t_SumStats_Model, Constructing);       
         this.twoMeansDialog = twoMeansDialog;

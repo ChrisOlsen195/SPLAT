@@ -1,5 +1,5 @@
 /************************************************************
- *                     Ind_t_SumStats_Dialog                *
+ *                    Indep_t_SumStats_Dialog               *
  *                          06/15/24                        *
  *                            12:00                         *
  ***********************************************************/
@@ -28,7 +28,7 @@ import smarttextfield.*;
 import javafx.stage.WindowEvent;
 import utilityClasses.MyAlerts;
 
-public class Ind_t_SumStats_Dialog extends Stage { 
+public class Indep_t_SumStats_Dialog extends Stage { 
     
     // POJOs
     boolean okToContinue, valuesLeftBlank;
@@ -89,7 +89,7 @@ public class Ind_t_SumStats_Dialog extends Stage {
     Text txt_Group1_Title, txt_Group1_SumInfo, txt_OROne, txt_Group1_N,
          txt_Group2_Title, txt_Group2_SumInfo, txt_ORTwo, txt_Group2_N;
     
-    public Ind_t_SumStats_Dialog() {;
+    public Indep_t_SumStats_Dialog() {;
         //System.out.println("93 Ind_t_SumStats_Dialog, constructing");
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         // theCILevs = new double[] {0.90, 0.95, 0.99};

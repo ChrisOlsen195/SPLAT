@@ -1,7 +1,7 @@
 /************************************************************
  *                       Splat_MainMenu                     *
- *                          09/11/24                        *
- *                            00:00                         *
+ *                          09/21/24                        *
+ *                            21:00                         *
  ***********************************************************/
 package splat;
 
@@ -55,8 +55,9 @@ import epidemiologyProcedures.Epi_Controller;
 
 public class MainMenu extends MenuBar {
     //  POJOs
+    boolean dataExists;
     
-    String procedure, returnStatus;
+    String procedure, strReturnStatus;
     final String ESCAPE = "ESCAPE";
     final String EXPERIMENT = "EXPERIMENT";
     final String GOF = "GOF";
@@ -134,6 +135,7 @@ public class MainMenu extends MenuBar {
         
         Menu exploreBivariateData = new Menu("Bivariate data");
         MenuItem noInf_Regression = new MenuItem("Linear regression");
+        MenuItem regression_Compare = new MenuItem("Compare regressions");
         MenuItem noInterceptSimpleRegression = new MenuItem("One parameter linear regression");
         MenuItem quadraticRegression = new MenuItem("Quadratic regression");
         MenuItem noInterceptQuadraticRegression = new MenuItem("One parameter  quadratic regression");
@@ -151,6 +153,7 @@ public class MainMenu extends MenuBar {
                                         epidemiology_FileData);              
         
         exploreBivariateData.getItems().addAll(noInf_Regression,
+                                            regression_Compare,
                                             noInterceptSimpleRegression,
                                             quadraticRegression,
                                             noInterceptQuadraticRegression,
@@ -265,7 +268,7 @@ public class MainMenu extends MenuBar {
             boolean yikesException = false;
             myFileOps.ClearTable();
             try {
-                returnStatus = myFileOps.getDataFromFile(0);
+                strReturnStatus = myFileOps.getDataFromFile(0);
             }
             catch(Exception ex) {
                dm.whereIsWaldo(271, waldoFile, "catch(Exception ex)");
@@ -320,7 +323,7 @@ public class MainMenu extends MenuBar {
         // *                    Edit Menu                               *
         // **************************************************************        
         insertRow.setOnAction((ActionEvent event) -> {
-            if (checkForExistenceOfData())  {
+            if (getDataExists())  {
                 dm.whereIsWaldo(324, waldoFile, "insertRow.setOnAction((ActionEvent event)");
                 myEditOps.insertRow();
             }
@@ -328,14 +331,14 @@ public class MainMenu extends MenuBar {
 
         //  This is not implemented!!!
         deleteRow.setOnAction((ActionEvent event) -> {
-            if (checkForExistenceOfData())  {
+            if (getDataExists())  {
                 dm.whereIsWaldo(332, waldoFile, "deleteRow.setOnAction((ActionEvent event)");
                 myEditOps.deleteRow();
             }
         });
         
         insertCol.setOnAction((ActionEvent event) -> {
-            if (checkForExistenceOfData())  {
+            if (getDataExists())  {
                 dm.whereIsWaldo(339, waldoFile, "insertCol.setOnAction((ActionEvent event)");
                 myEditOps.insertColumn();
             }
@@ -343,13 +346,13 @@ public class MainMenu extends MenuBar {
 
         
         deleteColumn.setOnAction((ActionEvent event) -> {
-            if (checkForExistenceOfData())  {
+            if (getDataExists())  {
                 myEditOps.deleteColumn();
             }
         });
         
         cleanColData.setOnAction((ActionEvent event) -> {
-            if (checkForExistenceOfData())  {
+            if (getDataExists())  {
                 myEditOps.cleanDataInColumn();
             }
         });
@@ -395,29 +398,39 @@ public class MainMenu extends MenuBar {
         // **************************************************************
         // *                  Data Exploration                          *
         // **************************************************************        
-        aUnivQuantVariable.setOnAction((ActionEvent event) -> {
-            Univ_Quant_Controller explorationController = new Univ_Quant_Controller(dm, "Quantitative");
-            returnStatus = explorationController.doTheQuantitativeProcedure();
+        aUnivQuantVariable.setOnAction((ActionEvent event) -> {  
+            if (getDataExists()) {
+                Univ_Quant_Controller explorationController = new Univ_Quant_Controller(dm, "Quantitative");
+                strReturnStatus = explorationController.doTheQuantitativeProcedure();
+            }
         });
         
         aUnivCategoricalVariable.setOnAction((ActionEvent event) -> {
-            UnivCat_Controller univ_CatController = new UnivCat_Controller(dm);
-            returnStatus = univ_CatController.doUnivCat_FromFileData(dm);
+            if (getDataExists()) {
+                UnivCat_Controller univ_CatController = new UnivCat_Controller(dm);
+                strReturnStatus = univ_CatController.doUnivCat_FromFileData(dm);
+            }
         });
         
         compareTwoDistributions.setOnAction((ActionEvent event) -> {
-            Explore_2Ind_Controller twoInd_Controller = new Explore_2Ind_Controller(dm);
-            twoInd_Controller.chooseTheStructureOfData();
+            if (getDataExists()) {
+                Explore_2Ind_Controller twoInd_Controller = new Explore_2Ind_Controller(dm);
+                twoInd_Controller.chooseTheStructureOfData();
+            }
         });
 
-        compareManyDistributions.setOnAction((ActionEvent event) -> {
-            MultUni_Controller multUni_Controller = new MultUni_Controller(dm);
-            multUni_Controller.doStackedOrNot();
+        compareManyDistributions.setOnAction((ActionEvent event) -> {        
+            if (getDataExists()) {
+                MultUni_Controller multUni_Controller = new MultUni_Controller(dm);
+                multUni_Controller.doStackedOrNot();
+            }
         });
         
-        noInf_Regression.setOnAction((ActionEvent event) -> {
-                NoInf_Regression_Controller noInf_RegrController = new NoInf_Regression_Controller(dm);
-                returnStatus = noInf_RegrController.doTheProcedure();
+        noInf_Regression.setOnAction((ActionEvent event) -> {             
+                if (getDataExists()) {
+                    NoInf_Regression_Controller noInf_RegrController = new NoInf_Regression_Controller(dm);
+                    strReturnStatus = noInf_RegrController.doTheProcedure();
+                }
         });
         
         // **************************************************************
@@ -428,7 +441,7 @@ public class MainMenu extends MenuBar {
             if (randomAssignmentController.getReturnStatus().equals("OK")) {
                 randomAssignmentController.doTheProcedure();
             }
-            returnStatus = randomAssignmentController.getReturnStatus();
+            strReturnStatus = randomAssignmentController.getReturnStatus();
         }); 
 
         randomAssignmentRBD.setOnAction((ActionEvent event) -> {
@@ -436,27 +449,27 @@ public class MainMenu extends MenuBar {
             if (randomAssignmentController.getReturnStatus().equals("OK")) {
                 randomAssignmentController.doTheProcedure();
             }
-            returnStatus = randomAssignmentController.getReturnStatus();
+            strReturnStatus = randomAssignmentController.getReturnStatus();
         });         
         
         powerSingleMean.setOnAction((ActionEvent event) -> {
             OneMean_Power_Controller power_SingleMean_Controller = new OneMean_Power_Controller();
-            returnStatus = power_SingleMean_Controller.ShowNWait();
+            strReturnStatus = power_SingleMean_Controller.ShowNWait();
         });     
         
         powerSingleProp.setOnAction((ActionEvent event) -> {
             OneProp_Power_Controller power_SingleProp_Controller = new OneProp_Power_Controller();
-            returnStatus = power_SingleProp_Controller.ShowNWait();
+            strReturnStatus = power_SingleProp_Controller.ShowNWait();
         }); 
         
         powerTwoMeans.setOnAction((ActionEvent event) -> {
             IndepMeans_Power_Controller power_TwoMeans_Controller = new IndepMeans_Power_Controller();
-            returnStatus = power_TwoMeans_Controller.ShowNWait();
+            strReturnStatus = power_TwoMeans_Controller.ShowNWait();
         }); 
         
         powerTwoProps.setOnAction((ActionEvent event) -> {
             IndepProps_Power_Controller power_TwoMeans_Controller = new IndepProps_Power_Controller();
-            returnStatus = power_TwoMeans_Controller.ShowNWait();
+            strReturnStatus = power_TwoMeans_Controller.ShowNWait();
         }); 
         
         // **************************************************************
@@ -464,7 +477,7 @@ public class MainMenu extends MenuBar {
         // **************************************************************        
         probDistCalculations.setOnAction((ActionEvent event) -> {
             ProbCalc_Controller probCalc_Controller = new ProbCalc_Controller();
-            returnStatus = probCalc_Controller.doTheProcedure();
+            strReturnStatus = probCalc_Controller.doTheProcedure();
         });    
          
         probVenn.setOnAction((ActionEvent event) -> {
@@ -508,18 +521,18 @@ public class MainMenu extends MenuBar {
         // **************************************************************        
         singleMean.setOnAction((ActionEvent event) -> {
             Single_t_Controller singleT_Controller = new Single_t_Controller(dm);
-            returnStatus = singleT_Controller.chooseDataOrSummary();
+            strReturnStatus = singleT_Controller.chooseDataOrSummary();
         });
         
         // ******          Independent t procedure          ******
         independentMeans.setOnAction((ActionEvent event) -> {
             Indep_t_Controller indT_Controller = new Indep_t_Controller(dm);
-            returnStatus = indT_Controller.chooseTheStructureOfData();
+            strReturnStatus = indT_Controller.chooseTheStructureOfData();
         });
 
         pairedMean.setOnAction((ActionEvent event) -> {
             Matched_t_Controller matchedT_Controller = new Matched_t_Controller(dm);
-            returnStatus = matchedT_Controller.prepColumnsFromNonStacked();
+            strReturnStatus = matchedT_Controller.prepColumnsFromNonStacked();
         });
         
         // **************************************************************
@@ -528,80 +541,109 @@ public class MainMenu extends MenuBar {
         anova_Cat_Data.setOnAction((ActionEvent event) -> {
             ANOVA1_Cat_Controller anova1_Cat_Controller = new ANOVA1_Cat_Controller(dm);
             anova1_Cat_Controller.doStackedOrNot();
-            returnStatus = anova1_Cat_Controller.getReturnStatus(); 
+            strReturnStatus = anova1_Cat_Controller.getReturnStatus(); 
         });
         
         anova_Quant_Data.setOnAction((ActionEvent event) -> {
             ANOVA1_Quant_Controller anova1_Quant_Controller = new ANOVA1_Quant_Controller(dm);
             anova1_Quant_Controller.doStackedOrNot();
-            returnStatus = anova1_Quant_Controller.getReturnStatus(); 
+            strReturnStatus = anova1_Quant_Controller.getReturnStatus(); 
         });
         
         // **************************************************************
         // *              Two way Analysis of Variance                  *
         // **************************************************************
         runCR2anova.setOnAction((ActionEvent event) -> {
-            ANOVA2_RCB_Controller anova2_Controller = new ANOVA2_RCB_Controller(dm, "Factorial");
-            returnStatus = anova2_Controller.doTheANOVA2();
+            if (getDataExists()) {
+                ANOVA2_RCB_Controller anova2_RCB_Controller = new ANOVA2_RCB_Controller(dm, "Factorial");
+                strReturnStatus = anova2_RCB_Controller.doTheANOVA2();
+            }
         });
 
         //              Randomized Block
         runRCBanova.setOnAction((ActionEvent event) -> {
-            ANOVA2_RCB_Controller anova2_Controller = new ANOVA2_RCB_Controller(dm, "RCB");
-            returnStatus = anova2_Controller.doTheANOVA2();
+            if (getDataExists()) {
+                ANOVA2_RCB_Controller anova2_Controller = new ANOVA2_RCB_Controller(dm, "RCB");
+                strReturnStatus = anova2_Controller.doTheANOVA2();
+            }
         });
         
         //             Analysis of Covariance
-        analysisOfCovariance.setOnAction((ActionEvent event) -> {
-            ANCOVA_Controller ancova_Controller = new ANCOVA_Controller(dm);
-            returnStatus = ancova_Controller.doTheANCOVA();
+        analysisOfCovariance.setOnAction((ActionEvent event) -> {         
+            if (getDataExists()) {
+                ANCOVA_Controller ancova_Controller = new ANCOVA_Controller(dm);
+                strReturnStatus = ancova_Controller.doTheANCOVA();
+            }
         });
         
         //              Repeated Measures
         runRManova.setOnAction((ActionEvent event) -> {
-            ANOVA2_RM_Controller anova2_RM_Controller = new ANOVA2_RM_Controller(dm);
-            boolean fileStructIsOK = anova2_RM_Controller.getFileStructureIsOK();
-            if (fileStructIsOK) {
-                returnStatus = anova2_RM_Controller.doTheANOVA2();
+            if (getDataExists()) {
+                ANOVA2_RM_Controller anova2_RM_Controller = new ANOVA2_RM_Controller(dm);
+                boolean fileStructIsOK = anova2_RM_Controller.getFileStructureIsOK();
+                if (fileStructIsOK) {
+                    strReturnStatus = anova2_RM_Controller.doTheANOVA2();
+                }
             }
         });
         
         // **************************************************************
         // *                   Regression                               *
         // **************************************************************       
-        simpleLinearRegression.setOnAction((ActionEvent event) -> {
+        simpleLinearRegression.setOnAction((ActionEvent event) -> { 
+            if (getDataExists()) {
                 Inf_Regression_Controller simpleRegr_Controller = new Inf_Regression_Controller(dm);
-                returnStatus = simpleRegr_Controller.doTheProcedure();
+                strReturnStatus = simpleRegr_Controller.doTheProcedure();
+            }
+        });
+        
+        regression_Compare.setOnAction((ActionEvent event) -> {
+            if (getDataExists()) {
+                Regr_Compare_Controller regr_Compare_Controller = new Regr_Compare_Controller(dm);
+                strReturnStatus = regr_Compare_Controller.doTheRegr_Compare();
+            }
         });
         
         noInterceptSimpleRegression.setOnAction((ActionEvent event) -> {
+            if (getDataExists()) {
                 NoIntercept_Regr_Controller noInt_RegrProc = new NoIntercept_Regr_Controller(dm);
-                returnStatus = noInt_RegrProc.doTheProcedure();
+                strReturnStatus = noInt_RegrProc.doTheProcedure();
+            }
         });
         
         quadraticRegression.setOnAction((ActionEvent event) -> {
+            if (getDataExists()) {
                 QuadReg_Controller quadRegrProc = new QuadReg_Controller (dm);
-                returnStatus = quadRegrProc.doTheProcedure();
+                strReturnStatus = quadRegrProc.doTheProcedure();
+            }
         });
         
         noInterceptQuadraticRegression.setOnAction((ActionEvent event) -> {
+            if (getDataExists()) {
                 OneParam_QuadReg_Controller noInt_QuadProc = new OneParam_QuadReg_Controller(dm);
-                returnStatus = noInt_QuadProc.doTheProcedure();
+                strReturnStatus = noInt_QuadProc.doTheProcedure();
+            }
         });
         
         multLinRegression.setOnAction((ActionEvent event) -> {
-            MultReg_Controller multRegProc = new MultReg_Controller(dm);
-            returnStatus = multRegProc.doTheProcedure();
+            if (getDataExists()) {
+                MultReg_Controller multRegProc = new MultReg_Controller(dm);
+                strReturnStatus = multRegProc.doTheProcedure();
+            }
         });
 
         logisticRegression.setOnAction((ActionEvent event) -> {
-            Logistic_Controller logisticController = new Logistic_Controller(dm);
-            returnStatus = logisticController.doTheProcedure();
+            if (getDataExists()) {
+                Logistic_Controller logisticController = new Logistic_Controller(dm);
+                strReturnStatus = logisticController.doTheProcedure();
+            }
         });
         
         multipleLogisticRegression.setOnAction((ActionEvent event) -> {
-            MLR_Controller multLogisticReg_Proc = new MLR_Controller(dm);
-            returnStatus = multLogisticReg_Proc.doTheProcedure();
+            if (getDataExists()) {
+                MLR_Controller multLogisticReg_Proc = new MLR_Controller(dm);
+                strReturnStatus = multLogisticReg_Proc.doTheProcedure();
+            }
         });
                 
         // **************************************************************
@@ -614,8 +656,10 @@ public class MainMenu extends MenuBar {
         });
 
         epidemiology_FileData.setOnAction((ActionEvent event) -> { 
-            Epi_Controller epi_Controller = new Epi_Controller(dm, "Epidemiology");
-            epi_Controller.doEpidemiology_FromFile(dm);
+            if (getDataExists()) {
+                Epi_Controller epi_Controller = new Epi_Controller(dm, "Epidemiology");
+                epi_Controller.doEpidemiology_FromFile(dm);
+            }
         });                
                 
         bivCatRawCounts.setOnAction((ActionEvent event) -> {
@@ -624,8 +668,10 @@ public class MainMenu extends MenuBar {
         });
 
         bivCatFileData.setOnAction((ActionEvent event) -> {
-            BivCat_Controller bivCat_Controller = new BivCat_Controller(dm, "Standard");
-            bivCat_Controller.doAssoc_FromFile(dm);
+            if (getDataExists()) {
+                BivCat_Controller bivCat_Controller = new BivCat_Controller(dm, "Standard");
+                bivCat_Controller.doAssoc_FromFile(dm);
+            }
         });
         
         // **************************************************************
@@ -638,7 +684,7 @@ public class MainMenu extends MenuBar {
             switch(procedure) {
                 case GOF: 
                     X2GOF_Controller x2GOF_Controller = new X2GOF_Controller(); 
-                    returnStatus = x2GOF_Controller.doGOF_ByHand();
+                    strReturnStatus = x2GOF_Controller.doGOF_ByHand();
                     break; 
  
                 case EXPERIMENT: 
@@ -656,25 +702,27 @@ public class MainMenu extends MenuBar {
         });
 
         chiSquareFileData.setOnAction((ActionEvent event) -> {
-            X2_Menu x2Menu = new X2_Menu();
-            x2Menu.chooseProcedure();
-            procedure = x2Menu.getChosenProcedure();
-            switch(procedure) {
-                case GOF: 
-                    X2GOF_Controller x2GOF_Controller = new X2GOF_Controller(); 
-                    x2GOF_Controller.doGOF_FromFileData(dm);
-                    break;     
-     
-                case EXPERIMENT: 
-                case HOMOGENEITY: 
-                case INDEPENDENCE: 
-                    X2Assoc_Controller x2Assoc_Proc = new X2Assoc_Controller(dm, procedure);
-                    x2Assoc_Proc.doAssoc_FromFile(dm);
-                    break;
-                case ESCAPE: break;
-                default:
-                    String switchFailure = "Switch failure: MainMenu.chiSquareFileData, 676";
-                    MyAlerts.showUnexpectedErrorAlert(switchFailure);
+            if (getDataExists()) {
+                X2_Menu x2Menu = new X2_Menu();
+                x2Menu.chooseProcedure();
+                procedure = x2Menu.getChosenProcedure();
+                switch(procedure) {
+                    case GOF: 
+                        X2GOF_Controller x2GOF_Controller = new X2GOF_Controller(); 
+                        x2GOF_Controller.doGOF_FromFileData(dm);
+                        break;     
+
+                    case EXPERIMENT: 
+                    case HOMOGENEITY: 
+                    case INDEPENDENCE: 
+                        X2Assoc_Controller x2Assoc_Proc = new X2Assoc_Controller(dm, procedure);
+                        x2Assoc_Proc.doAssoc_FromFile(dm);
+                        break;
+                    case ESCAPE: break;
+                    default:
+                        String switchFailure = "Switch failure: MainMenu.chiSquareFileData, 676";
+                        MyAlerts.showUnexpectedErrorAlert(switchFailure);
+                }
             }
         });
         
@@ -683,10 +731,12 @@ public class MainMenu extends MenuBar {
         // **************************************************************
         
         bootOneVar.setOnAction((ActionEvent event) -> {
-            String whichBoot = "ChooseUnivStat";
-            ChooseStats_Controller boot_Controller = new ChooseStats_Controller(dm, whichBoot);
-            boot_Controller.doTheControllerThing();
-            returnStatus = boot_Controller.getReturnStatus();  
+            if (getDataExists()) {
+                String whichBoot = "ChooseUnivStat";
+                ChooseStats_Controller boot_Controller = new ChooseStats_Controller(dm, whichBoot);
+                boot_Controller.doTheControllerThing();
+                strReturnStatus = boot_Controller.getReturnStatus(); 
+            }
         });
         
         // **************************************************************
@@ -695,29 +745,26 @@ public class MainMenu extends MenuBar {
         singleProportion.setOnAction((ActionEvent event) -> {
             OneProp_Inf_Controller oneProp_Inf_Controller = new OneProp_Inf_Controller(/* dm */);
             oneProp_Inf_Controller.doTheControllerThing();
-            returnStatus = oneProp_Inf_Controller.getReturnStatus();
+            strReturnStatus = oneProp_Inf_Controller.getReturnStatus();
         });
 
         differenceInProportions.setOnAction((ActionEvent event) -> {
             TwoProp_Inf_Controller twoProp_Inf_Controller = new TwoProp_Inf_Controller();
             twoProp_Inf_Controller.doTheControllerThing();
-            returnStatus = twoProp_Inf_Controller.getReturnStatus();
+            strReturnStatus = twoProp_Inf_Controller.getReturnStatus();
         });
     } // End constructor
     
     public Data_Manager getDataManager() { return dm; }
-    
-    public boolean checkForExistenceOfData() {
-        int casesInStruct = dm.getNCasesInStruct();
 
-        if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert();
-            return false;
-        }
-        return true;
-    }
-    
     public void setFileLabel(String toThis) { fileLabel.setText("File: " + toThis); }
+    
+    private boolean getDataExists() { 
+        dataExists = dm.getDataExists();
+        if (!dataExists) {
+            MyAlerts.showAintGotNoDataAlert();
+        }
+        return dataExists; }
     
     public String toString() { // new Exception().printStackTrace();
         // new Exception().printStackTrace(); 

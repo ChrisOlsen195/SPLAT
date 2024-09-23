@@ -5,13 +5,13 @@
  *************************************************/
 package the_t_procedures;
 
-import dialogs.t_and_z.Ind_t_Stacked_Dialog;
+import dialogs.t_and_z.Indep_t_Stacked_Dialog;
 import dialogs.t_and_z.Indep_t_Dialog;
 import dataObjects.CatQuantDataVariable;
 import dataObjects.ColumnOfData;
 import dataObjects.QuantitativeDataVariable;
 import dialogs.t_and_z.DataStructChoice_Dialog_t_Indep_Means;
-import dialogs.t_and_z.Ind_t_SumStats_Dialog;
+import dialogs.t_and_z.Indep_t_SumStats_Dialog;
 import java.util.ArrayList;
 import splat.*;
 import utilityClasses.*;
@@ -36,7 +36,7 @@ public class Indep_t_Controller {
     Data_Manager dm;
     
     Indep_t_SumStats_Model indep_t_SumStats_Model; 
-    Ind_t_SumStats_Dialog ind_t_SummaryStats_Dialog;
+    Indep_t_SumStats_Dialog ind_t_SummaryStats_Dialog;
     Indep_t_SumStats_Dashboard indep_t_SumStats_Dashboard;
     
     // ******  Constructor called from Main Menu  ******
@@ -77,7 +77,7 @@ public class Indep_t_Controller {
         
         MyAlerts.showNeedToUnstackAlert();
         
-        Ind_t_Stacked_Dialog ind_t_Stacked_Dialog = new Ind_t_Stacked_Dialog( dm );
+        Indep_t_Stacked_Dialog ind_t_Stacked_Dialog = new Indep_t_Stacked_Dialog( dm );
         ind_t_Stacked_Dialog.showAndWait();
         
         if (ind_t_Stacked_Dialog.getReturnStatus().equals("OK")) {
@@ -151,7 +151,7 @@ public class Indep_t_Controller {
         
         while (doItAgain.equals("Yes")) {
             returnStatus = "Cancel";
-            ind_t_SummaryStats_Dialog = new Ind_t_SumStats_Dialog();
+            ind_t_SummaryStats_Dialog = new Indep_t_SumStats_Dialog();
             returnStatus = ind_t_SummaryStats_Dialog.getReturnStatus();
  
             indep_t_SumStats_Model = new Indep_t_SumStats_Model(this, ind_t_SummaryStats_Dialog);

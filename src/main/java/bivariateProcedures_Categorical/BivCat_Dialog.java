@@ -1,7 +1,7 @@
 /************************************************************
  *                       BivCat_Dialog                      *
- *                          08/19/24                        *
- *                            00:00                         *
+ *                          09/21/24                        *
+ *                            18:00                         *
  ***********************************************************/
 package bivariateProcedures_Categorical;
 
@@ -26,10 +26,7 @@ public class BivCat_Dialog extends Two_Variables_Dialog{
                 lblSecondVar.setText("'Exposure' Variable:");            
             }
         }
-        //System.out.println("21 BivCatAssocDialog, lblFirst/Sec = " + lblFirstVar.getText()
-        //                                                           + " / " 
-        //                                                           + lblSecondVar.getText()
-        // );
+
         setTitle("Categorical Association");
     }  
 }

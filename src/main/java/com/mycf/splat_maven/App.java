@@ -12,9 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import splat.Data_Manager;
 import splat.Splash_Screen;
 import splat.MainMenu;
+import utilityClasses.*;
 
 public class App extends Application {
 
@@ -55,9 +57,8 @@ public class App extends Application {
         primaryStage.setResizable(true);
         primaryStage.centerOnScreen();
         primaryStage.show();
-        
-        mainScene.widthProperty().addListener((obs, oldVal, newVal) -> {
 
+        mainScene.widthProperty().addListener((obs, oldVal, newVal) -> {
             dm.getMainPane().setPrefWidth((double)newVal);          
             int newMaxColumnCount = (int)((double)newVal / 100);
             dm.setMaxVisVars(newMaxColumnCount);
@@ -67,11 +68,8 @@ public class App extends Application {
         });
 
         mainScene.heightProperty().addListener((obs, oldVal, newVal) -> {
-
-            dm.getMainPane().setPrefHeight((double)newVal - 32);
-            
-            int newMaxRowCount = (int)((double)newVal / 31);
-            
+            dm.getMainPane().setPrefHeight((double)newVal - 32);            
+            int newMaxRowCount = (int)((double)newVal / 31);            
             dm.resizeRowHeaderCellsArray(newMaxRowCount);
             dm.setMaxVisCases(newMaxRowCount);
             dm.resizeGrid(newMaxRowCount, dm.getMaxVisVars());

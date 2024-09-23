@@ -13,8 +13,8 @@ public class UnivCat_Controller {
     // POJOs
     String returnStatus;   
     
-    String waldoFile = "UnivCat_Controller";
-    //String waldoFile = "";  
+    //String waldoFile = "UnivCat_Controller";
+    String waldoFile = "";  
     
     // My classes
     private ColumnOfData columnOfData;
@@ -26,7 +26,7 @@ public class UnivCat_Controller {
 
     public UnivCat_Controller(Data_Manager dm) {
         this.dm = dm;
-        dm.whereIsWaldo(29, waldoFile, "UnivCat_Controller, constructing");
+        dm.whereIsWaldo(29, waldoFile, "\nUnivCat_Controller, Constructing");
     }
     
     public String doUnivCat_FromFileData(Data_Manager dm) {

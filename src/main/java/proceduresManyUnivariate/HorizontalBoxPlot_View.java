@@ -1,7 +1,7 @@
 /**************************************************
  *             HorizontalBoxPlot_View             *
- *                   04/02/24                     *
- *                     09:00                      *
+ *                   09/18/24                     *
+ *                     00:00                      *
  *************************************************/
 /**************************************************
  *  Checked against PSO / 6th ed, p171, 08/13/23  *
@@ -45,6 +45,7 @@ import javafx.scene.text.Text;
 import proceduresOneUnivariate.Exploration_Dashboard;
 
 import proceduresTwoUnivariate.*;
+import simpleRegression.Regr_Compare_Dashboard;
 import utilityClasses.MyAlerts;
 
 public class HorizontalBoxPlot_View extends Region { 
@@ -184,6 +185,19 @@ public class HorizontalBoxPlot_View extends Region {
     }
     
     public HorizontalBoxPlot_View(HorizontalBoxPlot_Model hBoxModel, ANCOVA_Dashboard ancova_Dashboard,
+                        double placeHoriz, double placeVert,
+                        double withThisWidth, double withThisHeight) {
+        if (printTheStuff == true) {
+            System.out.println("190 *** HorizontalBoxPlot_View, constructing");
+        }
+        initHoriz = placeHoriz; initVert = placeVert;
+        initWidth = withThisWidth; initHeight = withThisHeight; 
+        this.hBoxModel = hBoxModel; 
+        categoryLabels = hBoxModel.getCategoryLabels();
+        initStuff();
+    }
+    
+    public HorizontalBoxPlot_View(HorizontalBoxPlot_Model hBoxModel, Regr_Compare_Dashboard ancova_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {

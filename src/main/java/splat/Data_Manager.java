@@ -1,7 +1,7 @@
 /************************************************************
  *                        Data_Manager                      *
- *                          04/02/24                        *
- *                            06:00                         *
+ *                          09/21/24                        *
+ *                            18:00                         *
  ***********************************************************/
 package splat;
 
@@ -877,6 +877,15 @@ public final class Data_Manager {
     public Data_Grid getTheGrid() { return dataGrid; }    
     public MainMenu getMainMenu() { return mainMenu; };
     public void setMainMenu(MainMenu mainMenu) { this.mainMenu = mainMenu; }
+    
+    public boolean getDataExists() {
+        dataExists = true;
+        if (getNCasesInStruct() == 0) {
+            dataExists = false;
+        }
+        return dataExists;
+    }
+            
     
     // For diagnostic purposes only!!!    
     public void whereIsWaldo(int waldoLine, String waldoFile, String waldoWhere) {  

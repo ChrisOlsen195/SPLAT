@@ -1,7 +1,7 @@
 /************************************************************
  *                 NoInf_Regression_Controller              *
- *                          11/18/23                        *
- *                            15:00                         *
+ *                          09/21/24                        *
+ *                            21:00                         *
  ***********************************************************/
 package simpleRegression;
 
@@ -43,12 +43,12 @@ public class NoInf_Regression_Controller {
     public String doTheProcedure() {
         try {
             int casesInStruct = dm.getNCasesInStruct();
-            
+            /*
             if (casesInStruct == 0) {
                 MyAlerts.showAintGotNoDataAlert();
                 return "Cancel";
             }
-
+            */
             if (casesInStruct > 2000) {
                 MyAlerts.showLongTimeComingWarning();
             }            

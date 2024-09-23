@@ -1,6 +1,6 @@
 /**************************************************
  *             Explore_2Ind_Controller            *
- *                    02/07/24                    *
+ *                    09/21/24                    *
  *                     18:00                      *
  *************************************************/
 package proceduresTwoUnivariate;
@@ -127,12 +127,13 @@ public class Explore_2Ind_Controller {
         }
         
         int nColumnsOfData = explore_2Ind_NS_Dialog.getNLevels();
+        /*
         if (nColumnsOfData == 0) { 
             goodToGo = false;
             returnStatus = "Cancel";            
             return goodToGo; 
         }
-        
+        */
         // else...
         explore_2Ind_ColsOfData = explore_2Ind_NS_Dialog.getData();
         // Stack the columns into one column for the BBSL procedure

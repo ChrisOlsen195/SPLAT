@@ -1,7 +1,7 @@
 /**************************************************
  *                  NormProb_View                 *
- *                    02/06/24                    *
- *                      12:00                     *
+ *                    09/18/24                    *
+ *                      03:00                     *
  *************************************************/
 package proceduresOneUnivariate;
 
@@ -34,6 +34,8 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.KeyCode;
+import simpleRegression.Regr_Compare_Dashboard;
+import simpleRegression.Regr_Compare_Model;
 import the_t_procedures.Matched_t_Dashboard;
 import utilityClasses.*;
 
@@ -60,6 +62,7 @@ public class NormProb_View extends BivariateScale_View {
     CheckBox[] scatterPlotCheckBoxes;
     QuantitativeDataVariable qdv_Data, qdv_NormalScores;
     NormProb_Model normProb_Model;
+    Regr_Compare_Model regr_Compare_Model;
     Text title1Text, title2Text;
     
     // FX
@@ -241,6 +244,23 @@ public class NormProb_View extends BivariateScale_View {
         //System.out.println(normProb_Model.toString());
         this.normProb_Model = normProb_Model;
         npModelThisTime = "Analysis of Covariance";
+        constructTheModel();        
+        title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());        
+        makeTheCheckBoxes();    
+        makeItHappen();         
+    }
+    
+    public NormProb_View(NormProb_Model normProb_Model, Regr_Compare_Dashboard regr_Compare_Dashboard,
+                        double placeHoriz, double placeVert,
+                        double withThisWidth, double withThisHeight) {
+        super(placeHoriz, placeVert, withThisWidth, withThisHeight);
+        //System.out.println("237 *** NormProb_View, constructing");
+        initHoriz = placeHoriz; initVert = placeVert;
+        initWidth = withThisWidth; initHeight = withThisHeight; 
+        //System.out.println("240 NormProb_View, normProb_Model...");
+        //System.out.println(normProb_Model.toString());
+        this.normProb_Model = normProb_Model;
+        npModelThisTime = "Regression Comparison";
         constructTheModel();        
         title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());        
         makeTheCheckBoxes();    

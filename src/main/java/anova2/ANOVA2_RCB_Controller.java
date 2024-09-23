@@ -1,7 +1,7 @@
 /**************************************************
  *            ANOVA2_RCB_Controller               *
- *                  05/24/24                      *
- *                   06:00                        *
+ *                  09/21/24                      *
+ *                   21:00                        *
  *************************************************/
 /**************************************************
  *    Tested against Kirk p289  02/12/24          *
@@ -48,10 +48,10 @@ public String doTheANOVA2() {
         returnStatus = "OK";
         int casesInStruct = dm.getNCasesInStruct();
         
-        if (casesInStruct == 0) {
+        //if (casesInStruct == 0) {
             // showAintGotNoDataAlert(); -- Alert would already be shown in Step0
-            return "Cancel";
-        }
+        //    return "Cancel";
+        //}
         
         if (anova2_RCB_Dialog.getReturnStatus().equals("Cancel")) {
             returnStatus = "Cancel";

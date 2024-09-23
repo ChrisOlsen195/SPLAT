@@ -1,7 +1,7 @@
 /****************************************************************************
  *                            MyAlerts                                      *
- *                            09/12/24                                      *
- *                             00:00                                        *
+ *                            09/19/24                                      *
+ *                             12:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -926,23 +926,36 @@ public class MyAlerts {
         backToTheRealWorld();
     }
     
+    public static void showCompare_Regr_LT2_LevelsAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Ack! What manner of study is this?!?!?!?";
+        alertHeader = "OK, User, here is the deal...";
+        alertContext = "If we are adhering to the strict definition of 'compare', it is perfectly" 
+                       + " OK to have only one group. However, I, SPLAT, am into analyzing"
+                       + " COMPARATIVE data in this procedure. You CAN compare apples and oranges"
+                       + " but you need both to make that happen. So let's try to cut our regression"
+                       + " teeth on more than one fruit.  When you have at least two treatments,"
+                       + "  give me a call.\n\n";
+        
+        backToTheRealWorld();
+    }
+    
     public static void showANCOVA_NumericTreatmentAlert() { 
         showingAnAlert = true;
-        alertTitle = "Ack! What manner of experiment is this?!?!?!?";
-        alertHeader = "OK, User, here is the deal on treatments in ANCOVA...";
-        alertContext = "In ANCOVA, the values of the treatment must be non-numeric.  I, SPLAT," 
-                       + " have detected only numeric entries in this (alleged!) treatment "
-                       + " variable. It is probably the case that you have made an error in"
-                       + " your selection of the treatment variable. I, SPLAT, regard this as"
-                       + " a User error, andYOUR problem to fix. After fixing the problem give me,"
-                       + " SPLAT, a call.\n\n";
+        alertTitle = "Ack! What manner of study is this?!?!?!?";
+        alertHeader = "OK, User, here is the deal on treatments / groups...";
+        alertContext = "In this procedure, the values of the treatment / group must be non-numeric." 
+                       + " I, SPLAT the Magnificent, have detected only numeric entries in this (alleged!)"
+                       + " treatment / group variable. It is probably the case that you have made an error"
+                       + " in your selection of the variable. I, SPLAT, regard this as a User error, and"
+                       + " YOUR problem to fix. After fixing the problem give me a call.\n\n";
         
         backToTheRealWorld();
     }
     
     public static void showANCOVA_nonNumericCovariateAlert() { 
         showingAnAlert = true;
-        alertTitle = "Ack! What manner of experiment is this?!?!?!?";
+        alertTitle = "Ack! What manner of study is this?!?!?!?";
         alertHeader = "OK, User, here is the deal on covariates in ANCOVA...";
         alertContext = "In ANCOVA, the value of the covariate must be numeric.  I, SPLAT, have" 
                        + " detected non-numeric entries in this (alleged!) numeric covariate"
@@ -950,6 +963,20 @@ public class MyAlerts {
                        + " unforced (but critical!) error in your data entry. In either case, "
                        + " I, SPLAT,regard this as a User, YOU, problem to fix. After fixing"
                        + "  the problem give me, SPLAT, a call.\n\n";
+        
+        backToTheRealWorld();
+    }
+    
+    public static void showRegrCompare_nonNumericExplanVarAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Ack! What manner of study is this?!?!?!?";
+        alertHeader = "OK, User, here is the deal on the explanatory variable...";
+        alertContext = "In ordinary regression, the values of the variable must be numeric.  I, " 
+                       + " Detective SPLAT, have detected non-numeric entries in this (alleged!)"
+                       + " numeric variable. You may have picked the wrong variable, or have made"
+                       + " an unforced (but critical!) error in your data entry. In either case, "
+                       + " I, Det. SPLAT, regard this as a User, YOU, problem to fix. After fixing"
+                       + "  the problem give me, Det. SPLAT, a call.\n\n";
         
         backToTheRealWorld();
     }
@@ -964,6 +991,20 @@ public class MyAlerts {
                        + " (but critical!) error in your data entry. In either case, I, SPLAT,"
                        + " regard this as a User, YOU, problem to fix. After fixing the problem"
                        + " give me, SPLAT, a call.\n\n";
+        
+        backToTheRealWorld();
+    }
+    
+    public static void showRegrCompare_nonNumericResponseVarAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Ack! What manner of experiment is this?!?!?!?";
+        alertHeader = "OK, User, here is the deal on the response variable...";
+        alertContext = "In ordinary regression, the values of the variable must be numeric.  I, " 
+                       + " Detective SPLAT, have detected non-numeric entries in this (alleged!)"
+                       + " numeric variable. You may have picked the wrong variable, or have made"
+                       + " an unforced (but critical!) error in your data entry. In either case, "
+                       + " I, Det. SPLAT, regard this as a User, YOU, problem to fix. After fixing"
+                       + "  the problem give me, Det. SPLAT, a call.\n\n";
         
         backToTheRealWorld();
     }

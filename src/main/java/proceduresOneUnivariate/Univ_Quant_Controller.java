@@ -1,7 +1,7 @@
 /************************************************************
  *                    Univ_Quant_Controller                 *
- *                          12/06/23                        *
- *                            12:00                         *
+ *                          09/21/24                        *
+ *                            18:00                         *
  ***********************************************************/
 package proceduresOneUnivariate;
 
@@ -50,12 +50,12 @@ public class Univ_Quant_Controller {
     public String doTheQuantitativeProcedure() {
         dm.whereIsWaldo(49, waldoFile, "doTheQuantitativeProcedure()");
         int casesInStruct = dm.getNCasesInStruct();
-        
+        /*
         if (casesInStruct == 0) {
             MyAlerts.showAintGotNoDataAlert();
             return "Cancel";
         }
-        
+        */
         if (casesInStruct > 5000) {
             MyAlerts.showLongTimeComingWarning();
         }
