@@ -33,6 +33,7 @@ public class HorizontalBoxPlot_Model {
         allTheQDVs.add(theQDV);
         n_QDVs = allTheQDVs.size();
         collectAllTheLabels();
+        // This is CNN -- really, time
     }
     
     public HorizontalBoxPlot_Model(Single_t_Controller single_t_Controller, String descriptionOfVariable, QuantitativeDataVariable theQDV) {
