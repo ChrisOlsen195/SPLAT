@@ -1,7 +1,7 @@
 /****************************************************************************
  *                            MyAlerts                                      *
- *                            09/19/24                                      *
- *                             12:00                                        *
+ *                            10/04/24                                      *
+ *                             09:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -32,6 +32,25 @@ public class MyAlerts {
    }
    
    public void setShowingAnAlert(boolean tf) { showingAnAlert = tf; }
+   
+       public static void showOutOfMemoryAlert() { 
+        showingAnAlert = true;
+        alertTitle = "YO! USER! LISTEN UP! YOU ARE IN DEEP DOO-DOO!!! ";
+        alertHeader = "Your heap is in a heap of trouble.  (Tee hee, SPLAT joke)";
+        alertContext = "User, we have a Houston-sized problem.  Your computer is out of memory "
+                        + " in what is known as the 'heap.' (Google it).  The heap is that part"
+                        + " of memory that your computer has allocated to me, SPLAT, to do your "
+                        + " statistics stuff. Unfortunately, whatever it is that you want me "
+                        + " to do takes up more memory than your computer has given me. "
+                        + " \n\nThere are ways around this, but I, SPLAT, refuse to mess with your "
+                        + " computer's memory in an attempt to recover from this situation. I, "
+                        + " SPLAT, the (otherwise) Magnificent, cannot establish the cause of "
+                        + " the problem, and have nowhere to turn.  So, I'm going to bail on you. "
+                        + " Rest assured that you have not lost any of your original data."
+                        + " To REALLY be super-safe, I suggest you reboot your computer. \n\n"; 
+
+        backToTheRealWorld();
+    }
    
     public static void showBlankLabelsAlert() { 
         showingAnAlert = true;
@@ -289,26 +308,7 @@ public class MyAlerts {
 
         backToTheRealWorld();
     }
-    
-
-    
-    public static void showAmbiguousColumnAlert(String message) { 
-        showingAnAlert = true;
-        alertTitle = "Uh-oh, we have a problem with the " + message + " variable!";
-        alertHeader = "The 'type' of " + message +" appears to be ambiguous.";
-        alertContext = "OK, so here's the deal.  I, SPLAT, can do all sorts of statistical"
-                     + " stuff with categorical data, and ditto for quantitative data."
-                     + " However, there seems to be a mixture of both (or some blanks)"
-                     + " in this file. You may have downloaded a file from somewhere and"
-                     + " it has values or blanks to indicate missing data. I, SPLAT,"
-                     + " use asterisks for the purpose of indicating missing data."
-                     + " Do you, User, want me, Splat, to convert these non-numerical "
-                     + " values into asterisks, thus indicating missing values? \n\n" ; 
-
-        backToTheRealWorld();
-    }
-
-    
+       
     public static void showPropOopsAlert() { 
         showingAnAlert = true;
         alertTitle = "Ack!!!  A bad proportion or count oopsie has occurred!!";

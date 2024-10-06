@@ -1,7 +1,7 @@
 /****************************************************************************
  *                          MyYesNoAlerts                                      *
- *                            09/14/24                                      *
- *                             03:00                                        *
+ *                            10/04/24                                      *
+ *                             09:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -55,6 +55,22 @@ public class MyYesNoAlerts {
                         + "\ncan't let this one go.  After entering data you now want to just trash it?!?"
                         + "\nAre you SURE you want to leave your data in the dustbin of history?\n\n"; 
         diffAlertBoxHeight = 300.;
+        backToTheRealWorld();
+    } 
+    
+    public void showAmbiguousColumnAlert(String message) { 
+        showingAnAlert = true;
+        alertTitle = "Uh-oh, we have a problem with the '" + message + "' variable!";
+        alertHeader = "The 'type' of " + message +" appears to be ambiguous.";
+        alertContext = "OK, so here's the deal.  I, SPLAT, can do all sorts of statistical"
+                     + " stuff with categorical data, and ditto for quantitative data."
+                     + " However, there seems to be a mixture of both (or some blanks)"
+                     + " in this file. You may have downloaded a file from somewhere and"
+                     + " it has values or blanks to indicate missing data. I, SPLAT,"
+                     + " use asterisks for the purpose of indicating missing data."
+                     + " Do you, User, want me, Splat, to convert these non-numerical "
+                     + " values into asterisks, thus indicating missing values? \n\n" ; 
+        diffAlertBoxHeight = 500.;
         backToTheRealWorld();
     } 
     
