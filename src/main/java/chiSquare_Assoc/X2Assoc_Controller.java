@@ -17,8 +17,8 @@ public class X2Assoc_Controller {
     String returnStatus, assocType, xDescr, yDescr;
     
     // Make empty if no-print
-    String waldoFile = "X2Assoc_Controller ";
-    //String waldoFile = "";
+    //String waldoFile = "X2Assoc_Controller ";
+    String waldoFile = "";
     
     // My classes
     BivariateCategoricalDataObj bivCatDataObj;

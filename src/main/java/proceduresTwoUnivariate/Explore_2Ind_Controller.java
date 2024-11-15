@@ -1,7 +1,7 @@
 /**************************************************
  *             Explore_2Ind_Controller            *
- *                    09/21/24                    *
- *                     18:00                      *
+ *                    11/08/24                    *
+ *                     12:00                      *
  *************************************************/
 package proceduresTwoUnivariate;
 
@@ -12,6 +12,7 @@ import dataObjects.ColumnOfData;
 import dataObjects.QuantitativeDataVariable;
 import java.util.ArrayList;
 import dialogs.*;
+import java.text.DecimalFormat;
 import splat.*;
 
 import utilityClasses.MyAlerts;
@@ -22,7 +23,7 @@ public class Explore_2Ind_Controller {
     public int n_QDVs; 
     String thisVarLabel, thisVarDescr, returnStatus, subTitle_And, subTitle_Vs,
            stackedOrSeparate, firstVarLabel, firstVarDescr, secondVarLabel, 
-           secondVarDescr, dataOrSummary;
+           secondVarDescr;
     public ArrayList<String> allTheLabels;
     
     // Make empty if no-print
@@ -53,7 +54,7 @@ public class Explore_2Ind_Controller {
     
     public Explore_2Ind_Controller(Data_Manager dm) {
         this.dm = dm;
-        dm.whereIsWaldo(55, waldoFile, "Constructing");
+        dm.whereIsWaldo(57, waldoFile, "Constructing");
         explore_2Ind_ColsOfData = new ArrayList();
         varLabel = new ArrayList();
         returnStatus = "OK";
@@ -61,20 +62,16 @@ public class Explore_2Ind_Controller {
     
     // Called from MainMenu
     public String chooseTheStructureOfData() {
-        dm.whereIsWaldo(63, waldoFile, "chooseTheStructureOfData()");
+        dm.whereIsWaldo(65, waldoFile, "chooseTheStructureOfData()");
         DataChoice_StackedOrNot dataChoice_Dialog_2Ind = new DataChoice_StackedOrNot(this);
         if (stackedOrSeparate.equals("TI8x-Like")) { doNotStacked(); }        
-        if (stackedOrSeparate.equals("Group & Data")) { doPrepColumnsFromStacked(); }
-                 
-        if (stackedOrSeparate.equals("Bailed")) { 
-                // No op
-        }
-        return "OK";
+        if (stackedOrSeparate.equals("Group & Data")) { doPrepColumnsFromStacked(); }                
+        if (stackedOrSeparate.equals("Bailed")) { /* No op */ }
+        return stackedOrSeparate;
     }
     
     private String doPrepColumnsFromStacked() {
-        ColumnOfData tempCol;
-        dm.whereIsWaldo(77, waldoFile, "doPrepColumnsFromStacked()");
+        dm.whereIsWaldo(74, waldoFile, "doPrepColumnsFromStacked()");
         returnStatus = "OK";
         
         MyAlerts.showNeedToUnstackAlert();
@@ -94,21 +91,14 @@ public class Explore_2Ind_Controller {
         return returnStatus;    // return bad   
     }
 
-    protected boolean doNotStacked() {
-        dm.whereIsWaldo(98, waldoFile, "doNotStacked()");
+    protected String doNotStacked() {
+        dm.whereIsWaldo(95, waldoFile, "doNotStacked()");
         goodToGo = true;
-        int casesInStruct = dm.getNCasesInStruct();        
-        if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert();
-            return false;
-        }
         
         explore_2Ind_NS_Dialog = new Explore_2Ind_NotStacked_Dialog( dm );
         explore_2Ind_NS_Dialog.show_ANOVA1_NS_Dialog();
         returnStatus = explore_2Ind_NS_Dialog.getReturnStatus();
-                
-        if (goodToGo = returnStatus.equals("OK")) 
-            if (!goodToGo) { return false; }
+        if (!goodToGo) { return "Bailed"; }
         // else...
         firstVarDescr = explore_2Ind_NS_Dialog.getFirstVariable();
         secondVarDescr = explore_2Ind_NS_Dialog.getSecondVariable();
@@ -127,15 +117,32 @@ public class Explore_2Ind_Controller {
         }
         
         int nColumnsOfData = explore_2Ind_NS_Dialog.getNLevels();
-        /*
-        if (nColumnsOfData == 0) { 
-            goodToGo = false;
-            returnStatus = "Cancel";            
-            return goodToGo; 
-        }
-        */
-        // else...
         explore_2Ind_ColsOfData = explore_2Ind_NS_Dialog.getData();
+        
+        // Check for empty data **************************************
+        for (int ith = 0; ith < nColumnsOfData; ith++) {
+            ColumnOfData tempCol = explore_2Ind_ColsOfData.get(ith);
+            if (!tempCol.getContainsData()) {
+                MyAlerts.showAintGotNoDataAlert_2Var();
+                return "Bailed";
+            }
+        }
+
+        // Check for long time coming ********************************
+        for (int ith = 0; ith < nColumnsOfData; ith++) {
+            ColumnOfData tempCol = explore_2Ind_ColsOfData.get(ith);
+            int tempColSize = tempCol.getNLegalCasesInColumn();
+            String catValue0 = tempCol.getVarLabel();
+            double temp1 = -11.317 + 2.164 * Math.log(tempColSize);
+            double estTimeInSec = Math.exp(temp1);
+            DecimalFormat df = new DecimalFormat("##0.00");
+            String strMessage1 = "I'm working on the " + catValue0;
+            String strMessage2 = "my estimated(!!) time to finish is " + df.format(estTimeInSec) + " sec."; 
+            if (estTimeInSec > 5.0) {            
+                MyAlerts.longTimeComingAlert(strMessage1, strMessage2);
+            }
+        }
+
         // Stack the columns into one column for the BBSL procedure
         // the 2nd and third colums are passed to the other procedures
         thisVarLabel = "All";
@@ -162,15 +169,13 @@ public class Explore_2Ind_Controller {
             QuantitativeDataVariable tempQDV = new QuantitativeDataVariable(thisVarLabel, thisVarDescr, explore_2Ind_ColsOfData.get(ith));  
             allTheQDVs.add(tempQDV);                 
         } 
-        
-        System.out.println("166 Explore2Ind_Cont, qdvSize = " + allTheQDVs.size());
-        
+
         compare_The_2Ind();
-        return goodToGo;
+        return "OK";
     }
     
     protected boolean compare_The_2Ind() {
-        dm.whereIsWaldo(172, waldoFile, "compare_The_2Ind");
+        dm.whereIsWaldo(178, waldoFile, "compare_The_2Ind");
         n_QDVs = allTheQDVs.size();
         allTheLabels = new ArrayList<>();
         
@@ -226,7 +231,7 @@ public class Explore_2Ind_Controller {
     public void setStackedOrSeparate(String toThis) { stackedOrSeparate = toThis; }
     
     private boolean validateStackChoices() {
-        dm.whereIsWaldo(233, waldoFile, "validateStackChoices()");
+        dm.whereIsWaldo(234, waldoFile, "validateStackChoices()");
         isNumeric = new boolean[2];        
         for (int ithCol = 0; ithCol < 2; ithCol++){
             isNumeric[ithCol] = explore_2Ind_ColsOfData.get(ithCol).getIsNumeric();  

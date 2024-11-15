@@ -43,7 +43,7 @@ public class QuadReg_Controller {
             dm.whereIsWaldo(43, waldoFile, "doTheProcedure()");
             
             if (casesInStruct == 0) {
-                MyAlerts.showAintGotNoDataAlert();
+                MyAlerts.showAintGotNoDataAlert_1Var();
                 return "Cancel";
             }
             dm.whereIsWaldo(49, waldoFile, "doTheProcedure()");

@@ -36,7 +36,6 @@ public class Inf_Regression_Model extends Regression_Model
         tracker = inf_regression_Controller.getDataManager().getPositionTracker();
         nVarsCommitted = tracker.getNVarsCommitted();
         nVarsInStruct = dm.getNVarsInStruct();
-
         explanatoryVariable = inf_regression_Controller.getExplanVar();
         responseVariable = inf_regression_Controller.getResponseVar();
         respVsExplanVar = inf_regression_Controller.getSubTitle();

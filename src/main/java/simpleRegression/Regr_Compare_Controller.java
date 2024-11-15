@@ -1,7 +1,7 @@
 /**************************************************
  *            Regr_Compare_Controller             *
- *                  09/18/24                      *
- *                   00:00                        *
+ *                  11/09/24                      *
+ *                   09:00                        *
  *************************************************/
 /**************************************************
  *    Tested against Tamhane p101  02/16/24       *
@@ -34,9 +34,9 @@ public class Regr_Compare_Controller {
     CatQuantDataVariable cqdv;
     ObservableList<String> transformedLevels;
     
-    String waldoFile = "";
     // String waldoFile = "Regr_Compare_Controller";
-    
+    String waldoFile = "";
+
     // My classes
     Regr_Compare_Dashboard ancova_Dashboard;
     Regr_Compare_Model ancova_Model;
@@ -60,13 +60,7 @@ public class Regr_Compare_Controller {
 public String doTheRegr_Compare() {
         dm.whereIsWaldo(61, waldoFile, "doTheANCOVA()");
         returnStatus = "OK";
-        int casesInStruct = dm.getNCasesInStruct();
-        /*
-        if (casesInStruct == 0) {
-            // showAintGotNoDataAlert(); -- Alert would be shown in Step0
-            return "Cancel";
-        }
-        */
+
         if (ancova_Dialog.getReturnStatus().equals("Cancel")) {
             returnStatus = "Cancel";
             return returnStatus;

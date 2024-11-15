@@ -29,8 +29,8 @@ public class BivCat_Model {
     String[] strTopLabels, strLeftLabels;
     
     // Make empty if no-print
-    String waldoFile = "BivCat_Model";
-    //String waldoFile = "";
+    //String waldoFile = "BivCat_Model";
+    String waldoFile = "";
 
 //  My classes   
     ArrayList<ColumnOfData> al_ColumnsOfData;
@@ -66,7 +66,7 @@ public class BivCat_Model {
     } 
      
     public String doBivCatModelFromTable() {
-        System.out.println("70 BivCat_Model, doModelFromTable()");
+        //System.out.println("69 BivCat_Model, doModelFromTable()");
         bivCat_SummaryDialog = new BivCat_SummaryDialog(this);
         bivCat_SummaryDialog.showAndWait();
         strReturnStatus = bivCat_SummaryDialog.getReturnStatus();        
@@ -217,7 +217,7 @@ public class BivCat_Model {
     }
         
     public String calculateTheProportions() { 
-        System.out.println("220 BivCat_Model, doChiSqAnalysisCalculations()");
+        //System.out.println("220 BivCat_Model, calculateTheProportions()");
         nCells = nRows * nCols;
               
         for (int ithRow = 0; ithRow < nRows; ithRow++) {            

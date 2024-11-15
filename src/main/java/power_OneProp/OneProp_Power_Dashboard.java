@@ -60,32 +60,27 @@ public class OneProp_Power_Dashboard extends Dashboard {
         if (checkBoxSettings[0] == true) {
             pdfViewContainingPane.setVisible(true);
             oneProp_Power_PdfView.doTheGraph();
-        }
-        else { pdfViewContainingPane.setVisible(false); }
+        } else { pdfViewContainingPane.setVisible(false); }
         
         
         if (checkBoxSettings[1] == true) {
             pVsESContainingPane.setVisible(true);
             oneProp_Power_VsEffectSizeView.doTheGraph();
-        }
-        else { pVsESContainingPane.setVisible(false); }
+        } else { pVsESContainingPane.setVisible(false); }
         
         if (checkBoxSettings[2] == true) {
             pVsNContainingPane.setVisible(true);
             oneProp_Power_VsSampleSizeView.doTheGraph();
-        }
-        else { pVsNContainingPane.setVisible(false);  }
+        } else { pVsNContainingPane.setVisible(false);  }
        
         if (checkBoxSettings[3] == true) {
             pVsAlphaContainingPane.setVisible(true);
             oneProp_Power_VsAlphaView.doTheGraph();
-        }
-        else { pVsAlphaContainingPane.setVisible(false);  }
+        } else { pVsAlphaContainingPane.setVisible(false);  }
         
         if (checkBoxSettings[4] == true) {
             prntReportContainingPane.setVisible(true);
-        }
-        else { prntReportContainingPane.setVisible(false); }
+        } else { prntReportContainingPane.setVisible(false); }
     }
 
     public void makeTheBackGround() {

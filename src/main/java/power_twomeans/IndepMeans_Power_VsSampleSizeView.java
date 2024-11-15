@@ -31,9 +31,7 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
 
     int sampleSize_1, sampleSize_2, maxSampleSize;
 
-    double /* xMin,*/ xMax, yMin, yMax, effectSize, // altDiffMeans, nullDiffMeans, 
-           /* nullSigma_1, nullSigma_2, standErrDiffMeans,*/ dbl_daN1, dbl_daN2, 
-           lowN1, lowN2;
+    double xMax, yMin, yMax, effectSize, dbl_daN1, dbl_daN2, lowN1, lowN2;
     
     float redColor, greenColor, blueColor;
     float[][] power;
@@ -51,20 +49,15 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("50 IndepMeans_Power_VsSampleSizeView, constructing");
+        //System.out.println("52 IndepMeans_Power_VsSampleSizeView, constructing");
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         sampleSize_1 = indepMeans_Power_Model.getSampleSize_1();
         sampleSize_2 = indepMeans_Power_Model.getSampleSize_2();
 
-        //nullDiffMeans = indepMeans_Power_Model.getNullDiffMeans();
-        //altDiffMeans = indepMeans_Power_Model.getAltDiffMeans();
-        //nullSigma_1 = indepMeans_Power_Model.getNullSigma_1();
-        //nullSigma_2 = indepMeans_Power_Model.getNullSigma_2();
         effectSize = indepMeans_Power_Model.getEffectSize();
         alpha = indepMeans_Power_Model.getAlpha();
-        //standErrDiffMeans = Math.sqrt(nullSigma_1 * nullSigma_1 / sampleSize_1 + nullSigma_2 * nullSigma_2 / sampleSize_2);
 
         maxSampleSize = Math.max(sampleSize_1, sampleSize_2) + 10;
         fromHere = 2.0; toThere = maxSampleSize;

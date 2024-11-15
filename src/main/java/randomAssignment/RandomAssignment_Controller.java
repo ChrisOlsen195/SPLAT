@@ -45,7 +45,7 @@ public class RandomAssignment_Controller {
         nSubjects = dm.getNCasesInStruct();
         
         if (nSubjects == 0) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             returnStatus = "Cancel";
         }
     }  

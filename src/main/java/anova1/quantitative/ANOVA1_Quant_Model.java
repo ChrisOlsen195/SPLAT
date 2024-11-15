@@ -1,7 +1,7 @@
 /**************************************************
  *               ANOVA1_Quant_Model               *
- *                    05/23/24                    *
- *                      18:00                     *
+ *                    10/07/24                    *
+ *                      15:00                     *
  *************************************************/
 /**************************************************
  *               ANOVA1 verified                  *
@@ -193,73 +193,73 @@ public class ANOVA1_Quant_Model {
         doTukeyKramer();
     }
     
-private void printTheStuff() {  
-        dm.whereIsWaldo(197, waldoFile, " *** printTheStuff()");
-        postHocReport.add(String.format("\n"));
-        
-        postHocReport.add(String.format("               **********         Parameter estimates for Levels         **********\n\n"));        
-        postHocReport.add(String.format("   Treatment/   Sample     Sample      Sample     Std Err     Margin     Lower 95PC  Upper 95PC\n"));
-        postHocReport.add(String.format("     Group       Size       Mean       St Dev     of mean    of Error      Bound        Bound\n"));
-        
-        for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
-            strIthLevel = StringUtilities.truncateString(varLabels.get(ithLevel), 10);
-            int iSampleSize = allTheQDVs.get(ithLevel).getLegalN();
-            double iMean = allTheQDVs.get(ithLevel).getTheMean();
-            double iStandDev = allTheQDVs.get(ithLevel).getTheStandDev();
-            double iStandErr = iStandDev / Math.sqrt(iSampleSize - 1.0);
-            
-            tDistribution = new TDistribution(iSampleSize - 1);
-            middleInterval = new double[2];
-            middleInterval = tDistribution.getInverseMiddleArea(0.95);
-            double critical_t = middleInterval[1];
-            double iMarginOfError = critical_t * iStandErr;
-            double iLowerBound = iMean - iMarginOfError;
-            double iUpperBound = iMean + iMarginOfError;
-            postHocReport.add(String.format("%10s      %4d     %8.3f    %8.3f    %8.3f   %8.3f     %8.3f     %8.3f\n", strIthLevel,  
-                                                                                                            iSampleSize,
-                                                                                                            iMean,
-                                                                                                            iStandDev,
-                                                                                                            iStandErr,
-                                                                                                            iMarginOfError,
-                                                                                                            iLowerBound,
-                                                                                                            iUpperBound));
-        }     
-    }
+    private void printTheStuff() {  
+            dm.whereIsWaldo(197, waldoFile, " *** printTheStuff()");
+            postHocReport.add(String.format("\n"));
 
-private void doTukeyKramer() {
-    dm.whereIsWaldo(230, waldoFile, " *** doTukeyKramer()");
-    studRangeQ = new StudentizedRangeQ();
-    qTK = studRangeQ.qrange(0.95, // cumulative p -- use .95 if alpha = .05
-                           (double)nLevels, // number of groups
-                           (double)dfError, // df error
-                            1.0);  // use a 1.0 to get stu range stat)
-    wT = qTK / Math.sqrt(2.0); // Dean & Voss, p85
-    postHocReport.add(String.format("\n  Tukey-Kramer Test  %40s \n\n", respVsExplanVar));
-    postHocReport.add(String.format("   Treatment/   Treatment/     Mean                     95PC CI Lower  95PC CI Upper\n"));  
-    postHocReport.add(String.format("     Group       Group      Difference        +/-           Bound          Bound\n")); 
-    
-    for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
-        int nIth = allTheQDVs.get(ithLevel).getLegalN();
-        double xBarIth = allTheQDVs.get(ithLevel).getTheMean();
-        strIthLevel = StringUtilities.truncateString(varLabels.get(ithLevel), 10);        
-        //  Store for Grouping
-        for (int jthLevel = ithLevel + 1; jthLevel < nLevels; jthLevel++) {
-            int nJth = allTheQDVs.get(jthLevel).getLegalN();
-            double xBarJth = allTheQDVs.get(jthLevel).getTheMean();
-            double diff_mean = xBarIth - xBarJth;
-            qCritPlusMinus = wT * Math.sqrt(msError * (1.0/nIth + 1.0/nJth));
-            lowCI_TK = diff_mean - qCritPlusMinus;
-            highCI_TK = diff_mean + qCritPlusMinus;
-            strJthLevel = StringUtilities.truncateString(varLabels.get(jthLevel), 10);
-            postHocReport.add(String.format("%10s  %10s       %8.3f     %8.3f       %8.3f       %8.3f\n", strIthLevel,  
-                                                                                      strJthLevel,
-                                                                                      diff_mean,
-                                                                                      qCritPlusMinus,
-                                                                                      lowCI_TK,
-                                                                                      highCI_TK));
+            postHocReport.add(String.format("               **********         Parameter estimates for Levels         **********\n\n"));        
+            postHocReport.add(String.format("   Treatment/   Sample     Sample      Sample     Std Err     Margin     Lower 95PC  Upper 95PC\n"));
+            postHocReport.add(String.format("     Group       Size       Mean       St Dev     of mean    of Error      Bound        Bound\n"));
+
+            for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
+                strIthLevel = StringUtilities.truncateString(varLabels.get(ithLevel), 10);
+                int iSampleSize = allTheQDVs.get(ithLevel).getLegalN();
+                double iMean = allTheQDVs.get(ithLevel).getTheMean();
+                double iStandDev = allTheQDVs.get(ithLevel).getTheStandDev();
+                double iStandErr = iStandDev / Math.sqrt(iSampleSize - 1.0);
+
+                tDistribution = new TDistribution(iSampleSize - 1);
+                middleInterval = new double[2];
+                middleInterval = tDistribution.getInverseMiddleArea(0.95);
+                double critical_t = middleInterval[1];
+                double iMarginOfError = critical_t * iStandErr;
+                double iLowerBound = iMean - iMarginOfError;
+                double iUpperBound = iMean + iMarginOfError;
+                postHocReport.add(String.format("%10s      %4d     %8.3f    %8.3f    %8.3f   %8.3f     %8.3f     %8.3f\n", strIthLevel,  
+                                                                                                                iSampleSize,
+                                                                                                                iMean,
+                                                                                                                iStandDev,
+                                                                                                                iStandErr,
+                                                                                                                iMarginOfError,
+                                                                                                                iLowerBound,
+                                                                                                                iUpperBound));
+            }     
+        }
+
+    private void doTukeyKramer() {
+        dm.whereIsWaldo(230, waldoFile, " *** doTukeyKramer()");
+        studRangeQ = new StudentizedRangeQ();
+        qTK = studRangeQ.qrange(0.95, // cumulative p -- use .95 if alpha = .05
+                               (double)nLevels, // number of groups
+                               (double)dfError, // df error
+                                1.0);  // use a 1.0 to get stu range stat)
+        wT = qTK / Math.sqrt(2.0); // Dean & Voss, p85
+        postHocReport.add(String.format("\n  Tukey-Kramer Test  %40s \n\n", respVsExplanVar));
+        postHocReport.add(String.format("   Treatment/   Treatment/     Mean                     95PC CI Lower  95PC CI Upper\n"));  
+        postHocReport.add(String.format("     Group       Group      Difference        +/-           Bound          Bound\n")); 
+
+        for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
+            int nIth = allTheQDVs.get(ithLevel).getLegalN();
+            double xBarIth = allTheQDVs.get(ithLevel).getTheMean();
+            strIthLevel = StringUtilities.truncateString(varLabels.get(ithLevel), 10);        
+            //  Store for Grouping
+            for (int jthLevel = ithLevel + 1; jthLevel < nLevels; jthLevel++) {
+                int nJth = allTheQDVs.get(jthLevel).getLegalN();
+                double xBarJth = allTheQDVs.get(jthLevel).getTheMean();
+                double diff_mean = xBarIth - xBarJth;
+                qCritPlusMinus = wT * Math.sqrt(msError * (1.0/nIth + 1.0/nJth));
+                lowCI_TK = diff_mean - qCritPlusMinus;
+                highCI_TK = diff_mean + qCritPlusMinus;
+                strJthLevel = StringUtilities.truncateString(varLabels.get(jthLevel), 10);
+                postHocReport.add(String.format("%10s  %10s       %8.3f     %8.3f       %8.3f       %8.3f\n", strIthLevel,  
+                                                                                          strJthLevel,
+                                                                                          diff_mean,
+                                                                                          qCritPlusMinus,
+                                                                                          lowCI_TK,
+                                                                                          highCI_TK));
+            }
         }
     }
-}
 
     private void constructTheResiduals() {
         ArrayList<String> residuals = new ArrayList();

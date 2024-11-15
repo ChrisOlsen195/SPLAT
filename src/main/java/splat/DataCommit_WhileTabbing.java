@@ -22,11 +22,7 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
         this.tracker = tracker;
         this.dataGrid = dg;
         this.dm = dm;
-        
-    //  Make empty if no-print
-        //waldoFile = "DataCommit_WhileTabbing";
-        waldoFile = "";
-        
+
         maxVarsInGrid = dm.getMaxVisVars();
         maxCasesInGrid = dm.getMaxVisCases();
         handlingRightAndDown = false;
@@ -34,7 +30,7 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
     }
     
     public void handleTheTabbingCommit (String theStringEntered) {
-        dm.whereIsWaldo(37, waldoFile, "DataCommit_WhileTabbing, handleTheTabbingCommit ");
+        dm.whereIsWaldo(33, waldoFile, "\n\n\nDataCommit_WhileTabbing, handleTheTabbingCommit ");
         tabOrEnter = dataGrid.getTabOrEnter();
         fixedString = theStringEntered;  //  Initialize
         ehGridCol = tracker.getCurrentGridColumn();
@@ -43,7 +39,6 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
         ehStructCol = tracker.getCurrentStructColumn();
         ehStructRow = tracker.getCurrentStructRow();
         theEntry = theStringEntered;
-
         nCasesInStruct = tracker.getNCasesInStruct();
         nVarsInStruct = tracker.getNVarsInStruct();
 
@@ -52,7 +47,7 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
 
         if (nCasesInStruct > 0) { firstEntryDone = true; }
         
-        dm.whereIsWaldo(55, waldoFile, "DataCommit_WhileTabbing, handleTheTabbingCommit ");    
+        dm.whereIsWaldo(50, waldoFile, "DataCommit_WhileTabbing, handleTheTabbingCommit ");    
         String eval = handleCommit_ParseTheString();
         if(DataUtilities.strIsADouble(theEntry)) {
             fixedString = eval;
@@ -90,14 +85,15 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
         else {  //  ... it must be a change in an existing data cell
 
             parsedString = handleCommit_ParseTheString();
-            setFromGridToStruct("     106 DataCommit_WhileTabbing, parsedString", parsedString) ;
+            //setFromGridToStruct("94 DataCommit_WhileTabbing, parsedString", parsedString);
+            setFromGridToStruct("94 DataCommit_WhileTabbing, fixedString", fixedString);
             dataGrid.setCurrentCellContents(fixedString);
             dm.sendDataStructToGrid(ehGridCol, ehGridRow);
         }
 }   //  handleTheCommit
     
     public void handleTabbingCommit_RightAndDown() {
-        dm.whereIsWaldo(100, waldoFile, "DataCommit_WhileTabbing, handleTabbingCommit_RightAndDown()");
+        dm.whereIsWaldo(96, waldoFile, "DataCommit_WhileTabbing, handleTabbingCommit_RightAndDown()");
         handlingRightAndDown = true;  
         handleTabbingCommit_ToRight();
         handleTabbingCommit_Below();
@@ -106,11 +102,11 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
 
     
     private void handleTabbingCommit_ToRight() {
-        dm.whereIsWaldo(109, waldoFile, "DataCommit_WhileTabbing, handleTabbingCommit_ToRight()");       
+        dm.whereIsWaldo(105, waldoFile, "DataCommit_WhileTabbing, handleTabbingCommit_ToRight()");       
         if (!handlingRightAndDown) {
             parsedString = handleCommit_ParseTheString();
             dataGrid.setCurrentCellContents(fixedString);
-            setFromGridToStruct("          125 teh, !handlingRightAndDown", theEntry) ;
+            setFromGridToStruct("125 teh, !handlingRightAndDown", theEntry) ;
             dm.sendDataStructToGrid(ehGridCol, ehGridRow);           
         }       
 
@@ -131,11 +127,11 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
     }
     
     private void handleTabbingCommit_Below() {
-        dm.whereIsWaldo(134, waldoFile, "DataCommit_WhileTabbing, handleTabbingCommit_Below()");
+        dm.whereIsWaldo(130, waldoFile, "DataCommit_WhileTabbing, handleTabbingCommit_Below()");
     }   
     
     private void setFromGridToStruct(String message, String toThisValue) {
-        dm.whereIsWaldo(138, waldoFile, "DataCommit_WhileTabbing, setFromGridToStruct(String message, String toThisValue) ");
+        dm.whereIsWaldo(134, waldoFile, "DataCommit_WhileTabbing, setFromGridToStruct(String message, String toThisValue) ");
         structCol = ehStructCol;
         structRow = ehStructRow;
         dm.setDataInStruct(message, structCol, structRow, toThisValue);

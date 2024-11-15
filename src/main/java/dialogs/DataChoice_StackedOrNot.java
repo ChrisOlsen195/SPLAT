@@ -134,7 +134,7 @@ public class DataChoice_StackedOrNot extends Stage {
                     break;
 
                 default:
-                    String switchFailure = "Switch failure: DataChoice_StackedOrNot 138 " + strCallingProc;
+                    String switchFailure = "Switch failure: DataChoice_StackedOrNot 137 " + strCallingProc;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                     sceneStage.close();
             }
@@ -165,7 +165,7 @@ public class DataChoice_StackedOrNot extends Stage {
                     break;
 
                 default:
-                    String switchFailure = "Switch failure: DataChoice_StackedOrNot 169 " + strCallingProc;
+                    String switchFailure = "Switch failure: DataChoice_StackedOrNot 168 " + strCallingProc;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                     sceneStage.close();
             }

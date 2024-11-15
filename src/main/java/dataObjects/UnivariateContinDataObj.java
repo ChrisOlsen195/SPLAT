@@ -53,6 +53,7 @@ public class UnivariateContinDataObj {
     public UnivariateContinDataObj(String callSource, QuantitativeDataVariable qdv) {
         if (printTheStuff) {
             System.out.println("55 UnivariateContinDataObj, constructing");
+            System.out.println("UCDO 56, time = " +  System.currentTimeMillis());
         }
         this.qdv = new QuantitativeDataVariable();
         this.qdv = qdv;
@@ -72,6 +73,7 @@ public class UnivariateContinDataObj {
     private void init_UCDO()  {
         if (printTheStuff) {
             System.out.println("74 UnivariateContinDataObj, init_UCDO()");
+            System.out.println("UCDO 76, time = " +  System.currentTimeMillis());
         }
         andersonDarlingCalculated = false;
         meanBasedDone = false;
@@ -91,13 +93,16 @@ public class UnivariateContinDataObj {
     
     public void doMedianBasedCalculations() {
         if (printTheStuff) {
-            System.out.println("94 UnivariateContinDataObj, doMedianBasedCalculations()");
+            System.out.println("96 UnivariateContinDataObj, doMedianBasedCalculations()");
+            System.out.println("UCDO 97, time = " +  System.currentTimeMillis());
         }
         double temp1, temp2, lowOutlierCutOff, highOutlierCutOff; 
         
         if (medianBasedDone) { return; }
-        
-        Arrays.sort(sortedArray);   // Now is sorted
+        long timeStart = System.currentTimeMillis();
+        Arrays.sort(sortedArray);   // Now is sorted'
+        long timeStop = System.currentTimeMillis();
+        long timeElapsed =  timeStop - timeStart;
         medianBasedDone = true;
         cutOffRanks = new int[2];
                 

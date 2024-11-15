@@ -81,7 +81,7 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     ListView<String> ciView, alphaView;
 
     public TwoProp_Inference_Dialog() {
-        System.out.println("84, TwoPropInfDialog, constructing");
+        //System.out.println("84, TwoPropInfDialog, constructing");
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         // theCILevs = new double[] {0.90, 0.95, 0.99};
         sep = new Separator();

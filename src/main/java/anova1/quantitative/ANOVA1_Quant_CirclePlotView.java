@@ -1,7 +1,7 @@
 /**************************************************
  *           ANOVA1_Quant_CirclePlotView          *
- *                    02/19/24                    *
- *                      12:00                     *
+ *                    10/07/24                    *
+ *                      15:00                     *
  *************************************************/
 package anova1.quantitative;
 
@@ -36,7 +36,7 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
         super(anova1_Quant_Model, anova1_Quant_Dashboard, "CirclePlot",
               placeHoriz, placeVert,  withThisWidth, withThisHeight);   
         dm = anova1_Quant_Model.getDataManager();
-        dm.whereIsWaldo(32, waldoFile, "Contstrucing...");
+        dm.whereIsWaldo(39, waldoFile, "Contstrucing...");
         nCheckBoxes = 0;     
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -54,7 +54,7 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
     }
    
     public void doTheGraph() {
-        dm.whereIsWaldo(50, waldoFile, "doTheGraph()");
+        dm.whereIsWaldo(57, waldoFile, "doTheGraph()");
         double downShift;
         
         yAxis.setForcedAxisEndsFalse(); // Just in case

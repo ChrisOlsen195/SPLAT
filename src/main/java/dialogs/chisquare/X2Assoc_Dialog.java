@@ -12,7 +12,7 @@ public class X2Assoc_Dialog extends Two_Variables_Dialog{
     
     public X2Assoc_Dialog(Data_Manager myData, String variableType1, String variableType2, String assocType) {
         super(myData, "X2Assoc_Dialog", assocType);
-        //System.out.println("15 X2Assoc_Dialg, constructing");
+        System.out.println("15 X2Assoc_Dialg, constructing");
         lblTitle.setText(assocType);
         lblFirstVar.setText("X Variable:");
         lblSecondVar.setText("Y Variable:");

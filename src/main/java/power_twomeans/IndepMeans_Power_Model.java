@@ -20,9 +20,7 @@ public class IndepMeans_Power_Model {
            nullSigma_2, lowerLimit, upperLimit, loCum, hiCum, var_1, var_2, 
            archivedNullMeanDiff, archivedNullSigma_1, archivedNullSigma_2, 
            archivedAltMeanDiff, archivedAlpha, archivedEffectSize; 
-    
-    //double dbl_sampleSize_1, dbl_sampleSize_2;
-    
+
     Point_2D nonRejectionRegion;
     String rejectionCriterion, sourceString, printedNullHypoth, printedAltHypoth;    
     
@@ -59,7 +57,7 @@ public class IndepMeans_Power_Model {
                 break;   
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Model " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_Model 60 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         return power;        
@@ -89,7 +87,7 @@ public class IndepMeans_Power_Model {
             break;
             
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Model 92 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_Model 90 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
 
@@ -234,11 +232,6 @@ public class IndepMeans_Power_Model {
         StringUtilities.addNLinesToArrayList(powerReport, thisMany);
     }
     
-    //double getArchivedNullMu() { return archivedNullMeanDiff; }
-    //double getArchivedAltMu() { return archivedAltMeanDiff; }
-    //int getArchivedSampleSize() { return archived_n_1; }
-    //double getArchivedNullSigma() { return archivedNullSigma_1; }
-    //double getArchivedAlpha() { return archivedAlpha; }
     public ArrayList<String> getPowerReport() { return powerReport; }
  
     public IndepMeans_Power_Controller getController() { return indepMeans_Power_Controller; }

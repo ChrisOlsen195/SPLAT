@@ -56,7 +56,7 @@ public class ANOVA2_Views_Super extends Region {
     String waldoFile;
     
     ObservableList<String> preStrTopLabels, preStrLeftLabels, strTopLabels, 
-                           strLeftLabels,categoryLabels, factorA_Levels, 
+                           strLeftLabels, categoryLabels, factorA_Levels, 
                            factorB_Levels;
     
     // My classes
@@ -93,7 +93,9 @@ public class ANOVA2_Views_Super extends Region {
     public Clipboard clipboard;
     public ClipboardContent content;    
     
-    ANOVA2_Views_Super() { }
+    ANOVA2_Views_Super() {
+        System.out.println("\n97 ANOVA2_Views_Super, Constructing");
+    }
     
      EventHandler<MouseEvent> yAxisMouseHandler = new EventHandler<MouseEvent>() {
         public void handle(MouseEvent mouseEvent) {           
@@ -182,6 +184,7 @@ public class ANOVA2_Views_Super extends Region {
     };
     
     public void positionTopInfo() {
+        //System.out.println("187 ANOVA2_Views_Super, positionTopInfo()");
         int i; 
         double atIWidth, tempPosition, startRect, jumpRect, k1, k2;
         atIWidth = anchorPane_TitleInfo.getWidth();

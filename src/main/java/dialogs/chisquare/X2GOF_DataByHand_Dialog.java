@@ -73,7 +73,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
     }
     
     private void initialize() {
-        //System.out.println("76  *** x2gof_dataByHand, initialize");
+        System.out.println("76  *** x2gof_dataByHand, initialize");
         nCategories = x2GOF_Model.getNCategories();
         vBoxVisual = new VBox();
         StackPane root = new StackPane();
@@ -93,7 +93,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
  *                      Guts of the dialog                                  * 
  ***************************************************************************/
     public void constructDialogGuts() {
-        //System.out.println("96 *** x2gof_dataByHand, constructDialogGuts");
+        System.out.println("96 *** x2gof_dataByHand, constructDialogGuts");
         vBoxGOF = new VBox();
         txtGOFControlTitle = new Text("X2 Goodness of Fit");  
         vBoxGOF.getChildren().add(txtGOFControlTitle);
@@ -152,7 +152,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
     } 
     
     private void constructButtons() {   //  and CheckBox
-        //System.out.println("155 *** x2gof_dataByHand, constructButtons");
+        System.out.println("155 *** x2gof_dataByHand, constructButtons");
         chBoxDoEqualProps = new CheckBox("H0 Equal Props");
         chBoxDoEqualProps.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -455,7 +455,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
 *******************************************************************************/    
     
     public String doSumExpPropsDialog() {
-        //System.out.println("464  *** GOF_DataByHandDialog, doSumExpPropsDialog()");
+        System.out.println("464  *** GOF_DataByHandDialog, doSumExpPropsDialog()");
         String returnString;
         Alert nonSumToOneAlert = new Alert(Alert.AlertType.CONFIRMATION);   
         nonSumToOneAlert.setTitle("Uh-oh, possible problem here...");

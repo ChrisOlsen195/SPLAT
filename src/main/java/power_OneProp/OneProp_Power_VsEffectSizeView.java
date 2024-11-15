@@ -30,8 +30,7 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
     
     int sampleSize;
 
-    double /*xMin, xMax,*/ yMin, yMax;
-    double nullProp, nullStErr, altProp, altStErr;
+    double yMin, yMax, nullProp, nullStErr, altProp, altStErr;
 
     //  FX   
     Pane theContainingPane;
@@ -47,7 +46,7 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("50 OneProp_Power_VsEffectSizeView, constructing");
+        //System.out.println("49 OneProp_Power_VsEffectSizeView, constructing");
         this.oneProp_Power_Model = oneProp_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -123,7 +122,6 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
         xGraphRight = toThere;
         bigDelta = (xGraphRight - xGraphLeft) / NUMBER_OF_DXs;
         delta = bigDelta;
-        //xMin = xMax = xGraphLeft;
         xRange = xGraphRight - xGraphLeft;        
         yRange = yMax = getInitialYMax();
         // These constants control the rate of axis scale change when dragging
@@ -192,7 +190,7 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
             oneProp_Power_Model.setAltProp(xx1 + nullProp); // xx1 is effect size
             double tempEffectSize = xx1; // *********************
             power = oneProp_Power_Model.calculatePower();
-            //System.out.println("195 OnePropPower_VsEffectSizeView, eff/power = " + tempEffectSize + " / " + power);
+            //System.out.println("193 OnePropPower_VsEffectSizeView, eff/power = " + tempEffectSize + " / " + power);
             yy1 = power;            
             xStart = xAxis.getDisplayPosition(xx1); 
             yStart = yAxis.getDisplayPosition(yy0); 

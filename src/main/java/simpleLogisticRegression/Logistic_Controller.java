@@ -1,7 +1,7 @@
 /************************************************************
  *                     Logistic_Controller                  *
- *                          11/14/23                        *
- *                            09:00                         *
+ *                          11/11/24                        *
+ *                            12:00                         *
  ***********************************************************/
 /******************************************************************
  *   It is not obvious in the code what is happening here.  This   *
@@ -32,11 +32,11 @@ public class Logistic_Controller {
     
     private String returnStatus, explanVar, respVar, respVsExplanVar,
                    firstVarDescr;
-    ArrayList<String> xStrings, yStrings;
+    ArrayList<String> xStrings, yStrings, al_tempStr;
     
     // Make empty if no-print
-    //String waldoFile = "Logistic_Controller";
-    String waldoFile = "";
+    String waldoFile = "Logistic_Controller";
+    //String waldoFile = "";
     
     private String[] dataXYLabels, unique_Xs, strUniques;
 
@@ -47,11 +47,13 @@ public class Logistic_Controller {
     private Logistic_Dashboard logRegDashboard;
     Logistic_Dialog logistic_Dialog;
     Matrix X, Y;
+    MyYesNoAlerts myYesNoAlerts;
     QuantitativeDataVariable qdv_XVariable, qdv_YVariable;
 
     public Logistic_Controller(Data_Manager dm) {
         this.dm = dm;      
         dm.whereIsWaldo(52, waldoFile, "Constructing");
+        myYesNoAlerts = new MyYesNoAlerts();
     }  
         
     public String doTheProcedure() {    //  Called from Main Menu
@@ -60,18 +62,42 @@ public class Logistic_Controller {
             int casesInStruct = dm.getNCasesInStruct();
             
             if (casesInStruct == 0) {
-                MyAlerts.showAintGotNoDataAlert();
+                MyAlerts.showAintGotNoDataAlert_1Var();
                 return "Cancel";
             }
-            
+            dm.whereIsWaldo(68, waldoFile, "doTheProcedure()");
             logistic_Dialog = new Logistic_Dialog(dm, "QUANTITATIVE");
             logistic_Dialog.showAndWait();
             returnStatus = logistic_Dialog.getReturnStatus();
             
             if (!returnStatus.equals("OK")) { return returnStatus; }
+            
             firstVarDescr = logistic_Dialog.getPreferredFirstVarDescription();;
             respVsExplanVar = logistic_Dialog.getSubTitle();
-            ArrayList<ColumnOfData> data = logistic_Dialog.getData();
+            ArrayList<ColumnOfData> originalData = logistic_Dialog.getData();
+            
+            /******************************************************************
+             *  This is essentially a copy constructor. It is needed b/c      *
+             *  this procedure would write over the original data if more     *
+             *  than one logistic regression is called; the copy constructor  *
+             *  in ColumnOfData returns a reference to the original data.     *
+             *****************************************************************/
+            ArrayList<ColumnOfData> data = new ArrayList();
+            data.add(originalData.get(0));
+            String tempLabel = originalData.get(1).getVarLabel();
+            String tempDescr = originalData.get(1).getVarDescription();
+            al_tempStr = new ArrayList();
+            for (int ithElement = 0; ithElement < originalData.get(1).getNCasesInColumn(); ithElement++) {
+                al_tempStr.add(originalData.get(1).getIthCase(ithElement));
+            }
+            data.add(new ColumnOfData(tempLabel, tempDescr, al_tempStr)); 
+            /******************************************************************
+             *  This is essentially a copy constructor. It is needed b/c      *
+             *  this procedure would write over the original data if more     *
+             *  than one logistic regression is called; the copy constructor  *
+             *  in ColumnOfData returns a reference to the original data.     *
+             *****************************************************************/
+            
             DataCleaner dc = new DataCleaner(dm, data.get(1));
             dc.cleanAway();
             int nUniques = dc.getNUniques();
@@ -84,16 +110,40 @@ public class Logistic_Controller {
             
             ColumnOfData colOfData = new ColumnOfData(dm, "LogisticContr83", "LogisticRegContr83", dc.getFixedData());
             int colSize = colOfData.getNCasesInColumn();            
-            if(!colOfData.getIsZeroOne()) {  
-                String[] twoCategories = dc.getFinalCategories();                
+            
+            if(!columnIsZeroOne()) { 
+                dm.whereIsWaldo(89, waldoFile, "doTheProcedure()");
+                String[] twoCategories = dc.getFinalCategories();    
+                System.out.println("91 Logistic_Controller, strUniques[0] = " + strUniques[0]);
+                System.out.println("92 Logistic_Controller, strUniques[1] = " + strUniques[1]);
+                String theYes  = "Make " + strUniques[0] + " my failure value";
+                String theNo  = "Make " + strUniques[1] + " my failure value";
+                myYesNoAlerts.logReg_Choose_0_And_1_Alert(strUniques[0], 
+                                                          strUniques[1], 
+                                                          theYes, 
+                                                          theNo);
+                String logRegChoice = myYesNoAlerts.getYesOrNo();
+                System.out.println("102 LogisticController, logRegChoice = " + logRegChoice);
+                if (logRegChoice.equals("Yes")) {
+                
+                
                 for (int ithCase = 0; ithCase < colSize; ithCase++) {
                     if ((colOfData.getStringInIthRow(ithCase).trim()).equals((twoCategories[0].trim()))) {                        
                         data.get(1).setStringInIthRow(ithCase, "0");
                     }
                     else  { data.get(1).setStringInIthRow(ithCase, "1"); }  
                 }
+                
+                }  else  {
+                    for (int ithCase = 0; ithCase < colSize; ithCase++) {
+                        if ((colOfData.getStringInIthRow(ithCase).trim()).equals((twoCategories[0].trim()))) {                        
+                            data.get(1).setStringInIthRow(ithCase, "1");
+                        }
+                        else  { data.get(1).setStringInIthRow(ithCase, "0"); }  
+                    }
+                }   
             }
- 
+            dm.whereIsWaldo(98, waldoFile, "doTheProcedure()");
             qdv_XVariable = new QuantitativeDataVariable("LogisticRegContr95", "LogisticRegContr95", data.get(0));
             qdv_YVariable = new QuantitativeDataVariable("LogisticRegContr96", "LogisticRegContr96", data.get(1)); 
 
@@ -137,6 +187,10 @@ public class Logistic_Controller {
             PrintExceptionInfo pei = new PrintExceptionInfo(ex, "Logistic Procedure");
         }
         return returnStatus;
+    }
+    
+    private boolean columnIsZeroOne() {
+        return false;
     }
     
     // Use system sort here?   Check it out.

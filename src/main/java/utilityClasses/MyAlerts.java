@@ -1,7 +1,7 @@
 /****************************************************************************
  *                            MyAlerts                                      *
- *                            10/04/24                                      *
- *                             09:00                                        *
+ *                            10/08/24                                      *
+ *                             12:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -31,7 +31,36 @@ public class MyAlerts {
        showingAnAlert = false;
    }
    
-   public void setShowingAnAlert(boolean tf) { showingAnAlert = tf; }
+    public void setShowingAnAlert(boolean tf) { showingAnAlert = tf; }
+   
+    /************************************************************************
+     *  This alert is a companion of a YesNo choice about changing numeric  *
+     *  labels to categorical labels as a intermediate step in a file read. *
+     ***********************************************************************/
+    public static void showCategoricalLabelsAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Well, OK, then -- read this CAREFULLY.";
+        alertHeader = "This is what we'll do...";
+        alertContext = "SPLAT will add a set of fake Non-Labels to your data and " 
+                       + " read the file. Save the data UNDER A DIFFERENT FILE NAME "
+                       + " so that no data is lost from your original file. Then, as" 
+                       + " soon as possible fix the labels in the new file.";
+
+        backToTheRealWorld();
+    }
+   
+    public static void showLabels_Data_MismatchAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Yikes!  Problem reading the file...";
+        alertHeader = "Mismatch of labels and data";
+        alertContext = "It appears that at least one data line has more values "  
+                        + " than the number of labels.  I, SPLAT, though being " 
+                        + " virtually omniscient, cannot fix this problem.  Please"  
+                        + " check this file in your favorite word processor and "  
+                        + " try, try, again. ";; 
+
+        backToTheRealWorld();
+    }
    
        public static void showOutOfMemoryAlert() { 
         showingAnAlert = true;
@@ -106,6 +135,18 @@ public class MyAlerts {
         backToTheRealWorld();
     }
     
+        public static void showAcknowledgeQuantLabelsAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Well, OK, then -- read this CAREFULLY.";
+        alertHeader = "This is what we'll do...";
+        alertContext = "SPLAT will add a set of fake Non-Labels to your data and " + 
+                                " read the file. Save the data UNDER A DIFFERENT FILE NAME " +
+                                " so that no data is lost from your original file. Then, as" + 
+                                " soon as possible fix the labels in the new file.\n\n";
+
+        backToTheRealWorld();
+    }
+        
     public static void showMustBeTwoUniquesInLogisticAlert() { 
         showingAnAlert = true;
         alertTitle = "Ack!  Not a pair of Unique values!";
@@ -578,7 +619,7 @@ public class MyAlerts {
         
         backToTheRealWorld();
     }
-    
+
     //  **************************  Chi square alerts  *********************
 
     public static void showEmptyCategoriesAlert() { 
@@ -843,17 +884,17 @@ public class MyAlerts {
         showingAnAlert = true;
         alertTitle = "Oh, for heaven's sake -- there is a problem with your file.";
         alertHeader = " (Notice, I, SPLAT, am absolving myself of any blame...)";
-        alertContext = " Well, it looks like my programmer has messed up AGAIN! " +
-                       " (Another blameworthy [!!] target of opportunity...) " +
-                       " Something unanticipated has occurred while attempting to read " +
-                       " your data file.  Whatever the problem is, I, SPLAT, am not able" +
-                       " to diagnose, much less fix it on the fly. That means it's up to " + 
-                       " you, Bucko. " +
-                       "\n\n I, SPLAT, can only hope that you have a clue.  If you are " +
-                       " clueless, please send the data file to my programmer, who has " +
-                       " a long history of screwing up files and may be able to help." +
-                       " He is Chris Olsen, email: crolsen@fastmail.com." +
-                       "\n\n                          -- Your statistics buddy, SPLAT\n\n";
+        alertContext = " Well, it looks like my programmer has messed up AGAIN! " 
+                       + " (Another blameworthy [!!] target of opportunity...) " 
+                       + " Something unanticipated has occurred while attempting to read " 
+                       + " your data file.  Whatever the problem is, I, SPLAT, am not able" 
+                       + " to diagnose, much less fix it on the fly. That means it's up to "  
+                       + " you, Bucko. " 
+                       + "\n\n I, SPLAT, can only hope that you have a clue.  If you are " 
+                       + " clueless, please send the data file to my programmer, who has " 
+                       + " a long history of screwing up files and may be able to help." 
+                       + " His email address is: crolsen@fastmail.com." 
+                       + "\n\n                          -- Your statistics buddy, SPLAT\n\n";
         
         backToTheRealWorld();
     }
@@ -1489,15 +1530,47 @@ public class MyAlerts {
         backToTheRealWorld();
     }
     
-        public static void showAintGotNoDataAlert() { 
+        public static void showAintGotNoDataAlert_1Var() { 
         showingAnAlert = true;
-        alertTitle = " Yo! User! You with the empty head -- there ain't no data here!!";
+        alertTitle = " Yo! User! You with the empty head -- there ain't no data in this variable!!";
         alertHeader = "Wake up and smell the roses!!!";
         alertContext = "SPLAT hates to be a bearer of bad news, but we have a slight"
                         + " problem with your data: there isn't any.  What sort of game are you playing here?"
                         + " This is a major violation of the Statistical Penal Code, Section 3.1416.  The"
                         + " International Organization of Right-thinking Statisticans (IOR-tS), will be notified"
                         + " of your fraudulent assertion that this data grid actually contains data.  You have"
+                        + " violated the implied contract between the IOR-tS and you, the alleged"
+                        + " quasi-competent statistician. The IOR-tS attorney, a Mr. O. Z. Mandias, "
+                        + " will soon be in touch.  Look upon his lawyerly works and despair!!\n\n";
+  
+        backToTheRealWorld();
+    }
+        
+        public static void showAintGotNoDataAlert_2Var() { 
+        showingAnAlert = true;
+        alertTitle = " Yo! User! You with the empty head -- there ain't no data in one of these variables!!";
+        alertHeader = "Wake up and smell the roses!!!";
+        alertContext = "SPLAT hates to be a bearer of bad news, but we have a slight problem with your"
+                        + " choices: one of your variables has no data.  What sort of game are you playing here?"
+                        + " This is a major violation of the Statistical Penal Code, Section 3.1416.  The"
+                        + " International Organization of Right-thinking Statisticans (IOR-tS), will be notified"
+                        + " of your fraudulent assertion that this variable actually contains data.  You have"
+                        + " violated the implied contract between the IOR-tS and you, the alleged"
+                        + " quasi-competent statistician. The IOR-tS attorney, a Mr. O. Z. Mandias, "
+                        + " will soon be in touch.  Look upon his lawyerly works and despair!!\n\n";
+  
+        backToTheRealWorld();
+    }
+        
+        public static void showAintGotNoDataAlert_ManyVar() { 
+        showingAnAlert = true;
+        alertTitle = " Yo! User! You with the empty head -- there ain't no data in one of these variables!!";
+        alertHeader = "Wake up and smell the roses!!!";
+        alertContext = "SPLAT hates to be a bearer of bad news, but we have a slight problem with your"
+                        + " choices: one of your variables has no data.  What sort of game are you playing here?"
+                        + " This is a major violation of the Statistical Penal Code, Section 3.1416.  The"
+                        + " International Organization of Right-thinking Statisticans (IOR-tS), will be notified"
+                        + " of your fraudulent assertion that this variable actually contains data.  You have"
                         + " violated the implied contract between the IOR-tS and you, the alleged"
                         + " quasi-competent statistician. The IOR-tS attorney, a Mr. O. Z. Mandias, "
                         + " will soon be in touch.  Look upon his lawyerly works and despair!!\n\n";
@@ -1594,31 +1667,13 @@ public class MyAlerts {
         backToTheRealWorld();
     }
     
-    /*
-    public static void showLogisticRegBadDataTypeAlert() { 
-        showingAnAlert = true;
-        alertTitle = "Logistic Regression Bad Data Type Alert!";
-        alertHeader = "Uh-oh, User, you have transgressed...";
-        alertContext = "OK, so here's the thing.  I, SPLAT, realize that you, USER, may not be familiar"
-                        + "\nwith regression of the Logistic Persuasion. Unlike more forgiving members of"   
-                        + "\nthe Regression family of statistical procedures, Logistic regression requires" 
-                        + "\na quantitative explanatory variable and a response variable consisting of only"
-                        + "\n0's and 1's. The variable you just selected is in violation of this rule.  I, SPLAT"
-                        + "\n the Merciful, will give YOU, User the Undeserving, a chance to rectify this grave"
-                        + "\ngrave error. Try to get it right this time.\n\n";
-        doTheDefaults();
-        doTheSplatAlert();
-        showingAnAlert = false;
-    }
-*/
-    
     public static void showQuantANOVABadLabelAlert() { 
         showingAnAlert = true;
         alertTitle = "Quant ANOVA Bad Label Alert!";
         alertHeader = "Uh-oh, User, you have transgressed...";
         alertContext = "OK, so here's the thing.  I, SPLAT, realize that you, USER, may not be familiar with"
                         + "\nquantitative ANOVA variables. I, SPLAT, depend on you, USER, to point me in the"   
-                        + "\nright direction. If your treatment / population values are discreete numeric, the" 
+                        + "\nright direction. If your treatment / population values are discrete numeric, the" 
                         + "\n way I, SPLAT, detect that information is through the use of numeric labels for the "
                         + "\nthe variables.(The labels are those things at the top of the spreadsheet. The way"
                         + "\n to fix this is return to the spreadsheet and change the label to something that "
@@ -1697,6 +1752,21 @@ public class MyAlerts {
                         + "\nto work with here. In this case, I need a variable.  If you don't specify one, "
                         + "\nI really am not authorized to just randomly pick one -- that's YOUR job!"
                         + "\nLet's try this again, this time with your eyes open.\n\n";        
+        backToTheRealWorld();
+    }
+    
+    public static void longTimeComingAlert(String message1, String message2) { 
+        showingAnAlert = true;
+        alertTitle = "Potential Coffee Break!!!";
+        alertHeader = "Maybe a bagel, also???";
+        alertContext ="Ok, so here's the deal. I, SPLAT, hate to interrupt your work with some facts of life."
+                        + "\n No, no, not THOSE facts of life -- these are facts of life of algorithms."
+                        + "\nSometimes it takes a while to do computer stuff, even if you have a fast computer"
+                        + "\nand you are a touch typist. Sadly, this is one of those times.  I, SPLAT, just"
+                        + "\nwish to give you a heads up so you don't think I am taking a break and have gone"
+                        + "\n out for coffee and a bagel. So here's the deal: "
+                        + "\n\n" + message1 + " variable, and "
+                        + message2 + "\n\n";       
         backToTheRealWorld();
     }
         

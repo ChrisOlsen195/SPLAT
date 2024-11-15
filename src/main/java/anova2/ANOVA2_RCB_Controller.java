@@ -109,7 +109,6 @@ public String doTheANOVA2() {
         
         switch (whichANOVA2) {
             case "Factorial":
-                System.out.println("112 ANOVA2_RCB_Controller -- (factorial) switch attained error?!?!?!?");
                 anova2_Factorial_Model = new ANOVA2_Factorial_Model(dm,
                                                this, 
                                                cdv_FactorB,

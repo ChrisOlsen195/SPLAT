@@ -44,7 +44,7 @@ public class X2Assoc_Model {
     }    
                 
     public String doModelFromFile() {
-        System.out.println("47 X2Assoc_Model, doModelFromFile()");
+        //System.out.println("47 X2Assoc_Model, doModelFromFile()");
         al_ColumnOfData = new ArrayList();
         al_ColumnOfData = x2Assoc_Controller.getData(); 
 
@@ -85,7 +85,7 @@ public class X2Assoc_Model {
     } 
     
     public String doModelFromTable() {
-        System.out.println("88 X2Assoc_Model, doModelNotFromFile()");
+        //System.out.println("88 X2Assoc_Model, doModelNotFromFile()");
         x2Assoc_SummaryDialog = new X2Assoc_SummaryDialog(this);
         x2Assoc_SummaryDialog.showAndWait();
         strReturnStatus = x2Assoc_SummaryDialog.getReturnStatus();        
@@ -121,7 +121,7 @@ public class X2Assoc_Model {
     }
         
     private void constructNecessaryArrays() {
-        System.out.println("124 X2Assoc_Model, constructNecessaryArrays()");
+        //System.out.println("124 X2Assoc_Model, constructNecessaryArrays()");
         observedValues = new double[nRows][nCols];
         residuals = new double[nRows][nCols];
         standardizedResiduals = new double[nRows][nCols];
@@ -145,7 +145,7 @@ public class X2Assoc_Model {
     }
 
     public String doChiSqAnalysisCalculations() {  
-        System.out.println("148 X2Assoc_Model, doChiSqAnalysisCalculations()");
+        //System.out.println("148 X2Assoc_Model, doChiSqAnalysisCalculations()");
         nCells = nRows * nCols;
         nCellsBelow5 = 0;
         
@@ -192,7 +192,7 @@ public class X2Assoc_Model {
                 residuals[row][col] = observedValues[row][col] - expectedValues[row][col];
             }
         }  
-        
+        //System.out.println("195 X2Assoc_Model, doChiSqAnalysisCalculations()");
         //  Chi square and contributions
         chiSquare = 0.0;
         for (int row = 0; row < nRows; row++) {            

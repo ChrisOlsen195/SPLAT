@@ -31,7 +31,7 @@ import utilityClasses.*;
 public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View { 
     boolean[] boolHBoxChBoxSettings;
     
-    double /*xMin, xMax,*/ yMin, yMax, scaleDelta, stErr_PNull, nullProp, altProp,
+    double yMin, yMax, scaleDelta, stErr_PNull, nullProp, altProp,
            rawCritValLT, rawCritValGT, nonRejStart, yStart_Null, yStop_Null,
            yStart_Alt, yStop_Alt, xNENoRejRegionTxtStart, stErr_PAlt, 
            effectSize, lowerSliver, upperSliver, densityFactor;
@@ -41,7 +41,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
             nullTextHeight, altScaleStart, altScaleStop,
             leftRejArrStart, leftRejArrStop, rightRejArrStart, rightRejArrStop;
     
-    double /*xNERejRegionStart,*/ yNENoRejRegionStart, xCritValDescrStart, 
+    double yNENoRejRegionStart, xCritValDescrStart, 
             yCritValDescrStart, xAltDistDescr, yAltDistDescr, yNullDistDescr,
             leftRejTxtStart, rightRejTxtStart;
     
@@ -84,7 +84,6 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.oneProp_Power_Model.restoreNullValues();
-        //sampleSize = this.oneProp_Power_Model.getSampleSize();
         nullProp = this.oneProp_Power_Model.getNullProp();
         stErr_PNull = this.oneProp_Power_Model.getStErr_PNull();
         stErr_PAlt = this.oneProp_Power_Model.getStandErr_PAlt();
@@ -111,7 +110,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: OneProp_Power_PdfView 115 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneProp_Power_PdfView 113 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }        
         stErr_PNull = this.oneProp_Power_Model.getStErr_PNull();   
@@ -187,7 +186,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                         break;
 
                     default:
-                        String switchFailure = "Switch failure: OneProp_Power_PdfView 191 " + daID;
+                        String switchFailure = "Switch failure: OneProp_Power_PdfView 189 " + daID;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 }
             }); 
@@ -240,7 +239,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                 break;  
                 
             default:
-                String switchFailure = "Switch failure: OneProp_Power_PdfView 244 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneProp_Power_PdfView 242 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);    
         }   //  end switch
     }   //  end setUpDecisionRegions
@@ -385,8 +384,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
         
         yStop = yAxis.getDisplayPosition(tentative_yStop);
 
-        switch(strRejectionCriterion) {
-            
+        switch(strRejectionCriterion) { 
             case "LessThan":    // Alternative is less than
                 xStart = xAxis.getDisplayPosition(rawCritValLT); 
                 xStop = xAxis.getDisplayPosition(rawCritValLT);               
@@ -411,7 +409,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                 break;  
                 
             default:
-                String switchFailure = "Switch failure: OneProp_Power_PdfView 415 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneProp_Power_PdfView 412 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }   //  end switch
 
@@ -488,8 +486,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
             
             switch(strRejectionCriterion) {
                 case "LessThan":
-                    if (x < rawCritValLT) { 
-  
+                    if (x < rawCritValLT) {   
                         if (power_Desired == true) {
                             gc.setStroke(Color.RED);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
@@ -503,7 +500,6 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                     }
                     else
                     {
-
                         if (typeII_Desired == true) {
                             gc.setStroke(Color.BLUE);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null); 
@@ -517,10 +513,8 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                     }
                     break;
 
-                case "NotEqual":
-                    
-                    if ((rawCritValLT < x) && (x < rawCritValGT)) { 
-                        
+                case "NotEqual":                    
+                    if ((rawCritValLT < x) && (x < rawCritValGT)) {                         
                         if (typeII_Desired) {
                             gc.setStroke(Color.BLUE);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
@@ -530,9 +524,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
                         }                      
-                    }
-                    else
-                    {
+                    } else {
                         if (power_Desired) {
                             gc.setStroke(Color.RED);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
@@ -545,28 +537,23 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                     }
                     break;                
 
-                case "GreaterThan":
-                    
+                case "GreaterThan":                    
                     if (x < rawCritValGT) {      
                         if (typeII_Desired) {
                             gc.setStroke(Color.BLUE);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);                            
-                        }
-                        else {
+                        } else {
                             gc.setStroke(Color.AQUAMARINE);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
                         } 
-                    }
-                    else
-                    {
+                    } else {
                         if (power_Desired) {
                             gc.setStroke(Color.RED);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
-                        }
-                        else {
+                        } else {
                             gc.setStroke(Color.AQUAMARINE);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
@@ -575,7 +562,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                     break;  
 
                     default:
-                        String switchFailure = "Switch failure: OneProp_Power_PdfView 579 " + strRejectionCriterion;
+                        String switchFailure = "Switch failure: OneProp_Power_PdfView 565 " + strRejectionCriterion;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);    
             }   //  end switch
         }  //   end loop   
@@ -626,7 +613,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: OneProp_Power_PdfView 630 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneProp_Power_PdfView 616 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);                  
         }
         
@@ -731,7 +718,7 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: OneProp_Power_PdfView 735 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneProp_Power_PdfView 721 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }
         
@@ -816,6 +803,3 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
    
    public Pane getTheContainingPane() {  return theContainingPane; }
 }
-
-
-

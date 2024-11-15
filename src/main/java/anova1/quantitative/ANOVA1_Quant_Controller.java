@@ -1,6 +1,6 @@
 /**************************************************
  *            ANOVA1_Quant_Controller             *
- *                    09/03/24                    *
+ *                    10/07/24                    *
  *                     15:00                      *
  *************************************************/
 package anova1.quantitative;
@@ -25,8 +25,8 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     String[] incomingLabels;
     
     // Make empty if no-print
-    String waldoFile = "ANOVA1_Quant_Controller";
-    //String waldoFile = "";
+    //String waldoFile = "ANOVA1_Quant_Controller";
+    String waldoFile = "";
     
     public ObservableList<String> varLabels;
     boolean[] isNumeric;
@@ -39,12 +39,13 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     public ANOVA1_Quant_Controller(Data_Manager dm) {
         super(dm);
         this.dm = dm;
-        dm.whereIsWaldo(37, waldoFile, "Constructing");
+        dm.whereIsWaldo(42, waldoFile, "\n ANOVA1_Quant_Controller Constructing");
         anova1_ColsOfData = new ArrayList();
         returnStatus = "OK";
     }
     
     public void doStackedOrNot() {
+        dm.whereIsWaldo(48, waldoFile, "ANOVA1_Quant_Controller doStackedOrNot()");
         DataChoice_StackedOrNot stackedYesOrNo = new DataChoice_StackedOrNot(this);       
         // stackedOrSeparate is set by the dialog        
         if (stackedOrSeparate.equals("Group & Data")) { doStacked(); }
@@ -52,11 +53,11 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     }
 
     protected boolean doStacked() {
-        dm.whereIsWaldo(50, waldoFile, "doStacked()");
+        dm.whereIsWaldo(56, waldoFile, "doStacked()");
         do {
             int casesInStruct = dm.getNCasesInStruct();            
             if (casesInStruct == 0) {
-                MyAlerts.showAintGotNoDataAlert();
+                MyAlerts.showAintGotNoDataAlert_1Var();
                 return false;
             }
             
@@ -70,7 +71,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
             }
             
             anova1_ColsOfData = anova1_Quant_S_Dialog.getData();
-            //dm.whereIsWaldo(68, waldoFile, "doStacked()");
+            //dm.whereIsWaldo(73, waldoFile, "doStacked()");
             int nLevels = anova1_ColsOfData.get(0).getNumberOfDistinctValues();
             if (nLevels < 3) {
                 MyAlerts.showAnova1_LT3_LevelsAlert();
@@ -81,14 +82,13 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
             checkForLegalChoices = validateStackChoices();
         } while (!checkForLegalChoices);
         
-        //dm.whereIsWaldo(79, waldoFile, "doStacked()");
+        //dm.whereIsWaldo(84, waldoFile, "doStacked()");
         explVarDescr = anova1_Quant_S_Dialog.getPreferredFirstVarDescription();
         respVarDescr = anova1_Quant_S_Dialog.getPreferredSecondVarDescription();
   
         //                                Categorical,             Quantitative            return All and individuals
         cqdv = new CatQuantDataVariable(dm, anova1_ColsOfData.get(0), anova1_ColsOfData.get(1), true, "ANOVA1_Cat_Controller");   
         returnStatus = cqdv.finishConstructingStacked();
-        //dm.whereIsWaldo(86, waldoFile, " --- doStacked()");
         
         if(returnStatus.equals("OK")) { 
             allTheQDVs = new ArrayList();
@@ -104,12 +104,12 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     }
 
     protected boolean doNotStacked() {
-        dm.whereIsWaldo(102, waldoFile, "doNotStacked()");
+        dm.whereIsWaldo(107, waldoFile, "doNotStacked()");
         goodToGo = true;
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             return false;
         }
         
@@ -155,7 +155,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     }
     
     protected boolean doTheANOVA() {
-        dm.whereIsWaldo(153, waldoFile, " *** doTheANOVA()");
+        dm.whereIsWaldo(158, waldoFile, " *** doTheANOVA()");
         allTheLabels = new ArrayList<>();
         
         for (int iVars = 0; iVars < n_QDVs; iVars++) {
@@ -182,7 +182,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     }
     
     private boolean validateStackChoices() {
-        dm.whereIsWaldo(180, waldoFile, "validateStackChoices()");
+        dm.whereIsWaldo(185, waldoFile, "validateStackChoices()");
         isNumeric = new boolean[2];
         
         for (int ithCol = 0; ithCol < 2; ithCol++){
@@ -192,7 +192,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     }
     
     private void askAboutReOrdering() {
-        System.out.println("  *** 202 MultUni_Model, askAboutReOrdering()");
+        dm.whereIsWaldo(195, waldoFile, "ANOVA1_QuantModel, askAboutReOrdering()");
         n_QDVs = incomingQDVs.size();
         theNewOrder = new int[n_QDVs];
         // Default
@@ -216,6 +216,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     }
     
     private void collectAllTheLabels() {
+        dm.whereIsWaldo(219, waldoFile, "ANOVA1_QuantModel, collectAllTheLabels()");
         varLabels = FXCollections.observableArrayList();         
         for (int iVars = 0; iVars < n_QDVs; iVars++) {
             varLabels.add(allTheQDVs.get(iVars).getTheVarLabel());
@@ -223,13 +224,12 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     }
     
     public void closeTheReOrderDialog(int[] returnedOrder) {
+        dm.whereIsWaldo(227, waldoFile, "ANOVA1_QuantModel, closeTheReOrderDialog(int[] returnedOrder)");
         System.arraycopy(returnedOrder, 0, theNewOrder, 0, n_QDVs);
         reOrderStrings_Dialog.close();
     } 
     
-    public ObservableList <String> getVarLabels() { 
-        return varLabels; 
-    }
+    public ObservableList <String> getVarLabels() {  return varLabels; }
     
     public Data_Manager getDataManager() {return dm; }
 }

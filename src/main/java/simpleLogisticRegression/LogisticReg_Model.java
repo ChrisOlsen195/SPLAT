@@ -53,8 +53,8 @@ public class LogisticReg_Model {
     String[] logisticEquation;
     
     // Make empty if no-print
-    //String waldoFile = "LogisticReg_Model";
-    String waldoFile = "";
+    String waldoFile = "LogisticReg_Model";
+    //String waldoFile = "";
     
     // My classes
     StandardNormal standNorm;
