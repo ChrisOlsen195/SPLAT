@@ -55,9 +55,6 @@ public class NoInf_Regression_BestFit_View extends BivariateScale_W_CheckBoxes_V
         dm.whereIsWaldo(50, waldoFile, "Constructing");        
         X = noInf_Regression_Model.getXVar();
         Y = noInf_Regression_Model.getY();
- 
-
-        
 
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;         

@@ -29,7 +29,7 @@ public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
     
     int sampleSize;
 
-    double /*xMin, xMax,*/ yMin, yMax, hypothProp, hypothStDev, effectSize, altMu;
+    double yMin, yMax, hypothProp, hypothStDev, effectSize, altMu;
 
     //  FX
     Pane theContainingPane;
@@ -121,7 +121,6 @@ public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
         xGraphRight = toThere;
         bigDelta = (xGraphRight - xGraphLeft) / NUMBER_OF_DXs;
         delta = bigDelta;
-        //xMin = xMax = xGraphLeft;
         xRange = xGraphRight - xGraphLeft; 
         yMin = 0.0; yMax = 1.025;
         yRange = yMax;
@@ -134,8 +133,7 @@ public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
     }
    
     public void doTheGraph() {      
-        double xx0, yy0, xx1, yy1, h, // altPropPrime, z_lambda,
-               power;
+        double xx0, yy0, xx1, yy1, h, power;
 
         double text1Width = title1Text.getLayoutBounds().getWidth();
         double text2Width = title2Text.getLayoutBounds().getWidth();

@@ -1,7 +1,7 @@
 /**************************************************
- *          X2Assoc_SegmentedBarChartView         *
- *                    08/19/24                    *
- *                     00:00                      *
+ *           BivCat_SegmentedBarChartView         *
+ *                    10/15/24                    *
+ *                     18:00                      *
  *************************************************/
 package bivariateProcedures_Categorical;
 
@@ -121,7 +121,7 @@ public class BivCat_SegBarChartView  {
         yAxis.forceHighScaleEndToBe(1.05);
         yAxis.setSide(Side.LEFT);
 
-        yAxis.setVisible(false);    //  Used only for positioning other stuff
+        yAxis.setVisible(true);    //  Used only for positioning other stuff
     }
     
     private void setUpUI() {
@@ -210,7 +210,7 @@ public class BivCat_SegBarChartView  {
         AnchorPane.setRightAnchor(gridPane_SegBar, hBoxEdge * tempWidth);
         AnchorPane.setBottomAnchor(gridPane_SegBar, 0.80 * tempHeight);        
         
-        AnchorPane.setTopAnchor(xAxis, 0.85 * tempHeight);
+        AnchorPane.setTopAnchor(xAxis, 0.90 * tempHeight);
         AnchorPane.setLeftAnchor(xAxis, 0.1 * tempWidth);
         AnchorPane.setRightAnchor(xAxis, 0.0 * tempWidth);
         AnchorPane.setBottomAnchor(xAxis, 0.0 * tempHeight);
@@ -218,12 +218,12 @@ public class BivCat_SegBarChartView  {
         AnchorPane.setTopAnchor(yAxis, 0.2 * tempHeight);
         AnchorPane.setLeftAnchor(yAxis, 0.0 * tempWidth);
         AnchorPane.setRightAnchor(yAxis, 0.9 * tempWidth);
-        AnchorPane.setBottomAnchor(yAxis, 0.2 * tempHeight);
+        AnchorPane.setBottomAnchor(yAxis, 0.1 * tempHeight);
         
         AnchorPane.setTopAnchor(segBarCanvas, 0.2 * tempHeight);
         AnchorPane.setLeftAnchor(segBarCanvas, 0.1 * tempWidth);
         AnchorPane.setRightAnchor(segBarCanvas, 0.0 * tempWidth);
-        AnchorPane.setBottomAnchor(segBarCanvas, 0.2 * tempHeight);
+        AnchorPane.setBottomAnchor(segBarCanvas, 0.1 * tempHeight);
         
         segBarGC.clearRect(0, 0 , segBarCanvas.getWidth(), segBarCanvas.getHeight());
         segBarGC.setLineWidth(2.5);
@@ -302,41 +302,16 @@ public class BivCat_SegBarChartView  {
         segBarGC.setFont(Font.font("Courier New", FontWeight.BOLD, FontPosture.REGULAR, 14));
         segBarGC.setLineWidth(2);
         
-        double xText = xAxis.getDisplayPosition(0.0) - 45.;
-        double xText35 = xText + 38;
-        double xText50 = xText + 46;
-
-        String prop025 = "0.25";
-        double yText025 = yAxis.getDisplayPosition(0.25) + 2.5;
-        segBarGC.fillText(prop025, xText, yText025 + 2);
-        segBarGC.strokeLine(xText35, yText025, xText50, yText025);
-        
-        String prop050 = "0.50";
-        double yText050 = yAxis.getDisplayPosition(0.50) + 2.5;
-        segBarGC.fillText(prop050, xText, yText050 + 2);
-        segBarGC.strokeLine(xText35, yText050, xText50, yText050);
-        
-        String prop075 = "0.75";
-        double yText075 = yAxis.getDisplayPosition(0.75) + 2.5;
-        segBarGC.fillText(prop075, xText, yText075 + 2);
-        segBarGC.strokeLine(xText35, yText075, xText50, yText075);
-        
-        String prop100 = "1.00";
-        double yText100 = yAxis.getDisplayPosition(1.00) + 2.5;
-        segBarGC.fillText(prop100, xText, yText100 + 2);
-        segBarGC.strokeLine(xText35, yText100, xText50, yText100);
-        
-        //mosaicGC.strokeLine(xText50, yText000, xText50, yText100);
         segBarGC.setStroke(Color.BLACK);
         double leftXBaseLine = xAxis.getDisplayPosition(0.01);
         double rightXBaseLine = xAxis.getDisplayPosition(0.99);
         double bottomYBaseLine = yAxis.getDisplayPosition(0.0);
-        double topYBaseLine = yAxis.getDisplayPosition(0.99);
+        //double topYBaseLine = yAxis.getDisplayPosition(0.99);
 
         segBarGC.strokeLine(leftXBaseLine, bottomYBaseLine, 
                             rightXBaseLine, bottomYBaseLine - 0.5);        
-        segBarGC.strokeLine(leftXBaseLine - 2., bottomYBaseLine, 
-                            leftXBaseLine - 2., topYBaseLine + 1.);   
+        //segBarGC.strokeLine(leftXBaseLine - 2., bottomYBaseLine, 
+        //                    leftXBaseLine - 2., topYBaseLine + 1.);   
     }
     
     private void constructSegBarInfo()

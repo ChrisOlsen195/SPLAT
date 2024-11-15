@@ -135,8 +135,8 @@ public class ANOVA1_Cat_Model {
         dm.whereIsWaldo(135, waldoFile, "setupAnalysis()");
         for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
             String varLabel = allTheQDVs.get(ithLevel)
-                                               .getTheVarLabel()
-                                               .trim();            
+                                        .getTheVarLabel()
+                                        .trim();            
             boolean variabilityFound = DataUtilities.checkForVariabilityInQDV(allTheQDVs.get(ithLevel));
             
             if (!variabilityFound) {

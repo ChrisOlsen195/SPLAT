@@ -1,7 +1,7 @@
 /**************************************************
  *                MultUni_DotPlotView             *
- *                     04/02/24                   *
- *                      09:00                     *
+ *                     10/07/24                   *
+ *                      15:00                     *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -37,8 +37,8 @@ import utilityClasses.Colors_and_CSS_Strings;
 public class MultUni_DotPlotView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
     
-    boolean printTheStuff = true;
-    //boolean printTheStuff = false;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int nLegalDataPoints, nBinsToLeft, nBinsToRight, nBinsTotal, nLevels;
     

@@ -98,7 +98,7 @@ public class Indep_t_Controller {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             return "Cancel";
         }
         
@@ -159,7 +159,7 @@ public class Indep_t_Controller {
             indep_t_SumStats_Dashboard = new Indep_t_SumStats_Dashboard(this);
             showTheSumStatsDashboard();
             
-            myYesNoAlerts.showAvoidRepetitiousClicksAlert();
+            myYesNoAlerts.showAvoidRepetitiousClicksAlert("You betcha", "No way");
             doItAgain = myYesNoAlerts.getYesOrNo();
         }
         returnStatus = "Finished";

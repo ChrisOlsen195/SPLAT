@@ -70,7 +70,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             return "Cancel";
         }
         

@@ -19,8 +19,8 @@ public class IndepMeans_Power_Controller {
     double nullMu_1, nullMu_2, altDiff_InMeans, nullSigma_1, nullSigma_2,
            nullDiff_InMeans, power;
     
-    String strRejectionCriterion, /*rejectionStrategy,*/ strPrinted_Null, 
-           strPrinted_Alt, strReturnStatus;
+    String strRejectionCriterion, strPrinted_Null, strPrinted_Alt, 
+           strReturnStatus;
     
     // My Classes
     Point_2D nonRejectionRegion;
@@ -64,7 +64,6 @@ public class IndepMeans_Power_Controller {
                 
             case "NotEqual":
                 altDiff_InMeans = nullDiff_InMeans + effectSize ;
-                //System.out.println("74 controller, altDiffInMeans = " + altDiffInMeans);
                 break;
                 
             case "GreaterThan":
@@ -72,7 +71,7 @@ public class IndepMeans_Power_Controller {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Controller 75 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_Controller 74 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
 
@@ -102,7 +101,7 @@ public class IndepMeans_Power_Controller {
                 break;
 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Controller 105 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_Controller 104 " + strRejectionCriterion;
                 System.exit(150);
         }
 

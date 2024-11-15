@@ -38,7 +38,7 @@ public class TwoProp_Inf_Controller {
                 goodToGo = twoProp_Inf_Dashboard.getReturnStatus();  
             }
 
-            myYesNoAlerts.showAvoidRepetitiousClicksAlert();
+            myYesNoAlerts.showAvoidRepetitiousClicksAlert("You betcha", "No way");
             yesOrNo = myYesNoAlerts.getYesOrNo();          
         }
         return goodToGo;

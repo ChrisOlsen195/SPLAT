@@ -1,7 +1,7 @@
 /**************************************************
 *                X2Assoc_Dashboard                *
-*                     05/26/24                    *
-*                      09:00                      *
+*                     10/09/24                    *
+*                      21:00                      *
 **************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -109,7 +109,8 @@ public class X2Assoc_Dashboard extends Dashboard {
         assocPrintAdvStatsContainingPane = x2Assoc_PrintAdvStats.getTheContainingPane();
         assocPrintAdvStatsContainingPane.setStyle(containingPaneStyle);
 
-        initHeight[3] = 600;
+        initWidth[3] = 550;
+        initHeight[3] = 475;
         x2Assoc_MosaicPlotView = new X2Assoc_MosaicPlotView(x2assoc_Model, this, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
         x2Assoc_MosaicPlotView.completeTheDeal();
         mosaicPlotContainingPane = x2Assoc_MosaicPlotView.getTheContainingPane();

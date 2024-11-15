@@ -62,7 +62,7 @@ public class ChooseStats_Controller extends Splat_Dialog {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             return "Cancel";
         }
         

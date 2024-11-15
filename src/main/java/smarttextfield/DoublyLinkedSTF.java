@@ -17,7 +17,6 @@ public class DoublyLinkedSTF {
     
     public DoublyLinkedSTF (SmartTextFieldsController stf_Controller, int size) {
         //System.out.println("19 DoublyLinkedSTF, Constructing");
-        
         this.size = size;
         al_STF = new ArrayList(size);        
         for (int ithSTF = 0; ithSTF < size; ithSTF++) {
@@ -35,7 +34,9 @@ public class DoublyLinkedSTF {
         al_STF.get(size - 1).setPre_Me_AndPostSmartTF(size - 2, size - 1, 0);        
     }
     
-    public SmartTextField get(int thisOne) { return al_STF.get(thisOne); }    
+    public SmartTextField get(int thisOne) { 
+        return al_STF.get(thisOne); 
+    }    
     public ArrayList<SmartTextField> getTheDLArrayList() { return al_STF; }   
     public int getSize() { return al_STF.size(); }
     

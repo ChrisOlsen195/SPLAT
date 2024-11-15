@@ -92,7 +92,7 @@ public class MultiVariateContinDataObj {
         // non-numeric variables.
         nCompleteCases = al_Non_Missing_Rows.size();
         
-        if (nCompleteCases == 0) { MyAlerts.showAintGotNoDataAlert(); }
+        if (nCompleteCases == 0) { MyAlerts.showAintGotNoDataAlert_1Var(); }
     
         nCasesWithMissingData = nOriginalDataPoints - nCompleteCases; 
     }

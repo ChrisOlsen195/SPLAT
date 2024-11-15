@@ -68,7 +68,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
 
     public BivCat_SummaryDialog(BivCat_Model bivCat_Model) {   //  Constructor
         super();
-        System.out.println("\n71 BivCat_SummaryDialog, Constructing");
+        //System.out.println("\n71 BivCat_SummaryDialog, Constructing");
         this.bivCat_Model = bivCat_Model;
         //strAssocType = bivCat_Model.getAssociationType();
         stf_RowCol_Controller = new SmartTextFieldsController();
@@ -93,7 +93,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
  *                       Independence/Homogeneity                           * 
  ***************************************************************************/
     private void doX2ChosenPanel() {
-        System.out.println("96 BivCat_SummaryDialog, doX2ChosenPanel()");
+        //System.out.println("96 BivCat_SummaryDialog, doX2ChosenPanel()");
         strCurControl = step1;
         
         lbl_NRowCats.setText("nRow categories:");
@@ -133,7 +133,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
     }
     
     public void constructObservedValuesPanel() {
-        System.out.println("136 BivCat_SummaryDialog, constructObservedValuesPanel()");
+        //System.out.println("136 BivCat_SummaryDialog, constructObservedValuesPanel()");
         strCurControl = step3;
         
         setWidth(200 + 175 * nColCategories);
@@ -186,7 +186,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
     }
   
     private void initializeUIComponents() {   
-       System.out.println("189 BivCat_SummaryDialog, initializeUIComponents()");
+       //System.out.println("189 BivCat_SummaryDialog, initializeUIComponents()");
     // **********************   Buttons  ***********************************
         btnCancel.setText("Return to Menu");
         btnCancel.setOnAction(new EventHandler<ActionEvent>() {
@@ -330,7 +330,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
 }    
     
     public void setCurrentFocusOn(int thisListArrayElement) {
-        System.out.println("333 BivCat_SummaryDialog, setCurrentFocusOn()");
+        //System.out.println("333 BivCat_SummaryDialog, setCurrentFocusOn()");
         switch (strCurControl) {
             case step1: 
                 al_VarCat_STF.get(thisListArrayElement).getSmartTextField().getTextField().requestFocus();
@@ -351,7 +351,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
 
     // 'Final' check on any data entry problems for the X2Chosen Panel
     private boolean checkOKChosen() {
-        System.out.println("354 BivCat_SummaryDialog, checkOKChosen()");
+        //System.out.println("354 BivCat_SummaryDialog, checkOKChosen()");
         boolean goForIt = true;
         boolean[] okToContinue = new boolean[4];    //  Yes, hard-coded
         okToContinue[0] = !al_RowCol_STF.get(0).isEmpty();
@@ -373,7 +373,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
     }
     
     public void constructCategoriesPanel()  {  
-        System.out.println("376 BivCat_SummaryDialog, constructCategoriesPanel()");
+        //System.out.println("376 BivCat_SummaryDialog, constructCategoriesPanel()");
         strCurControl = step2;
         gridPaneVarCat = new GridPane();
         gridPaneVarCat.setPadding(new Insets(10, 10, 10, 10));
@@ -424,7 +424,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
      *        Formerly this code was in the X2Assoc_SummaryDialog_Obj      *
      **********************************************************************/
     private void doFormerDialogObj() {
-        System.out.println("427 BivCat_SummaryDialog, doFormerDialogObj()");
+        //System.out.println("427 BivCat_SummaryDialog, doFormerDialogObj()");
         nRows = al_RowCol_STF.get(1).getSmartTextInteger();
         nCols = al_RowCol_STF.get(3).getSmartTextInteger();
         strYValues = new String[nRows];
@@ -449,7 +449,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
     }
 
     private boolean checkOKCategoriesGrid() {
-        System.out.println("452 BivCat_SummaryDialog, checkOKCategoriesGrid()");
+        //System.out.println("452 BivCat_SummaryDialog, checkOKCategoriesGrid()");
         boolean okToContinue = true;
         
         for (int ithSTF = 0; ithSTF < al_VarCat_STF.getSize(); ithSTF++) {            

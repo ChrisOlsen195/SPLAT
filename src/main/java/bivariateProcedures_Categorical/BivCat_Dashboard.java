@@ -1,7 +1,7 @@
 /**************************************************
 *                BivCat_Dashboard                 *
-*                     08/19/24                    *
-*                      00:00                      *
+*                     10/15/24                    *
+*                      18:00                      *
 **************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -19,7 +19,8 @@ public class BivCat_Dashboard extends Dashboard {
     String assocType;
     
     String[] assocCheckBoxDescr = {"Contingency table", 
-                                   "   Mosaic \n    Plot", 
+                                   "   Mosaic \n    Plot",
+                                   " SideBySide Segmented \n bar chart",
                                    " Segmented \n bar chart",
                                    " Pie Chart "};
     
@@ -33,14 +34,16 @@ public class BivCat_Dashboard extends Dashboard {
     BivCat_PieChartView bivCat_PieChartView;
     BivCat_PrintStatistics bivCat_PrintStatistics;
     BivCat_SegBarChartView bivCat_SegBarChartView;
+    BivCat_SideBySideSegBarChartView bivCat_SideBySideSegBarChartView;
 
     // POJOs / FX
     
     Pane mosaicPlotContainingPane, segmentedBarChartContainingPane,
-             printStatisticsContainingPane, pieChartContainingPane; 
+             printStatisticsContainingPane, pieChartContainingPane,
+             sideBySideSegBarChartContainingPane; 
       
     public BivCat_Dashboard(BivCat_Controller bivCat_Controller, BivCat_Model bivCat_Model) {
-        super(4);
+        super(5);
         //System.out.println("\n44 BivCat_Dashboard, Constructing");
         setTitle("Bivariate Categorical Association dashboard");  
         this.bivCat_Model = bivCat_Model;  
@@ -73,13 +76,20 @@ public class BivCat_Dashboard extends Dashboard {
             mosaicPlotContainingPane.setVisible(false);    
 
         if (checkBoxSettings[2] == true) {
+            sideBySideSegBarChartContainingPane.setVisible(true);
+            bivCat_SideBySideSegBarChartView.doThePlot();
+        }
+        else
+            sideBySideSegBarChartContainingPane.setVisible(false); 
+       
+        if (checkBoxSettings[3] == true) {
             segmentedBarChartContainingPane.setVisible(true);
             bivCat_SegBarChartView.doThePlot();
         }
         else
             segmentedBarChartContainingPane.setVisible(false); 
-       
-        if (checkBoxSettings[3] == true) {
+        
+        if (checkBoxSettings[4] == true) {
             pieChartContainingPane.setVisible(true);
             bivCat_PieChartView.doTheGraph();
         }
@@ -94,26 +104,37 @@ public class BivCat_Dashboard extends Dashboard {
         printStatisticsContainingPane = bivCat_PrintStatistics.getTheContainingPane();
         printStatisticsContainingPane.setStyle(containingPaneStyle);
 
-        initWidth[1] = 600;
+        initWidth[1] = 550;
+        initHeight[1] = 475;
         bivCat_MosaicPlotView = new BivCat_MosaicPlotView(bivCat_Model, this, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]);
         bivCat_MosaicPlotView.completeTheDeal();
         mosaicPlotContainingPane = bivCat_MosaicPlotView.getTheContainingPane();
         
         mosaicPlotContainingPane.setStyle(containingPaneStyle);
-        initWidth[2] = 450;
-        bivCat_SegBarChartView = new BivCat_SegBarChartView(bivCat_Model, this, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
+        
+        initWidth[2] = 550;
+        initHeight[2] = 475;
+        bivCat_SideBySideSegBarChartView = new BivCat_SideBySideSegBarChartView(bivCat_Model, this, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
+        bivCat_SideBySideSegBarChartView.completeTheDeal();        
+        sideBySideSegBarChartContainingPane = bivCat_SideBySideSegBarChartView.getTheContainingPane(); 
+        sideBySideSegBarChartContainingPane.setStyle(containingPaneStyle);        
+        
+        initWidth[3] = 550;
+        initHeight[3] = 475;
+        bivCat_SegBarChartView = new BivCat_SegBarChartView(bivCat_Model, this, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
         bivCat_SegBarChartView.completeTheDeal();        
         segmentedBarChartContainingPane = bivCat_SegBarChartView.getTheContainingPane(); 
         segmentedBarChartContainingPane.setStyle(containingPaneStyle);
         
-        initHeight[3] = 525;
-        bivCat_PieChartView = new BivCat_PieChartView(bivCat_Model, this, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
+        initHeight[4] = 525;
+        bivCat_PieChartView = new BivCat_PieChartView(bivCat_Model, this, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
         bivCat_PieChartView.completeTheDeal();        
         pieChartContainingPane = bivCat_PieChartView.getTheContainingPane();
         pieChartContainingPane.setStyle(containingPaneStyle);
 
         backGround.getChildren().addAll(printStatisticsContainingPane,
                                         mosaicPlotContainingPane, 
+                                        sideBySideSegBarChartContainingPane,
                                         segmentedBarChartContainingPane,
                                         pieChartContainingPane
                                         );          

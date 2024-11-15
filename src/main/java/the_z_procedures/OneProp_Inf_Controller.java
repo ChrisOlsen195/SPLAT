@@ -50,7 +50,7 @@ public class OneProp_Inf_Controller {
                 //return returnStatus;
             }
 
-            myYesNoAlerts.showAvoidRepetitiousClicksAlert();
+            myYesNoAlerts.showAvoidRepetitiousClicksAlert("You betcha", "No way");
             yesOrNo = myYesNoAlerts.getYesOrNo();        
         } 
          

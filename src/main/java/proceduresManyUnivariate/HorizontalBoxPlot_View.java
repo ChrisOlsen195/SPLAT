@@ -1,7 +1,7 @@
 /**************************************************
  *             HorizontalBoxPlot_View             *
- *                   09/18/24                     *
- *                     00:00                      *
+ *                   10/07/24                     *
+ *                     15:00                      *
  *************************************************/
 /**************************************************
  *  Checked against PSO / 6th ed, p171, 08/13/23  *
@@ -497,8 +497,8 @@ public class HorizontalBoxPlot_View extends Region {
 
             gcHBox.setLineWidth(2);
             gcHBox.setStroke(Color.BLACK);
-            double spaceFraction = 0.25 * spacing;
-
+            // double spaceFraction = 0.25 * spacing;
+            double spaceFraction = 0.15 * spacing;
             // x, y, w, h
             gcHBox.strokeRect(q1_display, daYPosition - spaceFraction, iqr_display, 2 * spaceFraction);    //  box
             gcHBox.strokeLine(q2_display, daYPosition - spaceFraction, q2_display, daYPosition + spaceFraction);    //  Median

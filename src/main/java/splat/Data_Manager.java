@@ -1,7 +1,7 @@
 /************************************************************
  *                        Data_Manager                      *
- *                          09/21/24                        *
- *                            18:00                         *
+ *                          11/12/24                        *
+ *                            03:00                         *
  ***********************************************************/
 package splat;
 
@@ -34,7 +34,7 @@ import utilityClasses.StringUtilities;
 
 public final class Data_Manager {
 
-    boolean dataExists, dataIsClean, goodToGo, scrollEventInitiated;
+    boolean dataExists, dataAreClean, goodToGo, scrollEventInitiated;
 
     int colHeadSelected, nCasesInGrid, nCasesInStruct, nVarsInStruct,
         pxCellWidth, nCharsInLabel;
@@ -73,7 +73,7 @@ public final class Data_Manager {
         whereIsWaldo(73, waldoFile, "Constructing");
         this.maxCasesInGrid = nCasesInVisualGrid;
         this.maxVarsInGrid = nVariablesInVisualGrid;
-        currentVersion = "11/10/23";
+        currentVersion = "11/12/24";
         dataExists = false;
         positionTracker = new PositionTracker(this, this.maxVarsInGrid, this.maxCasesInGrid);
         positionTracker.set_ulDG(0, 0);
@@ -147,7 +147,7 @@ public final class Data_Manager {
         dataStruct = new ArrayList();
         positionTracker.setNVarsInStruct(0);
         positionTracker.setNCasesInStruct(0);
-        dataIsClean = true;
+        dataAreClean = true;
         positionTracker.set_CurrentDG_and_DS(0, 0);
 
         for (int ithGridCol = 0; ithGridCol < maxVarsInGrid; ithGridCol++) {
@@ -424,7 +424,6 @@ public final class Data_Manager {
 
     public void sendDataStructToGrid(int theDG_Col, int theDG_Row) {        
         whereIsWaldo(426, waldoFile, "sendDataStructToGrid(int theDG_Col, int theDG_Row)");
-        //System.out.println("427, int theDG_Col, int theDG_Row = " + theDG_Col + " / " + theDG_Row);
         String tempText;
         int rowInDataStruct, columnInDataStruct, firstCaseId, firstVarId;
         ArrayList<String> casesInColumn;
@@ -461,7 +460,6 @@ public final class Data_Manager {
         for (int ithGridCol = 0; ithGridCol < maxVarsInGrid; ithGridCol++) {  
             columnInDataStruct = ithGridCol + firstVarId;            
             if (ithGridCol < nVarsInStruct) {
-                //System.out.println("464 Data_Manager.....");
                 if (0 < nCasesInStruct) {
                     casesInColumn = new ArrayList(dataStruct.get(columnInDataStruct).getTheFormattedCases());
                 } else {
@@ -482,14 +480,14 @@ public final class Data_Manager {
                 dm.whereIsWaldo(483, waldoFile, "rowInDataStruct / nCasesInStruct = " + rowInDataStruct + " / " + nCasesInStruct);
                 if ((0 < nCasesInStruct) && (rowInDataStruct < nCasesInStruct)) {
                     tempText = casesInColumn.get(rowInDataStruct); 
-                    dm.whereIsWaldo(486, waldoFile, "setGridCellContents: col / row / toThis = " + ithGridCol + " / " + jthGridRow + " / " + tempText);
+                    dm.whereIsWaldo(485, waldoFile, "setGridCellContents: col / row / toThis = " + ithGridCol + " / " + jthGridRow + " / " + tempText);
                     dataGrid.setGridCellContents(ithGridCol, jthGridRow, tempText);
                 } else {
-                    dm.whereIsWaldo(489, waldoFile, "setGridCellContents: col / row / toThis = " + ithGridCol + " / " + jthGridRow + " / " + "Blank");
+                    //dm.whereIsWaldo(488, waldoFile, "setGridCellContents: col / row / toThis = " + ithGridCol + " / " + jthGridRow + " / " + "Blank");
                     dataGrid.setGridCellContents(ithGridCol, jthGridRow, " ");
                 }                
             }   // end row
-            dm.whereIsWaldo(493, waldoFile, "setPosTracker: col / row / toThis = " + theDG_Col + " / " + theDG_Row);
+            dm.whereIsWaldo(492, waldoFile, "setPosTracker: col / row / toThis = " + theDG_Col + " / " + theDG_Row);
             //positionTracker.set_CurrentDG_and_DS(theDG_Col, theDG_Row);
             positionTracker.set_CurrentDG_and_DS(theDG_Col, theDG_Row);
         }   // Send data struct to grid 
@@ -517,7 +515,7 @@ public final class Data_Manager {
                                 int forThisCol,
                                 int forThisRow,
                                 String toThis) {
-        whereIsWaldo(521, waldoFile, "setDataInStruct");
+        whereIsWaldo(518, waldoFile, "\n\n\n-------------------setDataInStruct");
         int structCol, structRow, gridCol, gridRow;
         structCol = forThisCol;
         structRow = forThisRow;
@@ -528,14 +526,12 @@ public final class Data_Manager {
         nCasesInStruct = positionTracker.getNCasesInStruct();
 
         if (structCol + 1 >= nVarsInStruct) {
-            //System.out.println("532 Data_Manager.....");
             int nVariablesToAdd = structCol + 1 - nVarsInStruct;
             addToStructNColumnsWithNoData(nVariablesToAdd);
             nVarsInStruct = positionTracker.getNVarsInStruct(); // Just checking
         }
 
         if (structRow + 1 >= nCasesInStruct) {
-            //System.out.println("539 Data_Manager.....");
             int nCasesToAdd = structRow + 1 - nCasesInStruct;
             addNCasesToStruct(nCasesToAdd);
             nCasesInStruct = positionTracker.getNCasesInStruct();
@@ -544,6 +540,7 @@ public final class Data_Manager {
         dataStruct.get(structCol)
                   .getTheCases_ArrayList()
                   .set(structRow, toThis);
+        whereIsWaldo(543, waldoFile, "setDataInStruct");
     }
 
     /**************************************************************************
@@ -554,7 +551,7 @@ public final class Data_Manager {
      *************************************************************************/
     
     public void addToStructNColumnsWithExistingData(ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        whereIsWaldo(558, waldoFile, "addToStructNColumnsWithExistingData");
+        whereIsWaldo(554, waldoFile, "addToStructNColumnsWithExistingData");
         
         for (int ithStacked = 0; ithStacked < allTheQDVs.size(); ithStacked++) {
             addToStructOneColumnWithExistingQuantData(allTheQDVs.get(ithStacked));
@@ -563,7 +560,7 @@ public final class Data_Manager {
     }
     
     public void addToStructNColumnsWithNoData(int nCols) {
-        //whereIsWaldo(567, waldoFile, "addToStructNColumnsWithNoData");
+        //whereIsWaldo(563, waldoFile, "addToStructNColumnsWithNoData");
         
         for (int ithColToAdd = 0; ithColToAdd < nCols; ithColToAdd++) {
             addToStructOneColumnWithNoData();
@@ -572,7 +569,7 @@ public final class Data_Manager {
     }
     
     public void addToStructOneColumnWithNoData() {
-        whereIsWaldo(576, waldoFile, "addToStructOneColumnWithNoData");
+        whereIsWaldo(572, waldoFile, "addToStructOneColumnWithNoData");
         int nVarsNow, nCases;
         nVarsNow = positionTracker.getNVarsInStruct();
         nCases = positionTracker.getNCasesInStruct();
@@ -606,7 +603,7 @@ public final class Data_Manager {
      ***********************************************************************/
 
      public void addToStructOneColumnWithExistingQuantData(QuantitativeDataVariable qdv) {
-        whereIsWaldo(610, waldoFile, "addToStructOneColumnWithExistingQuantData");
+        whereIsWaldo(606, waldoFile, "addToStructOneColumnWithExistingQuantData");
         int nVarsNow, nCases;
         nVarsNow = positionTracker.getNVarsInStruct();
         nCases = positionTracker.getNCasesInStruct();
@@ -636,7 +633,7 @@ public final class Data_Manager {
     } 
      
      public void addToStructOneColumnWithExistingCatData(CategoricalDataVariable cat_dv) {
-         whereIsWaldo(640, waldoFile, "addToStructOneColumnWithExistingCatData(");
+         whereIsWaldo(636, waldoFile, "addToStructOneColumnWithExistingCatData(");
         int nVarsNow, nCases;
         nVarsNow = positionTracker.getNVarsInStruct();
         nCases = positionTracker.getNCasesInStruct();
@@ -671,7 +668,7 @@ public final class Data_Manager {
     }
 
     public void addNCasesToStruct(int nCasesToAdd) {
-        whereIsWaldo(675, waldoFile, "addNCasesToStruct");     
+        whereIsWaldo(671, waldoFile, "addNCasesToStruct");     
         for (int iVar = 0; iVar < positionTracker.getNVarsInStruct(); iVar++) {
             dataStruct.get(iVar)
                       .addNCasesOfThese(nCasesToAdd, "*");
@@ -680,7 +677,7 @@ public final class Data_Manager {
     }
     
     public void insertARow(String strThisRow) {
-        whereIsWaldo(684, waldoFile, "insertARow");
+        whereIsWaldo(680, waldoFile, "insertARow");
         goodToGo = checkTheColOrRowEntry(strThisRow);
         
         if (goodToGo) {
@@ -700,7 +697,7 @@ public final class Data_Manager {
     }
     
     public void deleteARow(String strThisRow) {
-        whereIsWaldo(704, waldoFile, "deleteARow");
+        whereIsWaldo(700, waldoFile, "deleteARow");
         goodToGo = checkTheColOrRowEntry(strThisRow);
         
         if (goodToGo) {
@@ -720,7 +717,7 @@ public final class Data_Manager {
     }
     
     private boolean checkTheColOrRowEntry(String strThisRow) {
-        whereIsWaldo(724, waldoFile, "checkTheColOrRowEntry");
+        whereIsWaldo(720, waldoFile, "checkTheColOrRowEntry");
         
         if (strThisRow.isBlank() || strThisRow.isEmpty()) { 
             MyAlerts.showBlankRowAlert();
@@ -735,7 +732,7 @@ public final class Data_Manager {
     }
     
     public void insertAColumn(int indexOfCol, String strThisLabel) {
-        whereIsWaldo(739, waldoFile, "insertAColumn");
+        whereIsWaldo(735, waldoFile, "insertAColumn");
         ColumnOfData veryTemp  = new ColumnOfData(this, nCasesInStruct, strThisLabel);
         veryTemp.setIsNumeric(true);
         dataStruct.add(indexOfCol + 1, veryTemp); 
@@ -745,7 +742,7 @@ public final class Data_Manager {
     }
     
     public void insertAColumn(int indexOfCol, ColumnOfData colOfData) {
-        whereIsWaldo(749, waldoFile, "insertAColumn");
+        whereIsWaldo(745, waldoFile, "insertAColumn");
         ColumnOfData veryTemp  = new ColumnOfData(colOfData);
         veryTemp.setIsNumeric(true);
         dataStruct.add(indexOfCol + 1, veryTemp); 
@@ -755,7 +752,7 @@ public final class Data_Manager {
     }
 
     public void deleteAColumn(int atThisLocation) {
-        whereIsWaldo(759, waldoFile, "deleteAColumn");
+        whereIsWaldo(755, waldoFile, "deleteAColumn");
         dataStruct.remove(atThisLocation);
         positionTracker.setNVarsInStruct(positionTracker.getNVarsInStruct() - 1);
         resetTheGrid();
@@ -763,7 +760,7 @@ public final class Data_Manager {
     }
 
     public void resetTheGrid() {
-        whereIsWaldo(767, waldoFile, "resetTheGrid");
+        whereIsWaldo(763, waldoFile, "resetTheGrid");
         positionTracker.setFirstVarIdentifier(0);
         positionTracker.setFirstCaseIdentifier(0);
         sendDataStructToGrid(0, 0);
@@ -806,9 +803,9 @@ public final class Data_Manager {
         return dataStruct.get(col).getColumnSize();
     }    
     public ArrayList<ColumnOfData> getDataStruct() {return dataStruct; }
-    public boolean getDataAreClean() { return dataIsClean; }
+    public boolean getDataAreClean() { return dataAreClean; }
     
-    public void setDataAreClean(boolean newStatus) { dataIsClean = newStatus; }
+    public void setDataAreClean(boolean newStatus) { dataAreClean = newStatus; }
     
     public boolean getdataExists() { return dataExists; }
     public void setDataExists(boolean trueOrFalse) { dataExists = trueOrFalse; }    
@@ -886,7 +883,6 @@ public final class Data_Manager {
         return dataExists;
     }
             
-    
     // For diagnostic purposes only!!!    
     public void whereIsWaldo(int waldoLine, String waldoFile, String waldoWhere) {  
         if (!waldoFile.equals("")) {

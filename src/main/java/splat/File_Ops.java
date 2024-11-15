@@ -1,7 +1,7 @@
 /************************************************************
  *                        Splat_FileOps                     *
- *                           09/13/24                       *
- *                            18:00                         *
+ *                           11/11/24                       *
+ *                            09:00                         *
  ***********************************************************/
 /**************************************************
 *  All coordinate systems are zero-based:         *
@@ -35,8 +35,8 @@ public class File_Ops {
     String returnStatus, yesOrNo;
     
     //  Make empty if no-print
-    String waldoFile = "File_Ops";
-    //String waldoFile = "";
+    //String waldoFile = "File_Ops";
+    String waldoFile = "";
     
     // My classes
     CSV_FileParser fileParser;
@@ -48,7 +48,7 @@ public class File_Ops {
     File theFile;
 
     public File_Ops(Data_Manager dm) {
-        dm.whereIsWaldo(52, waldoFile, "\nConstructing File_Ops, no file name");
+        dm.whereIsWaldo(51, waldoFile, "\nConstructing File_Ops, no file name");
         this.dm = dm;
         tracker = dm.getPositionTracker();
         dm.setDataAreClean(true);
@@ -57,7 +57,7 @@ public class File_Ops {
     }
     
     public File_Ops( String fileName, Data_Manager dm) {
-        dm.whereIsWaldo(61, waldoFile, "\nConstructing File_Ops with file name");
+        dm.whereIsWaldo(60, waldoFile, "\nConstructing File_Ops with file name");
         this.dm = dm;
         tracker = dm.getPositionTracker();
         theFile = new File(fileName);
@@ -67,9 +67,9 @@ public class File_Ops {
     }
 
     public void ClearTable() {
-        dm.whereIsWaldo(71, waldoFile, "Clear table");        
+        dm.whereIsWaldo(70, waldoFile, "Clear table");        
         if (!dm.getDataAreClean()) {
-            myYesNoAlerts.showUnsavedDataAlert();
+            myYesNoAlerts.showUnsavedDataAlert("Yes, I'm sure", "Oops, guess not");
             yesOrNo = myYesNoAlerts.getYesOrNo();
             if (yesOrNo.equals("No")) { return; }
         }
@@ -81,7 +81,7 @@ public class File_Ops {
     
 
     public String getDataFromFile(int startVariable) throws Exception {
-        dm.whereIsWaldo(85, waldoFile, "getDataFromFile(int startVariable)");
+        dm.whereIsWaldo(84, waldoFile, "getDataFromFile(int startVariable)");
         try {
             FileChooser fChoose = new FileChooser();
             fChoose.setTitle("Get Data");
@@ -118,7 +118,7 @@ public class File_Ops {
 
     
     private String parseAndRead(File fileName) {
-        dm.whereIsWaldo(122, waldoFile, "parseAndRead(File fileName)");
+        dm.whereIsWaldo(121, waldoFile, "parseAndRead(File fileName)");
         fileParser = new CSV_FileParser(fileName, dm.getDelimiter());
         returnStatus = fileParser.parseTheFile();
         
@@ -139,16 +139,17 @@ public class File_Ops {
         for (int j = 0; j < nVarsInFile; j++) {
             dm.setVariableNameInStruct(j + startVariable, fileParser.getDataElementColRow(j, 0));
         }
-        
+
         for (int iRow = 0; iRow < nCasesInFile; iRow++) {           
             for (int jCol = 0; jCol < nVarsInFile; jCol++) {                
                 tracker.set_CurrentDS(jCol, iRow);  //  DS only b/c dataGrid doesn't exist yet
-                dm.setDataInStruct("147 file_Ops", 
+                dm.setDataInStruct("146 file_Ops", 
                         jCol,
                         iRow,
                         fileParser.getDataElementColRow(jCol, iRow + 1));
             }
         }
+
         dm.setFileName(fileName);
         dm.setLastPath(fileName);
         tracker.set_CurrentDG_and_DS(0, 0);
@@ -172,7 +173,7 @@ public class File_Ops {
                 dm.setVariableNumeric(ithInitColumn, false);
             }  
         }
-        
+
         int nInitCols = dm.dataStruct.size();
         int sizeOfCol_0 = dm.getDataStruct().get(0).getColumnSize();        
         for (int ithCol = 1; ithCol < nInitCols; ithCol++) {
@@ -182,16 +183,17 @@ public class File_Ops {
                 dm.getDataStruct().get(ithCol).addUntilNCases(sizeOfCol_0);
             }            
         }
+
         duplicateLabelsExist = fileParser.getDuplicateLabelsExist();
         return returnStatus;
-    } // OpenData
+    }
 
     public void SaveData(Data_Manager dm, boolean getFileName) {
-        dm.whereIsWaldo(191, waldoFile, "  *** SaveData(Data_Manager dm, boolean getFileName)");
+        dm.whereIsWaldo(192, waldoFile, "  *** SaveData(Data_Manager dm, boolean getFileName)");
         int i, j, currVars, currCases;
         
         if (tracker.getNVarsInStruct() == 0) {            
-            MyAlerts.showAintGotNoDataAlert(); 
+            MyAlerts.showAintGotNoDataAlert_1Var(); 
             return;
         }
 
@@ -227,7 +229,6 @@ public class File_Ops {
         }
 
         if (fileName.getName().equals("")) { return; }
-        
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
             currVars =tracker.getNVarsInStruct();
@@ -256,7 +257,7 @@ public class File_Ops {
             dm.setLastPath(fileName);
 
         } catch (IOException e) { String str = this.toString();}           
-    } // SaveData
+    } 
     
     public String PrintFile(Data_Manager dm) {
         printFile_Controller = new PrintFile_Controller(dm) ;
@@ -267,9 +268,8 @@ public class File_Ops {
     public void ExitProgram(Data_Manager dm) {
         dm.whereIsWaldo(269, waldoFile, "  *** ExitProgram(Data_Manager dm)");
         boolean exit = true;
-        System.out.println("269 File_Ops, dataAreClean = " + dm.getDataAreClean());
-        if (dm.getDataExists()) {           
-            myYesNoAlerts.showUnsavedDataAlert();
+        if (!dm.getDataAreClean()) { 
+            myYesNoAlerts.showUnsavedDataAlert("I'm sure", "No, maybe not");
             yesOrNo = myYesNoAlerts.getYesOrNo();
             if (yesOrNo.equals("No")) { exit = false; }
         }

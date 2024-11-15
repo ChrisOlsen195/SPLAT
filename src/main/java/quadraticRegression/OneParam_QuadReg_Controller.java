@@ -44,7 +44,7 @@ public class OneParam_QuadReg_Controller {
             int casesInStruct = dm.getNCasesInStruct();
             
             if (casesInStruct == 0) {
-                MyAlerts.showAintGotNoDataAlert();
+                MyAlerts.showAintGotNoDataAlert_1Var();
                 return "Cancel";
             }
             

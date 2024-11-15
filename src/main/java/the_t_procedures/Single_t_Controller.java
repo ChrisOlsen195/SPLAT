@@ -62,7 +62,7 @@ public class Single_t_Controller {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             return "Cancel";
         };
         

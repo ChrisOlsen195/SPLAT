@@ -214,7 +214,7 @@ public class ANOVA2_RM_Calculations {
         
         // Cases and columns in the original RM file
         if ((nCasesInStruct == 0) || (nColumnsInStruct == 0)) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             return "Cancel";
         }  
         

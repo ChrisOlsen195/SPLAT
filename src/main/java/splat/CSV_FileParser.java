@@ -1,7 +1,7 @@
 // **************************************************
 // *                 CSV_FileParser                 *
-// *                    03/01/24                    *
-// *                     12:00                      *
+// *                    11/11/24                    *
+// *                     09:00                      *
 // *************************************************/
 
 package splat;
@@ -10,19 +10,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import utilityClasses.*;
 
 public class CSV_FileParser {
     // POJOs
     boolean firstLineIsLabels, duplicateLabelsExist, blankLabelFound;
     
-    char aComma;
+    //char aComma;
     int nColumnsThisFile, nDataRecordsThisFile;
     int nDataElementsThisLine;
     
@@ -32,7 +30,7 @@ public class CSV_FileParser {
     ArrayList<String> preParsedDataLine, parsedDataLine, 
                       al_ListOf_Alleged_Labels, al_ListOf_Concocted_Labels;  
     
-    //  Make empty if no-print
+    // Make empty if no-print
     //String waldoFile = "CSV_FileParser";
     String waldoFile = "";
     
@@ -48,10 +46,10 @@ public class CSV_FileParser {
     
     public CSV_FileParser (File selectedFile, char fieldSeparator) { 
         if (!waldoFile.equals("")) {
-            System.out.println("!!WW!! " + 52 + " / " + waldoFile + " / " + "CSV_FileParser (File selectedFile, char fieldSeparator)");
+            System.out.println("!!WW!! " + 49 + " / " + waldoFile + " / " + "CSV_FileParser (File selectedFile, char fieldSeparator)");
         }
         this.selectedFile = selectedFile;
-        aComma = ',';
+        //aComma = ',';
         nColumnsThisFile = 0; 
         nDataRecordsThisFile = 0;
         blankLabelFound = false;
@@ -65,7 +63,7 @@ public class CSV_FileParser {
     
     public String parseTheFile() {
         if (!waldoFile.equals("")) {
-            System.out.println("!!WW!! " + 73 + " / " + waldoFile + " / " + "parseTheFile()");
+            System.out.println("!!WW!! " + 66 + " / " + waldoFile + " / " + "parseTheFile()");
         }
         try {
             fileReader = new FileReader(selectedFile);
@@ -128,53 +126,28 @@ public class CSV_FileParser {
             ArrayList<String> tmpParsedLine = new ArrayList();
             
             if (someAreNumbers == true) {
-                alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Ack!?!?!  Your first line contains numerics!");
-                alert.setHeaderText("Pardon this interruption, but a clarification is needed...");
-                contentText = "Usually a number in the first line indicates an absence of predetermined" +
-                             "\nlabels for the variables. In some cases, such as dosage level variables, " +
-                             "\nvariable labels might actually be intended to be numeric.  Is it your " +
-                             "\nintention that the numeric labels in the first line should be treated as" +
-                             "\nquantitatve labels for the variables?";
-                alert.setContentText(contentText);
-                
-                ButtonType buttonTypeYes = new ButtonType("Yes");
-                ButtonType buttonTypeNo = new ButtonType("No");
-                ButtonType buttonTypeCancel = new ButtonType("Cancel");
-                
-                alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo, buttonTypeCancel);
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == buttonTypeYes) {
-                    returnStatus = "OK";
+                MyYesNoAlerts myYesNoAlerts = new MyYesNoAlerts();
+                myYesNoAlerts.showFirstLineContainsNumbersAlert("Yup", "Nope"); 
+                String yesOrNo = myYesNoAlerts.getYesOrNo();                
+                if (yesOrNo.equals("Yes")) {
+                    returnStatus = "Ok";
                     firstLineIsLabels = true;
                     addToAllParsedLines(al_ListOf_Alleged_Labels);                    
-                }
-                else if (result.get() == buttonTypeNo) {
-                    returnStatus = "OK";
-                    alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Well, OK, then -- read this CAREFULLY.");
-                    alert.setHeaderText("This is what we'll do...");
-                    contentText = "SPLAT will add a set of fake Non-Labels to your data and " + 
-                                "\nread the file. Save the data UNDER A DIFFERENT FILE NAME " +
-                                "\nso that no data is lost from your original file. Then, as" + 
-                                "\nsoon as possible fix the labels in the new file.";
-                    alert.setContentText(contentText);
-                    alert.showAndWait();
-                    
+                } else {
+                    returnStatus = "Ok";
+                    MyAlerts.showAcknowledgeQuantLabelsAlert();
+
                     al_ListOf_Concocted_Labels = new ArrayList();
                     for (int iCol = 0; iCol < nColumnsThisFile; iCol++) {
                         tmpString = "NotVar # " + (iCol + 1);
                         al_ListOf_Concocted_Labels.add(tmpString);            
                     }
-                    returnStatus = "OK";
+                    returnStatus = "Ok";
                     firstLineIsLabels = true;
 
                     addToAllParsedLines(al_ListOf_Concocted_Labels);
                     addToAllParsedLines(al_ListOf_Alleged_Labels);
-                } else { 
-                    returnStatus = "Cancel";
-                    return returnStatus; 
-                }
+                } 
             } else {
                 addToAllParsedLines(al_ListOf_Alleged_Labels);
             }
@@ -215,7 +188,7 @@ public class CSV_FileParser {
             fileReader.close();
         }   
         catch (Exception ex) {
-            // System.out.println("230 CSV_FileParser, ex = " + ex);
+            // System.out.println("191 CSV_FileParser, ex = " + ex);
             //MyAlerts.showFileReadErrorAlert();
             //returnStatus = "Cancel";
         }
@@ -229,7 +202,7 @@ public class CSV_FileParser {
        
     private ArrayList<String> adjustTheArrayList(ArrayList<String> thePreStringArray) {
         if (!waldoFile.equals("")) {
-            System.out.println("!!WW!! " + 219 + " / " + waldoFile + " / " + "adjustTheArrayList(ArrayList<String> thePreStringArray)");
+            System.out.println("!!WW!! " + 205 + " / " + waldoFile + " / " + "adjustTheArrayList(ArrayList<String> thePreStringArray)");
         }
         int iCol;
         ArrayList<String> adjustedArrayList = new ArrayList(nColumnsThisFile);

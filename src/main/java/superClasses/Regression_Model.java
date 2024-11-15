@@ -1,7 +1,7 @@
 /**************************************************
  *                Regression_Model                *
- *                    11/01/23                    *
- *                     18:00                      *
+ *                    11/09/23                    *
+ *                     21:00                      *
  *************************************************/
 /***************************************************
  *  All symbols, formulae, and page numbers are    *
@@ -52,7 +52,7 @@ public class Regression_Model {
    String deBlankedRegEq;
    
     // Make empty if no-print
-    // String waldoFile = "Regression_Model";
+    //public String waldoFile = "Regression_Model";
     public String waldoFile = "";
     
    public String[] strAxisLabels, str_DataLabels, paramTerm;
@@ -86,6 +86,7 @@ public class Regression_Model {
         nVarsCommitted = tracker.getNVarsCommitted();
         nVarsInStruct = dm.getNVarsInStruct();
         subTitle = inf_regression_Controller.getSubTitle();
+        nCasesInStruct = dm.getNCasesInStruct();
         explanatoryVariable = inf_regression_Controller.getExplanVar();
         responseVariable = inf_regression_Controller.getResponseVar();
         respVsExplanVar = inf_regression_Controller.getSubTitle();

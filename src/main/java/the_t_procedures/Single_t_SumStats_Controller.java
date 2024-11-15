@@ -38,7 +38,7 @@ public class Single_t_SumStats_Controller {
             single_t_SumStats_Dashboard = new Single_t_SumStats_Dashboard(this);
             returnStatus = showTheDashboard();
 
-            myYesNoAlerts.showAvoidRepetitiousClicksAlert();
+            myYesNoAlerts.showAvoidRepetitiousClicksAlert("You betcha", "No way");
             yesOrNo = myYesNoAlerts.getYesOrNo();
         }
         returnStatus = "OK";

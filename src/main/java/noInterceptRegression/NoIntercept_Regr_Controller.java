@@ -1,7 +1,7 @@
 /************************************************************
  *                   NoInt_Regr_Controller                  *
- *                          11/01/23                        *
- *                            15:00                         *
+ *                          11/09/23                        *
+ *                            09:00                         *
  ***********************************************************/
 package noInterceptRegression;
 
@@ -32,20 +32,12 @@ public class NoIntercept_Regr_Controller {
     
     public NoIntercept_Regr_Controller(Data_Manager dm) {
         this.dm = dm;
-        //dm.whereIsWaldo(35, waldoFile, "Constructing");
+        dm.whereIsWaldo(35, waldoFile, "Constructing");
     }  
         
     public String doTheProcedure() {
-        //dm.whereIsWaldo(39, waldoFile, "doTheProcedure()");
-        try {
-            int casesInStruct = dm.getNCasesInStruct();
-            //System.out.println("42 No_Intercept_Regression_Controller_Controller, casesInStruct = " + casesInStruct);
-            
-            if (casesInStruct == 0) {
-                MyAlerts.showAintGotNoDataAlert();
-                return "Cancel";
-            }
-            
+        dm.whereIsWaldo(39, waldoFile, "doTheProcedure()");
+        try {           
             Regression_Dialog regressionDialog = new Regression_Dialog(dm, "QUANTITATIVE", "One parameter linear regression");
 
             regressionDialog.showAndWait();
@@ -61,18 +53,20 @@ public class NoIntercept_Regr_Controller {
 
             bivContin = new BivariateContinDataObj(dm, data);
             
-            if (bivContin.getDataExists() == true) {
-                bivContin.continueConstruction();
-            }
-            else
-            {
+            int nLegal = bivContin.getNLegalDataPoints();
+            if (bivContin.getDataExists()) {  
+                if (nLegal > 5000) {
+                    MyAlerts.showLongTimeComingWarning();
+                } 
+                bivContin.continueConstruction(); }
+            else {
                 MyAlerts.showNoLegalBivDataAlert();
                 returnStatus = "Cancel";
                 return returnStatus;
             }
 
-            qdv_XVariable = new QuantitativeDataVariable("noIntReg-Contr74", "noIntReg-Contr74", data.get(0));
-            qdv_YVariable = new QuantitativeDataVariable("noIntReg-Contr75", "noIntReg-Contr75", data.get(1));    
+            qdv_XVariable = new QuantitativeDataVariable("noIntReg-Contr68", "noIntReg-Contr68", data.get(0));
+            qdv_YVariable = new QuantitativeDataVariable("noIntReg-Contr69", "noIntReg-Contr69", data.get(1));    
 
             noInt_Regr_Model = new NoIntercept_Regr_Model(this);
 

@@ -25,7 +25,7 @@ public class Edit_Ops {
     
     public void insertRow() {
         if (dm.getFileName() == null) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             //return;
         } else {
             TextInputDialog dialog = new TextInputDialog("");
@@ -42,7 +42,7 @@ public class Edit_Ops {
     
     public void deleteRow() {
         if (dm.getFileName() == null) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             //return;
         } else {
             String txtResult;

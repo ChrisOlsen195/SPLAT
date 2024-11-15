@@ -29,10 +29,7 @@ public class IndepMeans_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_Vi
     // POJOs
     int sampleSize_1, sampleSize_2;
 
-    double /*xMin, xMax,*/ yMin, yMax, effectSize; //, nullDiffMeans, nullSigma_1, nullSigma_2; 
-           
-
-    //double  altDiffMeans;
+    double yMin, yMax, effectSize;
 
     //  FX
     Pane theContainingPane;
@@ -47,16 +44,12 @@ public class IndepMeans_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_Vi
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("46 IndepMeans_Power_VsAlphaView");
+        //System.out.println("47 IndepMeans_Power_VsAlphaView");
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         sampleSize_1 = indepMeans_Power_Model.getSampleSize_1();
         sampleSize_2 = indepMeans_Power_Model.getSampleSize_2();
-        //nullDiffMeans = indepMeans_Power_Model.getNullDiffMeans();
-        //altDiffMeans = indepMeans_Power_Model.getAltDiffMeans();
-        //nullSigma_1 = indepMeans_Power_Model.getNullSigma_1();
-        //nullSigma_2 = indepMeans_Power_Model.getNullSigma_2();
         effectSize = indepMeans_Power_Model.getEffectSize();
         alpha = indepMeans_Power_Model.getAlpha();
         fromHere = 0.000; toThere = 0.200;

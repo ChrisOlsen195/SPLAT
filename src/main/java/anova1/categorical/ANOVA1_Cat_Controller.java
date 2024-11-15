@@ -55,7 +55,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
         do {
             int casesInStruct = dm.getNCasesInStruct();            
             if (casesInStruct == 0) {
-                MyAlerts.showAintGotNoDataAlert();
+                MyAlerts.showAintGotNoDataAlert_1Var();
                 return false;
             }
             
@@ -105,7 +105,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
             return false;
         }
         

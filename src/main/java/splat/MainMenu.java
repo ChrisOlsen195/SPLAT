@@ -762,7 +762,7 @@ public class MainMenu extends MenuBar {
     private boolean getDataExists() { 
         dataExists = dm.getDataExists();
         if (!dataExists) {
-            MyAlerts.showAintGotNoDataAlert();
+            MyAlerts.showAintGotNoDataAlert_1Var();
         }
         return dataExists; }
     

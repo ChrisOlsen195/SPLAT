@@ -1,7 +1,7 @@
 /**************************************************
  *             X2Assoc_MosaicPlotView             *
- *                    05/23/24                    *
- *                      12:00                     *
+ *                    10/09/24                    *
+ *                      21:00                     *
  *************************************************/
 package chiSquare_Assoc;
 
@@ -35,10 +35,8 @@ import utilityClasses.*;
 public class X2Assoc_MosaicPlotView {
     
     // POJOs
-    //boolean dragging;
-    
-    double /*xMin, xMax, yMin, yMax,*/ initHoriz, initVert, initWidth,
-           initHeight, text1Width, text2Width;
+
+    double initHoriz, initVert, initWidth, initHeight, text1Width, text2Width;
     
     double[] cumRowProps, cumColProps, cumMarginalRowProps, columnProps;
     double[][] cumProps;
@@ -74,7 +72,7 @@ public class X2Assoc_MosaicPlotView {
                       X2Assoc_Dashboard association_Dashboard,
                       double placeHoriz, double placeVert,
                       double withThisWidth, double withThisHeight) {
-        //System.out.println("77 X2Assoc_MosaicPlotView, constructing");
+        //System.out.println("75 X2Assoc_MosaicPlotView, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.x2Assoc_Model = association_Model;
@@ -108,20 +106,20 @@ public class X2Assoc_MosaicPlotView {
             topLabels = x2Assoc_Model.getTopLabels();
         }
 
-        xAxis = new JustAnAxis(-0.15, 1.25);
+        xAxis = new JustAnAxis(0.00, 1.01);
         xAxis.setSide(Side.BOTTOM);
 
-        xAxis.setLabel("This is xAxis");
-        xAxis.setVisible(false);    //  Used only for positioning other stuff
-        xAxis.forceLowScaleEndToBe(-0.15);
-        xAxis.forceHighScaleEndToBe(1.25);
+        xAxis.setLabel(strTopVariable);
+        xAxis.setVisible(true);    //  Used only for positioning other stuff
+        xAxis.forceLowScaleEndToBe(0.00);
+        xAxis.forceHighScaleEndToBe(1.01);
 
         yAxis = new JustAnAxis(0.0, 1.05);
         yAxis.forceLowScaleEndToBe(0.0);
         yAxis.forceHighScaleEndToBe(1.05);
         yAxis.setSide(Side.LEFT);
 
-        yAxis.setVisible(false);    //  Used only for positioning other stuff  
+        yAxis.setVisible(true);    //  Used only for positioning other stuff 
     }
     
     private void setUpUI() {
@@ -203,25 +201,26 @@ public class X2Assoc_MosaicPlotView {
         AnchorPane.setRightAnchor(txtTitle2, txt2Edge * tempWidth);
         AnchorPane.setBottomAnchor(txtTitle2, 0.85 * tempHeight);
         
-        AnchorPane.setTopAnchor(mosaicCategoryBoxes, 0.15 * tempHeight);
+        AnchorPane.setTopAnchor(mosaicCategoryBoxes, 0.10 * tempHeight);
         AnchorPane.setLeftAnchor(mosaicCategoryBoxes, hBoxEdge * tempWidth);
         AnchorPane.setRightAnchor(mosaicCategoryBoxes, hBoxEdge * tempWidth);
-        AnchorPane.setBottomAnchor(mosaicCategoryBoxes, 0.80 * tempHeight);        
+        AnchorPane.setBottomAnchor(mosaicCategoryBoxes, 0.85 * tempHeight);     
         
-        AnchorPane.setTopAnchor(xAxis, 0.85 * tempHeight);
-        AnchorPane.setLeftAnchor(xAxis, 0.1 * tempWidth);
-        AnchorPane.setRightAnchor(xAxis, 0.0 * tempWidth);
-        AnchorPane.setBottomAnchor(xAxis, 0.0 * tempHeight);
-        
-        AnchorPane.setTopAnchor(yAxis, 0.2 * tempHeight);
-        AnchorPane.setLeftAnchor(yAxis, 0.0 * tempWidth);
-        AnchorPane.setRightAnchor(yAxis, 0.9 * tempWidth);
-        AnchorPane.setBottomAnchor(yAxis, 0.2 * tempHeight);
-        
-        AnchorPane.setTopAnchor(mosaicCanvas, 0.2 * tempHeight);
+        AnchorPane.setTopAnchor(mosaicCanvas, 0.15 * tempHeight);
         AnchorPane.setLeftAnchor(mosaicCanvas, 0.1 * tempWidth);
         AnchorPane.setRightAnchor(mosaicCanvas, 0.0 * tempWidth);
-        AnchorPane.setBottomAnchor(mosaicCanvas, 0.2 * tempHeight);
+        //AnchorPane.setBottomAnchor(mosaicCanvas, 0.2 * tempHeight);
+        AnchorPane.setBottomAnchor(mosaicCanvas, 0.30 * tempHeight);
+        
+        AnchorPane.setTopAnchor(xAxis, 0.70 * tempHeight);
+        AnchorPane.setLeftAnchor(xAxis, 0.1 * tempWidth);
+        AnchorPane.setRightAnchor(xAxis, txt2Edge * tempWidth);
+        AnchorPane.setBottomAnchor(xAxis, 0.15 * tempHeight);
+        
+        AnchorPane.setTopAnchor(yAxis, 0.15 * tempHeight);
+        AnchorPane.setLeftAnchor(yAxis, 0.0 * tempWidth);
+        AnchorPane.setRightAnchor(yAxis, 0.9 * tempWidth);
+        AnchorPane.setBottomAnchor(yAxis, 0.30 * tempHeight);
         
         mosaicGC.clearRect(0, 0 , mosaicCanvas.getWidth(), mosaicCanvas.getHeight());
         mosaicGC.setLineWidth(3);
@@ -254,41 +253,7 @@ public class X2Assoc_MosaicPlotView {
         mosaicGC.setFill(Color.BLACK);
         mosaicGC.setFont(Font.font("Courier New", FontWeight.BOLD, FontPosture.REGULAR, 14));
         mosaicGC.setLineWidth(2);
-        
-        double xText = xAxis.getDisplayPosition(0.0) - 45.;
-        double xText35 = xText + 38;
-        double xText50 = xText + 46;
-
-        String prop025 = "0.25";
-        double yText025 = yAxis.getDisplayPosition(0.25) + 2.5;
-        mosaicGC.fillText(prop025, xText, yText025 + 2);
-        mosaicGC.strokeLine(xText35, yText025, xText50, yText025);
-        
-        String prop050 = "0.50";
-        double yText050 = yAxis.getDisplayPosition(0.50) + 2.5;
-        mosaicGC.fillText(prop050, xText, yText050 + 2);
-        mosaicGC.strokeLine(xText35, yText050, xText50, yText050);
-        
-        String prop075 = "0.75";
-        double yText075 = yAxis.getDisplayPosition(0.75) + 2.5;
-        mosaicGC.fillText(prop075, xText, yText075 + 2);
-        mosaicGC.strokeLine(xText35, yText075, xText50, yText075);
-        
-        String prop100 = "1.00";
-        double yText100 = yAxis.getDisplayPosition(1.00) + 2.5;
-        mosaicGC.fillText(prop100, xText, yText100 + 2);
-        mosaicGC.strokeLine(xText35, yText100, xText50, yText100);
-        
-        mosaicGC.setStroke(Color.BLACK);
-        double leftXBaseLine = xAxis.getDisplayPosition(0.01);
-        double rightXBaseLine = xAxis.getDisplayPosition(0.99);
-        double bottomYBaseLine = yAxis.getDisplayPosition(0.0);
-        double topYBaseLine = yAxis.getDisplayPosition(0.99);
-
-        mosaicGC.strokeLine(leftXBaseLine, bottomYBaseLine - 1., 
-                            rightXBaseLine, bottomYBaseLine - 1.);        
-        mosaicGC.strokeLine(leftXBaseLine - 2., bottomYBaseLine, 
-                            leftXBaseLine - 2., topYBaseLine + 1.);        
+            
         doTheMarginalPlot();
         doTheXAxis();
         
@@ -310,7 +275,6 @@ public class X2Assoc_MosaicPlotView {
     
     private void doTheMarginalPlot() {
         double mPlotx1, mPloty1, mPlotx2, mPloty2, mPlotHeight, mPlotWidth;
-        //  Marginal rows
         mPlotx1 = xAxis.getDisplayPosition(1.05);   
         mPlotx2 = xAxis.getDisplayPosition(1.15);
         mPlotWidth = mPlotx2 - mPlotx1;
@@ -350,13 +314,12 @@ public class X2Assoc_MosaicPlotView {
             stringToPrint = StringUtilities.centerTextInString(stringToPrint, 8);
             //  .015 is a hack hack to center the labels under the bars
             preTopLabelXValue = (x1 + x2) / 2. - 0.02 - 0.025 * lenString;  //  Hack to center string
-            //System.out.println("353 X2Assoc_MosaicPlotView" + preTopLabelXValue);
             topLabelXValue = xAxis.getDisplayPosition(preTopLabelXValue);
             
             if (col % 2 > 0) { //  Odd column
-                topLabelYValue = yAxis.getDisplayPosition(-0.14);
+                topLabelYValue = yAxis.getDisplayPosition(-0.20);
             } else {    //  Even column
-                topLabelYValue = yAxis.getDisplayPosition(-0.08);
+                topLabelYValue = yAxis.getDisplayPosition(-0.14);
             }
             mosaicGC.fillText(stringToPrint, topLabelXValue, topLabelYValue);
         }
@@ -367,8 +330,7 @@ public class X2Assoc_MosaicPlotView {
         public void handle(MouseEvent mouseEvent) { }
     }; 
     
-    private void constructMosaicInfo() {
-        // xMin = -.10; xMax = 1.40; yMin = -0.15; yMax = 1.0;  
+    private void constructMosaicInfo() {  
         nRowsCat = x2Assoc_Model.getNumberOfRows();
         nColsCat = x2Assoc_Model.getNumberOfColumns();
         cumRowProps = new double[nRowsCat + 1];
