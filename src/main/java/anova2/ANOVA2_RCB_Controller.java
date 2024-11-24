@@ -1,7 +1,7 @@
 /**************************************************
  *            ANOVA2_RCB_Controller               *
- *                  09/21/24                      *
- *                   21:00                        *
+ *                  11/17/24                      *
+ *                   12:00                        *
  *************************************************/
 /**************************************************
  *    Tested against Kirk p289  02/12/24          *
@@ -24,34 +24,36 @@ public class ANOVA2_RCB_Controller {
     String whichANOVA2, returnStatus, factorA_Name, factorB_Name, 
            varLabel, varDescription;
 
+    //String waldoFile = "ANOVA2_RCB_Controller";
     String waldoFile = "";
-    //String waldoFile = "ANOVA2_Controller";
-    
+
     // My classes
     ANOVA2_RCB_Dashboard anova2_RCB_Dashboard;
-    ANOVA2_Factorial_Model anova2_Factorial_Model;
-    ANOVA2_RCB_wReplicates_Dashboard anova2_RCB_wReplicates_Dashboard;
-    ANOVA2_RCB_Model anova2_RCB_Model;
     ANOVA2_RCB_Dialog anova2_RCB_Dialog;
+    ANOVA2_Factorial_Model anova2_Factorial_Model;
+    ANOVA2_RCB_Model anova2_RCB_Model;
+    ANOVA2_RCB_wReplicates_Dashboard anova2_RCB_wReplicates_Dashboard;
+
     Data_Manager dm;
             
     public ANOVA2_RCB_Controller (Data_Manager dm, String whichANOVA2) {
         this.whichANOVA2 = whichANOVA2;
         this.dm = dm; 
-        dm.whereIsWaldo(41, waldoFile, "Constructing");
+        dm.whereIsWaldo(42, waldoFile, "\n ***Constructing");
         anova2_RCB_Dialog = new ANOVA2_RCB_Dialog(dm, whichANOVA2);
         anova2_RCB_Dialog.doTheDialog();
     }
         
 public String doTheANOVA2() {
-        dm.whereIsWaldo(47, waldoFile, "doTheANOVA2()");
+        dm.whereIsWaldo(48, waldoFile, "doTheANOVA2()");
         returnStatus = "OK";
         int casesInStruct = dm.getNCasesInStruct();
-        
-        //if (casesInStruct == 0) {
-            // showAintGotNoDataAlert(); -- Alert would already be shown in Step0
-        //    return "Cancel";
-        //}
+
+        if (anova2_RCB_Dialog.getDataAreMissing()) {
+            MyAlerts.showANOVA_missingDataAlert();     
+            returnStatus = "Cancel";
+            return returnStatus;
+        }    
         
         if (anova2_RCB_Dialog.getReturnStatus().equals("Cancel")) {
             returnStatus = "Cancel";
@@ -82,31 +84,33 @@ public String doTheANOVA2() {
      
         int nDataPoints = dm.getNCasesInStruct();
         String[] columnVar = new String[nDataPoints];
-        String[] rowVar= new String[nDataPoints];
-        ArrayList<String> responseVar= new ArrayList();
+        String[] rowVar = new String[nDataPoints];
+        ArrayList<String> responseVar = new ArrayList();
 
         String asterisk = "*";
         int ithDataIndex = 0;
         
-        for (int i = 0; i < nLevelsA; i++) { // Rows -- levels of A            
-            for (int j = 0; j < nLevelsB; j++) { // Columns -- levels of B
-                nReplications = data[j][i].size();
+        for (int ithLevelA = 0; ithLevelA < nLevelsA; ithLevelA++) { // Rows -- levels of A            
+            for (int jthLevelB = 0; jthLevelB < nLevelsB; jthLevelB++) { // Columns -- levels of B
+                nReplications = data[jthLevelB][ithLevelA].size();
                 for (int k = 0; k < nReplications; k++) {
-                    rowVar[ithDataIndex] = factorA_Levels[i];
-                    columnVar[ithDataIndex] = factorB_Levels[j];
-                    String dataValue = data[j][i].get(k);
-                    
-                    if (dataValue.equals(asterisk)) { dataAreMissing = true; }
-                    responseVar.add(dataValue);
-                    ithDataIndex++;      
+                    String dataValue = data[jthLevelB][ithLevelA].get(k);
+                    if (!dataValue.equals(asterisk)) { // Should be true always
+                        rowVar[ithDataIndex] = factorA_Levels[ithLevelA];
+                        columnVar[ithDataIndex] = factorB_Levels[jthLevelB];
+                        responseVar.add(dataValue);
+                        ithDataIndex++; 
+                    } else {
+                        dataAreMissing = true;
+                    }
                 }               
-            } // j loop            
-        } // i loop 
+            } // jthLevelB loop            
+        } // ithLevelA loop 
 
         CategoricalDataVariable cdv_FactorA = new CategoricalDataVariable(factorB_Name, columnVar);
         CategoricalDataVariable cdv_FactorB = new CategoricalDataVariable(factorA_Name, rowVar);  
         QuantitativeDataVariable qdv_Response = new QuantitativeDataVariable(varLabel, varDescription, responseVar); 
-        
+
         switch (whichANOVA2) {
             case "Factorial":
                 anova2_Factorial_Model = new ANOVA2_Factorial_Model(dm,
@@ -136,9 +140,9 @@ public String doTheANOVA2() {
                 if (!returnStatus.equals("OK")) { return returnStatus; }
                 
                 if (dataAreBalanced) {
-                    dm.whereIsWaldo(140, waldoFile, "Data are Balanced");
+                    dm.whereIsWaldo(143, waldoFile, "Data are Balanced");
                     if (replicatesExist) {
-                        dm.whereIsWaldo(142, waldoFile, "Replicates Exist");
+                        dm.whereIsWaldo(145, waldoFile, "Replicates Exist");
                         anova2_RCB_wReplicates_Dashboard = new ANOVA2_RCB_wReplicates_Dashboard(this, anova2_RCB_Model);
                         anova2_RCB_wReplicates_Dashboard.populateTheBackGround();
                         anova2_RCB_wReplicates_Dashboard.putEmAllUp();
@@ -151,7 +155,7 @@ public String doTheANOVA2() {
                 break;
                 
                 default:
-                    String switchFailure = "Switch failure: ANOVA2_RCB_Controller 155 " + whichANOVA2;
+                    String switchFailure = "Switch failure: ANOVA2_RCB_Controller 158 " + whichANOVA2;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);                 
         }
         return returnStatus;

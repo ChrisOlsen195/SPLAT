@@ -5,7 +5,6 @@
  *************************************************/
 package anova2;
 
-//import utilityClasses.StringUtilities;
 import genericClasses.JustAnAxis;
 import genericClasses.DragableAnchorPane;
 import dataObjects.UnivariateContinDataObj;
@@ -94,7 +93,7 @@ public class ANOVA2_Views_Super extends Region {
     public ClipboardContent content;    
     
     ANOVA2_Views_Super() {
-        System.out.println("\n97 ANOVA2_Views_Super, Constructing");
+        //System.out.println("\n97 ANOVA2_Views_Super, Constructing");
     }
     
      EventHandler<MouseEvent> yAxisMouseHandler = new EventHandler<MouseEvent>() {

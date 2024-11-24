@@ -19,8 +19,8 @@ import utilityClasses.*;
 
 public class ANOVA2_BoxPlotView extends ANOVA2_BoxCircleInterActView { 
     
-        String waldoFile = "ANOVA2_BoxPlotView";
-        //String waldoFile = "";
+        // String waldoFile = "ANOVA2_BoxPlotView";
+        String waldoFile = "";
 
 
     ANOVA2_BoxPlotView(ANOVA2_Factorial_Model anova2_Model, 

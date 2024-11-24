@@ -23,8 +23,8 @@ import javafx.scene.layout.Pane;
 
 public class ANOVA2_BoxCircleInterActView extends ANOVA2_Views_Super { 
         // POJO's
-        String waldoFile = "ANOVA2_BoxCircleInterActView";
-        //String waldoFile = "";
+        //String waldoFile = "ANOVA2_BoxCircleInterActView";
+        String waldoFile = "";
 
     ANOVA2_BoxCircleInterActView(ANOVA2_Factorial_Model anova2_FactorialModel, 
             ANOVA2_RCB_Dashboard anova2_Dashboard,

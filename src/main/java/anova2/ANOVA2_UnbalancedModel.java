@@ -1,7 +1,7 @@
 /**************************************************
  *             ANOVA2_UnbalancedModel             *
- *                    05/24/24                    *
- *                     12:00                      *
+ *                    11/16/24                    *
+ *                     15:00                      *
  *************************************************/
 package anova2;
 
@@ -34,15 +34,16 @@ public class ANOVA2_UnbalancedModel {
     
     ObservableList<String> factorA_Levels, factorB_Levels; //, factorAB_Levels;
     
-    String waldoFile = "";
     //String waldoFile = "ANOVA2_UnbalancedModel";
+    String waldoFile = "";
+
 
     //My classes
     Data_Manager dm;
 
     public ANOVA2_UnbalancedRegression fullModel, alphaBetaModel, 
-                                   alphaGammaModel, betaGammaModel,
-                                   alphaModel, betaModel;
+                                       alphaGammaModel, betaGammaModel,
+                                       alphaModel, betaModel;
 
     CategoricalDataVariable factor_A_Values;    //  The factor A data
     CategoricalDataVariable factor_B_Values;    //  The factor B data
@@ -54,7 +55,8 @@ public class ANOVA2_UnbalancedModel {
                                          QuantitativeDataVariable responseVar) { 
         
         dm = anova2_Factorial_Model.getDataManager();
-        dm.whereIsWaldo(57, waldoFile, "Constructing");
+        dm.whereIsWaldo(57, waldoFile, "\n58 *** Constructing");
+        
         nDP = anova2_Factorial_Model.get_nDataTriples();
                 
         factorA_Levels = FXCollections.observableArrayList();
@@ -91,7 +93,7 @@ public class ANOVA2_UnbalancedModel {
     }
 
     private void doLevelsAndRegressors() {
-        dm.whereIsWaldo(94, waldoFile, "doLevelsAndRegressors()");    
+        dm.whereIsWaldo(96, waldoFile, " --- doLevelsAndRegressors()");    
         nRegressorsA = nLevelsA - 1;
         nRegressorsB = nLevelsB - 1;
         nAlphaBetaRegressors = nRegressorsA + nRegressorsB;  
@@ -183,7 +185,7 @@ public class ANOVA2_UnbalancedModel {
     
     private void doBrutishCalculations() {
         String lookingForThisLevelA, lookingForThisLevelB;
-        dm.whereIsWaldo(186, waldoFile, "doBrutishCalculations()");
+        dm.whereIsWaldo(186, waldoFile, " --- doBrutishCalculations()");
         // Matrix for full model -- other models steal from this matrix
         XFull = new Matrix(nDP, nTotalCols, 0.); //  Matrix of zeros
         Y = new Matrix(nDP, 1);

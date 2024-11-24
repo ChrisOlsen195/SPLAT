@@ -29,8 +29,8 @@ public class ANOVA2_RCB_PrelimANOVA1 {
     String theExplanVar, theRespVar, returnStatus;
     
     // Make empty if no-print
-    // String waldoFile = "ANOVA2_RCB_PrelimANOVA1";
-    String waldoFile = "";
+    String waldoFile = "ANOVA2_RCB_PrelimANOVA1";
+    //String waldoFile = "";
     
     ArrayList<String> anova1Report, allTheLabels;;
     ObservableList<String> categoryLabels;
@@ -45,13 +45,13 @@ public class ANOVA2_RCB_PrelimANOVA1 {
 
     public ANOVA2_RCB_PrelimANOVA1 (Data_Manager dm, CategoricalDataVariable explanatoryVar, QuantitativeDataVariable qdv_ResponseVar) {
         this.dm = dm;
-        dm.whereIsWaldo(48, waldoFile, "ANOVA2_RCB_PrelimANOA1, Constructing");         
+        dm.whereIsWaldo(48, waldoFile, " *** ANOVA2_RCB_PrelimANOA1, Constructing");         
         colExplanVar = new ColumnOfData(explanatoryVar);    
         colResponseVar = new ColumnOfData(qdv_ResponseVar);
     }
     
     public String doThePrelims() {
-        dm.whereIsWaldo(54, waldoFile, "doThePrelims()");
+        dm.whereIsWaldo(54, waldoFile, " --- doThePrelims()");
         cqdv = new CatQuantDataVariable(dm, colExplanVar, colResponseVar, true, "ANOVA2_RCB_PrelimANOVA1");
         returnStatus = cqdv.finishConstructingStacked();
         if (!returnStatus.equals("OK")) { return "Cancel"; }
@@ -102,7 +102,7 @@ public class ANOVA2_RCB_PrelimANOVA1 {
     }
     
     private String setupAnalysis() {
-        dm.whereIsWaldo(105, waldoFile, "setupAnalysis()");
+        dm.whereIsWaldo(105, waldoFile, " --- setupAnalysis()");
         returnStatus = "OK";
         minVertical = ucdo_AllData.getMinValue();
         maxVertical = ucdo_AllData.getMaxValue();
@@ -128,7 +128,7 @@ public class ANOVA2_RCB_PrelimANOVA1 {
     }
     
     public String doAnalysis() {  
-        dm.whereIsWaldo(131, waldoFile, "doAnalysis()");
+        dm.whereIsWaldo(131, waldoFile, " --- doAnalysis()");
         ssTotal = ucdo_All[0].getTheSS();      
         ssError = 0.0;
         for (int ithLevel = 1; ithLevel <= nLevels; ithLevel++) {
