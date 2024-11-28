@@ -1,7 +1,7 @@
 /**************************************************
  *              DataChoice_StackedOrNot           *
- *                    05/26/24                    *
- *                      15:00                     *
+ *                    11/27/24                    *
+ *                      12:00                     *
  *************************************************/
 package dialogs;
 
@@ -134,7 +134,7 @@ public class DataChoice_StackedOrNot extends Stage {
                     break;
 
                 default:
-                    String switchFailure = "Switch failure: DataChoice_StackedOrNot 137 " + strCallingProc;
+                    String switchFailure = "Switch failure: DataChoice_StackedOrNot 138 " + strCallingProc;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                     sceneStage.close();
             }
@@ -165,7 +165,7 @@ public class DataChoice_StackedOrNot extends Stage {
                     break;
 
                 default:
-                    String switchFailure = "Switch failure: DataChoice_StackedOrNot 168 " + strCallingProc;
+                    String switchFailure = "Switch failure: DataChoice_StackedOrNot 169 " + strCallingProc;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                     sceneStage.close();
             }

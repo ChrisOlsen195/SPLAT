@@ -1,7 +1,7 @@
 /**************************************************
  *              Matched_t_Controller              *
- *                    11/01/23                    *
- *                     15:00                      *
+ *                    11/27/23                    *
+ *                     12:00                      *
  *************************************************/
 package the_t_procedures;
 
@@ -58,7 +58,7 @@ public class Matched_t_Controller {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert_1Var();
+            MyAlerts.showAintGotNoDataAlert_2Var();
             return "Cancel";
         }
         

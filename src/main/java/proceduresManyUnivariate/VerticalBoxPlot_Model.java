@@ -1,7 +1,7 @@
 /**************************************************
  *              VerticalBoxPlot_Model             *
- *                    10/07/24                    *
- *                      15:00                     *
+ *                    11/27/24                    *
+ *                      12:00                     *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -18,7 +18,7 @@ import proceduresTwoUnivariate.Explore_2Ind_Controller;
 public class VerticalBoxPlot_Model {
     // POJOs
     
-    // boolean printTheStuff = true;
+    //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
     private int n_QDVs;
@@ -42,7 +42,7 @@ public class VerticalBoxPlot_Model {
     
     public VerticalBoxPlot_Model(Explore_2Ind_Controller explore_2Ind_Controller, String descriptionOfVariable, ArrayList<QuantitativeDataVariable> allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("\n45 *** VerticalBoxPlot_Model, constructing");
+            System.out.println("\n43 *** VerticalBoxPlot_Model, constructing");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;
@@ -58,7 +58,7 @@ public class VerticalBoxPlot_Model {
     // Called by Indep_t_PrepStructs
     public VerticalBoxPlot_Model(Indep_t_PrepStructs indep_t_PrepStructs, String descriptionOfVariable, ArrayList<QuantitativeDataVariable> allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("\n61 *** VerticalBoxPlot_Model, constructing");
+            System.out.println("\n59 *** VerticalBoxPlot_Model, constructing");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;
@@ -77,8 +77,8 @@ public class VerticalBoxPlot_Model {
     
     public VerticalBoxPlot_Model(ANOVA1_Cat_Model anova1_Cat_Model, ArrayList<QuantitativeDataVariable>  allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("\n80 *** VerticalBoxPlot_Model, constructing");
-            System.out.println("  81 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
+            System.out.println("\n78 *** VerticalBoxPlot_Model, constructing");
+            System.out.println("  *** 79 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
         }
         strSubTitle = anova1_Cat_Model.getSubTitle();
         this.allTheQDVs = new ArrayList();
@@ -89,19 +89,14 @@ public class VerticalBoxPlot_Model {
     
     public VerticalBoxPlot_Model(ANOVA1_Quant_Model anova1_Quant_Model, ArrayList<QuantitativeDataVariable> allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("\n92 VerticalBoxPlot_Model, Constructing");
-            System.out.println("  *** 93 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
+            System.out.println("\n94 VerticalBoxPlot_Model, Constructing");
         }
-        strSubTitle = anova1_Quant_Model.getSubTitle();
-        this.allTheQDVs = new ArrayList();
-        this.allTheQDVs = allTheQDVs;
-        n_QDVs = allTheQDVs.size();
-        collectAllTheLabels();  
+        strSubTitle = anova1_Quant_Model.getSubTitle();         
     }
     
     public VerticalBoxPlot_Model(MultUni_Model multUni_Model, ArrayList<QuantitativeDataVariable> allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("\n104 *** VerticalBoxPlot_Model, Constructing");
+            System.out.println("\n102 *** VerticalBoxPlot_Model, Constructing");
             //System.out.println("  *** 103 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
         }
         strSubTitle = multUni_Model.getSubTitle();
@@ -112,8 +107,8 @@ public class VerticalBoxPlot_Model {
     }
     
     public VerticalBoxPlot_Model(ANOVA2_RM_Model anova2_RM_Model, ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        if (printTheStuff) {
-            System.out.println("\n116 VerticalBoxPlot_Model, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("\n109 VerticalBoxPlot_Model, Constructing");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;

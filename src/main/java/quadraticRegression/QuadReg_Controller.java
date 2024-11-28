@@ -1,6 +1,6 @@
 /************************************************************
  *                      QuadReg_Controller                  *
- *                          11/03/23                        *
+ *                          11/27/23                        *
  *                            12:00                         *
  ***********************************************************/
 package quadraticRegression;
@@ -43,7 +43,7 @@ public class QuadReg_Controller {
             dm.whereIsWaldo(43, waldoFile, "doTheProcedure()");
             
             if (casesInStruct == 0) {
-                MyAlerts.showAintGotNoDataAlert_1Var();
+                MyAlerts.showAintGotNoDataAlert();
                 return "Cancel";
             }
             dm.whereIsWaldo(49, waldoFile, "doTheProcedure()");

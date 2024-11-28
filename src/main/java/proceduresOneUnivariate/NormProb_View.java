@@ -1,7 +1,7 @@
 /**************************************************
  *                  NormProb_View                 *
- *                    09/18/24                    *
- *                      03:00                     *
+ *                    02/06/24                    *
+ *                      12:00                     *
  *************************************************/
 package proceduresOneUnivariate;
 
@@ -23,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import noInterceptRegression.NoIntercept_Regr_Dashboard;
+import simpleRegression.Regr_Compare_Dashboard;
 import quadraticRegression.*;
 import anova1.categorical.*;
 import anova1.quantitative.ANOVA1_Quant_Dashboard;
@@ -34,8 +35,6 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.KeyCode;
-import simpleRegression.Regr_Compare_Dashboard;
-import simpleRegression.Regr_Compare_Model;
 import the_t_procedures.Matched_t_Dashboard;
 import utilityClasses.*;
 
@@ -62,7 +61,6 @@ public class NormProb_View extends BivariateScale_View {
     CheckBox[] scatterPlotCheckBoxes;
     QuantitativeDataVariable qdv_Data, qdv_NormalScores;
     NormProb_Model normProb_Model;
-    Regr_Compare_Model regr_Compare_Model;
     Text title1Text, title2Text;
     
     // FX

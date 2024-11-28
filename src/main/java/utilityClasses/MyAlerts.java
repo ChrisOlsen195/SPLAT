@@ -1561,6 +1561,22 @@ public class MyAlerts {
         backToTheRealWorld();
     }
     
+        public static void showAintGotNoDataAlert() { 
+        showingAnAlert = true;
+        alertTitle = " Yo! User! You with the empty head -- there ain't no data here!!";
+        alertHeader = "Wake up and smell the roses!!!";
+        alertContext = "SPLAT hates to be a bearer of bad news, but we have a slight"
+                        + " problem with your data: there isn't any.  What sort of game are you playing here?"
+                        + " This is a major violation of the Statistical Penal Code, Section 3.1416.  The"
+                        + " International Organization of Right-thinking Statisticans (IOR-tS), will be notified"
+                        + " of your fraudulent assertion that this data grid actually contains data.  You have"
+                        + " violated the implied contract between the IOR-tS and you, the alleged"
+                        + " quasi-competent statistician. The IOR-tS attorney, a Mr. O. Z. Mandias, "
+                        + " will soon be in touch.  Look upon his lawyerly works and despair!!\n\n";
+  
+        backToTheRealWorld();
+    }
+    
         public static void showAintGotNoDataAlert_1Var() { 
         showingAnAlert = true;
         alertTitle = " Yo! User! You with the empty head -- there ain't no data in this variable!!";

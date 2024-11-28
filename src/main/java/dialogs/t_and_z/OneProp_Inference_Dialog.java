@@ -1,6 +1,6 @@
 /************************************************************
  *                  OneProp_Inference_Dialog                *
- *                          10/15/23                        *
+ *                          11/27/23                        *
  *                            12:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
@@ -84,7 +84,7 @@ public class OneProp_Inference_Dialog extends Splat_Dialog {
          vBox_CI, vBox_Alpha, vBox_InfChoicesPanel, vBox_VarsPanel; 
 
     public OneProp_Inference_Dialog() {
-        //System.out.println("87 OneProp_Inference_Dialog, constructing");
+        System.out.println("87 OneProp_Inference_Dialog, constructing");
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         //theCILevs = new double[] {0.90, 0.95, 0.99};
         sep = new Separator();

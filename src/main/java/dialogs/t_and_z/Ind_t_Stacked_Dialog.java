@@ -1,7 +1,7 @@
 /************************************************************
- *                   Indep_t_Stacked_Dialog                 *
- *                          11/17/23                        *
- *                            00:00                         *
+ *                    Ind_t_Stacked_Dialog                  *
+ *                          11/27/23                        *
+ *                            12:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -9,9 +9,9 @@ import dialogs.Two_Variables_Dialog;
 import splat.Data_Manager;
 
 // **************   Called by independent t procedure *****************
-public class Indep_t_Stacked_Dialog extends Two_Variables_Dialog{ 
+public class Ind_t_Stacked_Dialog extends Two_Variables_Dialog{ 
     
-    public Indep_t_Stacked_Dialog(Data_Manager dm) {
+    public Ind_t_Stacked_Dialog(Data_Manager dm) {
         super(dm, "Ind_t_Stacked_Dialog", "None");
         waldoFile = "Ind_t_Stacked_Dialog ";
         //waldoFile = "";

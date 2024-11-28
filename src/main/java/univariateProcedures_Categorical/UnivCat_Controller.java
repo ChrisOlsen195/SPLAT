@@ -1,6 +1,6 @@
 /************************************************************
  *                    UnivCat_Controller                    *
- *                          10/15/23                        *
+ *                          11/27/12                        *
  *                            12:00                         *
  ***********************************************************/
 package univariateProcedures_Categorical;
@@ -13,8 +13,8 @@ public class UnivCat_Controller {
     // POJOs
     String returnStatus;   
     
-    //String waldoFile = "UnivCat_Controller";
-    String waldoFile = "";  
+    String waldoFile = "UnivCat_Controller";
+    //String waldoFile = "";  
     
     // My classes
     private ColumnOfData columnOfData;
@@ -26,7 +26,7 @@ public class UnivCat_Controller {
 
     public UnivCat_Controller(Data_Manager dm) {
         this.dm = dm;
-        dm.whereIsWaldo(29, waldoFile, "\nUnivCat_Controller, Constructing");
+        dm.whereIsWaldo(29, waldoFile, "UnivCat_Controller, constructing");
     }
     
     public String doUnivCat_FromFileData(Data_Manager dm) {
