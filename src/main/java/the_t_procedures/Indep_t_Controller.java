@@ -1,11 +1,11 @@
 /**************************************************
  *               Indep_t_Controller               *
- *                   09/13/24                     *
- *                     18:00                      *
+ *                   11/27/24                     *
+ *                     12:00                      *
  *************************************************/
 package the_t_procedures;
 
-import dialogs.t_and_z.Indep_t_Stacked_Dialog;
+import dialogs.t_and_z.Ind_t_Stacked_Dialog;
 import dialogs.t_and_z.Indep_t_Dialog;
 import dataObjects.CatQuantDataVariable;
 import dataObjects.ColumnOfData;
@@ -77,7 +77,7 @@ public class Indep_t_Controller {
         
         MyAlerts.showNeedToUnstackAlert();
         
-        Indep_t_Stacked_Dialog ind_t_Stacked_Dialog = new Indep_t_Stacked_Dialog( dm );
+        Ind_t_Stacked_Dialog ind_t_Stacked_Dialog = new Ind_t_Stacked_Dialog( dm );
         ind_t_Stacked_Dialog.showAndWait();
         
         if (ind_t_Stacked_Dialog.getReturnStatus().equals("OK")) {
@@ -98,7 +98,7 @@ public class Indep_t_Controller {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert_1Var();
+            MyAlerts.showAintGotNoDataAlert();
             return "Cancel";
         }
         

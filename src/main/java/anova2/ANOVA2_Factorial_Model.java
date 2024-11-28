@@ -1,7 +1,7 @@
 /**************************************************
  *             ANOVA2_Factorial_Model             *
- *                  05/23/24                      *
- *                    18:00                       *
+ *                  11/17/24                      *
+ *                    12:00                       *
  *************************************************/
 /**************************************************
  *   Unbalanced tested against Maxell p377        *
@@ -37,8 +37,9 @@ public class ANOVA2_Factorial_Model {
     String  str_FactorA, str_FactorB, sourceString, 
             displayChoice, meansOrBars, str_Response, returnStatus;
 
+    //String waldoFile = "ANOVA2_Factorial_Model";  
     String waldoFile = "";
-    //String waldoFile = "ANOVA2_Factorial_Model";    
+  
     ArrayList<String> anova2_Report;  // Are these
     
     // These are names for the levels
@@ -56,11 +57,12 @@ public class ANOVA2_Factorial_Model {
                         CategoricalDataVariable factorA_Var, 
                         CategoricalDataVariable factorB_Var,
                         QuantitativeDataVariable qdv_Response) {  
+        dm.whereIsWaldo(60, waldoFile, "\n *** Constructing");
         this.dm = dm;
         this.cdv_ALevels = factorA_Var;
         this.cdv_BLevels = factorB_Var;
         this.qdv_Response = qdv_Response;
-        dm.whereIsWaldo(63, waldoFile, "Constructing");        
+        dm.whereIsWaldo(65, waldoFile, "\n65 *** Constructing");        
         anova2_Report = new ArrayList();
         nDataTriples = qdv_Response.get_nDataPointsLegal();
 
@@ -72,7 +74,7 @@ public class ANOVA2_Factorial_Model {
     }   // End of constructor     
         
     public String doTwoWayANOVA() {
-        dm.whereIsWaldo(75, waldoFile, "doTwoWayANOVA()");
+        dm.whereIsWaldo(77, waldoFile, " --- doTwoWayANOVA()");
         returnStatus = "OK";
         confLevel = 0.95;
         str_ALevels = FXCollections.observableArrayList();
@@ -98,7 +100,7 @@ public class ANOVA2_Factorial_Model {
     }
 
     private String performInitialOneWays() {
-        dm.whereIsWaldo(101, waldoFile, "performInitialOneWays()");
+        dm.whereIsWaldo(103, waldoFile, "--- performInitialOneWays()");
         prelimA = new ANOVA2_PrelimANOVA1(dm, cdv_ALevels, qdv_Response);
         returnStatus = prelimA.doThePrelims();
         returnStatus = prelimA.doPrelimOneWayANOVA(); 
@@ -107,12 +109,10 @@ public class ANOVA2_Factorial_Model {
         
         nFactorA_Levels = prelimA.getNLevels();
         str_ALevels = prelimA.getCategoryLabels();
-       
+
         prelimB = new ANOVA2_PrelimANOVA1(dm, cdv_BLevels, qdv_Response);
         returnStatus = prelimB.doThePrelims();
-        
         returnStatus = prelimB.doPrelimOneWayANOVA();
-        
         if (!returnStatus.equals("OK")) { return returnStatus; }
         
         nFactorB_Levels = prelimB.getNLevels();       
@@ -127,8 +127,8 @@ public class ANOVA2_Factorial_Model {
             interactionABString = dataA + "&" + dataB;
             cdv_Interaction.setIthDataPtAsString(ithDataPoint, interactionABString);
         } 
-
         prelimAB = new ANOVA2_PrelimANOVA1(dm, cdv_Interaction, qdv_Response);
+
         returnStatus = prelimAB.doThePrelims();
         returnStatus = prelimAB.doPrelimOneWayANOVA();
         return returnStatus;

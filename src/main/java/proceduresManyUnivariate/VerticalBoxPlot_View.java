@@ -1,7 +1,7 @@
 /**************************************************
  *               VerticalBoxPlotView              *
- *                    09/03/24                    *
- *                     00:00                      *
+ *                    11/27/24                    *
+ *                     12:00                      *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -51,8 +51,8 @@ public class VerticalBoxPlot_View extends Region {
     private boolean areDragging;
     private boolean[] vBoxCheckBoxSettings;    
     
-    //boolean printTheStuff = true;
-    boolean printTheStuff = false;
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
     
     private int nVariables, nCheckBoxes, nDataPoints, n_Uniques;
     private int[] whiskerEndRanks;

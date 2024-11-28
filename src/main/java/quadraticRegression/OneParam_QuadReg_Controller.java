@@ -1,7 +1,7 @@
 /************************************************************
  *                 OneParam_QuadReg_Controller              *
- *                          11/01/23                        *
- *                            15:00                         *
+ *                          11/27/23                        *
+ *                            12:00                         *
  ***********************************************************/
 package quadraticRegression;
 
@@ -44,7 +44,7 @@ public class OneParam_QuadReg_Controller {
             int casesInStruct = dm.getNCasesInStruct();
             
             if (casesInStruct == 0) {
-                MyAlerts.showAintGotNoDataAlert_1Var();
+                MyAlerts.showAintGotNoDataAlert();
                 return "Cancel";
             }
             

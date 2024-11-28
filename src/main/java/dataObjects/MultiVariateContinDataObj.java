@@ -1,7 +1,7 @@
 /**************************************************
  *            MultiVariateContinDataObj           *
- *                    05/24/24                    *
- *                      15:00                     *
+ *                    11/27/24                    *
+ *                      12:00                     *
  *************************************************/
 package dataObjects;
 
@@ -92,7 +92,7 @@ public class MultiVariateContinDataObj {
         // non-numeric variables.
         nCompleteCases = al_Non_Missing_Rows.size();
         
-        if (nCompleteCases == 0) { MyAlerts.showAintGotNoDataAlert_1Var(); }
+        if (nCompleteCases == 0) { MyAlerts.showAintGotNoDataAlert(); }
     
         nCasesWithMissingData = nOriginalDataPoints - nCompleteCases; 
     }

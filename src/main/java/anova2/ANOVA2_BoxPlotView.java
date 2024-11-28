@@ -1,6 +1,6 @@
 /**************************************************
  *              ANOVA2_BoxPlotView                *
- *                  02/19/24                      *
+ *                  11/27/24                      *
  *                    12:00                       *
  *************************************************/
 package anova2;
@@ -19,9 +19,8 @@ import utilityClasses.*;
 
 public class ANOVA2_BoxPlotView extends ANOVA2_BoxCircleInterActView { 
     
-        String waldoFile = "ANOVA2_BoxPlotView";
-        //String waldoFile = "";
-
+        String waldoFile = "";
+        //String waldoFile = "ANOVA2_BoxPlotView";
 
     ANOVA2_BoxPlotView(ANOVA2_Factorial_Model anova2_Model, 
             ANOVA2_RCB_Dashboard anova2_Dashboard,
@@ -29,13 +28,12 @@ public class ANOVA2_BoxPlotView extends ANOVA2_BoxCircleInterActView {
             double withThisWidth, double withThisHeight) {        
             super(anova2_Model, anova2_Dashboard, placeHoriz, placeVert,
                 withThisWidth, withThisHeight);
-        dm.whereIsWaldo(27, waldoFile, "\nConstructing");
+        dm.whereIsWaldo(27, waldoFile, "Constructing");
         strTitle2 = "Boxy Woxy Twozie";
         whiskerEndRanks = new int[2]; 
     }
     
     public void doThePlot() {  
-        dm.whereIsWaldo(38, waldoFile, "doThePlot()");
         text1Width = txtTitle1.getLayoutBounds().getWidth();
         text2Width = txtTitle2.getLayoutBounds().getWidth();
         double paneWidth = dragableAnchorPane.getWidth();

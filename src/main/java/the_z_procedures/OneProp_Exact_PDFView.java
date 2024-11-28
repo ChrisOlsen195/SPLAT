@@ -1,7 +1,7 @@
 /**************************************************
  *           OneProp_Exact_PDFView                *
- *                  09/21/24                      *
- *                    21:00                       *
+ *                  011/27/24                     *
+ *                    12:00                       *
  *************************************************/
 package the_z_procedures;
 
@@ -335,7 +335,7 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneProp_Exact_PDFView 338 " + hypotheses;
+                String switchFailure = "Switch failure: OneProp_Exact_PDFView 334 " + hypotheses;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }         
         
@@ -346,7 +346,7 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
         if (identifyPValueIsDesired) {
             gc.setFill(Color.BLUE);
             tempString = String.format("pValue = %4.3f", pValue);
-            gc.fillText(tempString, 0.65 * paneWidth, 0.10 * paneHeight);
+            gc.fillText(tempString, 0.75 * paneWidth, 0.10 * paneHeight);
         }
         
         if (assumptionCheckIsDesired) {

@@ -1,7 +1,7 @@
 /**************************************************
  *            ANOVA2_RCB_Controller               *
- *                  09/21/24                      *
- *                   21:00                        *
+ *                  11/27/24                      *
+ *                   12:00                        *
  *************************************************/
 /**************************************************
  *    Tested against Kirk p289  02/12/24          *
@@ -48,10 +48,10 @@ public String doTheANOVA2() {
         returnStatus = "OK";
         int casesInStruct = dm.getNCasesInStruct();
         
-        //if (casesInStruct == 0) {
+        if (casesInStruct == 0) {
             // showAintGotNoDataAlert(); -- Alert would already be shown in Step0
-        //    return "Cancel";
-        //}
+            return "Cancel";
+        }
         
         if (anova2_RCB_Dialog.getReturnStatus().equals("Cancel")) {
             returnStatus = "Cancel";
@@ -109,6 +109,7 @@ public String doTheANOVA2() {
         
         switch (whichANOVA2) {
             case "Factorial":
+                System.out.println("112 ANOVA2_RCB_Controller -- (factorial) switch attained error?!?!?!?");
                 anova2_Factorial_Model = new ANOVA2_Factorial_Model(dm,
                                                this, 
                                                cdv_FactorB,

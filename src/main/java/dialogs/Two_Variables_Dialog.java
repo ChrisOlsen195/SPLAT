@@ -1,7 +1,7 @@
 /************************************************************
  *                    Two-Variables_Dialog                  *
- *                          08/21/24                        *
- *                           00:00                          *
+ *                          11/27/24                        *
+ *                           12:00                          *
  ***********************************************************/
 package dialogs;
 
@@ -267,16 +267,15 @@ public class Two_Variables_Dialog extends Splat_Dialog {
         btnSelect_Y_Var.setOnAction((ActionEvent event) -> {
             dm.whereIsWaldo(268, waldoFile, "selectYVariable");
             if (var_List.getNamesSelected().size() == 1) {
-                dm.whereIsWaldo(271, waldoFile, "YvarsSelected = 1");
+                dm.whereIsWaldo(270, waldoFile, "YvarsSelected = 1");
                 String tempIndicator = var_List.getNamesSelected().get(0);
                 tf_SecondVarLabel_InFile.setText(tempIndicator);
                 var_List.delVarName(var_List.getNamesSelected());
                 strSelected = tf_SecondVarLabel_InFile.getText();
                 varIndexFor_Y = dm.getVariableIndex(strSelected);
                 bool_Y_VarType_Ok = checkDataType(2, strDataType_2);
-                dm.whereIsWaldo(278, waldoFile, "YvarsSelected = 1");
+                
                 if (!isCorrectType) { btnReset.fire(); }
-                dm.whereIsWaldo(280, waldoFile, "YvarsSelected = 1");
             }
         });
 
@@ -369,7 +368,7 @@ public class Two_Variables_Dialog extends Splat_Dialog {
     
     public boolean checkDataType(int variableNowChecking, String strDataType) {
         isCorrectType = true;
-        dm.whereIsWaldo(373, waldoFile, "checkDataType");
+        
         switch (variableNowChecking) {
             case 1:
                 strSelected = tf_FirstVarLabel_InFile.getText();
@@ -380,8 +379,7 @@ public class Two_Variables_Dialog extends Splat_Dialog {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: Two-Variables_Dialog 383 " + variableNowChecking;
-                dm.whereIsWaldo(385, waldoFile, "checkDataType");
+                String switchFailure = "Switch failure: Two-Variables_Dialog 382 " + variableNowChecking;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         
@@ -389,22 +387,16 @@ public class Two_Variables_Dialog extends Splat_Dialog {
         String colDataType = dm.getAllTheColumns().get(varIndex).getDataType();
  
         isCorrectType = true;
-        dm.whereIsWaldo(394, waldoFile, "checkDataType");
-        if (strDataType.equals("OK")) {
-            isCorrectType = true;
-            return isCorrectType;
-        }
-        dm.whereIsWaldo(400, waldoFile, "checkDataType");
+        
         if (colDataType.equals("Quantitative") && !strDataType.equals("Quantitative")) {
             isCorrectType = false;
             MyAlerts.showInappropriateNumericVariableAlert();
         }
-        dm.whereIsWaldo(406, waldoFile, "checkDataType");
+        
         if (!colDataType.equals("Quantitative") && strDataType.equals("Quantitative")) {
             isCorrectType = false;
             MyAlerts.showInappropriateNonNumericVariableAlert();
-        } 
-        dm.whereIsWaldo(409, waldoFile, "checkDataType");      
+        }         
         return isCorrectType;
     }
     

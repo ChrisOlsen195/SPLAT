@@ -1,7 +1,7 @@
 /**************************************************
  *             UnivariateContinDataObj            *
- *                    05/24/24                    *
- *                     15:00                      *
+ *                    11/27/24                    *
+ *                     12:00                      *
  *************************************************/
 package dataObjects;
 
@@ -53,7 +53,6 @@ public class UnivariateContinDataObj {
     public UnivariateContinDataObj(String callSource, QuantitativeDataVariable qdv) {
         if (printTheStuff) {
             System.out.println("55 UnivariateContinDataObj, constructing");
-            System.out.println("UCDO 56, time = " +  System.currentTimeMillis());
         }
         this.qdv = new QuantitativeDataVariable();
         this.qdv = qdv;
@@ -73,7 +72,6 @@ public class UnivariateContinDataObj {
     private void init_UCDO()  {
         if (printTheStuff) {
             System.out.println("74 UnivariateContinDataObj, init_UCDO()");
-            System.out.println("UCDO 76, time = " +  System.currentTimeMillis());
         }
         andersonDarlingCalculated = false;
         meanBasedDone = false;
@@ -93,16 +91,13 @@ public class UnivariateContinDataObj {
     
     public void doMedianBasedCalculations() {
         if (printTheStuff) {
-            System.out.println("96 UnivariateContinDataObj, doMedianBasedCalculations()");
-            System.out.println("UCDO 97, time = " +  System.currentTimeMillis());
+            System.out.println("94 UnivariateContinDataObj, doMedianBasedCalculations()");
         }
         double temp1, temp2, lowOutlierCutOff, highOutlierCutOff; 
         
         if (medianBasedDone) { return; }
-        long timeStart = System.currentTimeMillis();
-        Arrays.sort(sortedArray);   // Now is sorted'
-        long timeStop = System.currentTimeMillis();
-        long timeElapsed =  timeStop - timeStart;
+        
+        Arrays.sort(sortedArray);   // Now is sorted
         medianBasedDone = true;
         cutOffRanks = new int[2];
                 

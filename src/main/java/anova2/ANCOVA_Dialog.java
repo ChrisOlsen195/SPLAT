@@ -1,7 +1,7 @@
 /**************************************************
  *               ANCOVA_Dialog                    *
- *                  06/30/24                      *
- *                   09:00                        *
+ *                  11/27/24                      *
+ *                   12:00                        *
  *************************************************/
 package anova2;
 
@@ -70,7 +70,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert_1Var();
+            MyAlerts.showAintGotNoDataAlert();
             return "Cancel";
         }
         

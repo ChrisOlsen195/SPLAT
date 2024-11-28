@@ -1,6 +1,6 @@
 /**************************************************
  *           ANOVA2_RM_Calculations               *
- *                  05/24/24                      *
+ *                  11/27/24                      *
  *                   12:00                        *
  *************************************************/
 /**************************************************
@@ -214,7 +214,7 @@ public class ANOVA2_RM_Calculations {
         
         // Cases and columns in the original RM file
         if ((nCasesInStruct == 0) || (nColumnsInStruct == 0)) {
-            MyAlerts.showAintGotNoDataAlert_1Var();
+            MyAlerts.showAintGotNoDataAlert();
             return "Cancel";
         }  
         

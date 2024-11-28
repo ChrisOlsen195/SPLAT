@@ -1,7 +1,7 @@
 /****************************************************************************
  *                         BivCat_Model                                     *
- *                           09/07/24                                       *
- *                             06:00                                        *
+ *                           11/17/24                                       *
+ *                             12:00                                        *
  ***************************************************************************/
 package bivariateProcedures_Categorical;
 
@@ -12,8 +12,7 @@ import splat.Data_Manager;
 
 public class BivCat_Model {
     // POJOs
-    boolean cleanReturnFromSummaryDialog, designIsBalanced, 
-            thereAreReplications, dataAreMissing;
+    boolean designIsBalanced, thereAreReplications, dataAreMissing;
     
     int nLegalValues, nRows, nCols, nCells;
     int[][] observedValues;
@@ -43,12 +42,10 @@ public class BivCat_Model {
     // POJOs / FX
     
     public  BivCat_Model(BivCat_Controller bivCat_Controller, String assocType) { 
-        System.out.println("\n47 BivCat_Model, Constructing");
-        //System.out.println("48 BivCat_Model, assocType = " + assocType);
         this.bivCat_Controller = bivCat_Controller;
         this.assocType = assocType;
         dm = bivCat_Controller.getDataManager();
-        dm.whereIsWaldo(55, waldoFile, "Constructing");
+        dm.whereIsWaldo(48, waldoFile, "Constructing");
     }   
     
     /*************************************************************************
@@ -58,7 +55,7 @@ public class BivCat_Model {
     *    both of which procedures require equal n's.                         *
     *************************************************************************/ 
     public  BivCat_Model(ColumnOfData colA, ColumnOfData colB, String assocType) { 
-        System.out.println("\n62 BivCat_Model, Constructing");
+        //System.out.println("\n58 *** BivCat_Model, Constructing");
         this.assocType = assocType;
         designIsBalanced = false;       //  To avoid nulls
         thereAreReplications = false;   //  To avoid nulls
@@ -66,7 +63,7 @@ public class BivCat_Model {
     } 
      
     public String doBivCatModelFromTable() {
-        //System.out.println("69 BivCat_Model, doModelFromTable()");
+        //System.out.println("66 *** BivCat_Model, doModelFromTable()");
         bivCat_SummaryDialog = new BivCat_SummaryDialog(this);
         bivCat_SummaryDialog.showAndWait();
         strReturnStatus = bivCat_SummaryDialog.getReturnStatus();        
@@ -97,7 +94,7 @@ public class BivCat_Model {
     }
     
     private String doModelFromTwoFactorANOVA(ColumnOfData columnA, ColumnOfData columnB) {
-        System.out.println("101 BivCat_Model, doModelFromTwoFactorANOVA(ColumnOfData columnA, ColumnOfData columnB)");
+        //System.out.println("97 BivCat_Model, cat/quant size = " + columnA.getNCasesInColumn() + " / " + columnB.getNCasesInColumn());
         al_ColumnsOfData = new ArrayList();
         al_ColumnsOfData.add(columnA); 
         al_ColumnsOfData.add(columnB); 
@@ -113,7 +110,6 @@ public class BivCat_Model {
         strLeftVariable =  al_ColumnsOfData.get(1).getVarLabel();
         ucdo_Left = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(0));
         ucdo_Top = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(1));
-
         nRows = ucdo_Top.getNUniques();
         nCols = ucdo_Left.getNUniques();
         constructNecessaryArrays();
@@ -144,7 +140,6 @@ public class BivCat_Model {
         // Check for potential imbalance in randomized block design 
         double minRepsInBlock = 9999.;
         double maxRepsInBlock = 0;
-        
         for (int ithRow = 0; ithRow < nRows; ithRow++) {            
             for (int jthCol = 0; jthCol < nCols; jthCol++) {
                 minRepsInBlock = Math.min(minRepsInBlock, observedValues[ithRow][jthCol]);
@@ -158,7 +153,7 @@ public class BivCat_Model {
     } 
     
     public String doBivCatModelFromFile() {
-        System.out.println("162 BivCat_Model, doModelFromFile()");
+        System.out.println("156 BivCat_Model, doModelFromFile()");
         al_ColumnOfData = new ArrayList();
         al_ColumnOfData = bivCat_Controller.getData(); 
 
@@ -172,11 +167,6 @@ public class BivCat_Model {
 
         nRows = ucdo_Left.getNUniques();
         nCols = ucdo_Top.getNUniques();
-        
-        //if ((nRows < 2) || (nCols < 2)) {
-        //    MyAlerts.showTooFewChiSquareDFAlert();
-        //    return "Cancel";
-        //}
 
         constructNecessaryArrays();
 
@@ -199,7 +189,7 @@ public class BivCat_Model {
     }    
         
     private void constructNecessaryArrays() {
-        //System.out.println("203 BivCat_Model, constructNecessaryArrays()");
+        //System.out.println("192 --- BivCat_Model, constructNecessaryArrays()");
         observedValues = new int[nRows][nCols];
         observedProportion = new double[nRows][nCols];
         rowTotals = new int[nRows];
@@ -217,7 +207,7 @@ public class BivCat_Model {
     }
         
     public String calculateTheProportions() { 
-        //System.out.println("220 BivCat_Model, calculateTheProportions()");
+        //System.out.println("210 --- BivCat_Model, calculateTheProportions()");
         nCells = nRows * nCols;
               
         for (int ithRow = 0; ithRow < nRows; ithRow++) {            

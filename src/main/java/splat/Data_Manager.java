@@ -1,7 +1,7 @@
 /************************************************************
  *                        Data_Manager                      *
- *                          11/12/24                        *
- *                            03:00                         *
+ *                          11/27/24                        *
+ *                            12:00                         *
  ***********************************************************/
 package splat;
 
@@ -771,6 +771,14 @@ public final class Data_Manager {
     public ArrayList<TextField> getIthColumnHeading() { return colHeader; }
     public ArrayList<TextField> getJthRowHeading() {return rowHeader; }
     
+    public boolean getDataExists() {
+        dataExists = true;
+        if (getNCasesInStruct() == 0) {
+            dataExists = false;
+        }
+        return dataExists;
+    }
+    
     public boolean getVariableIsNumeric(int curr) {
         return dataStruct.get(curr).getIsNumeric();
     }
@@ -875,6 +883,7 @@ public final class Data_Manager {
     public MainMenu getMainMenu() { return mainMenu; };
     public void setMainMenu(MainMenu mainMenu) { this.mainMenu = mainMenu; }
     
+    /*
     public boolean getDataExists() {
         dataExists = true;
         if (getNCasesInStruct() == 0) {
@@ -882,7 +891,7 @@ public final class Data_Manager {
         }
         return dataExists;
     }
-            
+    */        
     // For diagnostic purposes only!!!    
     public void whereIsWaldo(int waldoLine, String waldoFile, String waldoWhere) {  
         if (!waldoFile.equals("")) {

@@ -1,7 +1,7 @@
 /**************************************************
  *           OneProp_Inf_PDFView                  *
- *                  02/19/24                      *
- *                    15:00                       *
+ *                  11/27/24                      *
+ *                    12:00                       *
  *************************************************/
 package the_z_procedures;
 
@@ -49,7 +49,7 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
             double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        System.out.println("52 OneProp_Inf_PDFView. constructing");
+        //System.out.println("48 OneProp_Inf_PDFView. constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.oneProp_Inf_Model = oneProp_Inf_Model;
@@ -92,7 +92,7 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneProp_Inf_PDFView 95 " + hypotheses;
+                String switchFailure = "Switch failure: OneProp_Inf_PDFView 91 " + hypotheses;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         

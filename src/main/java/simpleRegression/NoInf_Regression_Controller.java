@@ -1,7 +1,7 @@
 /************************************************************
  *                 NoInf_Regression_Controller              *
- *                          11/09/24                        *
- *                            09:00                         *
+ *                          11/27/23                        *
+ *                            12:00                         *
  ***********************************************************/
 package simpleRegression;
 
@@ -41,10 +41,20 @@ public class NoInf_Regression_Controller {
     }  
         
     public String doTheProcedure() {
-        dm.whereIsWaldo(44, waldoFile, "doTheProcedure()");
         try {
-            Regression_Dialog regressionDialog = new Regression_Dialog(dm, "QUANTITATIVE", "Simple Linear Regression");
+            int casesInStruct = dm.getNCasesInStruct();
             
+            if (casesInStruct == 0) {
+                MyAlerts.showAintGotNoDataAlert_2Var();
+                return "Cancel";
+            }
+
+            if (casesInStruct > 2000) {
+                MyAlerts.showLongTimeComingWarning();
+            }            
+            
+            Regression_Dialog regressionDialog = new Regression_Dialog(dm, "QUANTITATIVE", "Simple Linear Regression");
+            dm.whereIsWaldo(51, waldoFile, "doTheProcedure()");
             regressionDialog.showAndWait();
             returnStatus = regressionDialog.getReturnStatus();
             
@@ -61,15 +71,9 @@ public class NoInf_Regression_Controller {
             saveTheResids = regressionDialog.getSaveTheResids();
             saveTheHats = regressionDialog.getSaveTheHats();
             ArrayList<ColumnOfData> data = regressionDialog.getData();
- 
             bivContin = new BivariateContinDataObj(dm, data);
             
-            int nLegal = bivContin.getNLegalDataPoints();
-            if (bivContin.getDataExists()) {  
-                if (nLegal > 5000) {
-                    MyAlerts.showLongTimeComingWarning();
-                } 
-                bivContin.continueConstruction(); }
+            if (bivContin.getDataExists() == true) {  bivContin.continueConstruction(); }
             else {
                 MyAlerts.showNoLegalBivDataAlert();
                 returnStatus = "Cancel";

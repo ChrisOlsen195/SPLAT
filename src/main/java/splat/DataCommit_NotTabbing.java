@@ -1,7 +1,7 @@
 /**************************************************
  *            DataCommit_NotTabbing               *
- *                    11/05/23                    *
- *                     18:00                      *
+ *                    11/27/23                    *
+ *                     12:00                      *
  *************************************************/
 package splat;
 
@@ -50,7 +50,6 @@ public class DataCommit_NotTabbing extends DataCommit_Handler {
         // Advise the user of text entry into a hitherto numeric variable
         else if ((dm.getVariableIsNumeric(ehStructCol) == true) && (!theEntry.equals("") && (!theEntry.equals("*")))) {
             dm.setVariableNumeric(ehGridCol, false);
-            System.out.println("53 DataCommit_NotTabbing, showTextEntryAdvisoryAlert()");
             MyAlerts.showTextEntryAdvisoryAlert();
         } 
         
@@ -86,17 +85,17 @@ public class DataCommit_NotTabbing extends DataCommit_Handler {
             parsedString = handleCommit_ParseTheString();
             dataGrid.setCurrentCellContents(fixedString);
         }
-    } 
+} 
     
     public void handleNonTabbingCommit_RightAndDown() {
-        dm.whereIsWaldo(92, waldoFile, "handleNonTabbingCommit_RightAndDown()");
+        dm.whereIsWaldo(91, waldoFile, "handleNonTabbingCommit_RightAndDown()");
         handlingRightAndDown = true;  
         handleNonTabbingCommit_ToRight();
         handleNonTabbingCommit_Below();
         handlingRightAndDown = false;
     }
     private void handleNonTabbingCommit_ToRight() {
-        dm.whereIsWaldo(99, waldoFile, "handleNonTabbingCommit_ToRight()");
+        dm.whereIsWaldo(98, waldoFile, "handleNonTabbingCommit_ToRight()");
         
         if (!handlingRightAndDown) {
             setFromGridToStruct("          102 nteh, !handlingRightAndDown", theEntry) ;
@@ -107,7 +106,7 @@ public class DataCommit_NotTabbing extends DataCommit_Handler {
     }
     
     private void handleNonTabbingCommit_Below() {
-        dm.whereIsWaldo(110, waldoFile, "handleNonTabbingCommit_Below()");
+        dm.whereIsWaldo(109, waldoFile, "handleNonTabbingCommit_Below()");
         setFromGridToStruct("     110 eh, handleEnter_Below(), NOT tabbing", theEntry);
         parsedString = handleCommit_ParseTheString();
         dataGrid.setCurrentCellContents(parsedString);
@@ -115,7 +114,7 @@ public class DataCommit_NotTabbing extends DataCommit_Handler {
     } 
     
     private void setFromGridToStruct(String message, String toThisValue) {
-        dm.whereIsWaldo(118, waldoFile, "setFromGridToStruct(String message, String toThisValue)");
+        dm.whereIsWaldo(117, waldoFile, "setFromGridToStruct(String message, String toThisValue)");
         structCol = ehStructCol;
         structRow = ehStructRow;
         dm.setDataInStruct(message, structCol, structRow, toThisValue);   

@@ -1,7 +1,7 @@
 /**************************************************
  *             HorizontalBoxPlot_View             *
- *                   10/07/24                     *
- *                     15:00                      *
+ *                   11/27/24                     *
+ *                     12:00                      *
  *************************************************/
 /**************************************************
  *  Checked against PSO / 6th ed, p171, 08/13/23  *
@@ -43,9 +43,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import proceduresOneUnivariate.Exploration_Dashboard;
+import simpleRegression.Regr_Compare_Dashboard;
 
 import proceduresTwoUnivariate.*;
-import simpleRegression.Regr_Compare_Dashboard;
 import utilityClasses.MyAlerts;
 
 public class HorizontalBoxPlot_View extends Region { 
@@ -183,8 +183,8 @@ public class HorizontalBoxPlot_View extends Region {
         categoryLabels = hBoxModel.getCategoryLabels();
         initStuff();
     }
-    
-    public HorizontalBoxPlot_View(HorizontalBoxPlot_Model hBoxModel, ANCOVA_Dashboard ancova_Dashboard,
+        
+    public HorizontalBoxPlot_View(HorizontalBoxPlot_Model hBoxModel, Regr_Compare_Dashboard ancova_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {
@@ -197,7 +197,7 @@ public class HorizontalBoxPlot_View extends Region {
         initStuff();
     }
     
-    public HorizontalBoxPlot_View(HorizontalBoxPlot_Model hBoxModel, Regr_Compare_Dashboard ancova_Dashboard,
+    public HorizontalBoxPlot_View(HorizontalBoxPlot_Model hBoxModel, ANCOVA_Dashboard ancova_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {
@@ -497,8 +497,8 @@ public class HorizontalBoxPlot_View extends Region {
 
             gcHBox.setLineWidth(2);
             gcHBox.setStroke(Color.BLACK);
-            // double spaceFraction = 0.25 * spacing;
-            double spaceFraction = 0.15 * spacing;
+            double spaceFraction = 0.25 * spacing;
+
             // x, y, w, h
             gcHBox.strokeRect(q1_display, daYPosition - spaceFraction, iqr_display, 2 * spaceFraction);    //  box
             gcHBox.strokeLine(q2_display, daYPosition - spaceFraction, q2_display, daYPosition + spaceFraction);    //  Median

@@ -1,7 +1,7 @@
 /**************************************************
  *              ReOrderStrings_Dialog             *
- *                    09/07/24                    *
- *                     18:00                      *
+ *                    11/21/24                    *
+ *                     15:00                      *
  *************************************************/
 package dialogs;
 
@@ -59,11 +59,11 @@ ANOVA1_Quant_Controller anova1_Quant_Controller;
 X2GOF_Model x2GOF_Model;
 
 public ReOrderStringDisplay_Dialog(MultUni_Controller multUni_Controller, String[] theOriginalOrder) {
-    System.out.println("\n60 ReOrderStringDisplay_Dialog, Constructing");
+    //System.out.println("\n62 *** ReOrderStringDisplay_Dialog, Constructing");
     this.multUni_Controller = multUni_Controller;
     if (buttonFormat == null) {
         buttonFormat = new DataFormat("MyButton");
-       //System.out.println("63 ReOrderStrings, buttonFormat = " + buttonFormat.getIdentifiers());
+       //System.out.println("66 ReOrderStrings, buttonFormat = " + buttonFormat.getIdentifiers());
     }
     daModel = "MULT_UNI";
     nVariables = theOriginalOrder.length;
@@ -73,11 +73,10 @@ public ReOrderStringDisplay_Dialog(MultUni_Controller multUni_Controller, String
 }
 
 public ReOrderStringDisplay_Dialog(ANOVA1_Cat_Controller anova1_Cat_Controller, String[] theOriginalOrder) {
-    //System.out.println("\n74 ReOrderStringDisplay_Dialog, Constructing");
+    //System.out.println("\n76 *** ReOrderStringDisplay_Dialog, Constructing");
     this.anova1_Cat_Controller = anova1_Cat_Controller;
     if (buttonFormat == null) {
         buttonFormat = new DataFormat("MyButton");
-       //System.out.println("76 ReOrderStrings, buttonFormat = " + buttonFormat.getIdentifiers());
     }
     daModel = "ANOVA1_CAT";
     nVariables = theOriginalOrder.length;
@@ -87,11 +86,10 @@ public ReOrderStringDisplay_Dialog(ANOVA1_Cat_Controller anova1_Cat_Controller, 
 }
 
 public ReOrderStringDisplay_Dialog(ANOVA1_Quant_Controller anova1_Quant_Controller, String[] theOriginalOrder) {
-    //System.out.println("\n88 ReOrderStringDisplay_Dialog, Constructing");
+    //System.out.println("\n89 ***  ReOrderStringDisplay_Dialog, Constructing");
     this.anova1_Quant_Controller = anova1_Quant_Controller;
     if (buttonFormat == null) {
         buttonFormat = new DataFormat("MyButton");
-       //System.out.println("92 ReOrderStrings, buttonFormat = " + buttonFormat.getIdentifiers());
     }
     daModel = "ANOVA1_QUANT";
     nVariables = theOriginalOrder.length;
@@ -101,11 +99,10 @@ public ReOrderStringDisplay_Dialog(ANOVA1_Quant_Controller anova1_Quant_Controll
 }
 
 public ReOrderStringDisplay_Dialog(X2GOF_Model x2GOF_Model, String[] theOriginalOrder) {
-    System.out.println("\n104 ReOrderStringDisplay_Dialog, Constructing");
+    System.out.println("\n102 *** ReOrderStringDisplay_Dialog, Constructing");
     this.x2GOF_Model = x2GOF_Model;
     if (buttonFormat == null) {
         buttonFormat = new DataFormat("MyButton");
-       //System.out.println("92 ReOrderStrings, buttonFormat = " + buttonFormat.getIdentifiers());
     }
     daModel = "X2_GOF";
     nVariables = x2GOF_Model.getNCategories();
@@ -199,7 +196,7 @@ private void doTheDialog() {
 
     private void doTheLoops() {
         for (int ithIndex = 0; ithIndex < nVariables; ithIndex++) {
-            varPositions[ithIndex] = new Label("         Pos   " + String.valueOf(ithIndex) + " ");
+            varPositions[ithIndex] = new Label("         Pos   " + String.valueOf(ithIndex + 1) + " ");
             varPositions[ithIndex].setStyle("-fx-font-size: 18");   
 
             rowOfSPs[ithIndex] = new StackPane();
@@ -243,7 +240,7 @@ private void doTheDialog() {
                     break;
                
                 default:
-                    String switchFailure = "Switch failure: ReOrderStringDisplay_Dialog 239 " + daModel;
+                    String switchFailure = "Switch failure: ReOrderStringDisplay_Dialog 243 " + daModel;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                     break;
             }

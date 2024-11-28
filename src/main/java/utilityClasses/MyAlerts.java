@@ -1,7 +1,7 @@
 /****************************************************************************
  *                            MyAlerts                                      *
- *                            10/08/24                                      *
- *                             12:00                                        *
+ *                            11/17/24                                      *
+ *                             09:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -847,6 +847,22 @@ public class MyAlerts {
         backToTheRealWorld();
     }
     
+    public static void showCantConstructCatQuantPairAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Cannot construct CatQuant Alert!!!";
+        alertHeader = "But right now I, SPLAT, am concerned mostly with Egalit\u00E9.";
+        alertContext = " WARNING!  The procedure you have chosen requires the construction of 'data pairs.' "
+                        + " I am writing to let you know that there are instances of non-pairs in your data. "
+                        + " One supposes that Batman can survive without Robin, Frodo without Sam,"
+                        + " and maybe even C3PO without R2D2. But PAIRS of DATA won't work that way!\n\n" 
+                        + " So I, SPLAT, am going to toss out and not consider any Yin without a Yang, or "
+                        + " Barbie without a Ken when I analyze the remains of the data.\n\n"
+                        + " I'm just telling it like it is, User.  Deal with it; you have some not quite " 
+                        + " complete data points here.\n                                                                                   -- Your statistics buddy, SPLAT\n";
+
+        backToTheRealWorld();
+    }
+    
     public static void showUnexpectedPossibleErrorAlert(String message) { 
         showingAnAlert = true;
         alertTitle = "Uh-oh, this is not good -- Three Witches have set up shop!";
@@ -933,6 +949,21 @@ public class MyAlerts {
                         + " Unfortunately, destiny will not ride again if the data you have is comprised of only two points."
                         + " Two Musketeers?  An abomination.  Tinker to Evers!?! One base short of a double play. Give SPLAT a"
                         + " call when your data points can at least go head to head with Cerberus.\n\n";
+        
+        backToTheRealWorld();
+    }
+    
+    public static void showANOVA_missingDataAlert() { 
+        showingAnAlert = true;
+        alertTitle = "Ack! What Ho, Varlet?!?!?";
+        alertHeader = "OK, User, one of your chosen columns is missing data...";
+        alertContext = "OK, here's the deal: when one does ANOVA, one does NOT include for" 
+                       + " analysis data that does not exist. Does that not seem utterly "
+                       + " reasonable, User?  I, SPLAT the philosophically pure, choose "
+                       + " not to analyze such, and moreover regard the data as corrupt"
+                       + " and insist that you, Varlet User, fix the problem. When your"
+                       + " asterisks have taken the Last Plane to Lisbon, this could be"
+                       + " the beginning of a beautiful (statistical) friendship.\n\n";
         
         backToTheRealWorld();
     }
@@ -1526,6 +1557,22 @@ public class MyAlerts {
                         + " because while I, SPLAT, am in charge (i.e. NOW!), 0 < P(X) < 1.\n"
                         + " It is also possible that your probabilities do not result in the\n"
                         + " familiar MasterCard look.  Be advised, SPLAT uses Visa.  Harumph!\n\n";
+  
+        backToTheRealWorld();
+    }
+    
+        public static void showAintGotNoDataAlert() { 
+        showingAnAlert = true;
+        alertTitle = " Yo! User! You with the empty head -- there ain't no data here!!";
+        alertHeader = "Wake up and smell the roses!!!";
+        alertContext = "SPLAT hates to be a bearer of bad news, but we have a slight"
+                        + " problem with your data: there isn't any.  What sort of game are you playing here?"
+                        + " This is a major violation of the Statistical Penal Code, Section 3.1416.  The"
+                        + " International Organization of Right-thinking Statisticans (IOR-tS), will be notified"
+                        + " of your fraudulent assertion that this data grid actually contains data.  You have"
+                        + " violated the implied contract between the IOR-tS and you, the alleged"
+                        + " quasi-competent statistician. The IOR-tS attorney, a Mr. O. Z. Mandias, "
+                        + " will soon be in touch.  Look upon his lawyerly works and despair!!\n\n";
   
         backToTheRealWorld();
     }
