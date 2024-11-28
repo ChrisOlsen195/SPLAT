@@ -1,6 +1,6 @@
 /**************************************************
  *             ANOVA2_RM_LinePlotView             *
- *                   05/24/24                     *
+ *                   11/27/24                     *
  *                     12:00                      *
  *************************************************/
 package anova2;
@@ -42,8 +42,8 @@ public class ANOVA2_RM_LinePlotView extends ANOVA2_Views_Super {
     
     String strSubjectLabel, strTreatLabel, tempString;
     
-    //String waldoFile = "ANOVA2_RM_LinePlotView";
-    String waldoFile = "";
+    // String waldoFile = "";
+    String waldoFile = "ANOVA2_RM_LinePlotView";
     
     ObservableList<String> strTheSubjects, strTheTreatments;
     
