@@ -1,7 +1,7 @@
 /****************************************************************************
  *                    X2Assoc_Summary_Dialog                                * 
- *                          11/10/24                                        *
- *                            15:00                                         *
+ *                          12/01/24                                        *
+ *                            00:00                                         *
  ***************************************************************************/
 package dialogs.chisquare;
 
@@ -35,7 +35,6 @@ import utilityClasses.*;
 
 public class X2Assoc_SummaryDialog extends Splat_Dialog {
     //  POJOs
-    
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
 
@@ -75,7 +74,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
     public X2Assoc_SummaryDialog(X2Assoc_Model x2Assoc_Model) {   //  Constructor
         super();
         if (printTheStuff) {
-            System.out.println("\n78 *** X2Assoc_SummaryDialog, constructing");
+            System.out.println("\n77 *** X2Assoc_SummaryDialog, constructing");
         }
         this.x2Assoc_Model = x2Assoc_Model;
         strAssocType = x2Assoc_Model.getAssociationType();
@@ -102,7 +101,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
  ***************************************************************************/
     private void doX2ChosenPanel() {
         if (printTheStuff) {
-            System.out.println("105 --- X2Assoc_SummaryDialog, doX2ChosenPanel()");
+            System.out.println("104 --- X2Assoc_SummaryDialog, doX2ChosenPanel()");
         }
         strCurControl = strX2Chosen;
         
@@ -145,7 +144,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
     
     public void constructObservedValuesPanel() {
         if (printTheStuff) {
-            System.out.println("150 --- X2Assoc_SummaryDialog, constructObservedValuesPanel()");
+            System.out.println("147 --- X2Assoc_SummaryDialog, constructObservedValuesPanel()");
         }
         strCurControl = strObserved;
         
@@ -195,7 +194,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
   
     private void initializeUIComponents() {   
         if (printTheStuff) {
-            System.out.println("198 --- X2Assoc_SummaryDialog, initializeUIComponents()");
+            System.out.println("197 --- X2Assoc_SummaryDialog, initializeUIComponents()");
         }
     // **********************   Buttons  ***********************************
         btnCancel.setText("Return to Menu");
@@ -232,7 +231,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
                         break;
 
                     default:
-                        switchFailure = "Switch failure: X2Assoc_Summary_Dialog 235 " + strCurControl;
+                        switchFailure = "Switch failure: X2Assoc_Summary_Dialog 234 " + strCurControl;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);  
                     }   
             }
@@ -303,7 +302,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
                         break;
 
                     default:
-                        switchFailure = "Switch failure: X2Assoc_SummDial 306 " + strCurControl;
+                        switchFailure = "Switch failure: X2Assoc_SummDial 305 " + strCurControl;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);   
                 } 
             }
@@ -408,7 +407,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
     
     public void setCurrentFocusOn(int thisListArrayElement) {
         if (printTheStuff) {
-            System.out.println("411 --- X2Assoc_SummaryDialog, setCurrentFocusOn()");
+            System.out.println("410 --- X2Assoc_SummaryDialog, setCurrentFocusOn()");
         }
         switch (strCurControl) {
             case strX2Chosen: 
@@ -423,7 +422,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
             break;
             
             default:
-                switchFailure = "Switch failure: X2Assoc_SummaryDialog 426 " + strCurControl;
+                switchFailure = "Switch failure: X2Assoc_SummaryDialog 425 " + strCurControl;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
             }
     }
@@ -431,7 +430,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
     // 'Final' check on any data entry problems for the X2Chosen Panel
     private boolean checkOKChosen() {
         if (printTheStuff) {
-            System.out.println("434 --- X2Assoc_SummaryDialog, checkOKChosen()");
+            System.out.println("433 --- X2Assoc_SummaryDialog, checkOKChosen()");
         }
         boolean goForIt = true;
         boolean[] okToContinue = new boolean[4];    //  Yes, hard-coded
@@ -455,7 +454,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
     
     public void constructCategoriesPanel()  {  
         if (printTheStuff) {
-            System.out.println("458 --- constructCategoriesPanel()");
+            System.out.println("457 --- X2Assoc_SummaryDialog, constructCategoriesPanel()");
         }
         strCurControl = strCategoriesGrid;
         gridPaneVarCat = new GridPane();
@@ -508,7 +507,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
      **********************************************************************/
     private void doFormerDialogObj() {
         if (printTheStuff) {
-            System.out.println("511 --- doFormerDialogObj()");
+            System.out.println("511 --- X2Assoc_SummaryDialog, doFormerDialogObj()");
         }
         nRows = al_RowCol_STF.get(1).getSmartTextInteger();
         nCols = al_RowCol_STF.get(3).getSmartTextInteger();
@@ -536,8 +535,9 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
 
     private boolean checkOKCategoriesGrid() {
         if (printTheStuff) {
-            System.out.println("539 --- checkOKCategoriesGrid()");
+            System.out.println("539 --- X2Assoc_SummaryDialog, checkOKCategoriesGrid()");
         }
+        //al_VarCat_STF.toString();
         boolean okToContinue = true;
         for (int ithSTF = 0; ithSTF < al_VarCat_STF.getSize(); ithSTF++) {            
             if (al_VarCat_STF.get(ithSTF).isEmpty()) {
@@ -552,13 +552,13 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
         
         strRowCats = new String[nRowCategories];
         strColCats = new String[nColCategories];
-
+   
         for (int ithRowCategory = 0; ithRowCategory < nRowCategories; ithRowCategory++) {
             strRowCats[ithRowCategory] = al_VarCat_STF.get(ithRowCategory).getSmartTextField().getText();
         }
         
         for (int ithColumnCategory = 0; ithColumnCategory < nColCategories; ithColumnCategory++) { 
-            strColCats[ithColumnCategory] = al_VarCat_STF.get(nColCategories + ithColumnCategory - 1).getSmartTextField().getText();
+            strColCats[ithColumnCategory] = al_VarCat_STF.get(nRowCategories + ithColumnCategory).getSmartTextField().getText();
         }
         
         okToContinue = StringUtilities.checkForUniqueStrings(strRowCats);

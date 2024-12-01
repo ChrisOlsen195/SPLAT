@@ -1,7 +1,7 @@
 /****************************************************************************
  *                       DoublyLinkedSTF                                    * 
- *                           09/07/24                                       *
- *                            18:00                                         *
+ *                           12/01/24                                       *
+ *                            00:00                                         *
  ***************************************************************************/
 package smarttextfield;
 
@@ -41,11 +41,12 @@ public class DoublyLinkedSTF {
     public int getSize() { return al_STF.size(); }
     
     public String toString() { //  For debugging
-        System.out.println("     *****  DoublyLinkedSTF   *****");
+        System.out.println("\n     *****  DoublyLinkedSTF   *****");
         System.out.println("STF size = " + size);
         for (int ithSTF = 0; ithSTF < size; ithSTF++) {
             System.out.println(al_STF.get(ithSTF).toString());
         }
+        System.out.println("     *****  DoublyLinkedSTF   *****\n");
         return "EndethLinketh";
     }
 }
