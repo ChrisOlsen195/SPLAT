@@ -1,7 +1,7 @@
 /**************************************************
  *               ChiSquarePDFView                 *
- *                  05/25/24                      *
- *                    15:00                       *
+ *                  12/01/24                      *
+ *                    00:00                       *
  *************************************************/
 package chiSquare;
 
@@ -284,7 +284,7 @@ public class ChiSqPDFView extends BivariateScale_W_CheckBoxes_View {
         if (assumptionCheckIsDesired) {
             // elFactoro is there to help the alphas to avoid each other. It is intended
             //  to represent a fraction of the vertical size of the window
-            double elFactoro = 7.0;
+            double elFactoro = 6.5;
             for (double e: alphas) {
                 theCriticalValue = chiSquareDistr.getInvRightTailArea(e); 
                 xStart = xStop = xAxis.getDisplayPosition(theCriticalValue);
