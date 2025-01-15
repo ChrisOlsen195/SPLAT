@@ -51,8 +51,8 @@ public class VerticalBoxPlot_View extends Region {
     private boolean areDragging;
     private boolean[] vBoxCheckBoxSettings;    
     
-    boolean printTheStuff = true;
-    //boolean printTheStuff = false;
+    // boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     private int nVariables, nCheckBoxes, nDataPoints, n_Uniques;
     private int[] whiskerEndRanks;

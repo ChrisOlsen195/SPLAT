@@ -1,6 +1,6 @@
 /************************************************************
  *                    Two-Variables_Dialog                  *
- *                          11/27/24                        *
+ *                          01/03/25                        *
  *                           12:00                          *
  ***********************************************************/
 package dialogs;
@@ -76,7 +76,9 @@ public class Two_Variables_Dialog extends Splat_Dialog {
             case "ANOVA1_Quant_Stacked":
             case "RegressionDialog":
             case "Indep_t_Dialog":
+            case "TwoMeans_Dialog":
             case "MatchedPairs_Dialog":
+            case "Slope_Dialog":
                 strDataType_1 = "Quantitative";
                 strDataType_2 = "Quantitative";    
                 break;

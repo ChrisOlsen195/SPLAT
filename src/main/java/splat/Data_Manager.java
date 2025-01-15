@@ -873,6 +873,14 @@ public final class Data_Manager {
         scrollEventInitiated = yesNo;  
     } 
     
+    public String toString() {
+        System.out.println("877 Data_Manager -- toString");
+        System.out.println("878 Data_Manager, maxCasesInGrid = " + maxCasesInGrid);
+        System.out.println("879 Data_Manager, maxVarsInGrid = " + maxVarsInGrid);
+        System.out.println("880 Data_Manager -- end toString");
+        return "Done with toString";
+    }
+    
     public boolean getHasBeenScrolled() { return scrollEventInitiated; }    
     public int getDataStructSize() { return dataStruct.size(); }
     public int getMaxVisVars() { return maxVarsInGrid; }

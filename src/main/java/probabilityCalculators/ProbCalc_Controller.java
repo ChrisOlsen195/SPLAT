@@ -1,12 +1,13 @@
 /************************************************************
  *                     ProbCalc_Controller                  *
- *                          11/27/23                        *
- *                            00:00                         *
+ *                          12/31/24                        *
+ *                            12:00                         *
  ***********************************************************/
 package probabilityCalculators;
 
 public class ProbCalc_Controller {
     // POJOs
+    boolean printTheStuff = false;
     String returnStatus;
     
     // My classes
@@ -14,7 +15,9 @@ public class ProbCalc_Controller {
     // POJOs / FX
     
     public ProbCalc_Controller() { 
-        //System.out.println("17 ProbCalc_Controller, constructing");
+        if (printTheStuff) {
+            System.out.println("\n19 *** ProbCalc_Controller(), Constructing");
+        }
     } 
         
     public String doTheProcedure() {

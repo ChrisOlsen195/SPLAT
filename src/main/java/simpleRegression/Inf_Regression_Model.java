@@ -1,7 +1,7 @@
 /**************************************************
  *              Inf_Regression_Model              *
- *                    11/27/24                    *
- *                     00:00                      *
+ *                    01/11/25                    *
+ *                     18:00                      *
  *************************************************/
 package simpleRegression;
 
@@ -57,9 +57,9 @@ public class Inf_Regression_Model extends Regression_Model
         pearson_95CI_Hi = Math.tanh((arctanh_r + 1.959964 / Math.sqrt((double)nPoints - 3.0))); 
     }
         
-   public static String getLeftMostNChars(String original, int leftChars) {
-       return StringUtilities.getleftMostNChars(original, leftChars);
-   }
+   //public static String getLeftMostNChars(String original, int leftChars) {
+   //    return StringUtilities.getleftMostNChars(original, leftChars);
+   //}
 
    public void printStatistics() {   
        regressionReport = new ArrayList<>();

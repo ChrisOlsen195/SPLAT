@@ -48,7 +48,7 @@ public class File_Ops {
     File theFile;
 
     public File_Ops(Data_Manager dm) {
-        dm.whereIsWaldo(51, waldoFile, "\nConstructing File_Ops, no file name");
+        dm.whereIsWaldo(51, waldoFile, "\n *** Constructing File_Ops, no file name");
         this.dm = dm;
         tracker = dm.getPositionTracker();
         dm.setDataAreClean(true);
@@ -57,7 +57,7 @@ public class File_Ops {
     }
     
     public File_Ops( String fileName, Data_Manager dm) {
-        dm.whereIsWaldo(60, waldoFile, "\nConstructing File_Ops with file name");
+        dm.whereIsWaldo(60, waldoFile, "\n *** Constructing File_Ops with file name");
         this.dm = dm;
         tracker = dm.getPositionTracker();
         theFile = new File(fileName);

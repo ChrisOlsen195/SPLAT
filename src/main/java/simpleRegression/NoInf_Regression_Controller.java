@@ -1,7 +1,7 @@
 /************************************************************
  *                 NoInf_Regression_Controller              *
- *                          11/27/23                        *
- *                            12:00                         *
+ *                          01/04/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package simpleRegression;
 
@@ -80,11 +80,8 @@ public class NoInf_Regression_Controller {
                 return returnStatus;
             }
 
-            xStrings = bivContin.getLegalXsAs_AL_OfStrings();
-            yStrings = bivContin.getLegalYsAs_AL_OfStrings();
-
-            qdv_XVariable = new QuantitativeDataVariable(explanVarLabel, explanVarDescription, xStrings);
-            qdv_YVariable = new QuantitativeDataVariable(respVarLabel, responseVarDescription, yStrings);   
+            qdv_XVariable = new QuantitativeDataVariable(explanVarLabel, explanVarDescription, bivContin.getXAs_arrayOfDoubles());
+            qdv_YVariable = new QuantitativeDataVariable(respVarLabel, responseVarDescription, bivContin.getYAs_arrayOfDoubles());   
             
             noInf_RegModel = new NoInf_Regression_Model(this);
 

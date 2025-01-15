@@ -1,7 +1,7 @@
 /**************************************************
  *                Regression_Model                *
- *                    11/09/23                    *
- *                     21:00                      *
+ *                    12/23/24                    *
+ *                     12:00                      *
  *************************************************/
 /***************************************************
  *  All symbols, formulae, and page numbers are    *
@@ -52,7 +52,7 @@ public class Regression_Model {
    String deBlankedRegEq;
    
     // Make empty if no-print
-    //public String waldoFile = "Regression_Model";
+    // public String waldoFile = "Regression_Model";
     public String waldoFile = "";
     
    public String[] strAxisLabels, str_DataLabels, paramTerm;
@@ -82,7 +82,7 @@ public class Regression_Model {
         this.inf_regression_Controller= inf_regression_Controller;
         dm = inf_regression_Controller.getDataManager();
         tracker = dm.getPositionTracker();
-        dm.whereIsWaldo(90, waldoFile, "Constructing for Inf Reg");
+        dm.whereIsWaldo(85, waldoFile, "Constructing for Inf Reg");
         nVarsCommitted = tracker.getNVarsCommitted();
         nVarsInStruct = dm.getNVarsInStruct();
         subTitle = inf_regression_Controller.getSubTitle();
@@ -106,7 +106,7 @@ public class Regression_Model {
         this.noInf_Regression_Controller = noInf_Regression_Controller;
         dm = noInf_Regression_Controller.getDataManager(); 
         tracker = dm.getPositionTracker();
-        dm.whereIsWaldo(108, waldoFile, "Constructing Inf Reg");
+        dm.whereIsWaldo(109, waldoFile, "Constructing Inf Reg");
         nVarsCommitted = tracker.getNVarsCommitted();
         subTitle = noInf_Regression_Controller.getSubTitle();
         nCasesInStruct = dm.getNCasesInStruct();
@@ -125,7 +125,7 @@ public class Regression_Model {
     
     //  The QDVs are needed for labels; these are only the LEGAL points, not the column sizes
     public String setupRegressionAnalysis(QuantitativeDataVariable theXs, QuantitativeDataVariable theYs) {     
-        dm.whereIsWaldo(127, waldoFile, "setupRegressionAnalysis()");
+        dm.whereIsWaldo(128, waldoFile, "setupRegressionAnalysis()");
         nPoints = theXs.getLegalN();
         
         qdv_X = theXs;
@@ -178,15 +178,12 @@ public class Regression_Model {
         //  Now check for different slopes
         boolean diffSlopesFound = false;
         double testSlope = (secondY - firstY) / (secondX - firstX);
-        
         for (int restOfThePoints = 1; restOfThePoints < nPoints; restOfThePoints++) {
             
             double ithRestX = qdv_X.getIthDataPtAsDouble(restOfThePoints);
             double ithRestY = qdv_Y.getIthDataPtAsDouble(restOfThePoints);
-            
             if (ithRestX != firstX) {
                 double ithSlope = (ithRestY - firstY) / (ithRestX - firstX);
-                
                 if (ithSlope != testSlope) {
                     diffSlopesFound = true;
                 }  
@@ -277,7 +274,7 @@ public class Regression_Model {
         mat_StudResids = new Matrix(n, 1);
         mat_CooksD = new Matrix(n, 1);
         mat_RStudent = new Matrix(n, 1);
-        dm.whereIsWaldo(279, waldoFile, "doRegressionAnalysis()");
+        dm.whereIsWaldo(280, waldoFile, "doRegressionAnalysis()");
         // MPV, p73
         mat_XPrime = mat_X.transpose();
         mat_XPrimeX = mat_XPrime.times(mat_X);  // OK
@@ -311,7 +308,7 @@ public class Regression_Model {
         else {
             pearsonsR = -Math.sqrt(r2);
         }
-        dm.whereIsWaldo(309, waldoFile, "doRegressionAnalysis()");
+        dm.whereIsWaldo(314, waldoFile, "doRegressionAnalysis()");
         pearsonRInferenceCalculations();
  
         s = Math.sqrt(ssResid / (n - k - 1));
@@ -346,7 +343,7 @@ public class Regression_Model {
         
         String tempResidName = "Resid";
         String tempPredsName = "YHat"; 
-        dm.whereIsWaldo(348, waldoFile, "doRegressionAnalysis()");
+        dm.whereIsWaldo(349, waldoFile, "doRegressionAnalysis()");
         qdv_Resids = new QuantitativeDataVariable(dm, tempResidName, tempResidName, mat_Resids);
         qdv_PredYs = new QuantitativeDataVariable(dm, tempPredsName, tempPredsName, mat_YHats);        
         dm.whereIsWaldo(351, waldoFile, "doRegressionAnalysis()");
@@ -397,7 +394,7 @@ public class Regression_Model {
                     tracker.setNVarsCommitted(tracker.getNVarsCommitted() + 1);
                 }
             }
-            dm.whereIsWaldo(399, waldoFile, "doRegressionAnalysis()");
+            dm.whereIsWaldo(400, waldoFile, "doRegressionAnalysis()");
             predYs = new double[nCases];
             resids = new double[nCases];
             // Must go back to original data file and calculate the 
@@ -447,7 +444,7 @@ public class Regression_Model {
                 }
             }   //  end cases
             
-            dm.whereIsWaldo(449, waldoFile, "doRegressionAnalysis()");
+            dm.whereIsWaldo(450, waldoFile, "doRegressionAnalysis()");
             if (saveTheResids.equals("Yes") || saveTheHats.equals("Yes")) {                
                 if (saveTheResids.equals("Yes") && saveTheHats.equals("Yes")){
                     dm.getDataStruct().get(nVarsCommitted - 2).formatTheColumn();
@@ -472,12 +469,12 @@ public void pearsonRInferenceCalculations() {
     pearson_95CI_Hi = Math.tanh((arctanh_r + 1.959964 / Math.sqrt((double)nPoints - 3.0))); 
 }
         
-   public static String getLeftMostNChars(String original, int leftChars) {
+   public String getLeftMostNChars(String original, int leftChars) {
        return StringUtilities.getleftMostNChars(original, leftChars);
    }
    
    public void printStatistics() {   
-       dm.whereIsWaldo(479, waldoFile, "printStatistics()");
+       dm.whereIsWaldo(480, waldoFile, "printStatistics()");
        regressionReport = new ArrayList<>();
        regressionDiagnostics = new ArrayList<>();
        statsReport   = new ArrayList<>();
@@ -489,7 +486,7 @@ public void pearsonRInferenceCalculations() {
    }
    
    public void print_ANOVA_Table() {
-        dm.whereIsWaldo(491, waldoFile, "print_ANOVA_Table()");
+        dm.whereIsWaldo(492, waldoFile, "print_ANOVA_Table()");
         addNBlankLinesToRegressionReport(2);
         
         regressionReport.add("                            Analysis of Variance");
@@ -514,7 +511,7 @@ public void pearsonRInferenceCalculations() {
    
    public void print_Diagnostics() {
        double jjResid, jjStandResid, jjStudResid, jjLeverage, jjCooksD, jjRStud;    
-       dm.whereIsWaldo(516, waldoFile, "print_Diagnostics()");
+       dm.whereIsWaldo(517, waldoFile, "print_Diagnostics()");
        addNBlankLinesToDiagnosticReport(1);
        
         regressionDiagnostics.add("                                    Regression Diagnostics");
@@ -565,7 +562,7 @@ public void pearsonRInferenceCalculations() {
    public void print_ParamEstimates() {
         double lowBound, daParam, hiBound;
         String parameter;
-        dm.whereIsWaldo(569, waldoFile, "print_ParamEstimates()");
+        dm.whereIsWaldo(568, waldoFile, "print_ParamEstimates()");
         addNBlankLinesToRegressionReport(1);
         
         // Print equation on one line if simple regression
@@ -574,10 +571,12 @@ public void pearsonRInferenceCalculations() {
             regressionReport.add(respVsExplan);
             addNBlankLinesToRegressionReport(1);
             sourceString = "The regression equation is:";
-            responseLabel2Print = getLeftMostNChars(paramTerm[2], 15) + " = ";
+            responseLabel2Print = getLeftMostNChars(paramTerm[2], 30) + " = ";
             responseLabelForSummary = getLeftMostNChars(paramTerm[2], 15);
-            explanLabel2Print = getLeftMostNChars(paramTerm[1], 15);
-            String tempRegrEq = String.format(" %20s  %15s %8.3f %3s %8.3f %15s",
+            explanLabel2Print = getLeftMostNChars(paramTerm[1], 30);
+            //System.out.println("580 Regression_Model, responseLabel2Print = " + responseLabel2Print);
+            //System.out.println("581 Regression_Model, explanLabel2Print = " + explanLabel2Print);
+            String tempRegrEq = String.format("%20s  %30s %8.3f %3s %8.3f %30s",
                                  sourceString, responseLabel2Print, mat_BetaHats.get(0, 0), "+",
                                  mat_BetaHats.get(1, 0), explanLabel2Print
                               );
@@ -590,7 +589,7 @@ public void pearsonRInferenceCalculations() {
         
             for (int jj = 1; jj <= k; jj++) {
                 sourceString = getLeftMostNChars(paramTerm[jj] + bunchaBlanks, 10);
-                regressionReport.add(String.format(" %1s %8.3f %10s", "+", mat_BetaHats.get(jj, 0), sourceString));
+                regressionReport.add(String.format("%1s %8.3f %10s", "+", mat_BetaHats.get(jj, 0), sourceString));
              }
             
         }    
@@ -683,7 +682,7 @@ public void pearsonRInferenceCalculations() {
         int int_1, int_2;
         double dbl_1, dbl_2;
         String str_1, str_2, centeredExplanVar, centeredRespVar;
-        dm.whereIsWaldo(693, waldoFile, "print_BivStats()");
+        dm.whereIsWaldo(686, waldoFile, "print_BivStats()");
         centeredExplanVar = StringUtilities.centerTextInString(explanLabel2Print, 10);
         centeredRespVar = StringUtilities.centerTextInString(responseLabelForSummary, 10);
         PrintUStats_Model prntU_X = new PrintUStats_Model(centeredExplanVar, qdv_X, true);

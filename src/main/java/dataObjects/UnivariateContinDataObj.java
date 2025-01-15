@@ -1,6 +1,6 @@
 /**************************************************
  *             UnivariateContinDataObj            *
- *                    11/27/24                    *
+ *                    12/23/24                    *
  *                     12:00                      *
  *************************************************/
 package dataObjects;
@@ -274,8 +274,8 @@ public class UnivariateContinDataObj {
     // 100 pcTile fraction at or below pcTile
     public double fromPercentile_toPercentileRank(double pcTile) {
         if (printTheStuff) {
-            System.out.println("290 *** UnivariateContinDataObj, fromPercentile_toPercentileRank");
-            System.out.println("291 UCDO, pcTile: " + pcTile);
+            System.out.println("277 *** UnivariateContinDataObj, fromPercentile_toPercentileRank");
+            System.out.println("278 UCDO, pcTile: " + pcTile);
         }
 
         double pcRank = 0.;
@@ -309,10 +309,10 @@ public class UnivariateContinDataObj {
      * https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm   *
      *********************************************************************/
     public double fromPercentileRank_toPercentile(double ithPCTileRank) { //    0 < pcTile < 1
-        if (printTheStuff == true) {
-            System.out.println("316 *** UnivariateContinDataObj, fromPercentileRank_toPercentile");
-            System.out.println("317 UCDO, fromPercentileRank_toPercentile");
-            System.out.println("318 UCDO, pcTileRank of: " + ithPCTileRank);
+        if (printTheStuff) {
+            System.out.println("313 *** UnivariateContinDataObj, fromPercentileRank_toPercentile");
+            System.out.println("314 UCDO, fromPercentileRank_toPercentile");
+            System.out.println("315 UCDO, pcTileRank of: " + ithPCTileRank);
         }
 
         double temp1  = ithPCTileRank * (nLegalDataPoints + 1);
@@ -351,7 +351,7 @@ public class UnivariateContinDataObj {
     
     public double[] getAndersonDarling() {
         if (printTheStuff) {
-            System.out.println("357 *** UnivariateContinDataObj, getAndersonDarling()");
+            System.out.println("354 *** UnivariateContinDataObj, getAndersonDarling()");
         }
         // Need to be sure data are sorted
         if (!medianBasedDone){ doMedianBasedCalculations(); }
@@ -429,8 +429,8 @@ public class UnivariateContinDataObj {
     }
     
     public double getTheTrimmedMean(double trimProp) {
-        if (printTheStuff == true) {
-            System.out.println("436 *** UnivariateContinDataObj, getTheTrimmedMean");
+        if (printTheStuff) {
+            System.out.println("433 *** UnivariateContinDataObj, getTheTrimmedMean");
         }
         double sum, trimmedMean;
         int nToDrop = (int)Math.floor(trimProp * nLegalDataPoints);
@@ -450,7 +450,7 @@ public class UnivariateContinDataObj {
      ******************************************************************/
     private void constructFrequencyDistribution() {
         if (printTheStuff) {
-            System.out.println("456 *** UnivariateContinDataObj, constructFrequencyDistribution()");
+            System.out.println("453 *** UnivariateContinDataObj, constructFrequencyDistribution()");
         }        
         ArrayList <Point_2D>  al_StartStop;
         ArrayList <Double> al_UniqueValues;
@@ -497,7 +497,7 @@ public class UnivariateContinDataObj {
             }      
         } 
         if (printTheStuff) {
-            System.out.println("503 *** UnivariateContinDataObj, end constructFrequencyDistribution()");
+            System.out.println("500 *** UnivariateContinDataObj, end constructFrequencyDistribution()");
         }
     }
 

@@ -1,7 +1,7 @@
 /****************************************************************************
  *                       DoublyLinkedSTF                                    * 
- *                           12/01/24                                       *
- *                            00:00                                         *
+ *                           01/13/25                                       *
+ *                            09:00                                         *
  ***************************************************************************/
 package smarttextfield;
 
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public class DoublyLinkedSTF {
     
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     int size;
     
     ArrayList<SmartTextField> al_STF;
@@ -16,7 +18,9 @@ public class DoublyLinkedSTF {
     public DoublyLinkedSTF() { }
     
     public DoublyLinkedSTF (SmartTextFieldsController stf_Controller, int size) {
-        //System.out.println("19 DoublyLinkedSTF, Constructing");
+        if (printTheStuff) {
+            System.out.println("\n21 *** DoublyLinkedSTF, Constructing");
+        }
         this.size = size;
         al_STF = new ArrayList(size);        
         for (int ithSTF = 0; ithSTF < size; ithSTF++) {
@@ -30,6 +34,9 @@ public class DoublyLinkedSTF {
     } 
     
     public void makeCircular() {
+        if (printTheStuff) {
+            System.out.println("37 --- DoublyLinkedSTF, makeCircular()");
+        }
         al_STF.get(0).setPre_Me_AndPostSmartTF(size - 1, 0, 1);
         al_STF.get(size - 1).setPre_Me_AndPostSmartTF(size - 2, size - 1, 0);        
     }

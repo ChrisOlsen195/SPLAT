@@ -38,8 +38,8 @@ public class DataCleaner {
     String changeFrom, changeTo, returnStatus;    
     String[] str_FixedData, str_CleanedData, finalCategories, str_NonMissing;
     
-    String waldoFile  = "";
     //String waldoFile = "DataCleaner";
+    String waldoFile  = "";
     
     ArrayList<String> listView_From, listView_To, al_NonMissing;
     ListView<String> lv_Uniques, listView_PreChoice, listView_PostChoice;

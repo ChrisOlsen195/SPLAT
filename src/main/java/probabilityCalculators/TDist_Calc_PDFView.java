@@ -1,7 +1,7 @@
 /**************************************************
  *               TDist_Calc_PDFView               *
- *                    02/19/24                    *
- *                     00:00                      *
+ *                    12/31/24                    *
+ *                     12:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -41,6 +41,8 @@ import utilityClasses.DataUtilities;
 public class TDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     // POJOs
+    boolean printTheStuff = true;
+    
     int df;
 
     DoublyLinkedSTF al_ProbCalcs_STF;
@@ -57,7 +59,9 @@ public class TDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
     super(probCalc_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("56 TDist_Calc_PDFView, constructing");
+        if (printTheStuff) {
+            System.out.println("\n63 *** TDist_Calc_PDFView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         

@@ -1,7 +1,7 @@
 /**************************************************
  *               X2Dist_Calc_PDFView              *
- *                    02/19/24                    *
- *                     15:00                      *
+ *                    12/31/24                    *
+ *                     12:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -42,6 +42,8 @@ import utilityClasses.StringUtilities;
 public class X2Dist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     // POJOs
+    boolean printTheStuff = true;
+    
     int df;
 
     double sigma, dbl_df; 
@@ -59,6 +61,9 @@ public class X2Dist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
     super(probCalc_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight); 
+        if (printTheStuff) {
+            System.out.println("\n65 *** X2Dist_Calc_PDFView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         initHoriz = placeHoriz; initVert = placeVert;

@@ -16,7 +16,7 @@ public class Matched_t_Inf_Report_View extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        System.out.println("19 Matched_t_Inf_Report_View, constructing");
+        //System.out.println("19 Matched_t_Inf_Report_View, constructing");
         sourceString = new String();
         stringsToPrint = matched_t_Model.getSingleTReport();
         strTitleText = "Inference for matched pairs report";

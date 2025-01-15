@@ -123,7 +123,7 @@ public class QuantCat_View extends Region {
                          String whichView, 
                          double placeHoriz, double placeVert, 
                          double withThisWidth, double withThisHeight) {
-        System.out.println("\n126 QuantCat_View, constructing");
+        //System.out.println("\n126 QuantCat_View, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.whichView = whichView;

@@ -90,6 +90,7 @@ public class TwoProp_Inf_Dashboard extends Dashboard {
             "-fx-border-insets: -4, -4;" +
             "-fx-border-style: solid centered, solid centered;";
         
+        initWidth[0] = 650;
         twoProp_Inf_PDF_View = new TwoProp_Inf_PDFView(twoProp_Inf_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         twoProp_Inf_PDF_View.completeTheDeal();        
         twoProp_Inf_PDF_ContainingPane = twoProp_Inf_PDF_View.getTheContainingPane();  

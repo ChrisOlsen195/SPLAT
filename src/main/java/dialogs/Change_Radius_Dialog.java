@@ -40,7 +40,7 @@ public class Change_Radius_Dialog extends Stage {
     // My classes
     DotPlot_View dotPlot_View;
     MultUni_DotPlotView multUni_DotPlotView;
-    ChooseStats_DotPlot_DistrView chooseStats_DotPlot_DistrView; 
+    Boot_DotPlot_DistrView chooseStats_DotPlot_DistrView; 
     X2Assoc_PieChartView x2Assoc_PieChart_View;
     BivCat_PieChartView bivCat_PieChart_View;
     Epi_PieChartView epi_PieChart_View;
@@ -189,7 +189,7 @@ public class Change_Radius_Dialog extends Stage {
         setScene(scene);
     } 
     
-    public Change_Radius_Dialog(ChooseStats_DotPlot_DistrView boot_ChooseStats_DotPlot_DistrView) {
+    public Change_Radius_Dialog(Boot_DotPlot_DistrView boot_ChooseStats_DotPlot_DistrView) {
         this.chooseStats_DotPlot_DistrView = boot_ChooseStats_DotPlot_DistrView;
         strDotOrPie = "CHOOSEVAR";
         strReturnStatus = "OK";

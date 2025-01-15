@@ -1,7 +1,7 @@
 /**************************************************
  *             GeometricDist_Calc_PDFView         *
- *                    02/19/24                    *
- *                     15:00                      *
+ *                    12/31/24                    *
+ *                     12:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -30,6 +30,8 @@ import utilityClasses.StringUtilities;
 public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     // POJOs
+    boolean printTheStuff = true;
+    
     int geometric_nToDisplay, lowerShadeBound, 
         upperShadeBound, probSelection, /*intDaChoice,*/ intDaLeftChoice, 
         intDaRightChoice, geomStart, geomStop;
@@ -54,7 +56,9 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double withThisWidth, double withThisHeight) {
         super(probCalc_Dashboard, placeHoriz, placeVert,
                         withThisWidth, withThisHeight); 
-        //System.out.println("53 GeometricDist_Calc_PDFView, constructing");               
+        if (printTheStuff) {
+            System.out.println("\n60 *** GeometricDist_Calc_PDFView, Constructing");
+        }               
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         
