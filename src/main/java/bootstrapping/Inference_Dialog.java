@@ -1,7 +1,7 @@
 /************************************************************
  *                      Inference_Dialog                    *
- *                          04/17/24                        *
- *                            00:00                         *
+ *                          01/08/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package bootstrapping;
 
@@ -41,8 +41,8 @@ public class Inference_Dialog extends One_Variable_Dialog {
            strHypChosen;
     String resultAsString;
     
-    String waldoFile = "Inference_Dialog";
-    //String waldoFile = "";
+    //String waldoFile = "Inference_Dialog";
+    String waldoFile = "";
     
     String[] hypothPair;
     Label lblNullAndAlt, ciLabel, alphaLabel;
@@ -152,6 +152,7 @@ public class Inference_Dialog extends One_Variable_Dialog {
                         daNewNullMean = Double.valueOf(resultAsString);
                     }
                     catch (NumberFormatException ex ){ 
+                        System.out.println("155 Inference_Dialog -- gen #");
                         MyAlerts.showGenericBadNumberAlert(" a real number ");
                         txtDialog.setContentText("");
                         okToContinue = false;
@@ -168,7 +169,7 @@ public class Inference_Dialog extends One_Variable_Dialog {
     }
  
 private void makeAlphaAndCIPanel() {
-        dm.whereIsWaldo(171, waldoFile, "makeAlphaAndCIPanel()");
+        dm.whereIsWaldo(172, waldoFile, "makeAlphaAndCIPanel()");
         ciLabel = new Label("   Select conf level");
         ciLabel.setMaxWidth(130);
         ciLabel.setMinWidth(130);

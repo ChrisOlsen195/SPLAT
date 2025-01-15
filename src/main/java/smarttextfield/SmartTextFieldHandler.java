@@ -1,7 +1,7 @@
 /****************************************************************************
  *                     SmartTextFieldHandler                                * 
- *                           10/15/23                                      *
- *                             12:00                                        *
+ *                           01/13/25                                      *
+ *                             09:00                                        *
  ***************************************************************************/
 package smarttextfield;
 
@@ -9,6 +9,8 @@ import utilityClasses.MyAlerts;
 
 public class SmartTextFieldHandler {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     /*
     boolean mb_Negative = false, mb_NonPositive = false, mb_NonZero = false, 
@@ -33,7 +35,9 @@ public class SmartTextFieldHandler {
     DoublyLinkedSTF al_STF;
     
     public SmartTextFieldHandler(SmartTextFieldsController stf_Controller) { 
-        //System.out.println("33 Handler, Constructing");
+        if (printTheStuff) {
+            System.out.println("\n39 *** SmartTextFieldHandler, Constructing");
+        }
         myAlerts = new MyAlerts();
         al_STF = stf_Controller.getLinkedSTF();   
     }

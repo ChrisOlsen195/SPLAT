@@ -1,6 +1,6 @@
 /************************************************************
  *                       Splat_MainMenu                     *
- *                          11/27/24                        *
+ *                          01/03/25                        *
  *                            12:00                         *
  ***********************************************************/
 package splat;
@@ -13,7 +13,6 @@ import anova1.quantitative.ANOVA1_Quant_Controller;
 import anova1.categorical.ANOVA1_Cat_Controller;
 import anova2.ANCOVA_Controller;
 import anova2.ANOVA2_RM_Controller;
-import multipleLogisticRegression.MLR_Controller;
 import simpleLogisticRegression.Logistic_Controller;
 import proceduresManyUnivariate.MultUni_Controller;
 import chiSquare_Assoc.X2Assoc_Controller;
@@ -204,7 +203,9 @@ public class MainMenu extends MenuBar {
                                         chiSquareFileData);
         Menu bootstrap = new Menu("Bootstrapping");
         MenuItem bootOneVar = new MenuItem("Boot Generic one-var");
-        bootstrap.getItems().add(bootOneVar);
+        MenuItem boot2Means = new MenuItem("Boot Two Means");
+        MenuItem bootSlope = new MenuItem("Boot Slope");
+        bootstrap.getItems().addAll(bootOneVar, boot2Means, bootSlope);
         inference.getItems().addAll(singleProportion, 
                                     differenceInProportions,
                                     singleMean,
@@ -236,10 +237,8 @@ public class MainMenu extends MenuBar {
         Menu advancedRegression = new Menu("Advanced regression");
         MenuItem multLinRegression = new MenuItem("Multiple Regression");
         MenuItem logisticRegression = new MenuItem("Logistic regression");
-        MenuItem multipleLogisticRegression = new MenuItem("Multiple Logistic regression");
         advancedRegression.getItems().addAll(multLinRegression,
-                                             logisticRegression,
-                                             multipleLogisticRegression);  
+                                             logisticRegression);  
         Menu analysisOfCovariance = new Menu("One-Factor Analysis of Covariance");
         baps.getItems().addAll(anova, advancedRegression, analysisOfCovariance);
         
@@ -609,11 +608,6 @@ public class MainMenu extends MenuBar {
             Logistic_Controller logisticController = new Logistic_Controller(dm);
             strReturnStatus = logisticController.doTheProcedure();
         });
-        
-        multipleLogisticRegression.setOnAction((ActionEvent event) -> {
-            MLR_Controller multLogisticReg_Proc = new MLR_Controller(dm);
-            strReturnStatus = multLogisticReg_Proc.doTheProcedure();
-        });
                 
         // **************************************************************
         // *                 Bivariate Categorical                      *
@@ -695,9 +689,21 @@ public class MainMenu extends MenuBar {
         
         bootOneVar.setOnAction((ActionEvent event) -> {
             String whichBoot = "ChooseUnivStat";
-            ChooseStats_Controller boot_Controller = new ChooseStats_Controller(dm, whichBoot);
-            boot_Controller.doTheControllerThing();
-            strReturnStatus = boot_Controller.getReturnStatus();  
+            OneStat_Controller chooseStats_Controller = new OneStat_Controller(dm, whichBoot);
+            chooseStats_Controller.doTheControllerThing();
+            strReturnStatus = chooseStats_Controller.getReturnStatus();  
+        });
+        
+        boot2Means.setOnAction((ActionEvent event) -> {
+            TwoMeans_Controller twoMeans_Controller = new TwoMeans_Controller(dm);
+            twoMeans_Controller.doPrepColumnsFromNonStacked();
+            strReturnStatus = twoMeans_Controller.getReturnStatus();  
+        });
+        
+        bootSlope.setOnAction((ActionEvent event) -> {
+            Slope_Controller slope_Controller = new Slope_Controller(dm);
+            slope_Controller.doPrepColumnsFromNonStacked();
+            strReturnStatus = slope_Controller.getReturnStatus();  
         });
         
         // **************************************************************
@@ -738,7 +744,7 @@ public class MainMenu extends MenuBar {
         return dataExists; }
     
     public String toString() { // new Exception().printStackTrace();
-        // new Exception().printStackTrace(); 
+        System.out.println("\n toString in MainMenu");
         return "Blank string in Menu";
     }
 } // class

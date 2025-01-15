@@ -26,7 +26,8 @@ import utilityClasses.DataUtilities;
 import utilityClasses.StringUtilities;
 
 public class NormalDist_Calc_PDFView extends Distributions_Calc_PDFView {
-
+    boolean printTheStuff = true;
+    
     double mu, sigma;
     double[] dbl_AllTheSTFs;    //  doubles of the al_ProbCalcs
     // My classes  
@@ -40,7 +41,9 @@ public class NormalDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(probCalc_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("41 NormalDist_Calc_PDFView, constructing");
+        if (printTheStuff) {
+            System.out.println("\n45 *** NormalDist_Calc_PDFView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         

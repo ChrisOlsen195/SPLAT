@@ -1,7 +1,7 @@
 /**************************************************
  *              NoInf_Regression_Model            *
- *                    11/01/23                    *
- *                     12:00                      *
+ *                    01/11/25                    *
+ *                     18:00                      *
  *************************************************/
 /***************************************************
  *  Regression and ANOVA checked against MPV on    *
@@ -18,6 +18,10 @@ public class NoInf_Regression_Model  extends Regression_Model
 {     
     // POJOs
     NoInf_Regression_Controller noInf_Regr_Controller;
+    
+    // Make empty if no-print
+    // String waldoFile = "No Inf_Regression_Model";
+    String waldoFile = ""; 
 
     // POJOs / FX
     
@@ -26,6 +30,7 @@ public class NoInf_Regression_Model  extends Regression_Model
         //System.out.println("26 NoInfRegression_Model, constructing");
         this.noInf_Regr_Controller = noInf_Regression_Controller;
         dm = noInf_Regr_Controller.getDataManager(); 
+        dm.whereIsWaldo(33, waldoFile, "Constructing");
         nCases = dm.getNCasesInStruct();
         nVarsInStruct = dm.getNVarsInStruct();
         tracker = noInf_Regr_Controller.getDataManager().getPositionTracker();
@@ -42,10 +47,10 @@ public class NoInf_Regression_Model  extends Regression_Model
         returnStatus = "OK";
     }
     
-   public static String getLeftMostNChars(String original, int leftChars)
-   { 
-       return StringUtilities.getleftMostNChars(original, leftChars); 
-   }
+   //public static String getLeftMostNChars(String original, int leftChars)
+   //{ 
+   //    return StringUtilities.getleftMostNChars(original, leftChars); 
+   //}
    
    public Data_Manager getDataManager() { return dm; }
 

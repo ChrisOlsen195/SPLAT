@@ -1,7 +1,7 @@
 /**************************************************
  *             GeometricDist_Calc_DialogView      *
- *                    11/27/23                    *
- *                     00:00                      *
+ *                    01/13/25                    *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -25,6 +25,9 @@ import utilityClasses.MyAlerts;
 public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_View {
     
     //POJOs
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     boolean okToGraph, graphFound;
     
     int geometric_N2Display;
@@ -84,7 +87,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);     
-        //System.out.println("87 GeometricDist_Calc_DialogView, constructing");
+        if (printTheStuff) {
+            System.out.println("\n90 *** GeometricDist_Calc_DialogView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         

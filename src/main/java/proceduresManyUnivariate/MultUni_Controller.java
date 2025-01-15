@@ -1,7 +1,7 @@
 /**************************************************
  *                MultiUni_Controller             *
- *                    11/27/24                    *
- *                     12:00                      *
+ *                    01/13/25                    *
+ *                     18:00                      *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -29,8 +29,8 @@ public class MultUni_Controller {
     private ObservableList<String> varLabels;
     
     // Make empty if no-print
-    String waldoFile = "MultUni_Controller";
-    //String waldoFile = "";
+    //String waldoFile = "MultUni_Controller";
+    String waldoFile = "";
     
     String[] incomingLabels;
  

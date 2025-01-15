@@ -1,7 +1,7 @@
 /**************************************************
  *           Indep_t_SumStats_Dashboard           *
- *                    11/01/23                    *
- *                     00:00                      *
+ *                    01/14/25                    *
+ *                     12:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -72,7 +72,7 @@ public class Indep_t_SumStats_Dashboard extends Dashboard {
             "-fx-border-insets: -4, -4;" +
             "-fx-border-style: solid centered, solid centered;";
         
-        initWidth[0] = 700;
+        initWidth[0] = 750;
         indep_t_PDF_SumStats_View = new Indep_t_SumStats_PDFView(indep_t_SumStats_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         indep_t_PDF_SumStats_View.completeTheDeal();        
         indep_t_ContainingPane = indep_t_PDF_SumStats_View.getTheContainingPane();  

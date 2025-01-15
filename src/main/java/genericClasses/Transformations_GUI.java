@@ -1,7 +1,7 @@
 /************************************************************
  *                    Transformations_GUI                   *
- *                          12/09/23                        *
- *                            09:00                         *
+ *                          12/24/24                        *
+ *                            12:00                         *
  ***********************************************************/
 package genericClasses;
 
@@ -55,8 +55,8 @@ public class Transformations_GUI {
             chosenProcedure;
     
     // Make empty if no-print
-    String waldoFile = "Transformations_GUI";
-    //String waldoFile = "";
+    //String waldoFile = "Transformations_GUI";
+    String waldoFile = "";
     
     String newVarName = "New Var Name";
     String[] varNames, funcNames, binaryOpNames, unaryOpNames, strTransformedData, 
@@ -688,7 +688,7 @@ public class Transformations_GUI {
             
             case "unaryOperationOnVariable":
                 controlTitle = "Unary Operation on a Variable";                
-                controlWidth = 950; controlHeight = 300; widthFudgeFactor = 0.60;
+                controlWidth = 950; controlHeight = 350; widthFudgeFactor = 0.60;
                 strAdvisory[0] = "\n    This control is used to perform unary operations on variables. Enter the new variable label,\n";
                 strAdvisory[1] = "    and choose the unary operation from the drop down menus.\n\n"  ;
                 strAdvisory[2] = "      The format for the choices is: \n\n";

@@ -1,6 +1,6 @@
 /**************************************************
  *              Matched_t_Controller              *
- *                    11/27/23                    *
+ *                    01/14/25                    *
  *                     12:00                      *
  *************************************************/
 package the_t_procedures;
@@ -22,8 +22,7 @@ import utilityClasses.StringUtilities;
 public class Matched_t_Controller {
     // POJOs  
     int confidenceLevel;
-    
-    ArrayList<double[]> theMatched;
+
     String returnStatus, diffLabel, diffDescription;
     // Make empty if no-print
     //String waldoFile = "Matched_t_Controller";
@@ -80,14 +79,11 @@ public class Matched_t_Controller {
         String yVarDescr = matchedPairs_Dialog.getPreferredSecondVarDescription();
         diffLabel = StringUtilities.truncateString(xVarLabel, 12) + " - " + StringUtilities.truncateString(yVarLabel, 12);  
         diffDescription = StringUtilities.truncateString(xVarDescr, 20) + " - " + StringUtilities.truncateString(yVarDescr, 20);       
-         
-        theMatched = new ArrayList(2);
-        theMatched = bivContin.getBivDataAsDoubles();
 
         double[] theDiffs = new double[nPairs];
         for (int ithPair = 0; ithPair < nPairs; ithPair++) {
-            double firstVal = theMatched.get(0)[ithPair];
-            double secondVal = theMatched.get(1)[ithPair];
+            double firstVal = bivContin.getIthX(ithPair);
+            double secondVal = bivContin.getIthY(ithPair);
             theDiffs[ithPair] = firstVal - secondVal;
         }
         theQDV = new QuantitativeDataVariable(diffLabel, diffDescription, theDiffs);

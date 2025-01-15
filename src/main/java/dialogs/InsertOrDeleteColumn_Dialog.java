@@ -29,7 +29,7 @@ public class InsertOrDeleteColumn_Dialog extends Splat_Dialog {
     
     public int minVars, maxVars, varIndexForX, nCheckBoxes, minSampleSize;
     
-    String /*insertOrDelete, strVarLabel,*/ descriptionOfVariable, subTitle, 
+    String descriptionOfVariable, subTitle, 
            strSelected, strInsertRemorseMsgTitle, strInsertRemorseMsg,
            strDeleteRemorseMsgTitle, strDeleteRemorseMsg;
     
@@ -54,8 +54,8 @@ public class InsertOrDeleteColumn_Dialog extends Splat_Dialog {
     public InsertOrDeleteColumn_Dialog(Data_Manager dm, String insertOrDelete) {
         super(dm);
         this.dm = dm;
-        waldoFile = "InsertOrDeleteColumn_Dialog";
-        //waldoFile = "";
+        //waldoFile = "InsertOrDeleteColumn_Dialog";
+        waldoFile = "";
         dm.whereIsWaldo(59, waldoFile, "Constructing");
         strReturnStatus = "Cancel";
         boolGoodToGo = true;

@@ -1,7 +1,7 @@
 /****************************************************************************
  *                   SmartTextFieldsController                              * 
- *                           10/15/23                                       *
- *                            12:00                                         *
+ *                           01/13/25                                       *
+ *                            09:00                                         *
  ***************************************************************************/
 /***************************************************************************      
 *    This is the typical garden-variety sequence to set up the STFs        *
@@ -19,12 +19,17 @@ package smarttextfield;
 public class SmartTextFieldsController {
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
     SmartTextFieldHandler stf_Handler;
     DoublyLinkedSTF al_STF;
     
     public SmartTextFieldsController() {
+        if (printTheStuff) {
+            System.out.println("\n30 *** SmartTextFieldsController, Constructing");
+        }
        stf_Handler = new SmartTextFieldHandler(this);
     }
     
@@ -38,7 +43,6 @@ public class SmartTextFieldsController {
             al_STF.get(ithSTF).finishInitializations();
         }
     }
-    
     
     public DoublyLinkedSTF getLinkedSTF() { return al_STF; }
         

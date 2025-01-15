@@ -31,7 +31,7 @@ public class CSV_FileParser {
                       al_ListOf_Alleged_Labels, al_ListOf_Concocted_Labels;  
     
     // Make empty if no-print
-    //String waldoFile = "CSV_FileParser";
+    // String waldoFile = "CSV_FileParser";
     String waldoFile = "";
     
     ObservableList<ObservableList<String>> allParsedLines;
@@ -202,7 +202,7 @@ public class CSV_FileParser {
        
     private ArrayList<String> adjustTheArrayList(ArrayList<String> thePreStringArray) {
         if (!waldoFile.equals("")) {
-            System.out.println("!!WW!! " + 205 + " / " + waldoFile + " / " + "adjustTheArrayList(ArrayList<String> thePreStringArray)");
+            //System.out.println("!!WW!! " + 205 + " / " + waldoFile + " / " + "adjustTheArrayList(ArrayList<String> thePreStringArray)");
         }
         int iCol;
         ArrayList<String> adjustedArrayList = new ArrayList(nColumnsThisFile);
@@ -211,23 +211,35 @@ public class CSV_FileParser {
             // IF GREATER, ALERT USER TO ADJUSTMENT!
             // Copy first nLegal columns
             for (iCol = 0; iCol < nColumnsThisFile; iCol++) {
+                if (!waldoFile.equals("")) {
+                    //System.out.println("!!WW!! " + 215 + " / " + waldoFile + " / " + "icol = " + iCol);
+                }
                 adjustedArrayList.add(thePreStringArray.get(iCol));  
             }
         } else {
             //  Pad on end with Missing
             for (iCol = 0; iCol < preStringArraySize; iCol++) {
+                if (!waldoFile.equals("")) {
+                    //System.out.println("!!WW!! " + 223 + " / " + waldoFile + " / " + "icol = " + iCol);
+                }
                 adjustedArrayList.add(iCol, thePreStringArray.get(iCol));   // simple copy
             }  
             
             for (iCol = preStringArraySize; iCol < nColumnsThisFile; iCol++) {
+                if (!waldoFile.equals("")) {
+                    //System.out.println("!!WW!! " + 230 + " / " + waldoFile + " / " + "icol = " + iCol);
+                }
                 adjustedArrayList.add(missingDataString);
             }             
         }
         
-            for (iCol = 0; iCol < nColumnsThisFile; iCol++) {
-                if (adjustedArrayList.get(iCol).equals(""))
-                    adjustedArrayList.set(iCol, missingDataString);   
-            }  
+        for (iCol = 0; iCol < nColumnsThisFile; iCol++) {
+            if (!waldoFile.equals("")) {
+                //System.out.println("!!WW!! " + 238 + " / " + waldoFile + " / " + "icol = " + iCol);
+            }
+            if (adjustedArrayList.get(iCol).equals(""))
+                adjustedArrayList.set(iCol, missingDataString);   
+        }  
         
         return adjustedArrayList;
     }
@@ -244,9 +256,15 @@ public class CSV_FileParser {
     private void addToAllParsedLines(ArrayList<String> thisParsedLine) {
         ObservableList<String> observedParsedLine;
         observedParsedLine = FXCollections.observableArrayList();
-        for (int i = 0; i < thisParsedLine.size(); i++) {
-            String tempString = thisParsedLine.get(i).trim();
+        for (int ith = 0; ith < thisParsedLine.size(); ith++) {
+            if (!waldoFile.equals("")) {
+                System.out.println("!!WW!! " + 261 + " / " + waldoFile + " / " + "ith = " + ith);
+            }
+            String tempString = thisParsedLine.get(ith).trim();
             observedParsedLine.add(tempString);
+        }
+        if (!waldoFile.equals("")) {
+            System.out.println("!!WW!! " + 267 + " / " + waldoFile + " / " + "observedParsedLine = " + observedParsedLine);
         }
         allParsedLines.add(observedParsedLine); 
     }

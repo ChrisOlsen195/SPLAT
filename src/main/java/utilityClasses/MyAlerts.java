@@ -1,7 +1,7 @@
 /****************************************************************************
  *                            MyAlerts                                      *
- *                            11/17/24                                      *
- *                             09:00                                        *
+ *                            12/27/24                                      *
+ *                             18:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -280,6 +280,7 @@ public class MyAlerts {
         backToTheRealWorld();
     } 
     
+
     public static void showGenericBadNumberAlert(String message) { 
         showingAnAlert = true;
         alertTitle = "Hey!  User!  That's not a " + message + "!";
@@ -296,7 +297,7 @@ public class MyAlerts {
 
         backToTheRealWorld();
     }
-    
+
     public static void showNoVarianceInANOVAAlert(String varLabel) { 
         showingAnAlert = true;
         alertTitle = "Hey!  User!  That's no variability in " + varLabel + "!";
@@ -615,7 +616,10 @@ public class MyAlerts {
                         + " that is not numeric, I will proceed as if the variable as text.  So, even if you"
                         + " fix it before ENTERing, I, SPLAT, will still treat the variable as categorical.  You"
                         + " should first key in and ENTER the correct value, and then click at the top of the"
-                        + " variable column and change the data type back to numeric.\n\n";
+                        + " variable column and change the data type back to numeric."
+                        + "\nTo delete (as distinguished from replace) a value in a cell, the easiest thing to"
+                        + " do is enter an asterisk -- I, SPLAT the Magnificent, will just ignore it.  But you"
+                        + " will still have to change the variable type from text to numeric.\n\n";
         
         backToTheRealWorld();
     }
@@ -830,7 +834,7 @@ public class MyAlerts {
 
         backToTheRealWorld();
     }
-    
+
     public static void showUnequalNsInMultivariateProcessAlert() { 
         showingAnAlert = true;
         alertTitle = "Libert\u00E9, Egalit\u00E9, Fraternit\u00E9!!!";
@@ -926,6 +930,7 @@ public class MyAlerts {
         backToTheRealWorld();
     }
     
+
     public static void showStraightLineAlert() { 
         showingAnAlert = true;
         alertTitle = "Ack!!  Alas, poor misguided User, a fellow of infinite straightness... ";
@@ -940,6 +945,7 @@ public class MyAlerts {
         
         backToTheRealWorld();
     }
+
     
     public static void showTwoPointsAlert() { 
         showingAnAlert = true;

@@ -1,7 +1,7 @@
 /**************************************************
  *             NormalDist_Calc_PDFView            *
- *                    02/19/24                    *
- *                     15:00                      *
+ *                    12/31/24                    *
+ *                     12:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -29,6 +29,7 @@ import utilityClasses.StringUtilities;
 
 public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
 
+    boolean printTheStuff = true;
     double mu, sigma;
     double[] dbl_AllTheSTFs;    //  doubles of the al_ProbCalcs
     // My classes  
@@ -42,7 +43,9 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(probCalc_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("41 BootstrapDist_Calc_PDFView, constructing");
+        if (printTheStuff) {
+            System.out.println("\n47 *** BootstrapDist_Calc_PDFView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         

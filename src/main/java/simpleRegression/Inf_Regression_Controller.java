@@ -1,7 +1,7 @@
 /************************************************************
  *                  Inf_Regression_Controller               *
- *                          11/37/23                        *
- *                            12:00                         *
+ *                          01/04/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package simpleRegression;
 
@@ -80,12 +80,9 @@ public class Inf_Regression_Controller {
                 returnStatus = "Cancel";
                 return returnStatus;
             }
-
-            xStrings = bivContin.getLegalXsAs_AL_OfStrings();
-            yStrings = bivContin.getLegalYsAs_AL_OfStrings();
             
-            qdv_XVariable = new QuantitativeDataVariable(explanVarLabel, explanVarDescr, xStrings);
-            qdv_YVariable = new QuantitativeDataVariable(responseVarLabel, respVarDescr, yStrings);   
+            qdv_XVariable = new QuantitativeDataVariable(explanVarLabel, explanVarDescr, bivContin.getXAs_arrayOfDoubles());
+            qdv_YVariable = new QuantitativeDataVariable(responseVarLabel, respVarDescr, bivContin.getYAs_arrayOfDoubles());   
              
             regModel = new Inf_Regression_Model(this);
 

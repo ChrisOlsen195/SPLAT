@@ -1,7 +1,7 @@
 /**************************************************
  *             Distributions_Calc_PDFView         *
- *                   11/27/23                     *
- *                     00:00                      *
+ *                   12/31/24                     *
+ *                     12:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -18,6 +18,8 @@ import superClasses.BivariateScale_W_CheckBoxes_View;
 public class Distributions_Calc_PDFView extends BivariateScale_W_CheckBoxes_View {
 
     // POJOs
+    boolean printTheStuff = true;
+    
     public boolean dragging, initializing, okToGraph,
             leftTailChecked, midTailChecked, rightTailChecked;
     
@@ -78,7 +80,9 @@ public class Distributions_Calc_PDFView extends BivariateScale_W_CheckBoxes_View
     super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
-        //System.out.println("81 Distributions_Calc_PDFView, constructing");
+        if (printTheStuff) {
+            System.out.println("\n84 *** Distributions_Calc_PDFView, Constructing");
+        }
         xPrintPosLeft = 0.05;
         xPrintPosCenter = 0.325;
         xPrintPosRight = 0.5;

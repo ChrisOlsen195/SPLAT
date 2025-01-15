@@ -1,7 +1,7 @@
 /************************************************************
  *                        ColumnOfData                      *
- *                          11/17/24                        *
- *                           12:00                          *
+ *                          12/31/24                        *
+ *                           18:00                          *
  ***********************************************************/
 package dataObjects;
 
@@ -230,7 +230,7 @@ public class ColumnOfData {
         doSomeInitializations();
         nCasesInColumn = theData.length;
         if (printTheStuff) {
-            System.out.println("233 ColOfData, nCasesInColumn = " + nCasesInColumn);
+            System.out.println("233 --- ColOfData, nCasesInColumn = " + nCasesInColumn);
         }
         
         str_al_TheCases = new ArrayList<>();
@@ -554,22 +554,34 @@ public class ColumnOfData {
     
     public int getNLegalCasesInColumn() {
         int nLegals;
+        //System.out.println("557 ColumnOfData, missingData = " + getHasMissingData());
         if (!getHasMissingData()) {
             nLegals = nCasesInColumn; 
         } else {
             nLegals = nCasesInColumn - nMissing;    
         }
+        //System.out.println("563 ColumnOfData nLegals = " + nLegals);
         return nLegals;
     }
     public int getColumnSize() { return str_al_TheCases.size(); }  
     
-    public double[] getTheCases_asDoubles() { 
-        int nCases = getColumnSize();
-        double[] theDblCases = new double[nCases];        
+    public double[] getTheLegalCases_asDoubles() { 
+        int nCases = getNCasesInColumn();
+        //System.out.println("\n\n570 ColumnOfData, var = " + strVarLabel);
+        //System.out.println("571 ColOData, nCases = " + nCases);
+        //System.out.println("572 ColOData, nLegals = " + getNLegalCasesInColumn());
+        double[] theLegalDblCases = new double[getNLegalCasesInColumn()]; 
+        int index = 0;
         for (int ithCase = 0; ithCase < nCases; ithCase++ ) {
-            theDblCases[ithCase] = Double.parseDouble(getStringInIthRow(ithCase));
-        }        
-        return theDblCases; 
+            //System.out.println("576 ColumnOfData, ithCase = " + getIthCase(ithCase));
+            if (DataUtilities.strIsADouble(getIthCase(ithCase))) {
+                //System.out.println("578 ColumnOfData, ithCase  = " + getIthCase(ithCase));
+                theLegalDblCases[index] = Double.parseDouble(getStringInIthRow(ithCase));
+                index++;
+            }
+        }   
+        //System.out.println("583 ColumnOfData, theLegalDblCases.len = " + theLegalDblCases.length);
+        return theLegalDblCases; 
     }
 
     public String[] getTheCases_asStrings() { 
@@ -611,13 +623,17 @@ public class ColumnOfData {
     }
     
     public boolean getHasMissingData() {
-        hasMissingData = false;        
-        for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++) {            
+        hasMissingData = false;     
+        nMissing = 0;
+        for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++) {   
+            //System.out.println("629 ColumnOfData, Aha? -- " + str_al_TheCases.get(ithCase));
             if (str_al_TheCases.get(ithCase).equals(strMissingValue)) {
+                //System.out.println("631 ColumnOfData, Aha! -- " + str_al_TheCases.get(ithCase));
                nMissing++;
                hasMissingData = true;
             }
         }  
+        //System.out.println("636 ColumnOfData, nMissing = " + nMissing);
         return hasMissingData;
     }
     
@@ -638,7 +654,6 @@ public class ColumnOfData {
         System.out.println("Var Label = " + strVarLabel + "; nCasesInColumn = " + nCasesInColumn + "\n");
         
         //for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++){
-        
         for (int ithCase = 0; ithCase < 5; ithCase++){
            System.out.print("\n x  " + str_al_TheCases.get(ithCase) + " x ");
         }

@@ -16,8 +16,8 @@ public class Indep_t_PrepStructs
 { 
     // POJOs
     String strSubtitle, strFirstVarDescription, strSecondDescription;
-    String waldoFile = "Indep_t_PrepStructs";
-    // String waldoFile = "";
+    //String waldoFile = "Indep_t_PrepStructs";
+    String waldoFile = "";
     
     // My classes
     BBSL_Model bbsl_Model;

@@ -11,8 +11,8 @@ import splat.Data_Manager;
 public class Indep_t_Inf_Report_View extends PrintTextReport_View {
     // POJOs
 
-    String waldoFile = "Indep_t_Inf_Report_View";
-    //String waldoFile = "";
+    //String waldoFile = "Indep_t_Inf_Report_View";
+    String waldoFile = "";
         
     // My classes
     Data_Manager dm;

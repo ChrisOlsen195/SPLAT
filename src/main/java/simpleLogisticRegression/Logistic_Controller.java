@@ -1,7 +1,7 @@
 /************************************************************
  *                     Logistic_Controller                  *
- *                          11/11/24                        *
- *                            12:00                         *
+ *                          01/04/25                        *
+ *                            00:00                         *
  ***********************************************************/
 /******************************************************************
  *   It is not obvious in the code what is happening here.  This   *
@@ -29,6 +29,8 @@ public class Logistic_Controller {
     // POJOs
     private int nPoints, nGroups, totalNObservations, totalNSuccesses;    
     private int[] nObservations, nSuccesses;
+    
+    double[] xDoubles, yDoubles;
     
     private String returnStatus, explanVar, respVar, respVsExplanVar,
                    firstVarDescr;
@@ -153,17 +155,24 @@ public class Logistic_Controller {
             dataXYLabels[1] = "Probability of "; 
 
             bivContinDataObj = new BivariateContinDataObj(dm, data);
+            nPoints = bivContinDataObj.getNLegalDataPoints();
+            xDoubles = new double[nPoints];
+            yDoubles = new double[nPoints];
 
-            xStrings = bivContinDataObj.getLegalXsAs_AL_OfStrings();
-            yStrings = bivContinDataObj.getLegalYsAs_AL_OfStrings();
+            xDoubles = bivContinDataObj.getXAs_arrayOfDoubles();
+            yDoubles = bivContinDataObj.getYAs_arrayOfDoubles();
+            
+            xStrings = new ArrayList<String>();
+            yStrings = new ArrayList<String>();        
 
-            nPoints = xStrings.size();
             X = new Matrix(nPoints, 1);
             Y = new Matrix(nPoints, 1);
             
             for (int ithPoint = 0; ithPoint < nPoints; ithPoint++) {
-                X.set(ithPoint, 0, Double.parseDouble(xStrings.get(ithPoint)));
-                Y.set(ithPoint, 0, Double.parseDouble(yStrings.get(ithPoint)));
+                X.set(ithPoint, 0, xDoubles[ithPoint]);
+                Y.set(ithPoint, 0, yDoubles[ithPoint]);
+                xStrings.add(String.valueOf(xDoubles[ithPoint]));
+                yStrings.add(String.valueOf(yDoubles[ithPoint]));
             }
             
             sortOriginalStrings();

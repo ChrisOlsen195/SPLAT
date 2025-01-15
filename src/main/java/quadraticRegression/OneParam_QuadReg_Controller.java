@@ -17,13 +17,15 @@ import utilityClasses.PrintExceptionInfo;
 public class OneParam_QuadReg_Controller {
     // POJOs
     
+    int nLegalDataPoints;
+    
     // Make empty if no-print
     // String waldoFile = "OneParam_QuadReg_Controller";
     String waldoFile = "";
     
     private String explanatoryVariable, responseVariable, subTitle, saveTheResids, returnStatus;
-    private ArrayList<String> xStrings, yStrings;
-    
+    //private ArrayList<String> xStrings, yStrings;
+    double[] xDoubles, yDoubles;
     // My classes
     private BivariateContinDataObj bivContin;
     private QuantitativeDataVariable qdv_XVariable, qdv_YVariable;
@@ -73,11 +75,15 @@ public class OneParam_QuadReg_Controller {
                 return returnStatus;
             }
 
-            xStrings = bivContin.getLegalXsAs_AL_OfStrings();
-            yStrings = bivContin.getLegalYsAs_AL_OfStrings();
+            nLegalDataPoints = bivContin.getNLegalDataPoints();
+            xDoubles = new double[nLegalDataPoints];
+            yDoubles = new double[nLegalDataPoints];
+            
+            xDoubles = bivContin.getXAs_arrayOfDoubles();
+            yDoubles = bivContin.getXAs_arrayOfDoubles();
 
-            qdv_XVariable = new QuantitativeDataVariable("qdReg81", "qdReg80", data.get(0));
-            qdv_YVariable = new QuantitativeDataVariable("qdReg82", "qdReg81", data.get(1));    
+            qdv_XVariable = new QuantitativeDataVariable("qdReg81", "qdReg80", xDoubles);
+            qdv_YVariable = new QuantitativeDataVariable("qdReg82", "qdReg81", yDoubles);    
 
             noInt_QuadReg_Model = new OneParam_QuadReg_Model(this);
 

@@ -38,8 +38,8 @@ public class Regression_JointCI_View extends BivariateScale_W_CheckBoxes_View {
            dotRadius = 0.5, dotDiameter = 1.0;
 
     // Make empty if no-print
-    String waldoFile = "Regression_JointCI_View";
-    //String waldoFile = "";
+    //String waldoFile = "Regression_JointCI_View";
+    String waldoFile = "";
 
     // My classes  
     Data_Manager dm;

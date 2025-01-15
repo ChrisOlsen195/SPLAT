@@ -1,7 +1,7 @@
 /**************************************************
  *             NormalDist_Calc_DialogView         *
- *                    11/27/23                    *
- *                     00:00                      *
+ *                    01/06/25                    *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -33,6 +33,9 @@ import utilityClasses.StringUtilities;
 
 public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     boolean muExists, sigmaExists, shadeLeft, shadeRight; 
             //leftBoundaryExists, rightBoundaryExists;
 
@@ -48,7 +51,9 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);     
-        //printAlert(51, "Normal --------------- NormalDist_Calc_DialogView -- constructing");
+        if (printTheStuff) {
+            System.out.println("\n54 *** NormalDist_Calc_DialogView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.probCalc_Dashboard = probCalc_Dashboard;

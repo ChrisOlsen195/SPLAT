@@ -1,7 +1,7 @@
 /**************************************************
  *               NormProb_DiffModel               *
- *                    10/15/23                    *
- *                      18:00                     *
+ *                    12/23/24                    *
+ *                      12:00                     *
  *************************************************/
 package proceduresOneUnivariate;
 
@@ -53,9 +53,8 @@ public class NormProb_Model {
     public String getNormProbUnits() { return normProbVarDescription; }
     
     public String toString() {
-        String daString = "NormProb_DiffModel toString()";
+        String daString = "NormProb_Model toString()";
         return daString;
     }
-
 }
 
