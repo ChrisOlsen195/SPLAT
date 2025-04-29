@@ -199,7 +199,7 @@ private void printTheStuff() {
         
         postHocReport.add(String.format("               **********         Parameter estimates for Levels         **********\n\n"));        
         postHocReport.add(String.format("   Treatment/   Sample     Sample      Sample     Std Err     Margin     Lower 95PC  Upper 95PC\n"));
-        postHocReport.add(String.format("     Group       Size       Mean       St Dev     of mean    of Error      Bound        Bound\n"));
+        postHocReport.add(String.format("     Group       Size       Mean       St Dev     of mean    of Error      Bound        Bound\n\n"));
         
         for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
             strIthLevel = StringUtilities.truncateString(varLabels.get(ithLevel), 10);
@@ -236,7 +236,7 @@ private void doTukeyKramer() {
     wT = qTK / Math.sqrt(2.0); // Dean & Voss, p85
     postHocReport.add(String.format("\n  Tukey-Kramer Test  %40s \n\n", respVsExplanVar));
     postHocReport.add(String.format("   Treatment/   Treatment/     Mean                     95PC CI Lower  95PC CI Upper\n"));  
-    postHocReport.add(String.format("     Group       Group      Difference        +/-           Bound          Bound\n")); 
+    postHocReport.add(String.format("     Group       Group      Difference        +/-           Bound          Bound\n\n")); 
     
     for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
         int nIth = allTheQDVs.get(ithLevel).getLegalN();

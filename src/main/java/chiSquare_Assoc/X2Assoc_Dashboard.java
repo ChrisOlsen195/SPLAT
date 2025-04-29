@@ -1,7 +1,7 @@
 /**************************************************
 *                X2Assoc_Dashboard                *
-*                     05/26/24                    *
-*                      09:00                      *
+*                     01/15/25                    *
+*                      12:00                      *
 **************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -9,7 +9,7 @@
 **************************************************/
 package chiSquare_Assoc;
 
-import chiSquare.ChiSqPDFView;
+import chiSquare.X2_PDFView;
 import superClasses.Dashboard;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
@@ -17,6 +17,9 @@ import javafx.scene.layout.Pane;
 public class X2Assoc_Dashboard extends Dashboard {
     // POJOs
 
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     String[] assocCheckBoxDescr = {" Chi square \n (Inference)", 
                                    "Print Statistics \n      (basic)", 
                                    "Print Statistics\n   (advanced)", 
@@ -24,7 +27,7 @@ public class X2Assoc_Dashboard extends Dashboard {
                                    " Segmented \n bar chart",
                                    " Pie Chart "};
     // My classes
-    ChiSqPDFView x2PDFView; 
+    X2_PDFView x2PDFView; 
     X2Assoc_Model x2assoc_Model;
     X2Assoc_MosaicPlotView x2Assoc_MosaicPlotView;
     X2Assoc_PieChartView x2Assoc_PieChartView;
@@ -39,7 +42,9 @@ public class X2Assoc_Dashboard extends Dashboard {
       
     public X2Assoc_Dashboard(X2Assoc_Controller x2Assoc_Controller, X2Assoc_Model x2assoc_Model) {
         super(6);
-        //System.out.println("42 X2Assoc_Dashboard, constructing");
+        if (printTheStuff == true) {
+            System.out.println("46 *** X2Assoc_Dashboard, Constructing");
+        }
         checkBoxDescr = new String[nCheckBoxes];
         
         for (int ithCheckBox = 0; ithCheckBox < nCheckBoxes; ithCheckBox++) {
@@ -92,7 +97,7 @@ public class X2Assoc_Dashboard extends Dashboard {
     }
     
     public void populateTheBackGround() {
-        x2PDFView = new ChiSqPDFView(x2assoc_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
+        x2PDFView = new X2_PDFView(x2assoc_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         x2PDFView.completeTheDeal();
         pdfViewContainingPane = x2PDFView.getTheContainingPane();
         pdfViewContainingPane.setStyle(containingPaneStyle);

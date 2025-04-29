@@ -1,7 +1,7 @@
 /**************************************************
- *       Bootstrap_Super_ChooseStats_DistrView    *
- *                   04/16/24                     *
- *                     15:00                      *
+ *           Super_ChooseStats_DistrView          *
+ *                   02/24/25                     *
+ *                     09:00                      *
  *************************************************/
 package bootstrapping;
 
@@ -16,14 +16,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import splat.Data_Manager;
 import superClasses.BivariateScale_W_CheckBoxes_View;
 import utilityClasses.DataUtilities;
 
 public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_View {
     
-    // ------------------------------------------------------------------------------
     boolean shadeLeft, shadeRight;
     
     boolean bILT,   //  binInLeftTail
@@ -42,16 +41,15 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     
     double[] dbl_AllTheSTFs, sortedData, leftBinEnd,  rightBinEnd, frequencies;
     
-    String returnStatus;
+    String returnStatus, descrOfVar;
     
     Data_Manager dm;
-    DoublyLinkedSTF al_ProbCalcs_STF;
-    ChooseStats_Controller boot_ChooseStats_Controller;
-    ChooseStats_Dashboard boot_ChooseStats_Dashboard;
-    ChooseStats_DistrModel boot_ChooseStats_DistrModel;
-    ChooseStats_DialogView boot_ChooseStats_DialogView;
-    Change_Bins_Dialog chBins_Dialog;
-    // ------------------------------------------------------------------------------   
+    SmartTextFieldDoublyLinkedSTF al_ProbCalcs_STF;
+    ChooseStats_Controller chooseStats_Controller;
+    ChooseStats_Dashboard chooseStats_Dashboard;
+    ChooseStats_DistrModel chooseStats_DistrModel;
+    ChooseStats_DialogView chooseStats_DialogView;
+    Change_Bins_Dialog change_Bins_Dialog; 
 
     // POJOs
     public boolean dragging, initializing, okToGraph,
@@ -80,8 +78,8 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     double text1Width, text2Width, paneWidth, txt1Edge, txt2Edge;
     
     // Make empty if no-print
-    String waldoFile = "Super_ChooseStats_DistrView";
-    //String waldoFile = "";
+    //String waldoFile = "Super_ChooseStats_DistrView";
+    String waldoFile = "";
 
     public Label lbl_LeftProb, lbl_MidProb, lbl_RightProb, lbl_N_Equals, lbl_P_Equals,
           lbl_LeftParenProbX_LT, lbl_LeftParenProbX_LE, lbl_LeftParen_ProbX_EQ,
@@ -105,20 +103,17 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     
     public String theModelName, tailChoice, prtLeftArea, prtMidArea, prtRightArea; 
     
-    ChooseStats_Dashboard bootstrapOneMean_Dashboard;    
-    
     public Pane theContainingPane;
     
     String title2String;
-    
-    //Data_Manager dm;
 
     public Super_ChooseStats_DistrView(ChooseStats_DistrModel boot_ChooseStats_DistrModel, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
     super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         dm = boot_ChooseStats_DistrModel.getDataManager();
-        dm.whereIsWaldo(121, waldoFile, "Constructing"); 
+        dm.whereIsWaldo(115, waldoFile, "Constructing"); 
+        descrOfVar = boot_ChooseStats_DistrModel.getDescriptionOfVariable();
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         xPrintPosLeft = 0.05;
@@ -166,25 +161,10 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
         theContainingPane = dragableAnchorPane.getTheContainingPane();     
     }
     
-    /*
-    public void setUpAnchorPane() {
-        dragableAnchorPane = new DragableAnchorPane();
-        graphCanvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
-        graphCanvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
-        anchorPane = dragableAnchorPane.getTheAP();
-        dragableAnchorPane.makeDragable();
-        dragableAnchorPane.getStylesheets().add(graphsCSS);    
-        dragableAnchorPane.getTheAP()
-                           .getChildren()
-                           .addAll(hBox_BinReset,txtTitle1, txtTitle2, xAxis, yAxis, graphCanvas);
-        dragableAnchorPane.setInitialEventCoordinates(initHoriz, initVert, initHeight, initWidth);
-    }    
-    */
-    
     protected void setUpUI() { 
-        boot_ChooseStats_DialogView.constructGraphStatus();
+        chooseStats_DialogView.constructGraphStatus();
         okToGraph = true;
-        txtTitle1 = new Text(50, 25, " Bootstrap -- Univariate ");
+        txtTitle1 = new Text(50, 25, " Bootstrap -- " + descrOfVar);
         title2String = "";
         txtTitle2 = new Text (60, 45, title2String);
         txtTitle1.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,20));
@@ -212,15 +192,15 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     }
     
     public void respondToChanges() {
-        dm.whereIsWaldo(215, waldoFile, "respondToChanges()");
-        boot_ChooseStats_DialogView.constructGraphStatus();
+        dm.whereIsWaldo(195, waldoFile, "respondToChanges()");
+        chooseStats_DialogView.constructGraphStatus();
         // Check for shading
-        leftTailChecked = boot_ChooseStats_DistrModel.get_LeftTail_IsChecked();
-        midTailChecked = boot_ChooseStats_DistrModel.get_TwoTail_IsChecked();
-        rightTailChecked = boot_ChooseStats_DistrModel.get_RightTail_IsChecked();
-        shadeLeft = boot_ChooseStats_DistrModel.get_ShadeLeft();
-        shadeRight = boot_ChooseStats_DistrModel.get_ShadeRight();
-        al_ProbCalcs_STF = boot_ChooseStats_DialogView.getAllTheSTFs(); 
+        leftTailChecked = chooseStats_DistrModel.get_LeftTail_IsChecked();
+        midTailChecked = chooseStats_DistrModel.get_TwoTail_IsChecked();
+        rightTailChecked = chooseStats_DistrModel.get_RightTail_IsChecked();
+        shadeLeft = chooseStats_DistrModel.get_ShadeLeft();
+        shadeRight = chooseStats_DistrModel.get_ShadeRight();
+        al_ProbCalcs_STF = chooseStats_DialogView.getAllTheSTFs(); 
         int nSTFs = al_ProbCalcs_STF.getSize();
 
         /***************************************************************
@@ -245,13 +225,6 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
             }   
         }
 
-        /*
-        leftArea = dbl_AllTheSTFs[3];
-        midArea = dbl_AllTheSTFs[4];
-        rightArea = dbl_AllTheSTFs[5];
-        left_Middle_Boundary = dbl_AllTheSTFs[6];
-        middle_Right_Boundary = dbl_AllTheSTFs[7];            
-        */
         xAxis.setLowerBound(newX_Lower); 
         xAxis.setUpperBound(newX_Upper);
         initializing = false;

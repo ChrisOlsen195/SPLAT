@@ -199,7 +199,8 @@ public abstract class GenericDistribution {
 	 * @param r random number generator
 	 * @return Random number for the distribution
 	 */
-  @Deprecated
+    /*    
+    @Deprecated
 	public double random(RandomEngine r) {
 		RandomEngine temp = random;
 		random = r;
@@ -207,4 +208,5 @@ public abstract class GenericDistribution {
 		random = temp;
 		return v;
 	}
+    */
 }

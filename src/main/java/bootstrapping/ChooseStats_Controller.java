@@ -1,7 +1,7 @@
 /**********************************************************************
  *                        ChooseStats_Controller                   *
- *                             04/17/24                               *
- *                               12:00                                *
+ *                             02/24/25                               *
+ *                               09:00                                *
  *********************************************************************/
 package bootstrapping;
 
@@ -14,7 +14,7 @@ import utilityClasses.MyAlerts;
 public class ChooseStats_Controller extends Splat_Dialog {
     
     int nCheckBoxes, sampleSize, nRepetitions, nStatsChecked;
-    int confidenceLevel;
+    //int confidenceLevel;
 
     Boolean[] cbArr_Rep_Stat_Values;
     
@@ -29,27 +29,26 @@ public class ChooseStats_Controller extends Splat_Dialog {
                                     "Interquartile range", "Range", "Tri-Mean"};
     
     // Make empty if no-print
-    String waldoFile = "ChooseStats_Controller";
-    //String waldoFile = "";
+    //String waldoFile = "ChooseStats_Controller";
+    String waldoFile = "";
     
-    ChooseStats_Dialog boot_ChooseStats_Dialog;
-    ChooseStats_Dashboard boot_ChooseStats_Dashboard;
-    ChooseStats_DistrModel boot_Original_DistrModel;
-    ChooseStats_DistrModel boot_Shifted_DistrModel;
-    ChooseStats_DialogView boot_ChooseStats_DialogView;
-    ChooseStats_DotPlot_DistrView boot_ChooseStats_OriginalDotPlot_DistrView;
-    ChooseStats_DotPlot_DistrView boot_ChooseStats_ShiftedDotPlot_DistrView;
-    ChooseStats_Histo_DistrView boot_ChooseStats_OriginalHisto_DistrView,
-                                     boot_ChooseStats_ShiftedHisto_DistrView;
-    Inference_Dialog boot_Inference_Dialog;
-    TheChosenStat bootstrapTheStat;
+    ChooseStats_Dialog chooseStats_Dialog;
+    ChooseStats_Dashboard chooseStats_Dashboard;
+    ChooseStats_DistrModel original_DistrModel, shifted_DistrModel;
+    ChooseStats_DialogView chooseStats_DialogView;
+    ChooseStats_DotPlot_DistrView originalDotPlot_DistrView,
+                                  shiftedDotPlot_DistrView;
+    ChooseStats_Histo_DistrView chooseStats_OriginalHisto_DistrView,
+                                chooseStats_ShiftedHisto_DistrView;
+    Inference_Dialog inference_Dialog;
+    TheChosenStat theChosenStat;
     ColumnOfData colDat_TheSample, colDat_Shifted;
     Data_Manager dm;
     QuantitativeDataVariable qdv_TheOriginalSample, qdv_bootstrappedStats,
                              qdv_Shifted;
     
     public ChooseStats_Controller(Data_Manager dm, String whichBoot) {
-        dm.whereIsWaldo(52, waldoFile, "Constructing");  
+        dm.whereIsWaldo(51, waldoFile, "Constructing");  
         this.dm = dm;
         strReturnStatus = "OK";
         setTitle("Bootstrapping");
@@ -58,7 +57,7 @@ public class ChooseStats_Controller extends Splat_Dialog {
     }
 
     public String doTheControllerThing() {   
-        dm.whereIsWaldo(61, waldoFile, "doTheControllerThing()"); 
+        dm.whereIsWaldo(60, waldoFile, "doTheControllerThing()"); 
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
@@ -66,14 +65,14 @@ public class ChooseStats_Controller extends Splat_Dialog {
             return "Cancel";
         }
         
-        boot_ChooseStats_Dialog = new ChooseStats_Dialog(this);
-        boot_ChooseStats_Dialog.showAndWait();
-        strReturnStatus = boot_ChooseStats_Dialog.getReturnStatus();
-        System.out.println("72 ChooseStats_Controller, strReturnStatus = " + strReturnStatus);
+        chooseStats_Dialog = new ChooseStats_Dialog(this);
+        chooseStats_Dialog.showAndWait();
+        strReturnStatus = chooseStats_Dialog.getReturnStatus();
         if (strReturnStatus.equals("Cancel")) { return strReturnStatus;  }
-
-        nRepetitions = boot_ChooseStats_Dialog.getNReps();
-        nStatsChecked = boot_ChooseStats_Dialog.getNStatsChecked();
+        int statChosenIndex = chooseStats_Dialog.getStatCheckedIndex();
+        theChosenStatistic = cbArr_Rep_Stat_Descriptions[statChosenIndex]; 
+        nRepetitions = chooseStats_Dialog.getNReps();
+        nStatsChecked = chooseStats_Dialog.getNStatsChecked();
 
         if (nRepetitions == 0 ) {
             MyAlerts.showZeroReplicationsAlert();
@@ -93,57 +92,53 @@ public class ChooseStats_Controller extends Splat_Dialog {
             return strReturnStatus;
         }
 
-        boot_Inference_Dialog = new Inference_Dialog(dm, "QUANTITATIVE");
-        boot_Inference_Dialog.showAndWait();
-        strReturnStatus = boot_Inference_Dialog.getReturnStatus();
+        inference_Dialog = new Inference_Dialog(dm, "QUANTITATIVE");
+        inference_Dialog.showAndWait();
+        strReturnStatus = inference_Dialog.getReturnStatus();
         
         if (strReturnStatus.equals("Cancel")) { return strReturnStatus; }
         
-        descriptionOfVariable = boot_Inference_Dialog.getDescriptionOfVariable();
-        confidenceLevel = boot_Inference_Dialog.getConfidenceLevel();
-        colDat_TheSample = boot_Inference_Dialog.getData();
+        descriptionOfVariable = inference_Dialog.getDescriptionOfVariable();
+        //confidenceLevel = boot_Inference_Dialog.getConfidenceLevel();
+        colDat_TheSample = inference_Dialog.getData();
         qdv_TheOriginalSample = new QuantitativeDataVariable("null", "null", colDat_TheSample);        
         
         theOriginalSample = new double[sampleSize];
         theOriginalSample = qdv_TheOriginalSample.getTheUCDO().getTheDataSorted();
 
-        bootstrapTheStat = new TheChosenStat(this, theOriginalSample);
-        theChosenStatistic = bootstrapTheStat.getTheChosenStat();
-
-        strReturnStatus = bootstrapTheStat.constructTheBootstrapSample();
+        theChosenStat = new TheChosenStat(this, theOriginalSample);
+        theChosenStatistic = theChosenStat.getTheChosenStat();
+        strReturnStatus = theChosenStat.constructTheBootstrapSample();
 
         if (strReturnStatus.equals("Cancel")) { return strReturnStatus; }
         
-        qdv_bootstrappedStats = bootstrapTheStat.getTheQDV();
-        System.out.println("103 BootController, origMean = " + qdv_bootstrappedStats.getTheMean());
+        qdv_bootstrappedStats = theChosenStat.getTheQDV();
         original_XYRange = qdv_bootstrappedStats.getTheUCDO().getTheRange();
         original_XLower = qdv_bootstrappedStats.getMinValue() - .025 * original_XYRange;
         original_XUpper = qdv_bootstrappedStats.getMaxValue() + .025 * original_XYRange;
-        System.out.println("120 ChooseStats_OrigController, XLow/Up = " + original_XLower + " / " + original_XUpper);
-        boot_Original_DistrModel = new ChooseStats_DistrModel(this, qdv_bootstrappedStats);
-        boot_Original_DistrModel.set_ShadeLeft(false);
-        boot_Original_DistrModel.set_ShadeRight(false);
-        boot_Original_DistrModel.set_LeftTail_IsChecked(false);
-        boot_Original_DistrModel.set_TwoTail_IsChecked(false);
-        boot_Original_DistrModel.set_RightTail_IsChecked(false);
+
+        original_DistrModel = new ChooseStats_DistrModel(this, qdv_bootstrappedStats);
+        original_DistrModel.set_ShadeLeft(false);
+        original_DistrModel.set_ShadeRight(false);
+        original_DistrModel.set_LeftTail_IsChecked(false);
+        original_DistrModel.set_TwoTail_IsChecked(false);
+        original_DistrModel.set_RightTail_IsChecked(false);
         
         /******************************************************************
          *              Create a shifted copy for hypoth test             *
          *****************************************************************/
-        // ----------------------------------------------------------------
+
         int nBoots = qdv_bootstrappedStats.getOriginalN();
         double thetaHat = qdv_bootstrappedStats.getTheMean();
-        double thetaNull = boot_Inference_Dialog.getHypothesizedMean();
+        double thetaNull = inference_Dialog.getHypothesizedMean();
         adjustedValues = new double[nBoots];
         if (thetaNull <= thetaHat) {
             for (int ithBoot = 0; ithBoot < nBoots; ithBoot++) {
                 adjustedValues[ithBoot] = qdv_bootstrappedStats.getIthDataPtAsDouble(ithBoot) - (thetaHat - thetaNull);
             } 
-            //original_XLower = original_XLower - (thetaHat - thetaNull);
+
             adjusted_XLower = original_XLower - (thetaHat - thetaNull);
             adjusted_XUpper = original_XUpper;  /// <----------------------
-            System.out.println("142 ChooseStats_OrigController, XLow/Up = " + original_XLower + " / " + original_XUpper);
-            System.out.println("143 ChooseStats_AdjController, XLow/Up = " + adjusted_XLower + " / " + adjusted_XUpper);
         }
         else {
             for (int ithBoot = 0; ithBoot < nBoots; ithBoot++) {
@@ -151,31 +146,28 @@ public class ChooseStats_Controller extends Splat_Dialog {
             } 
             adjusted_XLower = original_XLower;  // <-------------------------
             adjusted_XUpper = thetaNull + (thetaNull - thetaHat);     
-            System.out.println("151 ChooseStats_OrigController, XLow/Up = " + original_XLower + " / " + original_XUpper);
-            System.out.println("152 ChooseStats_AdjController, XLow/Up = " + adjusted_XLower + " / " + adjusted_XUpper);
         }
 
         qdv_Shifted = new QuantitativeDataVariable("null", "null", adjustedValues); 
-        boot_Shifted_DistrModel = new ChooseStats_DistrModel(this, qdv_Shifted);
-        boot_Shifted_DistrModel.set_ShadeLeft(false);
-        boot_Shifted_DistrModel.set_ShadeRight(false);
-        boot_Shifted_DistrModel.set_LeftTail_IsChecked(false);
-        boot_Shifted_DistrModel.set_TwoTail_IsChecked(false);
-        boot_Shifted_DistrModel.set_RightTail_IsChecked(false);
-        // ----------------------------------------------------------------
+        shifted_DistrModel = new ChooseStats_DistrModel(this, qdv_Shifted);
+        shifted_DistrModel.set_ShadeLeft(false);
+        shifted_DistrModel.set_ShadeRight(false);
+        shifted_DistrModel.set_LeftTail_IsChecked(false);
+        shifted_DistrModel.set_TwoTail_IsChecked(false);
+        shifted_DistrModel.set_RightTail_IsChecked(false);
 
-        boot_ChooseStats_Dashboard = new ChooseStats_Dashboard(this, boot_Original_DistrModel,
-                                                                          boot_Shifted_DistrModel);
-        boot_ChooseStats_Dashboard.populateTheBackGround();
-        boot_ChooseStats_Dashboard.putEmAllUp();
-        boot_ChooseStats_OriginalHisto_DistrView = boot_ChooseStats_Dashboard.get_Boot_ChooseStats_OriginalHisto_DistrView();
-        boot_ChooseStats_OriginalDotPlot_DistrView = boot_ChooseStats_Dashboard.get_Boot_ChooseStats_OriginalDotPlot_DistrView();
+        chooseStats_Dashboard = new ChooseStats_Dashboard(this, original_DistrModel,
+                                                                          shifted_DistrModel);
+        chooseStats_Dashboard.populateTheBackGround();
+        chooseStats_Dashboard.putEmAllUp();
+        chooseStats_OriginalHisto_DistrView = chooseStats_Dashboard.get_Boot_ChooseStats_OriginalHisto_DistrView();
+        originalDotPlot_DistrView = chooseStats_Dashboard.get_Boot_ChooseStats_OriginalDotPlot_DistrView();
   
-        boot_ChooseStats_ShiftedHisto_DistrView = boot_ChooseStats_Dashboard.get_Boot_ChooseStats_ShiftedHisto_DistrView();
-        boot_ChooseStats_ShiftedDotPlot_DistrView = boot_ChooseStats_Dashboard.get_Boot_ChooseStats_ShiftedDotPlot_DistrView();
+        chooseStats_ShiftedHisto_DistrView = chooseStats_Dashboard.get_Boot_ChooseStats_ShiftedHisto_DistrView();
+        shiftedDotPlot_DistrView = chooseStats_Dashboard.get_Boot_ChooseStats_ShiftedDotPlot_DistrView();
         
-        boot_ChooseStats_Dashboard.showAndWait();
-        strReturnStatus = boot_ChooseStats_Dashboard.getReturnStatus();        
+        chooseStats_Dashboard.showAndWait();
+        strReturnStatus = chooseStats_Dashboard.getReturnStatus();        
         return strReturnStatus;
     }
         
@@ -188,11 +180,11 @@ public class ChooseStats_Controller extends Splat_Dialog {
         }
         
         public ChooseStats_DistrModel getOriginal_DistrModel() {
-            return boot_Original_DistrModel; 
+            return original_DistrModel; 
         }
         
         public ChooseStats_DistrModel getShifted_DistrModel() {
-            return boot_Shifted_DistrModel; 
+            return shifted_DistrModel; 
         }
         
         public int getNReps() { return nRepetitions; }        
@@ -214,39 +206,44 @@ public class ChooseStats_Controller extends Splat_Dialog {
             this.strReturnStatus = returnStatus;
         }
         
+        public String getDescriptionOfVariable() {
+            if (descriptionOfVariable.isEmpty()) { 
+                descriptionOfVariable = theChosenStatistic;
+            }
+            return descriptionOfVariable;
+        }
+        
         public Data_Manager getTheDataManager() { return dm; }
         
         public ChooseStats_Controller getTheBoot_Controller() { return this; }    
-        public ChooseStats_Dashboard getThe_Boot_Dashboard() { return boot_ChooseStats_Dashboard; }
-        public ChooseStats_DistrModel get_Boot_OriginalDistrModel() {return boot_Original_DistrModel; } 
-        public ChooseStats_DistrModel get_Boot_ShiftedDistrModel() {return boot_Shifted_DistrModel; }
+        public ChooseStats_Dashboard getThe_Boot_Dashboard() { return chooseStats_Dashboard; }
+        public ChooseStats_DistrModel get_Boot_OriginalDistrModel() {return original_DistrModel; } 
+        public ChooseStats_DistrModel get_Boot_ShiftedDistrModel() {return shifted_DistrModel; }
         
-        public ChooseStats_DialogView get_Boot_DialogView() {return boot_ChooseStats_DialogView; }    
+        public ChooseStats_DialogView get_Boot_DialogView() {return chooseStats_DialogView; }    
         public void set_Boot_DialogView(ChooseStats_DialogView bootstrap_ChooseStats_DialogView) {
-            this.boot_ChooseStats_DialogView = bootstrap_ChooseStats_DialogView;
+            this.chooseStats_DialogView = bootstrap_ChooseStats_DialogView;
         }
         
-        public ChooseStats_DotPlot_DistrView get_Boot_OriginalDotPlot_DistrView() {return boot_ChooseStats_OriginalDotPlot_DistrView; }        
+        public ChooseStats_DotPlot_DistrView get_Boot_OriginalDotPlot_DistrView() {return originalDotPlot_DistrView; }        
         public void set_Boot_OriginalDotPlot_DistrView(ChooseStats_DotPlot_DistrView boot_ChooseStats_OriginalDotPlot_DistrView) {
-            this.boot_ChooseStats_OriginalDotPlot_DistrView = boot_ChooseStats_OriginalDotPlot_DistrView;
+            this.originalDotPlot_DistrView = boot_ChooseStats_OriginalDotPlot_DistrView;
         } 
 
-        public ChooseStats_Histo_DistrView get_Boot_OriginalHisto_DistrView() {return boot_ChooseStats_OriginalHisto_DistrView; }        
+        public ChooseStats_Histo_DistrView get_Boot_OriginalHisto_DistrView() {return chooseStats_OriginalHisto_DistrView; }        
         public void set_Boot_OriginalHisto_DistrView(ChooseStats_Histo_DistrView boot_ChooseStats_OriginalHisto_DistrView) {
-            this.boot_ChooseStats_OriginalHisto_DistrView = boot_ChooseStats_OriginalHisto_DistrView;
+            this.chooseStats_OriginalHisto_DistrView = boot_ChooseStats_OriginalHisto_DistrView;
         }   
         
-        // ------------------
-        public ChooseStats_DotPlot_DistrView get_Boot_ShiftedDotPlot_DistrView() {return boot_ChooseStats_ShiftedDotPlot_DistrView; }        
+        public ChooseStats_DotPlot_DistrView get_Boot_ShiftedDotPlot_DistrView() {return shiftedDotPlot_DistrView; }        
         public void set_Boot_ShiftedDotPlot_DistrView(ChooseStats_DotPlot_DistrView boot_ChooseStats_ShiftedDotPlot_DistrView) {
-            this.boot_ChooseStats_ShiftedDotPlot_DistrView = boot_ChooseStats_ShiftedDotPlot_DistrView;
+            this.shiftedDotPlot_DistrView = boot_ChooseStats_ShiftedDotPlot_DistrView;
         } 
 
-        public ChooseStats_Histo_DistrView get_Boot_ShiftedHisto_DistrView() {return boot_ChooseStats_ShiftedHisto_DistrView; }        
+        public ChooseStats_Histo_DistrView get_Boot_ShiftedHisto_DistrView() {return chooseStats_ShiftedHisto_DistrView; }        
         public void set_Boot_ShiftedHisto_DistrView(ChooseStats_Histo_DistrView boot_ChooseStats_ShiftedHisto_DistrView) {
-            this.boot_ChooseStats_ShiftedHisto_DistrView = boot_ChooseStats_ShiftedHisto_DistrView;
+            this.chooseStats_ShiftedHisto_DistrView = boot_ChooseStats_ShiftedHisto_DistrView;
         }        
-        // ------------------
         
         public QuantitativeDataVariable getTheOriginalSample() { return qdv_TheOriginalSample; }
         public QuantitativeDataVariable getTheBootstrappedStats() { return qdv_bootstrappedStats; }

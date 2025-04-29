@@ -1,7 +1,7 @@
 /**************************************************
- *            MultRegression_Dashboard            *
- *                    05/13/24                    *
- *                     00:00                      *
+ *              PrintFile_Dashboard               *
+ *                    03/01/25                    *
+ *                     18:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -15,7 +15,8 @@ import javafx.scene.paint.Color;
 
 public class PrintFile_Dashboard extends Dashboard {
     // POJOs
-    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;    
     final String[] regrCheckBoxDescr = { " PrintTheFile "};
     
     // My classes
@@ -27,7 +28,9 @@ public class PrintFile_Dashboard extends Dashboard {
     public PrintFile_Dashboard(PrintFile_Controller printFile_Controller, PrintFile_Model printFile_Model) {
         super(1);  // nCheckBoxes = 1;
         this.printFile_Model = printFile_Model;
-        System.out.println("30 PrintFile_Dashboard, constructing");
+        if (printTheStuff == true) {
+            System.out.println("32 *** PrintFile_Dashboard, Constructing");
+        }
         dm = printFile_Model.getDataManager();
         checkBoxDescr = new String[nCheckBoxes];
         

@@ -1,7 +1,7 @@
 /**************************************************
- *          X2Assoc_SegmentedBarChartView         *
- *                    08/19/24                    *
- *                     00:00                      *
+ *              BivCat_SegBarChartView            *
+ *                    03/20/25                    *
+ *                     09:00                      *
  *************************************************/
 package bivariateProcedures_Categorical;
 
@@ -44,12 +44,12 @@ public class BivCat_SegBarChartView  {
     int nRowsCat, nColsCat, nLittleSquares;
 
     String strTopVariable, strLeftVariable, graphsCSS;
-    String[] leftLabels, topLabels;
+    String[] strLeftLabels, strTopLabels;
     
     //  My classes
     DragableAnchorPane dragableAnchorPane;
     JustAnAxis xAxis, yAxis;
-    BivCat_Model x2Assoc_Model;
+    BivCat_Model bivCat_Model;
     
     //  POJOs / FX
     AnchorPane theContainingPane;
@@ -70,7 +70,7 @@ public class BivCat_SegBarChartView  {
     public Clipboard clipboard;
     public ClipboardContent content;
 
-    public BivCat_SegBarChartView(BivCat_Model association_Model, 
+    public BivCat_SegBarChartView(BivCat_Model bivCat_Model, 
             BivCat_Dashboard association_Dashboard,
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) 
@@ -78,7 +78,7 @@ public class BivCat_SegBarChartView  {
         //System.out.println("\n78 BivCat_SegBarChartView, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;         
-        this.x2Assoc_Model = association_Model;
+        this.bivCat_Model = bivCat_Model;
         graphColors = Colors_and_CSS_Strings.getGraphColors_02();
         graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();
         containingPane = new Pane();
@@ -105,7 +105,7 @@ public class BivCat_SegBarChartView  {
 
     private void initializeGraphParams() {        
         for (int lab = 0; lab < nColsCat; lab++) {
-            topLabels = x2Assoc_Model.getTopLabels();
+            strTopLabels = bivCat_Model.getTopLabels();
         }
 
         xAxis = new JustAnAxis(-0.15, 1.25);
@@ -148,7 +148,7 @@ public class BivCat_SegBarChartView  {
             littleSquares[i] = new Rectangle(10, 10, 10, 10);
             littleSquares[i].setStroke(graphColors[i]);
             littleSquares[i].setFill(graphColors[i]);
-            littleSquaresText[i] = new Text(0, 0, leftLabels[i]);
+            littleSquaresText[i] = new Text(0, 0, strLeftLabels[i]);
             littleSquaresText[i].setFont(Font.font("Courier", FontWeight.BOLD, FontPosture.REGULAR,12));
             littleSquaresText[i].setFill(graphColors[i]);
             squaresNText[i] = new HBox(12);
@@ -275,7 +275,7 @@ public class BivCat_SegBarChartView  {
         segBarGC.setFill(Color.BLACK);
         
         for (int col = 0; col < nColsCat; col++) {  
-            String stringToPrint = topLabels[col];
+            String stringToPrint = strTopLabels[col];
             int lenString = stringToPrint.length();
             
             if (lenString > 8) {
@@ -341,20 +341,20 @@ public class BivCat_SegBarChartView  {
     
     private void constructSegBarInfo()
     {
-        nRowsCat = x2Assoc_Model.getNumberOfRows();
-        nColsCat = x2Assoc_Model.getNumberOfColumns();
+        nRowsCat = bivCat_Model.getNumberOfRows();
+        nColsCat = bivCat_Model.getNumberOfColumns();
 
         cumRowProps = new double[nRowsCat + 1][nColsCat + 1];
-        cumRowProps = x2Assoc_Model.getCellCumProps();
+        cumRowProps = bivCat_Model.getCellCumProps();
         
         columnProps = new double[nColsCat];
-        columnProps = x2Assoc_Model.getColumnProportions();
+        columnProps = bivCat_Model.getColumnProportions();
         
-        leftLabels = new String[nRowsCat];
+        strLeftLabels = new String[nRowsCat];
         
-        strTopVariable = x2Assoc_Model.getTopVariable();
-        strLeftVariable = x2Assoc_Model.getLeftVariable();
-        leftLabels = x2Assoc_Model.getLeftLabels();
+        strTopVariable = bivCat_Model.getTopVariable();
+        strLeftVariable = bivCat_Model.getLeftVariable();
+        strLeftLabels = bivCat_Model.getLeftLabels();
     }  
     
     EventHandler<MouseEvent> dragableAnchorPaneMouseHandler = new EventHandler<MouseEvent>() {

@@ -1,7 +1,7 @@
 /**************************************************
  *              TDist_Calc_DialogView             *
- *                    11/27/23                    *
- *                     00:00                      *
+ *                    01/16/25                    *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import utilityClasses.StringUtilities;
 import javafx.scene.control.CheckBox;
 import probabilityDistributions.TDistribution;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import utilityClasses.DataUtilities;
 import utilityClasses.MyAlerts;
 
@@ -35,6 +35,8 @@ import utilityClasses.MyAlerts;
 public class TDist_Calc_DialogView extends ProbCalc_DialogView {
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     boolean dfExists, shadeLeft, shadeRight;
     
@@ -51,7 +53,9 @@ public class TDist_Calc_DialogView extends ProbCalc_DialogView {
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);  
-        //System.out.println("54 TDist_Calc_DialogView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("57 *** TDist_Calc_DialogView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
 
@@ -336,7 +340,7 @@ public class TDist_Calc_DialogView extends ProbCalc_DialogView {
     //     df, LeftProb, MidProb, rightProb, LeftStat, rightStat     *
     // ***************************************************************
 
-    public DoublyLinkedSTF getAllTheSTFs() { 
+    public SmartTextFieldDoublyLinkedSTF getAllTheSTFs() { 
         makeAllTheSTFs();
         return al_ProbCalcs_STF;
     }

@@ -7,11 +7,12 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
+import utilityClasses.*;
 
 public class Matrix implements Cloneable, java.io.Serializable 
 {
     private static final long serialVersionUID = 1L;
-
+    MyAlerts myAlerts;
    /** private utility routines **/
 
    /** Check magnitude of difference of scalars. **/
@@ -168,7 +169,14 @@ public static void check(Matrix X, Matrix Y) {
       public Matrix (int m, int n) {
          this.m = m;
          this.n = n;
+         
+         try {
          A = new double[m][n];
+         } catch (OutOfMemoryError oom) {
+             System.out.println("Yikes!  OOM!!!");
+             MyAlerts.showOutOfMemoryAlert();
+             System.exit(0);
+         }
       }
 
       /** Construct an m-by-n constant matrix.

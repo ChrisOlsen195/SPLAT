@@ -1,7 +1,7 @@
 /**************************************************
  *             MultReg_ResidsVsFit_View           *
- *                    07/04/24                    *
- *                      00:00                     *
+ *                    03/03/25                    *
+ *                      15:00                     *
  *************************************************/
 package multipleRegression;
 
@@ -17,7 +17,14 @@ import javafx.scene.text.Text;
 import matrixProcedures.Matrix;
 import genericClasses.*;
 import javafx.geometry.Side;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.CheckBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.KeyCode;
 import splat.Data_Manager;
 import utilityClasses.MyAlerts;
 
@@ -49,7 +56,7 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
         dm = multRegModel.getDataManager();
-        dm.whereIsWaldo(52, waldoFile, "Constructing");
+        dm.whereIsWaldo(59, waldoFile, "Constructing");
         nRows = multRegModel.getNRows();
         mat_Fits = new Matrix(nRows, 1);
         mat_Fits = multRegModel.getYHats();
@@ -79,8 +86,8 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
         makeItHappen();
     }  
     
-    public void makeTheCheckBoxes() {       
-        dm.whereIsWaldo(83, waldoFile, "---makeTheCheckBoxes()");
+    private void makeTheCheckBoxes() {       
+        dm.whereIsWaldo(90, waldoFile, "  ---  makeTheCheckBoxes()");
         // Determine which graphs are initially shown
         checkBoxSettings = new boolean[nCheckBoxes];
         
@@ -108,17 +115,14 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
             if (residsVsFitCheckBoxes[i].isSelected() == true) {
                 residsVsFitCheckBoxes[i].setTextFill(Color.GREEN);
             }
-            else {
-                residsVsFitCheckBoxes[i].setTextFill(Color.RED);
-            }
+            else { residsVsFitCheckBoxes[i].setTextFill(Color.RED); }
             
             residsVsFitCheckBoxes[i].setOnAction(e->{
                 CheckBox tb = ((CheckBox) e.getTarget());                
                 String daID = tb.getId();
                 Boolean checkValue = tb.selectedProperty().getValue();
-                // Reset selected color
-                
-                if (checkValue == true)
+
+                if (checkValue)
                     tb.setTextFill(Color.GREEN);
                 else 
                     tb.setTextFill(Color.RED);
@@ -135,17 +139,17 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
         }  
         
         checkBoxRow.getChildren().addAll(residsVsFitCheckBoxes);
-        dm.whereIsWaldo(138, waldoFile, "--- END makeTheCheckBoxes()");
+        dm.whereIsWaldo(142, waldoFile, "  --- END makeTheCheckBoxes()");
     }
   
         private void makeItHappen() { 
-        dm.whereIsWaldo(142, waldoFile, "---makeItHappen()");
+        dm.whereIsWaldo(146, waldoFile, "  ---  makeItHappen()");
         theContainingPane = new Pane();
         gc = graphCanvas.getGraphicsContext2D();
         gc.setFont(Font.font("Times New Roman", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 14));
         graphCanvas.heightProperty().addListener(ov-> {doTheGraph();});
         graphCanvas.widthProperty().addListener(ov-> {doTheGraph();});
-        dm.whereIsWaldo(148, waldoFile, "--- END makeItHappen()");
+        dm.whereIsWaldo(152, waldoFile, "  ---  END makeItHappen()");
     }
         
     public void setUpUI() {
@@ -154,7 +158,7 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
     }
         
     public void initializeGraphParameters() {  
-        dm.whereIsWaldo(157, waldoFile, "---initializeGraphParameters()");
+        dm.whereIsWaldo(161, waldoFile, "---initializeGraphParameters()");
         constructDataArray();
         xAxis = new genericClasses.JustAnAxis(xDataMin, xDataMax);
         xAxis.setSide(Side.BOTTOM);    
@@ -166,11 +170,11 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
         xAxis.setUpperBound(newX_Upper );
         yAxis.setLowerBound(newY_Lower ); 
         yAxis.setUpperBound(newY_Upper ); 
-        dm.whereIsWaldo(169, waldoFile, "--- END initializeGraphParameters()");
+        dm.whereIsWaldo(173, waldoFile, "--- END initializeGraphParameters()");
     }
     
     private void constructDataArray() {
-        dm.whereIsWaldo(173, waldoFile, "---constructDataArray()");
+        dm.whereIsWaldo(177, waldoFile, "---constructDataArray()");
         dataArray = new double[nRows][2];
         xDataMin = xDataMax = mat_Fits.get(0, 0);
         yDataMin = yDataMax = mat_RStudent.get(0, 0);
@@ -193,22 +197,22 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
         //  Make room for the circles
         xDataMin = xDataMin - .02 * xRange; xDataMax = xDataMax + .02 * xRange;
         yDataMin = yDataMin - .02 * yRange; yDataMax = yDataMax + .02 * yRange;  
-        dm.whereIsWaldo(197, waldoFile, "--- END constructDataArray()");
+        dm.whereIsWaldo(200, waldoFile, "--- END constructDataArray()");
     }
         
     public void completeTheDeal() { 
-        dm.whereIsWaldo(200, waldoFile, "---completeTheDeal()");
+        dm.whereIsWaldo(204, waldoFile, "---completeTheDeal()");
         initializeGraphParameters();
         setUpUI();       
         setUpAnchorPane();
         setHandlers();        
         doTheGraph();     
         theContainingPane = dragableAnchorPane.getTheContainingPane();  
-        dm.whereIsWaldo(207, waldoFile, "--- END completeTheDeal()");
+        dm.whereIsWaldo(211, waldoFile, "  --- END completeTheDeal()");
     }
     
     public void setUpAnchorPane() {
-        dm.whereIsWaldo(211, waldoFile, "---setUpAnchorPane()");
+        dm.whereIsWaldo(215, waldoFile, "  ---  setUpAnchorPane()");
         dragableAnchorPane = new DragableAnchorPane();
         graphCanvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
         graphCanvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
@@ -249,7 +253,7 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
                     break;
                     
                 default:
-                    String switchFailure = "Switch failure: Transformations_Calculations 252 " + nCheckBoxes;
+                    String switchFailure = "Switch failure: Transformations_Calculations 256 " + nCheckBoxes;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure); 
             }
         }
@@ -261,13 +265,11 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
                            .getChildren()
                            .addAll(checkBoxRow, txtTitle1, txtTitle2, xAxis, yAxis, graphCanvas);       
         dragableAnchorPane.setInitialEventCoordinates(initHoriz, initVert, initHeight, initWidth);
-        dm.whereIsWaldo(264, waldoFile, "--- END setUpAnchorPane()");
+        dm.whereIsWaldo(268, waldoFile, "  --- END setUpAnchorPane()");
     }
     
     public void doTheGraph() {    
-        dm.whereIsWaldo(268, waldoFile, "--- doTheGraph()");
-        //double xx0, yy0, xx1, yy1;
-        //String tempString;
+        dm.whereIsWaldo(272, waldoFile, "  --- doTheGraph()");
         double text1Width = txtTitle1.getLayoutBounds().getWidth();
         double text2Width = txtTitle2.getLayoutBounds().getWidth();
         double paneWidth = dragableAnchorPane.getWidth();
@@ -329,8 +331,10 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
                 double outDiameter = 2.5 * outRadius;
                 
                 if (outRadius > 3.0) {  //  Arbitrary!
+                    gc.setFill(Color.BLUE);
                     gc.fillOval(xx - outRadius, yy - outRadius, outDiameter, outDiameter);
                 }
+                gc.setFill(Color.BLACK);
             }
             
             if (influencePlotDesired) {
@@ -365,26 +369,23 @@ public class MultReg_ResidsVsFit_View extends BivariateScale_View {
                 gc.strokeText(String.valueOf(i + 1), xx - 10.0, yy - 10.0);
             }            
         }  
-        /*
+        
         theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent ke) {
-                KeyCode keyCode = ke.getCode();
-                boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-                if (doIt) {
-                    WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                    ImageView iv = new ImageView(writableImage);
-                    clipboard = Clipboard.getSystemClipboard();
-                    content = new ClipboardContent();
-                    content.put(DataFormat.IMAGE, writableImage);
-                    clipboard.setContent(content);
-                }
+        theContainingPane.setOnKeyPressed((ke -> {
+            KeyCode keyCode = ke.getCode();
+            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
+            if (doIt) {
+                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
+                ImageView iv = new ImageView(writableImage);
+                Clipboard clipboard = Clipboard.getSystemClipboard();
+                ClipboardContent content = new ClipboardContent();
+                content.put(DataFormat.IMAGE, writableImage);
+                clipboard.setContent(content);
             }
-        }));        
-        */
-        dm.whereIsWaldo(386, waldoFile, "--- END doTheGraph()");
-    }   // end doTheGraph
+        }));
+        
+        dm.whereIsWaldo(387, waldoFile, "  ---  END doTheGraph()");
+    } 
 
    public Pane getTheContainingPane() { return theContainingPane; }
 }

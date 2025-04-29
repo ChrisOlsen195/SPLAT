@@ -1,7 +1,7 @@
 /**************************************************
  *               MultUni_DotPlotModel             *
- *                     11/01/23                   *
- *                      09:00                     *
+ *                     01/16/25                   *
+ *                      12:00                     *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -12,9 +12,10 @@ import genericClasses.Point_2D;
 
 public class MultUni_DotPlotModel {  
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
-    double ithBinLow, ithBinHigh;
-    double daMin, daMax;
+    double ithBinLow, ithBinHigh, daMin, daMax;
         
     String descriptionOfVariable;
     
@@ -27,7 +28,9 @@ public class MultUni_DotPlotModel {
     //  POJO FX
         
     public MultUni_DotPlotModel(String genVarDescr, CatQuantDataVariable cqdv) {  
-        //System.out.println("30 DotPlot_Model, constructing");
+        if (printTheStuff == true) {
+            System.out.println("32 *** MultUni_DotPlotModel, Constructing");
+        }
         this.cqdv = cqdv;
         descriptionOfVariable = genVarDescr;
         

@@ -1,12 +1,10 @@
 /*************************************************
 *           BivariateScale_W_CheckBoxes_View     *
-*                    11/03/23                    *
-*                      00:00                     *
+*                    02/20/25                    *
+*                      15:00                     *
 *************************************************/
 package superClasses;
 
-import quadraticRegression.OneParam_QuadReg_Dashboard;
-import quadraticRegression.OneParam_QuadReg_Model;
 import genericClasses.DragableAnchorPane;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,6 +30,11 @@ import quadraticRegression.*;
 import utilityClasses.*;
 
 public abstract class BivariateScale_W_CheckBoxes_View extends BivariateScale_View {     
+    
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     public boolean shadeLeftTail, shadeMiddleTail, shadeRightTail,
                    identifyPValueIsDesired, assumptionCheckIsDesired, hasLeftTailStat, 
                    hasRightTailStat;
@@ -58,15 +61,13 @@ public abstract class BivariateScale_W_CheckBoxes_View extends BivariateScale_Vi
     public ClipboardContent content;
 
     // My classes
-    public Inf_Regression_Model regrModel;
+    public Inf_Regr_Model regrModel;
     public Matrix X, Y;    
-    public NoInf_Regression_Dashboard noInf_RegrDashboard;
-    public NoInf_Regression_Model noInf_RegrModel;
-    public OneParam_QuadReg_Dashboard noInt_QuadReg_Dashboard;
-    public OneParam_QuadReg_Model noInt_QuadReg_Model;       
+    public NoInf_Regr_Dashboard noInf_RegrDashboard;
+    public NoInf_Regr_Model noInf_RegrModel;     
     public QuadReg_Dashboard quadReg_Dashboard;
     public QuadReg_Model quadReg_Model;    
-    public Regression_Dashboard regrDashboard;
+    public Regr_Dashboard regrDashboard;
 
     //  POJO / FX
     public AnchorPane anchorPane;
@@ -80,7 +81,9 @@ public abstract class BivariateScale_W_CheckBoxes_View extends BivariateScale_Vi
     public BivariateScale_W_CheckBoxes_View(double placeHoriz, double placeVert,
                                                 double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("83 BivariateScale_W_CheckBoxes_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("89 *** BivariateScale_W_CheckBoxes_View (Super), Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         regionSize = 1;

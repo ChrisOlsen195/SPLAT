@@ -1,7 +1,7 @@
 /**********************************************************************
  *                         BootTheChosenStat                          *
- *                             04/16/24                               *
- *                               03:00                                *
+ *                             02/24/25                               *
+ *                               09:00                                *
  *********************************************************************/
 package bootstrapping;
 
@@ -29,34 +29,32 @@ public class TheChosenStat {
 
     ArrayList<Integer> theStatsToCalculate;
     ArrayList<String> theLabels;
-    
-    ChooseStats_Controller boot_ChooseStats_Controller;
+
     Data_Manager dm;
     QuantitativeDataVariable qdv_simSample, qdv_theBootedStatDistr;
     UnivariateContinDataObj ucdo_SimSample;
     
-    public TheChosenStat(ChooseStats_Controller boot_ChooseStats_Controller, double[] theOriginalSample) {
-        dm = boot_ChooseStats_Controller.getTheDataManager();
-        dm.whereIsWaldo(40, waldoFile, "Constructing"); 
-        this.boot_ChooseStats_Controller = boot_ChooseStats_Controller;
+    public TheChosenStat(ChooseStats_Controller chooseStats_Controller, double[] theOriginalSample) {
+        dm = chooseStats_Controller.getTheDataManager();
+        dm.whereIsWaldo(39, waldoFile, "Constructing"); 
         returnStatus = "OK";
         sampleSize = theOriginalSample.length;
         copyOfSample = new double[sampleSize];
         bootedSample = new double[sampleSize];
-        cbArrStatDescriptions = boot_ChooseStats_Controller.getRepAndStatCheckBoxDescriptions();
+        cbArrStatDescriptions = chooseStats_Controller.getRepAndStatCheckBoxDescriptions();
         theLabels = new ArrayList<>();
         theStatsToCalculate = new ArrayList<>();
         System.arraycopy(theOriginalSample, 0, copyOfSample, 0, sampleSize);
-        nCheckBoxes = boot_ChooseStats_Controller.getNCheckBoxes();
+        nCheckBoxes = chooseStats_Controller.getNCheckBoxes();
         checkBoxValues = new Boolean[nCheckBoxes];
-        checkBoxValues = boot_ChooseStats_Controller.getRepAndStatCheckBoxValues();
+        checkBoxValues = chooseStats_Controller.getRepAndStatCheckBoxValues();
         nCheckBoxes = checkBoxValues.length;
         qdv_theBootedStatDistr = new QuantitativeDataVariable("BootedStat", "BootedStat");
-        nBooties = boot_ChooseStats_Controller.getNReps();        
+        nBooties = chooseStats_Controller.getNReps();        
     }
     
 public String constructTheBootstrapSample() {  
-        dm.whereIsWaldo(59, waldoFile, "constructTheBootstrapSample()"); 
+        dm.whereIsWaldo(57, waldoFile, "constructTheBootstrapSample()"); 
         determineTheStatisticsToCalculate();
         if (nStatsToCalculate == 0) {
             MyAlerts.showZeroStatsChosenAlert();
@@ -76,7 +74,7 @@ public String constructTheBootstrapSample() {
     // Originally more than one stat was allowed.  This code is now vestigial,
     // to allow a possible return.  nStatsToCalculate should now always be 1.
     private void determineTheStatisticsToCalculate() {
-        dm.whereIsWaldo(79, waldoFile, "determineTheStatisticsToCalculate()"); 
+        dm.whereIsWaldo(77, waldoFile, "determineTheStatisticsToCalculate()"); 
             
         nStatsToCalculate = 0;
         for (int ith = 0; ith < nCheckBoxes; ith++) {
@@ -99,7 +97,7 @@ public String constructTheBootstrapSample() {
     }
     
     private double makeTheStatistic() {
-        dm.whereIsWaldo(102, waldoFile, "makeTheStatistic()");
+        dm.whereIsWaldo(100, waldoFile, "makeTheStatistic()");
         double theStat = 0.0;   // Happy compiler
         for (int ithStatToCalc = 0; ithStatToCalc < nStatsToCalculate; ithStatToCalc++ ) {
             theStatIndex = theStatsToCalculate.get(ithStatToCalc);
@@ -126,10 +124,6 @@ public String constructTheBootstrapSample() {
                 case 3:
                     // calculate the skew
                     theStat = ucdo_SimSample.getFisherPearsonSkew();
-                    //double median = ucdo_SimSample.getTheMedian();
-                    //double mean = ucdo_SimSample.getTheMean();
-                    //double stDev = ucdo_SimSample.getTheStandDev();
-                    //theStat = 3.0 * (mean - median) / stDev;
                     chosenStat = "The skew";
                     break;       
 
@@ -200,7 +194,7 @@ public String constructTheBootstrapSample() {
                     break;
 
                 default:
-                String switchFailure = "Switch failure: BootTheChosenStat 199" + String.valueOf(theStatIndex);
+                String switchFailure = "Switch failure: BootTheChosenStat 197" + String.valueOf(theStatIndex);
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
 
             }   //  End switch

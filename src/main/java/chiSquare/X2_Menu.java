@@ -1,11 +1,10 @@
 /***********************************************************
 *                      X2Menu                              *
-*                     05/25/24                             *
-*                      15:00                               *
+*                     01/15/25                             *
+*                      12:00                               *
 ***********************************************************/
 package chiSquare;
 
-//import chiSquare_Assoc.X2Assoc_Model;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -27,6 +26,9 @@ import javafx.stage.WindowEvent;
 
 public class X2_Menu {
     //  POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
     String strMainTitle, strGOFChoiceTitle, strGOFDescr,  
            strAssocTitle, strAssocDescr, strExperTitle, 
@@ -48,7 +50,11 @@ public class X2_Menu {
 
     VBox root, vBox_Middle;
 
-    public X2_Menu() {/*System.out.println("52 X2_Menu, constructing");*/ }    
+    public X2_Menu() {
+        if (printTheStuff == true) {
+            System.out.println("55 *** X2_Menu, constructing");
+        }
+    }    
 
     public void chooseProcedure(){
         stage = new Stage();

@@ -1,7 +1,7 @@
 /**************************************************
  *                DotPlot_2Ind__Model             *
- *                    02/07/24                    *
- *                      18:00                     *
+ *                    01/27/25                    *
+ *                      12:00                     *
  *************************************************/
 package proceduresTwoUnivariate;
 
@@ -9,6 +9,7 @@ import dataObjects.QuantitativeDataVariable;
 import java.util.ArrayList;
 import splat.Data_Manager;
 import proceduresOneUnivariate.*;
+import the_t_procedures.Indep_t_Controller;
 
 
 public class DotPlot_2Ind_Model {
@@ -35,6 +36,23 @@ public class DotPlot_2Ind_Model {
         
         firstVarDescription = explore_2Ind_Controller.getFirstVarDescr();
         secondVarDescription = explore_2Ind_Controller.getSecondVarDescr();
+        // Should be 3 QDV's -- All and the two distributions separated
+        
+        dotPlotModel_1 = new DotPlot_Model(firstVarDescription, allTheQDVs.get(0));
+        dotPlotModel_2 = new DotPlot_Model(secondVarDescription, allTheQDVs.get(1));
+ 
+        dotPlot_View_1 = new DotPlot_View(dotPlotModel_1, 25, 25, 650, 300);
+        dotPlot_View_2 = new DotPlot_View(dotPlotModel_2, 25, 25, 650, 300);
+    } 
+    
+    public DotPlot_2Ind_Model(Indep_t_Controller indep_t__Controller, String subTitle, ArrayList<QuantitativeDataVariable> allTheQDVs) {
+        dm = indep_t__Controller.getDataManager();
+        dm.whereIsWaldo(32, waldoFile, "Constructing from explore_2_Ind_Controller");
+        this.allTheQDVs = new ArrayList<>();
+        this.allTheQDVs = allTheQDVs;
+        
+        firstVarDescription = indep_t__Controller.getFirstVarDescr();
+        secondVarDescription = indep_t__Controller.getSecondVarDescr();
         // Should be 3 QDV's -- All and the two distributions separated
         
         dotPlotModel_1 = new DotPlot_Model(firstVarDescription, allTheQDVs.get(0));

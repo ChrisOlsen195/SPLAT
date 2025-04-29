@@ -41,7 +41,7 @@ public class Logistic_Resids_View extends Logistic_Scatterplot_View {
     public Clipboard clipboard;
     public ClipboardContent content;
     
-    public Logistic_Resids_View(LogisticReg_Model logisticModel, Logistic_Dashboard logisticDashboard,
+    public Logistic_Resids_View(Logistic_Model logisticModel, Logistic_Dashboard logisticDashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {        
         super(logisticModel, logisticDashboard, placeHoriz, placeVert,

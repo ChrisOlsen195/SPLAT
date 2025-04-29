@@ -1,7 +1,7 @@
 /**************************************************
  *             NormalDist_Calc_PDFView            *
- *                    02/19/24                    *
- *                     15:00                      *
+ *                    01/16/25                    *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -15,8 +15,6 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.KeyCode;
-//import javafx.scene.layout.Pane;
-// import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -29,10 +27,14 @@ import utilityClasses.StringUtilities;
 
 public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
 
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     double mu, sigma;
     double[] dbl_AllTheSTFs;    //  doubles of the al_ProbCalcs
     // My classes  
-    DoublyLinkedSTF al_ProbCalcs_STF;
+    SmartTextFieldDoublyLinkedSTF al_ProbCalcs_STF;
     NormalDist_Calc_DialogView normalDist_Calc_DialogView;
     StandardNormal zDistr;
 
@@ -42,7 +44,9 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(probCalc_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("41 BootstrapDist_Calc_PDFView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("48 *** BootstrapDist_Calc_PDFView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         
@@ -58,7 +62,7 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
         zDistr = new StandardNormal();
         initializing = true;
         mu = 0.0; sigma = 1.0;
-        al_ProbCalcs_STF = new DoublyLinkedSTF();
+        al_ProbCalcs_STF = new SmartTextFieldDoublyLinkedSTF();
         //System.out.println("58 BootstrapDist_Calc_PDFView, constructing");
         normalDist_Calc_DialogView = probCalc_Dashboard.get_Normal_DialogView();
         al_ProbCalcs_STF = normalDist_Calc_DialogView.getAllTheSTFs();

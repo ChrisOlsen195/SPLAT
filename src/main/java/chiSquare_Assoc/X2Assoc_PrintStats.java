@@ -1,6 +1,6 @@
 /****************************************************************************
  *                      X2Assoc_PrintStats                                  *
- *                           05/23/24                                       *
+ *                           04/19/25                                       *
  *                             12:00                                        *
  ***************************************************************************/
 package chiSquare_Assoc;
@@ -11,6 +11,10 @@ import utilityClasses.StringUtilities;
 
 public class X2Assoc_PrintStats extends PrintTextReport_View {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     double chiSquare, pValue; 
     double[] cumRowProps, cumColProps, cumMarginalRowProps;   
     double[][] obsVals, expVals, x2Contribution,
@@ -31,7 +35,9 @@ public class X2Assoc_PrintStats extends PrintTextReport_View {
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("34 X2Assoc_PrintStats, constructing");
+        if (printTheStuff == true) {
+            System.out.println("39 *** X2Assoc_PrintStats, Constructing");
+        }
         this.x2Assoc_Model = x2Assoc_Model;
         stringsToPrint = new ArrayList<>();          
         strTopVar = x2Assoc_Model.getTopVariable();
@@ -65,6 +71,9 @@ public class X2Assoc_PrintStats extends PrintTextReport_View {
     }
     
     public void constructPrintLines() {
+        if (printTheStuff == true) {
+            System.out.println("75 --- X2Assoc_PrintStats, constructPrintLines()");
+        }
         int leftPadSpaces;
         String tempString, leftFill;
         stringsToPrint.add("\n\n");
@@ -80,7 +89,7 @@ public class X2Assoc_PrintStats extends PrintTextReport_View {
         
         tempString = "\n" + leftFill;        
         for (int col = 0; col < nCols; col++) {  
-            String smallTop = StringUtilities.getleftMostNChars(strTopLabels[col], 8);
+            String smallTop = StringUtilities.getleftMostNChars(strTopLabels[col], 12);
             tempString += StringUtilities.centerTextInString(smallTop, 12);   
         }
         

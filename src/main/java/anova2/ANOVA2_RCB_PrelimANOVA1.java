@@ -1,5 +1,5 @@
 /**************************************************
- *              RCB_PrelimANOVA1                  *
+ *            ANOVA2_RCB_PrelimANOVA1             *
  *                  05/24/24                      *
  *                    12:00                       *
  *************************************************/
@@ -53,7 +53,7 @@ public class ANOVA2_RCB_PrelimANOVA1 {
     public String doThePrelims() {
         dm.whereIsWaldo(54, waldoFile, "doThePrelims()");
         cqdv = new CatQuantDataVariable(dm, colExplanVar, colResponseVar, true, "ANOVA2_RCB_PrelimANOVA1");
-        returnStatus = cqdv.finishConstructingStacked();
+        returnStatus = cqdv.finishConstructingTidy();
         if (!returnStatus.equals("OK")) { return "Cancel"; }
         allTheQDVs = new ArrayList<>();
         allTheQDVs = cqdv.getAllQDVs();   

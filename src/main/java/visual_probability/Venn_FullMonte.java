@@ -26,7 +26,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Translate;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import smarttextfield.SmartTextFieldsController;
 import utilityClasses.DataUtilities;
 import utilityClasses.MyAlerts;
@@ -49,7 +49,7 @@ public class Venn_FullMonte {
            ev2B, ev2NotB, daDescr, probToCalc;    
     
     // My Classes
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     SmartTextFieldsController stf_Controller;
     
     Venn_View venn_View;
@@ -370,7 +370,7 @@ public class Venn_FullMonte {
             break;     
             
             default:
-                String switchFailure = "Switch failure: 374 Venn_FullMonte " + probToCalc;
+                String switchFailure = "Switch failure: 373 Venn_FullMonte " + probToCalc;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
 
@@ -419,7 +419,6 @@ public class Venn_FullMonte {
 
         bSwitchDefault = false;
         hBoxProbFraction.setVisible(true);
-        System.out.println("422 Venn_FullMonte, theCombo = " + theCombo);
         switch (theCombo) {
             case 0:
                 // No op -- not completely sure why this might appear
@@ -561,7 +560,6 @@ public class Venn_FullMonte {
 
     
     public boolean checkTheProbs() {
-        System.out.println("620 Venn_FullMonte, checkTheProbs()");
         if (!isAProb(probA)) { return false; }
         if (!isAProb(probB)) { return false; }
         if (!isAProb(probNotA)) { return false; }

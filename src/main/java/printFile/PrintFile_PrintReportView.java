@@ -1,12 +1,11 @@
 /****************************************************************************
  *                 PrintFile_PrintReportView                                 * 
- *                         05/12/24                                         *
- *                          15:00                                           *
+ *                         03/01/25                                         *
+ *                          18:00                                           *
  ***************************************************************************/
 package printFile;
 
 import superClasses.PrintTextReport_View;
-
 
 public class PrintFile_PrintReportView extends PrintTextReport_View {
     // POJOs
@@ -15,14 +14,12 @@ public class PrintFile_PrintReportView extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        System.out.println("18 PrintMultRegrReport_View, constructing");
+        //System.out.println("17 PrintMultRegrReport_View, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
 
         sourceString = new String();
         stringsToPrint = printFile_Model.getPrintFileReport();
-        strTitleText = "Multiple Regression Analysis";
-    }
-    
-    
+        strTitleText = "Print File Utility";
+    }   
 }

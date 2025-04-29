@@ -1,7 +1,7 @@
 /************************************************************
  *                       BivCat_Dialog                      *
- *                          08/19/24                        *
- *                            00:00                         *
+ *                          03/22/25                        *
+ *                            21:00                         *
  ***********************************************************/
 package bivariateProcedures_Categorical;
 
@@ -17,13 +17,13 @@ public class BivCat_Dialog extends Two_Variables_Dialog{
         waldoFile = "";
         if (procCaller.equals("BivCatAssocFromFile")) {
             lblTitle.setText("Categorical Association");
-            lblFirstVar.setText("'Response' Variable:");
-            lblSecondVar.setText("'Explanatory' Variable:");
+            lblExplanVar.setText("'Response' Variable:");
+            lblResponseVar.setText("'Explanatory' Variable:");
         } else {
             if (procCaller.equals("EpiAssocFromFile")) {
                 lblTitle.setText("Epidemiological Association");
-                lblFirstVar.setText("'Outcome' Variable:");
-                lblSecondVar.setText("'Exposure' Variable:");            
+                lblExplanVar.setText("'Outcome' Variable:");
+                lblResponseVar.setText("'Exposure' Variable:");            
             }
         }
         //System.out.println("21 BivCatAssocDialog, lblFirst/Sec = " + lblFirstVar.getText()

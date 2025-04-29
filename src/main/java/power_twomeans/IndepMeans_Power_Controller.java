@@ -1,7 +1,7 @@
 /**************************************************
  *         IndepMeans_Power_Controller            *
- *                  05/29/24                      *
- *                    18:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_twomeans;
 
@@ -12,6 +12,8 @@ import utilityClasses.MyAlerts;
 public class IndepMeans_Power_Controller {
     
     //POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int n_1, n_2;
     double alpha, effectSize;
@@ -29,8 +31,10 @@ public class IndepMeans_Power_Controller {
     IndepMeans_Power_Dashboard indepMeans_Power_Dashboard;
     
     public IndepMeans_Power_Controller() {
-         power_IndMeans_Dialog = new Power_IndMeans_Dialog();
-         System.out.println("33 IndepMeans_Power_Controller, constructing");
+        power_IndMeans_Dialog = new Power_IndMeans_Dialog();
+        if (printTheStuff == true) {
+            System.out.println("36 *** IndepMeans_Power_Controller, Constructing");
+        }
     }
     
     public String ShowNWait() {

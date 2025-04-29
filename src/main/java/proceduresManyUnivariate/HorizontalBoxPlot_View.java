@@ -1,7 +1,7 @@
 /**************************************************
  *             HorizontalBoxPlot_View             *
- *                   04/02/24                     *
- *                     09:00                      *
+ *                   02/02/25                     *
+ *                     15:00                      *
  *************************************************/
 /**************************************************
  *  Checked against PSO / 6th ed, p171, 08/13/23  *
@@ -45,6 +45,7 @@ import javafx.scene.text.Text;
 import proceduresOneUnivariate.Exploration_Dashboard;
 
 import proceduresTwoUnivariate.*;
+import simpleRegression.Regr_Compare_Dashboard;
 import utilityClasses.MyAlerts;
 
 public class HorizontalBoxPlot_View extends Region { 
@@ -100,7 +101,7 @@ public class HorizontalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {
-            System.out.println("103 *** HorizontalBoxPlot_View, constructing");
+            System.out.println("104 *** HorizontalBoxPlot_View, constructing");
         }
         this.hBoxModel = hBoxModel;
         strSubTitle = hBoxModel.getSubTitle();
@@ -116,7 +117,7 @@ public class HorizontalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {
-            System.out.println("119 *** HorizontalBoxPlot_View, constructing");
+            System.out.println("120 *** HorizontalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -131,7 +132,7 @@ public class HorizontalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {
-            System.out.println("134 *** HorizontalBoxPlot_View, constructing");
+            System.out.println("135 *** HorizontalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -146,7 +147,7 @@ public class HorizontalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {
-            System.out.println("149 *** HorizontalBoxPlot_View, constructing");
+            System.out.println("150 *** HorizontalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -160,7 +161,7 @@ public class HorizontalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {
-            System.out.println("163 *** HorizontalBoxPlot_View, constructing");
+            System.out.println("164 *** HorizontalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -174,11 +175,24 @@ public class HorizontalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {
-            System.out.println("177 *** HorizontalBoxPlot_View, constructing");
+            System.out.println("178 *** HorizontalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.hBoxModel = hBoxModel;
+        categoryLabels = hBoxModel.getCategoryLabels();
+        initStuff();
+    }
+        
+    public HorizontalBoxPlot_View(HorizontalBoxPlot_Model hBoxModel, Regr_Compare_Dashboard ancova_Dashboard,
+                        double placeHoriz, double placeVert,
+                        double withThisWidth, double withThisHeight) {
+        if (printTheStuff == true) {
+            System.out.println("191 *** HorizontalBoxPlot_View, constructing");
+        }
+        initHoriz = placeHoriz; initVert = placeVert;
+        initWidth = withThisWidth; initHeight = withThisHeight; 
+        this.hBoxModel = hBoxModel; 
         categoryLabels = hBoxModel.getCategoryLabels();
         initStuff();
     }
@@ -187,7 +201,7 @@ public class HorizontalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff == true) {
-            System.out.println("190 *** HorizontalBoxPlot_View, constructing");
+            System.out.println("204 *** HorizontalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -198,7 +212,7 @@ public class HorizontalBoxPlot_View extends Region {
     
     private void initStuff() {
         if (printTheStuff == true) {
-            System.out.println("201 *** HorizontalBoxPlot_View, initStuff()");
+            System.out.println("215 --- HorizontalBoxPlot_View, initStuff()");
         }
         strSubTitle = hBoxModel.getSubTitle();       
         nCheckBoxes = 3;
@@ -233,7 +247,7 @@ public class HorizontalBoxPlot_View extends Region {
     
     private void makeItHappen() {  
         if (printTheStuff == true) {
-            System.out.println("236 *** HorizontalBoxPlot_View, makeItHappen()");
+            System.out.println("250 --- HorizontalBoxPlot_View, makeItHappen()");
         }
         theContainingPane = new Pane();
         gcHBox = graphCanvas.getGraphicsContext2D();
@@ -244,7 +258,7 @@ public class HorizontalBoxPlot_View extends Region {
     
     public void completeTheDeal() { 
         if (printTheStuff == true) {
-            System.out.println("247 *** HorizontalBoxPlot_View, completeTheDeal()");
+            System.out.println("261 --- HorizontalBoxPlot_View, completeTheDeal()");
         }
         initializeGraphParameters();
         xAxis.setTickLabelFont(Font.font("Times New Roman", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 14));
@@ -258,7 +272,7 @@ public class HorizontalBoxPlot_View extends Region {
         
     public void initializeGraphParameters() { 
         if (printTheStuff == true) {
-            System.out.println("261 *** HorizontalBoxPlot_View, initializeGraphParameters()");
+            System.out.println("275 --- HorizontalBoxPlot_View, initializeGraphParameters()");
         }
         initial_xMin = Math.min(allTheQDVs.get(0).getMinValue(), allTheQDVs.get(0).getMinValue());
         initial_xMax = Math.max(allTheQDVs.get(0).getMaxValue(), allTheQDVs.get(0).getMaxValue());
@@ -297,7 +311,7 @@ public class HorizontalBoxPlot_View extends Region {
     
     private void makeTheCheckBoxes() {
         if (printTheStuff == true) {
-            System.out.println("300 *** HorizontalBoxPlot_View, makeTheCheckBoxes()");
+            System.out.println("314 --- HorizontalBoxPlot_View, makeTheCheckBoxes()");
         }
         hBoxCheckBoxSettings = new boolean[nCheckBoxes];        
         for (int ithSetting = 0; ithSetting < nCheckBoxes; ithSetting++) {
@@ -390,7 +404,7 @@ public class HorizontalBoxPlot_View extends Region {
     
     public void doTheGraph() {
         if (printTheStuff == true) {
-            System.out.println("393 *** HorizontalBoxPlot_View, doTheGraph()");
+            System.out.println("407 --- HorizontalBoxPlot_View, doTheGraph()");
         }
         xAxis.setForcedAxisEndsFalse(); // Just in case
         double text1Width = txtTitle1.getLayoutBounds().getWidth();

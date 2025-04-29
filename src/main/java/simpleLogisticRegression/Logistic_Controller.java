@@ -1,7 +1,7 @@
 /************************************************************
  *                     Logistic_Controller                  *
- *                          11/14/23                        *
- *                            09:00                         *
+ *                          04/23/25                        *
+ *                            03:00                         *
  ***********************************************************/
 /******************************************************************
  *   It is not obvious in the code what is happening here.  This   *
@@ -38,12 +38,12 @@ public class Logistic_Controller {
     //String waldoFile = "Logistic_Controller";
     String waldoFile = "";
     
-    private String[] dataXYLabels, unique_Xs, strUniques;
+    private String[] dataXYLabels, unique_Xs, strUniques,  twoCategories;
 
     // My classes
     BivariateContinDataObj bivContinDataObj;
     Data_Manager dm;
-    private LogisticReg_Model logisticReg_Model;
+    private Logistic_Model logisticReg_Model;
     private Logistic_Dashboard logRegDashboard;
     Logistic_Dialog logistic_Dialog;
     Matrix X, Y;
@@ -51,11 +51,11 @@ public class Logistic_Controller {
 
     public Logistic_Controller(Data_Manager dm) {
         this.dm = dm;      
-        dm.whereIsWaldo(52, waldoFile, "Constructing");
+        dm.whereIsWaldo(54, waldoFile, "Constructing");
     }  
         
     public String doTheProcedure() {    //  Called from Main Menu
-        dm.whereIsWaldo(56, waldoFile, "doTheProcedure()");
+        dm.whereIsWaldo(58, waldoFile, "doTheProcedure()");
         try {
             int casesInStruct = dm.getNCasesInStruct();
             
@@ -83,19 +83,21 @@ public class Logistic_Controller {
             }
             
             ColumnOfData colOfData = new ColumnOfData(dm, "LogisticContr83", "LogisticRegContr83", dc.getFixedData());
-            int colSize = colOfData.getNCasesInColumn();            
+            int colSize = colOfData.getNCasesInColumn(); 
+
             if(!colOfData.getIsZeroOne()) {  
-                String[] twoCategories = dc.getFinalCategories();                
+                twoCategories = dc.getFinalCategories();                
                 for (int ithCase = 0; ithCase < colSize; ithCase++) {
                     if ((colOfData.getStringInIthRow(ithCase).trim()).equals((twoCategories[0].trim()))) {                        
                         data.get(1).setStringInIthRow(ithCase, "0");
                     }
-                    else  { data.get(1).setStringInIthRow(ithCase, "1"); }  
+                    else  { 
+                        data.get(1).setStringInIthRow(ithCase, "1"); }  
                 }
             }
- 
-            qdv_XVariable = new QuantitativeDataVariable("LogisticRegContr95", "LogisticRegContr95", data.get(0));
-            qdv_YVariable = new QuantitativeDataVariable("LogisticRegContr96", "LogisticRegContr96", data.get(1)); 
+
+            qdv_XVariable = new QuantitativeDataVariable("LogisticRegContr95", "LogisticRegContr099", data.get(0));
+            qdv_YVariable = new QuantitativeDataVariable("LogisticRegContr96", "LogisticRegContr100", data.get(1)); 
 
             dataXYLabels = new String[2];
             explanVar = qdv_XVariable.getTheVarLabel();
@@ -121,7 +123,7 @@ public class Logistic_Controller {
             
             if (!returnStatus.equals("OK")) { return returnStatus; }
 
-            logisticReg_Model = new LogisticReg_Model(this);
+            logisticReg_Model = new Logistic_Model(this);
             logisticReg_Model.doAllThatMathStuff();
 
             logRegDashboard = new Logistic_Dashboard(this, logisticReg_Model);
@@ -240,4 +242,7 @@ public class Logistic_Controller {
     public Data_Manager getDataManager() { return dm; } 
     public String[] getUniques() { return strUniques; }
     public QuantitativeDataVariable getQdvXVariable() { return qdv_XVariable; }
+    
+    public String[] getTwoCategories() { return twoCategories; }
+    
 }

@@ -1,7 +1,7 @@
 /**************************************************
  *          TwoProps_Power_Dashboard              *
- *                  05/30/24                      *
- *                    00:00                       *
+ *                  01/21/25                      *
+ *                    12:00                       *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -16,6 +16,8 @@ import superClasses.*;
 public class IndepProps_Power_Dashboard extends Dashboard {
    
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
     IndepProps_Power_PdfView indepProps_Power_PdfView;
@@ -32,7 +34,9 @@ public class IndepProps_Power_Dashboard extends Dashboard {
     
     public IndepProps_Power_Dashboard(IndepProps_Power_Controller power_Controller) {
         super(5);
-        //System.out.println("35 IndepProps_Power_Dashboard, constructing");
+        if (printTheStuff == true) {
+            System.out.println("38 *** IndepProps_Power_Dashboard, Constructing");
+        }
         this.indepProps_Power_Controller = power_Controller;
     }
     
@@ -106,11 +110,14 @@ public class IndepProps_Power_Dashboard extends Dashboard {
                                         initWidth[0], initHeight[0]);
         indepProps_Power_PdfView.makeItHappen();
         indepProps_Power_Model.restoreNullValues();
+        
         indepProps_Power_VsEffectSizeView = new IndepProps_Power_VsEffectSizeView(indepProps_Power_Model, this,
                                                       sixteenths_across[1], sixteenths_down[1],
                                                       initWidth[1], initHeight[1]);
         indepProps_Power_VsEffectSizeView.makeItHappen();
         indepProps_Power_Model.restoreNullValues();
+        
+        initWidth[2] = 700;
         indepProps_Power_VsSampleSizeView = new IndepProps_Power_VsSampleSizeView(indepProps_Power_Model, this,
                                                      sixteenths_across[2], sixteenths_down[2],
                                                      initWidth[2], initHeight[2]);           

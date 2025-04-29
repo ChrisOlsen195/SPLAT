@@ -1,7 +1,7 @@
 /**************************************************
  *            IndepProps_Power_PdfView            *
- *                   05/30/24                     *
- *                    00:00                       *
+ *                   04/17/25                     *
+ *                    09:00                       *
  *************************************************/
 package power_twoprops;
 
@@ -29,11 +29,15 @@ import javafx.scene.input.KeyCode;
 import utilityClasses.*;
 
 public class IndepProps_Power_PdfView extends BivariateScale_W_CheckBoxes_View { 
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean[] hBoxCheckBoxSettings;;
 
     int n_1, n_2;
 
-    double /*xMin, xMax,*/ yMin, yMax, scaleDelta, nullDiffProps, altDiffProps,
+    double xMin, xMax, yMin, yMax, scaleDelta, nullDiffProps, altDiffProps,
            rawCritValLT, rawCritValGT, yStart_Null, yStop_Null, yStart_Alt, 
            yStop_Alt, standErrNullDiffProps, effectSize, lowerSliver, 
            upperSliver, densityFactor, rejectionArrowStart, rejectionArrowStop, 
@@ -80,7 +84,9 @@ public class IndepProps_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                              double withThisWidth, double withThisHeight) {
 
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("79 IndepProps_Power_PdfView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("88 *** IndepProps_Power_PdfView, Constructing");
+        }
         this.indepProps_Power_Model = indepProps_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -217,7 +223,6 @@ public class IndepProps_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
         theContainingPane = dragableAnchorPane.getTheContainingPane();     
     }
     
-
     public void completeTheDeal() {
         initializeGraphParameters();
         setUpUI();       
@@ -226,7 +231,6 @@ public class IndepProps_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
         doTheGraph();     
         theContainingPane = dragableAnchorPane.getTheContainingPane();     
     }
-
     
     public void setUpDecisionRegions() {
 
@@ -413,7 +417,7 @@ public class IndepProps_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                 break;  
                 
             default: 
-               String switchFailure = "Switch failure: IndepProps_Power_PdfView 412 " + rejectionCriterion;
+               String switchFailure = "Switch failure: IndepProps_Power_PdfView 420 " + rejectionCriterion;
                MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }   //  end switch
         /************************************************************
@@ -594,7 +598,7 @@ public class IndepProps_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                 break;
                 
             default: 
-                String switchFailure = "Switch failure: IndepProps_Power_PdfView 593 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepProps_Power_PdfView 601 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);                                
         } 
 
@@ -620,7 +624,7 @@ public class IndepProps_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                 break;
                 
             default: 
-                String switchFailure = "Switch failure: IndepProps_Power_PdfView 619 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepProps_Power_PdfView 627 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
         
@@ -720,7 +724,7 @@ public class IndepProps_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                 break;
                 
                 default: 
-                    String switchFailure = "Switch failure: IndepProps_Power_PdfView 719 " + rejectionCriterion;
+                    String switchFailure = "Switch failure: IndepProps_Power_PdfView 727 " + rejectionCriterion;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
         indepProps_Power_Model.restoreNullValues();

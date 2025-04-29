@@ -1,6 +1,6 @@
 /****************************************************************************
  *                   SmartTextFieldsController                              * 
- *                           10/15/23                                       *
+ *                           01/16/25                                       *
  *                            12:00                                         *
  ***************************************************************************/
 /***************************************************************************      
@@ -19,17 +19,22 @@ package smarttextfield;
 public class SmartTextFieldsController {
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
     SmartTextFieldHandler stf_Handler;
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     
     public SmartTextFieldsController() {
+        if (printTheStuff == true) {
+            System.out.println("31 *** SmartTextFieldsController, Constructing");
+        }
        stf_Handler = new SmartTextFieldHandler(this);
     }
     
     public void setSize( int size) { 
-        al_STF = new DoublyLinkedSTF(this, size);
+        al_STF = new SmartTextFieldDoublyLinkedSTF(this, size);
     }
     
     public void finish_TF_Initializations() {
@@ -39,8 +44,7 @@ public class SmartTextFieldsController {
         }
     }
     
-    
-    public DoublyLinkedSTF getLinkedSTF() { return al_STF; }
+    public SmartTextFieldDoublyLinkedSTF getLinkedSTF() { return al_STF; }
         
     public SmartTextFieldHandler getSTFHandler() {return stf_Handler; }   
 }

@@ -1,7 +1,7 @@
 /************************************************************
  *                          Data_Grid                       *
- *                          02/27/24                        *
- *                            18:00                         *
+ *                          04/01/25                        *
+ *                            15:00                         *
  ***********************************************************/
 
 /**************************************************
@@ -76,9 +76,9 @@ public class Data_Grid {
         Object tfObject = me.getSource();
         dgRow = GridPane.getRowIndex((TextField) tfObject);
         dgCol = GridPane.getColumnIndex((TextField) tfObject); 
-        positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+        positionTracker.set_Current_DG_DS(dgCol, dgRow, "79 Data_Grid");
         dm.sendDataStructToGrid(dgCol, dgRow);
-        positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+        positionTracker.set_Current_DG_DS(dgCol, dgRow, "81 Data_Grid");
         prepareCellForAction(dgCol, dgRow);
     };
     
@@ -180,7 +180,7 @@ public class Data_Grid {
                     case "ENTER":
                         dm.whereIsWaldo(181, waldoFile, "case = Enter");
                         tabOrEnter = "ENTER";
-                        positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+                        positionTracker.set_Current_DG_DS(dgCol, dgRow, "183 Data_Grid");
                         doDataCommit();
                         if (!weAreTabbing) {
                             dm.whereIsWaldo(186, waldoFile, "ENTER, !weAreTabbing");
@@ -207,7 +207,7 @@ public class Data_Grid {
                                 positionTracker.setFirstVarIdentifier(tabRectLeftFirstVar);
                                 dgCol = tabRectLeftDelta;
                                 dm.sendDataStructToGrid(dgCol, dgRow);
-                                positionTracker.set_CurrentDG_and_DS(dgCol, dgRow); 
+                                positionTracker.set_Current_DG_DS(dgCol, dgRow, "210 Data_Grid"); 
                             } else {
                                 dm.whereIsWaldo(212, waldoFile, "ENTER, !tracker.cursorIsAtBottomOfGrid()");
                                 tabRectRightIndex = positionTracker.getFirstVarIdentifier() + positionTracker.getCurrentDGCol();
@@ -275,7 +275,7 @@ public class Data_Grid {
                                     dm.whereIsWaldo(275, waldoFile, "At end of tab-rect");
                                     setFromGridToStruct("         276 dg, case TAB, not tabbing", pendingCellContents);
                                     dgRow++;
-                                    positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+                                    positionTracker.set_Current_DG_DS(dgCol, dgRow, "278 Data_Grid");
                                     System.out.println("279 dg, send dataStructToGrid");
                                     dm.sendDataStructToGrid(dgCol, dgRow);
                                     prepareCellForAction(dgCol, dgRow);
@@ -303,16 +303,16 @@ public class Data_Grid {
                                     positionTracker.setFirstCaseIdentifier(positionTracker.getFirstCaseIdentifier() + 1);
                                     dgCol = tabRectLeftDelta;
                                     dm.sendDataStructToGrid(dgCol, dgRow);
-                                    positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+                                    positionTracker.set_Current_DG_DS(dgCol, dgRow, "306 Data_Grid");
                                 }
                                 else {
                                     dm.whereIsWaldo(309, waldoFile, "!tracker.cursorIsAtBottomOfGrid()");
                                     dgCol = tabRectLeftDelta;
                                     dgRow++;
-                                    positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+                                    positionTracker.set_Current_DG_DS(dgCol, dgRow, "312 Data_Grid");
                                 }
 
-                                positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+                                positionTracker.set_Current_DG_DS(dgCol, dgRow, "315 Data_Grid");
                                 prepareCellForAction(dgCol, dgRow);
                             }
                             else {
@@ -326,7 +326,7 @@ public class Data_Grid {
                                 setFromGridToStruct("          326 dg, dgCol  NOT = dgRightTabRectangle", pendingCellContents);
                                 dm.sendDataStructToGrid(dgCol, dgRow);
                                 goRightOneCol();
-                                positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+                                positionTracker.set_Current_DG_DS(dgCol, dgRow, "329 Data_Grid");
                                 prepareCellForAction(dgCol, dgRow);
                             }
                         }   //  End are tabbling
@@ -378,7 +378,7 @@ public class Data_Grid {
     
     public void complete_DG_Initialization() {
         dm.whereIsWaldo(380, waldoFile, "complete_DG_Initialization()");
-        positionTracker.set_CurrentDG_DS_Contents(0, 0, "");
+        positionTracker.set_Current_DG_DS_Contents(0, 0, "", "381 Data_Grid");
         weAreTabbing = false;    
     }
     
@@ -400,12 +400,12 @@ public class Data_Grid {
                 }
                 theGridCells.add(thisVar,newAL);
                 
-           for (int thisCase = 0; thisCase < maxVisualCasesInGrid; thisCase++) {
+                for (int thisCase = 0; thisCase < maxVisualCasesInGrid; thisCase++) {
                     try {
                         gridPane.add(theGridCells.get(thisVar).get(thisCase), thisVar, thisCase);
                     } catch (Exception ex)
                     {
-                        PrintExceptionInfo pei = new PrintExceptionInfo(ex, "Exception in DataGrid, line 415");                    
+                        PrintExceptionInfo pei = new PrintExceptionInfo(ex, "Exception in DataGrid, line 408");                    
                     }                      
                 }
             } else if (thisVar < maxVisualVarsInGrid)
@@ -448,7 +448,7 @@ public class Data_Grid {
         }
         
         dm.setDataAreClean(false);
-        positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+        positionTracker.set_Current_DG_DS(dgCol, dgRow, "451 Data_Grid");
         pendingCellContents = theGridCells.get(dgCol).get(dgRow).getText();
         // Parse the pendingCellContents for any asterisks. 
         handleAnyAsterisk();
@@ -492,9 +492,9 @@ public class Data_Grid {
         setGridCellContents(dgCol, dgRow, fromStorage);
         
         if (!positionTracker.cursorIsAtFirstCase() && !positionTracker.cursorIsAtTopOfGrid()) {
-            positionTracker.set_CurrentDG_and_DS(dgCol, dgRow - 1);
+            positionTracker.set_Current_DG_DS(dgCol, dgRow - 1, "495 Data_Grid");
             dgRow--;
-            positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+            positionTracker.set_Current_DG_DS(dgCol, dgRow, "497 Data_Grid");
             dm.sendDataStructToGrid(dgCol, dgRow);
             prepareCellForAction(dgCol, dgRow);
         }
@@ -503,7 +503,7 @@ public class Data_Grid {
                 positionTracker.set_CurrentDS(positionTracker.get_CurrentDS().getCol(), positionTracker.get_CurrentDS().getRow() - 1);
                 positionTracker.setFirstCaseIdentifier(positionTracker.getFirstCaseIdentifier() - 1);
                 dm.sendDataStructToGrid(dgCol, dgRow);
-                positionTracker.set_CurrentDG_and_DS(dgCol, dgRow );
+                positionTracker.set_Current_DG_DS(dgCol, dgRow, "506 Data_Grid");
             }
         }
         //if (dm.getHasBeenScrolled()) {
@@ -511,43 +511,50 @@ public class Data_Grid {
     } 
     
     public void goDownOneRow() {
-        dm.whereIsWaldo(514, waldoFile, "goDownOneRow()");
-        
-        //if (dm.getHasBeenScrolled()) {
-            //System.out.println("\n517 dg, START goDownOneRow(), dgRowNow = " + dgRow);
-        //}
-        //if (dgRow >= nCasesInStruct) { return; }
+        dm.whereIsWaldo(514, waldoFile, "Data_Grid, START goDownOneRow()");
+        //positionTracker.printCurrentGridInformation("Data_Grid: CurrentGrid at start of goDownOneRow()");
+
+        if (dm.getHasBeenScrolled()) {
+            //System.out.println("---517 dg, START goDownOneRow(), SCROLLED nCasesInStruct = " + nCasesInStruct);
+        }
+        if (dgRow >= nCasesInStruct) { 
+            //System.out.println("---520 dg, START goDownOneRow(), SCROLLED, dgRow >= nCasesInStruct trapped");
+            return; }
+        if (dgRow >= 14) { 
+            //System.out.println("---523 dg, START goDownOneRow(), SCROLLED, dgRow >= 13 trapped");
+            return; }
         if (!positionTracker.cursorIsAtBottomOfGrid()) {  //  Cursor not at bottom of grid
-            //System.out.println("521 Data_Grid, Not at bottom, dgRow = " + dgRow);
+            //System.out.println("526 Data_Grid, Not at bottom, dgRow = " + dgRow);
             dgRow++;
-            positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+            positionTracker.set_Current_DG_DS(dgCol, dgRow, "530 Data_Grid");
             dm.sendDataStructToGrid(dgCol, dgRow);
             prepareCellForAction(dgCol, dgRow);
         }
         else {  //  Cursor at bottom of grid
-            //System.out.println("528 Data_Grid, At bottom, dgRow = " + dgRow);
+            //System.out.println("533 Data_Grid, At bottom, dgRow = " + dgRow);
             positionTracker.setFirstCaseIdentifier(positionTracker.getFirstCaseIdentifier() + 1);
-            positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+            positionTracker.set_Current_DG_DS(dgCol, dgRow, "537 Data_Grid");
             dm.sendDataStructToGrid(dgCol, dgRow);
             prepareCellForAction(dgCol, dgRow);
         } 
         
-        //if (dm.getHasBeenScrolled()) {
-            //System.out.println("\n567 dg, END goDownOneRow()");
-        //}
+        if (dm.getHasBeenScrolled()) {
+            //System.out.println("---541 dg, END SCROLLED goDownOneRow()");
+        }
+        //positionTracker.printCurrentGridInformation("Data_Grid: CurrentGrid at end of goDownOneRow()");
     }
 
     public void goLeftOneCol() {
-        dm.whereIsWaldo(539, waldoFile, "goLeftOneCol()");
+        dm.whereIsWaldo(548, waldoFile, "goLeftOneCol()");
         //if (dgCol <= 0) { return; }
         if (dm.getHasBeenScrolled()) {
-            //System.out.println("\n542 dg, START goLeftOneCol()");
+            //System.out.println("\n551 dg, START goLeftOneCol()");
         }
         
         if (!positionTracker.cursorIsAtFirstVariable() && !positionTracker.cursorIsAtLeftOfGrid()) {
-            positionTracker.set_CurrentDG_and_DS(dgCol - 1, dgRow);
+            positionTracker.set_Current_DG_DS(dgCol - 1, dgRow, "556 Data_Grid");
             dgCol--;
-            positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+            positionTracker.set_Current_DG_DS(dgCol, dgRow, "558 Data_Grid");
             dm.sendDataStructToGrid(dgCol, dgRow);
             prepareCellForAction(dgCol, dgRow);
         }
@@ -556,7 +563,7 @@ public class Data_Grid {
                 positionTracker.set_CurrentDS(positionTracker.get_CurrentDS().getCol() - 1, positionTracker.get_CurrentDS().getRow());
                 positionTracker.setFirstVarIdentifier(positionTracker.getFirstVarIdentifier() - 1);
                 dm.sendDataStructToGrid(dgCol, dgRow);
-                positionTracker.set_CurrentDG_and_DS(dgCol, dgRow );
+                positionTracker.set_Current_DG_DS(dgCol, dgRow, "567 Data_Grid");
             }
         }
         
@@ -566,7 +573,7 @@ public class Data_Grid {
     } // leftOne
 
     private void goRightOneCol() {
-        dm.whereIsWaldo(567, waldoFile, "goRightOneCol()");
+        dm.whereIsWaldo(576, waldoFile, "goRightOneCol()");
         //if (dgCol >= nVarsInStruct - 1) { return; }
         //if (dm.getHasBeenScrolled()) {
             //System.out.println("\n605 dg, START goRightOneCol()");
@@ -579,11 +586,11 @@ public class Data_Grid {
         if (positionTracker.cursorIsAtRightOfGrid()) {
             positionTracker.setFirstVarIdentifier(positionTracker.getFirstVarIdentifier() + 1);
             dm.sendDataStructToGrid(dgCol, dgRow);
-            positionTracker.set_CurrentDG_and_DS(dgCol, dgRow );
+            positionTracker.set_Current_DG_DS(dgCol, dgRow, "590 Data_Grid");
             prepareCellForAction(dgCol, dgRow);        
         } else {
             dgCol++;
-            positionTracker.set_CurrentDG_and_DS(dgCol, dgRow );
+            positionTracker.set_Current_DG_DS(dgCol, dgRow, "594 Data_Grid");
             dm.sendDataStructToGrid(dgCol, dgRow);
             prepareCellForAction(dgCol, dgRow);                
         }
@@ -594,7 +601,7 @@ public class Data_Grid {
     } 
     
     private void goUpOnePage() {
-        dm.whereIsWaldo(595, waldoFile, "goUpOnePage()");
+        dm.whereIsWaldo(604, waldoFile, "goUpOnePage()");
         
         //if (dm.getHasBeenScrolled()) {
             //System.out.println("\n635 dg, START goUpOnePage()");
@@ -615,10 +622,10 @@ public class Data_Grid {
     } 
     
     private void goDownOnePage() { 
-        dm.whereIsWaldo(616, waldoFile, "goDownOnePage()");
+        dm.whereIsWaldo(625, waldoFile, "goDownOnePage()");
         
         //if (dm.getHasBeenScrolled()) {
-            //System.out.println("\n619 dg, START goDownOnePage()");
+            //System.out.println("\n628 dg, START goDownOnePage()");
         //}
         
         if (positionTracker.getLastCaseInGrid() < nCasesInStruct) { 
@@ -636,24 +643,26 @@ public class Data_Grid {
     } // downOnePage
 
     public void goHome() {
-        dm.whereIsWaldo(639, waldoFile, "goHome()");
-        
+        dm.whereIsWaldo(646, waldoFile, "goHome()");
+        //positionTracker.printCurrentGridInformation("Data_Grid: CurrentGrid at start of goHome");
         //if (dm.getHasBeenScrolled()) {
             //System.out.println("\n640 dg, START goHome()");
         //}
-        
+        dgCol = 0;
+        dgRow = 0;
         positionTracker.set_ulDG(0, 0);
         positionTracker.set_ulDS(0, 0);
-        positionTracker.set_CurrentDG_and_DS(0, 0);
-        dm.sendDataStructToGrid(dgCol, dgRow);
-        
+        positionTracker.set_Current_DG_DS(0, 0, "654 Data_Grid");
+        dm.sendDataStructToGrid(0, 0);
+        resetBlueCellPosition(0, 0);
         //if (dm.getHasBeenScrolled()) {
             //System.out.println("\n649 dg, END goHome()");
-        //}       
+        //}  
+        //positionTracker.printCurrentGridInformation("Data_Grid: CurrentGrid at end of goHome");
     } 
 
     private void goToEnd() {
-        dm.whereIsWaldo(654, waldoFile, "goToEnd()");
+        dm.whereIsWaldo(665, waldoFile, "goToEnd()");
         
         //if (dm.getHasBeenScrolled()) {
             //System.out.println("\n657 dg, START goToEnd()");
@@ -692,7 +701,9 @@ public class Data_Grid {
         positionTracker.setFirstCaseIdentifier(firstDS_Case);
         positionTracker.setFirstVarIdentifier(firstDS_Var);
         dm.sendDataStructToGrid(dgCol, dgRow);
-        positionTracker.set_CurrentDG_and_DS(lastDG_Var, lastDG_Case);
+        positionTracker.set_Current_DG_DS(lastDG_Var, lastDG_Case, "704 Data_Grid");
+        dgCol = lastDG_Var;
+        dgRow = lastDG_Case;
         
         //if (dm.getHasBeenScrolled()) {
             //System.out.println("\n696 dg, END goToEnd()");
@@ -707,7 +718,8 @@ public class Data_Grid {
     //  *  data transformation are added, possibly off the visual grid.      * 
     // **********************************************************************/
     public void resetBlueCellPosition(int toThisCol, int toThisRow) {
-        //dm.whereIsWaldo(708, waldoFile, "Data_Grid(Data_Manager dm, resetBlueCellPosition to Col/Rowl)  " + toThisCol + " / " + toThisRow);        
+        //dm.whereIsWaldo(721, waldoFile, "Data_Grid(Data_Manager dm, resetBlueCellPosition to Col/Rowl)  " + toThisCol + " / " + toThisRow);    
+        //System.out.println("722 Data_Grid(Data_Manager dm, resetBlueCellPosition to Col/Rowl)  " + toThisCol + " / " + toThisRow);
         /*********************************************************************
          *   Prevent accessing a column off the grid.  For reasons unknown,  *
          *   a row off the grid does not bother this method. This was found  *
@@ -715,26 +727,26 @@ public class Data_Grid {
          ********************************************************************/
         if (toThisCol > maxVisualVarsInGrid - 1) { return; }
         
-        //if (dm.getHasBeenScrolled()) {
-            //System.out.println("\n717 dg, START resetBlueCellPosition, col/row = " + toThisCol + " / " + toThisRow);
-        //}
+        if (dm.getHasBeenScrolled()) {
+            //System.out.println("\n731 dg, START SCROLLED resetBlueCellPosition, col/row = " + toThisCol + " / " + toThisRow);
+        }
         
-        if (toThisRow > maxVisualCasesInGrid - 2) {   // Generates a statck trace for some reason
-            //return;  
+        if (toThisRow > maxVisualCasesInGrid - 1) {   // Generates a statck trace for some reason
+            return;  
         }
         
         if (!positionTracker.getSneakingInANewColumn()) {
-            //System.out.println("725 DataGrid, toThisRow = " + toThisRow);
+            //System.out.println("739 DataGrid, toThisRow = " + toThisRow);
             makeEmAllWhite();
             theGridCells.get(toThisCol).get(toThisRow).requestFocus();
             theGridCells.get(toThisCol).get(toThisRow).setStyle("-fx-background-color: lightblue;"); 
         }
         
         //if (dm.getHasBeenScrolled()) {
-            //System.out.println("\n732 dg, END resetBlueCellPosition");
+            //System.out.println("\n746 dg, END resetBlueCellPosition");
         //}
         
-        // System.out.println("735 Data_Grid, toThisCol / toThisRow = " + toThisCol + " / " + toThisRow);
+        // System.out.println("749 Data_Grid, toThisCol / toThisRow = " + toThisCol + " / " + toThisRow);
         currentCellContents = theGridCells.get(toThisCol).get(toThisRow).getText();
     } 
     
@@ -747,7 +759,7 @@ public class Data_Grid {
     }
     
     private void replaceEmpty() {    //  with *
-        dm.whereIsWaldo(748, waldoFile, "Data_Grid replaceEmpty()");
+        dm.whereIsWaldo(762, waldoFile, "Data_Grid replaceEmpty()");
         setFromGridToStruct("FromEmptyEnter", "*");
         dm.sendDataStructToGrid(dgCol, dgRow);
     }
@@ -758,7 +770,7 @@ public class Data_Grid {
      *   from pendingCellContents. If alone, the data is 'missing.'      *
      ********************************************************************/
     private void handleAnyAsterisk() {
-        dm.whereIsWaldo(759, waldoFile, "handleAnyAsterisk()");
+        dm.whereIsWaldo(773, waldoFile, "handleAnyAsterisk()");
 
         if ((pendingCellContents.contains("*") && (!pendingCellContents.equals("*")))) {
             StringBuffer buffy = new StringBuffer();   
@@ -783,7 +795,7 @@ public class Data_Grid {
     **********************************************************************/
  
     private void prepareCellForAction(int thisCol, int thisRow) {  
-        positionTracker.set_CurrentDG_and_DS(thisCol, thisRow);
+        positionTracker.set_Current_DG_DS(thisCol, thisRow, "796 Data_Grid");
         pendingCellContents = "";
     }
 
@@ -791,10 +803,10 @@ public class Data_Grid {
         return theGridCells.get(col).get(row).getText(); 
     }
 
-    public void setGridCellContents(int col, int row, String toThis) { 
+    public void setGridCellContents(int col, int row, String toTheseContents) { 
         //System.out.println("795 setGridCellContents, col/row/ToThis = " + col + " / " + row + " / " + toThis);
-        theGridCells.get(col).get(row).setText(toThis);
-        positionTracker.set_CurrentDG_DS_Contents(col, row, toThis);
+        theGridCells.get(col).get(row).setText(toTheseContents);
+        positionTracker.set_Current_DG_DS_Contents(col, row, toTheseContents, "807 Data_Grid");
     }
     
     public int get_dgRow() { return dgRow; }
@@ -802,7 +814,7 @@ public class Data_Grid {
     //  Called only by EnterHandler
     public void set_dgRow(int toThis) { 
         dgRow = toThis;
-        positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+        positionTracker.set_Current_DG_DS(dgCol, dgRow, "815 Data_Grid");
     }
     
     public int get_dgCol() { return dgCol; }
@@ -810,12 +822,12 @@ public class Data_Grid {
     //  Called only by EnterHandler
     public void set_dgCol(int toThis) { 
         dgCol = toThis;
-        positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+        positionTracker.set_Current_DG_DS(dgCol, dgRow, "823 Data_Grid");
     }
     
     private void setFromGridToStruct(String message, String toThisValue) {
-        dm.whereIsWaldo(814, waldoFile, "setFromGridToStruct(String message, String toThisValue)");
-        positionTracker.set_CurrentDG_and_DS(dgCol, dgRow);
+        dm.whereIsWaldo(829, waldoFile, "setFromGridToStruct(String message, String toThisValue)");
+        positionTracker.set_Current_DG_DS(dgCol, dgRow, "828 Data_Grid");
         int structCol = positionTracker.getCurrentStructColumn();
         int structRow = positionTracker.getCurrentStructRow();
         dm.setDataInStruct(message, structCol, structRow, toThisValue);
@@ -833,6 +845,14 @@ public class Data_Grid {
     
     public void setComingFromLeftRightClick( boolean toThis) {
         comingFromLeftRightClick = toThis;
+    }
+    
+    public void setNCasesInStruct(int toThis) {
+        nCasesInStruct = toThis; 
+    }
+    
+    public void setNVarsInStruct(int toThis) {
+        nVarsInStruct = toThis; 
     }
 
     public int getNCasesInGrid() { return nCasesInGrid; }

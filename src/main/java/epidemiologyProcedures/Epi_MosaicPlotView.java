@@ -60,7 +60,7 @@ public class Epi_MosaicPlotView {
     GraphicsContext mosaicGC;     
     GridPane mosaicCategoryBoxes;    
     HBox[] squaresNText;    
-    Pane mosaicPane, containingPane;
+    Pane containingPane;
     Rectangle[] littleSquares;
     Text txtTitle1, txtTitle2;
     Text[] littleSquaresText;

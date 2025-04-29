@@ -1,7 +1,7 @@
 /************************************************************
  *                     TwoProp_Inf_Model                    *
- *                          11/01/23                        *
- *                            12:00                         *
+ *                          04/17/25                        *
+ *                            00:00                         *
  ***********************************************************/
 /************************************************************
  *    Plus-4 calculations agree with Moore/McCabe/Craig     *
@@ -35,6 +35,9 @@ class PropComparator implements Comparator<PropAndProb> {
 
 public class TwoProp_Inf_Model {
     //  POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nSuccesses_1, nSuccesses_2, nTrials_1, nTrials_2, nFailures_1, 
         nFailures_2, pAndPSize, confidenceLevel;
     
@@ -59,6 +62,9 @@ public class TwoProp_Inf_Model {
     TwoProp_Inference_Dialog twoProp_Inf_Dialog;
 
     public TwoProp_Inf_Model() {
+        if (printTheStuff == true) {
+            System.out.println("66 *** TwoProp_Inf_Model, Constructing");
+        }
         standNorm = new StandardNormal();
         twoProp_Inf_Dialog = new TwoProp_Inference_Dialog();
         ONE = 1.0; TWO = 2.0;
@@ -71,7 +77,9 @@ public class TwoProp_Inf_Model {
         if (returnStatus.equals("OK")) {
             prop1_Descr = twoProp_Inf_Dialog.getP1Label();
             prop2_Descr = twoProp_Inf_Dialog.getP2Label();
+            
             title_Descr = twoProp_Inf_Dialog.getTheTitle();
+            System.out.println("82 TwoProp_Inf_Model, title_Descr = " + title_Descr);
             altHypoth = twoProp_Inf_Dialog.getAltHypothesis();
             twoPropReport = new ArrayList();
             nTrials_1 = twoProp_Inf_Dialog.getN1();
@@ -159,7 +167,7 @@ public class TwoProp_Inf_Model {
                 break;
 
             default:
-                String switchFailure = "Switch failure: TwoProp_Inf_Model 162 " + altHypoth;
+                String switchFailure = "Switch failure: TwoProp_Inf_Model 170 " + altHypoth;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
             }   
             
@@ -172,11 +180,16 @@ public class TwoProp_Inf_Model {
     
     private void printSummaryInformation() {
         addNBlankLinesToTwoPropReport(1);
-        twoPropReport.add("                       *** Summary information ***   ");
+        String titleStringOut = StringUtilities.centerTextInString(title_Descr, 76);
+        twoPropReport.add(titleStringOut);
         addNBlankLinesToTwoPropReport(2);
-        twoPropReport.add("       Prop        NSize     NSucc     prop     ciLow     ciHigh");
+        twoPropReport.add("                        *** Summary information ***   ");
+        addNBlankLinesToTwoPropReport(2);
+        twoPropReport.add("       Prop            NSize     NSucc     prop     ciLow     ciHigh");
         addNBlankLinesToTwoPropReport(1);
-        twoPropReport.add(String.format("   %10s      %4d     %4d      %5.3f     %5.3f      %5.3f",     "Prop #1",
+        String propDescr_1 = StringUtilities.truncateString(prop1_Descr + "      ", 14);
+        String propDescr_2 = StringUtilities.truncateString(prop2_Descr + "      ", 14);
+        twoPropReport.add(String.format("   %10s      %4d     %4d      %5.3f     %5.3f      %5.3f",     propDescr_1,
                                                                                    nTrials_1,
                                                                                    nSuccesses_1,
                                                                                    pHat_1,
@@ -184,7 +197,7 @@ public class TwoProp_Inf_Model {
                                                                                    ciHighP1));
         addNBlankLinesToTwoPropReport(1);
 
-        twoPropReport.add(String.format("   %10s      %4d     %4d      %5.3f     %5.3f      %5.3f",     "Prop #2",
+        twoPropReport.add(String.format("   %10s      %4d     %4d      %5.3f     %5.3f      %5.3f",     propDescr_2,
                                                                                    nTrials_2,
                                                                                    nSuccesses_2,
                                                                                    pHat_2,
@@ -245,9 +258,9 @@ public class TwoProp_Inf_Model {
         String strCITitle = "              ***  " + String.valueOf(confidenceLevel) + "% Confidence interval for p\u2081 - p\u2082 ***";
         twoPropReport.add(strCITitle);
         addNBlankLinesToTwoPropReport(2);
-        twoPropReport.add("             p1 - p2      StandErr     ciLow    ciHigh");
+        twoPropReport.add("            p1 - p2      StandErr     ciLow    ciHigh");
         addNBlankLinesToTwoPropReport(1);
-        twoPropReport.add(String.format("             %6.4f        %5.3f     %6.3f    %6.3f",
+        twoPropReport.add(String.format("               %7.4f        %5.3f     %6.3f    %6.3f",
                                                                             diff_In_pHats,
                                                                             stErrUnpooled,
                                                                             ciDiff_Low,

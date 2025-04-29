@@ -1,6 +1,6 @@
 /**************************************************
  *             ANOVA1_Quant_Dashboard             *
- *                    02/11/24                    *
+ *                    02/14/25                    *
  *                     15:00                      *
  *************************************************/
 /**************************************************
@@ -42,7 +42,7 @@ public class ANOVA1_Quant_Dashboard extends Dashboard {
     private final ANOVA1_Quant_Model anova_Quant_Model;
     private ArrayList<QuantitativeDataVariable> allTheQDVs;
     private FDistPDFView fPDFView;
-    private VerticalBoxPlot_View verticalBoxPlot_View;
+    private ANOVA1_Quant_BoxPlotView anova1_Quant_BoxPlotView;
     private ANOVA1_Quant_CirclePlotView anova1_Quant_CirclePlotView;
     private ANOVA1_Quant_HomogeneityCheck_View anova1_Quant_HomogeneityCheck_View; 
     private NormProb_View normProb_View; 
@@ -85,19 +85,7 @@ public class ANOVA1_Quant_Dashboard extends Dashboard {
     
     public void putEmAllUp() { 
         dm.whereIsWaldo(87, waldoFile, "putEmAllUp()");
-        /*
-        boolean circleClicked = strJustClickedOn.equals("Circle Plot".trim());
-        boolean circleIsYes = (checkBoxSettings[2] == true);
-        if (circleClicked && circleIsYes) {
-            MyAlerts.showQuantANOVAPlotsAlert();
-        }
 
-        boolean homogeneityClicked = strJustClickedOn.equals("Homogeneity Check".trim());
-        boolean homogeneityIsYes = (checkBoxSettings[5] == true);
-        if (homogeneityClicked && homogeneityIsYes) {
-            MyAlerts.showQuantANOVAPlotsAlert();
-        }
-        */
         if (checkBoxSettings[0] == true) {
             fPDFPlotContainingPane.setVisible(true);
             fPDFView.doTheGraph();
@@ -106,7 +94,7 @@ public class ANOVA1_Quant_Dashboard extends Dashboard {
                
         if (checkBoxSettings[1] == true) {
             boxPlotContainingPane.setVisible(true);
-            verticalBoxPlot_View.doTheGraph();
+            anova1_Quant_BoxPlotView.doTheGraph();
         }
         else { boxPlotContainingPane.setVisible(false); } 
         
@@ -147,16 +135,14 @@ public class ANOVA1_Quant_Dashboard extends Dashboard {
         fPDFView.completeTheDeal();
         fPDFPlotContainingPane = fPDFView.getTheContainingPane(); 
         
-        allTheQDVs = new ArrayList<>();
-        allTheQDVs = anova_Quant_Model.getAllQDVs();
-        System.out.println("152 ANOVA1_Quant_Dashboard, QDV(0) label = " + allTheQDVs.get(0).getTheVarLabel());
-        System.out.println("153 ANOVA1_Quant_Dashboard, allTheQDVs.size = " + allTheQDVs.size());
-        verticalBoxPlot_Model = new VerticalBoxPlot_Model(anova_Quant_Model, allTheQDVs);
+        //allTheQDVs = new ArrayList<>();
+        //allTheQDVs = anova_Quant_Model.getAllQDVs();
+        //verticalBoxPlot_Model = new VerticalBoxPlot_Model(anova_Quant_Model, allTheQDVs);
         
         initWidth[1] = 625; 
-        verticalBoxPlot_View = new VerticalBoxPlot_View(verticalBoxPlot_Model, this, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]);
-        verticalBoxPlot_View.completeTheDeal();
-        boxPlotContainingPane = verticalBoxPlot_View.getTheContainingPane(); 
+        anova1_Quant_BoxPlotView = new ANOVA1_Quant_BoxPlotView(anova_Quant_Model, this, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]);
+        anova1_Quant_BoxPlotView.completeTheDeal();
+        boxPlotContainingPane = anova1_Quant_BoxPlotView.getTheContainingPane(); 
 
         initWidth[2] = 500;
         initHeight[2] = 400;

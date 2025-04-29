@@ -1,7 +1,7 @@
 /****************************************************************************
  *                         X2GOF_Model                                      *
- *                          09/14/24                                        *
- *                           12:00                                          *
+ *                          02/12/25                                        *
+ *                           18:00                                          *
  ***************************************************************************/
 package chiSquare.GOF;
 
@@ -17,6 +17,10 @@ import utilityClasses.*;
 
 public class X2GOF_Model {
     //POJOs 
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int df, nCategories, nCellsBelow_5, n_QDVs;
     int[] pre_ObservedCounts, observedCounts, theNewOrder;
     
@@ -44,11 +48,15 @@ public class X2GOF_Model {
  ******************************************************************************/
     
     public X2GOF_Model( ) {
-        System.out.println("\n47 X2GOF_Model, Constructing empty)");
+        if (printTheStuff == true) {
+            System.out.println("52 *** X2GOF_Model, constructing");
+        }
     }
     
     public String analyzeGOF_DataFromFile(X2GOF_Controller x2GOF_controller) {
-        //System.out.println("51  *** X2GOF_Model, analyzeGOF_DataFromFile(X2GOF_Controller x2GOF_controller)");
+        if (printTheStuff == true) {
+            System.out.println("58 --- X2GOF_Model, analyzeGOF_DataFromFile");
+        }
         strReturnStatus = "OK";
         colOfData  = new ColumnOfData(x2GOF_controller.getColumnOfData());
         strTheGOFVariable = colOfData.getVarLabel();
@@ -77,7 +85,9 @@ public class X2GOF_Model {
     }  
     
     public String analyzeGOF_DataByHand() {
-        //System.out.println("80  *** X2GOF_Model, analyzeGOF_DataByHand");        
+        if (printTheStuff == true) {
+            System.out.println("89 --- X2GOF_Model, analyzeGOF_DataByHand()");
+        }       
         strReturnStatus = gofByHand_Dlg();  
         
         if (strReturnStatus.equals("OK")) { 
@@ -93,7 +103,9 @@ public class X2GOF_Model {
 ******************************************************************************/ 
     // GOF information added manually
     private String gofByHand_Dlg() {
-        //System.out.println("96  *** X2GOF_Model, gofByHand_Dlg()");
+        if (printTheStuff == true) {
+            System.out.println("107 --- X2GOF_Model, gofByHand_Dlg()");
+        } 
         x2GOF_DataByHand_Dialog = new X2GOF_DataByHand_Dialog(this);
         x2GOF_DataByHand_Dialog.constructDialogGuts();
         x2GOF_DataByHand_Dialog.showAndWait();
@@ -131,7 +143,9 @@ public class X2GOF_Model {
     }
     
     private String gofFromFile_Dlg() {  
-        //System.out.println("134  *** X2GOF_Model, gofFromFile_Dlg()");
+        if (printTheStuff == true) {
+            System.out.println("147 --- X2GOF_Model, gofFromFile_Dlg()");
+        } 
         x2GOF_DataFromFile_Dialog = new X2GOF_DataFromFile_Dialog(this);
         x2GOF_DataFromFile_Dialog.x2FileDialog_Step1();
         x2GOF_DataFromFile_Dialog.showAndWait();
@@ -167,10 +181,6 @@ public class X2GOF_Model {
             
             categoryLabels = FXCollections.observableArrayList(strCategoriesAsStrings);
         }
-        
-
-        
-        // -------------------------------------------------------------------
         return strReturnStatus;
     }
     
@@ -188,6 +198,8 @@ public class X2GOF_Model {
         
         reOrderStringDisplay_Dialog = new ReOrderStringDisplay_Dialog(this, pre_StrCategoriesAsStrings);
         reOrderStringDisplay_Dialog.showAndWait();
+        strReturnStatus = reOrderStringDisplay_Dialog.getReturnStatus();
+        System.out.println("202 X2GOF_Model, strReturnStatus = " + strReturnStatus);
     }
     
     public void closeTheReOrderDialog(int[] returnedOrder) {
@@ -196,7 +208,9 @@ public class X2GOF_Model {
     }
     
     private void initializeTheArrays() {
-        //System.out.println("199  *** X2GOF_Model, initializeTheArrays()");
+        if (printTheStuff == true) {
+            System.out.println("212 --- X2GOF_Model, initializeTheArrays()");
+        } 
         pre_StrCategoriesAsStrings = new String[nCategories]; 
         pre_ObservedCounts = new int[nCategories];
         pre_ExpectedProportions = new double[nCategories]; 
@@ -213,9 +227,11 @@ public class X2GOF_Model {
     }
     
     private void performChiSqGOFCalculations() {
-        //System.out.println("216  *** X2GOF_Model, performChiSqGOFCalculations()");
+        if (printTheStuff == true) {
+            System.out.println("231 --- X2GOF_Model, performChiSqGOFCalculations()");
+        }
         observedTotal = 0.0;  expectedTotal = 0.0; propTotal = 0.0;
-        chiSquare = 0.0; /*standResidsTotal = 0.0; */ contribTotal = 0.0;
+        chiSquare = 0.0; contribTotal = 0.0;
         nCellsBelow_5 = 0;
         
         for (int ithCat = 0; ithCat < nCategories; ithCat++) {  

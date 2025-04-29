@@ -1,7 +1,7 @@
 /**********************************************************************
  *                         ChooseStats_Dialog                         *
- *                             08/20/24                               *
- *                               12:00                                *
+ *                             02/24/25                               *
+ *                               06:00                                *
  *********************************************************************/
 package bootstrapping;
 
@@ -27,20 +27,21 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
     boolean checked;
     protected Boolean[][] checkBoxSettings;
     
-    int nGridRows, nGridCols, nBoxesChecked, index, sampleSize, numberOfReps;
+    int nGridRows, nGridCols, nBoxesChecked, index, sampleSize, 
+        numberOfReps, index2Return;
         
     double paneWidth, paneHeight;
     double[][] initWidth, initHeight; 
     
-    String strJustClickedOn, strDirections, returnStatus;
+    String /*strJustClickedOn,*/ strDirections, returnStatus;
     String[] checkBoxDescr;
     
     // Make empty if no-print
-    String waldoFile = "ChooseStats_Dialog";
-    //String waldoFile = "";
+    //String waldoFile = "ChooseStats_Dialog";
+    String waldoFile = "";
     
     // FX POJOs
-    Button btnOK, btnCancel;
+    //Button btnOK, btnCancel;
     CheckBox[][] checkBoxes;
     Data_Manager dm;
     GridPane gridPane;
@@ -62,7 +63,7 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
         
         strDirections = "                     Easy Peasy Directions:" + 
                         "\n\n Please indicate the number of repetitions and" +
-                        "\n choose the statistic (singular) you wish to bootstrap.";
+                        "\n choose the statistic (one only!) you wish to bootstrap.";
         txtDirections = new Text(strDirections);
         txtDirections.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18));
 
@@ -91,7 +92,10 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
             for (int ithRow = 0; ithRow < nGridRows; ithRow++) {
                 for (int jthCol = 0; jthCol < nGridCols; jthCol++) {
                     index = ithRow * nGridCols + jthCol;
+                    //System.out.println("94 ChooseStats_Dialog, index = " + index);
                     checked = checkBoxes[ithRow][jthCol].selectedProperty().getValue();
+                    //System.out.println("96 ChooseStats_Dialog, checked = " + checked);
+                    if (checked) { index2Return = index; }
                     boot_Controller.setACheckBoxValue(index, checked);
                     if (checked) {
                         nBoxesChecked++;
@@ -101,13 +105,13 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
             if (nBoxesChecked == 0) {
                 returnStatus = "Cancel";
             }
-            close();
+            hide();
         });
         
         btnCancel = new Button("Cancel");
         btnCancel.setOnAction(e -> {            
             returnStatus = "Cancel";
-            close();
+            hide();
         });
 
         hBoxButtons = new HBox();
@@ -187,7 +191,7 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
                     // Reset selected color
                     if (checkValue == true) {
                         tb.setTextFill(Color.GREEN);
-                        strJustClickedOn = daID.trim();
+                        //strJustClickedOn = daID.trim();
                     }
                     else {
                         tb.setTextFill(Color.RED);
@@ -226,5 +230,6 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
     public int getSampleSize() { return sampleSize; }
     public int getNReps() { return numberOfReps; }
     public int getNStatsChecked() { return nBoxesChecked; }   
+    public int getStatCheckedIndex() { return index2Return; }
 }
 

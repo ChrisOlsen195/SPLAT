@@ -32,7 +32,7 @@ public class Logistic_Dashboard extends Dashboard {
     Logistic_Resids_View logisticResids_View;
     Logistic_StandardReport_View logReg_StandardReport_View;
     Logistic_Diagnostic_Report_View logReg_Diagnostic_Report_View;
-    LogisticReg_Model logistic_Model;     
+    Logistic_Model logistic_Model;     
     NormProb_Model normProb_Model;
     NormProb_View nppResids_View;   
     Logistic_View logistic_View;
@@ -43,7 +43,7 @@ public class Logistic_Dashboard extends Dashboard {
          logRegStandardReportContainingPane, nppResidsContainingPane, 
          logRegDiagnosticContainingPane; 
             
-    public Logistic_Dashboard(Logistic_Controller logistic_Controller, LogisticReg_Model logistic_Model) {
+    public Logistic_Dashboard(Logistic_Controller logistic_Controller, Logistic_Model logistic_Model) {
         super(5);  
         dm = logistic_Controller.getDataManager();
         dm.whereIsWaldo(49, waldoFile, "Constructing");
@@ -99,7 +99,7 @@ public class Logistic_Dashboard extends Dashboard {
     
     public void populateTheBackGround() {
         initWidth[0] = 725;
-        initHeight[0] = 650;        
+        initHeight[0] = 575;        
         logReg_StandardReport_View = new Logistic_StandardReport_View(logistic_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         logReg_StandardReport_View.completeTheDeal();
         logRegStandardReportContainingPane = logReg_StandardReport_View.getTheContainingPane(); 

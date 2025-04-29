@@ -1,7 +1,7 @@
 /**************************************************
  *           OneProp_Power_VsAlphaView            *
- *                  05/29/24                      *
- *                    15:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -26,10 +26,12 @@ import javafx.scene.input.KeyCode;
 
 public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int sampleSize;
 
-    double /*xMin, xMax,*/ yMin, yMax, hypothProp, hypothStDev, effectSize, altMu;
+    double yMin, yMax, hypothProp, hypothStDev, effectSize, altMu;
 
     //  FX
     Pane theContainingPane;
@@ -43,7 +45,9 @@ public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("46 OneProp_Power_VsAlphaView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("49 *** OneProp_Power_VsAlphaView, Constructing");
+        }
         this.oneProp_PowerModel = oneProp_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

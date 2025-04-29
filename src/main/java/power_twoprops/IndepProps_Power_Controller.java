@@ -1,7 +1,7 @@
 /**************************************************
  *         IndepProps_Power_Controller            *
- *                  05/30/24                      *
- *                    00:00                       *
+ *                  04/17/25                      *
+ *                    09:00                       *
  *************************************************/
 package power_twoprops;
 
@@ -11,12 +11,14 @@ import dialogs.power.*;
 
 public class IndepProps_Power_Controller {
     
-   // POJOs    
+   // POJOs   
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int sampleSize_1, sampleSize_2;
     
-    double nullProp_1, nullProp_2,// null_Var_1, null_Var_2, altDiffInProps,
-           /*nullDiffInProps, power, alt_Var_1, alt_Var_2,*/ altProp_1, altProp_2,
-           /*null_Sigma_1, null_Sigma_2,*/ alpha, effectSize;
+    double nullProp_1, nullProp_2, altProp_1, altProp_2, alpha, effectSize,
+           power;
     
     String rejectionCriterion, printedNull, printedAlt, returnStatus;
     
@@ -27,7 +29,9 @@ public class IndepProps_Power_Controller {
     Power_IndProps_Dialog power_IndProps_Dialog;
     
     public IndepProps_Power_Controller() {
-        //System.out.println("30 IndepProps_Power_Controller, constructing");
+        if (printTheStuff == true) {
+            System.out.println("33 *** IndepProps_Power_Controller, Constructing");
+        }
         power_IndProps_Dialog = new Power_IndProps_Dialog();
     }
     
@@ -43,25 +47,12 @@ public class IndepProps_Power_Controller {
         nullProp_1 = power_IndProps_Dialog.getProp_1();
         nullProp_2 = power_IndProps_Dialog.getProp_2();
  
-        //nullDiffInProps = nullProp_1 - nullProp_2;
-        
         altProp_1 = nullProp_1 + effectSize;
         altProp_2 = nullProp_2 + effectSize;
-        
-        //altDiffInProps = power_IndProps_Power_Controller.getAltDiff();
-        
+
         sampleSize_1 = power_IndProps_Dialog.getN1();
         sampleSize_2 = power_IndProps_Dialog.getN2();
- 
-        //null_Var_1 = nullProp_1 * (1 - nullProp_1) / sampleSize_1;
-        //null_Var_2 = nullProp_2 * (1 - nullProp_2) / sampleSize_2;  
-        
-        //null_Sigma_1 = Math.sqrt(null_Var_1);
-        //null_Sigma_2 = Math.sqrt(null_Var_2);
-        
-        //alt_Var_1 = altProp_1 * (1 - altProp_1) / sampleSize_1;
-        //alt_Var_2 = altProp_2 * (1 - altProp_2) / sampleSize_2; 
-        
+
         rejectionCriterion = power_IndProps_Dialog.getAltHypothesis();
   
         indepProps_Power_Model = new IndepProps_Power_Model(this);
@@ -80,7 +71,7 @@ public class IndepProps_Power_Controller {
                 break;
 
             default: 
-                String switchFailure = "Switch failure: IndProps_Power_Controller 83 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndProps_Power_Controller 74 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 returnStatus = "Cancel";
                 break;
@@ -95,7 +86,6 @@ public class IndepProps_Power_Controller {
         indepProps_Power_Model.setSampleSize_2(sampleSize_2);
         indepProps_Power_Model.setAlpha(alpha);  
         indepProps_Power_Model.setEffectSize(effectSize);
-
 
         // printed Strings for Power Report
         printedNull = "p1 - p2 = 0.00";
@@ -114,7 +104,7 @@ public class IndepProps_Power_Controller {
                 break;
 
             default: 
-                String switchFailure = "Switch failure: IndProps_Power_Controller 117 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndProps_Power_Controller 107 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 returnStatus = "Cancel";
                 break;
@@ -125,7 +115,7 @@ public class IndepProps_Power_Controller {
         indepProps_Power_Model.archiveNullValues();
         indepProps_Power_Model.doTheStandardErrStuff();
         indepProps_Power_Model.constructNonRejectionRegion();
-        //power = indepProps_Power_Model.calculatePower();
+        power = indepProps_Power_Model.calculatePower();
         indepProps_Power_Model.print_Power_Table();
         indepProps_Power_Dashboard = new IndepProps_Power_Dashboard(this);
         indepProps_Power_Dashboard.initializeFurther();

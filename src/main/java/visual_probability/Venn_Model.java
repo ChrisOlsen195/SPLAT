@@ -48,7 +48,6 @@ public class Venn_Model {
     }
     
     public void setProbB( double toThis) {
-        System.out.println("51 Venn_Model, setProbB( double toThis)");
         probOfB = toThis;
         radius_B = Math.sqrt(probOfB / Math.PI);
         //System.out.println("54  Venn_Model, radius_B = " + radius_B);
@@ -56,7 +55,6 @@ public class Venn_Model {
     }
     
     public void setProbAandB( double toThis) {
-        System.out.println("59 Venn_Model, setProbAandB( double toThis = " + toThis);
         probOfAandB = toThis;
         if (probAIsCalculated && probBIsCalculated) { calculate_pxCenterSeparation(); }
     }

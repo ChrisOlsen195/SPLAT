@@ -1,7 +1,7 @@
 /**************************************************
  *                ANOVA1_Controller               *
- *                    09/03/24                    *
- *                     09:00                      *
+ *                    02/14/25                    *
+ *                     15:00                      *
  *************************************************/
 package superClasses;
 
@@ -14,11 +14,14 @@ import splat.*;
 
 public class ANOVA1_Controller {
     //  POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
     public boolean goodToGo;
     public boolean checkForLegalChoices;
     public int n_QDVs; 
-    public String returnStatus, daProcedure;
+    public String strReturnStatus, daProcedure;
     public String explVarDescr, respVarDescr, subTitle;
     public ArrayList<String> allTheLabels;
  
@@ -34,13 +37,15 @@ public class ANOVA1_Controller {
 
     public ANOVA1_Controller(Data_Manager dm) {
         this.dm = dm;
-        //System.out.println("37 *** ANOVA1_Controller (super)");
+        if (printTheStuff == true) {
+            System.out.println("41 *** ANOVA1_Controller (Super), Constructing");
+        }
         anova1_ColsOfData = new ArrayList();
         varLabel = new ArrayList();
-        returnStatus = "OK";
+        strReturnStatus = "OK";
     }
 
-    protected boolean doTheANOVA() { return true; }
+    protected String doTheANOVA() { return "OK"; }
     
     public String getExplanatoryVariable() {  return explVarDescr; }
     public String getResponseVariable() { return respVarDescr; }
@@ -50,5 +55,5 @@ public class ANOVA1_Controller {
     }
     
     public boolean getGoodToGo() { return goodToGo; }
-    public String getReturnStatus() { return returnStatus; }
+    public String getReturnStatus() { return strReturnStatus; }
 }

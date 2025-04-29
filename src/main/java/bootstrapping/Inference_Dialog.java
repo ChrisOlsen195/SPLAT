@@ -1,7 +1,7 @@
 /************************************************************
  *                      Inference_Dialog                    *
- *                          04/17/24                        *
- *                            00:00                         *
+ *                          02/11/25                        *
+ *                            12:00                         *
  ***********************************************************/
 package bootstrapping;
 
@@ -41,8 +41,8 @@ public class Inference_Dialog extends One_Variable_Dialog {
            strHypChosen;
     String resultAsString;
     
-    String waldoFile = "Inference_Dialog";
-    //String waldoFile = "";
+    //String waldoFile = "Inference_Dialog";
+    String waldoFile = "";
     
     String[] hypothPair;
     Label lblNullAndAlt, ciLabel, alphaLabel;

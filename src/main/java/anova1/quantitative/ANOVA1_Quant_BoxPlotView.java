@@ -1,7 +1,7 @@
 /**************************************************
  *             ANOVA1_Quant_BoxPlotView           *
- *                    02/19/24                    *
- *                      12:00                     *
+ *                    04/25/25                    *
+ *                      15:00                     *
  *************************************************/
 package anova1.quantitative;
 
@@ -44,7 +44,7 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
         super(qanova1Model, qanova1Dashboard, "BoxPlot",
               placeHoriz, placeVert,  withThisWidth, withThisHeight);
         dm = qanova1Model.getDataManager();
-        dm.whereIsWaldo(43, waldoFile, "Constructing");
+        dm.whereIsWaldo(47, waldoFile, "Constructing");
         nCheckBoxes = 2;
         strCheckBoxDescriptions = new String[3];
         strCheckBoxDescriptions[0] = " Means diamond ";
@@ -69,6 +69,7 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
     public void doTheGraph() {    
         double daXPosition, text1Width, text2Width, paneWidth,
                txt1Edge, txt2Edge, downShift;
+        
         yAxis.setForcedAxisEndsFalse(); // Just in case
         text1Width = txtTitle1.getLayoutBounds().getWidth();
         text2Width = txtTitle2.getLayoutBounds().getWidth();
@@ -111,7 +112,7 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
 
         gc_Quant_ANOVA1.clearRect(0, 0 , anova1_Quant_Canvas.getWidth(), anova1_Quant_Canvas.getHeight());
         
-        for (int theBatch = 1; theBatch <= nLevels; theBatch++) {
+        for (int theBatch = 0; theBatch < nLevels; theBatch++) {
             tempQDV = new QuantitativeDataVariable();
             tempQDV = anova1_Quant_Model.getIthQDV(theBatch);
             tempUCDO = new UnivariateContinDataObj("ANOVA1_Quant_BoxPlotView", tempQDV);
@@ -195,7 +196,6 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
                     
                     // Extreme outlier
                     double tempLowBall = fiveNumberSummary[1] - 1.5 * iqr;
-                    //double tempHighBall = fiveNumberSummary[3] + 1.5 * iqr; 
                     
                     if ((tempY < tempLowBall) && (anova1_Quant_CheckBoxes[1].isSelected() == true)) {
                         gc_Quant_ANOVA1.strokeOval(xx - 6, yy - 6, 12, 12);

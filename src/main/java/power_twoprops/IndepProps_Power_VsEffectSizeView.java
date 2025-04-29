@@ -1,6 +1,6 @@
 /**************************************************
  *       IndepProps_Power_VsEffectSizeView        *
- *                  05/30/34                      *
+ *                  01/16/25                      *
  *                    00:00                       *
  *************************************************/
 package power_twoprops;
@@ -28,9 +28,12 @@ import utilityClasses.MyAlerts;
 public class IndepProps_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_View
 {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int n_1, n_2;
 
-    double /*xMin, xMax,*/ yMin, yMax, p1, p2; //, effectSize, standErrDiffProps;
+    double yMin, yMax, p1, p2; //, effectSize, standErrDiffProps;
     
     String strRejectionCriterion;
 
@@ -47,7 +50,9 @@ public class IndepProps_Power_VsEffectSizeView extends BivariateScale_W_CheckBox
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        // System.out.println("46 IndepProps_Power_VsEffectSizeView");
+        if (printTheStuff == true) {
+            System.out.println("54 *** IndepProps_Power_VsEffectSizeView, Constructing");
+        }
         this.indepProps_Power_Model = indepProps_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

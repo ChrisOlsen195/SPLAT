@@ -1,7 +1,7 @@
 /**************************************************
  *             OneProp_Power_Model                *
- *                  05/30/24                      *
- *                    00:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -12,6 +12,9 @@ import utilityClasses.*;
 
 public class OneProp_Power_Model {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int sampleSize, archivedSampleSize;
     double alpha, altProp, effectSize, standErr_PNull, standErr_PAlt, 
            nullProp, power, lowerLimit, upperLimit, loCum, hiCum, 
@@ -25,6 +28,9 @@ public class OneProp_Power_Model {
     OneProp_Power_Controller oneProp_Power_Controller;
     
     public OneProp_Power_Model(OneProp_Power_Controller oneProp_Power_Controller) {
+        if (printTheStuff == true) {
+            System.out.println("32 *** OneProp_Power_Model, Constructing");
+        }
         this.oneProp_Power_Controller = oneProp_Power_Controller;
         str_al_PowerReport = new ArrayList();
         lowerLimit = 0.0; upperLimit = 0.0;//  Happy compiler, happy runs
@@ -87,7 +93,7 @@ public class OneProp_Power_Model {
                 break;   
                 
             default:
-                String switchFailure = "Switch failure: OneProp_Power_Model 90 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneProp_Power_Model 96 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
 

@@ -1,6 +1,6 @@
 /**************************************************
  *             X2Assoc_MosaicPlotView             *
- *                    05/23/24                    *
+ *                    01/15/25                    *
  *                      12:00                     *
  *************************************************/
 package chiSquare_Assoc;
@@ -35,7 +35,8 @@ import utilityClasses.*;
 public class X2Assoc_MosaicPlotView {
     
     // POJOs
-    //boolean dragging;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     double /*xMin, xMax, yMin, yMax,*/ initHoriz, initVert, initWidth,
            initHeight, text1Width, text2Width;
@@ -74,7 +75,9 @@ public class X2Assoc_MosaicPlotView {
                       X2Assoc_Dashboard association_Dashboard,
                       double placeHoriz, double placeVert,
                       double withThisWidth, double withThisHeight) {
-        //System.out.println("77 X2Assoc_MosaicPlotView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("79 *** X2Assoc_MosaicPlotView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.x2Assoc_Model = association_Model;
@@ -84,6 +87,9 @@ public class X2Assoc_MosaicPlotView {
     }
     
     public void completeTheDeal() {
+        if (printTheStuff == true) {
+            System.out.println("91 --- X2Assoc_MosaicPlotView, completeTheDeal()");
+        }
         constructMosaicInfo();
         txtTitle1 = new Text("Mosaic Plot"); 
         txtTitle1.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 18));        

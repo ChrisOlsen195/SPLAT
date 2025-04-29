@@ -73,12 +73,12 @@ public class Regression_Model {
     public FDistribution fDist;
     public QuantitativeDataVariable qdv_X, qdv_Y, qdv_Resids, qdv_PredYs;
     public ResizableTextPane rtp;   
-    public Inf_Regression_Controller inf_regression_Controller;
-    public NoInf_Regression_Controller noInf_Regression_Controller;
+    public Inf_Regr_Controller inf_regression_Controller;
+    public NoInf_Regr_Controller noInf_Regression_Controller;
     public PositionTracker tracker;
     public TDistribution tDist;
     
-    public Regression_Model(Inf_Regression_Controller inf_regression_Controller) {   
+    public Regression_Model(Inf_Regr_Controller inf_regression_Controller) {   
         this.inf_regression_Controller= inf_regression_Controller;
         dm = inf_regression_Controller.getDataManager();
         tracker = dm.getPositionTracker();
@@ -101,7 +101,7 @@ public class Regression_Model {
         returnStatus = "OK";
     }
     
-    public Regression_Model(NoInf_Regression_Controller noInf_Regression_Controller) {   
+    public Regression_Model(NoInf_Regr_Controller noInf_Regression_Controller) {   
         this.noInf_Regression_Controller = noInf_Regression_Controller;
         dm = noInf_Regression_Controller.getDataManager(); 
         tracker = dm.getPositionTracker();
@@ -421,7 +421,6 @@ public class Regression_Model {
                 } 
                 
                 nVarsCommitted = tracker.getNVarsCommitted();
-                
                 if (saveTheResids.equals("Yes") || saveTheHats.equals("Yes")) {                    
                     if (saveTheResids.equals("Yes") && saveTheHats.equals("Yes")){
                         dm.getDataStruct().get(nVarsCommitted - 2)

@@ -26,17 +26,17 @@ public class ChooseStats_Dashboard extends Dashboard {
     String waldoFile = "";
     
     // My classes
-    ChooseStats_Controller boot_Controller;
-    ChooseStats_DistrModel boot_ChooseStats_Original_DistrModel;
-    ChooseStats_DistrModel boot_ChooseStats_Shifted_DistrModel;
-    ChooseStats_Histo_DistrView boot_ChooseStats_Original_Histo_DistrView,
-                                     boot_ChooseStats_Shifted_Histo_DistrView;
-    ChooseStats_DotPlot_DistrView boot_ChooseStats_Original_DotPlot_DistrView;
-    ChooseStats_DotPlot_DistrView boot_ChooseStats_Shifted_DotPlot_DistrView;
-    ChooseStats_DialogView boot_ChooseStats_DialogView;
+    ChooseStats_Controller chooseStats_Controller;
+    ChooseStats_DistrModel chooseStats_Original_DistrModel,
+                           chooseStats_Shifted_DistrModel;
+    ChooseStats_Histo_DistrView chooseStats_Original_Histo_DistrView,
+                                chooseStats_Shifted_Histo_DistrView;
+    ChooseStats_DotPlot_DistrView chooseStats_Original_DotPlot_DistrView,
+                                  chooseStats_Shifted_DotPlot_DistrView;
+    ChooseStats_DialogView chooseStats_DialogView;
     Data_Manager dm;
     
-    QuantitativeDataVariable qdv_TheOriginalSample, qdv_bootstrappedStat;
+    //QuantitativeDataVariable qdv_TheOriginalSample, qdv_bootstrappedStat;
    
     // POJOs / FX
     
@@ -51,12 +51,12 @@ public class ChooseStats_Dashboard extends Dashboard {
         dm = boot_ChooseStats_Controller.getTheDataManager();
         dm.whereIsWaldo(44, waldoFile, "Constructing"); 
         checkBoxDescr = new String[nCheckBoxes];
-        this.boot_Controller = boot_ChooseStats_Controller;
-        this.boot_ChooseStats_Original_DistrModel = boot_ChooseStats_Original_DistrModel;
-        this.boot_ChooseStats_Shifted_DistrModel = boot_ChooseStats_Shifted_DistrModel;
+        this.chooseStats_Controller = boot_ChooseStats_Controller;
+        this.chooseStats_Original_DistrModel = boot_ChooseStats_Original_DistrModel;
+        this.chooseStats_Shifted_DistrModel = boot_ChooseStats_Shifted_DistrModel;
 
-        qdv_TheOriginalSample = boot_ChooseStats_Controller.getTheOriginalSample();
-        qdv_bootstrappedStat = boot_ChooseStats_Controller.getTheBootstrappedStats();
+        //qdv_TheOriginalSample = boot_ChooseStats_Controller.getTheOriginalSample();
+        //qdv_bootstrappedStat = boot_ChooseStats_Controller.getTheBootstrappedStats();
         
         for (int ithCheckBox = 0; ithCheckBox < nCheckBoxes; ithCheckBox++) {
             checkBoxDescr[ithCheckBox] = regrCheckBoxDescr[ithCheckBox];
@@ -87,7 +87,7 @@ public class ChooseStats_Dashboard extends Dashboard {
         dm.whereIsWaldo(78, waldoFile, "putEmAllUp()");
         if (checkBoxSettings[0] == true) {
             oneStatHisto_OriginalContainingPane.setVisible(true);
-            boot_ChooseStats_Original_Histo_DistrView.doTheGraph();
+            chooseStats_Original_Histo_DistrView.doTheGraph();
         }
         else {
             oneStatHisto_OriginalContainingPane.setVisible(false);
@@ -96,7 +96,7 @@ public class ChooseStats_Dashboard extends Dashboard {
         
         if (checkBoxSettings[1] == true) {
             oneStatDotPlot_OriginalContainingPane.setVisible(true);
-            boot_ChooseStats_Original_DotPlot_DistrView.doTheGraph();
+            chooseStats_Original_DotPlot_DistrView.doTheGraph();
         }
         else {
             oneStatDotPlot_OriginalContainingPane.setVisible(false);
@@ -105,7 +105,7 @@ public class ChooseStats_Dashboard extends Dashboard {
         
         if (checkBoxSettings[2] == true) {
             oneStatHisto_ShiftedContainingPane.setVisible(true);
-            boot_ChooseStats_Shifted_Histo_DistrView.doTheGraph();
+            chooseStats_Shifted_Histo_DistrView.doTheGraph();
         }
         else {
             oneStatHisto_ShiftedContainingPane.setVisible(false);
@@ -114,7 +114,7 @@ public class ChooseStats_Dashboard extends Dashboard {
         
         if (checkBoxSettings[3] == true) {
             oneStatDotPlot_ShiftedContainingPane.setVisible(true);
-            boot_ChooseStats_Shifted_DotPlot_DistrView.doTheGraph();
+            chooseStats_Shifted_DotPlot_DistrView.doTheGraph();
         }
         else {
             oneStatDotPlot_ShiftedContainingPane.setVisible(false);
@@ -123,7 +123,7 @@ public class ChooseStats_Dashboard extends Dashboard {
         
         if (checkBoxSettings[4] == true) {
             oneStatDialogContainingPane.setVisible(true);
-            boot_ChooseStats_DialogView.doTheGraph();
+            chooseStats_DialogView.doTheGraph();
         }
         else {
             oneStatDialogContainingPane.setVisible(false);
@@ -143,7 +143,7 @@ public class ChooseStats_Dashboard extends Dashboard {
         
         initWidth[0] = 450; initHeight[0] = 300;
         sixteenths_across[0] = 1000; sixteenths_down[0] = 100; 
-        boot_ChooseStats_DialogView = new ChooseStats_DialogView(this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
+        chooseStats_DialogView = new ChooseStats_DialogView(this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         
         initWidth[1] = 600; initHeight[1] = 375;
         sixteenths_across[1] = 100; sixteenths_down[1] = 100;
@@ -157,43 +157,43 @@ public class ChooseStats_Dashboard extends Dashboard {
         initWidth[4] = 600; initHeight[4] = 375;
         sixteenths_across[2] = 700; sixteenths_down[2] = 100;
         
-        boot_ChooseStats_Original_Histo_DistrView = new ChooseStats_Histo_DistrView(boot_ChooseStats_Original_DistrModel, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]); 
-        boot_ChooseStats_Original_DotPlot_DistrView = new ChooseStats_DotPlot_DistrView(boot_ChooseStats_Original_DistrModel, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
+        chooseStats_Original_Histo_DistrView = new ChooseStats_Histo_DistrView(chooseStats_Original_DistrModel, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]); 
+        chooseStats_Original_DotPlot_DistrView = new ChooseStats_DotPlot_DistrView(chooseStats_Original_DistrModel, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
    
-        boot_ChooseStats_Shifted_Histo_DistrView = new ChooseStats_Histo_DistrView(boot_ChooseStats_Shifted_DistrModel, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]); 
-        boot_ChooseStats_Shifted_DotPlot_DistrView = new ChooseStats_DotPlot_DistrView(boot_ChooseStats_Shifted_DistrModel, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
+        chooseStats_Shifted_Histo_DistrView = new ChooseStats_Histo_DistrView(chooseStats_Shifted_DistrModel, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]); 
+        chooseStats_Shifted_DotPlot_DistrView = new ChooseStats_DotPlot_DistrView(chooseStats_Shifted_DistrModel, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
 
         
-        boot_Controller.set_Boot_OriginalHisto_DistrView(boot_ChooseStats_Original_Histo_DistrView);
-        boot_Controller.set_Boot_OriginalDotPlot_DistrView(boot_ChooseStats_Original_DotPlot_DistrView);
+        chooseStats_Controller.set_Boot_OriginalHisto_DistrView(chooseStats_Original_Histo_DistrView);
+        chooseStats_Controller.set_Boot_OriginalDotPlot_DistrView(chooseStats_Original_DotPlot_DistrView);
         
-        boot_Controller.set_Boot_ShiftedHisto_DistrView(boot_ChooseStats_Shifted_Histo_DistrView);
-        boot_Controller.set_Boot_ShiftedDotPlot_DistrView(boot_ChooseStats_Shifted_DotPlot_DistrView);
+        chooseStats_Controller.set_Boot_ShiftedHisto_DistrView(chooseStats_Shifted_Histo_DistrView);
+        chooseStats_Controller.set_Boot_ShiftedDotPlot_DistrView(chooseStats_Shifted_DotPlot_DistrView);
         
         // Now finish the construction of the DialogView and DistrView, in that order.
-        boot_ChooseStats_DialogView.continueConstruction();
-        boot_ChooseStats_Original_Histo_DistrView.continueConstruction();
-        boot_ChooseStats_Original_DotPlot_DistrView.continueConstruction();
+        chooseStats_DialogView.continueConstruction();
+        chooseStats_Original_Histo_DistrView.continueConstruction();
+        chooseStats_Original_DotPlot_DistrView.continueConstruction();
         
-        boot_ChooseStats_Shifted_Histo_DistrView.continueConstruction();
-        boot_ChooseStats_Shifted_DotPlot_DistrView.continueConstruction();
+        chooseStats_Shifted_Histo_DistrView.continueConstruction();
+        chooseStats_Shifted_DotPlot_DistrView.continueConstruction();
         
         // Now cross your fingers...
-        boot_ChooseStats_DialogView.completeTheDeal();
-        oneStatDialogContainingPane = boot_ChooseStats_DialogView.getTheContainingPane(); 
+        chooseStats_DialogView.completeTheDeal();
+        oneStatDialogContainingPane = chooseStats_DialogView.getTheContainingPane(); 
         oneStatDialogContainingPane.setStyle(containingPaneStyle);  
 
-        boot_ChooseStats_Original_Histo_DistrView.completeTheDeal();
-        boot_ChooseStats_Original_DotPlot_DistrView.completeTheDeal();
+        chooseStats_Original_Histo_DistrView.completeTheDeal();
+        chooseStats_Original_DotPlot_DistrView.completeTheDeal();
         
-        oneStatHisto_OriginalContainingPane = boot_ChooseStats_Original_Histo_DistrView.getTheContainingPane();   
-        oneStatDotPlot_OriginalContainingPane = boot_ChooseStats_Original_DotPlot_DistrView.getTheContainingPane(); 
+        oneStatHisto_OriginalContainingPane = chooseStats_Original_Histo_DistrView.getTheContainingPane();   
+        oneStatDotPlot_OriginalContainingPane = chooseStats_Original_DotPlot_DistrView.getTheContainingPane(); 
         
-        boot_ChooseStats_Shifted_Histo_DistrView.completeTheDeal();
-        boot_ChooseStats_Shifted_DotPlot_DistrView.completeTheDeal();
+        chooseStats_Shifted_Histo_DistrView.completeTheDeal();
+        chooseStats_Shifted_DotPlot_DistrView.completeTheDeal();
         
-        oneStatHisto_ShiftedContainingPane = boot_ChooseStats_Shifted_Histo_DistrView.getTheContainingPane();   
-        oneStatDotPlot_ShiftedContainingPane = boot_ChooseStats_Shifted_DotPlot_DistrView.getTheContainingPane(); 
+        oneStatHisto_ShiftedContainingPane = chooseStats_Shifted_Histo_DistrView.getTheContainingPane();   
+        oneStatDotPlot_ShiftedContainingPane = chooseStats_Shifted_DotPlot_DistrView.getTheContainingPane(); 
 
         backGround.getChildren().addAll(oneStatHisto_OriginalContainingPane,
                                         oneStatDotPlot_OriginalContainingPane,
@@ -202,12 +202,12 @@ public class ChooseStats_Dashboard extends Dashboard {
                                         oneStatDialogContainingPane);           
     }
     
-    public ChooseStats_Controller get_Boot_Controller() { return boot_Controller; }
-    public ChooseStats_Histo_DistrView get_Boot_ChooseStats_OriginalHisto_DistrView() { return boot_ChooseStats_Original_Histo_DistrView; }
-    public ChooseStats_DotPlot_DistrView get_Boot_ChooseStats_OriginalDotPlot_DistrView() { return boot_ChooseStats_Original_DotPlot_DistrView; }
-    public ChooseStats_Histo_DistrView get_Boot_ChooseStats_ShiftedHisto_DistrView() { return boot_ChooseStats_Shifted_Histo_DistrView; }
-    public ChooseStats_DotPlot_DistrView get_Boot_ChooseStats_ShiftedDotPlot_DistrView() { return boot_ChooseStats_Shifted_DotPlot_DistrView; }
-    public ChooseStats_DialogView get_Boot_ChooseStats_DialogView() { return boot_ChooseStats_DialogView; }  
+    public ChooseStats_Controller get_Boot_Controller() { return chooseStats_Controller; }
+    public ChooseStats_Histo_DistrView get_Boot_ChooseStats_OriginalHisto_DistrView() { return chooseStats_Original_Histo_DistrView; }
+    public ChooseStats_DotPlot_DistrView get_Boot_ChooseStats_OriginalDotPlot_DistrView() { return chooseStats_Original_DotPlot_DistrView; }
+    public ChooseStats_Histo_DistrView get_Boot_ChooseStats_ShiftedHisto_DistrView() { return chooseStats_Shifted_Histo_DistrView; }
+    public ChooseStats_DotPlot_DistrView get_Boot_ChooseStats_ShiftedDotPlot_DistrView() { return chooseStats_Shifted_DotPlot_DistrView; }
+    public ChooseStats_DialogView get_Boot_ChooseStats_DialogView() { return chooseStats_DialogView; }  
     public Data_Manager getDataManager() { return dm; }
 }
 

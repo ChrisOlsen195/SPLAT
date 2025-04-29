@@ -1,6 +1,6 @@
 /**********************0****************************
  *                X2GOF_Dashboard                 *
- *                    09/05/24                    *
+ *                    01/15/25                    *
  *                     15:00                      *
  *************************************************/
 /**************************************************
@@ -9,13 +9,17 @@
 **************************************************/
 package chiSquare.GOF;
 
-import chiSquare.ChiSqPDFView;
+import chiSquare.X2_PDFView;
 import superClasses.Dashboard;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class X2GOF_Dashboard extends Dashboard {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     final String[] gofCheckBoxDescr = {" Chi square \n (Inference)", 
                                  "Print Statistics \n      (basic)", 
                                  "Print Statistics\n   (advanced)", 
@@ -23,7 +27,7 @@ public class X2GOF_Dashboard extends Dashboard {
                                  " Plot of observed\n& expected values"};
 
     // My classes
-    ChiSqPDFView x2PDFView;
+    X2_PDFView x2PDFView;
     X2GOF_Model x2GOF_Model;
     X2GOF_ObsExpView chiSqObsExpView;
     X2GOF_PrintAdvStats gofPrintAdvStats;
@@ -38,7 +42,9 @@ public class X2GOF_Dashboard extends Dashboard {
             
     public X2GOF_Dashboard(X2GOF_Controller x2GOF_Controller, X2GOF_Model x2GOF_Model) {
         super(5);
-        System.out.println("\n41 X2GOF_Dashboard, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("46 *** X2GOF_Dashboard, Constructing");
+        }
         // nCheckBoxes = 5;
         checkBoxDescr = new String[nCheckBoxes];
         
@@ -101,7 +107,7 @@ public class X2GOF_Dashboard extends Dashboard {
     
     public void populateTheBackGround() {
         initWidth[0] = 500;
-        x2PDFView = new ChiSqPDFView(x2GOF_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
+        x2PDFView = new X2_PDFView(x2GOF_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         x2PDFView.completeTheDeal();
         x2PDFContainingPane = x2PDFView.getTheContainingPane(); 
         x2PDFContainingPane.setStyle(containingPaneStyle);

@@ -1,6 +1,6 @@
 /****************************************************************************
  *                    SmartTextFieldChecker                                 * 
- *                           10/15/23                                       *
+ *                           01/16/25                                       *
  *                            12:00                                         *
  ***************************************************************************/
 /****************************************************************************
@@ -17,12 +17,15 @@ import utilityClasses.MyAlerts;
 
 public class SmartTextFieldChecker {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean mb_Negative, mb_NonPositive, mb_NonZero, mb_NonNegative, 
             mb_Positive, mb_Integer, mb_Real, mb_NonBlank, //mb_Blank,
             mb_Probability, mb_PositiveInteger, okToContinue, comingFromEnter, 
             showingAnAlert, checkingForProbability;
 
-    int intIfInt;//, nChangesToIgnore;
+    int intIfInt;
     int startNToIgnore = 4;
     
     double doubleIfDouble, tempDouble;
@@ -30,12 +33,13 @@ public class SmartTextFieldChecker {
     String stringToCheck;
     
     // My classes
-    //SmartTextFieldsController stf_Controller;
     SmartTextFieldHandler stfHandler;
     SmartTextField theSTF;
     
     public SmartTextFieldChecker(SmartTextFieldsController stf_Controller, SmartTextField stf) { 
-        //this.stf_Controller = stf_Controller;
+        if (printTheStuff == true) {
+            System.out.println("41 *** SmartTextFieldChecker, Constructing");
+        }
         theSTF = stf;
         stfHandler = stf_Controller.getSTFHandler();
     } 

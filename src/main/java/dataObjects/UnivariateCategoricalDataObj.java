@@ -1,7 +1,7 @@
 /**************************************************
  *             UnivariateCategoricalDataObj       *
- *                    07/31/24                    *
- *                     18:00                      *
+ *                    01/15/25                    *
+ *                     12:00                      *
  *************************************************/
 package dataObjects;
 
@@ -12,6 +12,10 @@ import java.util.Set;
 
 public class UnivariateCategoricalDataObj {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nLegalValues, nCategories, nUniques;
     int[] observedCounts;
     
@@ -23,7 +27,9 @@ public class UnivariateCategoricalDataObj {
     ArrayList<CatQuantPair> al_CatQuantPairs;
     
     public UnivariateCategoricalDataObj(ColumnOfData colOfData) {
-        //System.out.println("\n26 UnivariateCategoricalDataObj, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("31 *** UnivariateCategoricalDataObj, Constructing");
+        }
         int colSize = colOfData.getColumnSize();
         varLabel = colOfData.getVarLabel();
         str_al_LegalValues = new ArrayList<>();
@@ -49,6 +55,9 @@ public class UnivariateCategoricalDataObj {
     
     
     private void doObservedCounts() {
+        if (printTheStuff == true) {
+            System.out.println("59 --- UnivariateCategoricalDataObj, doObservedCounts()");
+        }
         Map<String, Integer> mapOfStrings = new HashMap<>();
         for (int c = 0; c < nLegalValues; c++) {
             if (mapOfStrings.containsKey(strLegalValues[c])) {

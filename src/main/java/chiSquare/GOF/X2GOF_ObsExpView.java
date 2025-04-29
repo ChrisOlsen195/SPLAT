@@ -1,6 +1,6 @@
 /****************************************************************************
  *                       X2GOF_ObsExpView                                   * 
- *                           09/07/24                                       *
+ *                           01/15/25                                       *
  *                            12:00                                         *
  ***************************************************************************/
 package chiSquare.GOF;
@@ -33,6 +33,8 @@ import javafx.scene.input.KeyCode;
 public class X2GOF_ObsExpView {
     // POJOs
     boolean dragging;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int nCategories;
     int[] observedValues;
@@ -67,7 +69,9 @@ public class X2GOF_ObsExpView {
     public X2GOF_ObsExpView(X2GOF_Model x2GOF_Model, X2GOF_Dashboard x2GOF_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        System.out.println("\n70 X2GPF_ObsExpView, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("73 *** X2GOF_ObsExpView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         
@@ -87,7 +91,9 @@ public class X2GOF_ObsExpView {
     }
     
     public void completeTheDeal() {
-        System.out.println("90  *** X2GPF_ObsExpView, completeTheDeal()");
+        if (printTheStuff == true) {
+            System.out.println("95 --- X2GOF_ObsExpView, completeTheDeal()");
+        }
         initializeGraphParams();
         setUpUI();       
         setUpGridPane();        
@@ -97,7 +103,6 @@ public class X2GOF_ObsExpView {
     }
   
     private void setUpUI() {  
-        System.out.println("100  *** X2GPF_ObsExpView, setUpUI()");
         blueSquare = new Rectangle(10, 10, 15, 15);
         blueSquare.setStroke(Color.BLUE);
         blueSquare.setFill(Color.BLUE);
@@ -119,7 +124,9 @@ public class X2GOF_ObsExpView {
     }
     
     private void setUpGridPane() {
-        System.out.println("122  *** X2GPF_ObsExpView, setUpGridPane()");
+        if (printTheStuff == true) {
+            System.out.println("128  --- X2GOF_ObsExpView, setUpGridPane()");
+        }
         dragableAnchorPane = new DragableAnchorPane();
         canvas_X2GOF_ObjExpView.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
         canvas_X2GOF_ObjExpView.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
@@ -134,7 +141,9 @@ public class X2GOF_ObsExpView {
     }
             
     private void initializeGraphParams() {
-        System.out.println("137  *** X2GPF_ObsExpView, initializeGraphParams()");
+        if (printTheStuff == true) {
+            System.out.println("145  --- X2GOF_ObsExpView, initializeGraphParams()");
+        }
         initial_yMin = 0.0;
         //  Find max observed and expected values for the vertical axis
         initial_yMax = 0.0;
@@ -179,7 +188,9 @@ public class X2GOF_ObsExpView {
     }
 
     public void doTheGraph() {
-        //System.out.println("182  *** X2GOF_ObsExpView, doTheGraph()");
+        if (printTheStuff == true) {
+            System.out.println("192  --- X2GOF_ObsExpView, doTheGraph()");
+        }
         double text1Width = txtTitle.getLayoutBounds().getWidth();
         double hBoxWidth = hBoxObsExt.getWidth();
         double paneWidth = dragableAnchorPane.getWidth();

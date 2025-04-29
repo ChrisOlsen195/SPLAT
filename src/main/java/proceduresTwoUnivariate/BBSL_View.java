@@ -1,7 +1,7 @@
 /****************************************************************************
  *                        BBSL_View                                         * 
- *                        12/06/23                                          *
- *                          00:00                                           *
+ *                        01/16/25                                          *
+ *                          12:00                                           *
  ***************************************************************************/
 package proceduresTwoUnivariate;
 
@@ -26,6 +26,8 @@ import utilityClasses.MyAlerts;
 
 public class BBSL_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;  
     
     boolean[] radioButtonSettings; 
     
@@ -71,7 +73,9 @@ public class BBSL_View {
     public BBSL_View(BBSL_Model bbsl_Model, Explore_2Ind_Dashboard compare2Ind_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("74 BBSL_View, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("77 *** BBSL_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         bbsl_View = this;
@@ -83,7 +87,9 @@ public class BBSL_View {
     public BBSL_View(BBSL_Model bbsl_Model, Indep_t_Dashboard independent_t_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("86 BBSL_View, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("91 *** BBSL_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;    
         this.bbsl_Model = bbsl_Model;
@@ -231,7 +237,7 @@ public class BBSL_View {
                             break;
                             
                             default:
-                                String switchFailure = "Switch failure: BBSL_View 234 " + linePerStemChoice;
+                                String switchFailure = "Switch failure: BBSL_View 240 " + linePerStemChoice;
                                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
                                 return;
                         }
@@ -380,7 +386,9 @@ public class BBSL_View {
     }
     
     private void formatTheTitleInfo() {
-        // The big title at the top?
+        if (printTheStuff == true) {
+            System.out.println("390 --- BBSL_View, formatTheTitleInfo()");
+        } 
         titleText = new Text(10, 20, bbsl_Title);
         titleText.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,16)); 
         strVarName = bbslTitle2;
@@ -394,27 +402,42 @@ public class BBSL_View {
         charsInToVertChar_1 = oneLineBBSL.get(0).indexOf('|');
         charsInToVertChar_2 = twoLineBBSL.get(0).indexOf('|');
         charsInToVertChar_5 = fiveLineBBSL.get(0).indexOf('|');
-        
+        if (printTheStuff == true) {
+            System.out.println("406 --- BBSL_View, bbsl_Title = " + bbsl_Title);
+        }        
         strBBSL_Title_1 = prePendBlanks(charsInToVertChar_1, bbsl_Title);
         strBBSL_Title_2 = prePendBlanks(charsInToVertChar_2, bbsl_Title);
         strBBSL_Title_5 = prePendBlanks(charsInToVertChar_5, bbsl_Title);
-
+        if (printTheStuff == true) {
+            System.out.println("412 --- BBSL_View, strVarName = " + strVarName);
+        } 
         strBBSL_VarName_1 = prePendBlanks(charsInToVertChar_1, strVarName);
         strBBSL_VarName_2 = prePendBlanks(charsInToVertChar_2, strVarName);
         strBBSL_VarName_5 = prePendBlanks(charsInToVertChar_5, strVarName);
-        
+        if (printTheStuff == true) {
+            System.out.println("418 --- BBSL_View, strSLNSize = " + strSLNSize);
+        }         
         strBBSL_NSize_1 = prePendBlanks(charsInToVertChar_1, strSLNSize);
         strBBSL_NSize_2 = prePendBlanks(charsInToVertChar_2, strSLNSize);        
         strBBSL_NSize_5 = prePendBlanks(charsInToVertChar_5, strSLNSize);
-        
+        if (printTheStuff == true) {
+            System.out.println("424 --- BBSL_View, strOrdMag = " + strOrdMag);
+        }         
         strBBSL_OrdMag_1 = prePendBlanks(charsInToVertChar_1, strOrdMag);
         strBBSL_OrdMag_2 = prePendBlanks(charsInToVertChar_2, strOrdMag);
-        strBBSL_OrdMag_5 = prePendBlanks(charsInToVertChar_5, strOrdMag);        
+        strBBSL_OrdMag_5 = prePendBlanks(charsInToVertChar_5, strOrdMag);    
+        if (printTheStuff == true) {
+            System.out.println("430 --- BBSL_View, END formatTheTitleInfo()");
+        } 
     }
     
     public String getSLNSize() { return strSLNSize; }
     
     private String prePendBlanks(int positionOfVertBar, String strToPrePendTo) {
+        if (printTheStuff == true) {
+            System.out.println("438 --- BBSL_View, prePendBlanks, positionOfVertBar = " + positionOfVertBar);
+            System.out.println("439 --- BBSL_View, prePendBlanks, strToPrePendTo = " + strToPrePendTo);
+        }        
         String prePendedString;
         int strLen = strToPrePendTo.length();
         int halfLen = strLen / 2;
@@ -444,11 +467,11 @@ public class BBSL_View {
             //break;
             
             default:
-                String switchFailure = "Switch failure: BBSL_View 447 " + ithIDChosen;
+                String switchFailure = "Switch failure: BBSL_View 470 " + ithIDChosen;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }
         return oneLineStrings2Print; 
-    } //  Happy compiler, happy programmer
+    }
     
     public EventHandler<MouseEvent> daRightClickMouseHandler = new EventHandler<MouseEvent>() 
     {

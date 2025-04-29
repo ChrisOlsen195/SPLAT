@@ -1,7 +1,7 @@
 /**************************************************
  *              X2Dist_Calc_DialogView            *
- *                    11/27/23                    *
- *                     00:00                      *
+ *                    01/16/25                    *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import utilityClasses.StringUtilities;
 import javafx.scene.control.CheckBox;
 import probabilityDistributions.ChiSquareDistribution;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import utilityClasses.DataUtilities;
 import utilityClasses.MyAlerts;
 
@@ -35,6 +35,8 @@ import utilityClasses.MyAlerts;
 public class X2Dist_Calc_DialogView extends ProbCalc_DialogView{
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     boolean dfExists, shadeLeft, shadeRight;
     int init_df = 3;
@@ -52,7 +54,9 @@ public class X2Dist_Calc_DialogView extends ProbCalc_DialogView{
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("55 X2Dist_Calc_DialogView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("58 *** X2Dist_Calc_DialogView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.probCalc_Dashboard = probCalc_Dashboard;
@@ -306,7 +310,7 @@ public class X2Dist_Calc_DialogView extends ProbCalc_DialogView{
     //     df, LeftProb, MidProb, rightProb, LeftStat, rightStat     *
     // ***************************************************************
 
-    public DoublyLinkedSTF getAllTheSTFs() { 
+    public SmartTextFieldDoublyLinkedSTF getAllTheSTFs() { 
         makeAllTheSTFs();
         return al_ProbCalcs_STF;
     }

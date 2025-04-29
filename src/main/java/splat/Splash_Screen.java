@@ -1,7 +1,7 @@
 // **************************************************
 // *                 Splash_Screen                  *
-// *                    10/15/23                    *
-// *                      00:00                     *
+// *                    02/27/25                    *
+// *                      12:00                     *
 // *************************************************/
 package splat;
 
@@ -21,7 +21,7 @@ import javafx.stage.WindowEvent;
 public class Splash_Screen {
     
     public void ShowHello(String versText) {
-        
+        //System.out.println("24 Splash_Screen");
         Label title1 = new Label("SPLAT");
         title1.getStyleClass().add("dialogTitle");
         Label title2 = new Label("Statistical Package for Learning and Teaching");
@@ -45,10 +45,7 @@ public class Splash_Screen {
         VBox mainPanel = new VBox();
         mainPanel.getChildren().addAll(txtPanel, buttonPanel);
         Scene introScene = new Scene(mainPanel);
-        //String css = StatsHomework.class.getResource("Splash_Screen.css").toExternalForm();
-        //introScene.getStylesheets().add(css);
-        Stage introStage = new Stage();
-        //introStage.getIcons().add(new Image(getClass().getResource("Stats_Homework.png").toExternalForm()));        
+        Stage introStage = new Stage();        
         introStage.setScene(introScene);
         
         closeButton.setOnAction((ActionEvent event) -> { 

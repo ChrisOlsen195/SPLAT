@@ -1,7 +1,7 @@
 /**************************************************
  *                   YesNoAlert                   *
- *                    09/13/24                    *
- *                      21:00                     *
+ *                    02/15/25                    *
+ *                      12:00                     *
  *************************************************/
 package utilityClasses;
 
@@ -32,7 +32,7 @@ public class YesNoAlert extends Stage {
            alertHeaderBoxWidth, alertHeaderBoxHeight, 
            alertContextBoxWidth;
     
-    String yesOrNo;
+    String theYes, theNo, theYesOrNo;
     
     // FX classes
     Button btnYes, btnNo;
@@ -46,7 +46,8 @@ public class YesNoAlert extends Stage {
     Text txtAlertTitle, txtAlertHeader, txtAlertContext;
     VBox root;
      
-    public YesNoAlert(String strAlertTitle,
+    public YesNoAlert(String theYes, String theNo,
+                      String strAlertTitle,
                       String strAlertHeader,
                       String strAlertContext,   
                       String imagePath,
@@ -56,7 +57,9 @@ public class YesNoAlert extends Stage {
                       double imageOffSetY,
                       int horizImageSpace,
                       int fitWidth) {
-
+        this.theYes = theYes;
+        this.theNo = theNo;
+        
         alertTitleFont = Font.font("Times New Roman", FontWeight.BOLD, 18);
         alertHeaderFont = Font.font("Times New Roman", FontWeight.BOLD, 18);
         alertContextFont = Font.font("Times New Roman", FontWeight.BOLD, 18);
@@ -97,26 +100,29 @@ public class YesNoAlert extends Stage {
         imageView.setTranslateX(imageOffSetX);    //  Works
         imageView.setTranslateY(imageOffSetY);    //  Works
 
-        btnYes  = new Button("You betcha!");
+        btnYes  = new Button(theYes);
         btnYes.setStyle("-fx-text-fill: red;");
-        btnYes.setOnAction(e -> 
-            { 
-                yesOrNo = "Yes";
-                alertStage.close();
-            });
+        btnYes.setOnAction(e -> { 
+            theYesOrNo = "Yes";
+            alertStage.hide();
+        });
+        
         btnYes.setPadding(new Insets(10, 20, 10, 20));
         btnYes.setFont(alertContextFont);
-
-        btnNo  = new Button("Not hardly!");
+        btnNo  = new Button(theNo);
         btnNo.setStyle("-fx-text-fill: red;");
-        btnNo.setOnAction(e -> 
-            { 
-                yesOrNo = "No";
-                alertStage.close();
-            });
+        
+        btnNo.setOnAction(e -> { 
+            theYesOrNo = "No";
+            alertStage.hide();
+        });
         btnNo.setPadding(new Insets(10, 20, 10, 20));
         btnNo.setFont(alertContextFont);
-        yesOrNo = "No";
+        
+        setOnCloseRequest((WindowEvent we) -> {
+            theYesOrNo = "Cancel";
+            alertStage.hide();
+        });        
         
         spacer = new Region[5];
         for (int ithSpacer = 0; ithSpacer < 5; ithSpacer++) {
@@ -150,5 +156,5 @@ public class YesNoAlert extends Stage {
         alertStage.showAndWait();
     }
     
-    public String getYesOrNo() { return yesOrNo; }
+    public String getYesOrNo() { return theYesOrNo; }
 }

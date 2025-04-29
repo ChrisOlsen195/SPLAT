@@ -1,13 +1,13 @@
 /************************************************************
  *                    Univ_Quant_Controller                 *
- *                          12/06/23                        *
- *                            12:00                         *
+ *                          02/17/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package proceduresOneUnivariate;
 
 import proceduresManyUnivariate.VerticalBoxPlot_Model;
 import proceduresManyUnivariate.HorizontalBoxPlot_Model;
-import dialogs.ExploreUniv_Dialog;
+import dialogs.Explore_Univ_Dialog;
 import dataObjects.ColumnOfData;
 import dataObjects.QuantitativeDataVariable;
 import java.util.ArrayList;
@@ -25,11 +25,10 @@ public class Univ_Quant_Controller {
     
     // My classes
     ColumnOfData columnOfData;
-    CumulativeFrequency_Model cumulativeFrequency_Model;
     Data_Manager dm;
     DotPlot_Model dotPlotModel; 
     private Exploration_Dashboard exploration_Dashboard;
-    ExploreUniv_Dialog exploreUniv_Dialog;
+    Explore_Univ_Dialog exploreUniv_Dialog;
     Histogram_Model histogram_Model;
     HorizontalBoxPlot_Model hBoxPlotModel;
     NormProb_Model normProbModel;
@@ -43,12 +42,12 @@ public class Univ_Quant_Controller {
     public Univ_Quant_Controller(Data_Manager dm, String strDataType) {
         this.dm = dm;
         this.strDataType = strDataType;
-        dm.whereIsWaldo(43, waldoFile, "Constructing");
+        dm.whereIsWaldo(46, waldoFile, "Constructing");
     }  
         
     // Called by MainMenu
     public String doTheQuantitativeProcedure() {
-        dm.whereIsWaldo(49, waldoFile, "doTheQuantitativeProcedure()");
+        dm.whereIsWaldo(51, waldoFile, "doTheQuantitativeProcedure()");
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
@@ -60,7 +59,7 @@ public class Univ_Quant_Controller {
             MyAlerts.showLongTimeComingWarning();
         }
         
-        exploreUniv_Dialog = new ExploreUniv_Dialog(dm, strDataType);
+        exploreUniv_Dialog = new Explore_Univ_Dialog(dm, strDataType);
         exploreUniv_Dialog.showAndWait();
         returnStatus = exploreUniv_Dialog.getReturnStatus();
         
@@ -104,7 +103,6 @@ public class Univ_Quant_Controller {
         dotPlotModel = new DotPlot_Model(descriptionOfVar, theQDV);
         hBoxPlotModel = new HorizontalBoxPlot_Model(descriptionOfVar, theQDV);
         vBoxModel = new VerticalBoxPlot_Model(descriptionOfVar, theQDV); 
-        cumulativeFrequency_Model = new CumulativeFrequency_Model(descriptionOfVar, theQDV);
         exploration_Dashboard = new Exploration_Dashboard(this, theQDV); 
         dm.whereIsWaldo(109, waldoFile, "end PrepareQuantitativeStructs()");
         return true;
@@ -117,7 +115,6 @@ public class Univ_Quant_Controller {
     public DotPlot_Model getDotPlotModel()  { return dotPlotModel; }
     public HorizontalBoxPlot_Model getHBoxModel() { return hBoxPlotModel; }
     public VerticalBoxPlot_Model getVBoxModel() { return vBoxModel; }  
-    public CumulativeFrequency_Model getOgiveModel() { return cumulativeFrequency_Model; }
     public PrintUStats_Model getPrintUStatsModel() { return printUStats_Model; }
     public Data_Manager getDataManager() { return dm; }
     public String getDescriptionOfVariable() {return descriptionOfVar; }

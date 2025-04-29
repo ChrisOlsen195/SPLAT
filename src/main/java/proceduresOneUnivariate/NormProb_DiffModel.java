@@ -1,7 +1,7 @@
 /**************************************************
  *              NormProb-DiffModel                *
- *                    11/01/23                    *
- *                     21:00                      *
+ *                    01/16/25                    *
+ *                     12:00                      *
  *************************************************/
 package proceduresOneUnivariate;
 
@@ -11,6 +11,9 @@ import genericClasses.Transformations_Calculations;
 public class NormProb_DiffModel {
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nLegalDataPoints;
     
     double rawMean, rawStDev;
@@ -27,7 +30,9 @@ public class NormProb_DiffModel {
     public NormProb_DiffModel() { }
     
     public NormProb_DiffModel(String subTitle, QuantitativeDataVariable qdv_Data) {
-        //System.out.println("30 NormProb_DiffModel, constructing");
+        if (printTheStuff == true) {
+            System.out.println("34 *** NormProb_DiffModel, Constructing");
+        }
         this.subTitle = subTitle;
         qdv = qdv_Data;
         rawDataLabel = qdv.getTheVarLabel();

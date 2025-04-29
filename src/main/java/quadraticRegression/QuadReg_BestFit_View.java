@@ -1,7 +1,7 @@
 /**************************************************
  *               QuadReg_BestFit_View             *
- *                    02/19/24                    *
- *                      15:00                     *
+ *                    01/16/25                    *
+ *                      12:00                     *
  *************************************************/
 package quadraticRegression;
 
@@ -26,6 +26,9 @@ import probabilityDistributions.*;
 
 public class QuadReg_BestFit_View extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     double outlierCircleRadius, influenceTrigger, leverageTrigger, 
            sqrRootOfTwoOverTwo, min_X, max_X, delta_X;  
     
@@ -44,7 +47,9 @@ public class QuadReg_BestFit_View extends BivariateScale_W_CheckBoxes_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("43 QuadReg_BestFit_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("51 *** QuadReg_BestFit_View, Constructing");
+        }
         X = quadReg_Model.getXVar();
         Y = quadReg_Model.getY();
 

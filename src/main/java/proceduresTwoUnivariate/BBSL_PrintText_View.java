@@ -15,7 +15,7 @@ public class BBSL_PrintText_View extends PrintTextReport_View {
                              double placeHoriz, double placeVert,
                              double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        System.out.println("18 BBSL_PrintText_View, constructing");
+        //System.out.println("18 BBSL_PrintText_View, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         stringsToPrint = bbsl_View.getTheDesiredBBSL();

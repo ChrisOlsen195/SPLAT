@@ -12,13 +12,13 @@ public class Logistic_StandardReport_View extends PrintTextReport_View {
     // POJOs
     
     // Make empty if no-print
-    String waldoFile = "Logistic_StandardReport_View";
-    //String waldoFile = ""; 
+    //String waldoFile = "Logistic_StandardReport_View";
+    String waldoFile = ""; 
     
     // My classes
     Data_Manager dm;
    
-    public Logistic_StandardReport_View(LogisticReg_Model logistic_Model,  Logistic_Dashboard logistic_Dashboard,
+    public Logistic_StandardReport_View(Logistic_Model logistic_Model,  Logistic_Dashboard logistic_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);

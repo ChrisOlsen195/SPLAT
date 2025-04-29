@@ -1,7 +1,7 @@
 /**************************************************
  *         Single_t_SummaryStats_Controller       *
- *                    09/13/24                    *
- *                     21:00                      *
+ *                    02/15/25                    *
+ *                     09:00                      *
  *************************************************/
 package the_t_procedures;
 
@@ -10,6 +10,9 @@ import utilityClasses.MyYesNoAlerts;
 
 public class Single_t_SumStats_Controller {
     // POJOs
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     String returnStatus, yesOrNo;
     
     // My classes
@@ -19,12 +22,17 @@ public class Single_t_SumStats_Controller {
     Single_t_SumStats_Dashboard single_t_SumStats_Dashboard;
 
     public Single_t_SumStats_Controller(/* Data_Manager dataManager */) {
-        System.out.println("n22 Single_t_SummaryStats_Controller, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("26 *** Single_t_SumStats_Controller, Constructing");
+        }
         myYesNoAlerts = new MyYesNoAlerts();
         returnStatus = "OK";
     }
     
     public String doTheControllerThing() {
+        if (printTheStuff == true) {
+            System.out.println("34 --- Single_t_SumStats_Controller, doTheControllerThing()");
+        }
         yesOrNo = "Yes";
         
         while (yesOrNo.equals("Yes")) {
@@ -46,6 +54,9 @@ public class Single_t_SumStats_Controller {
     } 
     
     public String showTheDashboard() {
+        if (printTheStuff == true) {
+            System.out.println("58 --- Single_t_SumStats_Controller, showTheDashboard()");
+        }
         returnStatus = "OK";
         single_t_SumStats_Dashboard.populateTheBackGround();
         single_t_SumStats_Dashboard.putEmAllUp();
@@ -54,7 +65,7 @@ public class Single_t_SumStats_Controller {
         return returnStatus;           
     }
     
-    public Single_t_SumStats_Model getSingle_t_SumStats_Model() { 
+    public Single_t_SumStats_Model getSingle_t_SumStats_Model() {
         return single_t_SummaryStats_Model; 
     }
     public String getReturnStatus() { return returnStatus; }

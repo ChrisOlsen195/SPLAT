@@ -1,7 +1,7 @@
 /****************************************************************************
  *                        UnivCat_Model                                     *
- *                           11/01/23                                       *
- *                            12:00                                         *
+ *                           02/16/25                                       *
+ *                            18:00                                         *
  ***************************************************************************/
 package univariateProcedures_Categorical;
 
@@ -13,33 +13,23 @@ import splat.Data_Manager;
 
 public class UnivCat_Model {
     //POJOs
-    //boolean summaryObjectReturned, dataIsFromFile, cleanReturn, hasLeftTailStat, 
-    //        hasRightTailStat, dataAreClean;
     
-    int nCategories;; //, nStringsInOriginalData, nUniques;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
+    int nCategories;
     int[] observedCounts, observedCountsFromFile;
     
     double observedTotal, cohens_W;
-    double[] /*expectedProps, residuals, expectedValues, chiSquareContribution, 
-             resids, standResids, expectedProportions,*/ observedProps;
+    double[] observedProps;
     
-    String /*dataSource,*/ descriptionOfVariable, returnStatus; //, sourceString, tempString ;
-    String[] /*observedValuesFromFile,*/ categoriesAsStrings; 
+    String descriptionOfVariable, strReturnStatus; //, sourceString, tempString ;
+    String[] categoriesAsStrings; 
     ObservableList<String> categoryLabels;
-    //static ArrayList<String> stringsToPrint;
     
     // My objects
-    //ColumnOfData colOfData;
-    //StringUtilities myStringUtilities;
     UnivariateCategoricalDataObj univCatDataObj;
-    //UnivCat_Dashboard univCatDashboard;
-    //UnivCat_DataByHandDialog univCat_DataByHandDialog;
     UnivCat_DataFromFileDialog univCat_DataFromFileDialog;
-    //UnivCat_DataDialogObj univCat_DataDialogObj;  
-    //UnivCat_FreqDistr univCat_FreqDistr;
-    //UnivCat_RelFreqDistr univCat_RelFreqDistr;
-    //UnivCat_PrintStats gof_PrintStats;
-    //UnivCat_Controller univCat_procedure;
     Data_Manager dm;
 
 /*******************************************************************************
@@ -51,10 +41,13 @@ public class UnivCat_Model {
     public String doUnivCat_FromFile(UnivCat_Controller univCat_Controller) {
         dm = univCat_Controller.getDataManager();
         createUnivCatDialog_FromFile();
-        if (!returnStatus.equals("OK")) {
-            returnStatus = "Cancel";
+        if (printTheStuff == true) {
+            System.out.println("45 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
+        }  
+        if (!strReturnStatus.equals("OK")) {
+            strReturnStatus = "Cancel";
         }
-        return returnStatus;
+        return strReturnStatus;
     }  
 
 /******************************************************************************
@@ -65,11 +58,20 @@ public class UnivCat_Model {
         // The 'categorical' is needed due to access to OneVarDialog
         univCat_DataFromFileDialog = new UnivCat_DataFromFileDialog(dm, "Categorical");
         univCat_DataFromFileDialog.showAndWait();
-        returnStatus = univCat_DataFromFileDialog.getReturnStatus();
-        if (returnStatus.equals("OK")) {
+        strReturnStatus = univCat_DataFromFileDialog.getReturnStatus();
+        if (printTheStuff == true) {
+            System.out.println("63 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
+        }  
+        if (!strReturnStatus.equals("OK")) { return "Cancel"; }
+        
+        if (strReturnStatus.equals("OK")) {
             int thisCol = univCat_DataFromFileDialog.getVarIndex();   
             ColumnOfData col_x = dm.getAllTheColumns().get(thisCol);
             col_x.cleanTheColumn(dm, thisCol);
+            strReturnStatus = col_x.getReturnStatus();
+            if (printTheStuff == true) {
+                System.out.println("73 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
+            }             
             univCatDataObj = new UnivariateCategoricalDataObj(col_x); 
             nCategories = univCatDataObj.getNUniques();          
             categoriesAsStrings = new String[nCategories]; 
@@ -90,9 +92,12 @@ public class UnivCat_Model {
            }
            
            descriptionOfVariable = univCat_DataFromFileDialog.getDescriptionOfVariable();
+            if (printTheStuff == true) {
+                System.out.println("96 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
+            } 
        }
         
-        return returnStatus;
+        return strReturnStatus;
     }
     
     public Data_Manager getDataManager() { return dm; }
@@ -109,7 +114,7 @@ public class UnivCat_Model {
     public int[] getObservedCountsFromFile() { return observedCountsFromFile; }         
     public double getObservedTotal() { return observedTotal; }
     public double getCohensW() {return cohens_W; }    
-    public String getReturnStatus() { return returnStatus; }    
+    public String getReturnStatus() { return strReturnStatus; }    
 }
 
 

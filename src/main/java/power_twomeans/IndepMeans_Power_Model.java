@@ -1,9 +1,8 @@
 /**************************************************
  *           IndepMeans_Power_Model               *
- *                  05/29/24                      *
- *                    18:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
-
 package power_twomeans;
 
 import genericClasses.Point_2D;
@@ -12,6 +11,9 @@ import java.util.ArrayList;
 import utilityClasses.*;
 
 public class IndepMeans_Power_Model {
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int n_1, n_2, archived_n_1, archived_n_2;
     
@@ -20,9 +22,7 @@ public class IndepMeans_Power_Model {
            nullSigma_2, lowerLimit, upperLimit, loCum, hiCum, var_1, var_2, 
            archivedNullMeanDiff, archivedNullSigma_1, archivedNullSigma_2, 
            archivedAltMeanDiff, archivedAlpha, archivedEffectSize; 
-    
-    //double dbl_sampleSize_1, dbl_sampleSize_2;
-    
+
     Point_2D nonRejectionRegion;
     String rejectionCriterion, sourceString, printedNullHypoth, printedAltHypoth;    
     
@@ -31,6 +31,9 @@ public class IndepMeans_Power_Model {
     IndepMeans_Power_Controller indepMeans_Power_Controller;
     
     public IndepMeans_Power_Model(IndepMeans_Power_Controller iMPC) {
+        if (printTheStuff == true) {
+            System.out.println("35 *** IndepMeans_Power_Model, Constructing");
+        }
         this.indepMeans_Power_Controller = iMPC;
         powerReport = new ArrayList();
     }

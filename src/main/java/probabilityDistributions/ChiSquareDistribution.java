@@ -86,18 +86,4 @@ public class ChiSquareDistribution
         //gammaDist = new GammaDistribution(dbl_df / 2., 0.5);
         chi2Distr = new ChiSquare(dbl_df);
     }
-    
-    /*
-   public double generateRandom()
-    {
-        aNormal = new StandardNormal();
-        double randChiSquare = 0.0;
-        for (int i = 1; i<= df; i++)
-        {
-            double aUnitNormal = aNormal.generateRandom();
-            randChiSquare += aUnitNormal * aUnitNormal;
-        }
-        return randChiSquare;
-    } 
-    */
 }

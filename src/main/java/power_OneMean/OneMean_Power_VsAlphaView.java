@@ -1,7 +1,7 @@
 /**************************************************
  *          OneMean_Power_VsAlphaView             *
- *                  07/06/24                      *
- *                    18:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_OneMean;
 
@@ -26,7 +26,9 @@ import javafx.scene.input.KeyCode;
 
 public class OneMean_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
-
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int sampleSize;
 
     double yMin, yMax, effectSize;
@@ -44,7 +46,9 @@ public class OneMean_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("\n47 OneMean_Power_VsAlphaView");
+        if (printTheStuff == true) {
+            System.out.println("50 *** OneMean_Power_VsAlphaView, Constructing");
+        }
         this.oneMean_Power_Model = oneMean_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;

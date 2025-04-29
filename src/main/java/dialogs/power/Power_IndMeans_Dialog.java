@@ -1,7 +1,7 @@
 /************************************************************
  *                   Power_IndMeans_Dialog                  *
- *                          05/29/24                        *
- *                            21:00                         *
+ *                          01/15/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package dialogs.power;
 
@@ -29,6 +29,10 @@ import utilityClasses.MyAlerts;
 public class Power_IndMeans_Dialog extends Stage { 
     
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean okToContinue, valuesLeftBlank, 
             bool_N1Good, bool_N2Good, bool_Sigma1Good,
             bool_Sigma2Good, bool_EffectSizeGood;
@@ -66,7 +70,7 @@ public class Power_IndMeans_Dialog extends Stage {
     
     // My classes
     SmartTextFieldsController stf_Controller;
-    DoublyLinkedSTF al_STF; 
+    SmartTextFieldDoublyLinkedSTF al_STF; 
  
     // JavaFX POJOs
     Button changeNull, okButton, cancelButton, resetButton;;
@@ -95,7 +99,9 @@ public class Power_IndMeans_Dialog extends Stage {
          txt_EffectSize;
     
     public Power_IndMeans_Dialog() {
-        System.out.println("\n98 Power_IndMeans_Dialog, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("103 *** Power_IndMeans_Dialog, Constructing");
+        }
         theAlphaLevels = new double[] { 0.10, 0.05, 0.01};
 
         sep = new Separator();

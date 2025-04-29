@@ -1,7 +1,7 @@
 /************************************************************
  *                     OneProp_Inf_CI_View                  *
- *                          02/19/24                        *
- *                            15:00                         *
+ *                          01/16/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package the_z_procedures;
 
@@ -36,6 +36,9 @@ import javafx.scene.input.KeyCode;
 
 public class OneProp_Inf_CI_View extends Region {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean dragging;
     
     double initial_xMin, initial_xMax, initial_xRange, xMin, xMax, xRange,
@@ -72,7 +75,9 @@ public class OneProp_Inf_CI_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight)  
     {
-        //System.out.println("72 OneProp_Inf_CI_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("79 *** OneProp_Inf_CI_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.oneProp_Inf_Model = oneProp_Inf_Model;

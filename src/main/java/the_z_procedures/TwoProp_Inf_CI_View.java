@@ -1,7 +1,7 @@
 /************************************************************
  *                     TwoProp_Inf_CI_View                  *
- *                          02/19/24                        *
- *                            15:00                         *
+ *                          01/16/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package the_z_procedures;
 
@@ -36,6 +36,9 @@ import javafx.scene.input.KeyCode;
 
 public class TwoProp_Inf_CI_View extends Region {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean dragging;
 
     double initial_xMin, initial_xMax, initial_xRange, xMin, xMax, xRange,
@@ -71,6 +74,9 @@ public class TwoProp_Inf_CI_View extends Region {
     public TwoProp_Inf_CI_View(TwoProp_Inf_Model twoProp_Inf_Model, TwoProp_Inf_Dashboard twoProp_Inf_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
+        if (printTheStuff == true) {
+            System.out.println("78 *** TwoProp_Inf_CI_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.twoProp_Inf_Model = twoProp_Inf_Model;

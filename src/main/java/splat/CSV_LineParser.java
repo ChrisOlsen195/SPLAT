@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class CSV_LineParser 
 {
-
     public CSV_LineParser(char sep) 
     {
         fieldSep = sep;

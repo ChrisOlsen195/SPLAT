@@ -1,11 +1,11 @@
 /************************************************************
- *                   NoInt_Regr_Controller                  *
- *                          11/01/23                        *
- *                            15:00                         *
+ *                 NoIntercept_Regr_Controller              *
+ *                          02/11/25                        *
+ *                            09:00                         *
  ***********************************************************/
 package noInterceptRegression;
 
-import dialogs.regression.Regression_Dialog;
+import dialogs.regression.Regr_Dialog;
 import dataObjects.BivariateContinDataObj;
 import dataObjects.ColumnOfData;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class NoIntercept_Regr_Controller {
     // POJOs
     private String explanatoryVariable, responseVariable, subTitle, saveTheResids, returnStatus;
     
-    String waldoFile = "NoInt_Regr_Controller";
+    String waldoFile = "NoIntercept_Regr_Controller";
     //String waldoFile = "";
     
     // My classes
@@ -46,7 +46,7 @@ public class NoIntercept_Regr_Controller {
                 return "Cancel";
             }
             
-            Regression_Dialog regressionDialog = new Regression_Dialog(dm, "QUANTITATIVE", "One parameter linear regression");
+            Regr_Dialog regressionDialog = new Regr_Dialog(dm, "QUANTITATIVE", "One parameter linear regression");
 
             regressionDialog.showAndWait();
             returnStatus = regressionDialog.getReturnStatus();

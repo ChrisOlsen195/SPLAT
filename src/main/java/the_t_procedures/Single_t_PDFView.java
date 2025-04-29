@@ -60,7 +60,7 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         dm = single_t_Model.getDataManager();
-        dm.whereIsWaldo(59, waldoFile, "Constructing");        
+        dm.whereIsWaldo(59, waldoFile, "*** Constructing");        
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         

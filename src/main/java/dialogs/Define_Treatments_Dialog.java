@@ -1,6 +1,6 @@
 /*******************************************************************************
  *                 Define_Treatments_Dialog                                    *
- *                        05/26/24                                             *
+ *                        01/15/25                                             *
  *                         15:00                                               *
  ******************************************************************************/
 package dialogs;
@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import randomAssignment.RandomAssignment_Controller;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import smarttextfield.SmartTextFieldsController;
 import utilityClasses.MyAlerts;
 
@@ -29,6 +29,10 @@ public class Define_Treatments_Dialog extends Splat_Dialog {    //  which extend
 *          Define the return object and any necessary ancillary variables.     *
 *******************************************************************************/
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean designIsOK, blocksAreComplete, uniqueCategories, blankTreatments;
     int nTreatments, nSubjects;
     RandomAssignment_Controller randomAssignment_Controller;
@@ -37,7 +41,7 @@ public class Define_Treatments_Dialog extends Splat_Dialog {    //  which extend
     String[] daTreats;
     
     SmartTextFieldsController stf_VarDef_Controller, stf_Treatments_Controller;
-    DoublyLinkedSTF al_VarDef_STF, al_Treatments_STF;
+    SmartTextFieldDoublyLinkedSTF al_VarDef_STF, al_Treatments_STF;
     
     // FX
     Button btnOkToAssignTreatments, btnCancelTreatAssignment,
@@ -54,7 +58,9 @@ public class Define_Treatments_Dialog extends Splat_Dialog {    //  which extend
     
     public Define_Treatments_Dialog(RandomAssignment_Controller randomAssignmentController) {
         super();
-        //System.out.println("57 Define_Treatments_Dialog, constructing");
+        if (printTheStuff == true) {
+            System.out.println("62 *** Define_Treatments_Dialog, Constructing");
+        }
         this.randomAssignment_Controller = randomAssignmentController;
         theDesign = randomAssignmentController.getTheDesign();
         nSubjects = randomAssignmentController.getNSubjects();
@@ -242,7 +248,6 @@ public class Define_Treatments_Dialog extends Splat_Dialog {    //  which extend
     
     private boolean checkForUniqueCategories() {
         // Unique is necessary for Category Axis
-        
         for (int ithTreat = 0; ithTreat < nTreatments - 1; ithTreat++) {    
             
             for (int jthTreat = ithTreat + 1; jthTreat < nTreatments; jthTreat++) {

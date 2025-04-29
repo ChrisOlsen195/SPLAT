@@ -1,7 +1,7 @@
 /**************************************************
  *             ChooseStats_DialogView             *
- *                    04/17/24                    *
- *                     12:00                      *
+ *                    02/24/25                    *
+ *                     09:00                      *
  *************************************************/
 
 package bootstrapping;
@@ -14,7 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.CheckBox;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 
 /***************************************************************
  *     STFs and dbl_STFs are:                                  *
@@ -31,34 +31,32 @@ import smarttextfield.DoublyLinkedSTF;
 public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
 
     // Make empty if no-print
-    String waldoFile = "ChooseStats_DialogView";
-    //String waldoFile = "";
+    //String waldoFile = "ChooseStats_DialogView";
+    String waldoFile = "";
 
     // FX classes
 
     // My classes
-    //ChooseStats_Controller chooseStats_Controller;
-    ChooseStats_DistrModel chooseStats_OriginalDistrModel;
-    ChooseStats_DistrModel chooseStats_ShiftedDistrModel;
+    ChooseStats_DistrModel chooseStats_OriginalDistrModel,
+                           chooseStats_ShiftedDistrModel;
     ChooseStats_Histo_DistrView chooseStats_OriginalDistrView,
                                 chooseStats_ShiftedDistrView;  
-    ChooseStats_DotPlot_DistrView chooseStats_DotPlot_OriginalDistrView;
-    ChooseStats_DotPlot_DistrView chooseStats_DotPlot_ShiftedDistrView;
+    ChooseStats_DotPlot_DistrView chooseStats_DotPlot_OriginalDistrView,
+                                  chooseStats_DotPlot_ShiftedDistrView;
 
     public ChooseStats_DialogView(ChooseStats_Dashboard chooseStats_Dashboard,
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(chooseStats_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight);  
-        System.out.println("\n52 ChooseStats_DialogView, Constructing");
         chooseStats_Controller = chooseStats_Dashboard.get_Boot_Controller();
         dm = chooseStats_Controller.getTheDataManager();
-        dm.whereIsWaldo(54, waldoFile, "Constructing"); 
+        dm.whereIsWaldo(53, waldoFile, "Constructing"); 
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
     }    
         
     public void continueConstruction() {    
-        dm.whereIsWaldo(60, waldoFile, "continueConstruction()");
+        dm.whereIsWaldo(59, waldoFile, "continueConstruction()");
         chooseStats_Controller.set_Boot_DialogView(this);
         
         chooseStats_OriginalDistrView = chooseStats_Controller.get_Boot_OriginalHisto_DistrView();
@@ -198,7 +196,7 @@ public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
     }    
     
     public void makeANewGraph() {
-        dm.whereIsWaldo(200, waldoFile, "makeANewGraph()");
+        dm.whereIsWaldo(199, waldoFile, "makeANewGraph()");
         chooseStats_OriginalDistrView.respondToChanges();
         chooseStats_OriginalDistrView.doTheGraph();  
         
@@ -217,7 +215,7 @@ public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
     
     @Override
     public void constructGraphStatus() {
-        dm.whereIsWaldo(219, waldoFile, "constructGraphStatus()");
+        dm.whereIsWaldo(218, waldoFile, "constructGraphStatus()");
         shadeLeft = chooseStats_OriginalDistrModel.get_ShadeLeft();
         shadeRight = chooseStats_OriginalDistrModel.get_ShadeRight(); 
         
@@ -238,7 +236,7 @@ public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
     // ***************************************************************
     // dbl_Left_Prob, dbl_Mid_Prob, rightProb, dbl_Left_Middle_Boundary, rightStat  *
     // ***************************************************************
-    public DoublyLinkedSTF getAllTheSTFs() { return al_STF; }
+    public SmartTextFieldDoublyLinkedSTF getAllTheSTFs() { return al_STF; }
     
     public ChooseStats_DialogView getBootstrapOneStat_DialogView () {
         return this; 

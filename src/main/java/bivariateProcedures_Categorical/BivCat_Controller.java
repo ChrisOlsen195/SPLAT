@@ -1,7 +1,7 @@
 /************************************************************
  *                      BivCat_Controller                  *
- *                          08/19/24                        *
- *                            00:00                         *
+ *                          03/22/25                        *
+ *                            21:00                         *
  ***********************************************************/
 package bivariateProcedures_Categorical;
 
@@ -55,17 +55,24 @@ public class BivCat_Controller {
     public String doAssoc_FromFile(Data_Manager dm) {
         this.dm = dm;
         dm.whereIsWaldo(57, waldoFile, "doAssoc_FromFile");
-        strReturnStatus = "";
+        int casesInStruct = dm.getNCasesInStruct();
+        if (casesInStruct == 0) {
+            MyAlerts.showAintGotNoDataAlert();
+            strReturnStatus = "Cancel";
+            return strReturnStatus;
+        }
+        strReturnStatus = "OK";
         
-        BivCat_Dialog x2Assoc_Dialog = new BivCat_Dialog(dm, "BivCatAssocFromFile");
-        x2Assoc_Dialog.showAndWait();
+        BivCat_Dialog bivCat_Dialog = new BivCat_Dialog(dm, "BivCatAssocFromFile");
+        bivCat_Dialog.showAndWait();
 
-        strReturnStatus = x2Assoc_Dialog.getReturnStatus();
+        strReturnStatus = bivCat_Dialog.getReturnStatus();
         if (strReturnStatus.equals(OK)) {
-            xDescr = x2Assoc_Dialog.getPreferredFirstVarDescription();
-            yDescr = x2Assoc_Dialog.getPreferredSecondVarDescription();
+            xDescr = bivCat_Dialog.getXLabel();
+            yDescr = bivCat_Dialog.getYLabel();
+            System.out.println("73 BivCat_Controller, x/yDescr = " + xDescr + " / " + yDescr);
             bivCatDataObj = new BivariateCategoricalDataObj(dm, xDescr, 
-            yDescr, x2Assoc_Dialog.getData());
+            yDescr, bivCat_Dialog.getData());
             outData = new ArrayList();
             outData = bivCatDataObj.getLegalColumns(); // Missing data deleted
             bivCat_Model = new BivCat_Model(this, assocType);

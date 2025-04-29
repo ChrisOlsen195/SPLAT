@@ -1,7 +1,7 @@
 /************************************************************
  *                  Transformations_Calculations            *
- *                          12/09/23                        *
- *                            12:00                         *
+ *                          01/15/25                        *
+ *                            18:00                         *
  ***********************************************************/
 /************************************************************
  *  Note: Not all calculations below take string arrays.    *
@@ -22,6 +22,8 @@ import utilityClasses.MyAlerts;
 
 public class Transformations_Calculations {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     int nOriginalDataPoints;
     int nLegalDoubles;
     double tempDouble;
@@ -38,12 +40,16 @@ public class Transformations_Calculations {
     QuantitativeDataVariable qdv;
     
    public Transformations_Calculations() { 
-       //System.out.println("41 TramsCalc, constructing");
+        if (printTheStuff == true) {
+            System.out.println("44 *** Transformations_Calculations, Constructing");
+        }
         missingData = "*";
    }
    
    public String[] linearTransformation(ArrayList<String> var_1_Data, double alphaValue, double betaValue) {
-       //System.out.println("46 TramsCalc, constructing, linearTransformation");
+        if (printTheStuff == true) {
+            System.out.println("51 --- Transformations_Calculations, linearTransformation");
+        }
         nOriginalDataPoints =  var_1_Data.size();
         strTransformedData = new String[nOriginalDataPoints];
         
@@ -64,7 +70,9 @@ public class Transformations_Calculations {
     public String[] linTransWithFunc(ArrayList<String> alStr_Var_1_Data, 
                                      String chosenProcedure,
                                      double alphaValue, double betaValue) {
-        //System.out.println("67 TramsCalc, constructing, linTransWithFunc");
+        if (printTheStuff == true) {
+            System.out.println("74 --- Transformations_Calculations, linTransWithFunc");
+        }
         nOriginalDataPoints =  alStr_Var_1_Data.size();
         strTransformedData = new String[nOriginalDataPoints];
         
@@ -108,21 +116,27 @@ public class Transformations_Calculations {
     
     public String[] unaryOpsOfVars(double[]  double_1_Data,
                                    String chosenProcedure)    {
-        //System.out.println("111 TramsCalc, constructing, linTransWithFunc");
+        if (printTheStuff == true) {
+            System.out.println("120 --- Transformations_Calculations, unaryOpsOfVars");
+        }
         tempAlString = convertArrayOfDouble_To_alStrArrayList(double_1_Data);
         return unaryOpsOfVars(tempAlString, chosenProcedure);   
     } 
     
    public String[] unaryOpsOfVars(String[]  strVar_1_Data,
                                    String chosenProcedure)    {
-       //System.out.println("118 TramsCalc, constructing, unaryOpsOfVars");
+       if (printTheStuff == true) {
+            System.out.println("129 --- Transformations_Calculations, unaryOpsOfVars");
+        }
        tempAlString = convertStrArray_To_alStrArrayList(strVar_1_Data);
        return unaryOpsOfVars(tempAlString, chosenProcedure);   
    } 
 
    public String[] unaryOpsOfVars(ArrayList<String>  alStr_Var_1_Data,
                                    String uOpProcedure) {
-        //System.out.println("125 TramsCalc, constructing, unaryOpsOfVars");
+       if (printTheStuff == true) {
+            System.out.println("138 --- Transformations_Calculations, unaryOpsOfVars");
+        }
         alStr_Var_1_Data.toString();
         String strDataPoint;
         nOriginalDataPoints =  alStr_Var_1_Data.size();
@@ -283,7 +297,9 @@ public class Transformations_Calculations {
    public String[] binaryOpsOfVars(ArrayList<String>  alStr_Var_1_Data,
                                    String binaryOperation,
                                    ArrayList<String>  alStr_Var_2_Data) {
-        //System.out.println("286 TramsCalc, constructing, binaryOpsOfVars");
+       if (printTheStuff == true) {
+            System.out.println("301 --- Transformations_Calculations, binaryOpsOfVars");
+        }
         nOriginalDataPoints =  alStr_Var_1_Data.size();
         strTransformedData = new String[nOriginalDataPoints];
         
@@ -324,7 +340,9 @@ public class Transformations_Calculations {
                                      ArrayList<String>  alStr_Var_2_Data, 
                                      double alphaValue, 
                                      double betaValue) {
-        //System.out.println("327 TramsCalc, constructing, binaryOpsOfVars");
+       if (printTheStuff == true) {
+            System.out.println("344 --- Transformations_Calculations, linearCombinationOfVars");
+        }
         nOriginalDataPoints =  alStr_Var_1_Data.size();
         strTransformedData = new String[nOriginalDataPoints];
         
@@ -347,7 +365,9 @@ public class Transformations_Calculations {
    }
    
    private ArrayList<String> convertArrayOfDouble_To_alStrArrayList(double[] arrayOfDoubles) {
-        //System.out.println("350 TramsCalc, constructing, convertArrayOfDouble_To_alStrArrayList");
+       if (printTheStuff == true) {
+            System.out.println("369 --- Transformations_Calculations, convertArrayOfDouble_To_alStrArrayList");
+        }
         ArrayList<String> alOfStrs = new ArrayList<>();
         
         for (int ith = 0; ith < arrayOfDoubles.length; ith++) {
@@ -357,7 +377,9 @@ public class Transformations_Calculations {
    }
    
    private ArrayList<String> convertStrArray_To_alStrArrayList(String[] arrayOfStrings) {
-        //System.out.println("360 TramsCalc, constructing, convertArrayOfDouble_To_alStrArrayList");
+       if (printTheStuff == true) {
+            System.out.println("381 --- Transformations_Calculations, convertStrArray_To_alStrArrayList");
+        }
         ArrayList<String> alOfStrs = new ArrayList<>();
         alOfStrs.addAll(Arrays.asList(arrayOfStrings));
         return alOfStrs;

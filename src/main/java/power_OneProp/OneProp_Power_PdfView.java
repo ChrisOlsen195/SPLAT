@@ -1,7 +1,7 @@
 /**************************************************
  *            OneProp_Power_PdfView               *
- *                   05/29/24                     *
- *                    06:00                       *
+ *                   01/15/25                     *
+ *                    21:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -29,9 +29,12 @@ import javafx.scene.input.KeyCode;
 import utilityClasses.*;
 
 public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View { 
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean[] boolHBoxChBoxSettings;
     
-    double /*xMin, xMax,*/ yMin, yMax, scaleDelta, stErr_PNull, nullProp, altProp,
+    double yMin, yMax, scaleDelta, stErr_PNull, nullProp, altProp,
            rawCritValLT, rawCritValGT, nonRejStart, yStart_Null, yStop_Null,
            yStart_Alt, yStop_Alt, xNENoRejRegionTxtStart, stErr_PAlt, 
            effectSize, lowerSliver, upperSliver, densityFactor;
@@ -79,7 +82,9 @@ public class OneProp_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                              double withThisWidth, double withThisHeight) {
 
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("82 OneProp_Power_PdfView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("86 *** OneProp_Power_PdfView, Constructing");
+        }
         this.oneProp_Power_Model = oneProp_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

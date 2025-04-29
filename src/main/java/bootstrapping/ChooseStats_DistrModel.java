@@ -1,7 +1,7 @@
 /**************************************************
- *             Boot_ChooseStats_DistrModel        *
- *                     04/16/24                   *
- *                      12:00                     *
+ *                ChooseStats_DistrModel          *
+ *                     02/24/25                   *
+ *                      09:00                     *
  *************************************************/
 package bootstrapping;
 
@@ -26,7 +26,7 @@ public class ChooseStats_DistrModel {
     // My classes
     ChooseStats_Controller boot_Controller;
     Data_Manager dm;
-    Point_2D ithBinLimits, percentiles_05, percentiles, percentileRanks;
+    Point_2D ithBinLimits, percentiles_05, percentiles; //, percentileRanks;
     QuantitativeDataVariable theQDV;
     UnivariateContinDataObj ucdo;
 
@@ -38,7 +38,7 @@ public class ChooseStats_DistrModel {
         this.boot_Controller = boot_Controller;
         this.theQDV = theQDV;
         ucdo = new UnivariateContinDataObj("Boot_Histogram_Model", theQDV);
-        
+        descrOfVar = boot_Controller.getDescriptionOfVariable();
         double daMin = ucdo.getMinValue();
         double daMax = ucdo.getMaxValue();
         double leftPercentile = ucdo.fromPercentileRank_toPercentile(.05);
@@ -48,11 +48,12 @@ public class ChooseStats_DistrModel {
         double leftPCRank = ucdo.fromPercentile_toPercentileRank(leftPercentile);
         double rightPCRank = ucdo.fromPercentile_toPercentileRank(rightPercentile);
         percentiles = new Point_2D(leftPercentile, rightPercentile);
-        percentileRanks = new Point_2D(leftPCRank, rightPCRank);
+        // percentileRanks = new Point_2D(leftPCRank, rightPCRank);
         double daRange = daMax - daMin;
         ithBinLow = daMin + 0.4 * daRange;
         ithBinHigh = daMin + 0.6 * daRange;
-        ithBinLimits = new Point_2D(ithBinLow, ithBinHigh);  
+        ithBinLimits = new Point_2D(ithBinLow, ithBinHigh); 
+        
     }
     
     
@@ -60,8 +61,7 @@ public class ChooseStats_DistrModel {
     public Point_2D getBinLimits() { return ithBinLimits; }
     public Point_2D get_05_Percentiles() {return percentiles_05; }
     
-    public Point_2D get_Percentiles() {
-        return percentiles; }
+    public Point_2D get_Percentiles() { return percentiles; }
     
     public void set_Percentiles(Point_2D toThese) {
         percentiles.setFirstValue(toThese.getFirstValue());
@@ -71,26 +71,19 @@ public class ChooseStats_DistrModel {
     // Shading does not always agree with check boxes;
     public boolean get_ShadeLeft() { return shadeLeft; }
     
-    public void set_ShadeLeft(boolean toThis) {
-        shadeLeft = toThis;
-    }
+    public void set_ShadeLeft(boolean toThis) { shadeLeft = toThis; }
     
     public boolean get_ShadeRight() { return shadeRight; }
     
-    public void set_ShadeRight(boolean toThis) {
-        shadeRight = toThis;
-    } 
+    public void set_ShadeRight(boolean toThis) { shadeRight = toThis; } 
     
-    public double get_LeftPercentile() { 
-        //System.out.println("78 *** Boot_1Stat_Distr_Model, getLeftPercentile = " + percentiles.getFirstValue());        
-        return percentiles.getFirstValue(); }
+    public double get_LeftPercentile() { return percentiles.getFirstValue(); }
     
     public void set_LeftPercentile( double toThis) {
         percentiles.setFirstValue(toThis);
     }
     
-    public double get_RightPercentile() { 
-        return percentiles.getSecondValue(); }
+    public double get_RightPercentile() {return percentiles.getSecondValue();}
     
     public void set_RightPercentile( double toThis) {
         percentiles.setSecondValue(toThis);
@@ -115,7 +108,7 @@ public class ChooseStats_DistrModel {
     }
     
     public ChooseStats_Controller getBootStrapController() { return boot_Controller; }
-    public String getDescrOfVar() { return descrOfVar; }
+    public String getDescriptionOfVariable() { return descrOfVar; }
     public QuantitativeDataVariable getTheQDV() { return theQDV; }
     public UnivariateContinDataObj getUCDO()  {return ucdo; }
     public Data_Manager getDataManager() { return dm; }

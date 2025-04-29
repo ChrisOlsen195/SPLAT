@@ -1,7 +1,7 @@
 /****************************************************************************
  *                      X2_HelpMakeChoice                                   * 
- *                           05/25/24                                       *
- *                            15:00                                         *
+ *                           01/15/25                                       *
+ *                            12:00                                         *
  ***************************************************************************/
 package chiSquare;
 
@@ -22,6 +22,9 @@ import utilityClasses.MyAlerts;
 
 public class X2_HelpMakeChoice extends Stage{
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
     String imagePath, strGOFExample, strExperExample,  strHomogExample, 
            strIndepExample;
@@ -34,8 +37,9 @@ public class X2_HelpMakeChoice extends Stage{
     VBox root;
     
     public X2_HelpMakeChoice(String strTypeOfStudy) {
-        //System.out.println("37 X2_HelpMakeChoice, constructing");
-        //this.strTypeOfStudy = strTypeOfStudy;
+        if (printTheStuff == true) {
+            System.out.println("41 *** X2_HelpMakeChoice, constructing");
+        }
         root = new VBox();
         root.setAlignment(Pos.CENTER);
         

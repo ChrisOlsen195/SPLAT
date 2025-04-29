@@ -1,7 +1,7 @@
 /**************************************************
  *            OneProp_Power_Dashboard             *
- *                  05/29/24                      *
- *                    06:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -15,7 +15,11 @@ import superClasses.*;
 
 public class OneProp_Power_Dashboard extends Dashboard {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
+    // My Classes
     OneProp_Power_PdfView oneProp_Power_PdfView;
     OneProp_Power_VsEffectSizeView oneProp_Power_VsEffectSizeView;
     OneProp_Power_VsSampleSizeView oneProp_Power_VsSampleSizeView;
@@ -30,7 +34,9 @@ public class OneProp_Power_Dashboard extends Dashboard {
     
     public OneProp_Power_Dashboard(OneProp_Power_Controller oneProp_Power_Controller) {
         super(5);
-        //System.out.println("33 OneProp_Power_Dashboard, constructing");
+        if (printTheStuff == true) {
+            System.out.println("38 *** OneProp_Power_Dashboard, Constructing");
+        }
         this.oneProp_Power_Controller = oneProp_Power_Controller;
     }
     

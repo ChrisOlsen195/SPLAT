@@ -1,7 +1,7 @@
 /************************************************************
  *                   Single_t_SumStats_Dialog               *
- *                          09/13/24                        *
- *                            21:00                         *
+ *                          01/15/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -29,6 +29,9 @@ import utilityClasses.MyAlerts;
 public class Single_t_SumStats_Dialog extends One_Variable_Dialog { 
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean okToContinue, dataPresent, 
             valuesLeftBlank, bool_MeanGood, bool_SigmaGood, bool_NGood, 
             allFieldsGood; 
@@ -40,7 +43,8 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
     
     String strHypNE, strHypLT, strHypGT, strHypNull, strNullAndAlt, 
            strAltHypChosen, str_Group_Title, str_Group_SumInfo, str_OROne, 
-           str_Group1_N, resultAsString, strHypChosen, strMean1, strSigma1;
+           str_Group1_N, resultAsString, strHypChosen, strMean1, strSigma1,
+           strReturnStatus;
     
     final String toBlank = "";
 
@@ -49,7 +53,7 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
     
     // My classes
     SmartTextFieldsController stf_Controller;
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     
     // JavaFX POJOs
     Button changeNull;
@@ -74,7 +78,9 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
 
     public Single_t_SumStats_Dialog() {
         super("Quantitative");
-        System.out.println("\n86 Single_t_SumStats_Dialog, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("81 *** Single_t_SumStats_Dialog, Constructing");
+        }
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         sep = new Separator();
         sep.setOrientation(Orientation.VERTICAL);

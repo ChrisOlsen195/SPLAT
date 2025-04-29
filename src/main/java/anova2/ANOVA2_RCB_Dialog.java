@@ -1,7 +1,7 @@
 /**************************************************
  *             ANOVA2_RCB_Dialog                  *
- *                  09/12/24                      *
- *                   21:00                        *
+ *                  03/18/25                      *
+ *                   09:00                        *
  *************************************************/
 package anova2;
 
@@ -38,8 +38,8 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
 
     private int index_FactorA, index_FactorB, index_ResponseVar, numCols, numRows;
     
-    // String waldoFile = "ANOVA2_RCB_Dialog";
-    String waldoFile = "";
+    String waldoFile = "ANOVA2_RCB_Dialog";
+    // String waldoFile = "";
     
     private String str_NameFactorA, str_NameFactorB, str_NameResponse, 
                    whichANOVA2;
@@ -239,7 +239,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 str_NameFactorA = varList1.getNamesSelected().get(0);
                 index_FactorA = dm.getVariableIndex(str_NameFactorA);
                 int numGroups = dm.numDistinctVals(index_FactorA);
-                
+                System.out.println("242 ANOVA2_RCB_Dialog, numGroups = " + numGroups);
                if ((numGroups < 2) || (numGroups > 5)) {
                     MyAlerts.showRCB_2_5_VarAlert();
                     ok = false;
@@ -257,7 +257,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 str_NameFactorB = varList1.getNamesSelected().get(0);
                 index_FactorB = dm.getVariableIndex(str_NameFactorB);
                 int numGroups = dm.numDistinctVals(index_FactorB);
-                
+                System.out.println("250 ANOVA2_RCB_Dialog, numGroups = " + numGroups);
                 if ((numGroups < 2) || (numGroups > 5)) {
                     MyAlerts.showRCB_2_5_VarAlert();
                     ok = false;
@@ -272,9 +272,9 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
             if (varList1.getNamesSelected().size() == 1) {
                 str_NameResponse = varList1.getNamesSelected().get(0);
                 index_ResponseVar = dm.getVariableIndex(str_NameResponse);
-                
-                if (!dm.getVariableIsNumeric(dm.getVariableIndex(str_NameResponse))) {
-                    MyAlerts.showDataTypeErrorAlert();
+                if (!dm.getDataType(dm.getVariableIndex(str_NameResponse)).equals("Quantitative")) {
+                System.out.println("276 ANOVA2_RCB_Dialog");
+                    MyAlerts.showIncorrectDataTypeErrorAlert();
                     btn_Reset.fire();
                 } else {
                     tf_ResponseVar.setText(str_NameResponse);

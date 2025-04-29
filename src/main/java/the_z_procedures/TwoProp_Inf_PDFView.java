@@ -1,7 +1,7 @@
 /**************************************************
  *           TwoProp_Inf_PDFView                  *
- *                  02/19/24                      *
- *                    15:00                       *
+ *                  03/08/25                      *
+ *                    21:00                       *
  *************************************************/
 package the_z_procedures;
 
@@ -29,7 +29,10 @@ import utilityClasses.*;
 public class TwoProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
     
     // POJOs
-    double zStatistic, absVal_zStatistic;     
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
+    double zStatistic, absVal_zStatistic, xStart_zPVal;     
     double daMode = 0.45;    //  Let's see how this works.
     final double MIDDLE_Z = 0.9999;
     final double[] alphas = {0.10, 0.05, 0.025, 0.01};
@@ -49,7 +52,9 @@ public class TwoProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
             double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("48 TwoProp_Inf_PDFView, constructing");        
+        if (printTheStuff == true) {
+            System.out.println("56 *** TwoProp_Inf_PDFView, Constructing");
+        }        
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.twoProp_Inf_Model = twoProp_Inf_Model;
@@ -90,7 +95,7 @@ public class TwoProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default: 
-                String switchFailure = "Switch failure: TwoProp_Inf_PDFView 89 " + hypotheses;
+                String switchFailure = "Switch failure: TwoProp_Inf_PDFView 98 " + hypotheses;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
             break;
         }
@@ -245,21 +250,28 @@ public class TwoProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
             xx0 = xx1; yy0 = yy1;   //  Next start point for line segment
         }   
 
-        xStart = xStop = xAxis.getDisplayPosition(zStatistic);
+        xStart = xStop = xStart_zPVal = xAxis.getDisplayPosition(zStatistic);
         yStart = yAxis.getDisplayPosition(0.0);
-        yStop = yAxis.getDisplayPosition(daMode);        
+        yStop = yAxis.getDisplayPosition(0.425);        
 
         gc.setLineWidth(2);
         gc.setStroke(Color.RED);
         gc.strokeLine(xStart, yStart, xStop, yStop + 15);
 
-        if (identifyPValueIsDesired) {
-            tempString = String.format("z = %6.3f,  pValue = %4.3f", zStatistic, pValue);
-        }
-        else { tempString = String.format("z = %6.3f", zStatistic); }
+        double rightEndPad = 225.;
+        double temp  = 1.0;
         
-        gc.setFill(Color.RED);
-        gc.fillText(tempString, xStop + 5, yStop + 15);
+        if (identifyPValueIsDesired) {
+            if (paneWidth - xStart_zPVal < rightEndPad) { xStart_zPVal = xAxis.getDisplayPosition(temp); }
+                tempString = String.format("z = %6.3f, pValue = %4.3f", zStatistic, pValue);
+                gc.setFill(Color.RED);
+                gc.fillText(tempString, xStart_zPVal + 15, yStop + 5);
+            } else {    // pValue not desired
+            if (paneWidth - xStart_zPVal < rightEndPad) { xStart_zPVal = xAxis.getDisplayPosition(temp); }
+                tempString = String.format("z = %6.3f",  zStatistic);
+                gc.setFill(Color.RED);
+                gc.fillText(tempString, xStart_zPVal + 15, yStop  + 5);            
+            }
 
         if (assumptionCheckIsDesired) {
             double otherXStart, otherXStop;            
@@ -314,7 +326,7 @@ public class TwoProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
                         break;
                     
                     default: 
-                        String switchFailure = "Switch failure: TwoProp_Inf_PDFView  313 " + hypotheses;
+                        String switchFailure = "Switch failure: TwoProp_Inf_PDFView  329 " + hypotheses;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);
                         break;
                 }                 

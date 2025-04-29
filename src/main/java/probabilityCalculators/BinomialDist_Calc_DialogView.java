@@ -1,7 +1,7 @@
 /**************************************************
  *             BinomialDist_Calc_DialogView       *
- *                    11/27/23                    *
- *                     00:00                      *
+ *                    01/16/25                    *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -25,6 +25,9 @@ import utilityClasses.MyAlerts;
 public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_View {
     
     //POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean okToGraph, graphFound; 
     
     int binomial_n, probSelection, lowerShadeBound, upperShadeBound;
@@ -72,13 +75,15 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     // My classes
     BinomialDist_Calc_PDFView binomialDist_Calc_PDFView;  
     SmartTextFieldsController stf_ProbCalcs_Controller;
-    DoublyLinkedSTF al_ProbCalcs_STF; 
+    SmartTextFieldDoublyLinkedSTF al_ProbCalcs_STF; 
 
     public BinomialDist_Calc_DialogView(ProbCalc_Dashboard probCalc_Dashboard, 
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);     
-        //System.out.println("81 BinomialDist_Calc_DialogView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("85 *** BinomialDist_Calc_DialogView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         

@@ -1,7 +1,7 @@
 /************************************************************
  *                  Single_Mean_DataStruct_Dialog           *
- *                          10/15/23                        *
- *                            21:00                         *
+ *                          01/15/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -19,10 +19,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class Single_Mean_DataStruct_Dialog extends Splat_Dialog {    
-    //String theChoice;
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     String selectedLabel;
     Label msg;
-    RadioButton colOfData, /*stacked,*/ summarized;
+    RadioButton colOfData, summarized;
     ToggleGroup group;
     VBox buttonBox;
     
@@ -33,9 +35,11 @@ public class Single_Mean_DataStruct_Dialog extends Splat_Dialog {
     // *****************************************************************
       
     public Single_Mean_DataStruct_Dialog() {
-        System.out.println("\n36 Single_Mean_DataStruct_Dialog, Constructing");
-        colOfData = new RadioButton("Data are in an existing column");
-        selectedLabel = "Data are in separate columns";
+        if (printTheStuff == true) {
+            System.out.println("38 *** Single_Mean_DataStruct_Dialog, Constructing");
+        }
+        colOfData = new RadioButton("Data are tidy");
+        selectedLabel = "Data are tidy";
         summarized = new RadioButton("Data are summarized");
    
         // Add all buttons to a toggle group

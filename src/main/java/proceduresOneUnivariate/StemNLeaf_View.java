@@ -1,7 +1,7 @@
 /****************************************************************************
  *                      StemNLeaf_View                                      * 
- *                         12/06/23                                         *
- *                          00:00                                           *
+ *                         01/16/25                                         *
+ *                          12:00                                           *
  ***************************************************************************/
 package proceduresOneUnivariate;
 
@@ -27,6 +27,9 @@ import utilityClasses.MyAlerts;
 
 public class StemNLeaf_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean[] radioButtonSettings;    
     
     int nSpacers, ithIDChosen;  
@@ -63,7 +66,9 @@ public class StemNLeaf_View {
     public StemNLeaf_View(StemNLeaf_Model stemLeaf_Model, Exploration_Dashboard explore_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("66 StemNLeaf_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("70 *** StemNLeaf_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         snl_View = this;
@@ -75,7 +80,9 @@ public class StemNLeaf_View {
     public StemNLeaf_View(StemNLeaf_Model stemLeaf_Model, Single_t_Dashboard single_t_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("78 StemNLeaf_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("84 *** StemNLeaf_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
 
@@ -87,7 +94,9 @@ public class StemNLeaf_View {
     public StemNLeaf_View(StemNLeaf_Model stemLeaf_Model, Matched_t_Dashboard matched_t_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("90 StemNLeaf_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("98 *** StemNLeaf_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.stemNLeaf_Model = stemLeaf_Model;

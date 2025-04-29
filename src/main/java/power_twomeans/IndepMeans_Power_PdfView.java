@@ -1,6 +1,6 @@
 /**************************************************
  *            IndepMeans_Power_PdfView            *
- *                   05/29/24                     *
+ *                   01/15/25                     *
  *                    21:00                       *
  *************************************************/
 package power_twomeans;
@@ -30,6 +30,10 @@ import utilityClasses.*;
 
 public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
 { 
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean[] boolHBoxCheckBoxSettings;
     int n_1, n_2;
 
@@ -82,7 +86,9 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                              double withThisWidth, double withThisHeight) {
 
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("85 IndepMeans_Power_PdfView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("90 *** IndepMeans_Power_PdfView, Constructing");
+        }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

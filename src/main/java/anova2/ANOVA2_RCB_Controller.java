@@ -1,6 +1,6 @@
 /**************************************************
  *            ANOVA2_RCB_Controller               *
- *                  05/24/24                      *
+ *                  05/24/25                      *
  *                   06:00                        *
  *************************************************/
 /**************************************************
@@ -24,8 +24,8 @@ public class ANOVA2_RCB_Controller {
     String whichANOVA2, returnStatus, factorA_Name, factorB_Name, 
            varLabel, varDescription;
 
-    String waldoFile = "";
-    //String waldoFile = "ANOVA2_Controller";
+    //String waldoFile = "";
+    String waldoFile = "ANOVA2_Controller";
     
     // My classes
     ANOVA2_RCB_Dashboard anova2_RCB_Dashboard;

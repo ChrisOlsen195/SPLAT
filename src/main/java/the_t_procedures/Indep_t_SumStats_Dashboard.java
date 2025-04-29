@@ -31,9 +31,9 @@ public class Indep_t_SumStats_Dashboard extends Dashboard {
 
     public Indep_t_SumStats_Dashboard(Indep_t_Controller indep_t_Controller) {
         super(2);   
-        System.out.println("34 Indep_t_SumStats_Dashboard, constructing");
+        //System.out.println("34 Indep_t_SumStats_Dashboard, constructing");
         dm = indep_t_Controller.getDataManager();
-        indep_t_SumStats_Model = indep_t_Controller.getInd_t_SumStatsModel();
+        indep_t_SumStats_Model = indep_t_Controller.getIndep_t_SumStats_Model();
         checkBoxDescr = new String[nCheckBoxes];
         
         for (int ithCheckBox = 0; ithCheckBox < nCheckBoxes; ithCheckBox++) {

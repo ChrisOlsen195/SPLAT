@@ -1,7 +1,7 @@
 /**************************************************
  *       TwoMeans_Power_VsEffectSizeView          *
- *                  05/30/24                      *
- *                    00:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_twomeans;
 
@@ -26,6 +26,8 @@ import javafx.scene.input.KeyCode;
 
 public class IndepMeans_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int sampleSize_1, sampleSize_2;
 
@@ -44,7 +46,9 @@ public class IndepMeans_Power_VsEffectSizeView extends BivariateScale_W_CheckBox
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("43 IndepMeans_Power_VsEffectSizeView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("50 *** IndepMeans_Power_VsEffectSizeView, Constructing");
+        }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

@@ -1,7 +1,7 @@
 /****************************************************************************
  *                        SmartTextField                                    * 
- *                           10/15/23                                       *
- *                            18:00                                         *
+ *                           01/16/25                                       *
+ *                            12:00                                         *
  ***************************************************************************/
 /****************************************************************************
 *       Sample set up of text field & must-be, with label.                  *
@@ -25,6 +25,9 @@ import javafx.scene.input.MouseEvent;
 
 public class SmartTextField {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean showingAnAlert = false, ignoreFocusChanges = false;
     
     boolean mb_Negative = false, mb_NonPositive = false, mb_NonZero = false, 
@@ -43,23 +46,31 @@ public class SmartTextField {
     SmartTextFieldChecker stf_Checker;
     SmartTextFieldsController stf_Controller;
     SmartTextFieldHandler stf_Handler;
-    DoublyLinkedSTF dlSTF;
+    SmartTextFieldDoublyLinkedSTF dlSTF;
     
     // POJOs / FX
     TextField lessThanSmart_TF;
     
     public SmartTextField() {
+        if (printTheStuff == true) {
+            System.out.println("56 *** ColumnOfData, Constructing");
+        }
         lessThanSmart_TF = new TextField(); // Just a wrapper
         setIsEditable(true);
     }
     
     public SmartTextField(String tfString) {
+        if (printTheStuff == true) {
+            System.out.println("64 *** ColumnOfData, Constructing");
+        }
         lessThanSmart_TF = new TextField(tfString); // Just an initialized wrapper
         setIsEditable(true);
     }
     
     public SmartTextField(SmartTextFieldsController stf_Controller)  { 
-        //System.out.println("63 stf, stf_Controller = "  + stf_Controller);
+        if (printTheStuff == true) {
+            System.out.println("72 *** ColumnOfData, Constructing");
+        }
         this.stf_Controller = stf_Controller;
         stf_Checker = new SmartTextFieldChecker(stf_Controller, this);  
         lessThanSmart_TF = new TextField();

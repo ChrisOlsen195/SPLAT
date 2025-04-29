@@ -1,7 +1,7 @@
 /************************************************************
  *                        Data_Manager                      *
- *                          04/02/24                        *
- *                            06:00                         *
+ *                          03/08/25                        *
+ *                            03:00                         *
  ***********************************************************/
 package splat;
 
@@ -44,7 +44,7 @@ public final class Data_Manager {
     private File fileName = null;
     private File lastPath = new File(System.getProperty("user.dir") + File.separator);
 
-    public String currentVersion;
+    public String currentVersion, ti_or_tidy, rawOrSummary;
     public final String newMissingData = "*";
     
     //String waldoFile = "Data_Manager";
@@ -148,7 +148,7 @@ public final class Data_Manager {
         positionTracker.setNVarsInStruct(0);
         positionTracker.setNCasesInStruct(0);
         dataIsClean = true;
-        positionTracker.set_CurrentDG_and_DS(0, 0);
+        positionTracker.set_Current_DG_DS(0, 0, "151 Data_Manager");
 
         for (int ithGridCol = 0; ithGridCol < maxVarsInGrid; ithGridCol++) {
             colHeader.get(ithGridCol).setText("Var #" + (ithGridCol + 1));
@@ -171,7 +171,7 @@ public final class Data_Manager {
             String tempString = "Var #" + (ithVar + 1);
             colHeader.add(new TextField(tempString));          
             ColumnOfData veryTemp  = new ColumnOfData(this, positionTracker.getNCasesInStruct(), tempString);
-            veryTemp.setIsNumeric(true);
+            veryTemp.setDataType("Quantitative");
             dataStruct.add(veryTemp);
         }
         whereIsWaldo(177, waldoFile, "Sending dataStruct to Grid (0, 0)");
@@ -258,14 +258,14 @@ public final class Data_Manager {
         dataStruct = new ArrayList();
         positionTracker.setNVarsInStruct(numVariables);
         positionTracker.setNCasesInStruct(nDataLines);
-        positionTracker.set_CurrentDG_and_DS(0, 0);
+        positionTracker.set_Current_DG_DS(0, 0, "151 Data_Manager");
         positionTracker.setFirstCaseIdentifier(0);
         positionTracker.setFirstVarIdentifier(0);
         
         for (int ithInitVar = 0; ithInitVar < numVariables; ithInitVar++) {
             String tempString = "Var #" + (ithInitVar + 1);
             ColumnOfData veryTemp  = new ColumnOfData(this, positionTracker.getNCasesInStruct(), tempString);
-            veryTemp.setIsNumeric(true);
+            veryTemp.setDataType("Quantitative");
             dataStruct.add(veryTemp);            
             TextField tempTF = new TextField(tempString);
             colHeader.add(tempTF); 
@@ -276,7 +276,7 @@ public final class Data_Manager {
             for (int thisVar = positionTracker.getNVarsInStruct(); thisVar < maxVarsInGrid; thisVar++) {
                 String tempString = "Var #" + (thisVar + 1);
                 ColumnOfData veryTemp  = new ColumnOfData(this, positionTracker.getNCasesInStruct(), tempString);
-                veryTemp.setIsNumeric(true);
+                veryTemp.setDataType("Quantitative");
                 dataStruct.add(veryTemp); 
                 TextField tempTF = new TextField(tempString);
                 colHeader.add(tempTF);
@@ -309,7 +309,7 @@ public final class Data_Manager {
             addToStructNColumnsWithNoData(nVarsToAdd);
         }
         
-        if (getVariableIsNumeric(positionTracker.getFirstVarIdentifier() + colHeadSelected)) {
+        if (getDataType(positionTracker.getFirstVarIdentifier() + colHeadSelected).equals("Quantitative")) {
             rbNumericData.setSelected(true);
         } else { rbTextData.setSelected(true); }
         
@@ -318,7 +318,7 @@ public final class Data_Manager {
              .add("dialogTitle");
         Label labelName = new Label("Variable Name: ");
         TextField tfTextName = new TextField();
-        Button btnUpdate = new Button("Update Variable");
+        Button btnUpdateVariable = new Button("Update Variable");
         Button btnRestoreDefault = new Button("Restore Default");
         Button btnClose = new Button("Close");
         tfTextName.setText(getVariableName(positionTracker.getFirstVarIdentifier() + colHeadSelected));
@@ -352,7 +352,7 @@ public final class Data_Manager {
         hBx_ButtonPanel.setAlignment(Pos.CENTER);
         hBx_ButtonPanel.setPadding(new Insets(10, 5, 10, 5));
         hBx_ButtonPanel.getChildren()
-                       .addAll(btnUpdate, btnRestoreDefault, btnClose);
+                       .addAll(btnUpdateVariable, btnRestoreDefault, btnClose);
         mainPanel.getChildren()
                  .add(hBx_ButtonPanel);
 
@@ -376,7 +376,7 @@ public final class Data_Manager {
             changeStage.close();
         });
 
-        btnUpdate.setOnAction((ActionEvent event) -> {
+        btnUpdateVariable.setOnAction((ActionEvent event) -> {
             int colSelected = positionTracker.getFirstVarIdentifier() + colHeadSelected;
             String temp = tfTextName.getText();
             temp = StringUtilities.truncateString(temp, nCharsInLabel);
@@ -414,11 +414,11 @@ public final class Data_Manager {
         });
 
         rbNumericData.setOnAction((ActionEvent event) -> {
-            setVariableNumeric(positionTracker.getFirstVarIdentifier() + colHeadSelected, true);
+            setDataType(positionTracker.getFirstVarIdentifier() + colHeadSelected, "Quantitative");
         });
         
         rbTextData.setOnAction((ActionEvent event) -> {
-            setVariableNumeric(positionTracker.getFirstVarIdentifier() + colHeadSelected, false);
+            setDataType(positionTracker.getFirstVarIdentifier() + colHeadSelected, "Categorical");
         });
     }
 
@@ -478,20 +478,20 @@ public final class Data_Manager {
                 rowInDataStruct = jthGridRow + firstCaseId;                
                 if (rowInDataStruct < 0) { continue; }                
                 // tempText only exists when there is data, NOT at initialization   
-                dm.whereIsWaldo(482, waldoFile, "setGridCellContents: col / row = " + ithGridCol + " / " + jthGridRow);
-                dm.whereIsWaldo(483, waldoFile, "rowInDataStruct / nCasesInStruct = " + rowInDataStruct + " / " + nCasesInStruct);
+                //dm.whereIsWaldo(482, waldoFile, "setGridCellContents: col / row = " + ithGridCol + " / " + jthGridRow);
+                //dm.whereIsWaldo(483, waldoFile, "rowInDataStruct / nCasesInStruct = " + rowInDataStruct + " / " + nCasesInStruct);
                 if ((0 < nCasesInStruct) && (rowInDataStruct < nCasesInStruct)) {
                     tempText = casesInColumn.get(rowInDataStruct); 
-                    dm.whereIsWaldo(486, waldoFile, "setGridCellContents: col / row / toThis = " + ithGridCol + " / " + jthGridRow + " / " + tempText);
+                    //dm.whereIsWaldo(486, waldoFile, "setGridCellContents: col / row / toThis = " + ithGridCol + " / " + jthGridRow + " / " + tempText);
                     dataGrid.setGridCellContents(ithGridCol, jthGridRow, tempText);
                 } else {
-                    dm.whereIsWaldo(489, waldoFile, "setGridCellContents: col / row / toThis = " + ithGridCol + " / " + jthGridRow + " / " + "Blank");
+                    //dm.whereIsWaldo(489, waldoFile, "setGridCellContents: col / row / toThis = " + ithGridCol + " / " + jthGridRow + " / " + "Blank");
                     dataGrid.setGridCellContents(ithGridCol, jthGridRow, " ");
                 }                
             }   // end row
-            dm.whereIsWaldo(493, waldoFile, "setPosTracker: col / row / toThis = " + theDG_Col + " / " + theDG_Row);
+            //dm.whereIsWaldo(493, waldoFile, "setPosTracker: col / row / toThis = " + theDG_Col + " / " + theDG_Row);
             //positionTracker.set_CurrentDG_and_DS(theDG_Col, theDG_Row);
-            positionTracker.set_CurrentDG_and_DS(theDG_Col, theDG_Row);
+            positionTracker.set_Current_DG_DS(theDG_Col, theDG_Row, "494 Data_Manager");
         }   // Send data struct to grid 
     }
     
@@ -517,7 +517,7 @@ public final class Data_Manager {
                                 int forThisCol,
                                 int forThisRow,
                                 String toThis) {
-        whereIsWaldo(521, waldoFile, "setDataInStruct");
+        //whereIsWaldo(521, waldoFile, "setDataInStruct");
         int structCol, structRow, gridCol, gridRow;
         structCol = forThisCol;
         structRow = forThisRow;
@@ -554,7 +554,7 @@ public final class Data_Manager {
      *************************************************************************/
     
     public void addToStructNColumnsWithExistingData(ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        whereIsWaldo(558, waldoFile, "addToStructNColumnsWithExistingData");
+        whereIsWaldo(557, waldoFile, "addToStructNColumnsWithExistingData");
         
         for (int ithStacked = 0; ithStacked < allTheQDVs.size(); ithStacked++) {
             addToStructOneColumnWithExistingQuantData(allTheQDVs.get(ithStacked));
@@ -585,7 +585,7 @@ public final class Data_Manager {
             positionTracker.setNVarsInStruct(nVarsNow);
         } else {
             ColumnOfData newCol = new ColumnOfData(this, nCases, "Var #" + varNumber);
-            newCol.setIsNumeric(true);
+            newCol.setDataType("Quantitative");
             dataStruct.add(newCol);
             nVarsNow++;
             positionTracker.setNVarsInStruct(nVarsNow);
@@ -622,7 +622,7 @@ public final class Data_Manager {
         } else {
             String newColLabel = qdv.getTheVarLabel();
             ColumnOfData newCol = new ColumnOfData(this, nCases, newColLabel);
-            newCol.setIsNumeric(true);
+            newCol.setDataType("Quantitative");
             dataStruct.add(newCol);
             nVarsNow++;
             positionTracker.setNVarsInStruct(nVarsNow);
@@ -649,18 +649,18 @@ public final class Data_Manager {
             positionTracker.setNVarsInStruct(nVarsNow);
             String newColLabel = cat_dv.getTheDataLabel();
             dataStruct.get(nVarsNow - 1).setVarLabel(newColLabel);
-            dataStruct.get(nVarsNow - 1).setIsNumeric(false);
+            dataStruct.get(nVarsNow - 1).setDataType("Categorical");
         }
         else {
             String newColLabel = cat_dv.getTheDataLabel();
             ColumnOfData newCol = new ColumnOfData(this, nCases, newColLabel);
             // Set Column info to false
-            newCol.setIsNumeric(false);
+            newCol.setDataType("Categorical");
             dataStruct.add(newCol);
             nVarsNow++;
             positionTracker.setNVarsInStruct(nVarsNow);
             //  Set Grid label info the false
-            dataStruct.get(nVarsNow - 1).setIsNumeric(false);
+            dataStruct.get(nVarsNow - 1).setDataType("Categorical");
         }
         
         for (int ithCase = 0; ithCase < nCases; ithCase++) {   
@@ -671,12 +671,17 @@ public final class Data_Manager {
     }
 
     public void addNCasesToStruct(int nCasesToAdd) {
-        whereIsWaldo(675, waldoFile, "addNCasesToStruct");     
-        for (int iVar = 0; iVar < positionTracker.getNVarsInStruct(); iVar++) {
-            dataStruct.get(iVar)
-                      .addNCasesOfThese(nCasesToAdd, "*");
-        }        
+        try {
+            //whereIsWaldo(675, waldoFile, "addNCasesToStruct");     
+            for (int iVar = 0; iVar < positionTracker.getNVarsInStruct(); iVar++) {
+                dataStruct.get(iVar)
+                          .addNCasesOfThese(nCasesToAdd, "*");
+            }        
         positionTracker.setNCasesInStruct(nCasesToAdd + positionTracker.getNCasesInStruct());
+        } catch (OutOfMemoryError oom) {
+             MyAlerts.showOutOfMemoryAlert();
+             System.exit(0);
+        }
     }
     
     public void insertARow(String strThisRow) {
@@ -737,7 +742,7 @@ public final class Data_Manager {
     public void insertAColumn(int indexOfCol, String strThisLabel) {
         whereIsWaldo(739, waldoFile, "insertAColumn");
         ColumnOfData veryTemp  = new ColumnOfData(this, nCasesInStruct, strThisLabel);
-        veryTemp.setIsNumeric(true);
+        veryTemp.setDataType("Quantitative");
         dataStruct.add(indexOfCol + 1, veryTemp); 
         positionTracker.setNVarsInStruct(positionTracker.getNVarsInStruct() + 1);
         resetTheGrid();
@@ -747,7 +752,7 @@ public final class Data_Manager {
     public void insertAColumn(int indexOfCol, ColumnOfData colOfData) {
         whereIsWaldo(749, waldoFile, "insertAColumn");
         ColumnOfData veryTemp  = new ColumnOfData(colOfData);
-        veryTemp.setIsNumeric(true);
+        veryTemp.setDataType("Quantitative");
         dataStruct.add(indexOfCol + 1, veryTemp); 
         positionTracker.setNVarsInStruct(positionTracker.getNVarsInStruct() + 1);
         resetTheGrid();
@@ -774,12 +779,12 @@ public final class Data_Manager {
     public ArrayList<TextField> getIthColumnHeading() { return colHeader; }
     public ArrayList<TextField> getJthRowHeading() {return rowHeader; }
     
-    public boolean getVariableIsNumeric(int curr) {
-        return dataStruct.get(curr).getIsNumeric();
+    public String getDataType(int curr) {
+        return dataStruct.get(curr).getDataType();
     }
     
-    public void setVariableNumeric(int curr, boolean setMe) {
-        dataStruct.get(curr).setIsNumeric(setMe);
+    public void setDataType(int curr, String toThis) {
+        dataStruct.get(curr).setDataType(toThis);
     }
     
     public String getVariableName(int col) {
@@ -857,6 +862,14 @@ public final class Data_Manager {
         positionTracker.setNVarsInStruct(toThis);
     } 
     
+    public boolean getDataExists() {
+        dataExists = true;
+        if (getNCasesInStruct() == 0) {
+            dataExists = false;
+        }
+        return dataExists;
+    }
+    
     public int getNCasesInStruct() { return positionTracker.getNCasesInStruct(); }
     
     public void setNCasesInStruct(int toThis) { 
@@ -868,6 +881,17 @@ public final class Data_Manager {
         scrollEventInitiated = yesNo;  
     } 
     
+     /********************************************************************
+     *            Three possibles:  NULL, Raw, Summary                   *
+     ********************************************************************/
+    public String getRawOrSummary() { return rawOrSummary; }
+    public void setRawOrSummary(String toThis) { rawOrSummary = toThis; }
+    
+    /********************************************************************
+     *            Three possibles:  NULL, Tidy, TI8x                    *
+     *******************************************************************/
+    public String getTIorTIDY() { return ti_or_tidy; }
+    public void setTIorTIDY(String toThis) { ti_or_tidy = toThis; }
     public boolean getHasBeenScrolled() { return scrollEventInitiated; }    
     public int getDataStructSize() { return dataStruct.size(); }
     public int getMaxVisVars() { return maxVarsInGrid; }

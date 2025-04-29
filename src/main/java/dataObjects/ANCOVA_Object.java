@@ -1,6 +1,6 @@
 /**************************************************
  *                  ANCOVA_Object                 *
- *                    05/24/24                    *
+ *                    03/03/25                    *
  *                      15:00                     *
  *************************************************/
 package dataObjects;
@@ -9,8 +9,11 @@ import java.util.ArrayList;
 
 public class ANCOVA_Object {
     
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nLevels;
-    int nOriginalCases; //, nLegalCases;
+    int nOriginalCases;
     
     BivariateContinDataObj bivContinDataObject;
     ArrayList<BivariateContinDataObj> al_BivContinWithin;
@@ -23,8 +26,9 @@ public class ANCOVA_Object {
     ArrayList<String> strTreatmentLabels; 
     
     public ANCOVA_Object(ArrayList <ColumnOfData> data) {
-        //System.out.println("26 ANCOVA_Object, constructing");
-
+        if (printTheStuff == true) {
+            System.out.println("30 *** ANCOVA_Object, Constructing");
+        }
         col_Covariate = new ColumnOfData(data.get(0));
         col_Response = new ColumnOfData(data.get(1));
         col_Treatment = new ColumnOfData(data.get(2));
@@ -79,16 +83,6 @@ public class ANCOVA_Object {
         col_Covariate = new ColumnOfData("Covariate", "Covariate", str_al_Covariate);
         col_Response = new ColumnOfData("Response", "Response", str_al_Response);
         col_Treatment = new ColumnOfData("Treatment", "Treatment", str_al_Treatment);
-       
-        //nLegalCases = col_Covariate.getNCasesInColumn();
-
-        /*
-        for (int ithCase = 0; ithCase < nLegalCases; ithCase++) {
-            String colCase = col_Covariate.getStringInIthRow(ithCase);
-            String colResponse = col_Response.getStringInIthRow(ithCase);
-            String colTreatment = col_Treatment.getStringInIthRow(ithCase);
-        }
-        */
         
         col_al_ForBiv = new ArrayList();
         col_al_ForBiv.add(col_Covariate);

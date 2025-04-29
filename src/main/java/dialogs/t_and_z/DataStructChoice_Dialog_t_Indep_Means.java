@@ -1,6 +1,6 @@
 /**************************************************
  *         DataStructChoice_Dialog_t_Indep_Means  *
- *                    06/15/24                    *
+ *                    01/27/25                    *
  *                      12:00                     *
  *************************************************/
 package dialogs.t_and_z;
@@ -24,6 +24,9 @@ import the_t_procedures.Indep_t_Controller;
 public class DataStructChoice_Dialog_t_Indep_Means extends Stage {
     
     // POJOs
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     double alertTitleBoxWidth, alertTitleBoxHeight, alertBoxWidth,
            alertBoxHeight;
 
@@ -40,14 +43,18 @@ public class DataStructChoice_Dialog_t_Indep_Means extends Stage {
     Indep_t_Controller indep_t_Controller;
      
     public DataStructChoice_Dialog_t_Indep_Means(Indep_t_Controller indep_t_Controller) {
-        //System.out.println("43 DataStructChoice_Dialog_t_Indep_Means, constructing");
+        if (printTheStuff == true) {
+            System.out.println("47 *** DataStructChoice_Dialog_t_Indep_Means, Constructing");
+        }
         this.indep_t_Controller = indep_t_Controller;
-        indep_t_Controller.setDataOrSummary("Bailed"); // The default
+        indep_t_Controller.setTidyOrTI8x("Bailed"); // The default
         finishTheJob();
     }
     
     private void finishTheJob() {
-        //System.out.println("50 DataStructChoice_Dialog_t_Indep_Means, finishTheJob()");
+        if (printTheStuff == true) {
+            System.out.println("56 *** DataStructChoice_Dialog_t_Indep_Means, finishTheJob()");
+        }
         alertTitleFont = Font.font("Times New Roman", FontWeight.BOLD, 24);
         alertContextFont = Font.font("Times New Roman", FontWeight.BOLD, 18);
 
@@ -67,9 +74,9 @@ public class DataStructChoice_Dialog_t_Indep_Means extends Stage {
                         + " SPLAT allows two possible strategies.  One strategy is similar "
                         + " to how data is entered in the TI-8x calculators.  Another is to"
                         + " enter group / treatment information in one column and the values "
-                        + " in another column.  And finally, it is possible to enter previously"
-                        + " calculated summary statistics.  Please indicate which strategy you"
-                        + " have decided to use.  \n\nThank you in advance!\n\n";
+                        + " in another column (Tidy data).  And finally, it is possible to "
+                        + " enter previously calculated summary statistics.  Please indicate"
+                        + "  which format you used for this file.  \n\nThank you in advance!\n\n";
         
         txtAlertContext = new Text(alertBoxWidth, alertBoxHeight, strAlertContext);
         txtAlertContext.setFont(alertContextFont);
@@ -84,10 +91,10 @@ public class DataStructChoice_Dialog_t_Indep_Means extends Stage {
         root.setStyle("-fx-background-color: white");
         root.setAlignment(Pos.CENTER);
 
-        btn_Stacked  = new Button("Group Column");
+        btn_Stacked  = new Button("Tidy data");
         btn_Stacked.setStyle("-fx-text-fill: red;");
         btn_Stacked.setOnAction(e -> {
-            indep_t_Controller.setDataOrSummary("Group & Data");
+            indep_t_Controller.setTidyOrTI8x("Tidy data");
                 alertStage.close();
         });
         btn_Stacked.setPadding(new Insets(5, 5, 5, 5));
@@ -96,7 +103,7 @@ public class DataStructChoice_Dialog_t_Indep_Means extends Stage {
         btn_Separate  = new Button("TI8x-Like");
         btn_Separate.setStyle("-fx-text-fill: red;");
         btn_Separate.setOnAction(e -> {
-            indep_t_Controller.setDataOrSummary("Data");
+            indep_t_Controller.setTidyOrTI8x("TI-8x");
             alertStage.close();
         });
         btn_Separate.setPadding(new Insets(5, 5, 5, 5));
@@ -105,7 +112,7 @@ public class DataStructChoice_Dialog_t_Indep_Means extends Stage {
         btn_Summary  = new Button("Summary");
         btn_Summary.setStyle("-fx-text-fill: red;");
             btn_Summary.setOnAction(e -> {
-            indep_t_Controller.setDataOrSummary("Summary");       
+            indep_t_Controller.setTidyOrTI8x("Summary");       
             alertStage.close();
         });
         btn_Summary .setPadding(new Insets(5, 5, 5, 5));

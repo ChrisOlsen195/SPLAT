@@ -1,13 +1,17 @@
 /**************************************************
  *              OneProp_Inf_Controller            *
- *                    09/14/24                    *
- *                     03:00                      *
+ *                    01/16/25                    *
+ *                     18:00                      *
  *************************************************/
 package the_z_procedures;
 
 import utilityClasses.MyYesNoAlerts;
 
 public class OneProp_Inf_Controller {
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean goodToGo;
     int confidenceLevel;
     double alpha;
@@ -20,7 +24,9 @@ public class OneProp_Inf_Controller {
     OneProp_Inf_Dashboard oneProp_Inf_Dashboard;
     
     public OneProp_Inf_Controller() {
-        //System.out.println("18 OneProp_Inf_Controller, constructing");
+        if (printTheStuff == true) {
+            System.out.println("28 *** OneProp_Inf_Controller, Constructing");
+        }
         myYesNoAlerts = new MyYesNoAlerts();
     }
     

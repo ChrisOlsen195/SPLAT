@@ -18,7 +18,7 @@ public class PrintBivStats_View extends PrintTextReport_View {
     // My classes
     Data_Manager dm;
    
-    public PrintBivStats_View(Inf_Regression_Model inf_Regression_Model,  Regression_Dashboard regression_Dashboard,
+    public PrintBivStats_View(Inf_Regr_Model inf_Regression_Model,  Regr_Dashboard regression_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);

@@ -1,11 +1,12 @@
 /**************************************************
  *                 Indep_t_Model                  *
- *                    02/07/24                    *
- *                     18:00                      *
+ *                    02/02/25                    *
+ *                     06:00                      *
  *************************************************/
 package the_t_procedures;
 
 import dataObjects.QuantitativeDataVariable;
+import dialogs.t_and_z.Indep_t_Dialog;
 import java.util.ArrayList;
 import splat.Data_Manager;
 import utilityClasses.*;
@@ -39,16 +40,19 @@ public class Indep_t_Model {
     ArrayList<QuantitativeDataVariable> allTheQDVs;
     Data_Manager dm;
     Indep_t_Controller indep_t_Controller;
+    Indep_t_Dialog indep_t_Dialog;
 
     T_double_df tDist_Mean1, tDist_Mean2, tDist_Sat, tDist_Pooled;
     
 // ***************  Called by Independent t procedure  **********************    
     public Indep_t_Model (Indep_t_Controller indep_t_Controller,
+                                String firstVarDescr, String secondVarDescr,
                                 ArrayList<QuantitativeDataVariable> allTheQDVs) {
         this.allTheQDVs = new ArrayList();
         this.indep_t_Controller = indep_t_Controller;
+        indep_t_Dialog = indep_t_Controller.getIndepTDialog();
         dm = indep_t_Controller.getDataManager();
-        dm.whereIsWaldo(51, waldoFile, "Constructing");
+        dm.whereIsWaldo(55, waldoFile, " *** Constructing");
         
         this.allTheQDVs = new ArrayList();       
         for (int ithQDV = 0; ithQDV < allTheQDVs.size(); ithQDV++) {
@@ -58,23 +62,23 @@ public class Indep_t_Model {
     
     // ***************  Called by Independent t procedure  *******************
     public String doIndepTAnalysis() {
-        dm.whereIsWaldo(61, waldoFile, "doIndepTAnalysis()");
+        dm.whereIsWaldo(65, waldoFile, " --- doIndepTAnalysis()");
         returnStatus = "OK";
-        altHypothesis = indep_t_Controller.getInd_T_AltHypothesis();
-        hypothDiff = indep_t_Controller.getInd_T_HypothesizedDiff();
-        alpha = indep_t_Controller.getInd_T_Alpha();
+        altHypothesis = indep_t_Dialog.getAltHypothesis();
+        hypothDiff = indep_t_Dialog.getHypothesizedDiffInMeans();
+        alpha = indep_t_Dialog.getInd_t_Alpha();
         confidenceLevel = (int)(100. *(1.0 - alpha));
         oneMinusAlpha = 1.0 - alpha;
         alphaOverTwo = alpha / 2.0;
         oneMinusAlphaOverTwo = 1.0 - alphaOverTwo;
-        var_1_String = indep_t_Controller.getFirstVarDescription();
-        var_2_String = indep_t_Controller.getSecondVarDescription();
+        var_1_String = indep_t_Controller.getFirstVarDescr();
+        var_2_String = indep_t_Controller.getSecondVarDescr();
         
         n1 = allTheQDVs.get(0).getLegalN();
         n2 = allTheQDVs.get(1).getLegalN();
         
         if ((n1 < 2) || (n2 < 2)) {
-            MyAlerts.showTooFewIndtDFAlert();
+            MyAlerts.showSampleSizeTooSmallAlert();
             returnStatus = "Cancel";
             return returnStatus;
         } 
@@ -132,7 +136,7 @@ public class Indep_t_Model {
         stErr_Pooled = Math.sqrt(s2_pooled_ratio * s2_pooled_ns);
         stErr_Unpooled = Math.sqrt(var_1 / n1 + var_2 / n2);
         tForTwoTails_Unpooled = (diffXBar - hypothDiff) / stErr_Unpooled;    
-        hypothDiff = indep_t_Controller.getInd_T_HypothesizedDiff();
+        hypothDiff = indep_t_Dialog.getHypothesizedDiffInMeans();
 
         t_Unpooled = (xBar_1 - xBar_2 - hypothDiff) / stErr_Unpooled;
         t_Pooled = (xBar_1 - xBar_2 - hypothDiff) / stErr_Pooled;
@@ -143,10 +147,10 @@ public class Indep_t_Model {
     
     public void printStatistics() {        
         indepTReport = new ArrayList();
-
-        switch (indep_t_Controller.getInd_T_AltHypothesis()) {
+        dm.whereIsWaldo(150, waldoFile, " --- printStatistics(), altHypoth = " + altHypothesis);
+        switch (altHypothesis) {
             case "NotEqual":  
-                dm.whereIsWaldo(145, waldoFile, "printStatistics() -- Case not equal");
+                dm.whereIsWaldo(153, waldoFile, " --- printStatistics() -- Case not equal");
                 critical_t_Unpooled = tDist_Sat.quantile(oneMinusAlphaOverTwo);
                 critical_t_Pooled = tDist_Pooled.quantile(1.0 - alphaOverTwo);
                 pValueDiff_Unpooled = 2.0 * (tDist_Sat.cumulative(-Math.abs(tForTwoTails_Unpooled)));              
@@ -164,6 +168,7 @@ public class Indep_t_Model {
                 break;
         
             case "LessThan":
+                dm.whereIsWaldo(171, waldoFile, " --- printStatistics() -- Case less than");
                 critical_t_Unpooled = tDist_Sat.quantile(oneMinusAlpha);
                 critical_t_Pooled = tDist_Pooled.quantile(oneMinusAlpha);
                 pValueDiff_Unpooled = tDist_Sat.cumulative(-Math.abs(tForTwoTails_Unpooled));
@@ -181,6 +186,7 @@ public class Indep_t_Model {
                 break;
             
             case "GreaterThan":
+                dm.whereIsWaldo(189, waldoFile, " --- printStatistics() -- Case greater than");
                 critical_t_Unpooled = tDist_Sat.quantile(oneMinusAlpha);
                 critical_t_Pooled = tDist_Pooled.quantile(oneMinusAlpha);
                 pValueDiff_Unpooled = 1.0 - tDist_Sat.cumulative(Math.abs(tForTwoTails_Unpooled));
@@ -200,12 +206,13 @@ public class Indep_t_Model {
                 break;
             
             default: 
-                String switchFailure = "Switch failure: Ind t Model 199 " + "Alt Hypoth";
+                String switchFailure = "Switch failure: Ind t Model 209 " + altHypothesis;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
             }           
     }
     
     private void printDescriptiveStatistics() {
+        dm.whereIsWaldo(215, waldoFile, " --- printDescriptiveStatistics()");
         addNBlankLinesToIndepTReport(1);
         indepTReport.add("               *****   Descriptive statistics and confidence intervals   *****");
         addNBlankLinesToIndepTReport(1);
@@ -235,121 +242,124 @@ public class Indep_t_Model {
     }
     
     private void printNotEqualTo() {
-          addNBlankLinesToIndepTReport(1);
-          indepTReport.add("          *****   Hypothesis test:    *****");
-          addNBlankLinesToIndepTReport(2);
-          indepTReport.add(String.format("  %30s %5.3f", "       Null hypothesis: \u03BC\u2081 - \u03BC\u2082  = ", hypothDiff));
-          addNBlankLinesToIndepTReport(1);
-          indepTReport.add(String.format("  %30s %5.3f", "Alternative hypothesis: \u03BC\u2081 - \u03BC\u2082  \u2260 ", hypothDiff));
-          addNBlankLinesToIndepTReport(2);
-          indepTReport.add("          Method       DiffMeans      St Err       df         t-stat      p-Value");
-          addNBlankLinesToIndepTReport(2);
-          indepTReport.add(String.format("      %13s    %8.3f     %8.3f   %8.3f     %8.3f    %8.3f",
-                                                                                            "Satterthwaite",
-                                                                                            diffXBar,
-                                                                                            stErr_Unpooled,
-                                                                                            satterthwaite_df,
-                                                                                            t_Unpooled,
-                                                                                            pValueDiff_Unpooled));
-          addNBlankLinesToIndepTReport(1);
-          indepTReport.add(String.format("   %13s       %8.3f     %8.3f     %5d      %8.3f    %8.3f",
-                                                                                            "Pooled",
-                                                                                            diffXBar,
-                                                                                            stErr_Pooled,
-                                                                                            pooled_df,
-                                                                                            t_Pooled,
-                                                                                            pValueDiff_Pooled));
-          addNBlankLinesToIndepTReport(1);
-          // }
-          addNBlankLinesToIndepTReport(2);
-          indepTReport.add(String.format("     *****   Estimation for the difference, %20s   *****", longDescrOfDiff));
-          addNBlankLinesToIndepTReport(1);
-          strCITitle = "                        ***  " + String.valueOf(confidenceLevel) + "% Confidence intervals for \u03BC\u2081 - \u03BC\u2082 ***";
-          indepTReport.add(strCITitle);
-          addNBlankLinesToIndepTReport(2);
-          indepTReport.add("          Method       DiffMeans     StandErr        df        ciLow      ciHigh");
-          addNBlankLinesToIndepTReport(2);
-          indepTReport.add(String.format("      %13s   %8.3f     %8.3f      %8.3f    %8.3f   %8.3f",
-                                                                                            "Satterthwaite",
-                                                                                            diffXBar,
-                                                                                            stErr_Unpooled,
-                                                                                            satterthwaite_df,
-                                                                                            ciDiff_Low_Unpooled,
-                                                                                            ciDiff_High_Unpooled));
+        dm.whereIsWaldo(245, waldoFile, " --- printGreaterThan()");
+        addNBlankLinesToIndepTReport(1);
+        indepTReport.add("          *****   Hypothesis test:    *****");
+        addNBlankLinesToIndepTReport(2);
+        indepTReport.add(String.format("  %30s %5.3f", "       Null hypothesis: \u03BC\u2081 - \u03BC\u2082  = ", hypothDiff));
+        addNBlankLinesToIndepTReport(1);
+        indepTReport.add(String.format("  %30s %5.3f", "Alternative hypothesis: \u03BC\u2081 - \u03BC\u2082  \u2260 ", hypothDiff));
+        addNBlankLinesToIndepTReport(2);
+        indepTReport.add("          Method       DiffMeans      St Err       df         t-stat      p-Value");
+        addNBlankLinesToIndepTReport(2);
+        indepTReport.add(String.format("      %13s    %8.3f     %8.3f   %8.3f     %8.3f    %8.3f",
+                                                                                          "Satterthwaite",
+                                                                                          diffXBar,
+                                                                                          stErr_Unpooled,
+                                                                                          satterthwaite_df,
+                                                                                          t_Unpooled,
+                                                                                          pValueDiff_Unpooled));
+        addNBlankLinesToIndepTReport(1);
+        indepTReport.add(String.format("   %13s       %8.3f     %8.3f     %5d      %8.3f    %8.3f",
+                                                                                          "Pooled",
+                                                                                          diffXBar,
+                                                                                          stErr_Pooled,
+                                                                                          pooled_df,
+                                                                                          t_Pooled,
+                                                                                          pValueDiff_Pooled));
+        addNBlankLinesToIndepTReport(1);
+        // }
+        addNBlankLinesToIndepTReport(2);
+        indepTReport.add(String.format("     *****   Estimation for the difference, %20s   *****", longDescrOfDiff));
+        addNBlankLinesToIndepTReport(1);
+        strCITitle = "                        ***  " + String.valueOf(confidenceLevel) + "% Confidence intervals for \u03BC\u2081 - \u03BC\u2082 ***";
+        indepTReport.add(strCITitle);
+        addNBlankLinesToIndepTReport(2);
+        indepTReport.add("          Method       DiffMeans     StandErr        df        ciLow      ciHigh");
+        addNBlankLinesToIndepTReport(2);
+        indepTReport.add(String.format("      %13s   %8.3f     %8.3f      %8.3f    %8.3f   %8.3f",
+                                                                                          "Satterthwaite",
+                                                                                          diffXBar,
+                                                                                          stErr_Unpooled,
+                                                                                          satterthwaite_df,
+                                                                                          ciDiff_Low_Unpooled,
+                                                                                          ciDiff_High_Unpooled));
         addNBlankLinesToIndepTReport(1);
 
         indepTReport.add(String.format("   %13s      %8.3f     %8.3f      %6d      %8.3f   %8.3f",
-                                                                                            "Pooled",
-                                                                                            diffXBar,
-                                                                                            stErr_Pooled,
-                                                                                            pooled_df,
-                                                                                            ciDiff_Low_Pooled,
-                                                                                            ciDiff_High_Pooled));
-        
+                                                                                          "Pooled",
+                                                                                          diffXBar,
+                                                                                          stErr_Pooled,
+                                                                                          pooled_df,
+                                                                                          ciDiff_Low_Pooled,
+                                                                                          ciDiff_High_Pooled));
+
         addNBlankLinesToIndepTReport(2);
         indepTReport.add(String.format("        Effect size (Cohen's D) = %5.3f",  effectSize)); 
         addNBlankLinesToIndepTReport(1);
     }
     
     private void printLessThan() {
-       addNBlankLinesToIndepTReport(2);
-       indepTReport.add("          *****   Hypothesis test:    *****");
-       addNBlankLinesToIndepTReport(2);                
-       indepTReport.add(String.format("  %30s %5.3f", "       Null hypothesis: \u03BC\u2081 - \u03BC\u2082  = ", hypothDiff));
-       addNBlankLinesToIndepTReport(1);
-       indepTReport.add(String.format("  %30s %5.3f", "Alternative hypothesis: \u03BC\u2081 - \u03BC\u2082  < ", hypothDiff));
-       addNBlankLinesToIndepTReport(2);
-       indepTReport.add("          Method       DiffMeans      St Err       df       t-stat      p-Value");
-       addNBlankLinesToIndepTReport(2);
-       indepTReport.add(String.format("      %13s    %8.3f     %8.3f   %8.3f   %8.3f    %8.3f",
-                                                                           "Satterthwaite",
-                                                                           diffXBar,
-                                                                           stErr_Unpooled,
-                                                                           satterthwaite_df,
-                                                                           t_Unpooled,
-                                                                           pValueDiff_Unpooled));
-       addNBlankLinesToIndepTReport(1);
-       indepTReport.add(String.format("   %13s       %8.3f     %8.3f    %5d     %8.3f    %8.3f",
-                                                                           "Pooled",
-                                                                           diffXBar,
-                                                                           stErr_Pooled,
-                                                                           pooled_df,
-                                                                           t_Pooled,
-                                                                           pValueDiff_Pooled));
-       addNBlankLinesToIndepTReport(1);
-
-       addNBlankLinesToIndepTReport(2);
-       indepTReport.add(String.format("      *****   Estimation for the difference, %10s", longDescrOfDiff));
-       addNBlankLinesToIndepTReport(1);
-       strCITitle = "                        ***  " + String.valueOf(confidenceLevel) + "% Confidence intervals for \u03BC\u2081 - \u03BC\u2082 ***";
-       indepTReport.add(strCITitle);
-       addNBlankLinesToIndepTReport(2);                
-       indepTReport.add(String.format("          Method       DiffMeans     StandErr      df        ciLow       ciHigh"));
-       addNBlankLinesToIndepTReport(1);
-       indepTReport.add(String.format("      %13s   %8.3f     %8.3f    %8.3f    %8.3f        %2s ",
-                                                                           "Satterthwaite",
-                                                                           diffXBar,
-                                                                           stErr_Unpooled,
-                                                                           satterthwaite_df,
-                                                                           ciDiff_Low_Unpooled,
-                                                                           "+\u221E"));
-       addNBlankLinesToIndepTReport(1);
-
-
-       indepTReport.add(String.format("   %13s      %8.3f     %8.3f     %5d      %8.3f        %2s",
-                                                                           "Pooled",
-                                                                           diffXBar,
-                                                                           stErr_Pooled,
-                                                                           pooled_df,
-                                                                           ciDiff_Low_Pooled,
-                                                                           "+\u221E"));
-        
+        dm.whereIsWaldo(302, waldoFile, " --- printLessThan()");
         addNBlankLinesToIndepTReport(2);
-        indepTReport.add(String.format("        Effect size (Cohen's D) = %5.3f",  effectSize)); 
+        indepTReport.add("          *****   Hypothesis test:    *****");
+        addNBlankLinesToIndepTReport(2);                
+        indepTReport.add(String.format("  %30s %5.3f", "       Null hypothesis: \u03BC\u2081 - \u03BC\u2082  = ", hypothDiff));
         addNBlankLinesToIndepTReport(1);
+        indepTReport.add(String.format("  %30s %5.3f", "Alternative hypothesis: \u03BC\u2081 - \u03BC\u2082  < ", hypothDiff));
+        addNBlankLinesToIndepTReport(2);
+        indepTReport.add("          Method       DiffMeans      St Err       df       t-stat      p-Value");
+        addNBlankLinesToIndepTReport(2);
+        indepTReport.add(String.format("      %13s    %8.3f     %8.3f   %8.3f   %8.3f    %8.3f",
+                                                                            "Satterthwaite",
+                                                                            diffXBar,
+                                                                            stErr_Unpooled,
+                                                                            satterthwaite_df,
+                                                                            t_Unpooled,
+                                                                            pValueDiff_Unpooled));
+        addNBlankLinesToIndepTReport(1);
+        indepTReport.add(String.format("   %13s       %8.3f     %8.3f    %5d     %8.3f    %8.3f",
+                                                                            "Pooled",
+                                                                            diffXBar,
+                                                                            stErr_Pooled,
+                                                                            pooled_df,
+                                                                            t_Pooled,
+                                                                            pValueDiff_Pooled));
+        addNBlankLinesToIndepTReport(1);
+
+        addNBlankLinesToIndepTReport(2);
+        indepTReport.add(String.format("      *****   Estimation for the difference, %10s", longDescrOfDiff));
+        addNBlankLinesToIndepTReport(1);
+        strCITitle = "                        ***  " + String.valueOf(confidenceLevel) + "% Confidence intervals for \u03BC\u2081 - \u03BC\u2082 ***";
+        indepTReport.add(strCITitle);
+        addNBlankLinesToIndepTReport(2);                
+        indepTReport.add(String.format("          Method       DiffMeans     StandErr      df        ciLow       ciHigh"));
+        addNBlankLinesToIndepTReport(1);
+        indepTReport.add(String.format("      %13s   %8.3f     %8.3f    %8.3f    %8.3f        %2s ",
+                                                                            "Satterthwaite",
+                                                                            diffXBar,
+                                                                            stErr_Unpooled,
+                                                                            satterthwaite_df,
+                                                                            ciDiff_Low_Unpooled,
+                                                                            "+\u221E"));
+        addNBlankLinesToIndepTReport(1);
+
+
+        indepTReport.add(String.format("   %13s      %8.3f     %8.3f     %5d      %8.3f        %2s",
+                                                                            "Pooled",
+                                                                            diffXBar,
+                                                                            stErr_Pooled,
+                                                                            pooled_df,
+                                                                            ciDiff_Low_Pooled,
+                                                                            "+\u221E"));
+
+         addNBlankLinesToIndepTReport(2);
+         indepTReport.add(String.format("        Effect size (Cohen's D) = %5.3f",  effectSize)); 
+         addNBlankLinesToIndepTReport(1);
     }
     
     private void printGreaterThan() {
+        dm.whereIsWaldo(361, waldoFile, " --- printGreaterThan()");
         addNBlankLinesToIndepTReport(2);
         indepTReport.add("          *****   Hypothesis test:    *****");
         addNBlankLinesToIndepTReport(2);                
@@ -407,22 +417,23 @@ public class Indep_t_Model {
     
     private double getCohensD(double xBar1, double standDev1, int n1,
                               double xBar2, double standDev2, int n2) {
-            double dbl_n1 = n1;
-            double dbl_n2 = n2;
-            double df;
-            df = dbl_n1 + dbl_n2 - 2.0;
-            double tempNum = (dbl_n1 - 1) * standDev1 * standDev1 + (dbl_n2 - 1) * standDev2 * standDev2;
-            double tempDen = (dbl_n1 + dbl_n2 - 2.0);
-            double sPooled = Math.sqrt(tempNum / tempDen);
-            cohensD = ((xBar1 - xBar2) - hypothDiff) / sPooled;
-            
-            if(altHypothesis.equals("NotEqual")) {
-               cohensD = Math.abs(cohensD);
-            }
-            
-            cohensD_Unbiased = cohensD * (1.0 - 3.0 / (4.0 * df - 1.0));          
-            return cohensD_Unbiased;
+        dm.whereIsWaldo(420, waldoFile, " --- getCohensD()");
+        double dbl_n1 = n1;
+        double dbl_n2 = n2;
+        double df;
+        df = dbl_n1 + dbl_n2 - 2.0;
+        double tempNum = (dbl_n1 - 1) * standDev1 * standDev1 + (dbl_n2 - 1) * standDev2 * standDev2;
+        double tempDen = (dbl_n1 + dbl_n2 - 2.0);
+        double sPooled = Math.sqrt(tempNum / tempDen);
+        cohensD = ((xBar1 - xBar2) - hypothDiff) / sPooled;
+
+        if(altHypothesis.equals("NotEqual")) {
+           cohensD = Math.abs(cohensD);
         }
+
+        cohensD_Unbiased = cohensD * (1.0 - 3.0 / (4.0 * df - 1.0));          
+        return cohensD_Unbiased;
+    }
 
     private void addNBlankLinesToIndepTReport(int thisMany) {
         StringUtilities.addNLinesToArrayList(indepTReport, thisMany);
@@ -435,6 +446,9 @@ public class Indep_t_Model {
     public String getHypotheses() { return altHypothesis; }    
     public double getPValue() { return pValueDiff_Unpooled; }    
     public ArrayList<String> getIndepTReport() { return indepTReport; }
-    
     public Data_Manager getDataManager() { return dm; }
+    
+    public String toString() {
+        return "indep_t_Model -- toString";
+    }
 }

@@ -1,7 +1,7 @@
 /**************************************************
  *              ReOrderStrings_Dialog             *
- *                    09/07/24                    *
- *                     18:00                      *
+ *                    03/11/25                    *
+ *                     12:00                      *
  *************************************************/
 package dialogs;
 
@@ -30,40 +30,49 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import proceduresManyUnivariate.MultUni_Controller;
+import proceduresTwoUnivariate.Explore_2Ind_Controller;
+import the_t_procedures.Indep_t_Controller;
 import utilityClasses.MyAlerts;
 
 public class ReOrderStringDisplay_Dialog extends Splat_Dialog{
 	
-// POJOs
-int nVariables;
-int[] stringOrder;
-String strDirections, daModel;
-String[] strVariableNames;
+    // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
+    int nVariables;
+    int[] stringOrder;
+    String strDirections, daModel;
+    String[] strVariableNames;
 
-// FX
-AnchorPane root;
-Button draggingButton, btnCompute, btnNoChange;
-static DataFormat buttonFormat;
-Font fntDirections;
-private GridPane gpStackPanes, gpDraggableButtons, gpPositions;
-private HBox hBoxForButtons;
-Insets spacerInsets;
-Label[] varPositions;
-Region[] spacer;
-Scene scene;
-StackPane[] rowOfSPs;
-Text txtDirections;
-MultUni_Controller multUni_Controller;
-ANOVA1_Cat_Controller anova1_Cat_Controller;
-ANOVA1_Quant_Controller anova1_Quant_Controller;
-X2GOF_Model x2GOF_Model;
+    // FX
+    AnchorPane root;
+    Button draggingButton, btnCompute, btnNoChange;
+    static DataFormat buttonFormat;
+    Font fntDirections;
+    private GridPane gpStackPanes, gpDraggableButtons, gpPositions;
+    private HBox hBoxForButtons;
+    Insets spacerInsets;
+    Label[] varPositions;
+    Region[] spacer;
+    Scene scene;
+    StackPane[] rowOfSPs;
+    Text txtDirections;
+    MultUni_Controller multUni_Controller;
+    ANOVA1_Cat_Controller anova1_Cat_Controller;
+    ANOVA1_Quant_Controller anova1_Quant_Controller;
+    Indep_t_Controller indep_t_Controller;
+    Explore_2Ind_Controller explore_2Ind_Controller;
+    X2GOF_Model x2GOF_Model;
 
 public ReOrderStringDisplay_Dialog(MultUni_Controller multUni_Controller, String[] theOriginalOrder) {
-    System.out.println("\n60 ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff == true) {
+        System.out.println("71 *** ReOrderStringDisplay_Dialog, Constructing");
+    }
     this.multUni_Controller = multUni_Controller;
     if (buttonFormat == null) {
         buttonFormat = new DataFormat("MyButton");
-       //System.out.println("63 ReOrderStrings, buttonFormat = " + buttonFormat.getIdentifiers());
     }
     daModel = "MULT_UNI";
     nVariables = theOriginalOrder.length;
@@ -73,11 +82,12 @@ public ReOrderStringDisplay_Dialog(MultUni_Controller multUni_Controller, String
 }
 
 public ReOrderStringDisplay_Dialog(ANOVA1_Cat_Controller anova1_Cat_Controller, String[] theOriginalOrder) {
-    //System.out.println("\n74 ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff == true) {
+        System.out.println("86 *** ReOrderStringDisplay_Dialog, Constructing");
+    }
     this.anova1_Cat_Controller = anova1_Cat_Controller;
     if (buttonFormat == null) {
         buttonFormat = new DataFormat("MyButton");
-       //System.out.println("76 ReOrderStrings, buttonFormat = " + buttonFormat.getIdentifiers());
     }
     daModel = "ANOVA1_CAT";
     nVariables = theOriginalOrder.length;
@@ -87,11 +97,12 @@ public ReOrderStringDisplay_Dialog(ANOVA1_Cat_Controller anova1_Cat_Controller, 
 }
 
 public ReOrderStringDisplay_Dialog(ANOVA1_Quant_Controller anova1_Quant_Controller, String[] theOriginalOrder) {
-    //System.out.println("\n88 ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff == true) {
+        System.out.println("102 *** ReOrderStringDisplay_Dialog, Constructing");
+    }
     this.anova1_Quant_Controller = anova1_Quant_Controller;
     if (buttonFormat == null) {
         buttonFormat = new DataFormat("MyButton");
-       //System.out.println("92 ReOrderStrings, buttonFormat = " + buttonFormat.getIdentifiers());
     }
     daModel = "ANOVA1_QUANT";
     nVariables = theOriginalOrder.length;
@@ -100,12 +111,44 @@ public ReOrderStringDisplay_Dialog(ANOVA1_Quant_Controller anova1_Quant_Controll
     doTheDialog();
 }
 
+public ReOrderStringDisplay_Dialog(Explore_2Ind_Controller explore_2Ind_Controller, String[] theOriginalOrder) {
+    if (printTheStuff == true) {
+        System.out.println("117 *** ReOrderStringDisplay_Dialog, Constructing");
+    }
+    this.explore_2Ind_Controller = explore_2Ind_Controller;
+    if (buttonFormat == null) {
+        buttonFormat = new DataFormat("MyButton");
+    }
+    daModel = "EXPLORE_2IND";
+    nVariables = theOriginalOrder.length;
+    strVariableNames = new String[nVariables];
+    System.arraycopy(theOriginalOrder, 0, strVariableNames, 0, nVariables);
+    doTheDialog();
+}
+
+public ReOrderStringDisplay_Dialog(Indep_t_Controller indep_t_Controller, String[] theOriginalOrder) {
+    if (printTheStuff == true) {
+        System.out.println("132 *** ReOrderStringDisplay_Dialog, Constructing");
+    }
+    this.indep_t_Controller = indep_t_Controller;
+    if (buttonFormat == null) {
+        buttonFormat = new DataFormat("MyButton");
+    }
+    daModel = "INDEP_T";
+    nVariables = theOriginalOrder.length;
+    strVariableNames = new String[nVariables];
+    System.arraycopy(theOriginalOrder, 0, strVariableNames, 0, nVariables);
+    doTheDialog();
+}
+
+//  *******************************  Cancel OK  ************************
 public ReOrderStringDisplay_Dialog(X2GOF_Model x2GOF_Model, String[] theOriginalOrder) {
-    System.out.println("\n104 ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff == true) {
+        System.out.println("148 *** ReOrderStringDisplay_Dialog, Constructing");
+    }
     this.x2GOF_Model = x2GOF_Model;
     if (buttonFormat == null) {
         buttonFormat = new DataFormat("MyButton");
-       //System.out.println("92 ReOrderStrings, buttonFormat = " + buttonFormat.getIdentifiers());
     }
     daModel = "X2_GOF";
     nVariables = x2GOF_Model.getNCategories();
@@ -199,7 +242,7 @@ private void doTheDialog() {
 
     private void doTheLoops() {
         for (int ithIndex = 0; ithIndex < nVariables; ithIndex++) {
-            varPositions[ithIndex] = new Label("         Pos   " + String.valueOf(ithIndex) + " ");
+            varPositions[ithIndex] = new Label("         Pos   " + String.valueOf(ithIndex + 1) + " ");
             varPositions[ithIndex].setStyle("-fx-font-size: 18");   
 
             rowOfSPs[ithIndex] = new StackPane();
@@ -215,35 +258,39 @@ private void doTheDialog() {
     }
 
     private void doButtons() {
-        
-        btnCancel = new Button("Cancel");
-        btnCancel.setStyle("-fx-text-fill: red;");
-        btnCancel.setOnAction(e -> {  
-            close();
-        });
-
         btnCompute = new Button("Compute");
         btnCompute.setStyle("-fx-text-fill: red;");
         btnCompute.setOnAction(e -> {
+            if (printTheStuff == true) {
+                System.out.println("266 --- ReOrderStringDisplay_Dialog, doButtons() daModel = " + daModel);
+             }
             switch (daModel) {
                 case "MULT_UNI":
-                    multUni_Controller.closeTheReOrderDialog(stringOrder);
+                    multUni_Controller.copyTheReOrderDialog(stringOrder);
                     break;
                     
                 case "ANOVA1_CAT":
-                    anova1_Cat_Controller.closeTheReOrderDialog(stringOrder);
+                    anova1_Cat_Controller.copyTheReOrder(stringOrder);
                     break;
                     
                 case "ANOVA1_QUANT":
-                    anova1_Quant_Controller.closeTheReOrderDialog(stringOrder);
+                    anova1_Quant_Controller.copyTheReOrder(stringOrder);
                     break;
                     
                 case "X2_GOF":
                     x2GOF_Model.closeTheReOrderDialog(stringOrder);
                     break;
+                    
+                case "EXPLORE_2IND":
+                    explore_2Ind_Controller.copyTheReOrder(stringOrder);
+                    break;
+                    
+                case "INDEP_T":
+                    indep_t_Controller.copyTheReOrder(stringOrder);
+                    break;
                
                 default:
-                    String switchFailure = "Switch failure: ReOrderStringDisplay_Dialog 239 " + daModel;
+                    String switchFailure = "Switch failure: ReOrderStringDisplay_Dialog doButtons() 294 " + daModel;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                     break;
             }
@@ -292,6 +339,7 @@ private void doTheDialog() {
                 draggingButton = null;
             }           
         });
-    }          
-             
+    }
+     
+     public String getReturnStatus() { return strReturnStatus; }
 }

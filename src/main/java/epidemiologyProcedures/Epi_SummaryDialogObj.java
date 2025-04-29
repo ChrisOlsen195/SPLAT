@@ -8,7 +8,7 @@ package epidemiologyProcedures;
  *            Note:  X- and Y-variable names are messed up!!!               * 
  ***************************************************************************/
 
-import chiSquare.X2Grid;
+import chiSquare.X2_Grid;
 import java.util.ArrayList;
 import smarttextfield.*;
 
@@ -24,7 +24,7 @@ public class Epi_SummaryDialogObj {
                                     SmartTextField yVar,
                                     SmartTextField[] strXValues,
                                     SmartTextField[] strYValues,
-                                    X2Grid x2GriddyWiddy) {
+                                    X2_Grid x2GriddyWiddy) {
     
         System.out.println("\n29 Epi_SummaryDialogObj, Constructing");
         nRows = 2; nCols = 2;

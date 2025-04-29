@@ -1,7 +1,7 @@
 /**************************************************
  *               ProbCalc_DialogView              *
- *                    11/27/23                    *
- *                     00:00                      *
+ *                    01/16/25                    *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -16,7 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import smarttextfield.SmartTextFieldsController;
 import superClasses.BivariateScale_W_CheckBoxes_View;
 import utilityClasses.StringUtilities;
@@ -35,11 +35,12 @@ import utilityClasses.MyAlerts;
     ****************************************/
 
 public abstract class ProbCalc_DialogView extends BivariateScale_W_CheckBoxes_View {
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     boolean okToGraph, leftTailChecked, midTailChecked, rightTailChecked, 
             distributionIsDefined, goodToGo;
-    
-    boolean printErrorAlerts;
     
     final int PROB_ROUND = 4;
     
@@ -69,22 +70,16 @@ public abstract class ProbCalc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     VBox theHBoxes;  
     
     // My classes
-    DoublyLinkedSTF al_ProbCalcs_STF;
+    SmartTextFieldDoublyLinkedSTF al_ProbCalcs_STF;
     ProbCalc_Dashboard probCalc_Dashboard;
     SmartTextFieldsController stf_ProbCalcs_Controller;
  
     ProbCalc_DialogView(double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("79 ProbCalc_DialogView, constructing");
-        /***********************************************************
-         *                 For debugging                           *
-         **********************************************************/
-        printErrorAlerts = false;
-        /**********************************************************
-        *                 For debugging                           *
-        **********************************************************/        
-
+        if (printTheStuff == true) {
+            System.out.println("81 *** ProbCalc_DialogView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;         
         stf_ProbCalcs_Controller = new SmartTextFieldsController();
@@ -117,19 +112,14 @@ public abstract class ProbCalc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     }
     
     void doLeftStatistic() { 
-        //printAlert(120, "doLeftStatistic()");
-        if (!distrIsDefined()) { 
-            return; 
-        }
+        if (!distrIsDefined()) { return; }
         
         if (!DataUtilities.strIsADouble(al_ProbCalcs_STF.get(6).getText())) {   //  Checks for empty also
-            //printAlert(126, "(!DataUtilities.strIsADouble(al_ProbCalcs_STF.get(6).getText()))");
             MyAlerts.showGenericBadNumberAlert("number");
             return;
         }
 
         str_Left_Stat = al_ProbCalcs_STF.get(6).getText();
-        //System.out.println("At 132, str_Left_Stat = " + str_Left_Stat);
         if (str_Left_Stat.isEmpty()) { return; }
         
         dbl_Left_Stat = Double.parseDouble(str_Left_Stat); 
@@ -245,7 +235,6 @@ public abstract class ProbCalc_DialogView extends BivariateScale_W_CheckBoxes_Vi
             str_Mid_Prob = String.valueOf(dbl_Mid_Prob);
             al_ProbCalcs_STF.get(4).setText(roundDoubleToProbString(dbl_Mid_Prob));
             if (!check4LegalSumOfProbabilities()) {
-                //printAlert(266, "(!check4LegalSumOfProbabilities())");
                 MyAlerts.showIllegalProbabilityAlert();
                 return;
             }
@@ -260,20 +249,13 @@ public abstract class ProbCalc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     } 
     
     public void doLeftProbability() {
-        if (!distrIsDefined()) { 
-            //alertProblem = "DistrNotDefined";
-            return; 
-        }
-        
-        // ---------------------------------------------------------------------------------------------
-        
+        if (!distrIsDefined()) { return; }
+
         if (!DataUtilities.strIsADouble(al_ProbCalcs_STF.get(3).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
         }
-        
-        // ---------------------------------------------------------------------------------------------
-        
+
         if (!DataUtilities.strIsAProb(al_ProbCalcs_STF.get(3).getText())) {   //  Checks for empty also
             MyAlerts.showIllegalProbabilityAlert();
             resetProbsAndStats(); 
@@ -565,23 +547,7 @@ public abstract class ProbCalc_DialogView extends BivariateScale_W_CheckBoxes_Vi
            return false;
         }
     }
-
-    /***********************************************************
-     *                 For debugging                           *
-     **********************************************************/
-/*        
-    private void printAlert(int lineNumber, String message) {
-        if (printErrorAlerts) {
-            System.out.println("PrintAlert in ProbCalc_DialogView, called at line " + lineNumber);
-            System.out.println("Message: " + message);
-        }
-    }
-*/
-
-    /**********************************************************
-    *                 For debugging                           *
-    **********************************************************/
-      
+    
     public boolean getLeftTailChecked() { return leftTailChecked; }
     public boolean getMidTailChecked() { return midTailChecked; }    
     public boolean getRightTailChecked() { return rightTailChecked; }

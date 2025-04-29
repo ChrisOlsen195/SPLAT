@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 
 public class StringUtilities {
     
@@ -211,7 +211,7 @@ public class StringUtilities {
         return true;        
     }
     
-    public static boolean checkForUniqueStrings(DoublyLinkedSTF dlSTF) {
+    public static boolean checkForUniqueStrings(SmartTextFieldDoublyLinkedSTF dlSTF) {
         int nCategories = dlSTF.getSize();       
         for (int ithString = 0; ithString < nCategories - 1; ithString++) {
             String temp1 = dlSTF.get(ithString).getText(); 
@@ -240,5 +240,5 @@ public class StringUtilities {
             }
         }
         return true;        
-    }  
+    }
 }

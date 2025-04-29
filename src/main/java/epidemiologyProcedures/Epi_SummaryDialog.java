@@ -38,7 +38,7 @@ public class Epi_SummaryDialog extends Splat_Dialog {
     // My classes  
     ArrayList<SmartTextField> stf_al_Epi;
     Epi_Model epi_Model;
-    DoublyLinkedSTF stf_al;
+    SmartTextFieldDoublyLinkedSTF stf_al;
     SmartTextFieldsController stf_Controller;
     
     // POJOs / FX

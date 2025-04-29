@@ -1,7 +1,7 @@
 /**************************************************
  *           OneMean_Power_Dashboard              *
- *                  05/28/24                      *
- *                    12:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -14,6 +14,10 @@ import javafx.scene.paint.Color;
 import superClasses.*;
 
 public class OneMean_Power_Dashboard extends Dashboard {
+    
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
     OneMean_Power_PdfView oneMean_Power_PdfView;
@@ -30,7 +34,9 @@ public class OneMean_Power_Dashboard extends Dashboard {
     
     public OneMean_Power_Dashboard(OneMean_Power_Controller oneMean_Power_Controller) {
         super(5);
-        //System.out.println("\n33 OneMean_Power_Dashboard, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("38 *** OneMean_Power_Dashboard, Constructing");
+        }
         this.oneMean_Power_Controller = oneMean_Power_Controller;
     }
     

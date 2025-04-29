@@ -47,7 +47,7 @@ public class Logistic_View extends BivariateScale_W_CheckBoxes_View
             
     // My classes    
     Data_Manager dm;
-    LogisticReg_Model logistic_Model;
+    Logistic_Model logistic_Model;
     Matrix originalX, originalY;
 
     //  POJO / FX
@@ -56,7 +56,7 @@ public class Logistic_View extends BivariateScale_W_CheckBoxes_View
     Pane theContainingPane;
     CheckBox[] hBoxCheckBoxes;
 
-    Logistic_View(LogisticReg_Model logistic_Model, Logistic_Dashboard logRegDashboard,
+    Logistic_View(Logistic_Model logistic_Model, Logistic_Dashboard logRegDashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight)  {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);

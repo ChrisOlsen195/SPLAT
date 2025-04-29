@@ -1,11 +1,11 @@
 /**************************************************
  *              Matched_t_Controller              *
- *                    11/01/23                    *
+ *                    04/23/25                    *
  *                     15:00                      *
  *************************************************/
 package the_t_procedures;
 
-import dialogs.t_and_z.MatchedPairs_Dialog;
+import dialogs.t_and_z.Matched_t_Dialog;
 import dataObjects.ColumnOfData;
 import dataObjects.QuantitativeDataVariable;
 import java.util.ArrayList;
@@ -21,6 +21,9 @@ import utilityClasses.StringUtilities;
 
 public class Matched_t_Controller {
     // POJOs  
+    
+    boolean goodToGo;
+    
     int confidenceLevel;
     
     ArrayList<double[]> theMatched;
@@ -37,7 +40,7 @@ public class Matched_t_Controller {
     VerticalBoxPlot_Model vBox_Model;
     NormProb_Model normProb_Model;
     NormProb_DiffModel normProb_DiffModel;
-    MatchedPairs_Dialog matchedPairs_Dialog;
+    Matched_t_Dialog matchedPairs_Dialog;
     Matched_t_Dashboard matched_t_Dashboard;
     Matched_t_Model matched_t_Model; 
     Matched_t_DiffModel matched_t_DiffModel;
@@ -47,13 +50,13 @@ public class Matched_t_Controller {
     // ******  Constructor called from Main Menu  ******
     public Matched_t_Controller(Data_Manager dm) {
         this.dm = dm; 
-        dm.whereIsWaldo(50, waldoFile, "Constructing");
+        dm.whereIsWaldo(53, waldoFile, "Constructing");
         indivColsOfData = new ArrayList();
     }
 
     // ******                 Called from Main Menu                 ******        
-    public String prepColumnsFromNonStacked() {
-        dm.whereIsWaldo(56, waldoFile, "constructing");
+    public String prepColumns() {
+        dm.whereIsWaldo(59, waldoFile, "constructing");
         returnStatus = "OK";
         int casesInStruct = dm.getNCasesInStruct();
         
@@ -62,7 +65,7 @@ public class Matched_t_Controller {
             return "Cancel";
         }
         
-        matchedPairs_Dialog = new MatchedPairs_Dialog(dm, "QUANTITATIVE");
+        matchedPairs_Dialog = new Matched_t_Dialog(dm, "QUANTITATIVE");
         matchedPairs_Dialog.showAndWait();
         returnStatus = matchedPairs_Dialog.getReturnStatus();
         
@@ -90,13 +93,28 @@ public class Matched_t_Controller {
             double secondVal = theMatched.get(1)[ithPair];
             theDiffs[ithPair] = firstVal - secondVal;
         }
+        
+        // Check for constant diffs
+        goodToGo = false;
+        for (int ithPair = 1; ithPair < nPairs; ithPair++) {
+            if (theDiffs[ithPair] != theDiffs[ithPair - 1]) {
+                goodToGo = true;
+            }
+        }       
+        
+        if (!goodToGo) { 
+            MyAlerts.showWeirdMatchedTRequest();
+            return "Cancel"; 
+        }
+        
+        
         theQDV = new QuantitativeDataVariable(diffLabel, diffDescription, theDiffs);
         returnStatus = doTheProcedure();
         return returnStatus;
     } 
     
     private String doTheProcedure() {
-        dm.whereIsWaldo(99, waldoFile, "doTheProcedure()");
+        dm.whereIsWaldo(117, waldoFile, "doTheProcedure()");
         hBox_Model = new HorizontalBoxPlot_Model(diffDescription, theQDV);
         vBox_Model = new VerticalBoxPlot_Model(diffDescription, theQDV);
         
@@ -115,7 +133,7 @@ public class Matched_t_Controller {
     }
     
     public String showTheDashboard() {
-        dm.whereIsWaldo(118, waldoFile, "showTheDashboard()");
+        dm.whereIsWaldo(136, waldoFile, "showTheDashboard()");
         returnStatus = "OK";
         matched_t_Dashboard.populateTheBackGround();
         matched_t_Dashboard.putEmAllUp();
@@ -153,6 +171,6 @@ public class Matched_t_Controller {
     public String getDescriptionOfDifference() { return diffDescription; }
     public Data_Manager getDataManager() { return dm; }
     public BivariateContinDataObj getBivContin() { return bivContin; }
-    public MatchedPairs_Dialog getTDialog() { return matchedPairs_Dialog; }
+    public Matched_t_Dialog getTDialog() { return matchedPairs_Dialog; }
     public Matched_t_DiffModel getDiffModel() { return matched_t_DiffModel; };
 }

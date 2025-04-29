@@ -1,6 +1,6 @@
 /**************************************************
  *          X2Assoc_SegmentedBarChartView         *
- *                    05/23/24                    *
+ *                    01/15/25                    *
  *                     12:00                      *
  *************************************************/
 package chiSquare_Assoc;
@@ -34,7 +34,9 @@ import utilityClasses.*;
 
 public class X2Assoc_SegBarChartView  {
     // POJOs
-    //boolean dragging;
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     double width, halfWidth, initHoriz, initVert, initWidth,
            initHeight, text1Width, text2Width;
@@ -76,7 +78,9 @@ public class X2Assoc_SegBarChartView  {
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) 
     {
-        //System.out.println("76 X2Assoc_SegBarChartView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("82 *** X2Assoc_SegBarChartView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;         
         this.x2Assoc_Model = association_Model;
@@ -86,6 +90,9 @@ public class X2Assoc_SegBarChartView  {
     }
     
     public void completeTheDeal() {
+        if (printTheStuff == true) {
+            System.out.println("94 *** X2Assoc_SegBarChartView, completeTheDeal()");
+        }
         constructSegBarInfo(); 
         txtTitle1 = new Text("Segmented Bar Chart"); 
         txtTitle1.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 18));        

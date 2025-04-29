@@ -50,10 +50,10 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
     
     // My classes
     SmartTextFieldsController stf_RowCol_Controller, stf_VarCat_Controller;
-    DoublyLinkedSTF al_RowCol_STF, al_VarCat_STF;
+    SmartTextFieldDoublyLinkedSTF al_RowCol_STF, al_VarCat_STF;
     
     BivCat_Model bivCat_Model;
-    X2Grid x2Grid;
+    X2_Grid x2Grid;
     
     // POJOs / FX
     BorderPane borderPane_ObsValGrid;
@@ -145,7 +145,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
         strRowCats = new String[nRowCategories];
         strColCats = new String[nColCategories];
         
-        x2Grid = new X2Grid(nRowCategories + 1, nColCategories + 1); 
+        x2Grid = new X2_Grid(nRowCategories + 1, nColCategories + 1); 
         
         // Style for left colum and top row
         String theStyle = "-fxpadding: 10;" +

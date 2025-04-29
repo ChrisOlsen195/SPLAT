@@ -1,7 +1,7 @@
 /**************************************************
- *          Boot_Super_ChooseStats_DialogView     *
- *                    04/17/24                    *
- *                     12:00                      *
+ *            Super_ChooseStats_DialogView        *
+ *                    02/24/25                    *
+ *                     09:00                      *
  *************************************************/
 
 /***************************************************************
@@ -28,7 +28,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import smarttextfield.SmartTextFieldsController;
 import splat.Data_Manager;
 import superClasses.BivariateScale_W_CheckBoxes_View;
@@ -36,8 +36,7 @@ import utilityClasses.*;
 
 public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_CheckBoxes_View {
     
-    boolean leftTail_IsChecked, twoTail_IsChecked, rightTail_IsChecked;
-    boolean shadeLeft, shadeRight; 
+    boolean twoTail_IsChecked, rightTail_IsChecked, shadeLeft, shadeRight; 
     
     final int PROB_ROUND = 4;
     
@@ -47,8 +46,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     
     String str_Left_Prob, str_Mid_Prob, str_Right_Prob, 
            str_Left_Stat, str_Right_Stat_Original, str_Right_Stat_Shifted;
-    
-    final String strDistParams = "Distribution Parameters";
+
     final String toBlank = "";
     
     // Make empty if no-print
@@ -72,7 +70,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     
     // My classes
     Data_Manager dm;
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     ChooseStats_Dashboard chooseStats_Dashboard;
     ChooseStats_DistrModel originalDistrModel;
     ChooseStats_DistrModel shiftedDistrModel;
@@ -80,13 +78,12 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     SmartTextFieldsController stf_Controller;
  
     Super_ChooseStats_DialogView( ChooseStats_Dashboard chooseStats_Dashboard,
-                     double placeHoriz, double placeVert,
-                     double withThisWidth, double withThisHeight) {
+                                  double placeHoriz, double placeVert,
+                                  double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        System.out.println("\n86 Super_ChooseStats_DialogView, Constructing");
         chooseStats_Controller = chooseStats_Dashboard.get_Boot_Controller();
         dm = chooseStats_Controller.getTheDataManager();
-        dm.whereIsWaldo(88, waldoFile, "Constructing");
+        dm.whereIsWaldo(87, waldoFile, "Constructing");
         originalDistrModel = chooseStats_Controller.get_Boot_OriginalDistrModel();
         shiftedDistrModel = chooseStats_Controller.get_Boot_ShiftedDistrModel();
         initHoriz = placeHoriz; initVert = placeVert;
@@ -120,7 +117,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     }
     
     void doLeftStatistic() { 
-        dm.whereIsWaldo(122, waldoFile, "doLeftStatistic()");
+        dm.whereIsWaldo(121, waldoFile, "doLeftStatistic()");
         str_Left_Stat = al_STF.get(6).getText();
         if (str_Left_Stat.isEmpty()) { return; }
         
@@ -134,7 +131,6 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
  
         //  Is there a right prob?
         if (dbl_Right_Prob > 0.0) { 
-            //System.out.println("136 --- Checking assumptions");
             if(!leftRightOrderIsOK()) { return; } // after Error Message
             if (!probabilitiesAreLegal()) { return; }   // after Error Message
             
@@ -142,12 +138,11 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
             al_STF.get(4).setText(roundDoubleToProbString(dbl_Mid_Prob));
         }
         
-        makeANewGraph();
-        
+        makeANewGraph();       
     } 
         
     void doRightStatistic() { 
-        dm.whereIsWaldo(149, waldoFile, "doRightStatistic()");
+        dm.whereIsWaldo(146, waldoFile, "doRightStatistic()");
         if (!DataUtilities.strIsADouble(al_STF.get(7).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -157,10 +152,8 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
         if (str_Right_Stat_Original.isEmpty()) { return; }
         
         dbl_Right_Stat_Original = Double.parseDouble(str_Right_Stat_Original);
-        //fromRightStatDoRightProb(); 
         
         if (dbl_Left_Prob > 0.0) { //  Is there a left prob?;  
-            //System.out.println("162 --- Checking assumptions");
             if (!leftRightOrderIsOK()) { return; } // after error message
             if (!probabilitiesAreLegal()) { return; }   // after Error Message
             
@@ -171,7 +164,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     } 
     
     public void doLeftProbability() {
-        dm.whereIsWaldo(173, waldoFile, "doLeftProbability()");
+        dm.whereIsWaldo(168, waldoFile, "doLeftProbability()");
         if (!DataUtilities.strIsADouble(al_STF.get(3).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -213,7 +206,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     *         Probabilities are the same for Originals & Shifteds            *
     *************************************************************************/
     public void doMiddleProbability() {
-        dm.whereIsWaldo(215, waldoFile, "doMiddleProbability()");
+        dm.whereIsWaldo(210, waldoFile, "doMiddleProbability()");
         if (!DataUtilities.strIsADouble(al_STF.get(4).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -274,7 +267,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     }
     
     void doRightProbability() {
-        dm.whereIsWaldo(260, waldoFile, "doRightProbability()");
+        dm.whereIsWaldo(271, waldoFile, "doRightProbability()");
         if (!DataUtilities.strIsADouble(al_STF.get(5).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -297,7 +290,6 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
         }    
         
         if (!al_STF.get(3).isEmpty()) {
-            System.out.println("279 --- Checking assumptions");
             if (!probabilitiesAreLegal()) { return; }   // after Error Message
             
             dbl_Mid_Prob = 1.0 - dbl_Left_Prob - dbl_Right_Prob;
@@ -305,7 +297,6 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
             al_STF.get(4).setText(roundDoubleToProbString(dbl_Mid_Prob));
         } 
         
-        //fromRightProbDoRightStat();
         makeANewGraph();
     }
     
@@ -313,9 +304,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     *              Check boxes determine which parts are graphed             *
     *************************************************************************/
     public void chBoxLeftTailChanged(ObservableValue<? extends Boolean> observable,
-        Boolean oldValue,
-        Boolean newValue) {
-        //System.out.println("297 --- Bootstrap_DialogView (super), chBoxLeftTailChanged to " + newValue);
+        Boolean oldValue, Boolean newValue) {
         originalDistrModel.set_LeftTail_IsChecked(newValue);
         shiftedDistrModel.set_LeftTail_IsChecked(newValue);
         set_LeftTailCheckBox(newValue);
@@ -344,13 +333,11 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     
     /*************************************************************************
     *              Check boxes determine which parts are graphed             *
-  set_XXXTailCheckBox(newValue);             -- Changes in the View     *
-  originalDistrModel.set_XXX_IsChecked(); -- Alerts the model        *
-    **************************************************************************/ 
+    *  set_XXXTailCheckBox(newValue);             -- Changes in the View     *
+    *  originalDistrModel.set_XXX_IsChecked(); -- Alerts the model           *
+    *************************************************************************/ 
     public void chBoxTwoTailChanged(ObservableValue<? extends Boolean> observable,
-        Boolean oldValue,
-        Boolean newValue) {
-        //System.out.println("329 --- Bootstrap_DialogView (super), chBoxTwoTailChanged to " + newValue);
+        Boolean oldValue, Boolean newValue) {
         originalDistrModel.set_TwoTail_IsChecked(newValue);
         shiftedDistrModel.set_TwoTail_IsChecked(newValue);
         set_TwoTailCheckBox(newValue);
@@ -380,9 +367,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     *              Check boxes determine which parts are graphed            *
     ************************************************************************/
     public void chBoxRightTailChanged(ObservableValue<? extends Boolean> observable,
-        Boolean oldValue,
-        Boolean newValue) {
-        //System.out.println("358 *** Bootstrap_DialogView (super), chBoxRightTailChanged to " + newValue);
+        Boolean oldValue, Boolean newValue) {
         originalDistrModel.set_RightTail_IsChecked(newValue);
         shiftedDistrModel.set_RightTail_IsChecked(newValue);
         set_RightTailCheckBox(newValue);
@@ -410,7 +395,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     } 
     
     public void resetKandK() {  // Kit and Kaboodle
-        dm.whereIsWaldo(387, waldoFile, "resetKandK()");
+        dm.whereIsWaldo(399, waldoFile, "resetKandK()");
         al_STF.get(3).getTextField().setText(toBlank);
         al_STF.get(6).getTextField().setText(toBlank);
         al_STF.get(4).getTextField().setText(toBlank);
@@ -497,7 +482,6 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
         boolean probsAreLegal = true;
         if (dbl_Left_Prob + dbl_Mid_Prob + dbl_Right_Prob > 1.01) {
             probsAreLegal = false;
-            System.out.println("498 left/mid/rightProb = " + dbl_Left_Prob + " / " + dbl_Mid_Prob + " / " + dbl_Right_Prob);
             MyAlerts.showIllegalBootProbabilityAlert();
             resetKandK();  
         } 
@@ -508,7 +492,6 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
         boolean leftRightIsOK = true;
         if (dbl_Left_Stat >= dbl_Right_Stat_Original){
             leftRightIsOK = false;
-            System.out.println("510, lef/rightStat = " + dbl_Left_Stat + " / " + dbl_Right_Stat_Original);
             MyAlerts.showLeftRightOrderAlert();
             resetKandK(); 
             
@@ -517,12 +500,8 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     }
     
     /*******************************************************************
-     *                      Abstract methods                           *                       
-     ******************************************************************/
-    //public abstract void fromLeftStatDoLeftProb();
-    //public abstract void fromRightStatDoRightProb(); 
-    //public abstract void fromLeftProbDoLeftStat();
-    //public abstract void fromRightProbDoRightStat();     
+    *                      Abstract methods                            *                       
+    *******************************************************************/    
     public abstract void makeAllTheSTFs();
     public abstract void makeANewGraph();
     public abstract void constructGraphStatus();

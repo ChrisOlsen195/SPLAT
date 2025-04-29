@@ -1,7 +1,7 @@
 /**************************************************
  *                PrintUStats_Model               *
- *                    11/01/23                    *
- *                      21:00                     *
+ *                    01/16/25                    *
+ *                      12:00                     *
  *************************************************/
 package proceduresOneUnivariate;
 
@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import utilityClasses.StringUtilities;
 
 public class PrintUStats_Model {
+    // POOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int originalN, legalN, missingN;
     
@@ -30,7 +33,9 @@ public class PrintUStats_Model {
     public PrintUStats_Model(String varDescription, QuantitativeDataVariable qdv, boolean trimOrNot) {  
         this.qdv = new QuantitativeDataVariable();
         this.qdv = qdv;
-        //System.out.println("33 PrintUStats_Model, constructing");
+        if (printTheStuff == true) {
+            System.out.println("37 *** ColumnOfData, Constructing");
+        }
         
         if (trimOrNot) {
             this.varDescription = varDescription.trim();

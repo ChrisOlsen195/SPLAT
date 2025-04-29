@@ -65,7 +65,7 @@ public class Single_t_Model {
         df = nLegal - 1;
 
         if (df < 1) {
-            MyAlerts.showTooFewtDFAlert();
+            MyAlerts.showSampleSizeTooSmallAlert();
             returnStatus = "Cancel";
             return returnStatus;
         }

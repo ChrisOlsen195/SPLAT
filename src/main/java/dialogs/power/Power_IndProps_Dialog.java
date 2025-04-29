@@ -1,7 +1,7 @@
 /************************************************************
  *                   Power_IndProps_Dialog                  *
- *                          05/26/24                        *
- *                            21:00                         *
+ *                          01/15/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package dialogs.power;
 
@@ -29,6 +29,9 @@ import utilityClasses.MyAlerts;
 public class Power_IndProps_Dialog extends Stage { 
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean okToContinue, showValuesLeftBlankAlert;
     boolean bool_Prop1Good, bool_Prop2Good, valuesLeftBlank,
             bool_N1Good, bool_N2Good, bool_EffectSizeGood;
@@ -63,7 +66,7 @@ public class Power_IndProps_Dialog extends Stage {
     
     // My classes
     SmartTextFieldsController stf_Controller;
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     
     // JavaFX POJOs
     Button btnChangeNull, btnOK, btnCancel, btnReset;
@@ -89,7 +92,9 @@ public class Power_IndProps_Dialog extends Stage {
          txt_EffectSize;
     
     public Power_IndProps_Dialog() {
-        //System.out.println("\n92 Power_IndProps_Dialog, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("96 *** Power_IndProps_Dialog, Constructing");
+        }
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         sep = new Separator();
         sep.setOrientation(Orientation.VERTICAL);

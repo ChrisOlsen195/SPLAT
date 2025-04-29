@@ -1,7 +1,7 @@
 /**************************************************
- *         Boot_ChooseStats_DotPlot_DistrView     *
- *                    04/17/24                    *
- *                     12:00                      *
+ *           ChooseStats_DotPlot_DistrView        *
+ *                    02/24/25                    *
+ *                     09:00                      *
  *************************************************/
 package bootstrapping;
 
@@ -29,6 +29,8 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
     double thisMuchIsGreen, thisMuchIsRed, ratioRed, binFrequency;
     double relRad, xCenter, yCenter, leftPercentile, rightPercentile;
     
+    String descrOfVar;
+    
     // Make empty if no-print
     //String waldoFile = "ChooseStats_DotPlot_DistrView";
     String waldoFile = "";
@@ -41,29 +43,30 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
     HBox hBox_BinAndRadReset;   
     Point_2D ithBinLimits;
 
-    public ChooseStats_DotPlot_DistrView(ChooseStats_DistrModel boot_DistrModel,
+    public ChooseStats_DotPlot_DistrView(ChooseStats_DistrModel chooseStats_DistrModel,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        super(boot_DistrModel, placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        dm = boot_DistrModel.getDataManager();
-        dm.whereIsWaldo(49, waldoFile, "Constructing"); 
+        super(chooseStats_DistrModel, placeHoriz, placeVert, withThisWidth, withThisHeight); 
+        dm = chooseStats_DistrModel.getDataManager();
+        dm.whereIsWaldo(51, waldoFile, "Constructing"); 
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
-        this.boot_ChooseStats_DistrModel = boot_DistrModel;
-        ithBinLimits = this.boot_ChooseStats_DistrModel.getBinLimits();
+        descrOfVar = chooseStats_DistrModel.getDescriptionOfVariable();
+        this.chooseStats_DistrModel = chooseStats_DistrModel;
+        ithBinLimits = this.chooseStats_DistrModel.getBinLimits();
         ithBinLow = ithBinLimits.getFirstValue();
         ithBinHigh = ithBinLimits.getSecondValue();
-        boot_ChooseStats_Controller = boot_DistrModel.getBootStrapController();
-        boot_ChooseStats_Dashboard = boot_ChooseStats_Controller.getThe_Boot_Dashboard(); 
-        nLegalDataPoints = this.boot_ChooseStats_DistrModel.getTheQDV().getLegalN();
+        chooseStats_Controller = chooseStats_DistrModel.getBootStrapController();
+        chooseStats_Dashboard = chooseStats_Controller.getThe_Boot_Dashboard(); 
+        nLegalDataPoints = this.chooseStats_DistrModel.getTheQDV().getLegalN();
         sortedData = new double[nLegalDataPoints];
-        sortedData = this.boot_ChooseStats_DistrModel.getUCDO().getTheDataSorted();
+        sortedData = this.chooseStats_DistrModel.getUCDO().getTheDataSorted();
     }
 
     public void continueConstruction() {    
-        dm.whereIsWaldo(64, waldoFile, "continueConstruction()");
-        boot_ChooseStats_Controller.set_Boot_OriginalDotPlot_DistrView(this);
-        boot_ChooseStats_DialogView = boot_ChooseStats_Controller.get_Boot_DialogView();
+        dm.whereIsWaldo(67, waldoFile, "continueConstruction()");
+        chooseStats_Controller.set_Boot_OriginalDotPlot_DistrView(this);
+        chooseStats_DialogView = chooseStats_Controller.get_Boot_DialogView();
         xPrintPosLeft = 0.05;
         xPrintPosCenter = 0.325;
         xPrintPosRight = 0.5;
@@ -71,8 +74,8 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         yPrintPosCenter = 0.95;   
         maxOfYScale = 0.45; 
         
-        newX_Lower = boot_ChooseStats_Controller.getOriginalXLower();
-        newX_Upper =  boot_ChooseStats_Controller.getOriginalXUpper(); 
+        newX_Lower = chooseStats_Controller.getOriginalXLower();
+        newX_Upper =  chooseStats_Controller.getOriginalXUpper(); 
         initializeGraphParameters();
 
         binWidth = ithBinHigh - ithBinLow;
@@ -83,19 +86,19 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         btn_RadiusReset = new Button("Change radius");
         btn_BinReset.setPadding(new Insets(5, 10, 5, 10));
         btn_RadiusReset.setPadding(new Insets(5, 10, 5, 10));
-        minDataRange = boot_ChooseStats_DistrModel.getUCDO().getMinValue();
-        maxDataRange = boot_ChooseStats_DistrModel.getUCDO().getMaxValue();
+        minDataRange = chooseStats_DistrModel.getUCDO().getMinValue();
+        maxDataRange = chooseStats_DistrModel.getUCDO().getMaxValue();
         
         relRad = 0.975;
         
         btn_BinReset.setOnAction(e -> {
-            chBins_Dialog = new Change_Bins_Dialog(minDataRange, maxDataRange);
-            chBins_Dialog.showAndWait();
-            ithBinLow = chBins_Dialog.getDblLeftBin();
-            ithBinHigh = chBins_Dialog.getDblRightBin();
+            change_Bins_Dialog = new Change_Bins_Dialog(minDataRange, maxDataRange);
+            change_Bins_Dialog.showAndWait();
+            ithBinLow = change_Bins_Dialog.getDblLeftBin();
+            ithBinHigh = change_Bins_Dialog.getDblRightBin();
             binWidth = ithBinHigh - ithBinLow;
-            returnStatus = chBins_Dialog.getReturnStatus();
-            chBins_Dialog.close();
+            returnStatus = change_Bins_Dialog.getReturnStatus();
+            change_Bins_Dialog.close();
             
             if (!returnStatus.equals("Cancel")) {
                 constructBinInformation();
@@ -121,11 +124,11 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         // There are no check boxes, but superclass constructs a CheckBoxRow
         nCheckBoxes = 0;
         initializing = true;
-        al_ProbCalcs_STF = new DoublyLinkedSTF();
-        boot_ChooseStats_DialogView = boot_ChooseStats_Dashboard.get_Boot_ChooseStats_DialogView();
-        boot_ChooseStats_DialogView.getBootstrapOneStat_DialogView();
-        al_ProbCalcs_STF = boot_ChooseStats_DialogView.getAllTheSTFs();
-        boot_ChooseStats_Controller = boot_ChooseStats_Dashboard.get_Boot_Controller();
+        al_ProbCalcs_STF = new SmartTextFieldDoublyLinkedSTF();
+        chooseStats_DialogView = chooseStats_Dashboard.get_Boot_ChooseStats_DialogView();
+        chooseStats_DialogView.getBootstrapOneStat_DialogView();
+        al_ProbCalcs_STF = chooseStats_DialogView.getAllTheSTFs();
+        chooseStats_Controller = chooseStats_Dashboard.get_Boot_Controller();
         tailChoice = "NotEqual";
         respondToChanges();
         graphCanvas = new Canvas(initWidth, initHeight);
@@ -134,16 +137,16 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
     }
     
     public void doTheGraph() {
-        shadeLeft = boot_ChooseStats_DistrModel.get_ShadeLeft();
-        shadeRight = boot_ChooseStats_DistrModel.get_ShadeRight();
+        shadeLeft = chooseStats_DistrModel.get_ShadeLeft();
+        shadeRight = chooseStats_DistrModel.get_ShadeRight();
         
-        if (boot_ChooseStats_DistrModel.get_TwoTail_IsChecked()) {
+        if (chooseStats_DistrModel.get_TwoTail_IsChecked()) {
             shadeLeft = true;
             shadeRight = true;
         }
         
-        leftPercentile = boot_ChooseStats_DistrModel.get_LeftPercentile();
-        rightPercentile = boot_ChooseStats_DistrModel.get_RightPercentile();   
+        leftPercentile = chooseStats_DistrModel.get_LeftPercentile();
+        rightPercentile = chooseStats_DistrModel.get_RightPercentile();   
         text1Width = txtTitle1.getLayoutBounds().getWidth();
         text2Width = txtTitle2.getLayoutBounds().getWidth();
         paneWidth = dragableAnchorPane.getWidth();
@@ -204,11 +207,7 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
             if (binFrequency > 0.) { 
                 double leftEndOfBin = leftBinEnd[ithBin];
                 double rightEndOfBin = rightBinEnd[ithBin];
-                //double displayLeftEndOfBin = xAxis.getDisplayPosition(leftEndOfBin);
-                //double displayRightEndOfBin = xAxis.getDisplayPosition(rightEndOfBin);
-                //double displayLeftPercentile = xAxis.getDisplayPosition(leftPercentile);
-                //double displayRightPercentile = xAxis.getDisplayPosition(rightPercentile);
-                
+
                 bILT = (rightEndOfBin < leftPercentile);
                 bSLP = ((leftEndOfBin <= leftPercentile) && (leftPercentile < rightEndOfBin));
                 bITM = ((leftPercentile <= leftEndOfBin) && (rightEndOfBin < rightPercentile));
@@ -320,8 +319,8 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
     }   //  end doThePlot   
     
     public void initializeGraphParameters() {  
-        initial_xMin = boot_ChooseStats_DistrModel.getTheQDV().getMinValue();
-        initial_xMax = boot_ChooseStats_DistrModel.getTheQDV().getMaxValue();
+        initial_xMin = chooseStats_DistrModel.getTheQDV().getMinValue();
+        initial_xMax = chooseStats_DistrModel.getTheQDV().getMaxValue();
         initial_xRange = initial_xMax - initial_xMin;
         // Adjust to better bring the histogram into the window
         xMin = initial_xMin - 0.05 * initial_xRange;   
@@ -389,11 +388,11 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
     }
  
     public ChooseStats_Controller get_Bootstrap_Controller() {
-        return boot_ChooseStats_Controller;
+        return chooseStats_Controller;
     }
     
     public void setBootstrapOneStat_DialogView(ChooseStats_DialogView boot_DialogView) {
-        this.boot_ChooseStats_DialogView = boot_DialogView;
+        this.chooseStats_DialogView = boot_DialogView;
     }
 
     public void setInitializingToTrue() { initializing = true; }
