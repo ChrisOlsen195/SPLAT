@@ -1,7 +1,7 @@
 /************************************************************
  *                  Indep_Means_DataStruct_Dialog           *
- *                          10/15/23                        *
- *                            09:00                         *
+ *                          01/15/25                        *
+ *                            18:00                         *
  *                                                          *
  *   Called by Ind_t_Controller                             *
  ***********************************************************/
@@ -22,26 +22,30 @@ import javafx.scene.layout.VBox;
 
 public class Indep_Means_DataStruct_Dialog extends Splat_Dialog {
     
-    //String theChoice;
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     String selectedLabel;
     Label msg;
-    RadioButton sepColumns, stacked, summarized;
+    RadioButton sepColumns, tidy, summarized;
     ToggleGroup group;
     VBox buttonBox;
 
     public Indep_Means_DataStruct_Dialog() {
-        System.out.println("33 Indep_Means_DataStruct_Dialog, constructing");
+        if (printTheStuff == true) {
+            System.out.println("36 *** Indep_Means_DataStruct_Dialog, Constructing");
+        }
         sepColumns = new RadioButton("Data are in separate columns");
-        selectedLabel = "Data are in separate columns";
-        stacked = new RadioButton("Data are stacked");
+        selectedLabel = "Data are TI8x-Like";
+        tidy = new RadioButton("Data are Tidy");
         summarized = new RadioButton("Data are summarized");
         group = new ToggleGroup();
-        group.getToggles().addAll(sepColumns, stacked, summarized);
+        group.getToggles().addAll(sepColumns, tidy, summarized);
         group.selectedToggleProperty().addListener(this::changed);
         sepColumns.setSelected(true);
   
         msg = new Label("How is your data structured?");
-        buttonBox = new VBox(sepColumns, stacked, summarized);
+        buttonBox = new VBox(sepColumns, tidy, summarized);
         buttonBox.setSpacing(10);
         
         HBox buttonPanel = new HBox(10);

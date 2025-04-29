@@ -1,7 +1,7 @@
 /**************************************************
  *               MultUni_Dashboard                *
- *                    09/03/24                    *
- *                     00:00                      *
+ *                    03/11/25                    *
+ *                     12:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -139,7 +139,7 @@ public class MultUni_Dashboard extends Dashboard {
         meanAndBarsView.completeTheDeal();
         meanAndBarsContainingPane = meanAndBarsView.getTheContainingPane();
 
-        initWidth[4] = 175. * nVariables;
+        initWidth[4] = 700;
         initHeight[4] = 400.;
         multUni_DotPlotView = new MultUni_DotPlotView(multUni_DotPlotModel, this, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
         multUni_DotPlotView.completeTheDeal();

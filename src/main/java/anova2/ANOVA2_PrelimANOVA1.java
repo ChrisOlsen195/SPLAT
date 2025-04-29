@@ -20,7 +20,7 @@ import utilityClasses.MyAlerts;
 
 public class ANOVA2_PrelimANOVA1 {
     // POJOs
-    boolean /*lowEndYScaleIsFixed, highEndYScaleIsFixed,*/ sampleSizesAreEqual;
+    boolean sampleSizesAreEqual;
     
     int nLevels, dfLevels, dfError, dfTotal, totalN, n_QDVs;
     
@@ -54,7 +54,7 @@ public class ANOVA2_PrelimANOVA1 {
         dm.whereIsWaldo(54, waldoFile, "doThePrelims()");
         returnStatus = "OK";
         cqdv = new CatQuantDataVariable(dm, colExplanVar, colResponseVar, true, "ANOVA2_PrelimANOVA1");
-        returnStatus = cqdv.finishConstructingStacked();
+        returnStatus = cqdv.finishConstructingTidy();
         
         if (!returnStatus.equals("OK")) { return "Cancel"; }
         
@@ -88,8 +88,6 @@ public class ANOVA2_PrelimANOVA1 {
         allData_UCDO = allTheUCDOs[0];
         nLevels = allTheQDVs.size() - 1;
         confidenceLevel = 0.95;
-        //lowEndYScaleIsFixed = false;
-        //highEndYScaleIsFixed = false; 
         anova1Report = new ArrayList<>();   
         return returnStatus;
     }

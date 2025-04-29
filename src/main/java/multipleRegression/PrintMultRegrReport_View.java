@@ -1,6 +1,6 @@
 /****************************************************************************
  *                 PrintMultRegrReport_View                                 * 
- *                         03/04/24                                         *
+ *                         01/15/25                                         *
  *                          21:00                                           *
  ***************************************************************************/
 package multipleRegression;
@@ -15,7 +15,7 @@ public class PrintMultRegrReport_View extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("18 PrintMultRegrReport_View, constructing");
+        //System.out.println("18 PrintMultRegrReport_View, Constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
 

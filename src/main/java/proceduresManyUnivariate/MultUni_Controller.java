@@ -1,7 +1,7 @@
 /**************************************************
  *                MultiUni_Controller             *
- *                    01/13/25                    *
- *                     18:00                      *
+ *                    02/16/25                    *
+ *                     00:00                      *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -14,15 +14,19 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import splat.*;
+import utilityClasses.MyAlerts;
+import utilityClasses.MyYesNoAlerts;
 
 public class MultUni_Controller {
     
     //  POJOs
-    public boolean checkForLegalChoices;
+    public boolean checkForLegalChoices, goodToGo;
     public boolean[] isNumeric;
-    public int n_QDVs; 
+    public int n_QDVs, TWO; 
     public int[] theNewOrder;
-    public String returnStatus, daProcedure, stackedOrSeparate;
+    public String strReturnStatus, daProcedure, tidyOrTI8x, 
+                  firstVarDescr, secondVarDescr,
+                  subTitle_And, subTitle_Vs;
     public String genVarDescr, varLabel, varDescr;
     String explanatoryVariable, responseVariable;
     public ArrayList<String> allTheLabels;
@@ -37,10 +41,10 @@ public class MultUni_Controller {
     // My classes
     ColumnOfData colOfCats, colOfQuants;
     ArrayList<CatQuantPair> catQuantPairs;
-    public ArrayList<ColumnOfData> al_ColOfData;
+    public ArrayList<ColumnOfData> al_MultUni_ColOfData;
     public ArrayList<String> arStr_VarLabels;
     public CatQuantDataVariable cqdv;
-    public QuantitativeDataVariable tempQDV;
+    public QuantitativeDataVariable tempQDV, qdv_Pooled ;
     public ArrayList<QuantitativeDataVariable> incomingQDVs, allTheQDVs;
     
     public Data_Manager dm;
@@ -48,79 +52,127 @@ public class MultUni_Controller {
     private MultUni_DotPlotModel multUni_DotPlotModel;
     private MultUni_Model multUni_Model;
     private MultUni_Dashboard multUni_Dashboard;
-    MultUni_Stacked_Dialog multUni_S_Dialog;
-    private MultUni_NotStackedDialog multUni_NS_Dialog;
+    MultUni_Tidy_Dialog multUni_Tidy_Dialog;
+    private MultUni_TI8x_Dialog multUni_TI8x_Dialog;
     ReOrderStringDisplay_Dialog reOrderStrings_Dialog;
-    
+    public MyYesNoAlerts myYesNoAlerts;
     // POJOs / FX
 
     public MultUni_Controller(Data_Manager dm) {
         this.dm = dm;
-        dm.whereIsWaldo(59, waldoFile, "\nConstructing with dm");
-        al_ColOfData = new ArrayList();
+        dm.whereIsWaldo(63, waldoFile, " *** MultUni_Controller, Constructing");
+        strReturnStatus = "OK";
+        al_MultUni_ColOfData = new ArrayList();
         arStr_VarLabels = new ArrayList();
-        returnStatus = "OK";
+        TWO = 2;
+        strReturnStatus = "OK";
+        myYesNoAlerts = new MyYesNoAlerts();
+    }
+
+    public String doTidyOrNot() {
+        dm.whereIsWaldo(73, waldoFile, " --- doTidyOrNot()");
+        //  Check for cancel above ( = not NULL)
+        myYesNoAlerts.setTheYes("Tidy");
+        myYesNoAlerts.setTheNo("TI8x");
+        myYesNoAlerts.showTidyOrTI8xAlert();
+        tidyOrTI8x = myYesNoAlerts.getYesOrNo();
+        if (tidyOrTI8x.equals("Cancel")) { return "Cancel"; }
+        dm.setTIorTIDY(tidyOrTI8x);
+
+        //              First time through                 Repeat
+        if (tidyOrTI8x.equals("Yes") || tidyOrTI8x.equals("Tidy")) { // = Tidy
+            tidyOrTI8x = "Tidy";
+            dm.setTIorTIDY("Tidy");
+            strReturnStatus = doTidy(); 
+            if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
+        } else {    // No = TI8x
+            tidyOrTI8x = "TI8x";
+            dm.setTIorTIDY("TI8x");
+            doTI8x(); 
+        } 
+        
+        return "OK";
     }
     
-    public void doStackedOrNot() {
-        DataChoice_StackedOrNot sed = new DataChoice_StackedOrNot(this);
-        // stackedOrSeparate has been updated by the dialog
-        if (stackedOrSeparate.equals("Group & Data")) { doStacked(); }        
-        if (stackedOrSeparate.equals("TI8x-Like")) { doNotStacked(); }         
-        if (stackedOrSeparate.equals("Bailed")) {  /* No op */  }
-    }      
-    
-    protected String doStacked() {
-        dm.whereIsWaldo(74, waldoFile, "doStacked()");
-        returnStatus = "OK";
+    protected String doTidy() {
+        dm.whereIsWaldo(98, waldoFile, " --- doTidy()");
         do {
-            // multUni_S_Dialog's superclass is Two_Variables_Dialog
-            multUni_S_Dialog = new MultUni_Stacked_Dialog( dm );
-            multUni_S_Dialog.showAndWait();   
-            
-            if (multUni_S_Dialog.getReturnStatus().equals("Cancel")) {
+            int casesInStruct = dm.getNCasesInStruct();            
+            if (casesInStruct == 0) {
+                MyAlerts.showAintGotNoDataAlert();
                 return "Cancel";
-            }  
+            }
             
-            al_ColOfData = multUni_S_Dialog.getData();
-            checkForLegalChoices = validateStackChoices();
-        } while (!checkForLegalChoices);
-        //                                Categorical,             Quantitative               Return All and individuals
-        cqdv = new CatQuantDataVariable(dm, al_ColOfData.get(0), al_ColOfData.get(1), true, "MultUni_Controller");   
-        returnStatus = cqdv.finishConstructingStacked();
-        
-        if (returnStatus.equals("OK")) {
-            incomingQDVs = new ArrayList();
-            incomingQDVs = cqdv.getAllQDVs();
+            multUni_Tidy_Dialog = new MultUni_Tidy_Dialog( dm);
+            multUni_Tidy_Dialog.showAndWait();
+            strReturnStatus = multUni_Tidy_Dialog.getReturnStatus();
+            if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
+            goodToGo = multUni_Tidy_Dialog.getGoodToGO();
+            
+            if (!goodToGo) {
+                strReturnStatus = multUni_Tidy_Dialog.getReturnStatus();
+                return "Cancel";
+            }
+            
+            al_MultUni_ColOfData = multUni_Tidy_Dialog.getData();
+            int nLevels = al_MultUni_ColOfData.get(0).getNumberOfDistinctValues();
 
-            askAboutReOrdering();
-            explanatoryVariable = multUni_S_Dialog.getPreferredFirstVarDescription();
-            responseVariable = multUni_S_Dialog.getPreferredSecondVarDescription();
+            if (nLevels < TWO) {
+                MyAlerts.showMultUni_LT2_VariablesAlert();
+                goodToGo = false;
+                return "Cancel";
+            }
+            
+            checkForLegalChoices = validateTidyChoices();
+        } while (!checkForLegalChoices);
+        
+        firstVarDescr = multUni_Tidy_Dialog.getPreferredFirstVarDescription();
+        secondVarDescr = multUni_Tidy_Dialog.getPreferredSecondVarDescription();
+        subTitle_And = firstVarDescr  + " & " + secondVarDescr;  
+        subTitle_Vs = firstVarDescr  + " vs " + secondVarDescr;
+  
+        //                                Categorical,             Quantitative            return All and individuals
+        cqdv = new CatQuantDataVariable(dm, al_MultUni_ColOfData.get(0), al_MultUni_ColOfData.get(1), true, "ANOVA1_Cat_Controller");   
+        strReturnStatus = cqdv.finishConstructingTidy();
+        
+        if(strReturnStatus.equals("OK")) { 
+            allTheQDVs = new ArrayList();
+            allTheQDVs = cqdv.getAllQDVs();
+            /******************************************************
+             *  The qdv_Pooled is a qdv of the pooled allTheQDVs  *
+             *****************************************************/
+            qdv_Pooled = allTheQDVs.get(0);
+            allTheQDVs.remove(0);   // Dump the All qdv
+            n_QDVs = allTheQDVs.size();
+
+            collectAllTheLabels();
             prepareTheStructs();
-            return returnStatus;    //  return good
+            dm.whereIsWaldo(150, waldoFile, " --- END doTidy()");
+            return "OK";
         }
-        return returnStatus;    //  return bad
+        dm.whereIsWaldo(153, waldoFile, " --- END doTidy()");
+        return "Cancel";
     }
 
-    protected String doNotStacked() {
-        dm.whereIsWaldo(106, waldoFile, "doNotStacked()");
-        returnStatus = "OK";
-        multUni_NS_Dialog = new MultUni_NotStackedDialog( dm );
-        multUni_NS_Dialog.show_NS_Dialog();
-        returnStatus = multUni_NS_Dialog.getReturnStatus();
+    protected String doTI8x() {
+        dm.whereIsWaldo(158, waldoFile, "doTI8x()");
+        strReturnStatus = "OK";
+        multUni_TI8x_Dialog = new MultUni_TI8x_Dialog( dm );
+        multUni_TI8x_Dialog.show_NS_Dialog();
+        strReturnStatus = multUni_TI8x_Dialog.getReturnStatus();
         
-        if (!returnStatus.equals("OK")) { return returnStatus; }
+        if (!strReturnStatus.equals("OK")) { return strReturnStatus; }
         // else...
-        genVarDescr = multUni_NS_Dialog.getSubTitle();
+        genVarDescr = multUni_TI8x_Dialog.getSubTitle();
         // Get the arrayList of ColumnsOfData
-        al_ColOfData = multUni_NS_Dialog.getData();
-        int nColumnsOfData = al_ColOfData.size();
+        al_MultUni_ColOfData = multUni_TI8x_Dialog.getData();
+        int nColumnsOfData = al_MultUni_ColOfData.size();
         // Stack the columns into one, put in allTheQDVs[0]
         // Construct a ColumnOfData, make the QDV
         varLabel = "All";
         varDescr = "All";
         ArrayList<String> tempAlStr = new ArrayList<>();
-        dm.whereIsWaldo(123, waldoFile, "doNotStacked()");
+        dm.whereIsWaldo(175, waldoFile, "doTI8x()");
      
         colOfCats = new ColumnOfData();
         colOfQuants = new ColumnOfData();   
@@ -128,11 +180,10 @@ public class MultUni_Controller {
         colOfQuants.setVarLabel("QuantLabel");
         colOfCats.setVarDescription("CatDescr");
         colOfQuants.setVarDescription("QuantDescr");
-        dm.whereIsWaldo(131, waldoFile, "doingNotStacked()");
+        dm.whereIsWaldo(183, waldoFile, "doTI8x()");
     // Build Columns for the catQuantDataVariable
         for (int ith = 0; ith < nColumnsOfData; ith++) {
-            dm.whereIsWaldo(134, waldoFile, "Looping");
-            ColumnOfData tempCol = al_ColOfData.get(ith);
+            ColumnOfData tempCol = al_MultUni_ColOfData.get(ith);
             String catValue = tempCol.getVarLabel();
             int nColSize = tempCol.getColumnSize();
             for (int jth = 0; jth < nColSize; jth++) {
@@ -143,7 +194,7 @@ public class MultUni_Controller {
         }
         
         cqdv = new CatQuantDataVariable(dm, colOfCats, colOfQuants, true, "MultUni_Controller");
-        cqdv.finishConstructingStacked();
+        cqdv.finishConstructingTidy();
         cqdv.sortByQuantValue();
         catQuantPairs = new ArrayList();
         catQuantPairs = cqdv.getCatQuantPairs();
@@ -151,18 +202,18 @@ public class MultUni_Controller {
         tempQDV = new QuantitativeDataVariable(varLabel, varDescr, tempCOD);
         incomingQDVs = new ArrayList();
         for (int ith = 0; ith < nColumnsOfData; ith++) {
-            varLabel = al_ColOfData.get(ith).getVarLabel();
-            varDescr = al_ColOfData.get(ith).getVarDescription();
-            tempQDV = new QuantitativeDataVariable(varLabel, varDescr, al_ColOfData.get(ith)); 
+            varLabel = al_MultUni_ColOfData.get(ith).getVarLabel();
+            varDescr = al_MultUni_ColOfData.get(ith).getVarDescription();
+            tempQDV = new QuantitativeDataVariable(varLabel, varDescr, al_MultUni_ColOfData.get(ith)); 
             incomingQDVs.add(tempQDV);                 
         } 
         askAboutReOrdering();      
         prepareTheStructs();
-        return returnStatus;
+        return strReturnStatus;
     }
     
     protected String prepareTheStructs() {  // for the MultUniModel
-        dm.whereIsWaldo(165, waldoFile, "prepareTheStructs()");
+        dm.whereIsWaldo(216, waldoFile, "prepareTheStructs()");
         n_QDVs = allTheQDVs.size();
         allTheLabels = new ArrayList<>();
         
@@ -171,7 +222,7 @@ public class MultUni_Controller {
         }
         
         n_QDVs = allTheQDVs.size(); 
-        dm.whereIsWaldo(174, waldoFile, "prepareTheStructs()");        
+        dm.whereIsWaldo(225, waldoFile, "prepareTheStructs()");        
         multUni_Model = new MultUni_Model(this, 
                                           genVarDescr,  // subTitle 
                                           allTheQDVs); 
@@ -180,30 +231,25 @@ public class MultUni_Controller {
         multUni_Dashboard.populateTheBackGround();
         multUni_Dashboard.putEmAllUp();
         multUni_Dashboard.showAndWait();
-        returnStatus = multUni_Dashboard.getReturnStatus();
-        returnStatus = "Ok";
-        return returnStatus;        
+        strReturnStatus = multUni_Dashboard.getReturnStatus();
+        strReturnStatus = "Ok";
+        return strReturnStatus;        
     }
-    
-    public void setStackedOrSeparate(String toThis) {
-        stackedOrSeparate = toThis;
-    }
-    
-    private boolean validateStackChoices() {
-        isNumeric = new boolean[2];
+
+    private boolean validateTidyChoices() {
+        isNumeric = new boolean[TWO];
         
-        for (int ithCol = 0; ithCol < 2; ithCol++){
-            isNumeric[ithCol] = al_ColOfData.get(ithCol).getIsNumeric();  
+        for (int ithCol = 0; ithCol < TWO; ithCol++){
+            isNumeric[ithCol] = al_MultUni_ColOfData.get(ithCol).getDataType().equals("Quantitative");  
         }
         return true;
     }
     
     private void askAboutReOrdering() {
-        System.out.println("202 MultUni_Controller, askAboutReOrdering()");
         n_QDVs = incomingQDVs.size();
         theNewOrder = new int[n_QDVs];
         // Default
-        for (int ithQDV= 0; ithQDV < n_QDVs; ithQDV++) {
+        for (int ithQDV = 0; ithQDV < n_QDVs; ithQDV++) {
             theNewOrder[ithQDV] = ithQDV;
         }
         incomingLabels = new String[n_QDVs];
@@ -229,10 +275,14 @@ public class MultUni_Controller {
         }
     }
     
-    public void closeTheReOrderDialog(int[] returnedOrder) {
+    public void copyTheReOrderDialog(int[] returnedOrder) {
         System.arraycopy(returnedOrder, 0, theNewOrder, 0, n_QDVs);
         reOrderStrings_Dialog.close();
     }  
+    
+    public void setTidyOrTI8x(String toThis) {
+        tidyOrTI8x = toThis;
+    }
     
     public ArrayList<CatQuantPair> getCatQuantPairs() {return catQuantPairs; }    
     public String getVarDescr() { return genVarDescr; }    
@@ -245,5 +295,5 @@ public class MultUni_Controller {
         return multUni_DotPlotModel; 
     }
     
-    public String getReturnStatus() { return returnStatus; }
+    public String getReturnStatus() { return strReturnStatus; }
 }

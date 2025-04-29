@@ -1,7 +1,7 @@
 /**************************************************
  *                 Single_t_Model                 *
- *                    01/14/25                    *
- *                     12:00                      *
+ *                    11/01/23                    *
+ *                     18:00                      *
  *************************************************/
 
 package the_t_procedures;
@@ -65,7 +65,7 @@ public class Single_t_Model {
         df = nLegal - 1;
 
         if (df < 1) {
-            MyAlerts.showTooFewtDFAlert();
+            MyAlerts.showSampleSizeTooSmallAlert();
             returnStatus = "Cancel";
             return returnStatus;
         }
@@ -83,7 +83,7 @@ public class Single_t_Model {
     }
     
     public void printStatistics() {
-        dm.whereIsWaldo(86, waldoFile, "Constructing");
+        dm.whereIsWaldo(88, waldoFile, "Constructing");
         singleMeanReport = new ArrayList();  
         
         switch (altHypothesis) {
@@ -180,7 +180,7 @@ public class Single_t_Model {
                 break;
             
                 default:
-                    String switchFailure = "Switch failure: Single_t_Model 183 " + altHypothesis;
+                    String switchFailure = "Switch failure: Single_t_Model 179 " + altHypothesis;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
             }        
     }
@@ -189,9 +189,9 @@ private void printSummaryInformation() {
     addNBlankLinesToOneMeanReport(2);
     singleMeanReport.add("                    *** Summary information ***   ");
     addNBlankLinesToOneMeanReport(2);
-    singleMeanReport.add("                    NSize           Mean            StDev      StErr");
+    singleMeanReport.add("                    NSize          Mean          StDev     StErr");
     addNBlankLinesToOneMeanReport(1);
-    singleMeanReport.add(String.format("   %16s %4d            %5.3f           %5.3f      %5.3f",  varLabel,
+    singleMeanReport.add(String.format("   %16s %4d          %5.3f          %5.3f     %5.3f",  varLabel,
                                                                                nLegal,
                                                                                xBar,
                                                                                stDev,
@@ -200,7 +200,7 @@ private void printSummaryInformation() {
 
     private double getCohensD(double xBar, double muNull, int n, double s) {
         double cohensD, cohensD_Unbiased;
-        dm.whereIsWaldo(203, waldoFile, "getCohensD");
+        dm.whereIsWaldo(208, waldoFile, "getCohensD");
         cohensD = (xBar - muNull) / s;
         
         if(altHypothesis.equals("NotEqual")) { cohensD = Math.abs(cohensD); }

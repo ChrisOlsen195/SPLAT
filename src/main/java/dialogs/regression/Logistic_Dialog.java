@@ -1,7 +1,7 @@
 /************************************************************
  *                       Logistic_Dialog                    *
- *                           12/27/24                       *
- *                            12:00                         *
+ *                           02/01/25                       *
+ *                            09:00                         *
  ***********************************************************/
 package dialogs.regression;
 
@@ -14,17 +14,19 @@ public class Logistic_Dialog extends Two_Variables_Dialog{
     public Logistic_Dialog(Data_Manager dm, String variableType) {
         super(dm, "Logistic_Dialog", "None");
         // Make empty if no-print
+        
         //waldoFile = "Logistic_Dialog";
         waldoFile = "";
-        dm.whereIsWaldo(19, waldoFile, "Constructing");
+        
+        dm.whereIsWaldo(21, waldoFile, "Constructing");
         lblTitle.setText("Logistic Regression");
-        lblFirstVar.setText("Explanatory variable:");
-        lblSecondVar.setText("Zero-One variable:");
+        lblExplanVar.setText("Explanatory variable:");
+        lblResponseVar.setText("  Response variable:");
 
         btnReset.setOnAction((ActionEvent event) -> {
             var_List.resetList();
-            tf_FirstVarLabel_InFile.setText("");
-            tf_SecondVarLabel_InFile.setText("");
+            tf_Var_1_InFile.setText("");
+            tf_Var_2_InFile.setText("");
         });
         
         setTitle("Logistic Regression");

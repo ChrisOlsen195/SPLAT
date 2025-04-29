@@ -1,7 +1,7 @@
 /******************************************************************
  *                     DataCleaner                                *
- *                       11/01/23                                 *
- *                        09:00                                   *
+ *                       02/10/25                                 *
+ *                        15:00                                   *
  *****************************************************************/
 package utilityClasses;
 
@@ -35,11 +35,12 @@ public class DataCleaner {
         nNonMissingData;
     int[] categoryCount;
     
-    String changeFrom, changeTo, returnStatus;    
+    String changeFrom, changeTo, strReturnStatus;    
     String[] str_FixedData, str_CleanedData, finalCategories, str_NonMissing;
-    
-    //String waldoFile = "DataCleaner";
+
+    //String waldoFile = "DataCleaner";    
     String waldoFile  = "";
+
     
     ArrayList<String> listView_From, listView_To, al_NonMissing;
     ListView<String> lv_Uniques, listView_PreChoice, listView_PostChoice;
@@ -55,19 +56,18 @@ public class DataCleaner {
       
     public DataCleaner(Data_Manager dm, ColumnOfData columnToClean) {
         this.dm = dm; 
-        dm.whereIsWaldo(58, waldoFile, "Constructing");
+        dm.whereIsWaldo(59, waldoFile, " *** Constructing");
         nDataToClean = dm.getNCasesInStruct();
         str_FixedData = new String[nDataToClean];
         al_NonMissing = new ArrayList();  
-        
+        strReturnStatus = "OK";
         for (int ith = 0; ith < nDataToClean; ith++) {
             str_FixedData[ith] = columnToClean.getStringInIthRow(ith);
         }  
     }
     
-    
     public boolean cleanAway() {
-        dm.whereIsWaldo(70, waldoFile, "cleanAway()");
+        dm.whereIsWaldo(70, waldoFile, " --- cleanAway()");
         stage = new Stage();
         dataAreClean = true;    //  Initialize
         
@@ -124,17 +124,18 @@ public class DataCleaner {
             lv_Uniques.setOnEditStart(this::editStart);
             lv_Uniques.setOnEditCommit(this::editCommit);
 
-            dataAreClean = cleanTheStrings();   
+            dataAreClean = cleanTheStrings();
         }
         
         else {
-            System.out.println("131 dc, Data are clean!!!");
+            // No-op
         }
+        dm.whereIsWaldo(133, waldoFile, " --- END cleanAway()");
         return dataAreClean;
     } 
     
     private boolean cleanTheStrings() {
-        dm.whereIsWaldo(141, waldoFile, "cleanTheStrings()");
+        dm.whereIsWaldo(138, waldoFile, " --- cleanTheStrings()");
         root = new VBox();
         nStringsToClean = str_NonMissing.length;
         directions = new Text();
@@ -159,10 +160,14 @@ public class DataCleaner {
         btn_Cancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 dataAreClean = false;
-                returnStatus = "Cancel";
-                stage.close();
+                strReturnStatus = "Cancel";
+                stage.hide();
                 return;
             }
+        });
+        
+        stage.setOnCloseRequest(e -> {
+           btn_Cancel.fire(); 
         });
 
         btn_OK = new Button("OK");
@@ -197,6 +202,8 @@ public class DataCleaner {
                       "-fx-border-insets: 5;" + 
                       "-fx-border-radius: 5;" + 
                       "-fx-border-color: blue;");
+        
+
 
         root.getChildren().addAll(directions, captions, lists, hBox_Buttons);
 
@@ -204,6 +211,7 @@ public class DataCleaner {
         stage.setScene(scene);		
         stage.setTitle("Editing categorical list from DataManager");
         stage.showAndWait();
+        dm.whereIsWaldo(214, waldoFile, " --- END cleanTheStrings()");
         return dataAreClean;
     }   //  end cleanTheseStrings
     
@@ -214,12 +222,10 @@ public class DataCleaner {
             if (thisOne.equals(str_NonMissing[ith])) {
                 inListToClean = true;
             }
-        }
-        
+        }       
         return inListToClean;
     }
     
-	
     public void editStart(ListView.EditEvent<String> e) {
         currentlyEditing = e.getIndex();
         changeFrom = lv_Uniques.getSelectionModel().getSelectedItem();
@@ -270,7 +276,7 @@ public class DataCleaner {
     
     public String[] getFixedData() { return str_FixedData; }
     public boolean getGoodToGo() { return dataAreClean; }
-    public String getReturnStatus() { return returnStatus; }
+    public String getReturnStatus() { return strReturnStatus; }
     public String[] getUniques() { return finalCategories; }
     public int getNUniques() { return nUniques; }
     public int[] getCategoryCount() { return categoryCount; }

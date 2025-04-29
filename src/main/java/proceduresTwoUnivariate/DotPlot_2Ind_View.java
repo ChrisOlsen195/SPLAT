@@ -1,7 +1,7 @@
 /**************************************************
  *                 DotPlot_2Ind_View              *
- *                     11/01/23                   *
- *                      15:00                     *
+ *                     01/16/25                   *
+ *                      12:00                     *
  *************************************************/
 // Two DotPlots are created and passed to DotPlot_2Ind_View
 package proceduresTwoUnivariate;
@@ -25,6 +25,9 @@ import proceduresOneUnivariate.DotPlot_View;
 
 public class DotPlot_2Ind_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     double initHoriz, initVert, initWidth, initHeight;
 
     // FX classes
@@ -45,7 +48,9 @@ public class DotPlot_2Ind_View {
     public DotPlot_2Ind_View(DotPlot_2Ind_Model dotPlot_2Ind_Model, Explore_2Ind_Dashboard explore_2Ind_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("43 DotPlot_2Ind_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("52 *** DotPlot_2Ind_View, Constructing");
+        }
         graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();         
         dotPlot_Model_1 = dotPlot_2Ind_Model.getModel_01();
         dotPlot_Model_2 = dotPlot_2Ind_Model.getModel_02();

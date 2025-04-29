@@ -1,12 +1,11 @@
 /**************************************************
  *               X2Dist_Calc_PDFView              *
- *                    12/31/24                    *
- *                     12:00                      *
+ *                    01/16/25                    *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
 import genericClasses.JustAnAxis;
-// import java.util.ArrayList;
 import javafx.geometry.Side;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -40,9 +39,9 @@ import utilityClasses.StringUtilities;
     ****************************************/
 
 public class X2Dist_Calc_PDFView extends Distributions_Calc_PDFView {
-    
     // POJOs
-    boolean printTheStuff = true;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int df;
 
@@ -51,9 +50,8 @@ public class X2Dist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     // My classes  
     ChiSquareDistribution x2Distr;
-    DoublyLinkedSTF al_ProbCalcs_STF;
+    SmartTextFieldDoublyLinkedSTF al_ProbCalcs_STF;
     X2Dist_Calc_DialogView x2Dist_Calc_DialogView;
-    //ArrayList<SmartTextField> allTheSTFs;
 
     //  POJOs / FX 
     
@@ -61,8 +59,8 @@ public class X2Dist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
     super(probCalc_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff) {
-            System.out.println("\n65 *** X2Dist_Calc_PDFView, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("63 *** X2Dist_Calc_PDFView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -80,7 +78,6 @@ public class X2Dist_Calc_PDFView extends Distributions_Calc_PDFView {
         nCheckBoxes = 0;
         maxOfYScale = 0.20;        
         initializing = true;
-        //allTheSTFs = new ArrayList();
 
         x2Dist_Calc_DialogView = probCalc_Dashboard.get_X2_DialogView();
         x2Distr = x2Dist_Calc_DialogView.getTheX2Distribution();

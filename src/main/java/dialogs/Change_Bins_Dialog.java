@@ -1,6 +1,6 @@
 /************************************************************
  *                     Change_Bins_Dialog                   *
- *                          05/26/24                        *
+ *                          01/15/25                        *
  *                            15:00                         *
  ***********************************************************/
 package dialogs;
@@ -28,6 +28,10 @@ import utilityClasses.MyAlerts;
 public class Change_Bins_Dialog extends Stage { 
     
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean boolValuesLeftBlank, boolLeftBinGood, boolRightBinGood, 
             boolAllFieldsGood;
     
@@ -37,7 +41,7 @@ public class Change_Bins_Dialog extends Stage {
     final String toBlank = "";
     
     // My classes
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     SmartTextFieldsController stf_Controller;
 
     // JavaFX POJOs
@@ -51,6 +55,9 @@ public class Change_Bins_Dialog extends Stage {
     Text txtTitle, txtLabels;
 
     public Change_Bins_Dialog(double minDataRange, double maxDataRange) {
+        if (printTheStuff == true) {
+            System.out.println("59 *** Change_Bins_Dialog, Constructing");
+        }
         this.minDataRange = minDataRange;
         this.maxDataRange = maxDataRange;
         strReturnStatus = "OK";
@@ -164,17 +171,11 @@ public class Change_Bins_Dialog extends Stage {
             
         doMissingAndOrWrong();
         
-        if (boolValuesLeftBlank) {
-            MyAlerts.showMustBeNonBlankAlert();  
-        }
+        if (boolValuesLeftBlank) { MyAlerts.showMustBeNonBlankAlert(); }
         else 
-        if (!boolAllFieldsGood) {
-            MyAlerts.showNotAllFieldsGoodAlert();
-        }
+        if (!boolAllFieldsGood) { MyAlerts.showNotAllFieldsGoodAlert(); }
         else 
-        if (rightBin <= leftBin) {
-            MyAlerts.showLeftRightOrderAlert();
-        }
+        if (rightBin <= leftBin) { MyAlerts.showLeftRightOrderAlert(); }
         else 
         if (rightBin < minDataRange || maxDataRange < leftBin) {
             MyAlerts.showbadBinRangeAlert();
@@ -197,7 +198,6 @@ public class Change_Bins_Dialog extends Stage {
         });
 
         btnReset.setOnAction((ActionEvent event) -> {
-            
             for (int ithSTF = 0; ithSTF < 2; ithSTF++) {
                 al_STF.get(ithSTF).setText(toBlank); 
             }           

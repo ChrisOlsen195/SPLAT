@@ -1,7 +1,7 @@
 /**************************************************
  *               ANCOVA_Dialog                    *
- *                  11/27/24                      *
- *                   12:00                        *
+ *                  01/20/25                      *
+ *                   21:00                        *
  *************************************************/
 package anova2;
 
@@ -208,7 +208,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
             str_NameTreatment = varList1.getNamesSelected().get(0);
             index_Treatment = dm.getVariableIndex(str_NameTreatment);
             
-            if (dm.getAllTheColumns().get(index_Treatment).getIsNumeric()) {
+            if (dm.getAllTheColumns().get(index_Treatment).getDataType().equals("Quantitative")) {
                 MyAlerts.showANCOVA_NumericTreatmentAlert();
                 strReturnStatus = "Cancel";
                 diagStage.close();
@@ -229,7 +229,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
             dm.whereIsWaldo(229, waldoFile, "showTheDialog()");
             str_NameCovariate = varList1.getNamesSelected().get(0);
             index_Covariate = dm.getVariableIndex(str_NameCovariate);
-            if (dm.getAllTheColumns().get(index_Covariate).getIsNumeric()) {
+            if (dm.getAllTheColumns().get(index_Covariate).getDataType().equals("Quantitative")) {
                 tf_FactorB.setText(str_NameCovariate);
                 varList1.delVarName(varList1.getNamesSelected());
             } else {
@@ -243,7 +243,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
             dm.whereIsWaldo(243, waldoFile, "showTheDialog()");
             str_NameResponse = varList1.getNamesSelected().get(0);
             index_ResponseVar = dm.getVariableIndex(str_NameResponse);                
-            if (dm.getAllTheColumns().get(index_ResponseVar).getIsNumeric()){
+            if (dm.getAllTheColumns().get(index_ResponseVar).getDataType().equals("Quantitative")){
                 //System.out.println("247 ANCOVA_Dialog, response is numeric");
                 tf_ResponseVar.setText(str_NameResponse);
                 varList1.delVarName(varList1.getNamesSelected());

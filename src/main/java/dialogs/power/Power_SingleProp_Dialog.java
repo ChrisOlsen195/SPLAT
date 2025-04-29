@@ -1,7 +1,7 @@
 /************************************************************
  *                 Power_SingleProp_Dialog                  *
- *                        05/26/24                          *
- *                         21:00                            *
+ *                        01/15/25                          *
+ *                         15:00                            *
  ***********************************************************/
 package dialogs.power;
 
@@ -27,6 +27,9 @@ import utilityClasses.MyAlerts;
 public class Power_SingleProp_Dialog extends Power_Dialog { 
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean boolValuesLeftBlank, bool_NullPropGood, bool_EffectSizeGood, 
             bool_SampleSizeGood, allFieldsGood; 
     
@@ -47,7 +50,7 @@ public class Power_SingleProp_Dialog extends Power_Dialog {
     
     // My classes
     SmartTextFieldsController stf_Controller;
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     
     // JavaFX POJOs
     RadioButton radbtn_HypNE, radbtn_HypLT, radbtn_HypGT;
@@ -69,7 +72,9 @@ public class Power_SingleProp_Dialog extends Power_Dialog {
 
     public Power_SingleProp_Dialog() {
         super("Quantitative");  //  Doesn't really do anything (no data chosen)
-        //System.out.println("\n72, one mean sum stats dialog, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("76 *** Power_SingleProp_Dialog, Constructing");
+        }
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         sep = new Separator();
         sep.setOrientation(Orientation.VERTICAL);

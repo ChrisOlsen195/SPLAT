@@ -1,7 +1,7 @@
 /**************************************************
  *       TwoProps_Power_VsSampleSizeView          *
- *                  02/19/24                      *
- *                    15:00                       *
+ *                  01/16/25                      *
+ *                    00:00                       *
  *************************************************/
 package power_twoprops;
 
@@ -28,6 +28,9 @@ import javafx.scene.input.MouseEvent;
 
 public class IndepProps_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int n_1, n_2, maxSampleSize;
 
     double xMax, yMax, effectSize, dbl_daN1, dbl_daN2, lowN1, lowN2;
@@ -49,7 +52,9 @@ public class IndepProps_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("52 IndepProps_Power_VsSampleSizeView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("56 *** IndepProps_Power_VsSampleSizeView, Constructing");
+        }
         this.indepProps_Power_Model = indepProps_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

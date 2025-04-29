@@ -1,20 +1,20 @@
 /************************************************************
  *                    PrintFile_Controller                  *
- *                          05/13/24                        *
- *                            09:00                         *
+ *                          03/01/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package printFile;
 
 import dataObjects.ColumnOfData;
 import java.util.ArrayList;
 import splat.Data_Manager;
-import utilityClasses.MyAlerts;
 
 public class PrintFile_Controller {
     // POJOs
     
     int nVarsChosen;
-    String returnStatus;  //, theYVariable;
+    String returnStatus;
+    
     // String waldoFile = "PrintFile_Controller";
     String waldoFile = "";
     
@@ -31,11 +31,11 @@ public class PrintFile_Controller {
     public PrintFile_Controller(Data_Manager dm) {
         this.dm = dm;
         dm.whereIsWaldo(33, waldoFile, "Constructing");
-        printFile_Model = new PrintFile_Model(dm, this);
+        printFile_Model = new PrintFile_Model(dm, this);  
     }  
         
     public String doTheProcedure() {
-        dm.whereIsWaldo(37, waldoFile, "doTheProcedure()");
+        dm.whereIsWaldo(38, waldoFile, "doTheProcedure()");
         try {
             printFile_ChooseVars_Dialog = new PrintFile_ChooseVars_Dialog(dm);
             printFile_ChooseVars_Dialog.showAndWait();          
@@ -45,7 +45,6 @@ public class PrintFile_Controller {
             data = new ArrayList<>();
             data = printFile_ChooseVars_Dialog.getData();
             nVarsChosen = data.size();
-            System.out.println("44 PrintFile_Controller, nVarsChosen = " + data.size());
             printFile_Model.printFile();
             printFile_Dashboard = new PrintFile_Dashboard(this, printFile_Model);
             printFile_Dashboard.populateTheBackGround();

@@ -1,7 +1,7 @@
 /**************************************************
  *                   DotPlotModel                 *
- *                     04/25/24                   *
- *                      15:00                     *
+ *                     01/16/25                   *
+ *                      12:00                     *
  *************************************************/
 package proceduresOneUnivariate;
 
@@ -12,6 +12,8 @@ import utilityClasses.DataUtilities;
 
 public class DotPlot_Model {  
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     double ithBinLow, ithBinHigh;
     double daMin, daMax;
@@ -26,7 +28,9 @@ public class DotPlot_Model {
     public DotPlot_Model() { }
         
     public DotPlot_Model(String descriptionOfVariable, QuantitativeDataVariable qdv) {  
-        //System.out.println("29 DotPlot_Model, constructing");
+        if (printTheStuff == true) {
+            System.out.println("32 *** DotPlot_Model, Constructing");
+        }
         this.qdv = qdv;
         this.descrOfVar = descriptionOfVariable;
 

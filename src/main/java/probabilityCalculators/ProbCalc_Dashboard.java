@@ -1,7 +1,7 @@
 /**************************************************
  *              ProbCalc_Dashboard                *
- *                    12/31/24                    *
- *                     12:00                      *
+ *                    01/16/25                    *
+ *                     09:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 
 public class ProbCalc_Dashboard extends Dashboard {
     // POJOs
+    //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
     final String[] regrCheckBoxDescr = { " Normal ", " t ",
@@ -50,8 +51,8 @@ public class ProbCalc_Dashboard extends Dashboard {
             
     public ProbCalc_Dashboard(ProbCalc_Controller probCalc_Controller) {
         super(5);  // nCheckBoxes = 5;
-        if (printTheStuff) {
-            System.out.println("\n54 *** ProbCalc_Dashboard+, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("55 *** ProbCalc_Dashboard, Constructing");
         }
         checkBoxDescr = new String[nCheckBoxes];
         

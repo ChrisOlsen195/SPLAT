@@ -1,7 +1,7 @@
 /**************************************************
  *           DataCommit_While_Tabbing             *
- *                    11/27/23                    *
- *                     12:00                      *
+ *                    01/20/25                    *
+ *                     18:00                      *
  *************************************************/
 
 package splat;
@@ -39,7 +39,7 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
         fixedString = theStringEntered;  //  Initialize
         ehGridCol = tracker.getCurrentGridColumn();
         ehGridRow = tracker.getCurrentGridRow();
-        tracker.set_CurrentDG_and_DS(ehGridCol, ehGridRow);
+        tracker.set_Current_DG_DS(ehGridCol, ehGridRow, "42 DataCommit_WhileTabbing");
         ehStructCol = tracker.getCurrentStructColumn();
         ehStructRow = tracker.getCurrentStructRow();
         theEntry = theStringEntered;
@@ -58,8 +58,8 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
             fixedString = eval;
         }   //  endif
         // Advise the user of text entry into a hitherto numeric variable
-        else if ((dm.getVariableIsNumeric(ehStructCol) == true) && (!theEntry.equals("") && (!theEntry.equals("*")))) {
-            dm.setVariableNumeric(ehGridCol, false);
+        else if ((dm.getDataType(ehStructCol).equals("Quantitative")) && (!theEntry.equals("") && (!theEntry.equals("*")))) {
+            dm.setDataType(ehGridCol, "Categorical");
             MyAlerts.showTextEntryAdvisoryAlert();
         }   //  end elseif
         
@@ -114,16 +114,16 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
             dm.sendDataStructToGrid(ehGridCol, ehGridRow);           
         }       
 
-        tracker.set_CurrentDG_and_DS(ehGridCol, ehGridRow);
+        tracker.set_Current_DG_DS(ehGridCol, ehGridRow, "117 DataCommit_WhileTabbing");
         
         if (!tracker.cursorIsAtRightOfGrid()) {
-            tracker.set_CurrentDG_and_DS(ehGridCol + 1, ehGridRow); //  !!!!
+            tracker.set_Current_DG_DS(ehGridCol + 1, ehGridRow, "120 DataCommit_WhileTabbing"); //  !!!!
         }
         else {  //  At right of grid
             int currentULDG_Col = tracker.get_ulDG().getCol();
             int currentULDG_Row = tracker.get_ulDG().getRow();
             tracker.set_ulDG(currentULDG_Col + 1, currentULDG_Row);
-            tracker.set_CurrentDG_and_DS(ehGridCol, ehGridRow);
+            tracker.set_Current_DG_DS(ehGridCol, ehGridRow, "126 DataCommit_WhileTabbing");
             setFromGridToStruct("          140 teh, Tabbing, at right of grid", theEntry) ;
             dataGrid.setCurrentCellContents(fixedString);
             dm.sendDataStructToGrid(ehGridCol, ehGridRow);

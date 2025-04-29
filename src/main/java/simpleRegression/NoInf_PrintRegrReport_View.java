@@ -12,7 +12,7 @@ public class NoInf_PrintRegrReport_View extends PrintTextReport_View {
     
     // My classes
    
-    public NoInf_PrintRegrReport_View(NoInf_Regression_Model noInf_RegrModel,  NoInf_Regression_Dashboard noInf_RegrDashboard,
+    public NoInf_PrintRegrReport_View(NoInf_Regr_Model noInf_RegrModel,  NoInf_Regr_Dashboard noInf_RegrDashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);

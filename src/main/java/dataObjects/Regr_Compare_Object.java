@@ -1,7 +1,7 @@
 /**************************************************
  *               Regr_Compare_Object              *
- *                    09/19/24                    *
- *                      12:00                     *
+ *                    03/03/25                    *
+ *                      15:00                     *
  *************************************************/
 package dataObjects;
 
@@ -79,17 +79,6 @@ public class Regr_Compare_Object {
         col_Covariate = new ColumnOfData("Explanatory", "Explanatory", str_al_Covariate);
         col_Response = new ColumnOfData("Response", "Response", str_al_Response);
         col_Treatment = new ColumnOfData("Treatment", "Treatment", str_al_Treatment);
-       
-        //nLegalCases = col_Covariate.getNCasesInColumn();
-
-        /*
-        for (int ithCase = 0; ithCase < nLegalCases; ithCase++) {
-            String colCase = col_Covariate.getStringInIthRow(ithCase);
-            String colResponse = col_Response.getStringInIthRow(ithCase);
-            String colTreatment = col_Treatment.getStringInIthRow(ithCase);
-        }
-        */
-        
         col_al_ForBiv = new ArrayList();
         col_al_ForBiv.add(col_Covariate);
         col_al_ForBiv.add(col_Response);    
@@ -199,9 +188,8 @@ public class Regr_Compare_Object {
         System.out.println("corr = " + bivContinDataObject.getCorrelation());
         System.out.println("slope = " + bivContinDataObject.getSlope());
         System.out.println("intercept = " + bivContinDataObject.getIntercept());
-*/
+        */
         return "ANCOVA_Object.toString printed \n\n";
     }
-    
 }
 

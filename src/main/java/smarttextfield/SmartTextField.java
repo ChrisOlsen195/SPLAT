@@ -1,7 +1,7 @@
 /****************************************************************************
  *                        SmartTextField                                    * 
- *                           01/14/25                                       *
- *                            09:00                                         *
+ *                           01/16/25                                       *
+ *                            12:00                                         *
  ***************************************************************************/
 /****************************************************************************
 *       Sample set up of text field & must-be, with label.                  *
@@ -27,8 +27,9 @@ public class SmartTextField {
     // POJOs
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
-        
+    
     boolean showingAnAlert = false, ignoreFocusChanges = false;
+    
     boolean mb_Negative = false, mb_NonPositive = false, mb_NonZero = false, 
             mb_NonNegative = false, mb_Positive = false, mb_Integer = false, 
             mb_Real = false, mb_Probability = false, mb_PositiveInteger = false; 
@@ -45,30 +46,30 @@ public class SmartTextField {
     SmartTextFieldChecker stf_Checker;
     SmartTextFieldsController stf_Controller;
     SmartTextFieldHandler stf_Handler;
-    DoublyLinkedSTF dlSTF;
+    SmartTextFieldDoublyLinkedSTF dlSTF;
     
     // POJOs / FX
     TextField lessThanSmart_TF;
     
     public SmartTextField() {
-        if (printTheStuff) {
-            System.out.println("\n55 *** SmartTextField, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("56 *** ColumnOfData, Constructing");
         }
         lessThanSmart_TF = new TextField(); // Just a wrapper
         setIsEditable(true);
     }
     
     public SmartTextField(String tfString) {
-        if (printTheStuff) {
-            System.out.println("\n62 *** SmartTextField, Constructing from tString");
+        if (printTheStuff == true) {
+            System.out.println("64 *** ColumnOfData, Constructing");
         }
         lessThanSmart_TF = new TextField(tfString); // Just an initialized wrapper
         setIsEditable(true);
     }
     
     public SmartTextField(SmartTextFieldsController stf_Controller)  { 
-        if (printTheStuff) {
-            System.out.println("\n70 *** SmartTextField, Constructing from stf_Controller");
+        if (printTheStuff == true) {
+            System.out.println("72 *** ColumnOfData, Constructing");
         }
         this.stf_Controller = stf_Controller;
         stf_Checker = new SmartTextFieldChecker(stf_Controller, this);  
@@ -81,9 +82,6 @@ public class SmartTextField {
     *  of a chicken and egg problem among the SmartTextField classes.     *
     **********************************************************************/
     public void finishInitializations() {
-        if (printTheStuff) {
-            System.out.println("85 --- SmartTextField, finishInitializations");
-        }
         stf_Handler = stf_Controller.getSTFHandler();
         dlSTF = stf_Controller.getLinkedSTF();
         stf_Handler.setShowingAnAlert(false);
@@ -178,9 +176,7 @@ public class SmartTextField {
     };    
     
     public void doEnterKey() {  //  and TAB
-        if (printTheStuff) {
-            System.out.println("182 --- SmartTextField, doEnterKey()");
-        }
+        // System.out.println("168 stf, doEnterKey()");
         showingAnAlert = false;
         
         if (!showingAnAlert)  {  

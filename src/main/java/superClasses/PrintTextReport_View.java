@@ -1,7 +1,7 @@
 /****************************************************************************
  *                   PrintTextReport_View                                   * 
- *                         11/01/23                                         *
- *                          15:00                                           *
+ *                         01/16/25                                         *
+ *                          18:00                                           *
  ***************************************************************************/
 package superClasses;
 
@@ -23,6 +23,9 @@ import javafx.scene.text.TextFlow;
 import utilityClasses.StringUtilities;
 
 public class PrintTextReport_View {
+    // POJOs
+     //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     public double initHoriz, initVert, initWidth, initHeight; 
     
@@ -48,7 +51,9 @@ public class PrintTextReport_View {
     
     public PrintTextReport_View(double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("52 PrintTextReport_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("55 *** PrintTextReport_View (Super), Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         stringsToPrint = new ArrayList<>();

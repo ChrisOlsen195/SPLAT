@@ -1,7 +1,7 @@
 /**************************************************
  *             QuantitativeDataVariable           *
- *                    11/17/24                    *
- *                      12:00                     *
+ *                    01/15/25                    *
+ *                      15:00                     *
  *************************************************/
 package dataObjects;
 
@@ -13,11 +13,12 @@ import utilityClasses.MyAlerts;
 
 public class QuantitativeDataVariable {
     // POJOs
-    private boolean doublesFound = false;
-    boolean variableIsQuant = true;
     
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
+    
+    private boolean doublesFound = false;
+    boolean variableIsQuant = true;
     
     private int nOriginalDataPoints, nLegalDataPoints;
     private double[] dbl_legalData;
@@ -31,22 +32,25 @@ public class QuantitativeDataVariable {
     QuantitativeDataVariable qdv;
     
     public QuantitativeDataVariable () { 
+        if (printTheStuff == true) {
+            System.out.println("36 *** QuantitativeDataVariable, Constructing");
+        }
         varLabel = "";
         varDescription = "";
     }
     
     //  Copy constructor
+
     public QuantitativeDataVariable(QuantitativeDataVariable original_qdv) {
-        
-        if (printTheStuff) {
-            System.out.println("\n 43 *** QuantitativeDataVariable, constructing");
+        if (printTheStuff == true) {
+            System.out.println("46 *** QuantitativeDataVariable, Constructing");
         }
-        this.varLabel = original_qdv.getTheVarLabel();
-        this.varDescription = original_qdv.getTheVarDescription();
-        this.doublesFound = original_qdv.getDoublesFound();   
-        this.variableIsQuant = original_qdv.getVariableIsQuant();
-        this.nOriginalDataPoints = original_qdv.get_nDataPointsOriginal();
-        this.nLegalDataPoints = original_qdv.getLegalN();
+         this.varLabel = original_qdv.getTheVarLabel();
+         this.varDescription = original_qdv.getTheVarDescription();
+         this.doublesFound = original_qdv.getDoublesFound();   
+         this.variableIsQuant = original_qdv.getVariableIsQuant();
+         this.nOriginalDataPoints = original_qdv.get_nDataPointsOriginal();
+         this.nLegalDataPoints = original_qdv.getLegalN();
 
          this.dbl_legalData = new double[nLegalDataPoints];
          // arrayCopy dbl_legalData
@@ -77,8 +81,8 @@ public class QuantitativeDataVariable {
 
     // The data will be added as we go...  (bootstrapping needs this).
     public QuantitativeDataVariable (String varLabel, String varDescription) {
-        if (printTheStuff) {
-            System.out.println("\n 81 *** QuantitativeDataVariable, constructing");
+        if (printTheStuff == true) {
+            System.out.println("85 --- QuantitativeDataVariable, Constructing");
         }
         this.varLabel = varLabel;
         this.varDescription = varDescription;
@@ -90,8 +94,8 @@ public class QuantitativeDataVariable {
 
     
     public QuantitativeDataVariable(String varLabel, String varDescription, ColumnOfData colOfData) {
-        if (printTheStuff) {
-            System.out.println("\n 94 *** QuantitativeDataVariable, constructing");
+        if (printTheStuff == true) {
+            System.out.println("98 --- QuantitativeDataVariable, Constructing");
         }
         this.colOfData = new ColumnOfData();
         this.colOfData = colOfData;
@@ -108,8 +112,8 @@ public class QuantitativeDataVariable {
     // Incoming Matrix must be m x 1, all legal
     // Used in multiple and noIntercept regression
     public QuantitativeDataVariable(Data_Manager dm, String varLabel, String varDescription, Matrix inMatrix) {
-        if (printTheStuff) {
-            System.out.println("\n 112 *** QuantitativeDataVariable, constructing");
+        if (printTheStuff == true) {
+            System.out.println("116 --- QuantitativeDataVariable, Constructing");
         }
         this.varLabel = varLabel;
         this.varDescription = varDescription;
@@ -127,13 +131,13 @@ public class QuantitativeDataVariable {
         
         stripTheNonDoubles();
         colOfData = new ColumnOfData(dm, varLabel, "QDV", alString_theLegalCases);
-        ucdo = new UnivariateContinDataObj("131 QDV",this);
+        ucdo = new UnivariateContinDataObj("134 QDV",this);
     }
     
     // This constructor is used by the VerticalBoxPlotPlatform, matchedPairs, and bootstrapping.
     public QuantitativeDataVariable (String varLabel, String varDescription, double[] dbl_IncomingData)  {
-        if (printTheStuff) {
-            System.out.println("\n136 *** QuantitativeDataVariable, constructing");
+        if (printTheStuff == true) {
+            System.out.println("140 --- QuantitativeDataVariable, Constructing");
         }
         this.varLabel = varLabel;
         this.varDescription = varDescription;
@@ -147,12 +151,12 @@ public class QuantitativeDataVariable {
         }
         
         stripTheNonDoubles();
-        ucdo = new UnivariateContinDataObj("150 QDV",this);
+        ucdo = new UnivariateContinDataObj("154 QDV",this);
     }
 
     public QuantitativeDataVariable (String varLabel, String varDescription, ArrayList<String> inDataStrings)  {
-        if (printTheStuff) {
-            System.out.println("\n155 *** QuantitativeDataVariable, constructing");
+        if (printTheStuff == true) {
+            System.out.println("159 QuantitativeDataVariable, Constructing");
         }
         this.varLabel = varLabel;
         this.varDescription = varDescription;
@@ -161,12 +165,12 @@ public class QuantitativeDataVariable {
         alString_theLegalCases = new ArrayList();
         alDouble_theLegalCases = new ArrayList();
         stripTheNonDoubles();
-        ucdo = new UnivariateContinDataObj("164 QDV",this);
+        ucdo = new UnivariateContinDataObj("168 QDV",this);
     }
     
     public QuantitativeDataVariable (String varLabel, String varDescription, String[] inDataStrings)  {
-        if (printTheStuff) {
-            System.out.println("\n 169 *** QuantitativeDataVariable, constructing");
+        if (printTheStuff == true) {
+            System.out.println("173 QuantitativeDataVariable, Constructing");
         }
         this.varLabel = varLabel;
         this.varDescription = varDescription;
@@ -180,7 +184,7 @@ public class QuantitativeDataVariable {
         alString_theLegalCases = new ArrayList();
         alDouble_theLegalCases = new ArrayList();
         stripTheNonDoubles();
-        ucdo = new UnivariateContinDataObj("183 QDV",this);
+        ucdo = new UnivariateContinDataObj("187 QDV",this);
     }
     
     public void doMedianBasedCalculations() { ucdo.doMedianBasedCalculations(); }
@@ -206,9 +210,6 @@ public class QuantitativeDataVariable {
     // This method also determines the existence of categorical data
     // Classes should check for categorical data at construction.
     private void stripTheNonDoubles() {
-        if (printTheStuff) {
-            System.out.println("\n 210 QDV --- stripTheNonDoubles()");
-        }
         doublesFound = false;
         
         for (int ithCase = 0; ithCase < nOriginalDataPoints; ithCase++) {
@@ -327,19 +328,19 @@ public class QuantitativeDataVariable {
     
     public ArrayList<String> getAllTheCasesAsALStrings() { return alString_AllTheCases; }
     public ArrayList<Double> getLegalCases_AsALDoubles() { return alDouble_theLegalCases; }
+    
     public ArrayList<String> getLegalCases_AsALStrings() { return alString_theLegalCases; }  
 
     public String toString() {
-        System.out.println("\n QDV toString");
-        System.out.println ("QuantitativeDataVariable LEGAL data points toString(), varLabel = " + varLabel);
+        System.out.println ("\nQuantitativeDataVariable LEGAL data points toString(), varLabel = " + varLabel);
         System.out.println ("QuantitativeDataVariable LEGAL data points toString(), varDescription = " + varDescription);
         System.out.println("n = " + nOriginalDataPoints);
         System.out.println("Legal n = " + getLegalN());    
-        System.out.println("nLegalDataPoints = " + nLegalDataPoints);
+        
         for (int ithDataPoint = 0; ithDataPoint < nLegalDataPoints; ithDataPoint++)  {
             System.out.println("ith = " + ithDataPoint + ", " + dbl_legalData[ithDataPoint]);
         }
-        System.out.println("end QDV toString\n");
+        
         return "\n";
     } 
 }

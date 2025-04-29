@@ -1,7 +1,7 @@
 /**************************************************
  *          OneMean_Power_Controller              *
- *                  07/06/24                      *
- *                    18:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_OneMean;
 
@@ -11,6 +11,9 @@ import utilityClasses.MyAlerts;
 
 public class OneMean_Power_Controller {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int sampleSize;
     double alpha, nullMu, altMu, nullSigma, standErrMean, effectSize;
 
@@ -24,7 +27,9 @@ public class OneMean_Power_Controller {
     Power_SingleMean_Dialog power_SingleMean_Dialog;
 
     public OneMean_Power_Controller() {
-        //System.out.println("\n27 OneMean_Power_Controller, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("31 *** OneMean_Power_Controller, constructing");
+        }
         power_SingleMean_Dialog = new Power_SingleMean_Dialog();
     }
     

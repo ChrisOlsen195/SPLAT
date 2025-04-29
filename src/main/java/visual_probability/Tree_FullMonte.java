@@ -26,7 +26,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Translate;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import smarttextfield.SmartTextFieldsController;
 import utilityClasses.DataUtilities;
 import utilityClasses.MyAlerts;
@@ -49,7 +49,7 @@ public class Tree_FullMonte {
            ev2B, ev2NotB, daDescr, probToCalc;    
     
     // My Classes
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     SmartTextFieldsController stf_Controller;
     
     Tree_View tree_View;

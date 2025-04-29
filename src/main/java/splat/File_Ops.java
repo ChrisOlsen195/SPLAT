@@ -1,7 +1,7 @@
 /************************************************************
- *                        Splat_FileOps                     *
- *                           11/11/24                       *
- *                            09:00                         *
+ *                            FileOps                       *
+ *                           04/13/25                       *
+ *                            18:00                         *
  ***********************************************************/
 /**************************************************
 *  All coordinate systems are zero-based:         *
@@ -11,7 +11,6 @@
 *  Only the presented-to-user cases and variables *
 *  will be 1-based, and will appear in the code   *
 *  with xxx + 1 subscripts.                       *
-*                                                 *
 **************************************************/
 package splat;
 
@@ -48,32 +47,40 @@ public class File_Ops {
     File theFile;
 
     public File_Ops(Data_Manager dm) {
-        dm.whereIsWaldo(51, waldoFile, "\n *** Constructing File_Ops, no file name");
+        dm.whereIsWaldo(50, waldoFile, " *** Constructing File_Ops, no file name");
         this.dm = dm;
         tracker = dm.getPositionTracker();
         dm.setDataAreClean(true);
         returnStatus = "Ok";
         myYesNoAlerts = new MyYesNoAlerts();
+        dm.setRawOrSummary(("NULL"));
+        dm.setTIorTIDY("NULL");
     }
     
     public File_Ops( String fileName, Data_Manager dm) {
-        dm.whereIsWaldo(60, waldoFile, "\n *** Constructing File_Ops with file name");
+        dm.whereIsWaldo(61, waldoFile, " *** Constructing File_Ops with file name");
         this.dm = dm;
         tracker = dm.getPositionTracker();
         theFile = new File(fileName);
         dm.getMainMenu().setFileLabel(fileName);
         parseAndRead(theFile);
         myYesNoAlerts = new MyYesNoAlerts();
+        dm.setRawOrSummary(("NULL"));
+        dm.setTIorTIDY("NULL");
     }
 
     public void ClearTable() {
-        dm.whereIsWaldo(70, waldoFile, "Clear table");        
+        dm.whereIsWaldo(73, waldoFile, "Clear table"); 
         if (!dm.getDataAreClean()) {
-            myYesNoAlerts.showUnsavedDataAlert("Yes, I'm sure", "Oops, guess not");
+            myYesNoAlerts.setTheYes("Trash it!");     //  Trash the data
+            myYesNoAlerts.setTheNo("Save it!");    //  Keep the data
+            myYesNoAlerts.showUnsavedDataAlert();
             yesOrNo = myYesNoAlerts.getYesOrNo();
             if (yesOrNo.equals("No")) { return; }
         }
-
+        // Reinitialize values for 'no data'
+        dm.setRawOrSummary(("NULL"));
+        dm.setTIorTIDY("NULL");
         maxCasesInGrid = dm.getMaxVisCases();
         dm.initializeGrid(maxCasesInGrid);
         dm.setDataExists(false);
@@ -81,7 +88,7 @@ public class File_Ops {
     
 
     public String getDataFromFile(int startVariable) throws Exception {
-        dm.whereIsWaldo(84, waldoFile, "getDataFromFile(int startVariable)");
+        dm.whereIsWaldo(91, waldoFile, "getDataFromFile(int startVariable)");
         try {
             FileChooser fChoose = new FileChooser();
             fChoose.setTitle("Get Data");
@@ -110,7 +117,7 @@ public class File_Ops {
             return returnStatus;
         }
         catch(Exception ex) {
-            PrintExceptionInfo pei = new PrintExceptionInfo(ex, "File_Ops.getDataFromFile()");
+            PrintExceptionInfo pei = new PrintExceptionInfo(ex, "113 File_Ops.getDataFromFile()");
             returnStatus = "ExceptionThrown";
             return returnStatus;
         }
@@ -118,7 +125,11 @@ public class File_Ops {
 
     
     private String parseAndRead(File fileName) {
-        dm.whereIsWaldo(121, waldoFile, "parseAndRead(File fileName)");
+        dm.whereIsWaldo(128, waldoFile, "parseAndRead(File fileName)");
+        /*************************************************************
+         *    New file -->  format (Tidy or TI8x) unknown            *
+         ************************************************************/
+        dm.setTIorTIDY(("NULL"));
         fileParser = new CSV_FileParser(fileName, dm.getDelimiter());
         returnStatus = fileParser.parseTheFile();
         
@@ -128,31 +139,33 @@ public class File_Ops {
         nCasesInFile = fileParser.getNCases();
 
         tracker.setNVarsInStruct(nVarsInFile);
+        dm.getTheGrid().setNVarsInStruct(nVarsInFile);
         tracker.setNVarsCommitted(nVarsInFile);
         tracker.setNCasesInStruct(nCasesInFile);
+        dm.getTheGrid().setNCasesInStruct(nCasesInFile);
         tracker.setNCasesCommitted(nCasesInFile);
 
         dm.getTheGrid().setNVarsInGrid(Math.min(nVarsInFile, dm.getMaxVisVars()));
         dm.getTheGrid().setNCasesInGrid(Math.min(nCasesInFile, dm.getMaxVisCases()));     
         dm.initalizeForFileRead(nVarsInFile, nCasesInFile);
+        dm.getTheGrid().goHome();    // ****************************
         
         for (int j = 0; j < nVarsInFile; j++) {
             dm.setVariableNameInStruct(j + startVariable, fileParser.getDataElementColRow(j, 0));
         }
-
+        
         for (int iRow = 0; iRow < nCasesInFile; iRow++) {           
             for (int jCol = 0; jCol < nVarsInFile; jCol++) {                
                 tracker.set_CurrentDS(jCol, iRow);  //  DS only b/c dataGrid doesn't exist yet
-                dm.setDataInStruct("146 file_Ops", 
+                dm.setDataInStruct("157 file_Ops", 
                         jCol,
                         iRow,
                         fileParser.getDataElementColRow(jCol, iRow + 1));
             }
         }
-
         dm.setFileName(fileName);
         dm.setLastPath(fileName);
-        tracker.set_CurrentDG_and_DS(0, 0);
+        tracker.set_Current_DG_DS(0, 0, "170 File_Ops");
         tracker.set_ulDG(0, 0);
         tracker.set_ulDS(0, 0);
         dm.sendDataStructToGrid(0, 0);
@@ -161,19 +174,19 @@ public class File_Ops {
         // So that the cell is not lost after arrow or scroll event
         dm.getDataGrid().setCurrentCellContents(fileParser.getDataElementColRow(0, 1));
         
-        tracker.set_CurrentDG_and_DS(0, 0);
+        tracker.set_Current_DG_DS(0, 0, "177 File_Ops");
         dm.setDataExists(true);
 
         for (int ithInitColumn = 0; ithInitColumn < nVarsInFile; ithInitColumn++) {
             dm.getAllTheColumns().get(ithInitColumn).determineDataType();
-            boolean isNumeric = dm.getAllTheColumns().get(ithInitColumn).getIsNumeric();            
-            if (isNumeric) { 
-                dm.setVariableNumeric(ithInitColumn, true);
+            String dataType = dm.getAllTheColumns().get(ithInitColumn).getDataType();            
+            if (dataType.equals("Quantitative")) { 
+                dm.setDataType(ithInitColumn, "Quantitative");
             } else {
-                dm.setVariableNumeric(ithInitColumn, false);
+                dm.setDataType(ithInitColumn, "Categorical");
             }  
         }
-
+        
         int nInitCols = dm.dataStruct.size();
         int sizeOfCol_0 = dm.getDataStruct().get(0).getColumnSize();        
         for (int ithCol = 1; ithCol < nInitCols; ithCol++) {
@@ -183,17 +196,16 @@ public class File_Ops {
                 dm.getDataStruct().get(ithCol).addUntilNCases(sizeOfCol_0);
             }            
         }
-
         duplicateLabelsExist = fileParser.getDuplicateLabelsExist();
         return returnStatus;
-    }
+    } // OpenData
 
     public void SaveData(Data_Manager dm, boolean getFileName) {
-        dm.whereIsWaldo(192, waldoFile, "  *** SaveData(Data_Manager dm, boolean getFileName)");
+        dm.whereIsWaldo(204, waldoFile, "  --- SaveData(Data_Manager dm, boolean getFileName)");
         int i, j, currVars, currCases;
         
         if (tracker.getNVarsInStruct() == 0) {            
-            MyAlerts.showAintGotNoDataAlert_1Var(); 
+            MyAlerts.showAintGotNoDataAlert(); 
             return;
         }
 
@@ -211,9 +223,7 @@ public class File_Ops {
 
             fileName = fChoose.showSaveDialog(null);
 
-            if (fChoose.getSelectedExtensionFilter() == null) {
-                return;
-            }
+            if (fChoose.getSelectedExtensionFilter() == null) { return; }
 
             if (fChoose.getSelectedExtensionFilter().getDescription() == null) {
                 return;
@@ -229,6 +239,7 @@ public class File_Ops {
         }
 
         if (fileName.getName().equals("")) { return; }
+        
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
             currVars =tracker.getNVarsInStruct();
@@ -257,7 +268,7 @@ public class File_Ops {
             dm.setLastPath(fileName);
 
         } catch (IOException e) { String str = this.toString();}           
-    } 
+    } // SaveData
     
     public String PrintFile(Data_Manager dm) {
         printFile_Controller = new PrintFile_Controller(dm) ;
@@ -266,10 +277,13 @@ public class File_Ops {
     }
 
     public void ExitProgram(Data_Manager dm) {
-        dm.whereIsWaldo(269, waldoFile, "  *** ExitProgram(Data_Manager dm)");
+        dm.whereIsWaldo(280, waldoFile, "  --- ExitProgram(Data_Manager dm)");
         boolean exit = true;
-        if (!dm.getDataAreClean()) { 
-            myYesNoAlerts.showUnsavedDataAlert("I'm sure", "No, maybe not");
+
+        if (!dm.getDataAreClean()) {  
+            myYesNoAlerts.setTheYes("Trash it!");
+            myYesNoAlerts.setTheNo("Save it!");
+            myYesNoAlerts.showUnsavedDataAlert();
             yesOrNo = myYesNoAlerts.getYesOrNo();
             if (yesOrNo.equals("No")) { exit = false; }
         }

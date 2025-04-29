@@ -1,7 +1,7 @@
 /****************************************************************************
  *             IndProps_Power_PrintReport_View                              * 
- *                         11/02/23                                         *
- *                          15:00                                           *
+ *                         01/16/25                                         *
+ *                          00:00                                           *
  ***************************************************************************/
 package power_twoprops;
 
@@ -9,6 +9,8 @@ import superClasses.PrintTextReport_View;
 
 public class IndepProps_Power_PrintReport_View extends PrintTextReport_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
    
@@ -16,7 +18,9 @@ public class IndepProps_Power_PrintReport_View extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("19 IndepProps_Power_PrintReport_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("22 *** IndepProps_Power_PrintReport_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
 

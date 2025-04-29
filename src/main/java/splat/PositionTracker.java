@@ -1,7 +1,7 @@
 /************************************************************
  *                      PositionTracker                     *
- *                          05/25/24                        *
- *                            15:00                         *
+ *                          04/12/25                        *
+ *                            12:00                         *
  ***********************************************************/
 // It is possible (i.e. allowed) to click 'outside' the data structure in
 // the DataGrid. This will of  course happen at initial data entry, but
@@ -13,8 +13,9 @@
 
 // Only the presented-to-user cases and variables will be 1-based, and will
 // be coded with xxx + 1 subscripts.
+
 package splat;
-import dataObjects.Cell_Information;
+import dataObjects.CellInformation;
 import utilityClasses.MyAlerts;
 
 public class PositionTracker {    
@@ -29,14 +30,13 @@ public class PositionTracker {
     String waldoFile = "";
     
     // My Classes
-    Cell_Information cellInfo_lrDG, cellInfo_CurrentGrid;
-    Cell_Information cellInfo_ulDS, cellInfo_ulDG;
-    Cell_Information  cellInfo_lrDS, cellInfo_CurrentStruct;
+    CellInformation cellInfo_lrDG, cellInfo_CurrentGrid, cellInfo_ulDS,
+                    cellInfo_ulDG, cellInfo_lrDS, cellInfo_CurrentStruct;
     Data_Grid dg;
     Data_Manager dm;
     
     int firstCaseInGrid, lastCaseInGrid, firstVarInGrid, lastVarInGrid;
-    int nCasesInStruct;
+    //int nCasesInStruct;
     
     public PositionTracker() { }    //  Needed by Var_List??
 
@@ -53,13 +53,13 @@ public class PositionTracker {
         nResidualsCalculated = 0;
         nPredsCalculated = 0;
         this.dm = dm;
-        cellInfo_lrDG = new Cell_Information();
-        cellInfo_ulDG = new Cell_Information();
-        cellInfo_ulDS = new Cell_Information();
-        cellInfo_lrDS = new Cell_Information();
-        cellInfo_CurrentGrid = new Cell_Information();
-        cellInfo_CurrentStruct = new Cell_Information();
-        cellInfo_CurrentStruct = new Cell_Information();
+        cellInfo_lrDG = new CellInformation();
+        cellInfo_ulDG = new CellInformation();
+        cellInfo_ulDS = new CellInformation();
+        cellInfo_lrDS = new CellInformation();
+        cellInfo_CurrentGrid = new CellInformation();
+        cellInfo_CurrentStruct = new CellInformation();
+        cellInfo_CurrentStruct = new CellInformation();
         
         /*******************************************************************
         *  Initialize ulDG and ulDS to (-1, -1) so the first data entry,   *
@@ -77,28 +77,25 @@ public class PositionTracker {
         firstVarInGrid = 0;
         lastVarInGrid = max_var - 1;
         
-        setNVarsCommitted(0); setNCasesCommitted(0);   
+        setNVarsCommitted(0); 
+        setNCasesCommitted(0);   
     }
     
-    public void updateMaxCases(int newMax) { 
-        //System.out.println("84 Position tracker, maxCasesInGrid = " + maxCasesInGrid);
-        maxCasesInGrid = newMax; }
+    public void updateMaxCases(int newMax) { maxCasesInGrid = newMax; }
     
-    public void updateMaxVars(int newMax) { 
-        //System.out.println("88 Position tracker, maxVarsInGrid = " + maxVarsInGrid);
-        maxVarsInGrid = newMax;}    
+    public void updateMaxVars(int newMax) { maxVarsInGrid = newMax;}    
     
     public void setTrackerDataGrid(Data_Grid dg) {this.dg = dg; }         
-    public Cell_Information get_ulDG() {return cellInfo_ulDG; } 
-    public Cell_Information get_lrDG() {return cellInfo_lrDG; }    
-    public Cell_Information get_ulDS() {return cellInfo_ulDS; } 
-    public Cell_Information get_lrDS() {return cellInfo_lrDS; }
+    public CellInformation get_ulDG() {return cellInfo_ulDG; } 
+    public CellInformation get_lrDG() {return cellInfo_lrDG; }    
+    public CellInformation get_ulDS() {return cellInfo_ulDS; } 
+    public CellInformation get_lrDS() {return cellInfo_lrDS; }
     
     public void set_lrDS(int toThis_DSCol, int toThis_DSRow) {
         cellInfo_lrDS.setCol(toThis_DSCol);
         cellInfo_lrDS.setRow(toThis_DSRow);
         int dsRow = cellInfo_lrDS.getRow();
-        nCasesInStruct = dsRow + 1;
+        //nCasesInStruct = dsRow + 1;
     }
     
     public void set_ulDS(int toThis_DSCol, int toThis_DSRow) {
@@ -118,49 +115,49 @@ public class PositionTracker {
         firstCaseInGrid = toThis_DGRow;
     } 
     
-    public Cell_Information get_CurrentDG() { return cellInfo_CurrentGrid; }
+    public CellInformation get_CurrentDG() { return cellInfo_CurrentGrid; }
     
-    public void set_CurrentDG_and_DS(int toThisCol, int toThisRow) {
-        dm.whereIsWaldo(124, waldoFile, "set_CurrentDG_and_DS");
-        //System.out.println("125 PosTrack, toThisCol/Row = " + toThisCol + " / " + toThisRow);
+    public void set_Current_DG_DS(int toThisCol, int toThisRow, String message) {
+        //dm.whereIsWaldo(121, waldoFile, "set_CurrentDG_and_DS");
+        //System.out.println("122 PositionTracker, set_Current_DG_DS: message = " + message);
         if (toThisRow > maxCasesInGrid) { 
-            MyAlerts.showUnexpectedErrorAlert("PosTracker 128 Attempt to set DG/DS off the grid");
-            return; }
-        cellInfo_CurrentGrid.setColAndRow(toThisCol, toThisRow);
-        cellInfo_CurrentStruct.setColAndRow(toThisCol + firstVarInGrid, toThisRow + firstCaseInGrid);
-        //System.out.println("131 PosTrack, toThisCol/Row = " + toThisCol + " / " + toThisRow);
-        dg.resetBlueCellPosition(toThisCol, toThisRow);
-    } 
-    
-    public void set_CurrentDG_DS_Contents(int toThisCol, int toThisRow, String toThisContent) {
+            MyAlerts.showUnexpectedErrorAlert("PosTracker 123 Attempt to set DG/DS off the grid");
+            return; 
+        }
         cellInfo_CurrentGrid.setColAndRow(toThisCol, toThisRow);
         cellInfo_CurrentStruct.setColAndRow(toThisCol + firstVarInGrid, toThisRow + firstCaseInGrid);
         dg.resetBlueCellPosition(toThisCol, toThisRow);
+        //System.out.println(cellInfo_CurrentGrid.toString());
     } 
     
-    public Cell_Information get_CurrentDS() { return cellInfo_CurrentStruct; }
+    public void set_Current_DG_DS_Contents(int toThisCol, int toThisRow, String toThisContent, String message) {
+        //System.out.println("134 PositionTracker, set_Current_DG_DS_Contents: message = " + message);
+        cellInfo_CurrentGrid.setColAndRow(toThisCol, toThisRow);
+        cellInfo_CurrentGrid.setContents(message);
+        cellInfo_CurrentStruct.setColAndRow(toThisCol + firstVarInGrid, toThisRow + firstCaseInGrid);
+        dg.resetBlueCellPosition(toThisCol, toThisRow);
+        //System.out.println(cellInfo_CurrentGrid.toString());
+    } 
+    
+    public CellInformation get_CurrentDS() { return cellInfo_CurrentStruct; }
   
     public void set_CurrentDS(int toThisCol, int toThisRow) {
         cellInfo_CurrentStruct.setColAndRow(toThisCol, toThisRow);   
     }
     
-    public int getMaxCasesInGrid() { 
-        //System.out.println("148 Position tracker, GetMaxCasesInGrid = " + maxCasesInGrid);
-        return maxCasesInGrid; }
-    public int getMaxVarsInGrid() { 
-        //System.out.println("151 Position tracker, GetMaxVarsInGrid = " + maxVarsInGrid);
-        return maxVarsInGrid; }
+    public int getMaxCasesInGrid() { return maxCasesInGrid; }
+    public int getMaxVarsInGrid() { return maxVarsInGrid; }
 
 
-    public Cell_Information cpiDG_to_cpiDS(Cell_Information cpi_DG) {
-        Cell_Information cpi_transformed = new Cell_Information();
+    public CellInformation cpiDG_to_cpiDS(CellInformation cpi_DG) {
+        CellInformation cpi_transformed = new CellInformation();
         cpi_transformed.setCol(cpi_DG.getCol() + cellInfo_ulDG.getCol());
         cpi_transformed.setCol(cpi_DG.getRow() + cellInfo_ulDG.getRow());
         return cpi_transformed;
     } 
    
-    public Cell_Information cpiDS_to_cpiDG(Cell_Information cpi_DS) {
-        Cell_Information cpi_transformed = new Cell_Information();
+    public CellInformation cpiDS_to_cpiDG(CellInformation cpi_DS) {
+        CellInformation cpi_transformed = new CellInformation();
         cpi_transformed.setCol(cpi_DS.getCol() - cellInfo_ulDG.getCol());
         cpi_transformed.setRow(cpi_DS.getRow() - cellInfo_ulDG.getRow());
         return cpi_transformed;
@@ -195,7 +192,7 @@ public class PositionTracker {
     public int getLastCaseInGrid() { return lastCaseInGrid;  }  
     
     public void setFirstVarIdentifier(int toThisCol) { 
-        dm.whereIsWaldo(198, waldoFile, "setFirstVarIdentifier");
+        dm.whereIsWaldo(190, waldoFile, "setFirstVarIdentifier");
         firstVarInGrid = toThisCol;
         cellInfo_ulDG.setCol(toThisCol);
         cellInfo_ulDS.setCol(toThisCol);
@@ -205,7 +202,7 @@ public class PositionTracker {
  
     // To do:  Untangle this first/last case mess!!!
     public void setFirstCaseIdentifier(int toThis) { 
-        dm.whereIsWaldo(208, waldoFile, "setFirstCaseIdentifier");
+        dm.whereIsWaldo(200, waldoFile, "setFirstCaseIdentifier");
         firstCaseInGrid = toThis; 
         lastCaseInGrid = firstCaseInGrid + maxCasesInGrid - 1;
         set_ulDG(cellInfo_ulDG.getCol(), firstCaseInGrid);
@@ -251,7 +248,8 @@ public class PositionTracker {
 
     public boolean cursorIsAtLastCase() {
         boolean cursorIsAtLastCase = (cellInfo_CurrentStruct.getRow() == cellInfo_lrDS.getRow());
-        //System.out.println("254 PositionTracker, cursorIsAtLastCase = " + cursorIsAtLastCase);
+        String tempStr = "246 PositionTracker, cursorIsAtLastCase = " + cursorIsAtLastCase;
+        dm.whereIsWaldo(246, waldoFile, tempStr);
         return cursorIsAtLastCase;       
     }
     
@@ -262,7 +260,8 @@ public class PositionTracker {
     
     public boolean cursorIsAtLastVariable() {
         boolean cursorIsAtLastVariable = (cellInfo_CurrentStruct.getCol() == cellInfo_lrDS.getCol());
-        //System.out.println("265 PositionTracker, cursorIsAtLastVariable = " + cursorIsAtLastVariable);
+        String tempStr = "258 PositionTracker, cursorIsAtLastVariable = " + cursorIsAtLastVariable;
+        dm.whereIsWaldo(259, waldoFile, tempStr);
         return cursorIsAtLastVariable;          
     }
     
@@ -316,6 +315,11 @@ public class PositionTracker {
     }
     
     // For diagnostic purposes    
+    public void printCurrentGridInformation(String message) { 
+        System.out.println( message);
+        System.out.println( cellInfo_CurrentGrid.toString()); 
+    }
+    
     public void printCursorStatus(String withThisMessage) {
         if (printTheCursorStatus) {
             //int getDSRow = cellInfo_CurrentStruct.getRow();

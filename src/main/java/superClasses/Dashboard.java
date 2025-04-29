@@ -1,7 +1,7 @@
 /**************************************************
  *                   Dashboard                    *
- *                   11/10/23                     *
- *                     15:00                      *
+ *                   01/16/25                     *
+ *                     18:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -27,6 +27,9 @@ import splat.Data_Manager;
 
 public abstract class Dashboard extends Stage {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     protected Boolean checkBoxSettings[];
         
     protected int nCheckBoxes, nSpacers;
@@ -70,7 +73,9 @@ public abstract class Dashboard extends Stage {
     final protected Screen primaryScreen;
                 
     public Dashboard(int numberOfCheckBoxes) { 
-        //System.out.println("71 Dashboard, constructing");
+        if (printTheStuff == true) {
+            System.out.println("77 *** Dashboard (Super), Constructing");
+        }
         strJustClickedOn = "xxx";   // Initialize
         primaryScreen = Screen.getPrimary();
         visualBounds = primaryScreen.getVisualBounds();

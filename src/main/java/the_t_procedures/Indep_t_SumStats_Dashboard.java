@@ -1,7 +1,7 @@
 /**************************************************
  *           Indep_t_SumStats_Dashboard           *
- *                    01/14/25                    *
- *                     12:00                      *
+ *                    11/01/23                    *
+ *                     00:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -31,9 +31,9 @@ public class Indep_t_SumStats_Dashboard extends Dashboard {
 
     public Indep_t_SumStats_Dashboard(Indep_t_Controller indep_t_Controller) {
         super(2);   
-        System.out.println("34 Indep_t_SumStats_Dashboard, constructing");
+        //System.out.println("34 Indep_t_SumStats_Dashboard, constructing");
         dm = indep_t_Controller.getDataManager();
-        indep_t_SumStats_Model = indep_t_Controller.getInd_t_SumStatsModel();
+        indep_t_SumStats_Model = indep_t_Controller.getIndep_t_SumStats_Model();
         checkBoxDescr = new String[nCheckBoxes];
         
         for (int ithCheckBox = 0; ithCheckBox < nCheckBoxes; ithCheckBox++) {
@@ -72,7 +72,7 @@ public class Indep_t_SumStats_Dashboard extends Dashboard {
             "-fx-border-insets: -4, -4;" +
             "-fx-border-style: solid centered, solid centered;";
         
-        initWidth[0] = 750;
+        initWidth[0] = 700;
         indep_t_PDF_SumStats_View = new Indep_t_SumStats_PDFView(indep_t_SumStats_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         indep_t_PDF_SumStats_View.completeTheDeal();        
         indep_t_ContainingPane = indep_t_PDF_SumStats_View.getTheContainingPane();  

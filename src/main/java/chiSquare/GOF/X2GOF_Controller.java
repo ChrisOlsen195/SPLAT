@@ -1,6 +1,6 @@
 /************************************************************
  *                       X2GOF_Controller                   *
- *                          09/07/24                        *
+ *                          01/15/25                        *
  *                            12:00                         *
  ***********************************************************/
 package chiSquare.GOF;
@@ -11,6 +11,10 @@ import splat.Data_Manager;
 
 public class X2GOF_Controller {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     String returnStatus;   
     
     // Make empty if no-print
@@ -26,11 +30,15 @@ public class X2GOF_Controller {
     // POJOs / FX
 
     public X2GOF_Controller() { 
-        System.out.println("\n29 X2GOFController, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("34 *** X2GOF_Controller(), Constructing");
+        }
     }
     
     public String doGOF_ByHand() {
-        //System.out.println("33  ***  X2GOFController, doGOF_ByHand()");
+        if (printTheStuff == true) {
+            System.out.println("40 --- X2GOF_Controller, doGOF_ByHand()");
+        }
         returnStatus = "OK";
         x2GOF_Model = new X2GOF_Model();
         returnStatus = x2GOF_Model.analyzeGOF_DataByHand();
@@ -64,7 +72,7 @@ public class X2GOF_Controller {
                 returnStatus = x2GOF_Dashboard.getReturnStatus();
             }            
         }
-        dm.whereIsWaldo(67, waldoFile, "  *** END doGOF_FromFileData(Data_Manager dm)");
+        dm.whereIsWaldo(75, waldoFile, "  *** END doGOF_FromFileData(Data_Manager dm)");
         return returnStatus;
     }
     

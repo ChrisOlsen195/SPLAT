@@ -1,7 +1,7 @@
 /**************************************************
  *             NormalDist_Calc_PDFView            *
- *                    02/19/24                    *
- *                     15:00                      *
+ *                    01/16/25                    *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -26,12 +26,15 @@ import utilityClasses.DataUtilities;
 import utilityClasses.StringUtilities;
 
 public class NormalDist_Calc_PDFView extends Distributions_Calc_PDFView {
-    boolean printTheStuff = true;
+
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     double mu, sigma;
     double[] dbl_AllTheSTFs;    //  doubles of the al_ProbCalcs
     // My classes  
-    DoublyLinkedSTF al_ProbCalcs_STF;
+    SmartTextFieldDoublyLinkedSTF al_ProbCalcs_STF;
     NormalDist_Calc_DialogView normalDist_Calc_DialogView;
     StandardNormal zDistr;
 
@@ -41,8 +44,8 @@ public class NormalDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(probCalc_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff) {
-            System.out.println("\n45 *** NormalDist_Calc_PDFView, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("48 *** NormalDist_Calc_PDFView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -59,7 +62,7 @@ public class NormalDist_Calc_PDFView extends Distributions_Calc_PDFView {
         zDistr = new StandardNormal();
         initializing = true;
         mu = 0.0; sigma = 1.0;
-        al_ProbCalcs_STF = new DoublyLinkedSTF();
+        al_ProbCalcs_STF = new SmartTextFieldDoublyLinkedSTF();
         //System.out.println("58 NormalDist_Calc_PDFView, constructing");
         normalDist_Calc_DialogView = probCalc_Dashboard.get_Normal_DialogView();
         al_ProbCalcs_STF = normalDist_Calc_DialogView.getAllTheSTFs();

@@ -1,7 +1,7 @@
 /************************************************************
  *                    Change_Radius_Dialog                  *
- *                          08/04/24                        *
- *                            21:00                         *
+ *                          01/15/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package dialogs;
 
@@ -33,6 +33,10 @@ import utilityClasses.MyAlerts;
 
 public class Change_Radius_Dialog extends Stage { 
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     double relRad;
     
     String strTitle, strReturnStatus, strDotOrPie;
@@ -40,7 +44,7 @@ public class Change_Radius_Dialog extends Stage {
     // My classes
     DotPlot_View dotPlot_View;
     MultUni_DotPlotView multUni_DotPlotView;
-    Boot_DotPlot_DistrView chooseStats_DotPlot_DistrView; 
+    ChooseStats_DotPlot_DistrView chooseStats_DotPlot_DistrView; 
     X2Assoc_PieChartView x2Assoc_PieChart_View;
     BivCat_PieChartView bivCat_PieChart_View;
     Epi_PieChartView epi_PieChart_View;
@@ -56,7 +60,9 @@ public class Change_Radius_Dialog extends Stage {
     Scene scene; 
     
     public Change_Radius_Dialog(X2Assoc_PieChartView x2Assoc_PieChart_View) {
-        // System.out.println("58 Change_Radius_Dialog, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("64 *** Change_Radius_Dialog, Constructing");
+        }
         this.x2Assoc_PieChart_View = x2Assoc_PieChart_View;
         strDotOrPie = "PIE";
         strReturnStatus = "OK";
@@ -90,7 +96,9 @@ public class Change_Radius_Dialog extends Stage {
     } 
     
     public Change_Radius_Dialog(BivCat_PieChartView bivCat_PieChart_View) {
-        //System.out.println("92 Change_Radius_Dialog, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("100 *** Change_Radius_Dialog, Constructing");
+        }
         this.bivCat_PieChart_View = bivCat_PieChart_View;
         strDotOrPie = "EPI";
         strReturnStatus = "OK";
@@ -124,7 +132,9 @@ public class Change_Radius_Dialog extends Stage {
     } 
     
     public Change_Radius_Dialog(Epi_PieChartView epi_PieChart_View) {
-        //System.out.println("92 Change_Radius_Dialog, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("136 *** Change_Radius_Dialog, Constructing");
+        }
         this.epi_PieChart_View = epi_PieChart_View;
         strDotOrPie = "EPI";
         strReturnStatus = "OK";
@@ -158,6 +168,9 @@ public class Change_Radius_Dialog extends Stage {
     } 
     
     public Change_Radius_Dialog(DotPlot_View dotPlot_View) {
+        if (printTheStuff == true) {
+            System.out.println("172 *** Change_Radius_Dialog, Constructing");
+        }
         this.dotPlot_View = dotPlot_View;
         strDotOrPie = "DOT";
         strReturnStatus = "OK";
@@ -189,7 +202,10 @@ public class Change_Radius_Dialog extends Stage {
         setScene(scene);
     } 
     
-    public Change_Radius_Dialog(Boot_DotPlot_DistrView boot_ChooseStats_DotPlot_DistrView) {
+    public Change_Radius_Dialog(ChooseStats_DotPlot_DistrView boot_ChooseStats_DotPlot_DistrView) {
+        if (printTheStuff == true) {
+            System.out.println("207 *** Change_Radius_Dialog, Constructing");
+        }
         this.chooseStats_DotPlot_DistrView = boot_ChooseStats_DotPlot_DistrView;
         strDotOrPie = "CHOOSEVAR";
         strReturnStatus = "OK";
@@ -222,6 +238,9 @@ public class Change_Radius_Dialog extends Stage {
     }
     
     public Change_Radius_Dialog(MultUni_DotPlotView multUni_DotPlotView) {
+        if (printTheStuff == true) {
+            System.out.println("242 *** Change_Radius_Dialog, Constructing");
+        }
         this.multUni_DotPlotView = multUni_DotPlotView;
         strDotOrPie = "MULT_DOT";
         strReturnStatus = "OK";
@@ -254,7 +273,9 @@ public class Change_Radius_Dialog extends Stage {
     }
     
     public Change_Radius_Dialog(DotPlot_View_For2Ind dotPlot_View_For2Ind) {
-        //this.dotPlot_View_For2Ind = dotPlot_View_For2Ind;
+        if (printTheStuff == true) {
+            System.out.println("277 *** Change_Radius_Dialog, Constructing");
+        }
         strReturnStatus = "OK";
         root = new VBox();
         root.setAlignment(Pos.CENTER);

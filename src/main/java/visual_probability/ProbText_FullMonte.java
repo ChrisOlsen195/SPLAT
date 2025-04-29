@@ -21,7 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Translate;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import smarttextfield.SmartTextFieldsController;
 import utilityClasses.DataUtilities;
 import utilityClasses.MyAlerts;
@@ -42,7 +42,7 @@ boolean bThreeProbsExist, allProbsOK;
      String probToCalc;
     
     // My Classes
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     SmartTextFieldsController stf_Controller; 
     ProbText_View probText_View;
     

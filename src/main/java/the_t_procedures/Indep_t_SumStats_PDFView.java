@@ -1,6 +1,6 @@
 /**************************************************
  *        Independent_t_SumStats_PDFView          *
- *                  06/15/24                      *
+ *                  01/16/25                      *
  *                    18:00                       *
  *************************************************/
 
@@ -29,6 +29,8 @@ import utilityClasses.MyAlerts;
 
 public class Indep_t_SumStats_PDFView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int df;
 
@@ -49,7 +51,10 @@ public class Indep_t_SumStats_PDFView extends BivariateScale_W_CheckBoxes_View {
     public Indep_t_SumStats_PDFView(Indep_t_SumStats_Model indep_t_SumStats_Model, Indep_t_SumStats_Dashboard indep_t_SumStats_Dashboard, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        super(placeHoriz, placeVert, withThisWidth, withThisHeight);         
+        super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
+        if (printTheStuff == true) {
+            System.out.println("56 *** Indep_t_SumStats_PDFView, Constructing");
+        }        
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         

@@ -1,6 +1,6 @@
 /**************************************************
  *             TwoProp_Inf_Dashboard              *
- *                    11/01/23                    *
+ *                    03/08/25                    *
  *                     21:00                      *
  *************************************************/
 /**************************************************
@@ -15,6 +15,9 @@ import javafx.scene.paint.Color;
 
 public class TwoProp_Inf_Dashboard extends Dashboard {
     //  POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     String strConfidenceLevel;
     String[] twoProp_Inf_CheckBoxDescr;   
     
@@ -31,7 +34,9 @@ public class TwoProp_Inf_Dashboard extends Dashboard {
       
     public TwoProp_Inf_Dashboard(TwoProp_Inf_Controller twoProp_Inf_Controller) {
         super(4);       
-        //System.out.println("34 TwoProp_Inf_Dashboard, constructing");
+        if (printTheStuff == true) {
+            System.out.println("38 *** TwoProp_Inf_Dashboard, Constructing");
+        }
         twoProp_Inf_Model = twoProp_Inf_Controller.getTwoPropModel();
         checkBoxDescr = new String[nCheckBoxes];
         twoProp_Inf_CheckBoxDescr = new String[nCheckBoxes];
@@ -90,7 +95,7 @@ public class TwoProp_Inf_Dashboard extends Dashboard {
             "-fx-border-insets: -4, -4;" +
             "-fx-border-style: solid centered, solid centered;";
         
-        initWidth[0] = 650;
+        initWidth[0] = 550;
         twoProp_Inf_PDF_View = new TwoProp_Inf_PDFView(twoProp_Inf_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         twoProp_Inf_PDF_View.completeTheDeal();        
         twoProp_Inf_PDF_ContainingPane = twoProp_Inf_PDF_View.getTheContainingPane();  

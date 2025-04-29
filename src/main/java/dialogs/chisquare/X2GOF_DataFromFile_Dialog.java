@@ -1,8 +1,8 @@
-/*******************************************************************************
- *                  GOF_DataFromFileDialog                                     *
- *                        09/07/24                                             *
- *                         12:00                                               *
- ******************************************************************************/
+/**************************************************************************
+ *                  GOF_DataFromFileDialog                                *
+ *                        01/15/25                                        *
+ *                         15:00                                          *
+ *************************************************************************/
 package dialogs.chisquare;
 
 import chiSquare.GOF.X2GOF_Model;
@@ -35,6 +35,9 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     // POJOs
     boolean equalPropsSelected;
     
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nCategories;
     int[] observedValues;
     
@@ -62,7 +65,7 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     Scene scene_GOFSummary;
     
     SmartTextFieldsController stf_Controller;
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     
     Text txtGOFControlTitle, txtX2VariableDescr, 
          txtX2VariableName, txtNCategories, txtNCategoriesDescr, 
@@ -73,7 +76,9 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     
     public X2GOF_DataFromFile_Dialog(X2GOF_Model gof_Model) {
         super();
-        System.out.println("\n76 X2GOF_DataFromFile_Dialog, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("80 *** X2GOF_DataFromFile_Dialog, Constructing");
+        }
         this.x2GOF_Model = gof_Model;
 
         nCategories = x2GOF_Model.getNCategories(); 
@@ -95,14 +100,15 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
         setHeight(200);  
         
         hide(); //  ????? 
-        //System.out.println("98 X2GOF_DataFromFile_Dialog, END constructing ");
     }   //  End constructor
         
 /****************************************************************************
  *                      Guts of the dialog                                  * 
  ***************************************************************************/
     public void x2FileDialog_Step1() {  
-        //System.out.println("105 *** X2GOF_DataFromFile_Dialog, x2FileDialog_Step1()");
+        if (printTheStuff == true) {
+            System.out.println("110 *** X2GOF_DataFromFile_Dialog, x2FileDialog_Step1()");
+        }
         vBoxGOF = new VBox();
         txtGOFControlTitle = new Text("X2 Goodness of Fit");  
         vBoxGOF.getChildren().add(txtGOFControlTitle);
@@ -151,7 +157,9 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     
     
     private void x2FileDialog_Step2() {   //  and CheckBox
-        System.out.println("154 *** X2GOF_DataFromFile_Dialog, x2FileDialog_Step2()");
+        if (printTheStuff == true) {
+            System.out.println("161 *** X2GOF_DataFromFile_Dialog, x2FileDialog_Step2()");
+        }
         chBox_DoEqualProps = new CheckBox("H0 Equal Props");
         chBox_DoEqualProps.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -221,7 +229,6 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
                     for (int i = 0; i < nCategories; i++) {
                         theGOFCats[i] = txtGOFCategories[i].getText();
                     }
-                    StringUtilities.printArrayOfStrings("228 X2GOF_DataFromFile, theGOFCats = ", theGOFCats);
                     x2GOF_DataDialogObj.setTheGOFCategories(theGOFCats);
 
                     expectedProps = new double[nCategories];
@@ -271,28 +278,27 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
                             break;
 
                             default:
-                                str_SwitchFailure = "Switch failure: X2Assoc_SummDial 278 " + choice;
+                                str_SwitchFailure = "Switch failure: X2Assoc_SummDial 281 " + choice;
                                 MyAlerts.showUnexpectedErrorAlert(str_SwitchFailure);
                         }    
                     }   //  end // Math.abs(sumExpectedProps - 1.0) >=.01) 
                 }
             }   //  end handle btnOkGOFAnalysis
         });  
-        System.out.println("281 *** X2GOF_DataFromFile_Dialog, END x2FileDialog_Step2()");
     }
     
     public void x2FileDialog_Step3() {   
-        //System.out.println("285  ***  X2GOF_DataFromFile_Dialog, x2FileDialog_Step3()");
+        if (printTheStuff == true) {
+            System.out.println("292 --- X2GOF_DataFromFile_Dialog, x2FileDialog_Step3()");
+        }
         strGOFCategories = new String[nCategories];
         strGOFCategories = x2GOF_Model.getPreCategoriesAsStrings();
-        //StringUtilities.printArrayOfStrings("292 X2GOF_DataFromFile, strGOFCategories = ", strGOFCategories);
         txtGOFCategories = new Text[nCategories];
         
         for (int ithCat = 0; ithCat < nCategories; ithCat++) {
             txtGOFCategories[ithCat] = new Text(strGOFCategories[ithCat]);
         }
 
-        //stf_gofExpProps = new SmartTextField[nCategories];
         tfGOFObsCounts = new TextField[nCategories];
         observedValues = new int[nCategories];
         observedValues = x2GOF_Model.getPreObservedValues(); 
@@ -316,7 +322,6 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
             gridPane_GOF.add(txtGOFCategories[iCategories], 1, iCategories + 3);
 
             al_STF.get(iCategories).setSmartTextField_MB_PROBABILITY(true);
-            //stfArrayList.add(iCategories, al_STF.get(iCategories)); 
             al_STF.get(iCategories).getTextField().setMaxWidth(50);
             gridPane_GOF.add(al_STF.get(iCategories).getTextField(), 2, iCategories + 3);
 
@@ -335,11 +340,12 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
         gridPane_GOF.add(btnOkGOFAnalysis, 3, nCategories + 3);
 
         al_STF.get(0).getTextField().requestFocus();
-        //System.out.println("338  *** X2GOF_DataFromFile_Dialog, END x2FileDialog_Step3()");
     }   //  end whatever
     
     private boolean checkOKForAnalysis() { 
-        //System.out.println("342  *** X2GOF_DataFromFile_Dialog, checkOKForAnalysis()");
+        if (printTheStuff == true) {
+            System.out.println("347 --- X2GOF_DataFromFile_Dialog, checkOKForAnalysis()");
+        }
         boolean okToContinue = true;
         
         for (int ithCategory = 0; ithCategory < al_STF.getSize(); ithCategory++) {           
@@ -352,21 +358,6 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
             MyAlerts.showMissingDataAlert();
             return false;
         }
-        // Check for unique categories.  Necessary for Category Axis
-        /*
-        for (int ithCat = 0; ithCat < nCategories - 1; ithCat++) {    
-            for (int jthCat = ithCat + 1; jthCat < nCategories; jthCat++) {
-                String temp1 = txtGOFCategories[ithCat].getText();
-                String temp2 = txtGOFCategories[jthCat].getText();
-                if (temp1.equals(temp2)) {
-                    MyAlerts.showNonUniqueCategoriesAlert();
-                    return false;
-                } 
-            }
-        }
-        //System.out.println("366  *** X2GOF_DataFromFile_Dialog, END checkOKForAnalysis()");
-        return true;
-        */
         return StringUtilities.checkForUniqueStrings(txtGOFCategories);
     }
 
@@ -376,7 +367,9 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
 *******************************************************************************/    
     
     public String doSumExpPropsDialog() {
-        //System.out.println("376  ***  X2GOF_DataFromFile_Dialog, doSumExpPropsDialog()");
+        if (printTheStuff == true) {
+            System.out.println("371 --- X2GOF_DataFromFile_Dialog, doSumExpPropsDialog()");
+        }
         String returnString;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Uh-oh, possible problem here...");
@@ -407,9 +400,8 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
                 goodToGo = false;
             }
         } while (goodToGo == true);      
-        System.out.println("407  ***  X2GOF_DataFromFile_Dialog, END doSumExpPropsDialog()");
         return returnString;
-    }   //  end doSumExpPropsDialog()
+    }
 
     public X2GOF_DataDialogObj getTheDialogObject() { return x2GOF_DataDialogObj; }
 }

@@ -1,7 +1,7 @@
 /****************************************************************************
  *                  MultUni_PrintReport_View                                * 
- *                         11/01/23                                         *
- *                          09:00                                           *
+ *                         01/16/25                                         *
+ *                          12:00                                           *
  ***************************************************************************/
 package proceduresManyUnivariate;
 
@@ -18,6 +18,9 @@ import javafx.scene.text.Text;
 import proceduresOneUnivariate.PrintUStats_Model;
 
 public class MultUni_PrintReportView {
+    // POOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     public int nVariables, nPrintLines;
     public double initHoriz, initVert, initWidth, initHeight; 
@@ -30,7 +33,6 @@ public class MultUni_PrintReportView {
     // My classes
     DragableAnchorPane dragableAnchorPane;
     ArrayList<PrintUStats_Model> printUStats_Models;
-    //MultUni_Model multUni_Model;
     
     // FX Objects
     public AnchorPane thePSAnchorPane;
@@ -42,11 +44,12 @@ public class MultUni_PrintReportView {
     public MultUni_PrintReportView (MultUni_Model multUni_Model,  MultUni_Dashboard multUni_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("45 MultUni_PrintReportView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("48 *** MultUni_PrintReportView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         nVariables = multUni_Model.getNVariables();
-        //this.multUni_Model = multUni_Model;
         stringsToPrint = new ArrayList();
         txtArea4Strings = new ArrayList();
         printUStats_Models = new ArrayList();

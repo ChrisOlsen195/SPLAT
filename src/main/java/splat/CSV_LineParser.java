@@ -1,6 +1,6 @@
 /************************************************************
  *                       CSV_LineParser                     *
- *                          12/05/24                        *
+ *                          12/23/18                        *
  *                            18:00                         *
  ***********************************************************/
 package splat;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class CSV_LineParser 
 {
-
     public CSV_LineParser(char sep) 
     {
         fieldSep = sep;
@@ -50,15 +49,6 @@ public class CSV_LineParser
                 i = advPlain(line, sb, i);
             
             String sbString = sb.toString();
-            /**********************************************************
-             *    Nan is a real in Java, but arithmetic operations    *
-             *    will result in answers = NaN.                       *
-             *********************************************************/
-            if (sbString.equals("NaN")) { sbString = "XXX"; }
-            /**********************************************************
-             *    Nan is a real in Java, but arithmetic operations    *
-             *    will result in answers = NaN.                       *
-             *********************************************************/
             list.add(sbString);
             // System.out.println("54, CSVParser, csv ***** = " + sbString);
             i++;

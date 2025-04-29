@@ -1,7 +1,7 @@
 /****************************************************************************
  *               Ind_t_Inf_SumStats_Report_View                             * 
- *                         06/15/24                                         *
- *                           12:00                                          *
+ *                         01/16/25                                         *
+ *                           18:00                                          *
  ***************************************************************************/
 package the_t_procedures;
 
@@ -9,9 +9,8 @@ import superClasses.PrintTextReport_View;
 
 public class Indep_t_Inf_SumStats_Report_View extends PrintTextReport_View {
     // POJOs
-    
-    String waldoFile = "Ind_t_Inf_SumStats_Report_View";
-    //String waldoFile = "";
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
 
@@ -19,7 +18,9 @@ public class Indep_t_Inf_SumStats_Report_View extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        System.out.println("22 Indep_t_Inf_SumStats_Report_View, constructing");        
+        if (printTheStuff == true) {
+            System.out.println("22 *** Indep_t_Inf_SumStats_Report_View, Constructing");
+        }      
         sourceString = new String();
         stringsToPrint = ind_t_SumStats_Model.getIndep_T_SumStats_Report();
         strTitleText = "Inference for independent means report";

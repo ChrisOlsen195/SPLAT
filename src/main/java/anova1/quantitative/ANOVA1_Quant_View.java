@@ -1,7 +1,7 @@
 /**************************************************
  *                ANOVA1_Quant_View               *
- *                    10/07/24                    *
- *                      15:00                     *
+ *                    09/03/24                    *
+ *                      09:00                     *
  *************************************************/
 package anova1.quantitative;
 
@@ -201,13 +201,15 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
         yAxis.setUpperBound(newY_Upper );
     }
    
+
     public void setUpAnchorPane() {
-        dm.whereIsWaldo(205, waldoFile, "  *** setUpAnchorPane()");
+        dm.whereIsWaldo(204, waldoFile, "  *** setUpAnchorPane()");
         dragableAnchorPane = new DragableAnchorPane();
         anova1_Quant_Canvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
         anova1_Quant_Canvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
 
         for (int iChex = 0; iChex < nCheckBoxes; iChex++) {
+            
             switch (nCheckBoxes) {
                 case 1:  //  Etched in lemon marangue
                     anova1_Quant_CheckBoxes[iChex].translateXProperty()
@@ -263,7 +265,7 @@ public class ANOVA1_Quant_View extends BivariateScale_W_CheckBoxes_View {
     public void doTheGraph() { }    //  Subclassed
     
     public void makeTheCheckBoxes() {  
-        dm.whereIsWaldo(266, waldoFile, "  *** makeTheCheckBoxes()");
+        dm.whereIsWaldo(268, waldoFile, "  *** makeTheCheckBoxes()");
         checkBoxSettings = new boolean[nCheckBoxes];
         
         for (int ithSetting = 0; ithSetting < nCheckBoxes; ithSetting++) {

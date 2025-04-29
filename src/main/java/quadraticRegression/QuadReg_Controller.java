@@ -1,11 +1,11 @@
 /************************************************************
  *                      QuadReg_Controller                  *
- *                          11/27/23                        *
+ *                          11/03/23                        *
  *                            12:00                         *
  ***********************************************************/
 package quadraticRegression;
 
-import dialogs.regression.Regression_Dialog;
+import dialogs.regression.Regr_Dialog;
 import dataObjects.BivariateContinDataObj;
 import dataObjects.ColumnOfData;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class QuadReg_Controller {
                 return "Cancel";
             }
             dm.whereIsWaldo(49, waldoFile, "doTheProcedure()");
-            Regression_Dialog regressionDialog = new Regression_Dialog(dm, "QUANTITATIVE", "Quadratic regression");
+            Regr_Dialog regressionDialog = new Regr_Dialog(dm, "QUANTITATIVE", "Quadratic regression");
 
             regressionDialog.showAndWait();
             returnStatus = regressionDialog.getReturnStatus();

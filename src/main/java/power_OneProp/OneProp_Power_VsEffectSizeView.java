@@ -1,7 +1,7 @@
 /**************************************************
  *        OneProp_Power_VsEffectSizeView          *
- *                  05/30/24                      *
- *                    00:00                       *
+ *                  04/07/25                      *
+ *                    18:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -24,13 +24,15 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.KeyCode;
 
-public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_View
-{
+public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int sampleSize;
 
-    double yMin, yMax, nullProp, nullStErr, altProp, altStErr;
+    double yMin, yMax;
+    double nullProp, nullStErr, altProp, altStErr;
 
     //  FX   
     Pane theContainingPane;
@@ -38,7 +40,6 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
 
     //  My objects
     OneProp_Power_Model oneProp_Power_Model;
-   
 
     public OneProp_Power_VsEffectSizeView(OneProp_Power_Model oneProp_Power_Model,
                          OneProp_Power_Dashboard oneProp_Power_Dashboard,
@@ -46,7 +47,9 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("49 OneProp_Power_VsEffectSizeView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("51 *** OneProp_Power_VsEffectSizeView, Constructing");
+        }
         this.oneProp_Power_Model = oneProp_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -56,8 +59,8 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
         nullStErr = oneProp_Power_Model.getStErr_PNull();
         altProp = oneProp_Power_Model.getAltProp();
         altStErr = oneProp_Power_Model.getStandErr_PAlt();
-        fromHere = -3.25 * nullStErr; 
-        toThere = 3.25 * nullStErr; 
+        fromHere = -1.0; // ***********************************
+        toThere = 1.0;   // ***********************************
         alpha = oneProp_Power_Model.getAlpha();   
         makeItHappen();
     }  
@@ -122,6 +125,7 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
         xGraphRight = toThere;
         bigDelta = (xGraphRight - xGraphLeft) / NUMBER_OF_DXs;
         delta = bigDelta;
+        //xMin = xMax = xGraphLeft;
         xRange = xGraphRight - xGraphLeft;        
         yRange = yMax = getInitialYMax();
         // These constants control the rate of axis scale change when dragging
@@ -190,7 +194,7 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
             oneProp_Power_Model.setAltProp(xx1 + nullProp); // xx1 is effect size
             double tempEffectSize = xx1; // *********************
             power = oneProp_Power_Model.calculatePower();
-            //System.out.println("193 OnePropPower_VsEffectSizeView, eff/power = " + tempEffectSize + " / " + power);
+            //System.out.println("195 OnePropPower_VsEffectSizeView, eff/power = " + tempEffectSize + " / " + power);
             yy1 = power;            
             xStart = xAxis.getDisplayPosition(xx1); 
             yStart = yAxis.getDisplayPosition(yy0); 

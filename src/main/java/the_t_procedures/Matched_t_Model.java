@@ -56,7 +56,7 @@ public class Matched_t_Model {
         df = nLegal - 1;
         
         if (df < 1) {
-            MyAlerts.showTooFewMatchedPairDFAlert();
+            MyAlerts.showSampleSizeTooSmallAlert();
             returnStatus = "Cancel";
             return returnStatus;
         }

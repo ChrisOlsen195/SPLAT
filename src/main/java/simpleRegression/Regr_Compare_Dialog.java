@@ -1,6 +1,6 @@
 /**************************************************
  *            Regr_Compare_Dialog                 *
- *                  11/27/24                      *
+ *                  01/21/25                      *
  *                   12:00                        *
  *************************************************/
 package simpleRegression;
@@ -208,7 +208,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
             str_NameTreatment = varList1.getNamesSelected().get(0);
             index_Treatment = dm.getVariableIndex(str_NameTreatment);
             
-            if (dm.getAllTheColumns().get(index_Treatment).getIsNumeric()) {
+            if (dm.getAllTheColumns().get(index_Treatment).getDataType().equals("Quantitative")) {
                 MyAlerts.showANCOVA_NumericTreatmentAlert();
                 strReturnStatus = "Cancel";
                 diagStage.close();
@@ -229,7 +229,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
             dm.whereIsWaldo(229, waldoFile, "showTheDialog()");
             str_NameCovariate = varList1.getNamesSelected().get(0);
             index_Covariate = dm.getVariableIndex(str_NameCovariate);
-            if (dm.getAllTheColumns().get(index_Covariate).getIsNumeric()) {
+            if (dm.getAllTheColumns().get(index_Covariate).getDataType().equals("Quantitative")) {
                 tf_FactorB.setText(str_NameCovariate);
                 varList1.delVarName(varList1.getNamesSelected());
             } else {
@@ -243,7 +243,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
             dm.whereIsWaldo(243, waldoFile, "showTheDialog()");
             str_NameResponse = varList1.getNamesSelected().get(0);
             index_ResponseVar = dm.getVariableIndex(str_NameResponse);                
-            if (dm.getAllTheColumns().get(index_ResponseVar).getIsNumeric()){
+            if (dm.getAllTheColumns().get(index_ResponseVar).getDataType().equals("Quantitative")){
                 tf_ResponseVar.setText(str_NameResponse);
                 varList1.delVarName(varList1.getNamesSelected());
             } else {

@@ -1,7 +1,7 @@
 /**************************************************
  *             OneInf_Prop_Dashboard              *
- *                    11/21/23                    *
- *                     15:00                      *
+ *                    03/08/25                    *
+ *                     21:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -14,7 +14,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class OneProp_Inf_Dashboard extends Dashboard {
-    //  POJOs   
+    //  POJOs  
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     String strConfidenceLevel;
     String[] indepTCheckBoxDescr; 
     
@@ -31,7 +34,9 @@ public class OneProp_Inf_Dashboard extends Dashboard {
 
     public OneProp_Inf_Dashboard(OneProp_Inf_Controller oneProp_Inf_Controller) {
         super(4);       
-        //System.out.println("34 OneProp_Inf_Dashboard, constructing");
+        if (printTheStuff == true) {
+            System.out.println("38 *** OneProp_Inf_Dashboard, Constructing");
+        }
         oneProp_Inf_Model = oneProp_Inf_Controller.getOnePropModel();
         indepTCheckBoxDescr = new String[nCheckBoxes];
         indepTCheckBoxDescr[0] = "Normal approximation";
@@ -88,6 +93,7 @@ public class OneProp_Inf_Dashboard extends Dashboard {
             "-fx-border-insets: -4, -4;" +
             "-fx-border-style: solid centered, solid centered;";
         
+        initWidth[0] = 450;
         oneProp_Inf_PDF_View = new OneProp_Inf_PDFView(oneProp_Inf_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         oneProp_Inf_PDF_View.completeTheDeal();        
         oneProp_Inf_PDF_ContainingPane = oneProp_Inf_PDF_View.getTheContainingPane();  

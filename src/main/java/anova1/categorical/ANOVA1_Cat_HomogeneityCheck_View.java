@@ -154,7 +154,7 @@ public class ANOVA1_Cat_HomogeneityCheck_View extends QuantCat_View {
         for (int theBatch = 0; theBatch < nEntities; theBatch++) {
             batchQDV = new QuantitativeDataVariable();
             batchQDV = anova1_Cat_Model.getIthQDV(theBatch);
-            batchUCDO = new UnivariateContinDataObj("160 ANOVA1_Cat_Homog_Check_View", batchQDV);
+            batchUCDO = new UnivariateContinDataObj("157 ANOVA1_Cat_Homog_Check_View", batchQDV);
             double daXPosition = xAxis.getDisplayPosition(categoryLabels.get(theBatch));
 
             nDataPoints = batchUCDO.getLegalN();

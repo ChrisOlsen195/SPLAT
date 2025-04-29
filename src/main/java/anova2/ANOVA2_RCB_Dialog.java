@@ -1,7 +1,7 @@
 /**************************************************
  *             ANOVA2_RCB_Dialog                  *
- *                  11/17/24                      *
- *                   12:00                        *
+ *                  03/18/25                      *
+ *                   09:00                        *
  *************************************************/
 package anova2;
 
@@ -38,8 +38,8 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
 
     private int index_FactorA, index_FactorB, index_ResponseVar, numCols, numRows;
     
-    //String waldoFile = "ANOVA2_RCB_Dialog";
-    String waldoFile = "";
+    String waldoFile = "ANOVA2_RCB_Dialog";
+    // String waldoFile = "";
     
     private String str_NameFactorA, str_NameFactorB, str_NameResponse, 
                    whichANOVA2;
@@ -48,7 +48,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
     private ArrayList<String>[][] al_Data;    
      
     // My classes
-    ColumnOfData col_FactorA, col_FactorB, col_Factor_Response;
+    ColumnOfData col_FactorA, col_FactorB;
     
     // POJOs / FX
     Button btnFactorA, btnFactorB, btnResponse;
@@ -72,7 +72,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            MyAlerts.showAintGotNoDataAlert_1Var();
+            MyAlerts.showAintGotNoDataAlert();
             return "Cancel";
         }
         
@@ -239,7 +239,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 str_NameFactorA = varList1.getNamesSelected().get(0);
                 index_FactorA = dm.getVariableIndex(str_NameFactorA);
                 int numGroups = dm.numDistinctVals(index_FactorA);
-                
+                System.out.println("242 ANOVA2_RCB_Dialog, numGroups = " + numGroups);
                if ((numGroups < 2) || (numGroups > 5)) {
                     MyAlerts.showRCB_2_5_VarAlert();
                     ok = false;
@@ -257,7 +257,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 str_NameFactorB = varList1.getNamesSelected().get(0);
                 index_FactorB = dm.getVariableIndex(str_NameFactorB);
                 int numGroups = dm.numDistinctVals(index_FactorB);
-                
+                System.out.println("250 ANOVA2_RCB_Dialog, numGroups = " + numGroups);
                 if ((numGroups < 2) || (numGroups > 5)) {
                     MyAlerts.showRCB_2_5_VarAlert();
                     ok = false;
@@ -272,9 +272,9 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
             if (varList1.getNamesSelected().size() == 1) {
                 str_NameResponse = varList1.getNamesSelected().get(0);
                 index_ResponseVar = dm.getVariableIndex(str_NameResponse);
-                
-                if (!dm.getVariableIsNumeric(dm.getVariableIndex(str_NameResponse))) {
-                    MyAlerts.showDataTypeErrorAlert();
+                if (!dm.getDataType(dm.getVariableIndex(str_NameResponse)).equals("Quantitative")) {
+                System.out.println("276 ANOVA2_RCB_Dialog");
+                    MyAlerts.showIncorrectDataTypeErrorAlert();
                     btn_Reset.fire();
                 } else {
                     tf_ResponseVar.setText(str_NameResponse);
@@ -298,47 +298,44 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 // ********************************************************
                 col_FactorA = new ColumnOfData(dm.getAllTheColumns().get(index_FactorA));
                 col_FactorB = new ColumnOfData(dm.getAllTheColumns().get(index_FactorB));
-                col_Factor_Response = new ColumnOfData(dm.getAllTheColumns().get(index_ResponseVar));
+
+                BivCat_Model bivCatModel = new BivCat_Model( col_FactorA, col_FactorB, "RCB");
+                designIsBalanced = bivCatModel.getDesignIsBalanced();
+                thereAreReplications = bivCatModel.getThereAreReplications();
+                dataAreMissing = bivCatModel.getDataAreMissing();
+                // ********************************************************
+
+                ArrayList<String> tmpCodes1;
+                tmpCodes1 = getDummyCodes(index_FactorA);
+                numRows = tmpCodes1.size();
+                strFactorB_Labels = new String[numRows];
                 
-                dataAreMissing = checkForMissingValues();
-                
-                if (!dataAreMissing) {
-                    BivCat_Model bivCatModel = new BivCat_Model( col_FactorA, col_FactorB, "RCB");
-                    designIsBalanced = bivCatModel.getDesignIsBalanced();
-                    thereAreReplications = bivCatModel.getThereAreReplications();
+                for (int i = 0; i < numRows; i++) {
+                    strFactorB_Labels[i] = tmpCodes1.get(i);
+                }
 
-                    ArrayList<String> tmpCodes1;
-                    tmpCodes1 = getDummyCodes(index_FactorA);
-                    numRows = tmpCodes1.size();
-                    strFactorB_Labels = new String[numRows];
+                ArrayList<String> tmpCodes2;
+                tmpCodes2 = getDummyCodes(index_FactorB);
+                numCols = tmpCodes2.size();
+                strFactorA_Labels = new String[numCols];
 
-                    for (int i = 0; i < numRows; i++) {
-                        strFactorB_Labels[i] = tmpCodes1.get(i);
-                    }
+                for (int i = 0; i < numCols; i++) {
+                    strFactorA_Labels[i] = tmpCodes2.get(i);
+                }
 
-                    ArrayList<String> tmpCodes2;
-                    tmpCodes2 = getDummyCodes(index_FactorB);
-                    numCols = tmpCodes2.size();
-                    strFactorA_Labels = new String[numCols];
-
-                    for (int i = 0; i < numCols; i++) {
-                        strFactorA_Labels[i] = tmpCodes2.get(i);
-                    }
-
-                    al_Data = new ArrayList[numCols][numRows];                
-                    for (int row = 0; row < numRows; row++) {                    
-                        for (int col = 0; col < numCols; col++) {
-                            al_Data[col][row] = new ArrayList();
-                            for (int i = 0; i < dm.getSampleSize(index_ResponseVar); i++) {
-                                if ((dm.getFromDataStruct(index_FactorA, i).equals(strFactorB_Labels[row]))
-                                        && (dm.getFromDataStruct(index_FactorB, i).equals(strFactorA_Labels[col]))) {
-                                    al_Data[col][row].add(dm.getFromDataStruct(index_ResponseVar, i));
-                                }
+                al_Data = new ArrayList[numCols][numRows];                
+                for (int row = 0; row < numRows; row++) {                    
+                    for (int col = 0; col < numCols; col++) {
+                        al_Data[col][row] = new ArrayList();
+                        for (int i = 0; i < dm.getSampleSize(index_ResponseVar); i++) {
+                            if ((dm.getFromDataStruct(index_FactorA, i).equals(strFactorB_Labels[row]))
+                                    && (dm.getFromDataStruct(index_FactorB, i).equals(strFactorA_Labels[col]))) {
+                                al_Data[col][row].add(dm.getFromDataStruct(index_ResponseVar, i));
                             }
                         }
                     }
                 }
-                
+
                 isReadyForAnalysis = true;
                 isCodedData = true;
                 stageDialog.close();
@@ -347,27 +344,11 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
 
         stageDialog.setScene(sceneDialog);
         stageDialog.setTitle("Step #1");
-        dm.whereIsWaldo(351, waldoFile, "End ShowStep1()");
-    }
-    
-    private boolean checkForMissingValues() {
-        dm.whereIsWaldo(354, waldoFile, " --- eliminateMissingValues()");
-        int dmSize = dm.getNCasesInStruct();
-        ArrayList<String> al_FactorA = new ArrayList();
-        ArrayList<String> al_FactorB = new ArrayList();
-        ArrayList<String> al_Response = new ArrayList();
- 
-        boolean aMissing = col_FactorA.getHasMissingData();
-        boolean bMissing = col_FactorB.getHasMissingData();
-        boolean respMissing = col_Factor_Response.getHasMissingData();
-
-        if (aMissing || bMissing || respMissing) { dataAreMissing = true; } 
-
-        return dataAreMissing;
+        dm.whereIsWaldo(347, waldoFile, "End ShowStep1()");
     }
     
     public ArrayList<String> getDummyCodes(int groupingVar) {
-        dm.whereIsWaldo(370, waldoFile, " --- getDummyCodes()");
+        dm.whereIsWaldo(351, waldoFile, "getDummyCodes()");
         ArrayList<String> alstr_SortedTempCodes = new ArrayList();
         ArrayList<String> alstr_DumsToReturn = new ArrayList();
         ArrayList<String> alstr_TempData = dm.getSpreadsheetColumnAsStrings(groupingVar, -1, null);

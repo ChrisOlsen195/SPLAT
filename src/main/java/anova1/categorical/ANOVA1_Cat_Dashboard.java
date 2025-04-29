@@ -1,7 +1,7 @@
 /**************************************************
  *              ANOVA1_Cat_Dashboard              *
- *                    09/03/24                    *
- *                     09:00                      *
+ *                    03/08/25                    *
+ *                     12:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -121,7 +121,7 @@ public class ANOVA1_Cat_Dashboard extends Dashboard {
     @Override
     public void populateTheBackGround() {
         dm.whereIsWaldo(123, waldoFile, "populateTheBackGround()");
-        
+        initWidth[0] = 625;
         fPDFView = new FDistPDFView(anova_Cat_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         fPDFView.completeTheDeal();
         fPDFPlotContainingPane = fPDFView.getTheContainingPane(); 

@@ -1,7 +1,7 @@
 /**************************************************
  *              BivariateScale_View               *
- *                    11/01/23                    *
- *                      12:00                     *
+ *                    01/16/25                    *
+ *                      18:00                     *
  *************************************************/
 package superClasses;
 
@@ -15,7 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 
 public class BivariateScale_View extends Region {
-    
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     boolean dragging;
     
     public double xDataMin, xDataMax, yDataMin, yDataMax, xRange, yRange, xPix_InitialPress, 
@@ -36,7 +38,9 @@ public class BivariateScale_View extends Region {
   
     public BivariateScale_View(double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("39 BivariateScale_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("42 *** BivariateScale_View (Super), Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         graphCanvas = new Canvas(initWidth, initHeight);

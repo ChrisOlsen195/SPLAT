@@ -1,6 +1,6 @@
 /**************************************************
  *               NormProb_DiffModel               *
- *                    12/23/24                    *
+ *                    01/16/25                    *
  *                      12:00                     *
  *************************************************/
 package proceduresOneUnivariate;
@@ -10,6 +10,9 @@ import dataObjects.QuantitativeDataVariable;
 
 public class NormProb_Model {  
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nDataPoints;
     
     double[] theRawData;
@@ -26,6 +29,9 @@ public class NormProb_Model {
     public NormProb_Model()  { }
         
     public NormProb_Model(String subTitle, QuantitativeDataVariable qdv_Data) { 
+        if (printTheStuff == true) {
+            System.out.println("33 *** NormProb_Model, Constructing");
+        }
         this.subTitle = subTitle;
         qdv = qdv_Data;
         normProbVarLabel = qdv.getTheVarLabel();
@@ -53,8 +59,9 @@ public class NormProb_Model {
     public String getNormProbUnits() { return normProbVarDescription; }
     
     public String toString() {
-        String daString = "NormProb_Model toString()";
+        String daString = "NormProb_DiffModel toString()";
         return daString;
     }
+
 }
 

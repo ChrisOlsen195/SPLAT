@@ -1,7 +1,7 @@
 /************************************************************
  *                      Inference_Dialog                    *
- *                          01/08/25                        *
- *                            15:00                         *
+ *                          02/11/25                        *
+ *                            12:00                         *
  ***********************************************************/
 package bootstrapping;
 
@@ -152,7 +152,6 @@ public class Inference_Dialog extends One_Variable_Dialog {
                         daNewNullMean = Double.valueOf(resultAsString);
                     }
                     catch (NumberFormatException ex ){ 
-                        System.out.println("155 Inference_Dialog -- gen #");
                         MyAlerts.showGenericBadNumberAlert(" a real number ");
                         txtDialog.setContentText("");
                         okToContinue = false;
@@ -169,7 +168,7 @@ public class Inference_Dialog extends One_Variable_Dialog {
     }
  
 private void makeAlphaAndCIPanel() {
-        dm.whereIsWaldo(172, waldoFile, "makeAlphaAndCIPanel()");
+        dm.whereIsWaldo(171, waldoFile, "makeAlphaAndCIPanel()");
         ciLabel = new Label("   Select conf level");
         ciLabel.setMaxWidth(130);
         ciLabel.setMinWidth(130);

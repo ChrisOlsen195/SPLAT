@@ -1,7 +1,7 @@
 /**************************************************
  *                FDistPDFView                    *
- *                  06/22/24                      *
- *                    18:00                       *
+ *                  03/08/25                      *
+ *                    12:00                       *
  *************************************************/
 package anova1.categorical;
 
@@ -34,7 +34,7 @@ public class FDistPDFView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
     int maxSpaces, df1, df2;
 
-    double fStat;
+    double fStat, xStart_fPVal;
     final double MIDDLE_FDIST = 0.9999;
     final double[] alphas = {0.10, 0.05, 0.025, 0.01};
     double[] initialInterval;
@@ -262,7 +262,7 @@ public class FDistPDFView extends BivariateScale_W_CheckBoxes_View {
         
         if (identifyPValueIsDesired) {
             double elFactoro = 7.0;
-            xStart = xStop = xAxis.getDisplayPosition(rightTailCutPoint);
+            xStart = xStop = xStart_fPVal = xAxis.getDisplayPosition(rightTailCutPoint);
             yStart = yAxis.getDisplayPosition(0.0);
             
             double heightAtPoint_10 = yAxis.getDisplayPosition(fDistr.getDensity(fDistr.getInvRightTailArea(0.10))) - elFactoro * 0.1 * yStart;
@@ -274,11 +274,15 @@ public class FDistPDFView extends BivariateScale_W_CheckBoxes_View {
             gc.setStroke(Color.RED);
             gc.strokeLine(xStart, yStart, xStop, yStop);
             pValue = fDistr.getRightTailArea(fStat);
-
+            double rightEndPad = 240.;
+            double dbl_df1 = df1;
+            double dbl_df2 = df2;
+            double temp  = dbl_df1 / (dbl_df2 - 2.0);
+            if (paneWidth - xStart_fPVal < rightEndPad) { xStart_fPVal = xAxis.getDisplayPosition(temp) + 300.; }
             tempString = String.format("F = %6.3f, pValue = %4.3f", fStat, pValue);              
    
             gc.setFill(Color.RED);
-            gc.fillText(tempString, xStop + 5, yStop - 5);
+            gc.fillText(tempString, xStart_fPVal + 5, yStop - 5);
         }
         
         if (assumptionCheckIsDesired == true) {

@@ -1,7 +1,7 @@
 /**************************************************
  *            DataCommit_NotTabbing               *
- *                    11/27/23                    *
- *                     12:00                      *
+ *                    01/20/25                    *
+ *                     18:00                      *
  *************************************************/
 package splat;
 
@@ -34,7 +34,7 @@ public class DataCommit_NotTabbing extends DataCommit_Handler {
         fixedString = theStringEntered;  //  Initialize
         ehGridCol = tracker.getCurrentGridColumn();
         ehGridRow = tracker.getCurrentGridRow();
-        tracker.set_CurrentDG_and_DS(ehGridCol, ehGridRow);
+        tracker.set_Current_DG_DS(ehGridCol, ehGridRow, "37 DataCommit_NotTabbing");
         ehStructCol = tracker.getCurrentStructColumn();
         ehStructRow = tracker.getCurrentStructRow();
         theEntry = theStringEntered;
@@ -48,8 +48,8 @@ public class DataCommit_NotTabbing extends DataCommit_Handler {
         if(DataUtilities.strIsADouble(theEntry)) { fixedString = eval; } 
         
         // Advise the user of text entry into a hitherto numeric variable
-        else if ((dm.getVariableIsNumeric(ehStructCol) == true) && (!theEntry.equals("") && (!theEntry.equals("*")))) {
-            dm.setVariableNumeric(ehGridCol, false);
+        else if ((dm.getDataType(ehStructCol).equals("Quantitative")) && (!theEntry.equals("") && (!theEntry.equals("*")))) {
+            dm.setDataType(ehGridCol, "Categorical");
             MyAlerts.showTextEntryAdvisoryAlert();
         } 
         

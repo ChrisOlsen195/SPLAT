@@ -18,7 +18,7 @@ public class Logistic_Diagnostic_Report_View extends PrintTextReport_View {
     // My classes
     Data_Manager dm;
 
-    public Logistic_Diagnostic_Report_View(LogisticReg_Model logisticModel,  Logistic_Dashboard logisticDashboard,
+    public Logistic_Diagnostic_Report_View(Logistic_Model logisticModel,  Logistic_Dashboard logisticDashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);

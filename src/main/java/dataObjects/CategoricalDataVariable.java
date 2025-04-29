@@ -1,7 +1,7 @@
 /**************************************************
  *              CategoricalDataVariable           *
- *                    05/24/24                    *
- *                      15:00                     *
+ *                    01/21/25                    *
+ *                      12:00                     *
  *************************************************/
 package dataObjects;
 
@@ -10,6 +10,10 @@ import java.util.Arrays;
 
 public class CategoricalDataVariable {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     private int nDataPoints, nLegalDataPoints, nLevels;
     private String varLabel;
     private String[] str_Data, str_LegalData, str_SortedLegalData;
@@ -18,12 +22,16 @@ public class CategoricalDataVariable {
     
     // My classes
     public CategoricalDataVariable() { 
-        //System.out.println("21 CatagoricalDataVariable, constructing: Default constructor");
+        if (printTheStuff == true) {
+            System.out.println("26 *** CategoricalDataVariable, Constructing");
+        }
     }
     
     //  Used by ANOVA2_Model and RCB_Model
     public CategoricalDataVariable (String dataLabel, int nDataPoints) {
-        //System.out.println("26 CatagoricalDataVariable, constructing: Label & int points");
+        if (printTheStuff == true) {
+            System.out.println("33 *** CategoricalDataVariable, Constructing");
+        }
         this.varLabel = dataLabel;
         this.nDataPoints = nDataPoints;
         str_Data = new String[nDataPoints];
@@ -32,7 +40,9 @@ public class CategoricalDataVariable {
 
    //    Used by ANOVA2 Controller
     public CategoricalDataVariable (String inLabel, String[] inDataStrings)  {
-        //System.out.println("35 CatagoricalDataVariable, constructing: Label & String points");
+        if (printTheStuff == true) {
+            System.out.println("44 *** CategoricalDataVariable, Constructing");
+        }
         varLabel = inLabel;
         nDataPoints = inDataStrings.length;
         str_Data = new String[nDataPoints];
@@ -42,7 +52,9 @@ public class CategoricalDataVariable {
     
    //    Exploring data, categorical
     public CategoricalDataVariable (String varLabel, ColumnOfData colOfData)  {
-        //System.out.println("45 CatagoricalDataVariable, constructing: Label & Column");
+        if (printTheStuff == true) {
+            System.out.println("56 *** CategoricalDataVariable, Constructing");
+        }
         this.varLabel = varLabel;
         nDataPoints = colOfData.getNCasesInColumn();
         str_Data = new String[nDataPoints];
@@ -66,6 +78,9 @@ public class CategoricalDataVariable {
     }
 
     public void analyzeLevels() {
+        if (printTheStuff == true) {
+            System.out.println("82 *** CategoricalDataVariable, analyzeLevels()");
+        }
         String[] sortedArray = new String[nDataPoints];
         System.arraycopy(str_Data, 0, sortedArray, 0, nDataPoints);  
         Arrays.sort(sortedArray);
@@ -83,6 +98,9 @@ public class CategoricalDataVariable {
     }
  
     public void createFrequencyTable() {
+        if (printTheStuff == true) {
+            System.out.println("102 --- CategoricalDataVariable, createFrequencyTable()");
+        }
         int lowIndex;
         String[] sortedArray = new String[nDataPoints];
         System.arraycopy(str_LegalData, 0, sortedArray, 0, nDataPoints);  

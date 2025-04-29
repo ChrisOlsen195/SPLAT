@@ -1,6 +1,6 @@
 /**************************************************
  *             NormalDist_Calc_DialogView         *
- *                    01/06/25                    *
+ *                    01/16/25                    *
  *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
@@ -15,7 +15,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import probabilityDistributions.StandardNormal;
 import javafx.scene.control.CheckBox;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import utilityClasses.MyAlerts;
 import utilityClasses.StringUtilities;
 
@@ -33,11 +33,9 @@ import utilityClasses.StringUtilities;
 
 public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     
-    boolean printTheStuff = true;
-    //boolean printTheStuff = false;
-    
     boolean muExists, sigmaExists, shadeLeft, shadeRight; 
-            //leftBoundaryExists, rightBoundaryExists;
+        //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
     // FX classes
     Label lbl_uEquals, lbl_SigmaEquals;
@@ -51,8 +49,8 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);     
-        if (printTheStuff) {
-            System.out.println("\n54 *** NormalDist_Calc_DialogView, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("53 *** NormalDist_Calc_DialogView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -363,7 +361,7 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     // ***************************************************************
     // mu, sigma, dbl_Left_Prob, dbl_Mid_Prob, rightProb, dbl_Left_Middle_Boundary, rightStat  *
     // ***************************************************************
-    public DoublyLinkedSTF getAllTheSTFs() { return al_ProbCalcs_STF; }
+    public SmartTextFieldDoublyLinkedSTF getAllTheSTFs() { return al_ProbCalcs_STF; }
     
     public void setNormal_PDFView(BootstrapDist_Calc_PDFView normal_Calc_PDFView) {
         this.normal_Calc_PDFView = normal_Calc_PDFView;

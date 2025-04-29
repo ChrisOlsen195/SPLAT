@@ -1,7 +1,7 @@
 /**************************************************
  *             Distributions_Calc_PDFView         *
- *                   12/31/24                     *
- *                     12:00                      *
+ *                   01/16/25                     *
+ *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -18,7 +18,8 @@ import superClasses.BivariateScale_W_CheckBoxes_View;
 public class Distributions_Calc_PDFView extends BivariateScale_W_CheckBoxes_View {
 
     // POJOs
-    boolean printTheStuff = true;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     public boolean dragging, initializing, okToGraph,
             leftTailChecked, midTailChecked, rightTailChecked;
@@ -66,7 +67,6 @@ public class Distributions_Calc_PDFView extends BivariateScale_W_CheckBoxes_View
            strDaChoice, strDaLeftChoice, strDaRightChoice, strAnswer;    
     
     public String theModelName, tailChoice, prtLeftArea, prtMidArea, prtRightArea;
-    //ArrayList<String> stringOfNSpaces; 
     
     ProbCalc_Dashboard probCalc_Dashboard;    
     
@@ -80,8 +80,8 @@ public class Distributions_Calc_PDFView extends BivariateScale_W_CheckBoxes_View
     super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
-        if (printTheStuff) {
-            System.out.println("\n84 *** Distributions_Calc_PDFView, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("85 *** Distributions_Calc_PDFView, Constructing");
         }
         xPrintPosLeft = 0.05;
         xPrintPosCenter = 0.325;
@@ -174,9 +174,7 @@ public class Distributions_Calc_PDFView extends BivariateScale_W_CheckBoxes_View
         AnchorPane.setBottomAnchor(graphCanvas, 0.1 * tempHeight);        
     }
     
-public void dTG_Discrete() {        
-        //double dTG_xx0, dtG_yy0, dtG_xAsDouble, dTG_yy1;
-        //String tempString;
+    public void dTG_Discrete() {        
         text1Width = txtTitle1.getLayoutBounds().getWidth();
         text2Width = txtTitle2.getLayoutBounds().getWidth();
         paneWidth = dragableAnchorPane.getWidth();

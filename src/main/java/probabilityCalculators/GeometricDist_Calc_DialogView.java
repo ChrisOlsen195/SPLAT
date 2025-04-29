@@ -1,6 +1,6 @@
 /**************************************************
  *             GeometricDist_Calc_DialogView      *
- *                    01/13/25                    *
+ *                    01/16/25                    *
  *                     09:00                      *
  *************************************************/
 package probabilityCalculators;
@@ -25,8 +25,8 @@ import utilityClasses.MyAlerts;
 public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_View {
     
     //POJOs
-    boolean printTheStuff = true;
-    //boolean printTheStuff = false;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     boolean okToGraph, graphFound;
     
@@ -58,7 +58,7 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     Font probFont;
     GridPane allTheOptions;
     
-    HBox hBox_LeftProbX_Is_LT, //hBox_ProbX_Is_EQ, hBox_ProbX_Is_GT,
+    HBox hBox_LeftProbX_Is_LT,
          hBox_LeftProbX_Is_LE, hBox_LeftProbX_Is_EQ,
          hBox_LeftProbX_Is_GE, hBox_LeftProbX_Is_GT;
 
@@ -81,14 +81,14 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     // My classes
     GeometricDist_Calc_PDFView geometricDist_Calc_PDFView;  
     SmartTextFieldsController stf_ProbCalcs_Controller;
-    DoublyLinkedSTF al_ProbCalcs_STF;     
+    SmartTextFieldDoublyLinkedSTF al_ProbCalcs_STF;     
 
     public GeometricDist_Calc_DialogView(ProbCalc_Dashboard probCalc_Dashboard, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);     
-        if (printTheStuff) {
-            System.out.println("\n90 *** GeometricDist_Calc_DialogView, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("91 *** GeometricDist_Calc_DialogView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;

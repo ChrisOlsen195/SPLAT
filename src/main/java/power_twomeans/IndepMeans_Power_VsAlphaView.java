@@ -1,7 +1,7 @@
 /**************************************************
  *          IndepMeans_Power_VsAlphaView          *
- *                  05/30/24                      *
- *                    00:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_twomeans;
 
@@ -27,6 +27,9 @@ import javafx.scene.input.KeyCode;
 public class IndepMeans_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View
 {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int sampleSize_1, sampleSize_2;
 
     double yMin, yMax, effectSize;
@@ -44,7 +47,9 @@ public class IndepMeans_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_Vi
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("47 IndepMeans_Power_VsAlphaView");
+        if (printTheStuff == true) {
+            System.out.println("51 *** IndepMeans_Power_VsAlphaView, Constructing");
+        }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

@@ -18,7 +18,7 @@ public class PrintRegrReport_View extends PrintTextReport_View {
     // My classes
     Data_Manager dm;
    
-    public PrintRegrReport_View(Inf_Regression_Model inf_Regression_Model,  Regression_Dashboard regression_Dashboard,
+    public PrintRegrReport_View(Inf_Regr_Model inf_Regression_Model,  Regr_Dashboard regression_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);

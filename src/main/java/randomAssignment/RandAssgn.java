@@ -1,7 +1,7 @@
 /*******************************************************************************
  *                       RandAssgn                                             *
- *                        0214/24                                             *
- *                         03:00                                               *
+ *                        01/20/25                                             *
+ *                         21:00                                               *
  ******************************************************************************/
 package randomAssignment;
 import dataObjects.ColumnOfData;
@@ -36,7 +36,7 @@ public class RandAssgn {
             this.design = design;            
             if (design.equals("RBD")) {
                 column_BlockingVariable = new ColumnOfData(data.get(1));
-                blockVarIsNumeric = data.get(1).getIsNumeric();
+                blockVarIsNumeric = data.get(1).getDataType().equals("Quantitative");
                 //System.out.println("40 RandAssign, blockVarIsNumeric = " + blockVarIsNumeric);
             }
             

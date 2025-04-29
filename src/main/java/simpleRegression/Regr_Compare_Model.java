@@ -1,6 +1,6 @@
 /**************************************************
  *             Regr_Compare_Model                 *
- *                  11/27/24                      *
+ *                  01/21/25                      *
  *                   12:00                        *
  *************************************************/
 /**************************************************
@@ -473,11 +473,11 @@ private void doANCOVATukeyKramer() {
     // Dean, A. M., & Voss, D. (2013) Design and Analysis of Experiments
     dm.whereIsWaldo(474, waldoFile, "doANCOVATukeyKramer()");
     studRangeQ = new StudentizedRangeQ();
-    /*************************************************************************
-     *    Tukey-Kramer df's from Huitema, B. E.  (2011). The Analysis of     *
-     *    Covariance and Alternatives: Statistical Methods for Experiments,  *
-     *    Quasi-Experiments, and Single Case Studies.  Wiley                 *
-     ************************************************************************/
+    /**********************************************************************
+     * Tukey-Kramer df's from Huitema, B. E.  (2011). The Analysis of     *
+     * Covariance and Alternatives: Statistical Methods for Experiments,  *
+     * Quasi-Experiments, and Single Case Studies.  Wiley                 *
+     *********************************************************************/
      double dbl_df_ANCOVA_Error = dbl_nInAll - dbl_nLevels - 1.0;
     
     qTK = studRangeQ.qrange(0.95, // cumulative p -- use .95 if alpha = .05

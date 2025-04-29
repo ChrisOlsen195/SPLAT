@@ -1,7 +1,7 @@
 /**************************************************
- *               Ind_t_Dashboard                  *
- *                    11/15/23                    *
- *                     12:00                      *
+ *              Indep_t_Dashboard                 *
+ *                    01/28/25                    *
+ *                     15:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -15,7 +15,6 @@ import proceduresManyUnivariate.VerticalBoxPlot_View;
 import proceduresManyUnivariate.HorizontalBoxPlot_View;
 import superClasses.Dashboard;
 import dataObjects.QuantitativeDataVariable;
-import java.util.ArrayList;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import proceduresTwoUnivariate.*;
@@ -26,8 +25,8 @@ public class Indep_t_Dashboard extends Dashboard {
     String[] indepTCheckBoxDescr = { "t-test", "HBoxPlot", "VBoxPlot",
                                          "QQPlot", "BBSLPlot", "InferenceReport"
                                          }; 
-    //String waldoFile = "Indep_t_Dashboard";
-    String waldoFile = "";
+    String waldoFile = "Indep_t_Dashboard";
+    //String waldoFile = "";
     
     // My classes
     BBSL_Model bbsl_Model;
@@ -48,20 +47,16 @@ public class Indep_t_Dashboard extends Dashboard {
          qqPlotContainingPane, bbslContainingPane,
          indep_t_ContainingPane, inf_t_ReportContainingPane; 
 
-    public Indep_t_Dashboard(Indep_t_PrepStructs indep_t_prepStructs, 
-            QuantitativeDataVariable pooledQDV,
-            ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        super(6);       
-        dm = indep_t_prepStructs.getDataManager();
-        dm.whereIsWaldo(53, waldoFile, "constructing");
-        hBox_Model = indep_t_prepStructs.getHBox_Model();
-        //vBox_Model = new VerticalBoxPlot_Model();
-        vBox_Model = indep_t_prepStructs.getVBox_Model();
+    public Indep_t_Dashboard(Indep_t_Controller indep_t_Controller, 
+            Indep_t_Model indep_t_Model) {
+        super(6);     
+        this.indep_t_Model = indep_t_Controller.getIndepTModel();
+        dm = indep_t_Model.getDataManager();
+        hBox_Model = indep_t_Controller.getHBox_Model();
+        vBox_Model = indep_t_Controller.getVBox_Model();
         qqPlot_Model = new QQPlot_Model();
-        qqPlot_Model = indep_t_prepStructs.getQQ_Model();
-        bbsl_Model = new BBSL_Model(indep_t_prepStructs, pooledQDV, allTheQDVs);
-        bbsl_Model = indep_t_prepStructs.getBBSL_Model();
-        indep_t_Model = indep_t_prepStructs.getIndepTModel();
+        qqPlot_Model = indep_t_Controller.getQQ_Model();
+        bbsl_Model = indep_t_Controller.getBBSL_Model();
         
         checkBoxDescr = new String[nCheckBoxes];
         for (int ithCheckBox = 0; ithCheckBox < nCheckBoxes; ithCheckBox++) {
@@ -110,7 +105,7 @@ public class Indep_t_Dashboard extends Dashboard {
         else { inf_t_ReportContainingPane.setVisible(false); }
     }
     
-    public void populateTheBackGround() {       
+    public void populateTheBackGround() {   
         containingPaneStyle =  "-fx-background-color: white;" +
             "-fx-border-color: blue, blue;" + 
             "-fx-border-width: 4, 4;" +

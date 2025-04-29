@@ -1,7 +1,7 @@
 /****************************************************************************
  *                      X2GOF_ResidualsView                                 * 
- *                           05/25/24                                       *
- *                            15:00                                         *
+ *                           01/15/25                                       *
+ *                            12:00                                         *
  ***************************************************************************/
 package chiSquare.GOF;
 
@@ -30,6 +30,8 @@ import javafx.scene.input.KeyCode;
 public class X2GOF_ResidualsView {
     // POJOs
     boolean dragging;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int nCategories;
     
@@ -63,7 +65,9 @@ public class X2GOF_ResidualsView {
     public X2GOF_ResidualsView(X2GOF_Model x2GOF_Model, X2GOF_Dashboard x2GOF_Dashboard, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        System.out.println("\n66 X2GOF_ResidualsView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("69 *** X2GOF_ResidualsView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         
@@ -87,7 +91,9 @@ public class X2GOF_ResidualsView {
     }
     
     public void completeTheDeal() {
-        //System.out.println("90 *** X2GOF_ResidualsView, completeTheDeal()");
+        if (printTheStuff == true) {
+            System.out.println("95 --- X2GOF_ResidualsView, completeTheDeal()");
+        }
         initializeGraphParameters();
         setUpUI();       
         setUpGridPane();        

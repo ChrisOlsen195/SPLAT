@@ -1,7 +1,7 @@
 /**************************************************
  *          IndepMeans_Power_Dashboard            *
- *                  05/29/24                      *
- *                    18:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -16,6 +16,8 @@ import superClasses.*;
 public class IndepMeans_Power_Dashboard extends Dashboard {
    
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
     IndepMeans_Power_PdfView indepMeans_Power_PdfView;
@@ -33,7 +35,9 @@ public class IndepMeans_Power_Dashboard extends Dashboard {
     
     public IndepMeans_Power_Dashboard(IndepMeans_Power_Controller indepMeans_Power_Controller) {
         super(5);
-        //System.out.println("36 IndepMeans_Power_Dashboard, constructing");
+        if (printTheStuff == true) {
+            System.out.println("39 *** IndepMeans_Power_Dashboard, Constructing");
+        }
         this.indepMeans_Power_Controller = indepMeans_Power_Controller;
     }
     

@@ -1,6 +1,6 @@
 /************************************************************
  *                    One_Variable_Dialog                   *
- *                          01/13/25                        *
+ *                          02/16/25                        *
  *                            18:00                         *
  ***********************************************************/
 package dialogs;
@@ -21,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.WindowEvent;
 import splat.Data_Manager;
 import splat.Var_List;
 import utilityClasses.MyAlerts;
@@ -36,7 +37,8 @@ public class One_Variable_Dialog extends Splat_Dialog {
     
     public int minVars, maxVars, varIndex, nCheckBoxes, minSampleSize;
     
-    String strDataType, strVarLabel, strVarDescription, subTitle;
+    String strDataType, strVarLabel, strVarDescription, subTitle, 
+           strReturnStatus;
 
     // My classes
     public ColumnOfData columnOfData;
@@ -58,8 +60,9 @@ public class One_Variable_Dialog extends Splat_Dialog {
     
     public One_Variable_Dialog(String strDataType) {
         super();
+        strReturnStatus = "OK";
         if (printTheStuff) {
-            System.out.println("\n62 One_Variable_Dialog, Constructing");
+            System.out.println("65 *** One_Variable_Dialog, Constructing");
         }
         this.strDataType = strDataType;
         dmIsPresent = false;
@@ -68,18 +71,19 @@ public class One_Variable_Dialog extends Splat_Dialog {
 
     public One_Variable_Dialog(Data_Manager dm, String strDataType) {
         super();
+        strReturnStatus = "OK";
         if (printTheStuff) {
-            System.out.println("\n72 One_Variable_Dialog, Constructing");
+            System.out.println("76 *** One_Variable_Dialog, Constructing");
         }
         this.dm = dm;
         dmIsPresent = true;
         this.strDataType = strDataType;
-        proceed();
+        strReturnStatus = proceed();
     }
     
     private String proceed() {
         if (printTheStuff) {
-            System.out.println("82  *** One_Variable_Dialog, proceed()");
+            System.out.println("86 --- One_Variable_Dialog, proceed()");
         }
         strReturnStatus = "OK";
         boolGoodToGo = true;
@@ -88,9 +92,9 @@ public class One_Variable_Dialog extends Splat_Dialog {
         lbl_Title.setPadding(new Insets(10, 10, 10, 10));
 
         if (dmIsPresent) {
-        if (printTheStuff) {
-            System.out.println("92  *** One_Variable_Dialog, proceed()");
-        }
+            if (printTheStuff) {
+                System.out.println("96 --- One_Variable_Dialog, proceed()");
+            }
             selectionDirections = new Label("Please select the variable of interest below...");
             selectionDirections.setPadding(new Insets(25, 0, 0, 0));      
             vBoxVars2ChooseFrom = new VBox();
@@ -150,7 +154,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
         middlePanel.setAlignment(Pos.CENTER);
         middlePanel.getChildren().add(leftPanel);    
         if (printTheStuff) {
-            System.out.println("153  *** One_Variable_Dialog, proceed()");
+            System.out.println("157 --- One_Variable_Dialog, proceed()");
         }
         if (dmIsPresent) {
             middlePanel.getChildren().add(vBoxVars2ChooseFrom);
@@ -183,6 +187,14 @@ public class One_Variable_Dialog extends Splat_Dialog {
         myScene.getStylesheets().add(strCSS);
         setScene(myScene);
         
+        setOnCloseRequest((WindowEvent event) -> {
+            strReturnStatus = "Cancel";
+            if (printTheStuff == true) {
+                System.out.println("193 --- One_Variable_Dialog, setOnCloseRequest");
+            }
+            hide();
+        });
+        
         resetButton.setOnAction((ActionEvent event) -> {
             listOfVars.resetList();
             tf_labelOfVarSelected.setText("");
@@ -190,10 +202,10 @@ public class One_Variable_Dialog extends Splat_Dialog {
         
         btnCancel.setOnAction((ActionEvent event) -> {
             strReturnStatus = "Cancel";
-            close();
+            hide();
         });        
         if (printTheStuff) {
-            System.out.println("196  *** One_Variable_Dialog, proceed()");
+            System.out.println("208  --- One_Variable_Dialog, btnCancel.setOnAction");
         }
         if (dmIsPresent) {
             selectVariable.setOnAction((ActionEvent event) -> {                
@@ -234,7 +246,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
                 
                 subTitle = "Variable: " + strVarDescription; 
                 strReturnStatus = "OK";
-                close();
+                hide();
             } 
         });   
 
@@ -253,7 +265,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
         strVarLabel = tf_labelOfVarSelected.getText();
         varIndex = dm.getVariableIndex(strVarLabel);   
 
-        boolean varIsNumeric = dm.getAllTheColumns().get(varIndex).getIsNumeric();
+        boolean varIsNumeric = dm.getAllTheColumns().get(varIndex).getDataType().equals("Quantitative");
         if (daCorrectType.equals("Quantitative") && !varIsNumeric) {
             isCorrectType = false;
             MyAlerts.showInappropriateNonNumericVariableAlert();
@@ -271,6 +283,12 @@ public class One_Variable_Dialog extends Splat_Dialog {
         return isCorrectType;
     }
     
+    public String getReturnStatus() { 
+        if (printTheStuff) {
+            System.out.println("288 -- One_Variable_Dialog, strReturnStatus = " + strReturnStatus);
+        }       
+        return strReturnStatus; 
+    }
     public String getLabelOfVariable() { return strVarLabel; }
     public String getDescriptionOfVariable() { return strVarDescription; }
     public String getSubTitle() {  return subTitle; }   

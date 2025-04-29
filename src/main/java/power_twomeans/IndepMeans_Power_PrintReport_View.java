@@ -1,7 +1,7 @@
 /****************************************************************************
  *               TwoMeans_Power_PrintReport_View                            * 
- *                         11/01/23                                         *
- *                          18:00                                           *
+ *                         01/15/25                                         *
+ *                          21:00                                           *
  ***************************************************************************/
 package power_twomeans;
 
@@ -9,6 +9,8 @@ import superClasses.PrintTextReport_View;
 
 public class IndepMeans_Power_PrintReport_View extends PrintTextReport_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
    
@@ -16,7 +18,9 @@ public class IndepMeans_Power_PrintReport_View extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("19 IndepMeans_Power_PrintReport_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("22 *** IndepMeans_Power_PrintReport_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
 

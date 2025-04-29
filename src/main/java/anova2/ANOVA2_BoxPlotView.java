@@ -1,7 +1,7 @@
 /**************************************************
  *              ANOVA2_BoxPlotView                *
- *                  11/27/24                      *
- *                    12:00                       *
+ *                  03/22/25                      *
+ *                    21:00                       *
  *************************************************/
 package anova2;
 
@@ -57,14 +57,14 @@ public class ANOVA2_BoxPlotView extends ANOVA2_BoxCircleInterActView {
         AnchorPane.setBottomAnchor(anova2CategoryBoxes, 0.70 * tempHeight);        
         
         AnchorPane.setTopAnchor(categoryAxis_X, 0.9 * tempHeight);
-        AnchorPane.setLeftAnchor(categoryAxis_X, 0.1 * tempWidth);
+        AnchorPane.setLeftAnchor(categoryAxis_X, 0.15 * tempWidth);
         AnchorPane.setRightAnchor(categoryAxis_X, 0.0 * tempWidth);
         AnchorPane.setBottomAnchor(categoryAxis_X, 0.0 * tempHeight);
         
         AnchorPane.setTopAnchor(yAxis, 0.2 * tempHeight);
         AnchorPane.setLeftAnchor(yAxis, 0.0 * tempWidth);
         AnchorPane.setRightAnchor(yAxis, 0.9 * tempWidth);
-        AnchorPane.setBottomAnchor(yAxis, 0.2 * tempHeight);
+        AnchorPane.setBottomAnchor(yAxis, 0.1 * tempHeight);
         
         AnchorPane.setTopAnchor(canvas_ANOVA2, 0.2 * tempHeight);
         AnchorPane.setLeftAnchor(canvas_ANOVA2, 0.1 * tempWidth);
@@ -82,7 +82,7 @@ public class ANOVA2_BoxPlotView extends ANOVA2_BoxCircleInterActView {
         gc.clearRect(0, 0 , canvas_ANOVA2.getWidth(), canvas_ANOVA2.getHeight());
 
         for (int theBetweenBatch = 1; theBetweenBatch <= nFactorA_Levels; theBetweenBatch++) {
-            double daMiddleXPosition = categoryAxis_X.getDisplayPosition(categoryLabels.get(theBetweenBatch - 1));            
+            double daMiddleXPosition = categoryAxis_X.getDisplayPosition(categoryLabels.get(theBetweenBatch - 1)); 
             for (int theWithinBatch = 1; theWithinBatch <= nFactorB_Levels; theWithinBatch++) {
                 int theAppropriateLevel = (theBetweenBatch - 1) * nFactorB_Levels + theWithinBatch;
                 UnivariateContinDataObj tempUCDO = new UnivariateContinDataObj();

@@ -1,7 +1,7 @@
 /************************************************************
  *                        Power_Dialog                      *
- *                          09/12/24                        *
- *                            21:00                         *
+ *                          01/15/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package dialogs.power;
 
@@ -31,6 +31,8 @@ import utilityClasses.MyAlerts;
 public class Power_Dialog extends Splat_Dialog {
     // POJOs
     private boolean ok;  
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     public int minVars, maxVars, varIndexForX, nCheckBoxes, minSampleSize;
 
@@ -58,8 +60,9 @@ public class Power_Dialog extends Splat_Dialog {
     //public Data_Manager dm;
 
     public Power_Dialog(String strMessageOfSomeSort) {
-        //System.out.println("\n61 Power_Dialog, Constructing");
-        //System.out.println("62 Power_Dialog, message of some sort = " + strMessageOfSomeSort);
+        if (printTheStuff == true) {
+            System.out.println("64 *** Power_Dialog, Constructing");
+        }
         this.strMessageOfSomeSort = strMessageOfSomeSort;
         strReturnStatus = "Ok";
         ok = true;

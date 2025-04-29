@@ -1,6 +1,6 @@
 /**************************************************
  *             Logistic_Scatterplot_View          *
- *                    11/01/23                    *
+ *                    04/19/25                    *
  *                      00:00                     *
  *************************************************/
 package simpleLogisticRegression;
@@ -20,6 +20,9 @@ import splat.Data_Manager;
 public class Logistic_Scatterplot_View extends BivariateScale_View {
     public boolean[] checkBoxSettings;
     
+    // Just in case I figure out how to put the values on the scatterplot
+    public String[] twoCategories;  
+    // Just in case I figure out how to put the values on the scatterplot
     public double radius, diameter;
     double dataArray[][];
     
@@ -42,7 +45,7 @@ public class Logistic_Scatterplot_View extends BivariateScale_View {
     Pane regrContainingPane;
     public Text txtTitle1, txtTitle2;
     
-    public Logistic_Scatterplot_View(LogisticReg_Model logistic_Model, Logistic_Dashboard logistic_Dashboard,
+    public Logistic_Scatterplot_View(Logistic_Model logistic_Model, Logistic_Dashboard logistic_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
@@ -50,7 +53,8 @@ public class Logistic_Scatterplot_View extends BivariateScale_View {
         dm.whereIsWaldo(53, waldoFile, "Constructing");        
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        this.logistic_Dashboard = logistic_Dashboard;    
+        this.logistic_Dashboard = logistic_Dashboard;   
+        twoCategories = logistic_Model.getTwoCategories();
     } 
 
     public void setUpUI() {

@@ -1,7 +1,7 @@
 /**************************************************
  *               Single_t_Dashboard               *
- *                    11/01/23                    *
- *                     12:00                      *
+ *                    01/16/25                    *
+ *                     18:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -15,6 +15,9 @@ import javafx.scene.paint.Color;
 
 public class Single_t_SumStats_Dashboard extends Dashboard {
     //  POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     String[] indepTCheckBoxDescr = { "t-test", "InferenceReport"};   
     
     // My classes   
@@ -26,7 +29,10 @@ public class Single_t_SumStats_Dashboard extends Dashboard {
     Pane single_t_SumStats_ContainingPane, infReportContainingPane; 
       
     public Single_t_SumStats_Dashboard(Single_t_SumStats_Controller single_t_sumStats_Controller) {
-        super(2);       
+        super(2);  
+        if (printTheStuff == true) {
+            System.out.println("44 *** Single_t_SumStats_Dashboard, Constructing");
+        }
         single_t_SumStats_Model = single_t_sumStats_Controller.getSingle_t_SumStats_Model();        
         checkBoxDescr = new String[nCheckBoxes];
         

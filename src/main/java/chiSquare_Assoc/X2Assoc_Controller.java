@@ -1,7 +1,7 @@
 /************************************************************
  *                      X2Assoc_Controller                  *
- *                          08/14/24                        *
- *                            09:00                         *
+ *                          01/21/25                        *
+ *                            21:00                         *
  ***********************************************************/
 package chiSquare_Assoc;
 
@@ -14,11 +14,11 @@ import utilityClasses.MyAlerts;
 
 public class X2Assoc_Controller {
     // POJOs
+
     String returnStatus, assocType, xDescr, yDescr;
     
-    // Make empty if no-print
-    //String waldoFile = "X2Assoc_Controller ";
-    String waldoFile = "";
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
     
     // My classes
     BivariateCategoricalDataObj bivCatDataObj;
@@ -31,7 +31,9 @@ public class X2Assoc_Controller {
 
     public X2Assoc_Controller(Data_Manager dm, String assocType) { 
         this.dm = dm;
-        dm.whereIsWaldo(34, waldoFile, "Constructing");
+        if (printTheStuff == true) {
+            System.out.println("35 *** X2Assoc_Controller, Constructing ");
+        }
         this.assocType = assocType;
         
         if (assocType.equals("INDEPENDENCE")) {
@@ -44,7 +46,9 @@ public class X2Assoc_Controller {
     }
     
     public String doAssoc_FromTable() {
-        dm.whereIsWaldo(47, waldoFile, "Constructing");
+        if (printTheStuff == true) {
+            System.out.println("50 --- X2Assoc_Controller, doAssoc_FromTable() ");
+        }
         x2Assoc_Model = new X2Assoc_Model(this, assocType);
         returnStatus = x2Assoc_Model.doModelFromTable();
     
@@ -64,7 +68,9 @@ public class X2Assoc_Controller {
 
     public String doAssoc_FromFile(Data_Manager dm) {
         this.dm = dm;
-        dm.whereIsWaldo(67, waldoFile, "doAssoc_FromFile");
+        if (printTheStuff == true) {
+            System.out.println("72 --- X2Assoc_Controller, doAssoc_FromFile(Data_Manager dm) ");
+        }
         returnStatus = "";
         
         // Why is this not changed in the constructor???
@@ -82,6 +88,9 @@ public class X2Assoc_Controller {
         returnStatus = x2Assoc_Dialog.getReturnStatus();
 
         if (returnStatus.equals("OK")) {
+        if (printTheStuff == true) {
+            System.out.println("92 --- X2Assoc_Controller, doAssoc_FromFile(Data_Manager dm) ");
+        }
             xDescr = x2Assoc_Dialog.getPreferredFirstVarDescription();
             yDescr = x2Assoc_Dialog.getPreferredSecondVarDescription();
             bivCatDataObj = new BivariateCategoricalDataObj(dm, xDescr, 
@@ -97,6 +106,9 @@ public class X2Assoc_Controller {
             }
 
             if (returnStatus.equals("OK")) {
+        if (printTheStuff == true) {
+            System.out.println("110 --- X2Assoc_Controller, doAssoc_FromFile(Data_Manager dm) ");
+        }
                 x2Assoc_Model.doChiSqAnalysisCalculations();
                 x2Assoc_Dashboard = new X2Assoc_Dashboard(this, x2Assoc_Model); 
                 x2Assoc_Dashboard.populateTheBackGround();

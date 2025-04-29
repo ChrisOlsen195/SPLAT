@@ -1,7 +1,7 @@
 /************************************************************
  *                  TwoProp_Inference_Dialog                *
- *                          11/27/24                        *
- *                            12:00                         *
+ *                          01/15/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -35,6 +35,9 @@ import smarttextfield.*;
 public class TwoProp_Inference_Dialog extends Splat_Dialog { 
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean valuesLeftBlank;
     boolean bool_Prop1Good, bool_Prop2Good, bool_Succ1Good, bool_Succ2Good, 
             bool_N1Good, bool_N2Good; //, bool_AlphaGood;
@@ -54,7 +57,7 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     
     // My classes
     SmartTextFieldsController stf_Controller;
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     
     // JavaFX POJOs
     Button btn_ChangeNull, btn_Reset;
@@ -81,7 +84,9 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     ListView<String> ciView, alphaView;
 
     public TwoProp_Inference_Dialog() {
-        System.out.println("84, TwoPropInfDialog, constructing");
+        if (printTheStuff == true) {
+            System.out.println("88 *** TwoProp_Inference_Dialog, Constructing");
+        }
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         // theCILevs = new double[] {0.90, 0.95, 0.99};
         sep = new Separator();

@@ -1,7 +1,7 @@
 /**************************************************
  *              TwoProp_Inf_Controller            *
- *                    11/27/24                    *
- *                     12:00                      *
+ *                    01/16/25                    *
+ *                     18:00                      *
  *************************************************/
 package the_z_procedures;
 
@@ -9,6 +9,8 @@ import utilityClasses.MyYesNoAlerts;
 
 public class TwoProp_Inf_Controller {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     int confidenceLevel;
     
     String goodToGo, yesOrNo;
@@ -19,7 +21,9 @@ public class TwoProp_Inf_Controller {
     TwoProp_Inf_Dashboard twoProp_Inf_Dashboard;
     
     public TwoProp_Inf_Controller() {
-        //System.out.println("19 TwoProp_Inf_Controller, constructing");
+        if (printTheStuff == true) {
+            System.out.println("25 *** TwoProp_Inf_Controller, Constructing");
+        }
         myYesNoAlerts = new MyYesNoAlerts();
     }
     
@@ -38,7 +42,7 @@ public class TwoProp_Inf_Controller {
                 goodToGo = twoProp_Inf_Dashboard.getReturnStatus();  
             }
 
-            myYesNoAlerts.showAvoidRepetitiousClicksAlert("You betcha", "No way");
+            myYesNoAlerts.showAvoidRepetitiousClicksAlert();
             yesOrNo = myYesNoAlerts.getYesOrNo();          
         }
         return goodToGo;

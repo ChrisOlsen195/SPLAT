@@ -1,6 +1,6 @@
 /**************************************************
  *            IndepMeans_Power_PdfView            *
- *                   05/29/24                     *
+ *                   01/15/25                     *
  *                    21:00                       *
  *************************************************/
 package power_twomeans;
@@ -30,10 +30,14 @@ import utilityClasses.*;
 
 public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
 { 
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean[] boolHBoxCheckBoxSettings;
     int n_1, n_2;
 
-    double yMin, yMax, scaleDelta, nullDiffMeans, altMu,
+    double /*xMin, xMax,*/ yMin, yMax, scaleDelta, nullDiffMeans, altMu,
             rawCritValLT, rawCritValGT, yStart_Null,  yStop_Null, yStart_Alt, 
             yStop_Alt, standErrDiffMeans, effectSize, lowerSliver, upperSliver, 
             densityFactor, altDiffMeans, yNullDistDescr,
@@ -41,7 +45,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
            rejectionArrowStart, rejectionArrowStop, rejectionFailureArrowStart, 
            rejectionFailureArrowStop, nullArrowHeight, altScaleHeight,
            nullTextHeight, altScaleStart, altScaleStop,
-           rejectionTextStart, nonRejectionTextStart,
+           rejectionTextStart, nonRejectionTextStart, // powerArrowHeight,
     
            leftRejectionArrowStart, leftRejectionArrowStop,
            rightRejectionArrowStart, rightRejectionArrowStop,
@@ -82,7 +86,9 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                              double withThisWidth, double withThisHeight) {
 
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("85 IndepMeans_Power_PdfView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("90 *** IndepMeans_Power_PdfView, Constructing");
+        }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -244,7 +250,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                 break;  
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 247 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 249 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);     
         } 
     } 
@@ -409,7 +415,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                 break;  
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 412 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 415 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }   //  end switch
 
@@ -460,7 +466,10 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
         *****               Do the Shading             **************
         ************************************************************/
         gc.setLineWidth(1);
-        xx0_Null = xGraphLeft;  
+        xx0_Null = xGraphLeft; 
+        // Convert raw scale to normal for density calculation
+        //yy0_Null = densityFactor * Normal.density(xx0_Null, nullDiffMeans, standErrDiffMeans, false);        
+        //yy0_Alt = densityFactor * Normal.density(xx0_Null, nullDiffMeans, standErrDiffMeans, false); 
        
         for (double x = xGraphLeft; x <= xGraphRight; x += scaleDelta) {
             xx1_Null = x;
@@ -477,7 +486,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
             switch(rejectionCriterion) {
                 case "LessThan":    // Alternative is less than
                     if (x < rawCritValLT) {   
-                        if (power_Desired) {
+                        if (power_Desired == true) {
                             gc.setStroke(Color.RED);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);  
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
@@ -491,7 +500,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                     else
                     {
 
-                        if (typeII_Desired) {
+                        if (typeII_Desired == true) {
                             gc.setStroke(Color.BLUE);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null); 
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
@@ -506,7 +515,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
 
                 case "NotEqual":    // Alternative is not equal to
                     if ((rawCritValLT < x) && (x < rawCritValGT)) { 
-                        if (typeII_Desired) {
+                        if (typeII_Desired == true) {
                             gc.setStroke(Color.BLUE);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);                            
@@ -516,7 +525,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);                            
                         }                      
                     } else {
-                        if (power_Desired) {
+                        if (power_Desired == true) {
                             gc.setStroke(Color.RED);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
@@ -530,7 +539,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
 
                 case "GreaterThan":    // Alternative is greater than
                     if (x < rawCritValGT) { 
-                        if (typeII_Desired) {
+                        if (typeII_Desired == true) {
                             gc.setStroke(Color.BLUE);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null); 
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
@@ -540,7 +549,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
                         } 
                     } else {
-                        if (power_Desired) {
+                        if (power_Desired == true) {
                             gc.setStroke(Color.RED);
                             gc.strokeLine(xStart, yStart_Null, xStop, yStop_Null);
                             gc.strokeLine(xStart, yStart_Alt, xStop, yStop_Alt);
@@ -553,7 +562,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                     break;  
 
                 default:
-                    String switchFailure = "Switch failure: IndMeans_PowerPDF 556 " + rejectionCriterion;
+                    String switchFailure = "Switch failure: IndMeans_PowerPDF 559 " + rejectionCriterion;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);     
             }   //  end switch
         }  //   end loop   
@@ -576,7 +585,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                 break;
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 579 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 582 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         } 
 
@@ -602,7 +611,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                 break;
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 605 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 616 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }
         
@@ -705,7 +714,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                 break;
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 708 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_PdfView 711 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }
         

@@ -1,7 +1,7 @@
 /**************************************************
  *                 MultReg_Dialog                 *
- *                    05/27/24                    *
- *                     12:00                      *
+ *                    01/20/25                    *
+ *                     21:00                      *
  *************************************************/
 package dialogs.regression;
 
@@ -45,9 +45,11 @@ public class MultReg_Dialog extends Splat_Dialog {
 
     public MultReg_Dialog(Data_Manager dm) {
         super(dm);
+        
         //waldoFile = "MultReg_Dialog";
         waldoFile = "";
-        dm.whereIsWaldo(50, waldoFile, "Constructing");
+        
+        dm.whereIsWaldo(52, waldoFile, "Constructing");
         maxIVs = 12;
         str_al_IVsSelected = new ArrayList();
         strVarLabels = new ArrayList();
@@ -137,13 +139,13 @@ public class MultReg_Dialog extends Splat_Dialog {
         });
 
         btn_selectIV.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(140, waldoFile, "btn_selectIV.setOnAction");
+            dm.whereIsWaldo(142, waldoFile, "btn_selectIV.setOnAction");
             ArrayList<String> selected = var_List_ToChoose.getNamesSelected();
             ok = true;
             
             for (String tmpVar : selected) {
                 
-                if (!dm.getVariableIsNumeric(dm.getVariableIndex(tmpVar))) {
+                if (!dm.getDataType(dm.getVariableIndex(tmpVar)).equals("Quantitative")) {
                     MyAlerts.showInappropriateNonNumericVariableAlert();
                     btnReset.fire();
                     ok = false;
@@ -159,7 +161,7 @@ public class MultReg_Dialog extends Splat_Dialog {
         });
 
         btn_selectDV.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(162, waldoFile, "selectDV.setOnAction");
+            dm.whereIsWaldo(164, waldoFile, "selectDV.setOnAction");
             ok = true;
             
             if (var_List_ToChoose.getNamesSelected().size() == 1) {
@@ -169,7 +171,7 @@ public class MultReg_Dialog extends Splat_Dialog {
                 var_List_ToChoose.delVarName(var_List_ToChoose.getNamesSelected());
             }
             
-            if (!dm.getVariableIsNumeric(dvSelected)) {
+            if (!dm.getDataType(dvSelected).equals("Quantitative")) {
                 MyAlerts.showInappropriateNonNumericVariableAlert();
                 btnReset.fire();
                 ok = false;
@@ -177,7 +179,7 @@ public class MultReg_Dialog extends Splat_Dialog {
         });
 
         btnOK.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(180, waldoFile, "okButton.setOnAction");
+            dm.whereIsWaldo(182, waldoFile, "okButton.setOnAction");
             ok = true;
 
             str_al_IVsSelected = var_List_Chosen.getVarIndices();
@@ -242,5 +244,5 @@ public class MultReg_Dialog extends Splat_Dialog {
     public int getNumVars() { return nIVsSelected; }
 
     public boolean getOK() {return true; }
-} // class
+} 
 

@@ -1,7 +1,7 @@
 /************************************************************
  *                      Epi_AssocDialog                     *
- *                          08/19/24                        *
- *                            00:00                         *
+ *                          02/01/25                        *
+ *                            09:00                         *
  ***********************************************************/
 package epidemiologyProcedures;
 
@@ -12,11 +12,11 @@ public class Epi_AssocDialog extends Two_Variables_Dialog{
     public Epi_AssocDialog(Data_Manager dm, String procCaller) {
         super(dm, "EpiDialog", procCaller);
         this.dm = dm;
-        System.out.println("\n15 EpiAssocDialog, Constructing");
+        //System.out.println("15 EpiAssocDialog, Constructing");
         waldoFile = "";
         lblTitle.setText("Epidemiological Association");
-        lblFirstVar.setText("Outcome Variable:");
-        lblSecondVar.setText("Exposure Variable:");
+        lblExplanVar.setText("Outcome Variable:");
+        lblResponseVar.setText("Exposure Variable:");
         setTitle("Categorical Association");
     }  
 }

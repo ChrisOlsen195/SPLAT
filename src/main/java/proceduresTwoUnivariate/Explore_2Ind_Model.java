@@ -1,7 +1,7 @@
 /**************************************************
  *               Explore_2Ind_Model               *
- *                    02/19/24                    *
- *                      09:00                     *
+ *                    01/29/25                    *
+ *                      12:00                     *
  *************************************************/
 package proceduresTwoUnivariate;
 
@@ -27,12 +27,11 @@ public class Explore_2Ind_Model {
     private final String bunchaBlanks = "                                ";
     private String subTitle, returnValue, respVsExplanVar;
 
-    // Make empty if no-print
-    //String waldoFile = "Explore_2Ind_Model";
-    String waldoFile = "";
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
-    private ArrayList<String> anova1Report, alStr_AllTheLabels, twoVarReport;
-    private final ObservableList<String> categoryLabels;
+    private ArrayList<String> anova1Report, twoVarReport;
+    public ObservableList<String> variableLabels;
     
     // My classes
     ArrayList<QuantitativeDataVariable> all_TheQDVs;
@@ -40,14 +39,17 @@ public class Explore_2Ind_Model {
     NormProb_Model normProb_Model;
     QuantitativeDataVariable allData_QDV;
 
-    public Explore_2Ind_Model (Explore_2Ind_Controller Explore_2Ind_Controller, 
+    public Explore_2Ind_Model (Explore_2Ind_Controller explore_2Ind_Controller, 
                                  String firstVariable, 
                                  String secondVariable,
-                                 ArrayList<QuantitativeDataVariable>  all_TheQDVs,
-                                 ArrayList<String> alStr_AllTheLabels) {
-        dm = Explore_2Ind_Controller.getDataManager();
-        categoryLabels = FXCollections.observableArrayList();
-        this.alStr_AllTheLabels = alStr_AllTheLabels;
+                                 ArrayList<QuantitativeDataVariable>  all_TheQDVs) {
+        if (printTheStuff == true) {
+            System.out.println("47 *** Explore_2Ind_Model, constructing");
+        }
+        dm = explore_2Ind_Controller.getDataManager();
+        variableLabels = FXCollections.observableArrayList();
+        variableLabels = explore_2Ind_Controller.getCategoryLabels();
+        //System.out.println(" 52 Explore_2Ind_Model, categoryLabels = " + variableLabels);
         this.all_TheQDVs = all_TheQDVs;
         this.firstVariable = firstVariable;
         this.secondVariable = secondVariable;
@@ -55,42 +57,46 @@ public class Explore_2Ind_Model {
     }
     
     public String continueInitializing() { 
-        dm.whereIsWaldo(58, waldoFile, "continueInitializing()");
-        returnValue = "OK";
-        
-        for (int ithLabel = 0; ithLabel < alStr_AllTheLabels.size(); ithLabel++) {
-            categoryLabels.add(alStr_AllTheLabels.get(ithLabel));
+        if (printTheStuff == true) {
+            System.out.println("60 --- Explore_2Ind_Model, continueInitializing()");
         }
+        returnValue = "OK";
+        if (printTheStuff == true) {
+            System.out.println("64 --- Explore_2Ind_Model, continueInitializing()");
+        }        
         
         subTitle = secondVariable + " vs. " + firstVariable;
         allData_QDV = all_TheQDVs.get(0);
         allData_QDV.setTheVarLabel("Treatment Residuals");
         normProb_Model = new NormProb_Model("One Way ANOVA", allData_QDV);
-
+        if (printTheStuff == true) {
+            System.out.println("77 --- Explore_2Ind_Model, continueInitializing()");
+        }
         nLevels = all_TheQDVs.size() - 1;
-        confidenceLevel = 0.95; 
+        //confidenceLevel = 0.95; 
         
         returnValue = setupAnalysis();
-        
+        if (printTheStuff == true) {
+            System.out.println("84 --- Explore_2Ind_Model, continueInitializing(), returnValue = " + returnValue);
+        }
         if (returnValue.equals("Cancel")) {
             return returnValue;
         } else {
-            doOneWayANOVA();
+            doReportPrep();
             return returnValue;
         }
     }
    
-    private void doOneWayANOVA() {  
-        dm.whereIsWaldo(84, waldoFile, "doOneWayANOVA()");
-        prepare_TwoStats_Report();        
-    }
+    private void doReportPrep() { prepare_TwoStats_Report(); }  // !?!?!?!?!?!?
    
     private String setupAnalysis() {
-        dm.whereIsWaldo(89, waldoFile, "setupAnalysis()");
+        if (printTheStuff == true) {
+            System.out.println("92 --- Explore_2Ind_Model, setupAnalysis()");
+        }
         for (int ithLevel = 1; ithLevel < nLevels; ithLevel++) {
             String varLabel = all_TheQDVs.get(ithLevel)
-                                               .getTheVarLabel()
-                                               .trim();            
+                                         .getTheVarLabel()
+                                         .trim();            
             boolean variabilityFound = DataUtilities.checkForVariabilityInQDV(all_TheQDVs.get(ithLevel));
             if (!variabilityFound) {
                 MyAlerts.showNoVarianceIn2IndAlert(varLabel);
@@ -106,7 +112,9 @@ public class Explore_2Ind_Model {
     }    
 
     private void prepare_TwoStats_Report() {
-        dm.whereIsWaldo(109, waldoFile, "prepare_TwoStats_Report()");
+        if (printTheStuff == true) {
+            System.out.println("114 --- Explore_2Ind_Model, prepare_TwoStats_Report()");
+        }
         int int_1, int_2;
         double dbl_1, dbl_2;
         String str_1, str_2, centeredExplanVar, centeredRespVar, responseLabel2Print, explanLabel2Print;
@@ -183,7 +191,10 @@ public class Explore_2Ind_Model {
         twoVarReport.add(String.format("            IQR:   %8.4f     %8.4f", dbl_1, dbl_2));        
         addNBlankLinesToTwoStatsReport(1);
         dbl_1 = prntU_X.getTheRange();  dbl_2 = prntU_Y.getTheRange();
-        twoVarReport.add(String.format("          Range:   %8.4f     %8.4f", dbl_1, dbl_2));   
+        twoVarReport.add(String.format("          Range:   %8.4f     %8.4f", dbl_1, dbl_2)); 
+        if (printTheStuff == true) {
+            System.out.println("196 --- Explore_2Ind_Model, END prepare_TwoStats_Report()");
+        }
     }
     
     private void addNBlankLinesToTwoStatsReport(int thisMany) {
@@ -198,9 +209,7 @@ public class Explore_2Ind_Model {
     public ArrayList<QuantitativeDataVariable> getAllQDVs() { return all_TheQDVs; }    
     public ArrayList<String> getANOVA1Report() { return anova1Report; }  
     public double getConfidenceLevel() { return confidenceLevel; }    
-    public void setConfidenceLevel( double atThisLevel) {
-        confidenceLevel = atThisLevel;
-    }  
+ 
     public QuantitativeDataVariable getIthQDV(int ith) {
        return all_TheQDVs.get(ith);
     }
@@ -208,7 +217,7 @@ public class Explore_2Ind_Model {
     public String getExplanatoryVariable() {return firstVariable; }
     public String getResponseVariable() {return secondVariable; }
     public String getSubTitle() { return subTitle; }
-    public ObservableList <String> getCategoryLabels() {return categoryLabels; }   
+    public ObservableList <String> getCategoryLabels() { return variableLabels; }  
     public NormProb_Model getNormProbModel() { return normProb_Model; }   
     public QuantitativeDataVariable getAllData_QDV() { return allData_QDV; }   
     public ArrayList<QuantitativeDataVariable> getAllTheQDVs() {return all_TheQDVs; }    

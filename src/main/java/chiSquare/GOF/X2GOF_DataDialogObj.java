@@ -1,6 +1,6 @@
 /****************************************************************************
  *                     X2GOF_DataDialogObj                                  * 
- *                           09/07/24                                       *
+ *                           01/15/25                                       *
  *                            12:00                                         *
  ***************************************************************************/
 /****************************************************************************
@@ -10,6 +10,10 @@ package chiSquare.GOF;
 
 public class X2GOF_DataDialogObj {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false; 
+    
     int nCategories;
     int[] gofObs;
     
@@ -19,12 +23,16 @@ public class X2GOF_DataDialogObj {
     String[] strGOFCats;
     
     public X2GOF_DataDialogObj() { 
-        System.out.println("\n22 X2GOF_DataDialogObj, Constructing empty");
+        if (printTheStuff == true) {
+            System.out.println("27 *** X2GOF_DataDialogObj, Constructing");
+        }
         nCategories = 0;
     }
     
     public X2GOF_DataDialogObj(int nCategories) { 
-        System.out.println("\n27 X2GOF_DataDialogObj, Constructing with nCategories");
+        if (printTheStuff == true) {
+            System.out.println("34 *** X2GOF_DataDialogObj, Constructing");
+        }
         this.nCategories = nCategories; 
         gofExpProps = new double[nCategories];
         gofObs = new int[nCategories];

@@ -1,7 +1,7 @@
 /**************************************************
  *             MultReg_CooksDist_View             *
- *                    07/04/24                    *
- *                      00:00                     *
+ *                    01/15/25                    *
+ *                      21:00                     *
  *************************************************/
 package multipleRegression;
 
@@ -32,8 +32,8 @@ public class MultReg_CooksDist_View extends BivariateScale_View {
     // POJOs
     boolean[] checkBoxSettings;    
     int nRows, nCheckBoxes;
-    double /*outlierCircleRadius,*/ radius, diameter;  
-    double rStud, outRadius, outDiameter, cooksD, influenceDiameter;    
+    double radius, diameter, rStud, outRadius, outDiameter, cooksD, 
+           influenceDiameter;    
     
     double dataArray[][];
            

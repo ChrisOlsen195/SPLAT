@@ -1,7 +1,7 @@
  /*************************************************
  *                  Histogram_View                *
- *                     04/25/24                   *
- *                      18:00                     *
+ *                     01/16/25                   *
+ *                      12:00                     *
  *************************************************/
 package proceduresOneUnivariate;
 
@@ -31,7 +31,9 @@ import superClasses.BivariateScale_W_CheckBoxes_View;
 
 public class Histogram_View extends BivariateScale_W_CheckBoxes_View {
     // POJOs
-
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nLegalDataPoints, nBinsToLeft, nBinsToRight, nBinsTotal;
     
     double xMin, xMax, minScale, maximumFreq, yMin, yMax, initial_xMin, 
@@ -53,7 +55,9 @@ public class Histogram_View extends BivariateScale_W_CheckBoxes_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("56 Histogram_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("59 *** Histogram_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.histogram_Model = histogram_Model;

@@ -1,7 +1,7 @@
 /**************************************************
  *                ANOVA2_RM_Model                 *
- *                  05/23/24                      *
- *                    18:00                       *
+ *                  02/23/25                      *
+ *                    15:00                       *
  *************************************************/
 /**************************************************
  *          Tested against Cohen p513             *
@@ -94,7 +94,7 @@ public class ANOVA2_RM_Model {
         returnStatus = performInitialOneWays();
         
         if (!returnStatus.equals("OK")) {
-            MyAlerts.showUnexpectedPossibleErrorAlert("RM_Model, performing Initial One Ways");
+            MyAlerts.showUnexpectedErrorAlert("RM_Model, performing Initial One Ways");
             return returnStatus; 
         }   
         
@@ -385,7 +385,7 @@ private void doTukeyKramer() {
         cohensF_Subjects = Math.sqrt(omegaSquare_Subjects / (1.0 - omegaSquare_Subjects));
         
         partial_eta_squared = ssTreatments / (ssTreatments + ssError);
-        System.out.println("388 RM_Model, partial_eta_squared = " + partial_eta_squared);
+        //System.out.println("388 RM_Model, partial_eta_squared = " + partial_eta_squared);
     }
     
     private String leftMostChars(String original, int leftChars) {

@@ -1,6 +1,6 @@
 /************************************************************
  *                     StemAndLeaf_Model                    *
- *                          11/01/23                        *
+ *                          01/16/25                        *
  *                            12:00                         *
  ***********************************************************/
 package proceduresOneUnivariate;
@@ -15,6 +15,9 @@ import utilityClasses.MyAlerts;
 
 public class StemNLeaf_Model {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     private boolean posNumbersExist, negNumbersExist, ordMagIsPreSet,
             witchesWarned;
     
@@ -47,7 +50,9 @@ public class StemNLeaf_Model {
                            int ordMag,
                            int presetFirstNonZero,
                            int presetFirstNonConstant) {
-        //System.out.println("50 StemNLeafModel, constructing");
+        if (printTheStuff == true) {
+            System.out.println("54 *** StemNLeaf_Model, Constructing");
+        }
         bbslCheck = descriptionOfVariable;  // if Null, BBSL
         ordMagIsPreSet = presetOrdMag;
         
@@ -66,7 +71,9 @@ public class StemNLeaf_Model {
     }
     
     private void doAllThatSLStuff() {
-        //System.out.println("69 StemNLeafModel, doAllThatSLStuff()");
+        if (printTheStuff == true) {
+            System.out.println("75 --- StemNLeaf_Model, doAllThatSLStuff()");
+        }
         txtArea1 = new TextArea();
         txtArea1.setFont(Font.font("Courier New"));
     
@@ -94,7 +101,9 @@ public class StemNLeaf_Model {
     }
     
     private void initialize() {
-        //System.out.println("97 StemNLeafModel, initialize()");
+        if (printTheStuff == true) {
+            System.out.println("105 --- StemNLeaf_Model, initialize()");
+        }
         data_AsStrings = new ArrayList<>();
         theStems_With_Vert = new ArrayList<>();
         oneLineStems = new ArrayList<>();
@@ -115,7 +124,9 @@ public class StemNLeaf_Model {
     
     // Data as doubles is sorted before S&L is constructed
     private void sortDataReversedToStringArray() {
-        //System.out.println("118 StemAndLeaf_Model, sortDataReversedToStringArray()");
+        if (printTheStuff == true) {
+            System.out.println("128 --- StemNLeaf_Model, sortDataReversedToStringArray()");
+        }
         int iData;
         nDataPoints = data_Sorted.length;
         
@@ -130,7 +141,9 @@ public class StemNLeaf_Model {
     }
     
     private void constructTheStems() {
-        //System.out.println("133 StemAndLeaf_Model, constructTheStems()");
+        if (printTheStuff == true) {
+            System.out.println("145 --- StemNLeaf_Model, constructTheStems()");
+        }
         int iStem;
         
         strDaStrippedNumber = new String[nDataPoints];
@@ -221,7 +234,9 @@ public class StemNLeaf_Model {
     }
     
     private void addTheVerticalLine() {
-        //System.out.println("224 StemAndLeaf_Model, addTheVerticalLine()");
+        if (printTheStuff == true) {
+            System.out.println("238 --- StemNLeaf_Model, addTheVerticalLine()");
+        }
         int iStem, iData;
         // ****************** Construct the stem&leaf initial strings
         for (iStem = 0; iStem < theStems_With_Vert.size(); iStem++) {
@@ -244,7 +259,9 @@ public class StemNLeaf_Model {
     }
     
     private void sortLeavesWithinStems() {
-        //System.out.println("247 StemAndLeaf_Model, sortLeavesWithinStems()");
+        if (printTheStuff == true) {
+            System.out.println("263 --- StemNLeaf_Model, sortLeavesWithinStems()");
+        }
         //boolean canDoSL_1 = true;
         // int startPosition = lengthOfStems;
         //nStemsNeeded = theStems_With_Vert.size();
@@ -254,7 +271,6 @@ public class StemNLeaf_Model {
 
         //   Display alert
         if (( nStemsNeeded_5 > maxLineInSL) && (!bbslCheck.equals("Null"))){
-            System.out.println("257 StemAndLeaf_Model, sortLeavesWithinStems -- too many Stems");
             MyAlerts.showStemAndLeafAlert();
             witchesWarned = true;
         }
@@ -298,7 +314,9 @@ public class StemNLeaf_Model {
     }
     
     private void construct_2LinesPerStem() {
-        //System.out.println("301 StemAndLeaf_Model, construct_2LinesPerStem()");
+        if (printTheStuff == true) {
+            System.out.println("319 --- StemNLeaf_Model, construct_2LinesPerStem()");
+        }
         String hiSL, loSL;
         String[] twoline_leafOptions = {"01234", "56789"};
         nStems = theStems_With_Vert.size();
@@ -340,7 +358,9 @@ public class StemNLeaf_Model {
     }
     
     private void construct_5LinesPerStem() {
-        //System.out.println("343 StemNLeafModel, construct_5LinesPerStem()");
+        if (printTheStuff == true) {
+            System.out.println("363 --- StemNLeaf_Model, construct_5LinesPerStem()");
+        }
         String[] fivePerSL = new String[5];
         StringBuilder[] fivePerSB = new StringBuilder[5];
         
@@ -384,11 +404,12 @@ public class StemNLeaf_Model {
                 maxLeafsNeeded_5 = fiveLineStems.get(ithStem).length();
             }
         } 
-        //System.out.println("387 SNLModel, maxLeafsNeeded_5 = " + maxLeafsNeeded_5);
     }
     
-    static String constructLeaves(String charsToChooseFrom, String oneLiner) {
-        //System.out.println("391 StemAndLeaf_Model, constructLeaves(String charsToChooseFrom, String oneLiner)");
+    private String constructLeaves(String charsToChooseFrom, String oneLiner) {
+        if (printTheStuff == true) {
+            System.out.println("412 --- StemNLeaf_Model, constructLeaves");
+        }
         StringBuilder wholeSL = new StringBuilder();
         
         int firstOccurence = oneLiner.indexOf('|');       
@@ -403,7 +424,9 @@ public class StemNLeaf_Model {
     }
        
     private String constructIndividualStem(String strippedNumber) {
-        //System.out.println("406 StemNLeafModel, constructIndividualStem(String strippedNumber)");
+        if (printTheStuff == true) {
+            System.out.println("429 --- StemNLeaf_Model, constructIndividualStem");
+        }
         StringBuilder stem = new StringBuilder();
         stem.append(strippedNumber.substring(0,1));
         stem.append(strippedNumber.substring(firstNonZeroColumn, firstNonConstantColumn + 1));       
@@ -411,7 +434,9 @@ public class StemNLeaf_Model {
     }
     
     private String getTheLeafAsAString(String stringyWingy) {
-        //System.out.println("414 StemNLeafModel, getTheLeafAsAString(String stringyWingy)");
+        if (printTheStuff == true) {
+            System.out.println("439 --- StemNLeaf_Model, getTheLeafAsAString");
+        }
         // Leaf digit is one past the last stem digit
         int leafDigit = firstNonConstantColumn + 1;
         String theLeaf = stringyWingy.substring(leafDigit, leafDigit + 1);

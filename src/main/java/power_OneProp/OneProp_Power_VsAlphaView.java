@@ -1,7 +1,7 @@
 /**************************************************
  *           OneProp_Power_VsAlphaView            *
- *                  05/29/24                      *
- *                    15:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -26,6 +26,8 @@ import javafx.scene.input.KeyCode;
 
 public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int sampleSize;
 
@@ -43,7 +45,9 @@ public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("46 OneProp_Power_VsAlphaView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("49 *** OneProp_Power_VsAlphaView, Constructing");
+        }
         this.oneProp_PowerModel = oneProp_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -121,6 +125,7 @@ public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
         xGraphRight = toThere;
         bigDelta = (xGraphRight - xGraphLeft) / NUMBER_OF_DXs;
         delta = bigDelta;
+        //xMin = xMax = xGraphLeft;
         xRange = xGraphRight - xGraphLeft; 
         yMin = 0.0; yMax = 1.025;
         yRange = yMax;
@@ -133,7 +138,8 @@ public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
     }
    
     public void doTheGraph() {      
-        double xx0, yy0, xx1, yy1, h, power;
+        double xx0, yy0, xx1, yy1, h, // altPropPrime, z_lambda,
+               power;
 
         double text1Width = title1Text.getLayoutBounds().getWidth();
         double text2Width = title2Text.getLayoutBounds().getWidth();

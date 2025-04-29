@@ -1,7 +1,7 @@
 /**************************************************
  *           MultUni_MeanAndErrorView             *
- *                    02/19/24                    *
- *                      15:00                     *
+ *                    01/16/25                    *
+ *                      12:00                     *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -32,8 +32,13 @@ import utilityClasses.MyAlerts;
 public class MultUni_MeanAndErrorView extends QuantCat_View { 
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean[] radioButtonSettings;
+    
     int nRadioButtons, errBarChoice;
+    
     String errorString;
     String[] strRadioButtonDescriptions;
     
@@ -51,7 +56,9 @@ public class MultUni_MeanAndErrorView extends QuantCat_View {
         
         super(multiUni_Model, multiUni_Dashboard, "MeanAndError",
               placeHoriz, placeVert,  withThisWidth, withThisHeight); 
-        //System.out.println("50 MultUni_MeanAndErrorView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("60 *** MultUni_MeanAndErrorView, Constructing");
+        }
         this.multiUni_Model = multiUni_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;

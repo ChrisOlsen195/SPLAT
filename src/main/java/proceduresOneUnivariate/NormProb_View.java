@@ -1,12 +1,11 @@
 /**************************************************
  *                  NormProb_View                 *
- *                    12/26/24                    *
- *                      12:00                     *
+ *                    02/20/25                    *
+ *                      15:00                     *
  *************************************************/
 package proceduresOneUnivariate;
 
-import quadraticRegression.OneParam_QuadReg_Dashboard;
-import simpleRegression.Regression_Dashboard;
+import simpleRegression.Regr_Dashboard;
 import multipleRegression.MultReg_Dashboard;
 import simpleLogisticRegression.Logistic_Dashboard;
 import genericClasses.DragableAnchorPane;
@@ -23,7 +22,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import noInterceptRegression.NoIntercept_Regr_Dashboard;
-import simpleRegression.Regr_Compare_Dashboard;
 import quadraticRegression.*;
 import anova1.categorical.*;
 import anova1.quantitative.ANOVA1_Quant_Dashboard;
@@ -35,15 +33,21 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.KeyCode;
+import simpleRegression.Regr_Compare_Dashboard;
 import the_t_procedures.Matched_t_Dashboard;
 import utilityClasses.*;
 
 public class NormProb_View extends BivariateScale_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean[] checkBoxSettings;
+    
     int nDataPoints, nCheckBoxes;
 
     double[] dataArraySorted, normalScoresSorted, adStats;
+    
     String npModelThisTime, adString, adPValue;
     AnchorPane anchorPane;    
     
@@ -51,8 +55,6 @@ public class NormProb_View extends BivariateScale_View {
     final String[] scatterPlotCheckBoxDescr = {" Best Fit Line ", 
                                                " Outliers ", 
                                                " Influential points "}; 
-    //boolean printTheStuff = true;
-    boolean printTheStuff = false;
     
     public SnapshotParameters params;
     public WritableImage image;
@@ -73,17 +75,18 @@ public class NormProb_View extends BivariateScale_View {
     public NormProb_View(NormProb_Model normProb_Model, Exploration_Dashboard explore_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        super(placeHoriz, placeVert, withThisWidth, withThisHeight);  
-        if (printTheStuff) {
-            System.out.println("78 *** NormProb_View, constructing");
-        }
+        super(placeHoriz, placeVert, withThisWidth, withThisHeight);   
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        setMinHeight(125); setMinWidth(125);
+        if (printTheStuff == true) {
+            System.out.println("82 *** NormProb_View, Constructing");
+        }
+        setMinHeight(100);
+        setMinWidth(100);
         this.normProb_Model = normProb_Model;
         npModelThisTime = "UnivExploration";
         constructTheModel();
-         String title2String = normProb_Model.getSubTitle() + " vs. Normal Score";
+        String title2String = "Z  vs.  " + normProb_Model.getSubTitle();
         title2Text = new Text (60, 45, title2String);
         makeTheCheckBoxes();    
         makeItHappen();         
@@ -92,13 +95,14 @@ public class NormProb_View extends BivariateScale_View {
     public NormProb_View(NormProb_Model normProb_Model, MultReg_Dashboard multReg_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff) {
-            System.out.println("97 *** NormProb_View, constructing");
+        super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
+        if (printTheStuff == true) {
+            System.out.println("100 *** NormProb_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        setMinHeight(125); setMinWidth(125);
+        setMinHeight(100);
+        setMinWidth(100);
         this.normProb_Model = normProb_Model;
         npModelThisTime = "MultipleRegression";
         constructTheModel();
@@ -111,16 +115,18 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff) {
-            System.out.println("115 *** NormProb_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("119 *** NormProb_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        setMinHeight(125); setMinWidth(125);
+        setMinHeight(100);
+        setMinWidth(100);
+
         this.normProb_Model = normProb_Model;
         npModelThisTime = "MultipleRegression";
         constructTheModel();
-        title2Text = new Text (60, 45, normProb_Model.getSubTitle() + " vs. Normal Score");
+        title2Text = new Text (60, 45, normProb_Model.getSubTitle());
         makeTheCheckBoxes();    
         makeItHappen();         
     }
@@ -129,12 +135,13 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff) {
-            System.out.println("133 *** NormProb_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("139 *** NormProb_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        setMinHeight(125); setMinWidth(125);
+        setMinHeight(100);
+        setMinWidth(100);
         this.normProb_Model = normProb_Model;
         npModelThisTime = "QuadraticRegression";
         constructTheModel();
@@ -143,20 +150,21 @@ public class NormProb_View extends BivariateScale_View {
         makeItHappen();         
     }
     
-    public NormProb_View(NormProb_Model normProb_Model, Regression_Dashboard reg_Dashboard,
+    public NormProb_View(NormProb_Model normProb_Model, Regr_Dashboard reg_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff) {
-            System.out.println("151 *** NormProb_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("158 *** NormProb_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
-        initWidth = withThisWidth; initHeight = withThisHeight;
-        setMinHeight(125); setMinWidth(125);
+        initWidth = withThisWidth; initHeight = withThisHeight; 
+        setMinHeight(100);
+        setMinWidth(100);
         this.normProb_Model = normProb_Model; 
         npModelThisTime = "SimpleRegression";
         constructTheModel();
-        title2Text = new Text (60, 45, normProb_Model.getNormProbLabel() + " vs. Standardized residuals"); 
+        title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel()); 
         makeTheCheckBoxes();    
         makeItHappen();         
     }
@@ -165,16 +173,17 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff) {
-            System.out.println("169 *** NormProb_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("177 *** NormProb_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        setMinHeight(125); setMinWidth(125);
+        setMinHeight(100);
+        setMinWidth(100);
         this.normProb_Model = normProb_Model; 
         npModelThisTime = "SimpleRegression";
         constructTheModel();
-        title2Text = new Text (60, 45, normProb_Model.getNormProbLabel() + " vs. Standardized residuals");       
+        title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());       
         makeTheCheckBoxes();    
         makeItHappen();         
     }
@@ -183,36 +192,19 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff) {
-            System.out.println("187 *** NormProb_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("196 *** NormProb_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        setMinHeight(125); setMinWidth(125);
+        setMinHeight(100);
+        setMinWidth(100);
         this.normProb_Model = normProb_Model;
         npModelThisTime = "No intercept regression";
         constructTheModel();
         
-        title2Text = new Text (60, 45, normProb_Model.getNormProbLabel() + " vs. Standardized residuals");
+        title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());
         
-        makeTheCheckBoxes();    
-        makeItHappen();         
-    }
-    
-    public NormProb_View(NormProb_Model normProb_Model, OneParam_QuadReg_Dashboard logistic_Dashboard,
-                        double placeHoriz, double placeVert,
-                        double withThisWidth, double withThisHeight) {
-        super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff) {
-            System.out.println("207 *** NormProb_View, constructing");
-        }
-        initHoriz = placeHoriz; initVert = placeVert;
-        initWidth = withThisWidth; initHeight = withThisHeight; 
-        setMinHeight(125); setMinWidth(125);
-        this.normProb_Model = normProb_Model;
-        npModelThisTime = "No intercept regression";
-        constructTheModel();        
-        title2Text = new Text (60, 45, normProb_Model.getNormProbLabel() + " vs. Standardized residuals");       
         makeTheCheckBoxes();    
         makeItHappen();         
     }
@@ -221,16 +213,17 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff) {
-            System.out.println("225 *** NormProb_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("236 *** NormProb_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        setMinHeight(125); setMinWidth(125);
+        setMinHeight(100);
+        setMinWidth(100);
         this.normProb_Model = normProb_Model;
         npModelThisTime = "One Way ANOVA";
         constructTheModel();        
-        title2Text = new Text (60, 45, normProb_Model.getNormProbLabel() + " vs. Standardized residuals");        
+        title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());        
         makeTheCheckBoxes();    
         makeItHappen();         
     }
@@ -239,15 +232,15 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff) {
-            System.out.println("243 *** NormProb_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("255 *** NormProb_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.normProb_Model = normProb_Model;
         npModelThisTime = "One Way ANOVA";
         constructTheModel();        
-        title2Text = new Text (60, 45, normProb_Model.getNormProbLabel() + " vs. Standardized residuals");        
+        title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());        
         makeTheCheckBoxes();    
         makeItHappen();         
     }
@@ -256,15 +249,17 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff) {
-            System.out.println("260 *** NormProb_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("272 *** NormProb_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
+        //System.out.println("240 NormProb_View, normProb_Model...");
+        //System.out.println(normProb_Model.toString());
         this.normProb_Model = normProb_Model;
         npModelThisTime = "Analysis of Covariance";
         constructTheModel();        
-        title2Text = new Text (60, 45, normProb_Model.getNormProbLabel() + " vs. Standardized residuals");        
+        title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());        
         makeTheCheckBoxes();    
         makeItHappen();         
     }
@@ -287,8 +282,8 @@ public class NormProb_View extends BivariateScale_View {
     }
     
     private void constructTheModel() {
-        if (printTheStuff) {
-            //System.out.println("291 --- NormProb_View, constructTheModel()");
+        if (printTheStuff == true) {
+            System.out.println("288 --- NormProb_View, constructTheModel()");
         }
         qdv_Data = new QuantitativeDataVariable();
         qdv_Data = normProb_Model.getData();
@@ -308,10 +303,7 @@ public class NormProb_View extends BivariateScale_View {
         gc = graphCanvas.getGraphicsContext2D();        
     }
     
-    private void makeItHappen() {    
-        if (printTheStuff) {
-            //System.out.println("313 --- NormProb_View, makeItHappen()");
-        }
+    private void makeItHappen() {       
         theContainingPane = new Pane();
         gc = graphCanvas.getGraphicsContext2D();
         gc.setFont(Font.font("Times New Roman", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 14));
@@ -320,9 +312,7 @@ public class NormProb_View extends BivariateScale_View {
     }
     
     public void completeTheDeal() { 
-        if (printTheStuff) {
-            //System.out.println("324 --- NormProb_View, completeTheDeal()");
-        }
+        //System.out.println("277 *** NormProb_View, completeTheDeal()");
         initializeGraphParameters();
         setUpUI();       
         setUpAnchorPane();
@@ -332,26 +322,19 @@ public class NormProb_View extends BivariateScale_View {
     }
 
     public void setUpUI() {
-        if (printTheStuff) {
-            //System.out.println("336 --- NormProb_View, setUpUI()");
-        }
         title1Text = new Text(50, 25, " Normal Probability Plot ");
         title1Text.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,20));
         title2Text.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,15)); 
     }
    
     public void initializeGraphParameters() {  
-        if (printTheStuff) {
-            System.out.println("345 --- NormProb_View, initializeGraphParameters()");
-        }
         constructDataArray();
         xAxis = new genericClasses.JustAnAxis(xDataMin, xDataMax);
         xAxis.setSide(Side.BOTTOM);     
+        xAxis.setLabel(normProb_Model.getSubTitle());
         yAxis = new genericClasses.JustAnAxis(yDataMin, yDataMax);
         yAxis.setSide(Side.LEFT);
-        
-        yAxis.setLabel(normProb_Model.getSubTitle());
-        xAxis.setLabel("Normal Score");
+        yAxis.setLabel("Standard Score (Z)");
         
         newX_Lower = xDataMin; newX_Upper = xDataMax;
         newY_Lower = yDataMin; newY_Upper = yDataMax;
@@ -362,9 +345,6 @@ public class NormProb_View extends BivariateScale_View {
     }
     
     private void setUpAnchorPane() {
-        if (printTheStuff) {
-            //System.out.println("366 --- NormProb_View, setUpAnchorPane()");
-        }
         dragableAnchorPane = new DragableAnchorPane();
         graphCanvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
         graphCanvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
@@ -387,10 +367,7 @@ public class NormProb_View extends BivariateScale_View {
     }
 
     
-    public void doTheGraph() {  
-        if (printTheStuff) {
-            //System.out.println("391 --- NormProb_View, doTheGraph()");
-        }
+    public void doTheGraph() {    
         double text1Width = title1Text.getLayoutBounds().getWidth();
         double text2Width = title2Text.getLayoutBounds().getWidth();
         double paneWidth = dragableAnchorPane.getWidth();
@@ -437,8 +414,8 @@ public class NormProb_View extends BivariateScale_View {
         gc.clearRect(0, 0, graphCanvas.getWidth(), graphCanvas.getHeight());
 
         for (int i = 0; i < nDataPoints; i++) {
-            double yy = yAxis.getDisplayPosition(dataArraySorted[i]);
-            double xx = xAxis.getDisplayPosition(normalScoresSorted[i]);
+            double xx = xAxis.getDisplayPosition(dataArraySorted[i]);
+            double yy = yAxis.getDisplayPosition(normalScoresSorted[i]);
             gc.fillOval(xx - 4, yy - 4, 8, 8); //  0.5*radius to get dot to center
         }
         
@@ -468,9 +445,6 @@ public class NormProb_View extends BivariateScale_View {
     }
     
     private void makeTheCheckBoxes() {
-        if (printTheStuff) {
-            //System.out.println("471 --- NormProb_View, makeTheCheckBoxes()");
-        }
         nCheckBoxes = 3;                
         // Determine which graphs are initially shown
         checkBoxSettings = new boolean[nCheckBoxes];
@@ -533,7 +507,7 @@ public class NormProb_View extends BivariateScale_View {
                         break;
                         
                     default:
-                        String switchFailure = "Switch failure: NormProb_View 535 " + daID;
+                        String switchFailure = "Switch failure: NormProb_View 461 " + daID;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure); 
                 }
             }); //  end setOnAction
@@ -542,15 +516,12 @@ public class NormProb_View extends BivariateScale_View {
     }
     
     private void constructDataArray() {
-        if (printTheStuff) {
-            System.out.println("545 --- NormProb_View, constructDataArray()");
-        }
-        yDataMin = yDataMax = dataArraySorted[0];
-        xDataMin = xDataMax = normalScoresSorted[0];
+        xDataMin = xDataMax = dataArraySorted[0];
+        yDataMin = yDataMax = normalScoresSorted[0];
 
         for (int iRow = 0; iRow < nDataPoints; iRow++) {
-            double tempDoubleY = dataArraySorted[iRow];
-            double tempDoubleX = normalScoresSorted[iRow];
+            double tempDoubleX = dataArraySorted[iRow];
+            double tempDoubleY = normalScoresSorted[iRow];
   
             if (tempDoubleX < xDataMin) xDataMin = tempDoubleX;
             if (tempDoubleY < yDataMin) yDataMin = tempDoubleY;

@@ -1,7 +1,7 @@
 /**************************************************
  *         DataStructChoice_Dialog_t_SingleMean   *
- *                     12/24/23                   *
- *                      09:00                     *
+ *                    01/21/25                    *
+ *                      15:00                     *
  *************************************************/
 package dialogs.t_and_z;
 
@@ -24,6 +24,9 @@ import the_t_procedures.Single_t_Controller;
 public class DataStructChoice_Dialog_t_Single_Mean extends Stage {
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     double alertTitleBoxWidth, alertTitleBoxHeight, alertBoxWidth,
            alertBoxHeight;
     
@@ -40,13 +43,18 @@ public class DataStructChoice_Dialog_t_Single_Mean extends Stage {
     Single_t_Controller single_t_Controller;
      
     public DataStructChoice_Dialog_t_Single_Mean( Single_t_Controller single_t_Controller) {
+        if (printTheStuff == true) {
+            System.out.println("47 *** DataStructChoice_Dialog_t_Single_Mean, Constructing");
+        }
         this.single_t_Controller = single_t_Controller;
         single_t_Controller.setDataOrSummary("Bailed"); // The default
         finishTheJob();
     }
     
     private void finishTheJob() {
-        //System.out.println("49, DataStructChoice_Dialog_t_Single_Mean");
+        if (printTheStuff == true) {
+            System.out.println("56 --- DataStructChoice_Dialog_t_Single_Mean, finishTheJob()");
+        }
         alertTitleFont = Font.font("Times New Roman", FontWeight.BOLD, 24);
         alertContextFont = Font.font("Times New Roman", FontWeight.BOLD, 18);
 
@@ -55,19 +63,17 @@ public class DataStructChoice_Dialog_t_Single_Mean extends Stage {
         alertBoxWidth = 500;
         alertBoxHeight = 25;
         
-        String strAlertTitle = " Request for information about your data structure"; 
+        String strAlertTitle = " Request for information about your data"; 
         
         txtAlertTitle = new Text(alertTitleBoxWidth, alertTitleBoxHeight, strAlertTitle);
         txtAlertTitle.setFont(alertTitleFont);
         txtAlertTitle.setFill(Color.RED);
         txtAlertTitle.setTextAlignment(TextAlignment.LEFT);
 
-        String strAlertContext = "In order to maximize the flexibility of your data entry, "
-                        + " SPLAT allows two possible strategies.  One strategy is to enter "
-                        + " data as in a TI-8x calculator Listx.  Another is to enter summary"
-                        + " information, also as in the TI-8x.  Please indicate which strategy"
-                        + "  you have used for the data in this file."
-                        + "   \n\nThank you in advance!\n\n";
+        String strAlertContext = "SPLAT allows two possible strategies for performing inference"
+                        + " about a population mean. You may have raw data, not yet processed,"
+                        + " or you already have the necessary statistics arleady summarized."
+                        + " Please indicate which is the case for this analysis.  \n\n";
         
         txtAlertContext = new Text(alertBoxWidth, alertBoxHeight, strAlertContext);
         txtAlertContext.setFont(alertContextFont);
@@ -82,10 +88,10 @@ public class DataStructChoice_Dialog_t_Single_Mean extends Stage {
         root.setStyle("-fx-background-color: white");
         root.setAlignment(Pos.CENTER);
 
-        btn_Data  = new Button("Data");
+        btn_Data  = new Button("Raw data");
         btn_Data.setStyle("-fx-text-fill: red;");
         btn_Data.setOnAction(e -> {
-            single_t_Controller.setDataOrSummary("Data");       
+            single_t_Controller.setDataOrSummary("Raw data");       
             alertStage.close();
         });
         btn_Data.setPadding(new Insets(5, 5, 5, 5));

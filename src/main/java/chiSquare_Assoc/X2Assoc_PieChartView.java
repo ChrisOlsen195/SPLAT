@@ -1,6 +1,6 @@
 /**************************************************
  *              X2Assoc_PieChartView              *
- *                    05/23/24                    *
+ *                    01/15/25                    *
  *                     12:00                      *
  *************************************************/
 package chiSquare_Assoc;
@@ -38,6 +38,9 @@ import utilityClasses.*;
 public class X2Assoc_PieChartView 
 {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int nRowsCat, nColsCat, nLittleSquares;
     
@@ -82,6 +85,9 @@ public class X2Assoc_PieChartView
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) 
     {
+        if (printTheStuff == true) {
+            System.out.println("89 *** X2Assoc_PieChartView, constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;         
         this.x2Assoc_Model = x2Assoc_Model;
@@ -120,6 +126,9 @@ public class X2Assoc_PieChartView
     }
     
     public void completeTheDeal() {
+        if (printTheStuff == true) {
+            System.out.println("130 --- X2Assoc_PieChartView, completeTheDeal()");
+        }
         constructPieInfo(); 
         initializeGraphParams();
         setUpUI();

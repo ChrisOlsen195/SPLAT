@@ -1,7 +1,7 @@
 /**************************************************
  *       OneMean_Power_VsEffectSizeView           *
- *                  05/29/24                      *
- *                    15:00                       *
+ *                 01/15/25                       *
+ *                    21:00                       *
  *************************************************/
 package power_OneMean;
 
@@ -26,6 +26,9 @@ import javafx.scene.input.KeyCode;
 
 public class OneMean_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int sampleSize;
 
     double yMin, yMax, nullMean, nullSigma;
@@ -42,7 +45,9 @@ public class OneMean_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {    
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("\n45 OneMean_Power_VsEffectSizeView, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("49 *** OneMean_Power_VsEffectSizeView, Constructing");
+        }
         this.oneMean_Power_Model = oneMean_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

@@ -1,6 +1,6 @@
 /************************************************************
  *                          VarList                         *
- *                          11/01/23                        *
+ *                          01/16/25                        *
  *                            12:00                         *
  ***********************************************************/
 package splat;
@@ -13,6 +13,9 @@ import javafx.scene.control.SelectionMode;
 
 public class Var_List {
     //POJO
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int numVars;
 
     Double stdWidth = 125.0;
@@ -29,7 +32,9 @@ public class Var_List {
 
     public Var_List(Data_Manager dm, Double width, Double height) {
         this.dm = dm;
-        //System.out.println("32 Var_List, constructing");
+        if (printTheStuff == true) {
+            System.out.println("36 *** Var_List, Constructing");
+        }
         tracker = new PositionTracker();
         tracker = dm.getPositionTracker();
         numVars = tracker.getNVarsInStruct();

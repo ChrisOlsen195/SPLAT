@@ -1,7 +1,7 @@
 /**************************************************
  *                   BBSL_Model                   *
- *                    09/14/24                    *
- *                     12:00                      *
+ *                    01/28/25                    *
+ *                     15:00                      *
  *************************************************/
 package proceduresTwoUnivariate;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Font;
 import splat.Data_Manager;
-import the_t_procedures.Indep_t_PrepStructs;
+import the_t_procedures.Indep_t_Controller;
 import utilityClasses.MyAlerts;
 
 public final class BBSL_Model {
@@ -21,13 +21,10 @@ public final class BBSL_Model {
         bbslFirstNonZeroColumn, bbslFirstNonConstantColumn;
     
     int maxCharsInLine, maxLineInBBSL;
-    
-    //int maxBbslLineSize_01, maxBbslLineSize_02, maxBbslLineSize_05;
-    // int nStemsNeeded_1, nStemsNeeded_2, nStemsNeeded_5;
+
     double maxValue;
 
     String blanx, subTitle_And,
-           //leftDataLabel, rightDataLabel,
            leftLeafString, rightLeafString, 
            tempLeftString, tempRightString,
            firstVarDescription, secondVarDescription,
@@ -54,7 +51,7 @@ public final class BBSL_Model {
             QuantitativeDataVariable pooledQDV,
             ArrayList<QuantitativeDataVariable> allTheQDVs) {
         dm = explore_2Ind_Controller.getDataManager();
-        dm.whereIsWaldo(57, waldoFile, "Constructing from explore_2_Ind_Controller");
+        dm.whereIsWaldo(54, waldoFile, "Constructing from explore_2_Ind_Controller");
         subTitle_And = explore_2Ind_Controller.getSubTitleAnd();
         bbslAllTheQDVs = new ArrayList<>();
         this.pooledQDV = pooledQDV;
@@ -63,13 +60,13 @@ public final class BBSL_Model {
         makeTheBBSL();
     }
     
-    public BBSL_Model(Indep_t_PrepStructs exp_2Ind_Structs, 
+    public BBSL_Model(Indep_t_Controller indep_t_Controller, 
             QuantitativeDataVariable pooledQDV,
             ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        dm = exp_2Ind_Structs.getDataManager();
-        dm.whereIsWaldo(70, waldoFile, "Constructing from exp_2Ind_Structs");
-        firstVarDescription = exp_2Ind_Structs.getFirstVarDescription();
-        secondVarDescription = exp_2Ind_Structs.getSecondVarDescription();
+        dm = indep_t_Controller.getDataManager();
+        dm.whereIsWaldo(67, waldoFile, "Constructing from Indep_t_Controller");
+        firstVarDescription = indep_t_Controller.getFirstVarDescr();
+        secondVarDescription = indep_t_Controller.getSecondVarDescr();
         firstAndSecondDescription = firstVarDescription + " vs. " + secondVarDescription;
         bbslAllTheQDVs = new ArrayList<>();
         this.pooledQDV = pooledQDV;
@@ -79,6 +76,7 @@ public final class BBSL_Model {
     }
     
     private void makeTheBBSL() {
+        dm.whereIsWaldo(79, waldoFile, " --- makeTheBBSL()");
         maxCharsInLine = 100;
         maxLineInBBSL = 60;
         witchesWarned = false;
@@ -88,25 +86,13 @@ public final class BBSL_Model {
         textArea2.setFont(Font.font("Courier New"));        
         textArea5 = new TextArea();
         textArea5.setFont(Font.font("Courier New"));
-          
-        /*
-        oneLineStemPlotLeft = new ArrayList<>();
-        twoLineStemPlotLeft = new ArrayList<>();
-        fiveLineStemPlotLeft = new ArrayList<>();
 
-        oneLineStemPlotRight = new ArrayList<>();
-        twoLineStemPlotRight = new ArrayList<>();
-        fiveLineStemPlotRight = new ArrayList<>();
-        */
-        
         oneLineBBSL = new ArrayList<>();
         twoLineBBSL = new ArrayList<>();
         fiveLineBBSL = new ArrayList<>();
         
         maxValue = (int)pooledQDV.getMaxValue();
-        //leftDataLabel = bbslAllTheQDVs.get(0).getTheVarLabel();
-        //rightDataLabel = bbslAllTheQDVs.get(1).getTheVarLabel();
-
+        dm.whereIsWaldo(95, waldoFile, " --- makeTheBBSL()");
         StemNLeaf_Model sandLAll = new StemNLeaf_Model("Null", pooledQDV, false, 0, 0, 0);
         int orderOfMagnitude = sandLAll.getOrderOfMagnitude();  // for 1|0 in SL
         
@@ -162,7 +148,6 @@ public final class BBSL_Model {
  *  Need to know stem lengths to (a) position the bbsl, and (b) set up the  * 
  *  size of the text boxes                                                  *
  ***************************************************************************/
-
         maxLeftSize = 0; maxRightSize = 0; maxBbslLineSize = 0;
         
         for (int jthLeftLiner = 0; jthLeftLiner < nLeftOneLiners; jthLeftLiner++) {
@@ -223,7 +208,6 @@ public final class BBSL_Model {
  *                        Start Code for two liners                         *
  ***************************************************************************/               
         maxLeftSize = 0; maxRightSize = 0; maxBbslLineSize = 0;    
-        
         // Need to know stem lengths to set up text boxes
         for (int jthLeftLiner = 0; jthLeftLiner < nLeftTwoLiners; jthLeftLiner++) {
             maxLeftSize = Math.max(maxLeftSize, theLeftTwoLiners.get(jthLeftLiner).length());
@@ -278,7 +262,6 @@ public final class BBSL_Model {
  *                        Start Code for five liners                         *
  ***************************************************************************/                
         maxLeftSize = 0; maxRightSize = 0; maxBbslLineSize = 0;    
-        
         // Need to know stem lengths to set up text boxes
         for (int jthLeftLiner = 0; jthLeftLiner < nLeftFiveLiners; jthLeftLiner++) {
             maxLeftSize = Math.max(maxLeftSize, theLeftFiveLiners.get(jthLeftLiner).length());
@@ -328,7 +311,6 @@ public final class BBSL_Model {
         }
         
         //nStemsNeeded_5 = fiveLineBBSL.size();
-  
         if ((fiveLineBBSL.size() > maxLineInBBSL) && !witchesWarned) {
             MyAlerts.showStemAndLeafAlert();
         } 

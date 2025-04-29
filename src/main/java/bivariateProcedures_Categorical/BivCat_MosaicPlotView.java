@@ -1,7 +1,7 @@
 /**************************************************
  *              BivCat_MosaicPlotView             *
- *                    10/15/24                    *
- *                      18:00                     *
+ *                    08/19/24                    *
+ *                      00:00                     *
  *************************************************/
 package bivariateProcedures_Categorical;
 
@@ -39,7 +39,7 @@ public class BivCat_MosaicPlotView {
     
     double initHoriz, initVert, initWidth, initHeight, text1Width, text2Width;
     
-    double[] cumColProps, cumMarginalRowProps, columnProps;
+    double[] cumRowProps, cumColProps, cumMarginalRowProps, columnProps;
     double[][] cumProps;
     
     int nRowsCat, nColsCat, nLittleSquares;
@@ -57,7 +57,7 @@ public class BivCat_MosaicPlotView {
     Canvas mosaicCanvas;
     Color[] graphColors;  
     GraphicsContext mosaicGC;     
-    GridPane gridPane_SegBar;    
+    GridPane mosaicCategoryBoxes;    
     HBox[] squaresNText;   
     Pane containingPane;
     Rectangle[] littleSquares;
@@ -73,7 +73,7 @@ public class BivCat_MosaicPlotView {
                       BivCat_Dashboard association_Dashboard,
                       double placeHoriz, double placeVert,
                       double withThisWidth, double withThisHeight) {
-        //System.out.println("\n76 BivCat_MosaicPlotView, constructing");
+        //System.out.println("\n77 BivCat_MosaicPlotView, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.bivCat_Model = association_Model;
@@ -107,29 +107,29 @@ public class BivCat_MosaicPlotView {
             topLabels = bivCat_Model.getTopLabels();
         }
 
-        xAxis = new JustAnAxis(0.00, 1.01);
+        xAxis = new JustAnAxis(-0.15, 1.25);
         xAxis.setSide(Side.BOTTOM);
 
-        xAxis.setLabel(strTopVariable);
-        xAxis.setVisible(true);    //  Used only for positioning other stuff
-        xAxis.forceLowScaleEndToBe(0.00);
-        xAxis.forceHighScaleEndToBe(1.01);
+        xAxis.setLabel("This is xAxis");
+        xAxis.setVisible(false);    //  Used only for positioning other stuff
+        xAxis.forceLowScaleEndToBe(-0.15);
+        xAxis.forceHighScaleEndToBe(1.25);
 
         yAxis = new JustAnAxis(0.0, 1.05);
         yAxis.forceLowScaleEndToBe(0.0);
         yAxis.forceHighScaleEndToBe(1.05);
         yAxis.setSide(Side.LEFT);
 
-        yAxis.setVisible(true);    //  Used only for positioning other stuff  
+        yAxis.setVisible(false);    //  Used only for positioning other stuff  
     }
     
     private void setUpUI() {
-        mosaicCanvas = new Canvas(0.95 * initWidth, 0.95 * initHeight);
+        mosaicCanvas = new Canvas(0.95 * initWidth, 0.8 * initHeight);
         mosaicGC = mosaicCanvas.getGraphicsContext2D();   
         
-        gridPane_SegBar = new GridPane();
-        gridPane_SegBar.setAlignment(Pos.CENTER);
-        gridPane_SegBar.setStyle("-fx-padding: 2;"+
+        mosaicCategoryBoxes = new GridPane();
+        mosaicCategoryBoxes.setAlignment(Pos.CENTER);
+        mosaicCategoryBoxes.setStyle("-fx-padding: 2;"+
                                      "-fx-border-style: solid inside;" +
                                      "-fx-border-width: 0;" +
                                      "-fx-border-insets: 5;"+
@@ -160,7 +160,7 @@ public class BivCat_MosaicPlotView {
             squaresNText[i].getChildren().addAll(littleSquares[i], littleSquaresText[i]);
             nGridCol = i % 6;
             
-            gridPane_SegBar.add(squaresNText[i], nGridCol, nGridRow);
+            mosaicCategoryBoxes.add(squaresNText[i], nGridCol, nGridRow);
             if (nGridCol == 5) { nGridRow++; }  
         }        
     }
@@ -174,7 +174,7 @@ public class BivCat_MosaicPlotView {
         dragableAnchorPane.getStylesheets().add(graphsCSS);    
         dragableAnchorPane.getTheAP()
                           .getChildren()
-                          .addAll(txtTitle1, txtTitle2, gridPane_SegBar, mosaicCanvas, yAxis, xAxis);
+                          .addAll(txtTitle1, txtTitle2, mosaicCategoryBoxes, mosaicCanvas, yAxis, xAxis);
         dragableAnchorPane.setInitialEventCoordinates(initHoriz, initVert, initHeight, initWidth);
     }
     
@@ -183,7 +183,7 @@ public class BivCat_MosaicPlotView {
         text1Width = txtTitle1.getLayoutBounds().getWidth();
         text2Width = txtTitle2.getLayoutBounds().getWidth();
         double paneWidth = dragableAnchorPane.getWidth();
-        double hBoxWidth = gridPane_SegBar.getWidth();
+        double hBoxWidth = mosaicCategoryBoxes.getWidth();
         
         double txt1Edge = (paneWidth - text1Width) / (2 * paneWidth);
         double txt2Edge = (paneWidth - text2Width) / (2 * paneWidth);
@@ -202,25 +202,25 @@ public class BivCat_MosaicPlotView {
         AnchorPane.setRightAnchor(txtTitle2, txt2Edge * tempWidth);
         AnchorPane.setBottomAnchor(txtTitle2, 0.85 * tempHeight);
         
-        AnchorPane.setTopAnchor(gridPane_SegBar, 0.10 * tempHeight);
-        AnchorPane.setLeftAnchor(gridPane_SegBar, hBoxEdge * tempWidth);
-        AnchorPane.setRightAnchor(gridPane_SegBar, hBoxEdge * tempWidth);
-        AnchorPane.setBottomAnchor(gridPane_SegBar, 0.85 * tempHeight);     
+        AnchorPane.setTopAnchor(mosaicCategoryBoxes, 0.15 * tempHeight);
+        AnchorPane.setLeftAnchor(mosaicCategoryBoxes, hBoxEdge * tempWidth);
+        AnchorPane.setRightAnchor(mosaicCategoryBoxes, hBoxEdge * tempWidth);
+        AnchorPane.setBottomAnchor(mosaicCategoryBoxes, 0.80 * tempHeight);        
         
-        AnchorPane.setTopAnchor(mosaicCanvas, 0.15 * tempHeight);
-        AnchorPane.setLeftAnchor(mosaicCanvas, 0.1 * tempWidth);
-        AnchorPane.setRightAnchor(mosaicCanvas, 0.0 * tempWidth);
-        AnchorPane.setBottomAnchor(mosaicCanvas, 0.30 * tempHeight);
-        
-        AnchorPane.setTopAnchor(xAxis, 0.70 * tempHeight);
+        AnchorPane.setTopAnchor(xAxis, 0.85 * tempHeight);
         AnchorPane.setLeftAnchor(xAxis, 0.1 * tempWidth);
-        AnchorPane.setRightAnchor(xAxis, txt2Edge * tempWidth);
-        AnchorPane.setBottomAnchor(xAxis, 0.10 * tempHeight);
+        AnchorPane.setRightAnchor(xAxis, 0.0 * tempWidth);
+        AnchorPane.setBottomAnchor(xAxis, 0.0 * tempHeight);
         
-        AnchorPane.setTopAnchor(yAxis, 0.15 * tempHeight);
+        AnchorPane.setTopAnchor(yAxis, 0.2 * tempHeight);
         AnchorPane.setLeftAnchor(yAxis, 0.0 * tempWidth);
         AnchorPane.setRightAnchor(yAxis, 0.9 * tempWidth);
-        AnchorPane.setBottomAnchor(yAxis, 0.30 * tempHeight);
+        AnchorPane.setBottomAnchor(yAxis, 0.2 * tempHeight);
+        
+        AnchorPane.setTopAnchor(mosaicCanvas, 0.2 * tempHeight);
+        AnchorPane.setLeftAnchor(mosaicCanvas, 0.1 * tempWidth);
+        AnchorPane.setRightAnchor(mosaicCanvas, 0.0 * tempWidth);
+        AnchorPane.setBottomAnchor(mosaicCanvas, 0.2 * tempHeight);
         
         mosaicGC.clearRect(0, 0 , mosaicCanvas.getWidth(), mosaicCanvas.getHeight());
         mosaicGC.setLineWidth(3);
@@ -254,6 +254,40 @@ public class BivCat_MosaicPlotView {
         mosaicGC.setFont(Font.font("Courier New", FontWeight.BOLD, FontPosture.REGULAR, 14));
         mosaicGC.setLineWidth(2);
         
+        double xText = xAxis.getDisplayPosition(0.0) - 45.;
+        double xText35 = xText + 38;
+        double xText50 = xText + 46;
+
+        String prop025 = "0.25";
+        double yText025 = yAxis.getDisplayPosition(0.25) + 2.5;
+        mosaicGC.fillText(prop025, xText, yText025 + 2);
+        mosaicGC.strokeLine(xText35, yText025, xText50, yText025);
+        
+        String prop050 = "0.50";
+        double yText050 = yAxis.getDisplayPosition(0.50) + 2.5;
+        mosaicGC.fillText(prop050, xText, yText050 + 2);
+        mosaicGC.strokeLine(xText35, yText050, xText50, yText050);
+        
+        String prop075 = "0.75";
+        double yText075 = yAxis.getDisplayPosition(0.75) + 2.5;
+        mosaicGC.fillText(prop075, xText, yText075 + 2);
+        mosaicGC.strokeLine(xText35, yText075, xText50, yText075);
+        
+        String prop100 = "1.00";
+        double yText100 = yAxis.getDisplayPosition(1.00) + 2.5;
+        mosaicGC.fillText(prop100, xText, yText100 + 2);
+        mosaicGC.strokeLine(xText35, yText100, xText50, yText100);
+        
+        mosaicGC.setStroke(Color.BLACK);
+        double leftXBaseLine = xAxis.getDisplayPosition(0.01);
+        double rightXBaseLine = xAxis.getDisplayPosition(0.99);
+        double bottomYBaseLine = yAxis.getDisplayPosition(0.0);
+        double topYBaseLine = yAxis.getDisplayPosition(0.99);
+
+        mosaicGC.strokeLine(leftXBaseLine, bottomYBaseLine - 1., 
+                            rightXBaseLine, bottomYBaseLine - 1.);        
+        mosaicGC.strokeLine(leftXBaseLine - 2., bottomYBaseLine, 
+                            leftXBaseLine - 2., topYBaseLine + 1.);        
         doTheMarginalPlot();
         doTheXAxis();
         
@@ -285,9 +319,9 @@ public class BivCat_MosaicPlotView {
             mPloty2 = yAxis.getDisplayPosition(cumMarginalRowProps[row + 1]);  
 
             //  Labels for cumulative proportions
-            //double ylabel_x = mPlotx2 + 2;
-            //double labelHeight = (mPloty1 + mPloty2)/2.0;
-            //mosaicGC.fillText(leftLabels[row], ylabel_x, labelHeight + 2);
+            double ylabel_x = mPlotx2 + 2;
+            double labelHeight = (mPloty1 + mPloty2)/2.0;
+            mosaicGC.fillText(leftLabels[row], ylabel_x, labelHeight + 2);
             
             mPlotHeight = mPloty2 - mPloty1;
 
@@ -313,13 +347,14 @@ public class BivCat_MosaicPlotView {
             
             stringToPrint = StringUtilities.centerTextInString(stringToPrint, 8);
             //  .015 is a hack hack to center the labels under the bars
-            preTopLabelXValue = (x1 + x2) / 2. - 0.02 - 0.015 * lenString;  //  Hack to center string 
+            preTopLabelXValue = (x1 + x2) / 2. - 0.02 - 0.025 * lenString;  //  Hack to center string
+            //System.out.println("353 X2Assoc_MosaicPlotView" + preTopLabelXValue);
             topLabelXValue = xAxis.getDisplayPosition(preTopLabelXValue);
             
             if (col % 2 > 0) { //  Odd column
-                topLabelYValue = yAxis.getDisplayPosition(-0.20);
-            } else {    //  Even column
                 topLabelYValue = yAxis.getDisplayPosition(-0.14);
+            } else {    //  Even column
+                topLabelYValue = yAxis.getDisplayPosition(-0.08);
             }
             mosaicGC.fillText(stringToPrint, topLabelXValue, topLabelYValue);
         }
@@ -333,6 +368,8 @@ public class BivCat_MosaicPlotView {
     private void constructMosaicInfo() {  
         nRowsCat = bivCat_Model.getNumberOfRows();
         nColsCat = bivCat_Model.getNumberOfColumns();
+        cumRowProps = new double[nRowsCat + 1];
+        cumRowProps = bivCat_Model.getCumRowProps(); 
         columnProps = new double[nColsCat];
         columnProps = bivCat_Model.getColumnProportions();      
         

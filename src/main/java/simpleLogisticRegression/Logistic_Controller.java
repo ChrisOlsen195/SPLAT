@@ -1,7 +1,7 @@
 /************************************************************
  *                     Logistic_Controller                  *
- *                          01/04/25                        *
- *                            00:00                         *
+ *                          04/23/25                        *
+ *                            03:00                         *
  ***********************************************************/
 /******************************************************************
  *   It is not obvious in the code what is happening here.  This   *
@@ -30,76 +30,48 @@ public class Logistic_Controller {
     private int nPoints, nGroups, totalNObservations, totalNSuccesses;    
     private int[] nObservations, nSuccesses;
     
-    double[] xDoubles, yDoubles;
-    
     private String returnStatus, explanVar, respVar, respVsExplanVar,
                    firstVarDescr;
-    ArrayList<String> xStrings, yStrings, al_tempStr;
+    ArrayList<String> xStrings, yStrings;
     
     // Make empty if no-print
-    String waldoFile = "Logistic_Controller";
-    //String waldoFile = "";
+    //String waldoFile = "Logistic_Controller";
+    String waldoFile = "";
     
-    private String[] dataXYLabels, unique_Xs, strUniques;
+    private String[] dataXYLabels, unique_Xs, strUniques,  twoCategories;
 
     // My classes
     BivariateContinDataObj bivContinDataObj;
     Data_Manager dm;
-    private LogisticReg_Model logisticReg_Model;
+    private Logistic_Model logisticReg_Model;
     private Logistic_Dashboard logRegDashboard;
     Logistic_Dialog logistic_Dialog;
     Matrix X, Y;
-    MyYesNoAlerts myYesNoAlerts;
     QuantitativeDataVariable qdv_XVariable, qdv_YVariable;
 
     public Logistic_Controller(Data_Manager dm) {
         this.dm = dm;      
-        dm.whereIsWaldo(52, waldoFile, "Constructing");
-        myYesNoAlerts = new MyYesNoAlerts();
+        dm.whereIsWaldo(54, waldoFile, "Constructing");
     }  
         
     public String doTheProcedure() {    //  Called from Main Menu
-        dm.whereIsWaldo(56, waldoFile, "doTheProcedure()");
+        dm.whereIsWaldo(58, waldoFile, "doTheProcedure()");
         try {
             int casesInStruct = dm.getNCasesInStruct();
             
             if (casesInStruct == 0) {
-                MyAlerts.showAintGotNoDataAlert_1Var();
+                MyAlerts.showAintGotNoDataAlert();
                 return "Cancel";
             }
-            dm.whereIsWaldo(68, waldoFile, "doTheProcedure()");
+            
             logistic_Dialog = new Logistic_Dialog(dm, "QUANTITATIVE");
             logistic_Dialog.showAndWait();
             returnStatus = logistic_Dialog.getReturnStatus();
             
             if (!returnStatus.equals("OK")) { return returnStatus; }
-            
             firstVarDescr = logistic_Dialog.getPreferredFirstVarDescription();;
             respVsExplanVar = logistic_Dialog.getSubTitle();
-            ArrayList<ColumnOfData> originalData = logistic_Dialog.getData();
-            
-            /******************************************************************
-             *  This is essentially a copy constructor. It is needed b/c      *
-             *  this procedure would write over the original data if more     *
-             *  than one logistic regression is called; the copy constructor  *
-             *  in ColumnOfData returns a reference to the original data.     *
-             *****************************************************************/
-            ArrayList<ColumnOfData> data = new ArrayList();
-            data.add(originalData.get(0));
-            String tempLabel = originalData.get(1).getVarLabel();
-            String tempDescr = originalData.get(1).getVarDescription();
-            al_tempStr = new ArrayList();
-            for (int ithElement = 0; ithElement < originalData.get(1).getNCasesInColumn(); ithElement++) {
-                al_tempStr.add(originalData.get(1).getIthCase(ithElement));
-            }
-            data.add(new ColumnOfData(tempLabel, tempDescr, al_tempStr)); 
-            /******************************************************************
-             *  This is essentially a copy constructor. It is needed b/c      *
-             *  this procedure would write over the original data if more     *
-             *  than one logistic regression is called; the copy constructor  *
-             *  in ColumnOfData returns a reference to the original data.     *
-             *****************************************************************/
-            
+            ArrayList<ColumnOfData> data = logistic_Dialog.getData();
             DataCleaner dc = new DataCleaner(dm, data.get(1));
             dc.cleanAway();
             int nUniques = dc.getNUniques();
@@ -111,43 +83,21 @@ public class Logistic_Controller {
             }
             
             ColumnOfData colOfData = new ColumnOfData(dm, "LogisticContr83", "LogisticRegContr83", dc.getFixedData());
-            int colSize = colOfData.getNCasesInColumn();            
-            
-            if(!columnIsZeroOne()) { 
-                dm.whereIsWaldo(89, waldoFile, "doTheProcedure()");
-                String[] twoCategories = dc.getFinalCategories();    
-                System.out.println("91 Logistic_Controller, strUniques[0] = " + strUniques[0]);
-                System.out.println("92 Logistic_Controller, strUniques[1] = " + strUniques[1]);
-                String theYes  = "Make " + strUniques[0] + " my failure value";
-                String theNo  = "Make " + strUniques[1] + " my failure value";
-                myYesNoAlerts.logReg_Choose_0_And_1_Alert(strUniques[0], 
-                                                          strUniques[1], 
-                                                          theYes, 
-                                                          theNo);
-                String logRegChoice = myYesNoAlerts.getYesOrNo();
-                System.out.println("102 LogisticController, logRegChoice = " + logRegChoice);
-                if (logRegChoice.equals("Yes")) {
-                
-                
+            int colSize = colOfData.getNCasesInColumn(); 
+
+            //if(!colOfData.getIsZeroOne()) {  
+                twoCategories = dc.getFinalCategories();                
                 for (int ithCase = 0; ithCase < colSize; ithCase++) {
                     if ((colOfData.getStringInIthRow(ithCase).trim()).equals((twoCategories[0].trim()))) {                        
                         data.get(1).setStringInIthRow(ithCase, "0");
                     }
-                    else  { data.get(1).setStringInIthRow(ithCase, "1"); }  
+                    else  { 
+                        data.get(1).setStringInIthRow(ithCase, "1"); }  
                 }
-                
-                }  else  {
-                    for (int ithCase = 0; ithCase < colSize; ithCase++) {
-                        if ((colOfData.getStringInIthRow(ithCase).trim()).equals((twoCategories[0].trim()))) {                        
-                            data.get(1).setStringInIthRow(ithCase, "1");
-                        }
-                        else  { data.get(1).setStringInIthRow(ithCase, "0"); }  
-                    }
-                }   
-            }
-            dm.whereIsWaldo(98, waldoFile, "doTheProcedure()");
-            qdv_XVariable = new QuantitativeDataVariable("LogisticRegContr95", "LogisticRegContr95", data.get(0));
-            qdv_YVariable = new QuantitativeDataVariable("LogisticRegContr96", "LogisticRegContr96", data.get(1)); 
+            //}
+
+            qdv_XVariable = new QuantitativeDataVariable("LogisticRegContr95", "LogisticRegContr099", data.get(0));
+            qdv_YVariable = new QuantitativeDataVariable("LogisticRegContr96", "LogisticRegContr100", data.get(1)); 
 
             dataXYLabels = new String[2];
             explanVar = qdv_XVariable.getTheVarLabel();
@@ -155,24 +105,17 @@ public class Logistic_Controller {
             dataXYLabels[1] = "Probability of "; 
 
             bivContinDataObj = new BivariateContinDataObj(dm, data);
-            nPoints = bivContinDataObj.getNLegalDataPoints();
-            xDoubles = new double[nPoints];
-            yDoubles = new double[nPoints];
 
-            xDoubles = bivContinDataObj.getXAs_arrayOfDoubles();
-            yDoubles = bivContinDataObj.getYAs_arrayOfDoubles();
-            
-            xStrings = new ArrayList<String>();
-            yStrings = new ArrayList<String>();        
+            xStrings = bivContinDataObj.getLegalXsAs_AL_OfStrings();
+            yStrings = bivContinDataObj.getLegalYsAs_AL_OfStrings();
 
+            nPoints = xStrings.size();
             X = new Matrix(nPoints, 1);
             Y = new Matrix(nPoints, 1);
             
             for (int ithPoint = 0; ithPoint < nPoints; ithPoint++) {
-                X.set(ithPoint, 0, xDoubles[ithPoint]);
-                Y.set(ithPoint, 0, yDoubles[ithPoint]);
-                xStrings.add(String.valueOf(xDoubles[ithPoint]));
-                yStrings.add(String.valueOf(yDoubles[ithPoint]));
+                X.set(ithPoint, 0, Double.parseDouble(xStrings.get(ithPoint)));
+                Y.set(ithPoint, 0, Double.parseDouble(yStrings.get(ithPoint)));
             }
             
             sortOriginalStrings();
@@ -180,7 +123,7 @@ public class Logistic_Controller {
             
             if (!returnStatus.equals("OK")) { return returnStatus; }
 
-            logisticReg_Model = new LogisticReg_Model(this);
+            logisticReg_Model = new Logistic_Model(this);
             logisticReg_Model.doAllThatMathStuff();
 
             logRegDashboard = new Logistic_Dashboard(this, logisticReg_Model);
@@ -196,10 +139,6 @@ public class Logistic_Controller {
             PrintExceptionInfo pei = new PrintExceptionInfo(ex, "Logistic Procedure");
         }
         return returnStatus;
-    }
-    
-    private boolean columnIsZeroOne() {
-        return false;
     }
     
     // Use system sort here?   Check it out.
@@ -303,4 +242,9 @@ public class Logistic_Controller {
     public Data_Manager getDataManager() { return dm; } 
     public String[] getUniques() { return strUniques; }
     public QuantitativeDataVariable getQdvXVariable() { return qdv_XVariable; }
+    
+    public String[] getTwoCategories() { 
+        System.out.println("247 Logistic_Controller, twoCategories = " + twoCategories[0] + " / " + twoCategories[1]);
+        return twoCategories; }
+    
 }

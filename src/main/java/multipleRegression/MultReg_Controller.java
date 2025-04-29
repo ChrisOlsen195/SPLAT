@@ -46,7 +46,7 @@ public class MultReg_Controller {
             theYVariable = multReg_Dialog.getYVariable();
             data = multReg_Dialog.getData();
             if (data.size() < 3) {
-                MyAlerts.showMultReg_LT3_ThreeVariablesAlert();
+                MyAlerts.showMultReg_LT3_VariablesAlert();
                 return "Cancel";                
             }
             

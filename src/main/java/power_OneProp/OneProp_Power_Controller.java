@@ -1,7 +1,7 @@
 /**************************************************
  *          OneProp_Power_Controller              *
- *                  05/29/24                      *
- *                    06:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -11,6 +11,8 @@ import utilityClasses.MyAlerts;
 
 public class OneProp_Power_Controller {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int  sampleSize;
     
@@ -25,7 +27,9 @@ public class OneProp_Power_Controller {
     Power_SingleProp_Dialog power_SingleProp_Dialog;
 
     public OneProp_Power_Controller() {
-        //System.out.println("28 OneProp_Power_Controller, constructing");
+        if (printTheStuff == true) {
+            System.out.println("31 *** OneProp_Power_Controller, Constructing");
+        }
         power_SingleProp_Dialog = new Power_SingleProp_Dialog();
     }
     

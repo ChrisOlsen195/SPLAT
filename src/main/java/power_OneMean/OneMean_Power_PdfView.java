@@ -30,6 +30,8 @@ import utilityClasses.*;
 
 public class OneMean_Power_PdfView extends BivariateScale_W_CheckBoxes_View { 
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     boolean[] hBoxCheckBoxSettings;
 
     double yMin, yMax, scaleDelta, nullDiffMeans, altDiffMeans,
@@ -81,7 +83,9 @@ public class OneMean_Power_PdfView extends BivariateScale_W_CheckBoxes_View {
                              double withThisWidth, double withThisHeight) {
 
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        System.out.println("\n84 OneMean_Power_PdfView, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("87 *** OneMean_Power_PdfView, Constructing");
+        }
         this.oneMean_Power_Model = oneMean_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

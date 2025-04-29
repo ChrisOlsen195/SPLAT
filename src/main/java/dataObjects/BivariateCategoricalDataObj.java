@@ -1,7 +1,7 @@
 /**************************************************
  *           BivariateCategoricalDataObj          *
- *                    05/24/24                    *
- *                     15:00                      *
+ *                    03/22/25                    *
+ *                     21:00                      *
  *************************************************/
 package dataObjects;
 
@@ -15,8 +15,8 @@ public class BivariateCategoricalDataObj {
     ArrayList<String> al_legalXVariable, al_legalYVariable;
     
     // Make empty if no-print
-    //String waldoFile = "BivariateCategoricalDataObj";
-    String waldoFile = "";
+    String waldoFile = "BivariateCategoricalDataObj";
+    //String waldoFile = "";
     
     // My classes
     ArrayList<ColumnOfData> bivCatDataOut;
@@ -26,10 +26,7 @@ public class BivariateCategoricalDataObj {
     public BivariateCategoricalDataObj(Data_Manager dm, String xDescription, 
                                        String yDescription, 
                                        ArrayList<ColumnOfData> inBivDat) {
-        //this.dm = dm;
-        //this.xDescription = xDescription;
-        //this.yDescription = yDescription;
-        dm.whereIsWaldo(32, waldoFile, "Constructing, x/y Description = " + xDescription + " / " + yDescription);
+        dm.whereIsWaldo(29, waldoFile, "Constructing, x/y Description = " + xDescription + " / " + yDescription);
         xLabel = xDescription;
         yLabel = yDescription;
         al_legalXVariable = new ArrayList<>();
@@ -58,7 +55,7 @@ public class BivariateCategoricalDataObj {
     
     public BivariateCategoricalDataObj(Data_Manager dm, ColumnOfData colA, ColumnOfData colB) {
         //this.dm = dm;
-        dm.whereIsWaldo(61, waldoFile, "Constructing with two columns");
+        dm.whereIsWaldo(58, waldoFile, "Constructing with two columns");
         xLabel = colA.getVarLabel();
         yLabel = colB.getVarLabel();
         al_legalXVariable = new ArrayList<>();

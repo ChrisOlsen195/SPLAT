@@ -1,6 +1,6 @@
 /**************************************************
  *              Indep_t_SumStats_Model            *
- *                    11/27/24                    *
+ *                    02/15/25                    *
  *                      12:00                     *
  *************************************************/
 package the_t_procedures;
@@ -12,6 +12,9 @@ import utilityClasses.MyAlerts;
 import utilityClasses.StringUtilities;
 
 public class Indep_t_SumStats_Model {
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int pooled_df, n1, n2, confidenceLevel;
     
@@ -37,46 +40,58 @@ public class Indep_t_SumStats_Model {
     ArrayList<String> sumStatsIndTReport;
 
     Indep_t_Controller indep_t_Controller;
-    Indep_t_SumStats_Dialog twoMeansDialog;
+    Indep_t_SumStats_Dialog indep_t_SumStats_Dialog;
     
     T_double_df tDist_Pooled, tDist_Mean1, tDist_Mean2, theTParty;
     
     public Indep_t_SumStats_Model (Indep_t_Controller indep_t_Controller, 
                                        Indep_t_SumStats_Dialog twoMeansDialog) {
-        this.indep_t_Controller = indep_t_Controller;
-        //System.out.println("47 Indep_t_SumStats_Model, Constructing);       
-        this.twoMeansDialog = twoMeansDialog;
+        if (printTheStuff == true) {
+            System.out.println("50 *** Indep_t_SumStats_Model, Constructing");
+        }
+        this.indep_t_Controller = indep_t_Controller;     
+        this.indep_t_SumStats_Dialog = twoMeansDialog;
         firstLabel = twoMeansDialog.getMean_1_Description();
         secondLabel = twoMeansDialog.getMean_2_Description(); 
     }
     
      public String doIndepTAnalysis() {
-        //System.out.println("54 Indep_t_SumStats_Model, doIndepTAnalysis());  
-        altHypothesis =  indep_t_Controller.getInd_T_SumStats_Hypotheses();
-        hypothDiff = indep_t_Controller.getInd_T_SumStats_HypothesizedDiff();
-        alpha = indep_t_Controller.getInd_T_SumStats_Alpha();
+        if (printTheStuff == true) {
+            System.out.println("60 --- Indep_t_SumStats_Model, doIndepTAnalysis()");
+        }
+        altHypothesis =  indep_t_SumStats_Dialog.getAltHypothesis();
+        hypothDiff = indep_t_SumStats_Dialog.getHypothesizedDiff();
+        alpha = indep_t_SumStats_Dialog.getAlpha();
         confidenceLevel = (int)(100. * (1.0 - alpha));
         alphaOverTwo = alpha / 2.0;
         oneMinusAlpha = 1.0 - alpha;
 
         var_1_String = "Variable #1 Label";
-        n1 = twoMeansDialog.getN1();
-        n2 = twoMeansDialog.getN2();
+        n1 = indep_t_SumStats_Dialog.getN1();
+        n2 = indep_t_SumStats_Dialog.getN2();
+        if (printTheStuff == true) {
+            System.out.println("73 --- n1 / n2 = " + n1 + " / " + n2);
+        }
         
         if ((n1  < 2) || (n2  < 2)) {
-            MyAlerts.showTooFewIndtDFAlert();
+            MyAlerts.showSampleSizeTooSmallAlert();
             returnStatus = "Cancel";
             return returnStatus;
         }        
         
-        xBar_1 = twoMeansDialog.getXBar1();
-        xBar_2 = twoMeansDialog.getXBar2();
-        var_1 = twoMeansDialog.getVariance1();
+        xBar_1 = indep_t_SumStats_Dialog.getXBar1();
+        xBar_2 = indep_t_SumStats_Dialog.getXBar2();
+        if (printTheStuff == true) {
+            System.out.println("85 --- xBar1 / xBar2 = " + xBar_1 + " / " + xBar_2);
+        }
+        var_1 = indep_t_SumStats_Dialog.getVariance1();
         var_2_String = "Variable #2 Label";
-        var_2 = twoMeansDialog.getVariance2();  
+        var_2 = indep_t_SumStats_Dialog.getVariance2();  
         long_descr_1 = StringUtilities.getleftMostNChars(firstLabel, 16);
         long_descr_2 = StringUtilities.getleftMostNChars(secondLabel, 16);        
-               
+        if (printTheStuff == true) {
+            System.out.println("93 --- var1 / var2 = " + var_1 + " / " + var_2);
+        }               
         longDescrOfDiff = long_descr_1.trim() + " - " + long_descr_2.trim();
         
         short_descr_1 = StringUtilities.getleftMostNChars(var_1_String, 10);
@@ -90,6 +105,9 @@ public class Indep_t_SumStats_Model {
         double_n2 = n2;
         v1 = var_1 / double_n1;
         v2 = var_2 / double_n2;
+        if (printTheStuff == true) {
+            System.out.println("109 --- v1 / v2 = " + v1 + " / " + v2);
+        }         
   
         stDev_Var1 = Math.sqrt(var_1);
         stDev_Var2 = Math.sqrt(var_2);
@@ -100,10 +118,21 @@ public class Indep_t_SumStats_Model {
                                 xBar_2, stDev_Var2, n2);
         
         double satterthwaite_numerator = (v1 + v2) * (v1 + v2);
+        if (printTheStuff == true) {
+            System.out.println("85 --- sat_num = " + satterthwaite_numerator);
+        }         
+        
         double temp1 = v1 * v1 / (double_n1 - 1.);
         double temp2 = v2 * v2 / (double_n2 - 1.);
         double satterthwaite_denominator = temp1 + temp2;
+        if (printTheStuff == true) {
+            System.out.println("129 --- sat_den = " + satterthwaite_denominator);
+        }        
+        
         satterthwaite_df = satterthwaite_numerator / satterthwaite_denominator;
+        if (printTheStuff == true) {
+            System.out.println("134 --- satterthwaite_df = " + satterthwaite_df);
+        }
         theTParty = new T_double_df(satterthwaite_df);
         pooled_df = n1 + n2 - 2;
         tDist_Mean1 = new T_double_df(n1 - 1);
@@ -128,12 +157,18 @@ public class Indep_t_SumStats_Model {
     }
     
     public void printStatistics() {
-        //System.out.println("131 Indep_t_SumStats_Model, printStatistics()");       
+        if (printTheStuff == true) {
+            System.out.println("139 --- Indep_t_SumStats_Model, printStatistics()");
+        }       
         sumStatsIndTReport = new ArrayList();
-        //System.out.println("133 Indep_t_SumStats_Model, altHypothesis = " + altHypothesis);
+        if (printTheStuff == true) {
+            System.out.println("143 --- Indep_t_SumStats_Model, altHypothesis = " + altHypothesis);
+        } 
         switch (altHypothesis) {
             case "NotEqual":  
-                //System.out.println("141 Indep_t_SumStats_Model, case NotEqual");
+                if (printTheStuff == true) {
+                    System.out.println("148 --- Indep_t_SumStats_Model, altHypothesis = " + altHypothesis);
+                }
                 critical_t_Unpooled = theTParty.quantile(1.0 - alphaOverTwo);
                 critical_t_Pooled = tDist_Pooled.quantile(1.0 - alphaOverTwo);
                 pValueDiff_Unpooled = 2.0 * (theTParty.cumulative(-Math.abs(tForTwoTails_Unpooled)));
@@ -152,7 +187,9 @@ public class Indep_t_SumStats_Model {
                 break;
         
             case "LessThan":
-                //System.out.println("155 Indep_t_SumStats_Model, case LessThan");
+                if (printTheStuff == true) {
+                    System.out.println("169 --- Indep_t_SumStats_Model, altHypothesis = " + altHypothesis);
+                }
                 critical_t_Unpooled = theTParty.quantile(oneMinusAlpha);
                 critical_t_Pooled = tDist_Pooled.quantile(oneMinusAlpha);
                 pValueDiff_Unpooled = theTParty.cumulative(-Math.abs(tForTwoTails_Unpooled));
@@ -171,7 +208,9 @@ public class Indep_t_SumStats_Model {
                 break;
             
             case "GreaterThan":
-                //System.out.println("174 Indep_t_SumStats_Model, case GreaterThan");
+                if (printTheStuff == true) {
+                    System.out.println("190 --- Indep_t_SumStats_Model, altHypothesis = " + altHypothesis);
+                }
                 critical_t_Unpooled = theTParty.quantile(oneMinusAlpha);
                 critical_t_Pooled = tDist_Pooled.quantile(oneMinusAlpha);
                 pValueDiff_Unpooled = theTParty.cumulative(Math.abs(tForTwoTails_Unpooled));
@@ -191,12 +230,15 @@ public class Indep_t_SumStats_Model {
                 break;
             
             default:
-                String switchFailure = "Switch failure: Indep_t_SumStats_Model 194 " + altHypothesis;
+                String switchFailure = "Switch failure: Indep_t_SumStats_Model 211 " + altHypothesis;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }           
     }
     
     private void printDescriptiveStatistics() {
+        if (printTheStuff == true) {
+            System.out.println("218 --- Indep_t_SumStats_Model, printDescriptiveStatistics()");
+        }
         addNBlankLinesToSumStatsReport(1);
         sumStatsIndTReport.add("                 *****   Descriptive statistics and confidence intervals   *****");
         addNBlankLinesToSumStatsReport(2);
@@ -224,6 +266,9 @@ public class Indep_t_SumStats_Model {
     }
     
     private void printNotEqualTo() {
+        if (printTheStuff == true) {
+            System.out.println("248 --- Indep_t_SumStats_Model, printNotEqualTo()");
+        }
         addNBlankLinesToSumStatsReport(1);
         sumStatsIndTReport.add("          *****   Hypothesis test:    *****");
         addNBlankLinesToSumStatsReport(2);
@@ -288,6 +333,9 @@ public class Indep_t_SumStats_Model {
     }
     
     private void printLessThan() {
+        if (printTheStuff == true) {
+            System.out.println("315 --- Indep_t_SumStats_Model, printLessThan()");
+        }
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add("          *****   Hypothesis test:    *****");
         addNBlankLinesToSumStatsReport(2);                
@@ -351,6 +399,9 @@ public class Indep_t_SumStats_Model {
     }
     
     private void printGreaterThan() {
+        if (printTheStuff == true) {
+            System.out.println("381 --- Indep_t_SumStats_Model, printGreaterThan()");
+        }
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add("          *****   Hypothesis test:    *****");
         addNBlankLinesToSumStatsReport(2);                

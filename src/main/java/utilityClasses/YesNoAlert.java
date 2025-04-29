@@ -1,7 +1,7 @@
 /**************************************************
  *                   YesNoAlert                   *
- *                    11/11/24                    *
- *                      09:00                     *
+ *                    02/15/25                    *
+ *                      12:00                     *
  *************************************************/
 package utilityClasses;
 
@@ -32,7 +32,7 @@ public class YesNoAlert extends Stage {
            alertHeaderBoxWidth, alertHeaderBoxHeight, 
            alertContextBoxWidth;
     
-    String yesOrNo, theYes, theNo;
+    String theYes, theNo, theYesOrNo;
     
     // FX classes
     Button btnYes, btnNo;
@@ -46,8 +46,7 @@ public class YesNoAlert extends Stage {
     Text txtAlertTitle, txtAlertHeader, txtAlertContext;
     VBox root;
      
-    public YesNoAlert(String theYes,
-                      String theNo,
+    public YesNoAlert(String theYes, String theNo,
                       String strAlertTitle,
                       String strAlertHeader,
                       String strAlertContext,   
@@ -58,7 +57,6 @@ public class YesNoAlert extends Stage {
                       double imageOffSetY,
                       int horizImageSpace,
                       int fitWidth) {
-
         this.theYes = theYes;
         this.theNo = theNo;
         
@@ -104,25 +102,27 @@ public class YesNoAlert extends Stage {
 
         btnYes  = new Button(theYes);
         btnYes.setStyle("-fx-text-fill: red;");
-        btnYes.setOnAction(e -> 
-            { 
-                yesOrNo = theYes;
-                alertStage.close();
-            });
+        btnYes.setOnAction(e -> { 
+            theYesOrNo = "Yes";
+            alertStage.hide();
+        });
+        
         btnYes.setPadding(new Insets(10, 20, 10, 20));
         btnYes.setFont(alertContextFont);
-
         btnNo  = new Button(theNo);
         btnNo.setStyle("-fx-text-fill: red;");
-        btnNo.setOnAction(e -> 
-            { 
-                yesOrNo = theNo;
-                alertStage.close();
-            });
+        
+        btnNo.setOnAction(e -> { 
+            theYesOrNo = "No";
+            alertStage.hide();
+        });
         btnNo.setPadding(new Insets(10, 20, 10, 20));
         btnNo.setFont(alertContextFont);
         
-        yesOrNo = theNo;
+        setOnCloseRequest((WindowEvent we) -> {
+            theYesOrNo = "Cancel";
+            alertStage.hide();
+        });        
         
         spacer = new Region[5];
         for (int ithSpacer = 0; ithSpacer < 5; ithSpacer++) {
@@ -156,10 +156,5 @@ public class YesNoAlert extends Stage {
         alertStage.showAndWait();
     }
     
-    public String getYesOrNo() { 
-        
-        if (yesOrNo.equals(theYes)) { return "Yes";}
-        if (yesOrNo.equals(theNo)) { return "No";}
-        System.out.println("163 YesNoAlert, Ack!!!!! -- No yes or no");
-        return yesOrNo; }
+    public String getYesOrNo() { return theYesOrNo; }
 }

@@ -1,6 +1,6 @@
 /****************************************************************************
  *                     X2Assoc_PrintAdvStats                                *
- *                           05/23/24                                       *
+ *                           04/19/25                                       *
  *                             12:00                                        *
  ***************************************************************************/
 package chiSquare_Assoc;
@@ -11,6 +11,10 @@ import utilityClasses.StringUtilities;
 public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
     
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     double chiSquare, pValue, totalN;    
     double[] x2RowProps, x2ColProps, x2CumRowProps, x2CumColProps, x2RowTotals,
              x2ColTotals, cumMarginalRowProps;    
@@ -32,7 +36,9 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
             double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("36 X2Assoc_PrintAdvStats, constructing");
+        if (printTheStuff == true) {
+            System.out.println("40 *** X2Assoc_PrintAdvStats, Constructing");
+        }
         this.x2Assoc_Model = x2_Assoc_Model;    
         categoryAxisLabel = " "; 
         strTopVar = x2_Assoc_Model.getTopVariable();
@@ -78,10 +84,13 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
     
   
     public void constructPrintLines() {
+        if (printTheStuff == true) {
+            System.out.println("88 --- X2Assoc_PrintAdvStats, constructPrintLines()");
+        }
         int leftPadSpaces;
         String leftFill;
         addNBlankLines(2);
-        titleString = "Association between: " + titleString; //  Center this!
+        titleString = "Association between: " + titleString;
         spacesAvailableInTotal = 23 + 12 * nCols;  //  12 spaces for each col
         
         leftPadSpaces = 23;
@@ -95,7 +104,7 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
         
         tempString = "\n" + leftFill;        
         for (int col = 0; col < nCols; col++) {  
-            String smallTop = StringUtilities.getleftMostNChars(strTopLabels[col], 8);
+            String smallTop = StringUtilities.getleftMostNChars(strTopLabels[col], 12);
             tempString += StringUtilities.centerTextInString(smallTop, 12);   
         }
         

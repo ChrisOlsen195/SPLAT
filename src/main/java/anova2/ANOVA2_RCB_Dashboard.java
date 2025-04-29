@@ -1,7 +1,7 @@
 /**************************************************
  *              ANOVA2_RCB_Dashboard              *
- *                    11/27/24                    *
- *                     12:00                      *
+ *                    03/22/25                    *
+ *                     21:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -92,6 +92,8 @@ public class ANOVA2_RCB_Dashboard extends Dashboard {
     }
     
     public void populateTheBackGround() {
+        initWidth[0] = 450;
+        initHeight[0] = 400;
         boxPlotView = new ANOVA2_BoxPlotView(anova2_Factorial_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         boxPlotView.completeTheDeal();
         boxPlotContainingPane = boxPlotView.getTheContainingPane();

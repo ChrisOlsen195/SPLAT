@@ -1,7 +1,7 @@
 /**************************************************
  *                ANOVA1_Cat_Model                *
- *                    05/23/24                    *
- *                      18:00                     *
+ *                    01/26/25                    *
+ *                      12:00                     *
  *************************************************/
 /**************************************************
  *               ANOVA1 verified                  *
@@ -51,8 +51,7 @@ public class ANOVA1_Cat_Model {
     String waldoFile = "";
     
     private ArrayList<String> anova1Report, postHocReport;
-    public ObservableList<String> varLabels;
-    private final ObservableList<String> categoryLabels;
+    public ObservableList<String> variableLabels;
     
     // My classes
     ArrayList<QuantitativeDataVariable> allTheQDVs;
@@ -72,8 +71,8 @@ public class ANOVA1_Cat_Model {
                             ArrayList<QuantitativeDataVariable>  allTheQDVs) {
         dm = anova1_Cat_Controller.getDataManager();
         dm.whereIsWaldo(74, waldoFile, "Constructing");
-        categoryLabels = FXCollections.observableArrayList();
-        varLabels = anova1_Cat_Controller.getVarLabels();
+        variableLabels = FXCollections.observableArrayList();
+        variableLabels = anova1_Cat_Controller.getVarLabels();
         this.allTheQDVs = allTheQDVs;    
 
         this.explanatoryVariable = explanatoryVariable;
@@ -84,11 +83,6 @@ public class ANOVA1_Cat_Model {
     public String continueInitializing() { 
         dm.whereIsWaldo(85, waldoFile, "continueInitializing()");
         returnValue = "OK";
-        
-        for (int ithLabel = 0; ithLabel < varLabels.size(); ithLabel++) {
-            categoryLabels.add(varLabels.get(ithLabel));
-        }
-        
         subTitle = responseVariable + " vs. " + explanatoryVariable;
         
         nLevels = allTheQDVs.size();
@@ -120,23 +114,23 @@ public class ANOVA1_Cat_Model {
     }
    
     private void doOneWayANOVA() {  
-        dm.whereIsWaldo(123, waldoFile, "doOneWayANOVA()");
+        dm.whereIsWaldo(117, waldoFile, "doOneWayANOVA()");
         doAnalysis();        
         printANOVA_Results(); 
     }
     
     public void doOneWay4TwoWayANOVA() {
-        dm.whereIsWaldo(129, waldoFile, "doOneWay4TwoWayANOVA()");
+        dm.whereIsWaldo(123, waldoFile, "doOneWay4TwoWayANOVA()");
         doOneWayANOVA();
         doAnalysis();
     }
    
     private String setupAnalysis() {
-        dm.whereIsWaldo(135, waldoFile, "setupAnalysis()");
+        dm.whereIsWaldo(129, waldoFile, "setupAnalysis()");
         for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
             String varLabel = allTheQDVs.get(ithLevel)
-                                        .getTheVarLabel()
-                                        .trim();            
+                                               .getTheVarLabel()
+                                               .trim();            
             boolean variabilityFound = DataUtilities.checkForVariabilityInQDV(allTheQDVs.get(ithLevel));
             
             if (!variabilityFound) {
@@ -153,7 +147,7 @@ public class ANOVA1_Cat_Model {
     } 
     
     public void doAnalysis() {  
-        dm.whereIsWaldo(156, waldoFile, " *** doAnalysis()");
+        dm.whereIsWaldo(150, waldoFile, " *** doAnalysis()");
 
         sumAll = 0.;
         totalN = 0;
@@ -211,7 +205,7 @@ public class ANOVA1_Cat_Model {
     }
     
 private void printTheStuff() {  
-        dm.whereIsWaldo(214, waldoFile, " *** printTheStuff()");
+        dm.whereIsWaldo(208, waldoFile, " *** printTheStuff()");
         postHocReport.add(String.format("\n"));
         
         postHocReport.add(String.format("               **********         Parameter estimates for Levels         **********\n\n"));        
@@ -219,7 +213,7 @@ private void printTheStuff() {
         postHocReport.add(String.format("     Group       Size       Mean       St Dev     of mean    of Error      Bound        Bound\n"));
         
         for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
-            strIthLevel = StringUtilities.truncateString(varLabels.get(ithLevel), 10);
+            strIthLevel = StringUtilities.truncateString(variableLabels.get(ithLevel), 10);
             int iSampleSize = allTheQDVs.get(ithLevel).getLegalN();
             double iMean = allTheQDVs.get(ithLevel).getTheMean();
             double iStandDev = allTheQDVs.get(ithLevel).getTheStandDev();
@@ -244,7 +238,7 @@ private void printTheStuff() {
     }
 
 private void doTukeyKramer() {
-    dm.whereIsWaldo(247, waldoFile, " ** doTukeyKramer()");
+    dm.whereIsWaldo(241, waldoFile, " ** doTukeyKramer()");
     studRangeQ = new StudentizedRangeQ();
     qTK = studRangeQ.qrange(0.95, // cumulative p -- use .95 if alpha = .05
                            (double)nLevels, // number of groups
@@ -257,7 +251,7 @@ private void doTukeyKramer() {
     for (int ithLevel = 0; ithLevel < nLevels - 1; ithLevel++) {
         int nIth = allTheQDVs.get(ithLevel).getLegalN();
         double xBarIth = allTheQDVs.get(ithLevel).getTheMean();
-        strIthLevel = StringUtilities.truncateString(varLabels.get(ithLevel), 10);        
+        strIthLevel = StringUtilities.truncateString(variableLabels.get(ithLevel), 10);        
         //  Store for Grouping
         for (int jthLevel = ithLevel + 1; jthLevel < nLevels; jthLevel++) {
             int nJth = allTheQDVs.get(jthLevel).getLegalN();
@@ -266,7 +260,7 @@ private void doTukeyKramer() {
             qCritPlusMinus = wT * Math.sqrt(msError * (1.0/nIth + 1.0/nJth));
             lowCI_TK = diff_mean - qCritPlusMinus;
             highCI_TK = diff_mean + qCritPlusMinus;
-            strJthLevel = StringUtilities.truncateString(varLabels.get(jthLevel), 10);
+            strJthLevel = StringUtilities.truncateString(variableLabels.get(jthLevel), 10);
             postHocReport.add(String.format("%10s  %10s       %8.3f     %8.3f       %8.3f       %8.3f\n", strIthLevel,  
                                                                                       strJthLevel,
                                                                                       diff_mean,
@@ -278,7 +272,7 @@ private void doTukeyKramer() {
 }
 
     public void printANOVA_Results() {
-        dm.whereIsWaldo(281, waldoFile, " *** printANOVA_Results()");
+        dm.whereIsWaldo(275, waldoFile, " --- printANOVA_Results()");
         String strPreANOVALine = "\n\n  One-way Analysis of Variance: " + respVsExplanVar;
         String strANOVALine1 = StringUtilities.eliminateMultipleBlanks(strPreANOVALine);
         String strANOVALine2 = StringUtilities.centerTextInString(strANOVALine1, 84);
@@ -316,7 +310,7 @@ private void doTukeyKramer() {
    }    // end printANOVA_Results
     
     private void doTheEffectSizes() {
-        dm.whereIsWaldo(319, waldoFile, " *** doTheEffectSizes()");
+        dm.whereIsWaldo(313, waldoFile, " --- doTheEffectSizes()");
         /************************************************************
          * Kirk, Experimental Design: Procedures for the Behavioral *
          * Sciences (4th).  pp 134- 137                             *
@@ -343,7 +337,7 @@ private void doTukeyKramer() {
        return allTheQDVs.get(ith);
     }
     
-    public ObservableList <String> getVarLabels() { return varLabels; }
+    public ObservableList <String> getVarLabels() { return variableLabels; }
    
     public FDistribution getFDist() { return fDist; }
     public int getNLevels() {  return nLevels; }
@@ -363,7 +357,7 @@ private void doTukeyKramer() {
     public String getExplanatoryVariable() {return explanatoryVariable; }
     public String getResponseVariable() {return responseVariable; }
     public String getSubTitle() { return subTitle; }
-    public ObservableList <String> getCategoryLabels() {return categoryLabels; }
+    public ObservableList <String> getCategoryLabels() {return variableLabels; }
     
     public NormProb_Model getNormProbModel() { return normProb_Model; }   
     public NormProb_DiffModel getNormProbDiffModel() { return normProb_DiffModel; } 

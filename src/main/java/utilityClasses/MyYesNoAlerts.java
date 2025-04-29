@@ -1,7 +1,7 @@
 /****************************************************************************
  *                          MyYesNoAlerts                                      *
- *                            11/11/24                                      *
- *                             09:00                                        *
+ *                            02/16/25                                      *
+ *                             00:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -16,49 +16,55 @@ package utilityClasses;
 
 public class MyYesNoAlerts {
     
-    static boolean showingAnAlert; //, fourProbsAlreadyShown;
-    static int fitWidth, horizImageSpace;
-    static double alertBoxWidth, alertBoxHeight, imageOffSetX, imageOffSetY;
-    static double diffAlertBoxWidth, diffAlertBoxHeight;
-    static YesNoAlert yesNoAlert;
+    boolean showingAnAlert; //, fourProbsAlreadyShown;
+    int fitWidth, horizImageSpace;
+    double alertBoxWidth, alertBoxHeight, imageOffSetX, imageOffSetY;
+    double diffAlertBoxWidth, diffAlertBoxHeight;
+    YesNoAlert yesNoAlert;
     
-    static String alertTitle, alertHeader, alertContext, imagePath;
+    String alertTitle, alertHeader, alertContext, imagePath;
+    String theYes, theNo;
     
-    public MyYesNoAlerts() { 
+   public MyYesNoAlerts() { 
+       //System.out.println("29 MyYesNoAlerts, *** Constructing");
        showingAnAlert = false;
        diffAlertBoxWidth = 0.;
        diffAlertBoxHeight = 0.;
+       theYes = "You betcha!";
+       theNo = "Not hardly!";
    }
    
-    public void setShowingAnAlert(boolean tf) { showingAnAlert = tf; }
-   
-    public void showAvoidRepetitiousClicksAlert(String theYes, String theNo) { 
+   public void setShowingAnAlert(boolean tf) { showingAnAlert = tf; }
+
+    public void showAvoidRepetitiousClicksAlert() { 
         showingAnAlert = true;
         alertTitle = "Boring, repetitive homework?";
         alertHeader = "I, SPLAT, has an option for you...";
         alertContext ="Ok, so here's the deal.  If you are doing the same kind of problem over and over, "
-                        + " I, SPLAT the Magnificent can save you a bit of time.  If you have more of the "
-                        + " same kind of problem to do, just let me know.  On the other hand, if you enjoy"
-                        + " pressing that rodent, let me know that. Do you want to do another problem but"
-                        + " skip the extra clicks?\n\n"; 
+                        + "\nI, SPLAT the Magnificent can save you a bit of time.  If you have more of the "
+                        + "\nsame kind of problem to do, just let me know.  On the other hand, if you enjoy"
+                        + "\npressing that rodent, let me know that. Do you want to do another problem but"
+                        + "\nskip the extra clicks?\n\n"; 
         
         diffAlertBoxHeight = 350.;
-        backToTheRealWorld(theYes, theNo);
-    } 
-    
-    public void showUnsavedDataAlert(String theYes, String theNo) { 
+        backToTheRealWorld();
+    }   
+
+    public void showUnsavedDataAlert() { 
         showingAnAlert = true;
         alertTitle = "Whoa, there, Bucko!";
         alertHeader = "Are you sure about this???";
-        alertContext ="I, SPLAT the Magnificent, never cease to wonder about the frailty of human (alleged) "
-                        + " judgement.  Normally I just roll my eyes and shrug my shoulders, but I just"
-                        + " can't let this one go.  After entering data you now want to just trash it?!?"
-                        + " Are you SURE you want to leave your data in the dustbin of history?\n\n"; 
+        alertContext ="I, SPLAT the Magnificent, never cease to wonder about the frailty of human "
+                        + " judgement.  Normally I just roll my eyes and shrug my shoulders, but I"
+                        + " just can't ignore this one.  After entering data you now want to just "
+                        + " trash it?!? Are you SURE you want to leave your data in the dustbin of "
+                        + " history?\n\n"; 
         diffAlertBoxHeight = 300.;
-        backToTheRealWorld(theYes, theNo);
+        backToTheRealWorld();
     } 
 
-    public void showFirstLineContainsNumbersAlert(String theYes, String theNo) { 
+
+    public void showFirstLineContainsNumbersAlert() { 
         showingAnAlert = true;
         alertTitle = "Ack!?!?!  Your first line contains numerics!";
         alertHeader = "Pardon this interruption, but a clarification is needed...";
@@ -68,12 +74,12 @@ public class MyYesNoAlerts {
                        + "\nintention that the numeric labels in the first line should be treated as"
                        + "\nquantitatve labels for the variables?\n\n";
         diffAlertBoxHeight = 350.;
-        backToTheRealWorld(theYes, theNo);
+        backToTheRealWorld();
     } 
-        
-    public void showAmbiguousColumnAlert(String message, String theYes, String theNo) { 
+
+    public void showAmbiguousColumnAlert(String message) { 
         showingAnAlert = true;
-        alertTitle = "Uh-oh, we have a problem with the '" + message + "' variable!";
+        alertTitle = "Uh-oh, we have a problem with the " + message + " variable!";
         alertHeader = "The 'type' of " + message +" appears to be ambiguous.";
         alertContext = "OK, so here's the deal.  I, SPLAT, can do all sorts of statistical"
                      + " stuff with categorical data, and ditto for quantitative data."
@@ -81,44 +87,55 @@ public class MyYesNoAlerts {
                      + " in this file. You may have downloaded a file from somewhere and"
                      + " it has values or blanks to indicate missing data. I, SPLAT,"
                      + " use asterisks for the purpose of indicating missing data."
-                     + " Do you, User, want me, Splat, to convert these non-numerical "
+                     + " \n\nDo you, User, want me, Splat, to convert these non-numerical "
                      + " values into asterisks, thus indicating missing values? \n\n" ; 
-        diffAlertBoxHeight = 500.;
-        backToTheRealWorld(theYes, theNo);
-    } 
+
+        backToTheRealWorld();
+    }
     
-    public void logReg_Choose_0_And_1_Alert(String strFirst, 
-                                            String strSecond, 
-                                            String theYes, 
-                                            String theNo) { 
+    public void showRawDataOrSummaryAlert() { 
         showingAnAlert = true;
-        alertTitle = "Uh-oh, we have a problem with the binary variable";
-        alertHeader = "Which of " + strFirst + " and " + strSecond + " is 'failure'?";      
-        alertContext = "As you, Astute User, knows, the response variable in logistic"
-                     + " regression is binary.  One value indicates 'failure', the"
-                     + " other indicates 'success'. I, SPLAT the Magnicent, draw "
-                     + " the line at attempting to read the (quasi-) minds of humans"
-                     + " so you, User, will have to give me a clue.  Which of the"
-                     + " values indicates failure?\n\n" ; 
-        diffAlertBoxHeight = 500.;
-        backToTheRealWorld(theYes, theNo);
-    } 
+        alertTitle = "A quick question for you...";
+        alertHeader = "I need some information before proceeding...";
+        alertContext = "Do you have raw data to analyze, or do you have already summarized "
+                        + " means, standard deviations, and sample sizes? \n\n"; 
+
+        backToTheRealWorld();
+    }
+    
+    public void showTidyOrTI8xAlert() { 
+        showingAnAlert = true;
+        alertTitle = "I, SPLAT, need to check about your data format...";
+        alertHeader = "(The price you pay for the SPLAT versatility!)";
+        alertContext = "In order to maximize the flexibility of your data entry, "
+                        + " SPLAT allows two possible strategies.  One strategy is similar "
+                        + " to how data is entered in the TI-8x calculators.  Another is to"
+                        + " enter group / treatment information in one column and the values "
+                        + " in another column (Tidy data).  Please indicate which format"
+                        + " you usedf for this file.  \n\nThank you in advance!\n\n"; 
+
+        backToTheRealWorld();
+    }
     
     public boolean getShowingAnAlert() {return showingAnAlert; }
     
+    public void setTheYes(String toThis) { theYes = toThis; }
+    public void setTheNo(String toThis) { theNo = toThis; }
+    
     public String getYesOrNo() { 
         String strTemp = yesNoAlert.getYesOrNo();
+        if (strTemp == null) { strTemp = "Cancel"; }
         return strTemp; }
     
-    public static void backToTheRealWorld(String theYes, String theNo) {
+    public void backToTheRealWorld() {
         doTheDefaults();
         if (diffAlertBoxWidth != 0.) { alertBoxWidth = diffAlertBoxWidth; }
         if (diffAlertBoxHeight != 0.) { alertBoxHeight = diffAlertBoxHeight; }
-        doTheSplatAlert(theYes, theNo);
+        doTheSplatAlert();
         showingAnAlert = false;        
     }
     
-    static private void doTheDefaults() {
+    private void doTheDefaults() {
         imagePath = "Warning.jpg";
         alertBoxWidth = 750.;
         alertBoxHeight = 575.;
@@ -128,19 +145,18 @@ public class MyYesNoAlerts {
         horizImageSpace = 75;       
     }
     
-    static private void doTheSplatAlert(String theYes, String theNo) {
-        yesNoAlert = new YesNoAlert(theYes, 
-                                    theNo,
-                                    alertTitle,
-                                    alertHeader,
-                                    alertContext,
-                                    imagePath,
-                                    alertBoxWidth,
-                                    alertBoxHeight,
-                                    imageOffSetX,
-                                    imageOffSetY,
-                                    horizImageSpace,
-                                    fitWidth); 
+    private void doTheSplatAlert() {
+        yesNoAlert = new YesNoAlert(theYes, theNo,
+                            alertTitle,
+                            alertHeader,
+                            alertContext,
+                            imagePath,
+                            alertBoxWidth,
+                            alertBoxHeight,
+                            imageOffSetX,
+                            imageOffSetY,
+                            horizImageSpace,
+                            fitWidth); 
         showingAnAlert = false;
     }
 }

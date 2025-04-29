@@ -1,7 +1,7 @@
 /**************************************************
  *                  HistogramModel                *
- *                     04/25/24                   *
- *                      15:00                     *
+ *                     01/16/25                   *
+ *                      12:00                     *
  *************************************************/
 
 package proceduresOneUnivariate;
@@ -13,6 +13,8 @@ import utilityClasses.*;
 
 public class Histogram_Model {  
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     double ithBinLow, ithBinHigh;
     
@@ -25,7 +27,10 @@ public class Histogram_Model {
 
     public Histogram_Model() { }
         
-    public Histogram_Model(String descriptionOfVariable, QuantitativeDataVariable qdv) {  
+    public Histogram_Model(String descriptionOfVariable, QuantitativeDataVariable qdv) { 
+        if (printTheStuff == true) {
+            System.out.println("32 *** Histogram_Model, Constructing");
+        }
         this.qdv = qdv;
         this.descrOfVar = descriptionOfVariable;
 

@@ -1,12 +1,13 @@
 /**************************************************
  *           ANOVA1_Quant_CirclePlotView          *
- *                    10/07/24                    *
+ *                    05/25/25                    *
  *                      15:00                     *
  *************************************************/
 package anova1.quantitative;
 
 import dataObjects.UnivariateContinDataObj;
 import dataObjects.QuantitativeDataVariable;
+import genericClasses.DragableAnchorPane;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -36,7 +37,7 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
         super(anova1_Quant_Model, anova1_Quant_Dashboard, "CirclePlot",
               placeHoriz, placeVert,  withThisWidth, withThisHeight);   
         dm = anova1_Quant_Model.getDataManager();
-        dm.whereIsWaldo(39, waldoFile, "Contstrucing...");
+        dm.whereIsWaldo(40, waldoFile, "Contstrucing...");
         nCheckBoxes = 0;     
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -51,18 +52,38 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
         txtTitle2 = new Text (60, 45, " Treatments/Groups ");
         txtTitle1.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,20));
         txtTitle2.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,15)); 
+        graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();
+    }
+    
+    public void makeTheCheckBoxes() {}
+    
+        public void setUpAnchorPane() {
+        dm.whereIsWaldo(61, waldoFile, "  *** setUpAnchorPane()");
+        dragableAnchorPane = new DragableAnchorPane();
+        anova1_Quant_Canvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
+        anova1_Quant_Canvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
+     
+        anchorPane = dragableAnchorPane.getTheAP();
+        dragableAnchorPane.makeDragable();
+        graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();
+        dragableAnchorPane.getStylesheets().add(graphsCSS);    
+        dragableAnchorPane.getTheAP()
+                           .getChildren()
+                           .addAll(txtTitle1, txtTitle2, xAxis, yAxis, anova1_Quant_Canvas);        
+        dragableAnchorPane.setInitialEventCoordinates(initHoriz, initVert, initHeight, initWidth);
     }
    
     public void doTheGraph() {
-        dm.whereIsWaldo(57, waldoFile, "doTheGraph()");
-        double downShift;
+        dm.whereIsWaldo(77, waldoFile, "doTheGraph()");
+        double daXPosition, text1Width, text2Width, paneWidth,
+               txt1Edge, txt2Edge, downShift;
         
         yAxis.setForcedAxisEndsFalse(); // Just in case
-        double text1Width = txtTitle1.getLayoutBounds().getWidth();
-        double text2Width = txtTitle2.getLayoutBounds().getWidth();
-        double paneWidth = dragableAnchorPane.getWidth();
-        double txt1Edge = (paneWidth - text1Width) / (2 * paneWidth);
-        double txt2Edge = (paneWidth - text2Width) / (2 * paneWidth);
+        text1Width = txtTitle1.getLayoutBounds().getWidth();
+        text2Width = txtTitle2.getLayoutBounds().getWidth();
+        paneWidth = dragableAnchorPane.getWidth();
+        txt1Edge = (paneWidth - text1Width) / (2 * paneWidth);
+        txt2Edge = (paneWidth - text2Width) / (2 * paneWidth);
         
         double tempHeight = dragableAnchorPane.getHeight();
         double tempWidth = dragableAnchorPane.getWidth();
@@ -98,7 +119,8 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
             tempQDV = new QuantitativeDataVariable();
             tempQDV = anova1_Quant_Model.getIthQDV(theBatch);
             tempUCDO = new UnivariateContinDataObj("ANOVA1_Quant_CirclePlotView", tempQDV);
-            double daXPosition = xAxis.getDisplayPosition(Double.valueOf(allTheLabels.get(theBatch)));
+            daXPosition = xAxis.getDisplayPosition(Double.valueOf(allTheLabels.get(theBatch)));
+            
             nDataPoints = tempUCDO.getLegalN();
             
             // Get the Batch label and position it at the top of the graph
@@ -109,8 +131,10 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
             double tempYAxisRange = yAxis.getUpperBound() - yAxis.getLowerBound();
             double baseYPosition = yAxis.getUpperBound() - 0.10 * tempYAxisRange;
             boolean theBatchIsEven = (theBatch % 2 == 0);
+            
             if (theBatchIsEven) { downShift = 0.0; }
             else { downShift = 0.05 * tempYAxisRange; }
+            
             double labelYPosition = yAxis.getDisplayPosition(baseYPosition - downShift);
             gc_Quant_ANOVA1.fillText(batchLabel, labelXPosition, labelYPosition);
             for (int dataPoint = 0; dataPoint < nDataPoints; dataPoint++) {

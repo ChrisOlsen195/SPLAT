@@ -1,6 +1,6 @@
 /**************************************************
  *             ANOVA1_Quant_BoxPlotView           *
- *                    10/07/24                    *
+ *                    04/25/25                    *
  *                      15:00                     *
  *************************************************/
 package anova1.quantitative;
@@ -38,12 +38,12 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
     
     // FX classes
 
-    ANOVA1_Quant_BoxPlotView(ANOVA1_Quant_Model anova1_Quant_Model, ANOVA1_Quant_Dashboard anova1_Quant_Dashboard, 
+    ANOVA1_Quant_BoxPlotView(ANOVA1_Quant_Model qanova1Model, ANOVA1_Quant_Dashboard qanova1Dashboard, 
                          double placeHoriz, double placeVert, 
                          double withThisWidth, double withThisHeight) {  
-        super(anova1_Quant_Model, anova1_Quant_Dashboard, "BoxPlot",
+        super(qanova1Model, qanova1Dashboard, "BoxPlot",
               placeHoriz, placeVert,  withThisWidth, withThisHeight);
-        dm = anova1_Quant_Model.getDataManager();
+        dm = qanova1Model.getDataManager();
         dm.whereIsWaldo(47, waldoFile, "Constructing");
         nCheckBoxes = 2;
         strCheckBoxDescriptions = new String[3];
@@ -51,9 +51,9 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
         strCheckBoxDescriptions[1] = " Extreme Outliers ";
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
-        this.anova1_Quant_Model = anova1_Quant_Model;
-        this.anova1_Quant_Dashboard = anova1_Quant_Dashboard;
-        allTheLabels = anova1_Quant_Model.getCategoryLabels();
+        this.anova1_Quant_Model = qanova1Model;
+        this.anova1_Quant_Dashboard = qanova1Dashboard;
+        allTheLabels = qanova1Model.getCategoryLabels();
         gc_Quant_ANOVA1 = anova1_Quant_Canvas.getGraphicsContext2D(); 
         gc_Quant_ANOVA1.setFont(Font.font("Courier New",
                                     FontWeight.BOLD,
@@ -69,6 +69,7 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
     public void doTheGraph() {    
         double daXPosition, text1Width, text2Width, paneWidth,
                txt1Edge, txt2Edge, downShift;
+        
         yAxis.setForcedAxisEndsFalse(); // Just in case
         text1Width = txtTitle1.getLayoutBounds().getWidth();
         text2Width = txtTitle2.getLayoutBounds().getWidth();
@@ -163,8 +164,8 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
 
             gc_Quant_ANOVA1.setLineWidth(2);
             gc_Quant_ANOVA1.setStroke(Color.BLACK);
-            //double spaceFraction = 0.25 * spacing;
-            double spaceFraction = 0.15 * spacing;
+            double spaceFraction = 0.25 * spacing;
+
             // x, y, w, h
             gc_Quant_ANOVA1.strokeRect(daXPosition - spaceFraction, q3_display, 2 * spaceFraction, -iqr_display);    //  box
             gc_Quant_ANOVA1.strokeLine(daXPosition - spaceFraction, q2_display, daXPosition + spaceFraction, q2_display);    //  Median
@@ -195,7 +196,6 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
                     
                     // Extreme outlier
                     double tempLowBall = fiveNumberSummary[1] - 1.5 * iqr;
-                    //double tempHighBall = fiveNumberSummary[3] + 1.5 * iqr; 
                     
                     if ((tempY < tempLowBall) && (anova1_Quant_CheckBoxes[1].isSelected() == true)) {
                         gc_Quant_ANOVA1.strokeOval(xx - 6, yy - 6, 12, 12);
@@ -222,8 +222,10 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
                     else {
                         gc_Quant_ANOVA1.fillOval(xx - 3, yy - 3, 6, 6);   
                     }
-                }    
-            }           
+                }
+                
+            }
+            
         }   //  Loop through batches
         
         qanova1_ContainingPane.requestFocus();
@@ -231,6 +233,7 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
             KeyCode keyCode = ke.getCode();
             boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
             if (doIt) {
+                //System.out.println("Doing it -- Best Fit");
                 WritableImage writableImage = qanova1_ContainingPane.snapshot(new SnapshotParameters(), null);
                 ImageView iv = new ImageView(writableImage);
                 Clipboard clipboard = Clipboard.getSystemClipboard();

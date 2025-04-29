@@ -1,7 +1,7 @@
 /**************************************************
  *           OneProp_Exact_PDFView                *
- *                  011/27/24                     *
- *                    12:00                       *
+ *                  01/16/25                      *
+ *                    18:00                       *
  *************************************************/
 package the_z_procedures;
 
@@ -31,6 +31,9 @@ import utilityClasses.MyAlerts;
 public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nSuccesses, nFailures, nTrials;
 
     double zStatistic, meanProp, absVal_zStatistic, sdProp,
@@ -38,7 +41,7 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
     
     double daModalValue, dbl_NTrials, daMode;    //  Let's see how this works.
     final double MIDDLE_Z = 0.9999;
-    double[] /*initialInterval,*/ binomialProbs;
+    double[] binomialProbs;
     
     String hypotheses, title1String, title2String;
 
@@ -56,7 +59,9 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
             double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("55 OneProp_Exact_PDFView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("63 *** OneProp_Exact_PDFView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.oneProp_Inf_Model = oneProp_Inf_Model;
@@ -92,7 +97,7 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
         scatterPlotCheckBoxDescr[1] = " Identify P-value ";
         
         txtTitle1 = new Text(50, 25, " Exact Sampling distribution ");
-        hypotheses = oneProp_Inf_Model.getHypotheses();
+        hypotheses = oneProp_Inf_Model.getAltHypotheses();
         alpha = this.oneProp_Inf_Model.getAlpha();
         
         zStatistic = this.oneProp_Inf_Model.getZStat();

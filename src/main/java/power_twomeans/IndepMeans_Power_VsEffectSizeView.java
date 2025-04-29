@@ -1,7 +1,7 @@
 /**************************************************
  *       TwoMeans_Power_VsEffectSizeView          *
- *                  05/30/24                      *
- *                    00:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_twomeans;
 
@@ -26,10 +26,13 @@ import javafx.scene.input.KeyCode;
 
 public class IndepMeans_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int sampleSize_1, sampleSize_2;
 
-    double yMin, yMax, nullMu, nullDiffMeans, standErrDiffMeans;
+    double /*xMin, xMax,*/ yMin, yMax, nullMu, /*altMu,*/ nullDiffMeans, /*altDiffMeans,*/ 
+           /*nullSigma_1, nullSigma_2, effectSize, alpha,*/ standErrDiffMeans;
 
     //  FX 
     Pane theContainingPane;
@@ -43,7 +46,9 @@ public class IndepMeans_Power_VsEffectSizeView extends BivariateScale_W_CheckBox
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("46 IndepMeans_Power_VsEffectSizeView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("50 *** IndepMeans_Power_VsEffectSizeView, Constructing");
+        }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -51,6 +56,10 @@ public class IndepMeans_Power_VsEffectSizeView extends BivariateScale_W_CheckBox
         sampleSize_1 = indepMeans_Power_Model.getSampleSize_1();
         sampleSize_2 = indepMeans_Power_Model.getSampleSize_2();
         nullDiffMeans = indepMeans_Power_Model.getNullDiffMeans();
+        //altDiffMeans = indepMeans_Power_Model.getAltDiffMeans();
+        //nullSigma_1 = indepMeans_Power_Model.getNullSigma_1();
+        //nullSigma_2 = indepMeans_Power_Model.getNullSigma_2();
+        //effectSize = indepMeans_Power_Model.getEffectSize();
         alpha = indepMeans_Power_Model.getAlpha();
         //effectSize = indepMeans_Power_Model.getEffectSize();
         standErrDiffMeans = indepMeans_Power_Model.getStandErrDiffMeans();

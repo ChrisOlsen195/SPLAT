@@ -1,7 +1,7 @@
 /**************************************************
  *             Explore_2Ind_Controller            *
- *                    11/08/24                    *
- *                     12:00                      *
+ *                    03/05/25                    *
+ *                     15:00                      *
  *************************************************/
 package proceduresTwoUnivariate;
 
@@ -12,19 +12,23 @@ import dataObjects.ColumnOfData;
 import dataObjects.QuantitativeDataVariable;
 import java.util.ArrayList;
 import dialogs.*;
-import java.text.DecimalFormat;
+import javafx.collections.FXCollections;
 import splat.*;
-
 import utilityClasses.MyAlerts;
-import utilityClasses.StringUtilities;
+import dialogs.ReOrderStringDisplay_Dialog;
+import javafx.collections.ObservableList;
+import utilityClasses.MyYesNoAlerts;
 
 public class Explore_2Ind_Controller {
     //  POJOs
-    public int n_QDVs; 
-    String thisVarLabel, thisVarDescr, returnStatus, subTitle_And, subTitle_Vs,
-           stackedOrSeparate, firstVarLabel, firstVarDescr, secondVarLabel, 
-           secondVarDescr;
-    public ArrayList<String> allTheLabels;
+    public boolean goodToGo, checkForLegalChoices;
+    boolean[] theStrIsNumeric;
+    public int n_QDVs, TWO, nColumnsOfData; 
+    public int[] theNewOrder;
+    String thisVarLabel, thisVarDescr, strReturnStatus, subTitle_And, subTitle_Vs,
+           tidyOrTI8x, firstVarDescr, secondVarDescr;
+    String[] incomingLabels;
+    public ArrayList<String> allTheLabels, alStr_AllTheLabels;
     
     // Make empty if no-print
     //String waldoFile = "Explore_2Ind_Controller";
@@ -32,213 +36,265 @@ public class Explore_2Ind_Controller {
     
     // My classes
     public ArrayList<ColumnOfData> explore_2Ind_ColsOfData;
-    public ArrayList<String> varLabel;
     public CatQuantDataVariable catQuantVar;
-    
-    public QuantitativeDataVariable qdv_forBBSL;
+    public ObservableList<String> categoryLabels;
+    public QuantitativeDataVariable qdv_Pooled;
     public ArrayList<QuantitativeDataVariable> allTheQDVs;
     public Data_Manager dm;
-    public boolean goodToGo, checkForLegalChoices;
-    boolean[] isNumeric;
+
     private Explore_2Ind_Model explore_2Ind_Model;
+    public ReOrderStringDisplay_Dialog reorderStringDisplay_Dialog;
     private Explore_2Ind_Dashboard explore_2Ind_Dashboard;
-    Explore_2Ind_NotStacked_Dialog explore_2Ind_NS_Dialog;
-    Explore_2Ind_Stacked_Dialog explore_2Ind_Stacked_Dialog;
+    Explore_2Ind_TI8x_Dialog explore_2Ind_TI8x_Dialog;
+    Explore_2Ind_Tidy_Dialog explore_2Ind_Tidy_Dialog;
     
     BBSL_Model bbsl_Model;
-    ArrayList<ColumnOfData> catQualColumns;
+    ArrayList<ColumnOfData> catQuantColumns;
     DotPlot_2Ind_Model dotPlot_2Ind_Model;
     HorizontalBoxPlot_Model hBox_Model;
     QQPlot_Model qqPlot_Model;
     VerticalBoxPlot_Model vBox_Model;
+
+    // My classes
+    public CatQuantDataVariable cqdv;
+    public QuantitativeDataVariable tempQDV;
+    public ArrayList<QuantitativeDataVariable> incomingQDVs;  
+    public MyYesNoAlerts myYesNoAlerts;
     
     public Explore_2Ind_Controller(Data_Manager dm) {
         this.dm = dm;
-        dm.whereIsWaldo(57, waldoFile, "Constructing");
+        dm.whereIsWaldo(66, waldoFile, " *** Constructing");
         explore_2Ind_ColsOfData = new ArrayList();
-        varLabel = new ArrayList();
-        returnStatus = "OK";
+        TWO = 2;
+        strReturnStatus = "OK";
+        myYesNoAlerts = new MyYesNoAlerts();
     }
     
     // Called from MainMenu
-    public String chooseTheStructureOfData() {
-        dm.whereIsWaldo(65, waldoFile, "chooseTheStructureOfData()");
-        DataChoice_StackedOrNot dataChoice_Dialog_2Ind = new DataChoice_StackedOrNot(this);
-        if (stackedOrSeparate.equals("TI8x-Like")) { doNotStacked(); }        
-        if (stackedOrSeparate.equals("Group & Data")) { doPrepColumnsFromStacked(); }                
-        if (stackedOrSeparate.equals("Bailed")) { /* No op */ }
-        return stackedOrSeparate;
+    public String doTidyOrTI8x() {
+        myYesNoAlerts.setTheYes("Tidy");
+        myYesNoAlerts.setTheNo("TI8x");
+        myYesNoAlerts.showTidyOrTI8xAlert();
+        tidyOrTI8x = myYesNoAlerts.getYesOrNo();
+        if (tidyOrTI8x == null) { return "Cancel"; }
+        if (tidyOrTI8x.equals("Yes")) { 
+            strReturnStatus = doTidy(); }
+            dm.whereIsWaldo(82, waldoFile, " --- strReturnStatus = " + strReturnStatus);
+            if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
+        if (tidyOrTI8x.equals("No")) { 
+            doTI8x(); } 
+        return "OK";
     }
     
-    private String doPrepColumnsFromStacked() {
-        dm.whereIsWaldo(74, waldoFile, "doPrepColumnsFromStacked()");
-        returnStatus = "OK";
-        
-        MyAlerts.showNeedToUnstackAlert();
-        
-        explore_2Ind_Stacked_Dialog = new Explore_2Ind_Stacked_Dialog (dm, "None" );
-        explore_2Ind_Stacked_Dialog.showAndWait();
-        
-        if (explore_2Ind_Stacked_Dialog.getReturnStatus().equals("OK")) {
-            catQualColumns = explore_2Ind_Stacked_Dialog.getData();  
-            catQuantVar = new CatQuantDataVariable(dm, catQualColumns.get(0), catQualColumns.get(1), false,  "Explore_2Ind_Controller");
-            returnStatus = catQuantVar.finishConstructingStacked();           
-            if (returnStatus.equals("OK")) {
-                catQuantVar.unstackToDataStruct();
-                return returnStatus;    // return good
-            }     
-        }
-        return returnStatus;    // return bad   
-    }
-
-    protected String doNotStacked() {
-        dm.whereIsWaldo(95, waldoFile, "doNotStacked()");
+    protected String doTI8x() {
+        dm.whereIsWaldo(90, waldoFile, " --- doTI8x()");
         goodToGo = true;
+        int casesInStruct = dm.getNCasesInStruct();
         
-        explore_2Ind_NS_Dialog = new Explore_2Ind_NotStacked_Dialog( dm );
-        explore_2Ind_NS_Dialog.show_ANOVA1_NS_Dialog();
-        returnStatus = explore_2Ind_NS_Dialog.getReturnStatus();
-        if (!goodToGo) { return "Bailed"; }
-        // else...
-        firstVarDescr = explore_2Ind_NS_Dialog.getFirstVariable();
-        secondVarDescr = explore_2Ind_NS_Dialog.getSecondVariable();
- 
-        if (StringUtilities.stringIsEmpty(firstVarDescr) || StringUtilities.stringIsEmpty(secondVarDescr))  {
-            subTitle_And = firstVarLabel  + " & " + secondVarLabel;  
-            subTitle_Vs = firstVarLabel  + " vs " + secondVarLabel;
-        } else {
-            subTitle_And = firstVarDescr  + " & " + secondVarDescr; 
-            subTitle_Vs = firstVarLabel  + " vs " + secondVarLabel;
-        }   
-
-        if (secondVarDescr.equals(firstVarDescr)) {
-            firstVarDescr = firstVarDescr + "_01";
-            secondVarDescr = firstVarDescr + "_02";
+        if (casesInStruct == 0) {
+            MyAlerts.showAintGotNoDataAlert();
+            return "Cancel";
         }
         
-        int nColumnsOfData = explore_2Ind_NS_Dialog.getNLevels();
-        explore_2Ind_ColsOfData = explore_2Ind_NS_Dialog.getData();
+        explore_2Ind_TI8x_Dialog = new Explore_2Ind_TI8x_Dialog( dm );
+        strReturnStatus = explore_2Ind_TI8x_Dialog.getReturnStatus();
+        dm.whereIsWaldo(101, waldoFile, " --- strReturnStatus = " + strReturnStatus);
+        if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
         
-        // Check for empty data **************************************
-        for (int ith = 0; ith < nColumnsOfData; ith++) {
-            ColumnOfData tempCol = explore_2Ind_ColsOfData.get(ith);
-            if (!tempCol.getContainsData()) {
-                MyAlerts.showAintGotNoDataAlert_2Var();
-                return "Bailed";
-            }
-        }
-
-        // Check for long time coming ********************************
-        for (int ith = 0; ith < nColumnsOfData; ith++) {
-            ColumnOfData tempCol = explore_2Ind_ColsOfData.get(ith);
-            int tempColSize = tempCol.getNLegalCasesInColumn();
-            String catValue0 = tempCol.getVarLabel();
-            double temp1 = -11.317 + 2.164 * Math.log(tempColSize);
-            double estTimeInSec = Math.exp(temp1);
-            DecimalFormat df = new DecimalFormat("##0.00");
-            String strMessage1 = "I'm working on the " + catValue0;
-            String strMessage2 = "my estimated(!!) time to finish is " + df.format(estTimeInSec) + " sec."; 
-            if (estTimeInSec > 5.0) {            
-                MyAlerts.longTimeComingAlert(strMessage1, strMessage2);
-            }
-        }
-
         // Stack the columns into one column for the BBSL procedure
         // the 2nd and third colums are passed to the other procedures
         thisVarLabel = "All";
         thisVarDescr = "All";
-        ArrayList<String> tempAlStr = new ArrayList<>();
-        
+        ArrayList<String> alStrPooledData = new ArrayList<>();
+        nColumnsOfData = explore_2Ind_TI8x_Dialog.getNLevels();
         for (int ith = 0; ith < nColumnsOfData; ith++) {
-            ColumnOfData tempCol = explore_2Ind_ColsOfData.get(ith);
+            ColumnOfData tempCol = explore_2Ind_TI8x_Dialog.getIthColumnOfData(ith);
             int nColSize = tempCol.getColumnSize();
             
             for (int jth = 0; jth < nColSize; jth++) {
-                tempAlStr.add(tempCol.getTheCases_ArrayList().get(jth));
+                alStrPooledData.add(tempCol.getTheCases_ArrayList().get(jth));
             }
         }
         
-        ColumnOfData tempCOD = new ColumnOfData(dm, thisVarLabel, thisVarDescr, tempAlStr);
-        qdv_forBBSL = new QuantitativeDataVariable(thisVarLabel, thisVarDescr,tempCOD);
+        ColumnOfData tempCOfD = new ColumnOfData(dm, thisVarLabel, thisVarDescr, alStrPooledData);
+        qdv_Pooled = new QuantitativeDataVariable(thisVarLabel, thisVarDescr,tempCOfD);    
+        dm.whereIsWaldo(121, waldoFile, " --- strReturnStatus = " + strReturnStatus);
+        if (!strReturnStatus.equals("OK")) { return "Cancel"; }
+        // else...
+        firstVarDescr = explore_2Ind_TI8x_Dialog.getFirstVariable();
+        secondVarDescr = explore_2Ind_TI8x_Dialog.getSecondVariable();
+        subTitle_And = firstVarDescr  + " & " + secondVarDescr;  
+        subTitle_Vs = firstVarDescr  + " vs " + secondVarDescr;
+            
+        if (nColumnsOfData == 0) { 
+            goodToGo = false;
+            strReturnStatus = "Cancel";            
+            return "Cancel"; 
+        }
  
-        allTheQDVs = new ArrayList();
+        if (nColumnsOfData != TWO) {
+            MyAlerts.showExplore2Ind_NE2_LevelsAlert();
+            goodToGo = false;
+            return "Cancel";
+        }
+        dm.whereIsWaldo(140, waldoFile, " --- strReturnStatus = " + strReturnStatus);
+        // else...
+        explore_2Ind_ColsOfData = explore_2Ind_TI8x_Dialog.getData();
+        incomingQDVs = new ArrayList();
 
         for (int ith = 0; ith < nColumnsOfData; ith++) {
             thisVarLabel = explore_2Ind_ColsOfData.get(ith).getVarLabel();
             thisVarDescr = explore_2Ind_ColsOfData.get(ith).getVarDescription();
-            QuantitativeDataVariable tempQDV = new QuantitativeDataVariable(thisVarLabel, thisVarDescr, explore_2Ind_ColsOfData.get(ith));  
-            allTheQDVs.add(tempQDV);                 
+            tempQDV = new QuantitativeDataVariable(thisVarLabel, thisVarDescr, explore_2Ind_ColsOfData.get(ith));  
+            incomingQDVs.add(tempQDV);                 
         } 
+        n_QDVs = incomingQDVs.size();
+        strReturnStatus = askAboutReOrdering();
+        if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
+        doTheExplore2Ind();
 
-        compare_The_2Ind();
-        return "OK";
+        dm.whereIsWaldo(156, waldoFile, " --- END doTI8x()");
+        return strReturnStatus;
     }
     
-    protected boolean compare_The_2Ind() {
-        dm.whereIsWaldo(178, waldoFile, "compare_The_2Ind");
-        n_QDVs = allTheQDVs.size();
-        allTheLabels = new ArrayList<>();
-        
-        firstVarLabel = allTheQDVs.get(0).getTheVarLabel();
-        secondVarLabel = allTheQDVs.get(1).getTheVarLabel();        
-        
-        for (int iVars = 0; iVars < n_QDVs; iVars++) {            
-            if (allTheQDVs.get(iVars).getTheVarDescription() == null) {
-                allTheQDVs.get(iVars).setTheVarDescription(allTheQDVs.get(iVars).getTheVarLabel());
+    protected String doTidy() {
+        dm.whereIsWaldo(161, waldoFile, " --- doTidy()");
+        do {
+            int casesInStruct = dm.getNCasesInStruct();            
+            if (casesInStruct == 0) {
+                MyAlerts.showAintGotNoDataAlert();
+                return "Cancel";
             }
-           
+            
+            explore_2Ind_Tidy_Dialog = new Explore_2Ind_Tidy_Dialog( dm, "Categorical" );
+            explore_2Ind_Tidy_Dialog.showAndWait();
+            strReturnStatus = explore_2Ind_Tidy_Dialog.getReturnStatus();
+            if (strReturnStatus.equals("Cancel")) {return "Cancel"; }
+            goodToGo = explore_2Ind_Tidy_Dialog.getGoodToGO();
+            
+            if (!goodToGo) {
+                strReturnStatus = explore_2Ind_Tidy_Dialog.getReturnStatus();
+                return "Cancel";
+            }
+            explore_2Ind_ColsOfData = explore_2Ind_Tidy_Dialog.getData();
+            
+            int nLevels = explore_2Ind_ColsOfData.get(0).getNumberOfDistinctValues();
+            if (nLevels != TWO) {
+                MyAlerts.showExplore2Ind_NE2_LevelsAlert();
+                goodToGo = false;
+                return "Cancel";
+            }
+            
+            checkForLegalChoices = validateTidyChoices();
+        } while (!checkForLegalChoices);
+
+        //                                Categorical,             Quantitative            return All and individuals
+        cqdv = new CatQuantDataVariable(dm, explore_2Ind_ColsOfData.get(0), explore_2Ind_ColsOfData.get(1), true, "ANOVA1_Cat_Controller");   
+        strReturnStatus = cqdv.finishConstructingTidy();
+        if(strReturnStatus.equals("OK")) { 
+            allTheQDVs = new ArrayList();
+            allTheQDVs = cqdv.getAllQDVs();
+            /******************************************************
+             *  The qdv_Pooled is a qdv of the pooled allTheQDVs  *
+             *****************************************************/
+            qdv_Pooled = allTheQDVs.get(0);
+            allTheQDVs.remove(0);   // Dump the All qdv
+            n_QDVs = allTheQDVs.size();
+
+            firstVarDescr = allTheQDVs.get(0).getTheVarLabel();
+            secondVarDescr = allTheQDVs.get(1).getTheVarLabel();
+            subTitle_And = firstVarDescr  + " & " + secondVarDescr;  
+            subTitle_Vs = firstVarDescr  + " vs " + secondVarDescr;        
+
+            collectAllTheLabels();
+            doTheExplore2Ind();
+            dm.whereIsWaldo(214, waldoFile, " --- END doTidy()");
+            return "OK";
+        }
+        dm.whereIsWaldo(217, waldoFile, " --- END doTidy()");
+        return "Cancel";
+    }
+    
+    protected boolean doTheExplore2Ind() {
+        dm.whereIsWaldo(222, waldoFile, " --- doTheExplore2Ind()");
+        allTheLabels = new ArrayList<>();
+        for (int iVars = 0; iVars < n_QDVs; iVars++) {
             allTheLabels.add(allTheQDVs.get(iVars).getTheVarLabel());
         }
-        
-        firstVarLabel = allTheQDVs.get(0).getTheVarLabel();
-        secondVarLabel = allTheQDVs.get(1).getTheVarLabel();
-
         // The QDVs already have labels -- dump allTheLabels & get from QDV?
-        explore_2Ind_Model = new Explore_2Ind_Model(this, firstVarDescr, secondVarDescr, allTheQDVs, allTheLabels);
-        String anovaOK = explore_2Ind_Model.continueInitializing();
+        explore_2Ind_Model = new Explore_2Ind_Model(this, firstVarDescr, secondVarDescr, allTheQDVs);
+        String explore2IndOK = explore_2Ind_Model.continueInitializing();
+        if (!explore2IndOK.equals("OK")) { return false;  }
         
-        if (!anovaOK.equals("OK")) { return false; }
-
-        if (StringUtilities.stringIsEmpty(firstVarDescr) || StringUtilities.stringIsEmpty(secondVarDescr))  {
-            subTitle_And = firstVarLabel  + " & " + firstVarLabel;  
-            subTitle_Vs = secondVarLabel  + " vs " + firstVarLabel;
-        } else {
-            subTitle_And = firstVarDescr  + " & " + secondVarDescr; 
-            subTitle_Vs = secondVarLabel  + " vs " + secondVarLabel;
-        }   
-
-        if (secondVarDescr.equals(firstVarDescr)) {
-            firstVarDescr = firstVarDescr + "_01";
-            secondVarDescr = firstVarDescr + "_02";
-        }
-        
+        /***************************************************************
+        * allTheQDVs here are original all with pooled separated out   *
+        ***************************************************************/
         hBox_Model = new HorizontalBoxPlot_Model(this, subTitle_And, allTheQDVs);
         vBox_Model = new VerticalBoxPlot_Model(this, subTitle_And, allTheQDVs);
         qqPlot_Model = new QQPlot_Model(this, allTheQDVs);
-        bbsl_Model = new BBSL_Model(this, qdv_forBBSL, allTheQDVs);
-        dotPlot_2Ind_Model = new DotPlot_2Ind_Model(this, subTitle_And, allTheQDVs);        
+        bbsl_Model = new BBSL_Model(this, qdv_Pooled, allTheQDVs);
+        dotPlot_2Ind_Model = new DotPlot_2Ind_Model(this, subTitle_And, allTheQDVs);      
         
         explore_2Ind_Dashboard = new Explore_2Ind_Dashboard(this, explore_2Ind_Model);
         explore_2Ind_Dashboard.populateTheBackGround();
         explore_2Ind_Dashboard.putEmAllUp();
         explore_2Ind_Dashboard.showAndWait();
-        returnStatus = explore_2Ind_Dashboard.getReturnStatus();
-        returnStatus = "OK";
-        return true;
+        strReturnStatus = explore_2Ind_Dashboard.getReturnStatus();
+        strReturnStatus = "OK";
+        dm.whereIsWaldo(247, waldoFile, " END doTheExplore2Ind()");
+        return true;        
+    } 
+       
+    private String askAboutReOrdering() {
+        dm.whereIsWaldo(252, waldoFile, "  --- askAboutReOrdering()");
+        n_QDVs = incomingQDVs.size();
+        theNewOrder = new int[n_QDVs];
+        // Default
+        for (int ithQDV= 0; ithQDV < n_QDVs; ithQDV++) {
+            theNewOrder[ithQDV] = ithQDV;
+        }
+        incomingLabels = new String[n_QDVs];
+        for (int iVars = 0; iVars < n_QDVs; iVars++) {
+            incomingLabels[iVars] = incomingQDVs.get(iVars).getTheVarLabel();
+        }        
         
+        reorderStringDisplay_Dialog = new ReOrderStringDisplay_Dialog(this, incomingLabels);
+        reorderStringDisplay_Dialog.showAndWait();
+        
+        strReturnStatus = reorderStringDisplay_Dialog.getReturnStatus();
+        if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
+        allTheQDVs = new ArrayList<>();
+        for (int ithQDV = 0; ithQDV < n_QDVs; ithQDV++) {
+            allTheQDVs.add(incomingQDVs.get(theNewOrder[ithQDV]));
+        }
+        collectAllTheLabels(); 
+        return "OK";
+    }
+    
+    private void collectAllTheLabels() {
+        dm.whereIsWaldo(278, waldoFile, "  --- collectAllTheLabels()");
+        categoryLabels = FXCollections.observableArrayList();         
+        for (int iVars = 0; iVars < n_QDVs; iVars++) {
+            String tempVarLabel = allTheQDVs.get(iVars).getTheVarLabel();
+            categoryLabels.add(allTheQDVs.get(iVars).getTheVarLabel());
+        }
+    }
+    
+    public void copyTheReOrder(int[] returnedOrder) {
+        System.arraycopy(returnedOrder, 0, theNewOrder, 0, n_QDVs);
+        reorderStringDisplay_Dialog.close();
     } 
     
-    public void setStackedOrSeparate(String toThis) { stackedOrSeparate = toThis; }
-    
-    private boolean validateStackChoices() {
-        dm.whereIsWaldo(234, waldoFile, "validateStackChoices()");
-        isNumeric = new boolean[2];        
-        for (int ithCol = 0; ithCol < 2; ithCol++){
-            isNumeric[ithCol] = explore_2Ind_ColsOfData.get(ithCol).getIsNumeric();  
+    private boolean validateTidyChoices() {
+        dm.whereIsWaldo(292, waldoFile, " --- validateStackChoices()");
+        theStrIsNumeric = new boolean[TWO];        
+        for (int ithCol = 0; ithCol < TWO; ithCol++){
+            theStrIsNumeric[ithCol] = explore_2Ind_ColsOfData.get(ithCol).getDataType().equals("Quantitative");  
         }
         return true;
     }
     
+    public void setTidyOrTI8x(String toThis) { tidyOrTI8x = toThis; }
     public String getSubTitleAnd() { return subTitle_And; }    
     public String getSubTitleVs() { return subTitle_Vs; }   
     public String getFirstVarDescr() { return firstVarDescr; }
@@ -249,6 +305,6 @@ public class Explore_2Ind_Controller {
     public QQPlot_Model getQQ_Model() { return qqPlot_Model; }
     public VerticalBoxPlot_Model getVBox_Model() { return vBox_Model; }
     public BBSL_Model getBBSL_Model() { return bbsl_Model; }
-
+    public ObservableList <String> getCategoryLabels() {return categoryLabels; }
     public Data_Manager getDataManager() {return dm; }
 }

@@ -1,11 +1,10 @@
 /************************************************************
  *                       Splat_MainMenu                     *
- *                          01/03/25                        *
- *                            12:00                         *
+ *                          02/20/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package splat;
 
-import quadraticRegression.OneParam_QuadReg_Controller;
 import bivariateProcedures_Categorical.BivCat_Controller;
 import power_OneMean.OneMean_Power_Controller;
 import anova2.ANOVA2_RCB_Controller;
@@ -54,9 +53,8 @@ import epidemiologyProcedures.Epi_Controller;
 
 public class MainMenu extends MenuBar {
     //  POJOs
-    
     boolean dataExists;
-        
+    
     String procedure, strReturnStatus;
     final String ESCAPE = "ESCAPE";
     final String EXPERIMENT = "EXPERIMENT";
@@ -75,7 +73,7 @@ public class MainMenu extends MenuBar {
     Label fileLabel;
 
     public MainMenu(Application splat, Data_Manager dm, Label fileLabel) {
-        dm.whereIsWaldo(77, waldoFile, "\nConstructing");
+        dm.whereIsWaldo(77, waldoFile, " *** Constructing");
         this.fileLabel = fileLabel;
         this.dm = dm;
         dm.setMainMenu(this);
@@ -138,7 +136,6 @@ public class MainMenu extends MenuBar {
         MenuItem regression_Compare = new MenuItem("Compare regressions");
         MenuItem noInterceptSimpleRegression = new MenuItem("One parameter linear regression");
         MenuItem quadraticRegression = new MenuItem("Quadratic regression");
-        MenuItem noInterceptQuadraticRegression = new MenuItem("One parameter  quadratic regression");
         
         Menu bivariateCategorical = new Menu("Bivariate categorical data");
         MenuItem bivCatRawCounts = new MenuItem("I will enter m x n data in a table");
@@ -153,12 +150,11 @@ public class MainMenu extends MenuBar {
                                         epidemiology_FileData);              
         
         exploreBivariateData.getItems().addAll(noInf_Regression,
-                                            regression_Compare,
-                                            noInterceptSimpleRegression,
-                                            quadraticRegression,
-                                            noInterceptQuadraticRegression,
-                                            bivariateCategorical,
-                                            epidemiology_2x2);
+                                               regression_Compare,
+                                               noInterceptSimpleRegression,
+                                               quadraticRegression,
+                                               bivariateCategorical,
+                                               epidemiology_2x2);
 
         dataExplorationMenu.getItems().addAll(exploreUnivariateData, 
                                     exploreBivariateData);
@@ -203,9 +199,7 @@ public class MainMenu extends MenuBar {
                                         chiSquareFileData);
         Menu bootstrap = new Menu("Bootstrapping");
         MenuItem bootOneVar = new MenuItem("Boot Generic one-var");
-        MenuItem boot2Means = new MenuItem("Boot Two Means");
-        MenuItem bootSlope = new MenuItem("Boot Slope");
-        bootstrap.getItems().addAll(bootOneVar, boot2Means, bootSlope);
+        bootstrap.getItems().add(bootOneVar);
         inference.getItems().addAll(singleProportion, 
                                     differenceInProportions,
                                     singleMean,
@@ -275,7 +269,7 @@ public class MainMenu extends MenuBar {
                yikesException = true; 
                PrintExceptionInfo pei = new PrintExceptionInfo(ex, "FileMenu.openFile.setOnAction");
             } 
-            //dm.whereIsWaldo(266, waldoFile, "dm.getFileName() = " + dm.getFileName());
+            //dm.whereIsWaldo(275, waldoFile, "dm.getFileName() = " + dm.getFileName());
             if (yikesException) {
                 dm.whereIsWaldo(277, waldoFile, "yikesException");
                 fileLabel.setText("File: " + dm.getFileName());
@@ -410,16 +404,16 @@ public class MainMenu extends MenuBar {
         
         compareTwoDistributions.setOnAction((ActionEvent event) -> {
             Explore_2Ind_Controller twoInd_Controller = new Explore_2Ind_Controller(dm);
-            twoInd_Controller.chooseTheStructureOfData();
+            twoInd_Controller.doTidyOrTI8x();
         });
 
         compareManyDistributions.setOnAction((ActionEvent event) -> {
             MultUni_Controller multUni_Controller = new MultUni_Controller(dm);
-            multUni_Controller.doStackedOrNot();
+            multUni_Controller.doTidyOrNot();
         });
         
         noInf_Regression.setOnAction((ActionEvent event) -> {
-                NoInf_Regression_Controller noInf_RegrController = new NoInf_Regression_Controller(dm);
+                NoInf_Regr_Controller noInf_RegrController = new NoInf_Regr_Controller(dm);
                 strReturnStatus = noInf_RegrController.doTheProcedure();
         });
         
@@ -516,13 +510,13 @@ public class MainMenu extends MenuBar {
         
         // ******          Independent t procedure          ******
         independentMeans.setOnAction((ActionEvent event) -> {
-            Indep_t_Controller indT_Controller = new Indep_t_Controller(dm);
-            strReturnStatus = indT_Controller.chooseTheStructureOfData();
+            Indep_t_Controller indep_t_Controller = new Indep_t_Controller(dm);
+            strReturnStatus = indep_t_Controller.doTidyOrNot();
         });
 
         pairedMean.setOnAction((ActionEvent event) -> {
             Matched_t_Controller matchedT_Controller = new Matched_t_Controller(dm);
-            strReturnStatus = matchedT_Controller.prepColumnsFromNonStacked();
+            strReturnStatus = matchedT_Controller.prepColumns();
         });
         
         // **************************************************************
@@ -530,13 +524,13 @@ public class MainMenu extends MenuBar {
         // **************************************************************
         anova_Cat_Data.setOnAction((ActionEvent event) -> {
             ANOVA1_Cat_Controller anova1_Cat_Controller = new ANOVA1_Cat_Controller(dm);
-            anova1_Cat_Controller.doStackedOrNot();
+            anova1_Cat_Controller.doTidyOrTI8x();
             strReturnStatus = anova1_Cat_Controller.getReturnStatus(); 
         });
         
         anova_Quant_Data.setOnAction((ActionEvent event) -> {
             ANOVA1_Quant_Controller anova1_Quant_Controller = new ANOVA1_Quant_Controller(dm);
-            anova1_Quant_Controller.doStackedOrNot();
+            anova1_Quant_Controller.doTidyOrTI8x();
             strReturnStatus = anova1_Quant_Controller.getReturnStatus(); 
         });
         
@@ -573,7 +567,7 @@ public class MainMenu extends MenuBar {
         // *                   Regression                               *
         // **************************************************************       
         simpleLinearRegression.setOnAction((ActionEvent event) -> {
-                Inf_Regression_Controller simpleRegr_Controller = new Inf_Regression_Controller(dm);
+                Inf_Regr_Controller simpleRegr_Controller = new Inf_Regr_Controller(dm);
                 strReturnStatus = simpleRegr_Controller.doTheProcedure();
         });
         
@@ -592,11 +586,6 @@ public class MainMenu extends MenuBar {
         quadraticRegression.setOnAction((ActionEvent event) -> {
                 QuadReg_Controller quadRegrProc = new QuadReg_Controller (dm);
                 strReturnStatus = quadRegrProc.doTheProcedure();
-        });
-        
-        noInterceptQuadraticRegression.setOnAction((ActionEvent event) -> {
-                OneParam_QuadReg_Controller noInt_QuadProc = new OneParam_QuadReg_Controller(dm);
-                strReturnStatus = noInt_QuadProc.doTheProcedure();
         });
         
         multLinRegression.setOnAction((ActionEvent event) -> {
@@ -689,21 +678,9 @@ public class MainMenu extends MenuBar {
         
         bootOneVar.setOnAction((ActionEvent event) -> {
             String whichBoot = "ChooseUnivStat";
-            OneStat_Controller chooseStats_Controller = new OneStat_Controller(dm, whichBoot);
-            chooseStats_Controller.doTheControllerThing();
-            strReturnStatus = chooseStats_Controller.getReturnStatus();  
-        });
-        
-        boot2Means.setOnAction((ActionEvent event) -> {
-            TwoMeans_Controller twoMeans_Controller = new TwoMeans_Controller(dm);
-            twoMeans_Controller.doPrepColumnsFromNonStacked();
-            strReturnStatus = twoMeans_Controller.getReturnStatus();  
-        });
-        
-        bootSlope.setOnAction((ActionEvent event) -> {
-            Slope_Controller slope_Controller = new Slope_Controller(dm);
-            slope_Controller.doPrepColumnsFromNonStacked();
-            strReturnStatus = slope_Controller.getReturnStatus();  
+            ChooseStats_Controller boot_Controller = new ChooseStats_Controller(dm, whichBoot);
+            boot_Controller.doTheControllerThing();
+            strReturnStatus = boot_Controller.getReturnStatus();  
         });
         
         // **************************************************************
@@ -741,10 +718,11 @@ public class MainMenu extends MenuBar {
         if (!dataExists) {
             MyAlerts.showAintGotNoDataAlert();
         }
-        return dataExists; }
+        return dataExists; 
+    }
     
     public String toString() { // new Exception().printStackTrace();
-        System.out.println("\n toString in MainMenu");
+        // new Exception().printStackTrace(); 
         return "Blank string in Menu";
     }
 } // class

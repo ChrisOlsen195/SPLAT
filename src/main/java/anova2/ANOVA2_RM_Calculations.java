@@ -1,7 +1,7 @@
 /**************************************************
  *           ANOVA2_RM_Calculations               *
- *                  11/27/24                      *
- *                   12:00                        *
+ *                  01/20/25                      *
+ *                   18:00                        *
  *************************************************/
 /**************************************************
  *     Tested against Cohen p513                  *
@@ -313,7 +313,7 @@ public class ANOVA2_RM_Calculations {
         }
         
         for (int ithCol = 1; ithCol < dm.getNVarsInStruct(); ithCol++) {
-            boolean isNumeric = dm.getAllTheColumns().get(ithCol).getIsNumeric();
+            boolean isNumeric = dm.getAllTheColumns().get(ithCol).getDataType().equals("Quantitative");
             boolean hasMissingData = dm.getAllTheColumns().get(ithCol).getHasMissingData();
             if (!isNumeric || hasMissingData) {
                 return false;

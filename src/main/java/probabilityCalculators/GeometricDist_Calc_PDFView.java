@@ -1,6 +1,6 @@
 /**************************************************
  *             GeometricDist_Calc_PDFView         *
- *                    12/31/24                    *
+ *                    02/23/25                    *
  *                     12:00                      *
  *************************************************/
 package probabilityCalculators;
@@ -22,7 +22,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;import probabilityDistributions.GeometricDistribution;
+import javafx.scene.text.Text;
+import probabilityDistributions.GeometricDistribution;
 import smarttextfield.*;
 import utilityClasses.MyAlerts;
 import utilityClasses.StringUtilities;
@@ -30,10 +31,11 @@ import utilityClasses.StringUtilities;
 public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     // POJOs
-    boolean printTheStuff = true;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int geometric_nToDisplay, lowerShadeBound, 
-        upperShadeBound, probSelection, /*intDaChoice,*/ intDaLeftChoice, 
+        upperShadeBound, probSelection, intDaLeftChoice, 
         intDaRightChoice, geomStart, geomStop;
 
     //     ********  Left and Right base X positions ********
@@ -48,17 +50,15 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
     ArrayList<SmartTextField> allTheSTFs;
 
     //  POJOs / FX
-    //Line line;    
-    //Text txtAnswer;
-    
+
     public GeometricDist_Calc_PDFView(ProbCalc_Dashboard probCalc_Dashboard, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(probCalc_Dashboard, placeHoriz, placeVert,
                         withThisWidth, withThisHeight); 
-        if (printTheStuff) {
-            System.out.println("\n60 *** GeometricDist_Calc_PDFView, Constructing");
-        }               
+        if (printTheStuff == true) {
+            System.out.println("60 *** GeometricDist_Calc_PDFView, Constructing");
+        }              
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         
@@ -260,6 +260,8 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
         boolean quartilesDesired = checkBoxSettings[1];
         boolean momentsDesired = checkBoxSettings[2];
         
+        paneWidth = dragableAnchorPane.getWidth();
+        
         //  Start point for graph
         dTG_xx0 = xGraphLeft; 
         geomStart = (int) Math.floor(xGraphLeft);
@@ -322,8 +324,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
                 content.put(DataFormat.IMAGE, writableImage);
                 clipboard.setContent(content);
             }
-        }));
-        
+        }));   
     }
     
     private void printTheProbs() {
@@ -369,40 +370,26 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
         gc.fillText(prtQ3, xPositionQ3 - 6, yPositionQ3);
     }
     
-private void printTheMoments() {
-        double xMomentAbove;
-        xMomentAbove = 0;
-        double belowTheMaxTrigger = geomDistr.getPDF(0) - .05;
-
-        // Find the first value greater than trigger
-        
-        for (int ithHigh = 0; ithHigh < geomStop; ithHigh++) {
-            
-            if (geomDistr.getPDF(ithHigh) > belowTheMaxTrigger) {
-                xMomentAbove = ithHigh + 4;
-            }
-        }
-
+    private void printTheMoments() {
         if (!geometricDist_Calc_DialogView.getThisSTF(0).isEmpty()) {   // i.e. not initializing  
             
             double xMomentPosition, xPStart, yPStart,
                                     xMuStart, yMuStart, 
                                     xSigmaStart, ySigmaStart;
             gc.setFill(Color.BLACK);
-            xMomentPosition = xMomentAbove;
             
-            xPStart = xAxis.getDisplayPosition(xMomentPosition);
+            xPStart = xAxis.getDisplayPosition(q3) + 0.05 * (paneWidth + xAxis.getDisplayPosition(q3));
             yPStart = yAxis.getDisplayPosition(0.75 * maxOfYScale);
             String pString = "p = " + StringUtilities.roundDoubleToNDigitString(geometric_P, 4);
             gc.fillText(pString, xPStart, yPStart);   
 
-            xMuStart = xAxis.getDisplayPosition(xMomentPosition);
+            xMuStart = xPStart;
             yMuStart = yAxis.getDisplayPosition(0.70 * maxOfYScale); 
             double daMeanGeom = 1.0 / geometric_P;
             String muString = "\u03BC = " + StringUtilities.roundDoubleToNDigitString(daMeanGeom, 4) ;
             gc.fillText(muString, xMuStart, yMuStart);
             
-            xSigmaStart = xMuStart;
+            xSigmaStart = xPStart;
             ySigmaStart = yAxis.getDisplayPosition(0.65 * maxOfYScale);
             double daSigmaGeom = Math.sqrt(1.0 - geometric_P) / geometric_P;
             String sigmaString = "\u03C3 = " + StringUtilities.roundDoubleToNDigitString(daSigmaGeom, 4);

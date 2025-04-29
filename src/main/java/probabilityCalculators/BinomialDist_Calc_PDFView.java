@@ -1,6 +1,6 @@
 /**************************************************
  *             BinomialDist_Calc_PDFView          *
- *                    12/31/24                    *
+ *                    02/23/25                    *
  *                     12:00                      *
  *************************************************/
 package probabilityCalculators;
@@ -27,14 +27,15 @@ import utilityClasses.*;
 public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     // POJOs
-    boolean printTheStuff = true;
-        
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int binomial_N, lowerShadeBound, upperShadeBound, probSelection;
     int intDaLeftChoice, intDaRightChoice;
 
     //     ********  Left and Right base X positions ********
     double init_LeftX, init_RightX, binomial_P, binompdf,
-            maxBinomialProbThisTime, daProb; 
+            maxBinomialProbThisTime, daProb, paneWidth; 
     
     String returnStatus;
 
@@ -49,8 +50,8 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double withThisWidth, double withThisHeight) {
     super(probCalc_Dashboard, placeHoriz, placeVert,
                         withThisWidth, withThisHeight);
-        if (printTheStuff) {
-            System.out.println("\n53 *** BinomialDist_Calc_PDFView, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("54 *** BinomialDist_Calc_PDFView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -254,6 +255,8 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
         boolean quartilesDesired = checkBoxSettings[1];
         boolean momentsDesired = checkBoxSettings[2];
         
+        paneWidth = dragableAnchorPane.getWidth();
+        
         //  Start point for graph
         dTG_xx0 = xGraphLeft; 
         int binomStart = (int) Math.floor(xGraphLeft);
@@ -362,62 +365,33 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     }
     
     private void printTheMoments() {
-        //System.out.println("361 BinomCalcPDF, printTheMoments()");
-        double xMomentBelow, xMomentAbove;
-        xMomentBelow = 0.0; xMomentAbove = binomial_N;
-        double belowTheMaxTrigger = maxBinomialProbThisTime - .05;
-        
-        double muValue = binomial_N * binomial_P;
-        double sigmaValue = Math.sqrt(binomial_N * binomial_P * (1.0 - binomial_P));
-        
-        // Find the last value less than trigger        
-        for (int ithLow = 0; ithLow < binomial_N; ithLow++) {
-            if ((binomDistr.getPDF(ithLow) < belowTheMaxTrigger) && (binomDistr.getPDF(ithLow) < binomDistr.getPDF(ithLow + 1))) {
-                xMomentBelow = ithLow;
-            }
-        }
-
-        // Find the first value greater than trigger
-        for (int ithHigh = binomial_N - 1; ithHigh > 0; ithHigh--) {
-            if ((binomDistr.getPDF(ithHigh) < belowTheMaxTrigger) && (binomDistr.getPDF(ithHigh) > binomDistr.getPDF(ithHigh + 1))) {
-                xMomentAbove = ithHigh;
-            }
-        }
-
         if (!binomialDist_Calc_DialogView.getThisSTF(0).isEmpty()) {   // i.e. not initializing  
             
-            double xMomentPosition, xNStart, yNStart,
+            double xPrintMomentsPosition, xNStart, yNStart,
                                     xPStart, yPStart, 
                                     xMuStart, yMuStart, 
                                     xSigmaStart, ySigmaStart;
             gc.setFill(Color.BLACK);
-            
-            if (binomial_P < 0.5) {
-                xMomentPosition = muValue + 2.0 * sigmaValue;
-            }
-            else {
-                xMomentPosition = muValue - 6.0 * sigmaValue;
-            }
-            
-            xNStart = xAxis.getDisplayPosition(xMomentPosition);
+
+            xNStart = xAxis.getDisplayPosition(q3) + 0.1 * (paneWidth + xAxis.getDisplayPosition(q3));
             yNStart = yAxis.getDisplayPosition(0.80 * maxOfYScale);
             String nString = "n = " + String.valueOf(binomial_N);
             gc.fillText(nString, xNStart, yNStart);
             
-            xPStart = xAxis.getDisplayPosition(xMomentPosition);
+            xPStart = xNStart;
             yPStart = yAxis.getDisplayPosition(0.75 * maxOfYScale);
             String pString = "p = " + StringUtilities.roundDoubleToNDigitString(binomial_P, 4);
             gc.fillText(pString, xPStart, yPStart);           
             
-            xMuStart = xAxis.getDisplayPosition(xMomentPosition);
+            xMuStart = xNStart;
             yMuStart = yAxis.getDisplayPosition(0.70 * maxOfYScale); 
-
-            String muString = "\u03BC = " + StringUtilities.roundDoubleToNDigitString(muValue, 4) ;
+            double expValue = binomial_N * binomial_P;
+            String muString = "\u03BC = " + StringUtilities.roundDoubleToNDigitString(expValue, 4) ;
             gc.fillText(muString, xMuStart, yMuStart);
             
-            xSigmaStart = xMuStart;
+            xSigmaStart = xNStart;
             ySigmaStart = yAxis.getDisplayPosition(0.65 * maxOfYScale);
-
+            double sigmaValue = Math.sqrt(binomial_N * binomial_P * (1.0 - binomial_P));
             String sigmaString = "\u03C3 = " + StringUtilities.roundDoubleToNDigitString(sigmaValue, 4);
             gc.fillText(muString, xMuStart, yMuStart);
             gc.fillText(sigmaString, xSigmaStart, ySigmaStart); 

@@ -1,7 +1,7 @@
 /**************************************************
  *                RCB_BoxPlotView                 *
- *                  02/19/24                      *
- *                    12:00                       *
+ *                  03/22/25                      *
+ *                    21:00                       *
  *************************************************/
 package anova2;
 
@@ -53,14 +53,14 @@ public class ANOVA2_RCB_BoxPlotView extends ANOVA2_RCB_BoxCircleInterActView {
         AnchorPane.setBottomAnchor(anova2CategoryBoxes, 0.70 * tempHeight);        
         
         AnchorPane.setTopAnchor(categoryAxis_X, 0.9 * tempHeight);
-        AnchorPane.setLeftAnchor(categoryAxis_X, 0.1 * tempWidth);
+        AnchorPane.setLeftAnchor(categoryAxis_X, 0.15 * tempWidth);
         AnchorPane.setRightAnchor(categoryAxis_X, 0.0 * tempWidth);
         AnchorPane.setBottomAnchor(categoryAxis_X, 0.0 * tempHeight);
         
         AnchorPane.setTopAnchor(yAxis, 0.2 * tempHeight);
         AnchorPane.setLeftAnchor(yAxis, 0.0 * tempWidth);
         AnchorPane.setRightAnchor(yAxis, 0.9 * tempWidth);
-        AnchorPane.setBottomAnchor(yAxis, 0.2 * tempHeight);
+        AnchorPane.setBottomAnchor(yAxis, 0.1 * tempHeight);
         
         AnchorPane.setTopAnchor(canvas_ANOVA2, 0.2 * tempHeight);
         AnchorPane.setLeftAnchor(canvas_ANOVA2, 0.1 * tempWidth);

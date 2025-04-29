@@ -1,12 +1,13 @@
 /**************************************************
  *                 PrintFile_Model                *
- *                    05/15/24                    *
- *                     00:00                      *
+ *                    03/01/25                    *
+ *                     18:00                      *
  *************************************************/
 
 package printFile;
 
 import dataObjects.ColumnOfData;
+import java.io.File;
 import java.util.ArrayList;
 import utilityClasses.StringUtilities;
 import splat.*;
@@ -19,6 +20,7 @@ public class PrintFile_Model {
     int nVarsChosen, nRows, digitsLeft, digitsRight;
     int[] maxDataStringLen, maxDigitsLeft, maxDigitsRight;
     
+    File fileName;
     String strVarsLine, strDataLine, formattedDataValue;
     StringBuilder sbVarsLine, sbDataLine;
     
@@ -37,22 +39,19 @@ public class PrintFile_Model {
 
     public PrintFile_Model(Data_Manager dm, PrintFile_Controller printFile_Controller) {   
         this.dm = dm;
-        dm.whereIsWaldo(40, waldoFile, "Constructing");
+        dm.whereIsWaldo(42, waldoFile, "Constructing");
         this.printFile_Controller = printFile_Controller;
+        fileName = dm.getFileName();
         prtFile_Report = new ArrayList();
     }
    
    public void printFile() {
-        dm.whereIsWaldo(46, waldoFile, "printFile()");
+        dm.whereIsWaldo(49, waldoFile, "printFile()");
         setTheTable();
         constructVariableFormats();
         
         addNBlankLinesToPrintFileReport(1);
         prtFile_Report.add(String.format("-----------------------------"));
-        addNBlankLinesToPrintFileReport(3);
-        prtFile_Report.add(String.format("   Note: Points with Cook's D"));
-        
-        // Last two lines to give space in the scrollPane
         addNBlankLinesToPrintFileReport(2);
         prtFile_Report.add(strVarsLine);
         addNBlankLinesToPrintFileReport(1);
@@ -61,21 +60,13 @@ public class PrintFile_Model {
    }
    
    private void setTheTable() {
-       dm.whereIsWaldo(64, waldoFile, "setTheTable()");
-       data = printFile_Controller.getData();
-       nVarsChosen = data.size();
-       for (int ithVar = 0; ithVar < nVarsChosen; ithVar++) {
-           System.out.println("68 PrintFile_Model, var = " + data.get(ithVar).getVarLabel());
-       }
-       nRows = data.get(0).getNCasesInColumn();         
-       addNBlankLinesToPrintFileReport(2);
-        prtFile_Report.add("  Print File");
+        dm.whereIsWaldo(63, waldoFile, "setTheTable()");
+        data = printFile_Controller.getData();
+        nVarsChosen = data.size();
+        nRows = data.get(0).getNCasesInColumn();         
+        String tempString = "  Print File" + fileName;
+        prtFile_Report.add(tempString);
         addNBlankLinesToPrintFileReport(1);
-        prtFile_Report.add(String.format("--------------------------------"));
-        addNBlankLinesToPrintFileReport(1);
-        prtFile_Report.add(String.format("--------------------------------"));
-        addNBlankLinesToPrintFileReport(1);      
-
         // Construct format strings
         // Need label formats and cat/number formats
         strLabels = new String[nVarsChosen];
@@ -86,17 +77,16 @@ public class PrintFile_Model {
         varIsNumeric = new boolean[nVarsChosen]; 
         varIsInteger = new boolean[nVarsChosen]; 
         for (int ithVar = 0; ithVar < nVarsChosen; ithVar++) {
-            varIsNumeric[ithVar] = data.get(ithVar).getIsNumeric();
+            varIsNumeric[ithVar] = data.get(ithVar).getDataType().equals("Quantitative");
             varIsInteger[ithVar] = true;
         }
         sbVarsLine = new StringBuilder();
    }
    
    private void constructVariableFormats() {
-        dm.whereIsWaldo(96, waldoFile, "constructVariableFormats()");
+        dm.whereIsWaldo(87, waldoFile, "constructVariableFormats()");
         // Determine the format for this variable
         for (int ithVar = 0; ithVar < nVarsChosen; ithVar++) {
-            System.out.println("\n\n\n96 PrintFile_Model, ithVar = " + ithVar + "\n");
             maxDataStringLen[ithVar] = data.get(ithVar).getVarLabel().length();
             maxDigitsLeft[ithVar] = 0; 
             maxDigitsRight[ithVar] = 0;
@@ -105,14 +95,11 @@ public class PrintFile_Model {
             for (int jthRow = 0; jthRow < nRows; jthRow++) {
                 //String tempStr = dm.getFromDataStruct(ithVar, jthRow);
                 String tempStr = data.get(ithVar).getIthCase(jthRow);
-                //System.out.println("108 PrintFile_Model, tempStr = " + tempStr);
                 int strLength = tempStr.length();
                 maxDataStringLen[ithVar] = Math.max(maxDataStringLen[ithVar], strLength);
                 if (varIsNumeric[ithVar]) {
                     int decimalPosition = tempStr.indexOf('.');
-                    //System.out.println("113 PrintFile_Model, decimalPos = " + decimalPosition);
                     if (decimalPosition >= 0) { 
-                        //System.out.println("115 PrintFile_Model, Changing ithVar to NOT Integer ***************************");
                         varIsInteger[ithVar] = false; 
                     }
                     if (decimalPosition > 0) {
@@ -155,7 +142,7 @@ public class PrintFile_Model {
    }    // constructVariableFormats()
    
    private void constructDataLineFormats() {
-        dm.whereIsWaldo(158, waldoFile, "constructDataLineFormats()");
+        dm.whereIsWaldo(145, waldoFile, "constructDataLineFormats()");
         // Create data line format
         for (int ithVar = 0; ithVar < nVarsChosen; ithVar++) {
             if (varIsNumeric[ithVar]) {
@@ -175,44 +162,29 @@ public class PrintFile_Model {
             {
                 thisVarFormat[ithVar] = "%" + String.valueOf(maxDataStringLen[ithVar] + 4) + "s";
             }
-            //System.out.println("178 PrintFile_Model, thisVarFormat[ithVar] = " + thisVarFormat[ithVar]);
         }       
-   }    //  constructDataLineFormats()
+   }
    
    private void processDataLines() {
-        dm.whereIsWaldo(183, waldoFile, "processDataLines()");
+        dm.whereIsWaldo(169, waldoFile, "processDataLines()");
         for (int ithRow = 0; ithRow < nRows; ithRow++) {
             
             sbDataLine = new StringBuilder();
             for (int jthVar = 0; jthVar < nVarsChosen; jthVar++) {
                 String strDataValue = data.get(jthVar).getIthCase(ithRow);
-                //System.out.println("189 PrintFile_Model, jthVar/ithRow/strDataValue = " + jthVar + " / " + ithRow + " / " + strDataValue);
                 if (varIsNumeric[jthVar] && DataUtilities.strIsNumeric(strDataValue)) {
-                    dm.whereIsWaldo(191, waldoFile, "varIsNumeric[jthVar] && DataUtilities.strIsNumeric(strDataValue)");
+                    dm.whereIsWaldo(176, waldoFile, "varIsNumeric[jthVar] && DataUtilities.strIsNumeric(strDataValue)");
                     if (varIsInteger[jthVar]) {
-                        //System.out.println("193 PrintFile_Model, thisVarFormat[jthVar]/Integer.valueOf(strDataValue)"
-                        //                     + " / " + thisVarFormat[jthVar] 
-                        //                     + " / " + Integer.valueOf(strDataValue));
-
                         formattedDataValue = String.format(thisVarFormat[jthVar], Integer.valueOf(strDataValue));
-                        System.out.println("198 PrintFile_Model, formattedDataValue = " + formattedDataValue);
                     }
                     else {
-                        //System.out.println("201 PrintFile_Model, thisVarFormat[jthVar]/Integer.valueOf(strDataValue)"
-                        //                    + " / " + thisVarFormat[jthVar] 
-                        //                    + " / " + Double.valueOf(strDataValue));
-
                         formattedDataValue = String.format(thisVarFormat[jthVar], Double.valueOf(strDataValue));  
-                        //System.out.println("206 PrintFile_Model, formattedDataValue = " + formattedDataValue);
                     }
                     sbDataLine.append(StringUtilities.centerTextInString(formattedDataValue, maxDataStringLen[jthVar] + 4));
                 } else  // var is cat
                 {
-                    dm.whereIsWaldo(211, waldoFile, "data is cat");
-                    //System.out.println("212 PrintFile_Model, thisVarFormat[jthVar] = " + thisVarFormat[jthVar]);
-                    //System.out.println("213 PrintFile_Model, strDataValue = " + strDataValue);
+                    dm.whereIsWaldo(186, waldoFile, "data is cat");
                     formattedDataValue = String.format("%10s", strDataValue);
-                    //System.out.println("215 PrintFile_Model, formattedDataValue = " + formattedDataValue);
                     sbDataLine.append(StringUtilities.centerTextInString(formattedDataValue, maxDataStringLen[jthVar] + 4));
                 }
             }            
@@ -220,7 +192,7 @@ public class PrintFile_Model {
             prtFile_Report.add(strDataLine);
             addNBlankLinesToPrintFileReport(1);
         }  
-   }    //  processDataLines()
+   }
    
     private void addNBlankLinesToPrintFileReport(int thisMany) {
         StringUtilities.addNLinesToArrayList(prtFile_Report, thisMany);

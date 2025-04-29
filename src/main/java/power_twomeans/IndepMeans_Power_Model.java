@@ -1,9 +1,8 @@
 /**************************************************
  *           IndepMeans_Power_Model               *
- *                  05/29/24                      *
- *                    18:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
-
 package power_twomeans;
 
 import genericClasses.Point_2D;
@@ -12,6 +11,9 @@ import java.util.ArrayList;
 import utilityClasses.*;
 
 public class IndepMeans_Power_Model {
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int n_1, n_2, archived_n_1, archived_n_2;
     
@@ -29,6 +31,9 @@ public class IndepMeans_Power_Model {
     IndepMeans_Power_Controller indepMeans_Power_Controller;
     
     public IndepMeans_Power_Model(IndepMeans_Power_Controller iMPC) {
+        if (printTheStuff == true) {
+            System.out.println("35 *** IndepMeans_Power_Model, Constructing");
+        }
         this.indepMeans_Power_Controller = iMPC;
         powerReport = new ArrayList();
     }
@@ -57,7 +62,7 @@ public class IndepMeans_Power_Model {
                 break;   
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Model 60 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_Model " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         return power;        
@@ -87,7 +92,7 @@ public class IndepMeans_Power_Model {
             break;
             
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Model 90 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_Model 92 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
 
@@ -232,6 +237,11 @@ public class IndepMeans_Power_Model {
         StringUtilities.addNLinesToArrayList(powerReport, thisMany);
     }
     
+    //double getArchivedNullMu() { return archivedNullMeanDiff; }
+    //double getArchivedAltMu() { return archivedAltMeanDiff; }
+    //int getArchivedSampleSize() { return archived_n_1; }
+    //double getArchivedNullSigma() { return archivedNullSigma_1; }
+    //double getArchivedAlpha() { return archivedAlpha; }
     public ArrayList<String> getPowerReport() { return powerReport; }
  
     public IndepMeans_Power_Controller getController() { return indepMeans_Power_Controller; }

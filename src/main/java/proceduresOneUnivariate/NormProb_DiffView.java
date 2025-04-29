@@ -1,7 +1,7 @@
 /**************************************************
  *               NormProb-DiffView                *
- *                    11/10/23                    *
- *                     15:00                      *
+ *                    01/16/25                    *
+ *                     12:00                      *
  *************************************************/
 package proceduresOneUnivariate;
 
@@ -40,6 +40,9 @@ import the_t_procedures.Matched_t_Dashboard;
 public class NormProb_DiffView extends Region {
 
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     private boolean dragging;    
     
     private int nLegalDataPoints;
@@ -81,8 +84,9 @@ public class NormProb_DiffView extends Region {
     public NormProb_DiffView ( NormProb_DiffModel normProb_DiffModel, Exploration_Dashboard exploration_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("81 NormProb_DiffView, constructing");
-        //System.out.println("82 NormProb_DiffView, normProb_DiffModel = " + normProb_DiffModel);
+        if (printTheStuff == true) {
+            System.out.println("44 *** NormProb_DiffView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         theMean = normProb_DiffModel.getTheMean();
@@ -116,7 +120,9 @@ public class NormProb_DiffView extends Region {
     public NormProb_DiffView ( NormProb_DiffModel normProb_DiffModel, ANOVA1_Cat_Dashboard anova1_Cat_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("115 NormProb_DiffView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("124 *** NormProb_DiffView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         theMean = normProb_DiffModel.getTheMean();
@@ -150,7 +156,9 @@ public class NormProb_DiffView extends Region {
     public NormProb_DiffView ( NormProb_DiffModel normProb_DiffModel, ANOVA1_Quant_Dashboard anova1_Quant_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("149 NormProb_DiffView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("160 *** NormProb_DiffView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         theMean = normProb_DiffModel.getTheMean();
@@ -184,7 +192,9 @@ public class NormProb_DiffView extends Region {
     public NormProb_DiffView ( NormProb_DiffModel normProb_DiffModel, Matched_t_Dashboard matched_t_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        //System.out.println("183 NormProb_DiffView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("196 *** NormProb_DiffView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         theMean = normProb_DiffModel.getTheMean();
@@ -242,7 +252,6 @@ public class NormProb_DiffView extends Region {
         theContainingPane = dragableAnchorPane.getTheContainingPane();       
     }
     
-      
     public void setUpUI() {
         txtTitle1 = new Text(50, 25, " Difference Plot ");
         txtTitle2 = new Text (60, 45, descriptionOfDifference);

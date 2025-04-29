@@ -1,7 +1,7 @@
 /************************************************************
  *                    Transformations_GUI                   *
- *                          12/24/24                        *
- *                            12:00                         *
+ *                          01/20/25                        *
+ *                            21:00                         *
  ***********************************************************/
 package genericClasses;
 
@@ -29,7 +29,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import smarttextfield.DoublyLinkedSTF;
+import smarttextfield.SmartTextFieldDoublyLinkedSTF;
 import smarttextfield.SmartTextField;
 import smarttextfield.SmartTextFieldsController;
 import splat.*;
@@ -74,8 +74,8 @@ public class Transformations_GUI {
                               alSTF_LinTransFuncs;    
     SmartTextFieldsController stf_LinTransVar_Controller, stf_LinComb_Controller,
                               stf_LinTransFunc_Controller;
-    
-    DoublyLinkedSTF al_LinTransVar_STF, al_LinComb_STF, al_LinTransFunc_STF;
+    SmartTextFieldDoublyLinkedSTF al_LinTransVar_STF, al_LinComb_STF, 
+                                  al_LinTransFunc_STF;
     
     Transformations_Calculations transCalc;
 
@@ -102,7 +102,7 @@ public class Transformations_GUI {
     
     public Transformations_GUI(Data_Manager dm) {
         this.dm = dm;
-        // dm.whereIsWaldo(105, waldoFile, "Constructing");
+        dm.whereIsWaldo(105, waldoFile, " *** Constructing");
         tracker = dm.getPositionTracker();
         numVars = tracker.getNVarsInStruct();
         nOriginalDataPoints = tracker.getNCasesInStruct();
@@ -144,7 +144,7 @@ public class Transformations_GUI {
             boolean columnIsEmpty = dm.getAllTheColumns().get(i).getColumnOfData().getColumnIsEmpty();            
             if (columnIsEmpty) { isNumeric = false; }   // Must be SOME reason for this repeat ?????????????????
             
-            isNumeric = dm.getAllTheColumns().get(i).getIsNumeric();             
+            isNumeric = dm.getAllTheColumns().get(i).getDataType().equals("Quantitative");             
             if (columnIsEmpty) { isNumeric = false; }   // Must be SOME reason for this repeat  ????????????????
             
             if ((firstNumericVariable == -1) && (isNumeric)) {
@@ -177,7 +177,7 @@ public class Transformations_GUI {
     }
 
     public void linTransVars() {
-        dm.whereIsWaldo(180, waldoFile, "linTransVars()");
+        dm.whereIsWaldo(180, waldoFile, " --- linTransVars()");
         linTransVarsParams = new String[] {newVarName, "0.0", "1.0"};
         // Initialize numeric choices
         strAlphaValue = linTransVarsParams[1];
@@ -217,7 +217,7 @@ public class Transformations_GUI {
     }
     
     public void linearCombOfVariables() {
-        dm.whereIsWaldo(220, waldoFile, "linearCombOfVariables()");
+        dm.whereIsWaldo(220, waldoFile, " --- linearCombOfVariables()");
         linCombVarsParams = new String[] {newVarName, "1.0", "1.0"};
         strAlphaValue = linCombVarsParams[1];
         strBetaValue = linCombVarsParams[2];
@@ -259,7 +259,7 @@ public class Transformations_GUI {
     }
     
     public void linTransFuncs() {
-        //dm.whereIsWaldo(261, waldoFile, "linTransFuncs()");        
+        dm.whereIsWaldo(261, waldoFile, "--- linTransFuncs()");        
         linTransFuncsParams = new String[] {newVarName, "0.0", "1.0"}; 
         strAlphaValue = linTransFuncsParams[1];
         strBetaValue = linTransFuncsParams[2];
@@ -301,7 +301,7 @@ public class Transformations_GUI {
     }
     
     public void unaryOperationOnVar() {
-        dm.whereIsWaldo(304, waldoFile, "unaryOperationOnVar()");
+        dm.whereIsWaldo(304, waldoFile, "--- unaryOperationOnVar()");
         nUnaryFuncsParams = unaryOpNames.length;   // Names in 598
         stfUnaryOp = new SmartTextField();
         stfUnaryOp.getTextField().setText(newVarName);   
@@ -325,11 +325,10 @@ public class Transformations_GUI {
     }    
     
     public void binaryOpsWithVariables() {
-        dm.whereIsWaldo(328, waldoFile, "binaryOpsWithVariables()");
+        dm.whereIsWaldo(328, waldoFile, " --- binaryOpsWithVariables()");
         nBinaryFuncsParams = unaryOpNames.length;   // Names in 598
         stfBinaryOp = new SmartTextField();
-        stfBinaryOp.getTextField().setText(newVarName);
-        //alSTF_BinaryOps = new ArrayList<>();        
+        stfBinaryOp.getTextField().setText(newVarName); 
 
         initParameters("binaryOperationOfVariables");  
         stfBinaryOp.getTextField().setEditable(true);        
@@ -636,7 +635,7 @@ public class Transformations_GUI {
     }
     
     public void initParameters(String forThisMethod) {
-        //dm.whereIsWaldo(641, waldoFile, "initParameters(String forThisMethod)");
+        dm.whereIsWaldo(638, waldoFile, " --- initParameters(String forThisMethod)");
         String textToResize;
         switch (forThisMethod) {            
             case "linearTransformationOfAVariable":
@@ -688,7 +687,7 @@ public class Transformations_GUI {
             
             case "unaryOperationOnVariable":
                 controlTitle = "Unary Operation on a Variable";                
-                controlWidth = 950; controlHeight = 350; widthFudgeFactor = 0.60;
+                controlWidth = 950; controlHeight = 300; widthFudgeFactor = 0.60;
                 strAdvisory[0] = "\n    This control is used to perform unary operations on variables. Enter the new variable label,\n";
                 strAdvisory[1] = "    and choose the unary operation from the drop down menus.\n\n"  ;
                 strAdvisory[2] = "      The format for the choices is: \n\n";
@@ -698,7 +697,7 @@ public class Transformations_GUI {
                 break;
             
             default: 
-                String switchFailure = "Switch failure: Transformations_GUI 701 " + forThisMethod;
+                String switchFailure = "Switch failure: Transformations_GUI 700 " + forThisMethod;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
         
@@ -771,7 +770,7 @@ public class Transformations_GUI {
         numVars = tracker.getNVarsInStruct();
         col++;
         dm.setVariableNameInStruct(col - 1, tfNewVariable.getText());
-        dm.getAllTheColumns().get(col - 1).setIsNumeric(true);
+        dm.getAllTheColumns().get(col - 1).setDataType("Quantitative");
         theNewColumn = dm.getAllTheColumns().get(col - 1);
         int columnSize = theNewColumn.getColumnSize();
         

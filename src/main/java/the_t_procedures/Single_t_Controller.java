@@ -1,6 +1,6 @@
 /**************************************************
  *                Single_t_Controller             *
- *                    11/27/23                    *
+ *                    01/21/25                    *
  *                     12:00                      *
  *************************************************/
 package the_t_procedures;
@@ -40,7 +40,7 @@ public class Single_t_Controller {
         dm.whereIsWaldo(40, waldoFile, "chooseDataOrSummary()");
         DataStructChoice_Dialog_t_Single_Mean sed = new DataStructChoice_Dialog_t_Single_Mean(this);
         
-        if (dataOrSummary.equals("Data")) { doHaveData(); }
+        if (dataOrSummary.equals("Raw data")) { doHaveData(); }
         
         if (dataOrSummary.equals("Summary")) {
             Single_t_SumStats_Controller singleT_SumStats_Controller = new Single_t_SumStats_Controller();
@@ -77,7 +77,7 @@ public class Single_t_Controller {
         descriptionOfVariable = single_t_Dialog.getDescriptionOfVariable();
         confidenceLevel = single_t_Dialog.getConfidenceLevel();
         colOfData = single_t_Dialog.getData(); 
-        theQDV = new QuantitativeDataVariable("Sngl-t-Contr91", "Sngl-t-Contr91", colOfData);
+        theQDV = new QuantitativeDataVariable("Single-t-Contr91", "Single-t-Contr91", colOfData);
         returnStatus = doTheProcedure();
         return returnStatus;
     } 

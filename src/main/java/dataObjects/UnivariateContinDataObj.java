@@ -1,7 +1,7 @@
 /**************************************************
  *             UnivariateContinDataObj            *
- *                    12/23/24                    *
- *                     12:00                      *
+ *                    03/03/25                    *
+ *                     15:00                      *
  *************************************************/
 package dataObjects;
 
@@ -44,15 +44,15 @@ public class UnivariateContinDataObj {
     QuantitativeDataVariable qdv;
     TDistribution tDistribution;    //  For margin of error    
         
-    public UnivariateContinDataObj ()  { 
+    public UnivariateContinDataObj ()  {  //Need this constructor for ANOVA2 
         if (printTheStuff) {
-            System.out.println("49 UnivariateContinDataObj, constructing");
+            System.out.println("49 *** UnivariateContinDataObj, constructing");
         }    
-    } //Need this constructor for ANOVA2
+    } 
 
     public UnivariateContinDataObj(String callSource, QuantitativeDataVariable qdv) {
         if (printTheStuff) {
-            System.out.println("55 UnivariateContinDataObj, constructing");
+            System.out.println("55 *** UnivariateContinDataObj, constructing");
         }
         this.qdv = new QuantitativeDataVariable();
         this.qdv = qdv;
@@ -71,7 +71,7 @@ public class UnivariateContinDataObj {
 
     private void init_UCDO()  {
         if (printTheStuff) {
-            System.out.println("74 UnivariateContinDataObj, init_UCDO()");
+            System.out.println("74 --- UnivariateContinDataObj, init_UCDO()");
         }
         andersonDarlingCalculated = false;
         meanBasedDone = false;
@@ -91,7 +91,7 @@ public class UnivariateContinDataObj {
     
     public void doMedianBasedCalculations() {
         if (printTheStuff) {
-            System.out.println("94 UnivariateContinDataObj, doMedianBasedCalculations()");
+            System.out.println("94 --- UnivariateContinDataObj, doMedianBasedCalculations()");
         }
         double temp1, temp2, lowOutlierCutOff, highOutlierCutOff; 
         
@@ -208,7 +208,7 @@ public class UnivariateContinDataObj {
     private void calculateFirstFourMoments() {
         if (meanBasedDone) { return; }
         if (printTheStuff) {
-            System.out.println("211 *** UnivariateContinDataObj, calculateFirstFourMoments()");
+            System.out.println("211 --- UnivariateContinDataObj, calculateFirstFourMoments()");
         }
         
         meanBasedDone = true;
@@ -309,7 +309,7 @@ public class UnivariateContinDataObj {
      * https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm   *
      *********************************************************************/
     public double fromPercentileRank_toPercentile(double ithPCTileRank) { //    0 < pcTile < 1
-        if (printTheStuff) {
+        if (printTheStuff == true) {
             System.out.println("313 *** UnivariateContinDataObj, fromPercentileRank_toPercentile");
             System.out.println("314 UCDO, fromPercentileRank_toPercentile");
             System.out.println("315 UCDO, pcTileRank of: " + ithPCTileRank);
@@ -341,17 +341,18 @@ public class UnivariateContinDataObj {
         return deviations;
     }
     
-    /******************************************************************************************************************
-     *                                   Anderson-Darling Statistic                                                   *
-     *    Algorithm from D'Agostino, R. B., * Stephens, M. M. (1986). Goodness-of-Fit-Techniques. Marcel Dekker.  NY. *
-     *                                          p101ff                                                                *
-     *     Also (and for variable names) see:                                                                         *
-     *        https://www.spcforexcel.com/knowledge/basic-statistics/anderson-darling-test-for-normality              *
-     *****************************************************************************************************************/
+    /**********************************************************************
+     *                       Anderson-Darling Statistic                   *
+     * Algorithm from D'Agostino, R. B., * Stephens, M. M. (1986).        *
+     * Goodness-of-Fit-Techniques. Marcel Dekker.  NY. p101ff.            *
+     * Also (and for variable names) see:                                 *                                                                    *
+     * https://www.spcforexcel.com/knowledge/basic-statistics/anderson-   *
+     * darling-test-for-normality                                         *
+     *********************************************************************/
     
     public double[] getAndersonDarling() {
         if (printTheStuff) {
-            System.out.println("354 *** UnivariateContinDataObj, getAndersonDarling()");
+            System.out.println("357 *** UnivariateContinDataObj, getAndersonDarling()");
         }
         // Need to be sure data are sorted
         if (!medianBasedDone){ doMedianBasedCalculations(); }
@@ -429,8 +430,8 @@ public class UnivariateContinDataObj {
     }
     
     public double getTheTrimmedMean(double trimProp) {
-        if (printTheStuff) {
-            System.out.println("433 *** UnivariateContinDataObj, getTheTrimmedMean");
+        if (printTheStuff == true) {
+            System.out.println("434 *** UnivariateContinDataObj, getTheTrimmedMean");
         }
         double sum, trimmedMean;
         int nToDrop = (int)Math.floor(trimProp * nLegalDataPoints);
@@ -450,7 +451,7 @@ public class UnivariateContinDataObj {
      ******************************************************************/
     private void constructFrequencyDistribution() {
         if (printTheStuff) {
-            System.out.println("453 *** UnivariateContinDataObj, constructFrequencyDistribution()");
+            System.out.println("454 *** UnivariateContinDataObj, constructFrequencyDistribution()");
         }        
         ArrayList <Point_2D>  al_StartStop;
         ArrayList <Double> al_UniqueValues;
@@ -497,7 +498,7 @@ public class UnivariateContinDataObj {
             }      
         } 
         if (printTheStuff) {
-            System.out.println("500 *** UnivariateContinDataObj, end constructFrequencyDistribution()");
+            System.out.println("501 *** UnivariateContinDataObj, end constructFrequencyDistribution()");
         }
     }
 

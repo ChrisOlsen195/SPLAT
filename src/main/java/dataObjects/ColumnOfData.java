@@ -1,7 +1,7 @@
 /************************************************************
  *                        ColumnOfData                      *
- *                          12/31/24                        *
- *                           18:00                          *
+ *                          03/22/25                        *
+ *                           21:00                          *
  ***********************************************************/
 package dataObjects;
 
@@ -15,8 +15,8 @@ import utilityClasses.MyYesNoAlerts;
 
 public class ColumnOfData {
     //  POJOs
-    boolean containsNumerics, containsCats, hasMissingData, columnIsFormatted,
-            containsData;
+    boolean containsBlanks, containsNumerics, containsZeroOnes, 
+            containsCats, hasBeenFormatted, hasMissingData;
     
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
@@ -30,221 +30,255 @@ public class ColumnOfData {
     double dbl_ParsedValue;
     
     String str_ValueOfString, strNumericStringFormat, strFormatted, strRawCase,
-           strVarLabel, strVarDescr, strMissingValue, strFormatString;    
+           strVarLabel, strVarDescription, strMissingValue, strVarDisplayFormat,
+           strFormatString, dataType;    
+    
+    String strReturnStatus;
 
     ArrayList<String> str_al_TheCases, str_al_DistinctValues, str_al_FormattedCases;
     
     // My classes
+    MyYesNoAlerts myYesNoAlerts;
     Data_Manager dm;
 
     public ColumnOfData() { 
-        if (printTheStuff) {
-            System.out.println("\n42 *** ColumnOfData, constructing");
+        if (printTheStuff == true) {
+            System.out.println("46 *** ColOfData, constructing blank");
         }
         str_al_TheCases = new ArrayList<>(); 
         str_al_FormattedCases = new ArrayList<>();
         nCasesInColumn = 0;
         strVarLabel = "No Label";
-        strVarDescr = "No Description";
+        strVarDescription = "No Description";
+        strMissingValue = "*";
+        containsBlanks = false;
+        containsNumerics = false;
         containsCats = false;
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
         significantDigits = 0;
         strFormatString = "%.0f";
+        hasBeenFormatted = false;
         nDistinctLegalValues = 0;
-        columnIsFormatted = false;
+        strReturnStatus = "OK";
+        myYesNoAlerts = new MyYesNoAlerts();
     } 
 
     // This constructor should not have to look at the data??  Where called??
     public ColumnOfData (ColumnOfData dataColumn) {  // Copy constructor
-        if (printTheStuff) {
-            System.out.println("\n59 *** ColumnOfData, constructing");
-            System.out.println("60 Label = " + dataColumn.getVarLabel());
+        if (printTheStuff == true) {
+            System.out.println("69 *** ColOfData, constructing from ColOfData");
         }
-        doSomeInitializations();
-        containsNumerics = dataColumn.getIsNumeric();
+        dataType = dataColumn.getDataType();
         strVarLabel = dataColumn.getVarLabel();
         str_al_TheCases = new ArrayList<>(); 
         str_al_FormattedCases = new ArrayList<>();
         nCasesInColumn = dataColumn.getColumnSize();
+        containsBlanks = false;
+        containsNumerics = false;
+        containsCats = false;
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        strReturnStatus = "OK";
         strVarLabel = dataColumn.getVarLabel();
-        strVarDescr = dataColumn.getVarDescription();
-        columnIsFormatted = dataColumn.getDataAreFormatted();
+        strVarDescription = dataColumn.getVarDescription();
+        strMissingValue = "*"; 
         nDistinctLegalValues = dataColumn.getNumberOfDistinctValues();
-        
-        if (printTheStuff) {
-            System.out.println("74 --- ColOfData, nCasesInColumn = " + nCasesInColumn);
-        }
 
         for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++) {
             String textToAdd = dataColumn.getStringInIthRow(ithCase);
             str_al_TheCases.add(textToAdd);
         } 
+        myYesNoAlerts = new MyYesNoAlerts();
         determineDataType();
     }
     
     public ColumnOfData(int nCasesInColumn, String varLabel) {
-        if (printTheStuff) {
-            System.out.println("\n86 *** ColumnOfData, constructing");
-            System.out.println("87 --- Label = " + varLabel);
-            System.out.println("88 --- ColOfData, nCasesInColumn = " + nCasesInColumn);
+        if (printTheStuff == true) {
+            System.out.println("96 *** ColOfData, constructing from nCases and varLabel");
         }
-        doSomeInitializations();
         this.nCasesInColumn = nCasesInColumn;
         str_al_TheCases = new ArrayList<>();
         str_al_FormattedCases = new ArrayList<>();
+        strReturnStatus = "OK";
         for (int iCase = 0; iCase < nCasesInColumn; iCase++) { 
             str_al_TheCases.add("*");
             str_al_FormattedCases.add("*");
         }
         
-        strVarLabel = varLabel;
-        strVarDescr = varLabel;
+        this.strVarLabel = varLabel;
+        strVarDescription = varLabel;
+        containsBlanks = false;
+        containsNumerics = false;
+        containsCats = false;
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        //containsGuesses = false;
+        strMissingValue = "*";
+        significantDigits = 0;
+        strFormatString = "%.0f";
+        nDistinctLegalValues = 0;
+        myYesNoAlerts = new MyYesNoAlerts();
         determineDataType();
     }
     
     // This constructor creates an empty column of data; only used at startup.
     public ColumnOfData(Data_Manager dm, int nCasesInColumn, String varLabel) {
-        if (printTheStuff) {
-            System.out.println("1\n107 *** ColumnOfData, constructing");
-            System.out.println("108 --- Label = " + varLabel);
-            System.out.println("109 --- nCasesInColumn = " + nCasesInColumn);
+        if (printTheStuff == true) {
+            System.out.println("125 *** ColOfData, constructing from dm, nCases and varLabel");
         }
-        
-        doSomeInitializations();
         this.nCasesInColumn = nCasesInColumn;
         str_al_TheCases = new ArrayList<>();
         str_al_FormattedCases = new ArrayList<>();
+        strReturnStatus = "OK";
         for (int iCase = 0; iCase < nCasesInColumn; iCase++) { 
             str_al_TheCases.add("*");
             str_al_FormattedCases.add("*");
         }
         
-        strVarLabel = varLabel;
-        strVarDescr = varLabel;
+        this.strVarLabel = varLabel;
+        strVarDescription = varLabel;
+        containsBlanks = false;
+        containsNumerics = false;
+        containsCats = false;
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        strMissingValue = "*";
+        significantDigits = 0;
+        strFormatString = "%.0f";
+        nDistinctLegalValues = 0;
+        myYesNoAlerts = new MyYesNoAlerts();
+        determineDataType();
     }
 
     // This constructor is used when doing two-way ANOVA
     public ColumnOfData(CategoricalDataVariable catDatVar) {
-        if (printTheStuff) {
-            System.out.println("128 *** ColumnOfData, constructing from CatDataVar");
-            System.out.println("129 --- Label = " + catDatVar.getTheDataLabel());   
+        if (printTheStuff == true) {
+            System.out.println("153 *** ColOfData, constructing from catDatVar");
         }
-        doSomeInitializations();
         nCasesInColumn = catDatVar.get_N();
         String daData[] = new String[nCasesInColumn];
         daData = catDatVar.getDataAsStrings();
         str_al_TheCases = new ArrayList<>();
         str_al_FormattedCases = new ArrayList<>();
+        strReturnStatus = "OK";
         for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++) { 
             str_al_TheCases.add(daData[ithCase]);
             str_al_FormattedCases.add("*");
         }
         
         strVarLabel = catDatVar.getTheDataLabel();
-        strVarDescr = strVarLabel;
+        strVarDescription = strVarLabel;
+        containsBlanks = false;
+        containsNumerics = false;
+        containsCats = false;
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        strMissingValue = "*";
+        significantDigits = 0;
+        strFormatString = "%.0f";
+        myYesNoAlerts = new MyYesNoAlerts();
         nDistinctLegalValues = calculateNumberOfDistinctLegalValues();
+
         determineDataType();
     }
 
     public ColumnOfData(QuantitativeDataVariable qdv) {
-        if (printTheStuff) {
-            System.out.println("\n150 *** ColumnOfData, constructing from qdv");
-            System.out.println("151 --- Label = " + qdv.getTheVarLabel()); 
+        if (printTheStuff == true) {
+            System.out.println("184 *** ColOfData, constructing from qdv");
         }
-        doSomeInitializations();
         nCasesInColumn = qdv.getLegalN();
-        if (printTheStuff) {
-            System.out.println("156 --- ColumnOfData, nCasesInCol = " + nCasesInColumn);
-        }
         str_al_TheCases = new ArrayList<>();
         str_al_FormattedCases = new ArrayList<>();
         str_al_TheCases = qdv.getLegalCases_AsALStrings();
         strVarLabel = qdv.getTheVarLabel();
-        strVarDescr = qdv.getTheVarDescription();
+        strVarDescription = qdv.getTheVarDescription();
+        containsBlanks = false;
+        containsNumerics = false;
+        containsCats = false;
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        strMissingValue = "*";
+        strReturnStatus = "OK";
+        myYesNoAlerts = new MyYesNoAlerts();
         nDistinctLegalValues = calculateNumberOfDistinctLegalValues();
         determineDataType();
     }
     
     // Needed by the BivariateCatagoricalDataObj
     public ColumnOfData(Data_Manager dm, String varLabel, String varDescription, ArrayList<String> theData) {
-        if (printTheStuff) {
-            System.out.println("\n170 *** ColumnOfData, constructing fromn dm with ArrayList<String> theData");
-            System.out.println("171 --- Label = " + varLabel); 
+        if (printTheStuff == true) {
+            System.out.println("207 *** ColOfData, constructing from dm, varLabel, varDescr, ArrayList<String> theData");
         }
-        doSomeInitializations();
         nCasesInColumn = theData.size();
-        if (printTheStuff) {
-            System.out.println("176 --- ColOfData, nCasesInColumn = " + nCasesInColumn);
-        }
-        
         str_al_TheCases = new ArrayList<>();
+        strVarLabel = varLabel;
         str_al_FormattedCases = new ArrayList<>();
+        strReturnStatus = "OK";
         for (int iCase = 0; iCase < nCasesInColumn; iCase++) { 
             str_al_TheCases.add(theData.get(iCase));
             str_al_FormattedCases.add("*");
         }
-        
-        strVarLabel = varLabel;
-        this.strVarDescr = varDescription;
+        this.strVarLabel = varLabel;
+        this.strVarDescription = varDescription;
+        containsBlanks = false;
+        containsNumerics = true;
+        strMissingValue = "*";
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        myYesNoAlerts = new MyYesNoAlerts();
         nDistinctLegalValues = calculateNumberOfDistinctLegalValues();
-        if (printTheStuff) {
-            System.out.println("190 --- ColumnOfData, constructing");
-        }
-        
         determineDataType();
-        
-        if (printTheStuff) {
-            System.out.println("196 --- ColumnOfData, constructing");
+        if (printTheStuff == true) {
+            System.out.println("227 --- ColOfData, END constructing from dm, varLabel, varDescr, ArrayList<String> theData");
         }
     }
     
     public ColumnOfData(String varLabel, String varDescription, ArrayList<String> al_theData) {
-        if (printTheStuff) {
-            System.out.println("\n202 *** ColumnOfData, constructing ArrayList<String> al_theData");
-            System.out.println("203 --- Label = " + varLabel); 
+        if (printTheStuff == true) {
+            System.out.println("233 *** ColOfData, constructing from varLabel, varDescr, al_Data");
         }
-        doSomeInitializations();
         nCasesInColumn = al_theData.size();
-        if (printTheStuff) {
-            System.out.println("208 --- ColOfData, nCasesInColumn = " + nCasesInColumn);
-        }
-        
         str_al_TheCases = new ArrayList<>();
         str_al_FormattedCases = new ArrayList<>();
+        strReturnStatus = "OK";
         for (int iCase = 0; iCase < nCasesInColumn; iCase++) { 
             str_al_TheCases.add(al_theData.get(iCase));
             str_al_FormattedCases.add("*");
         }
         
-        strVarLabel = varLabel;
-        this.strVarDescr = varDescription;
+        this.strVarLabel = varLabel;
+        this.strVarDescription = varDescription;
+        containsBlanks = false;
+        containsNumerics = true;
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        strMissingValue = "*";
+        myYesNoAlerts = new MyYesNoAlerts();
         nDistinctLegalValues = calculateNumberOfDistinctLegalValues();
         determineDataType();
     }
     
     // Needed by Logistic_Controller
     public ColumnOfData(Data_Manager dm, String varLabel, String varDescription, String[] theData) {
-        if (printTheStuff) {
-            System.out.println("\n227 *** ColumnOfData, constructing from dm and String[] theData");
-            System.out.println("228 --- Label = " + varLabel); 
+        if (printTheStuff == true) {
+            System.out.println("258 *** ColOfData, constructing from dm, varLabel, varDescr, String[] theData");
         }
-        doSomeInitializations();
         nCasesInColumn = theData.length;
-        if (printTheStuff) {
-            System.out.println("233 --- ColOfData, nCasesInColumn = " + nCasesInColumn);
-        }
-        
         str_al_TheCases = new ArrayList<>();
         str_al_FormattedCases = new ArrayList<>();
+        strReturnStatus = "OK";
         for (int iCase = 0; iCase < nCasesInColumn; iCase++) { 
             str_al_TheCases.add(theData[iCase]);
             str_al_FormattedCases.add("*");
         }
         
-        strVarLabel = varLabel;
-        this.strVarDescr = varDescription;
+        this.strVarLabel = varLabel;
+        this.strVarDescription = varDescription;
+        containsBlanks = false;
+        containsNumerics = true;
+        containsZeroOnes = true;    // Rendered false if non-zero real is found
+        strMissingValue = "*";
+        myYesNoAlerts = new MyYesNoAlerts();
         nDistinctLegalValues = calculateNumberOfDistinctLegalValues();
         determineDataType();
     }
+    
+    public void setAssociatedDataManager(Data_Manager dm) {this.dm = dm; }
     
     public void addUntilNCases(int thisTargetNumber) {
         do {
@@ -254,67 +288,63 @@ public class ColumnOfData {
     } 
 
     public void addNCasesOfThese(int nNewCases, String ofThese) {
+        
         for (int ithNewCase = 0; ithNewCase < nNewCases; ithNewCase++) { 
             str_al_TheCases.add(ofThese);
             str_al_FormattedCases.add("*");
         }
+        
         nCasesInColumn += nNewCases;
         formatTheColumn();
     }
 
     public void determineDataType() {
-        if (printTheStuff) {
-            System.out.println("267 --- ColumnOfData, determineDataType()");
+        if (printTheStuff == true) {
+            //System.out.println("302 --- ColumnOfData, determineDataType()");
         }
-        doSomeInitializations();
-        if (printTheStuff) {
-            System.out.println("271 --- ColumnOfData, constructing from qdv");
-        }
+        containsNumerics = false;
         for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++) {
             String ithString = str_al_TheCases.get(ithCase);
             boolean isaDouble = DataUtilities.strIsADouble(ithString);
             
             if (isaDouble) { containsNumerics = true; }
+            
+            if ((!ithString.equals("0") && !ithString.equals("1"))) { 
+                containsZeroOnes = false;     
+            }
 
             if (!ithString.equals("*") && (!isaDouble)) {
                 containsCats = true;
             }
-            
-            /*************************************************************
-            *  Guard against choosing columns with no data. E.g. column  *
-            *  added but never populated with data.                      *
-            *************************************************************/
-            if (!ithString.equals("*")) {
-                containsData = true;
-            }
         }
 
         if (containsCats && containsNumerics) {
-            MyYesNoAlerts myYesNoAlerts = new MyYesNoAlerts();
-            myYesNoAlerts.showAmbiguousColumnAlert(strVarLabel, "Yes", "No"); 
-            String yesOrNo = myYesNoAlerts.getYesOrNo();
-            if (yesOrNo.equals("Yes")) {
+            myYesNoAlerts.setTheYes("Convert away!");
+            myYesNoAlerts.setTheNo("Don't you dare!");
+            myYesNoAlerts.showAmbiguousColumnAlert(strVarLabel);                               
+            String replaceMissing = myYesNoAlerts.getYesOrNo();
+            if (replaceMissing.equals("Yes")) {
                 for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++) {
                     String ithString = str_al_TheCases.get(ithCase);
+                    
                     if (!ithString.equals("*") && (!DataUtilities.strIsADouble(ithString))) {
                         str_al_TheCases.set(ithCase, "*");
                     }
                 }  
-                containsNumerics = true;
+                setDataType("Quantitative");
             } else {
-                setIsNumeric(false);
+                setDataType("Categorical");
             }
-        }
+        } else if (containsNumerics) { setDataType("Quantitative");}
+        else { setDataType("Categorical");}
     } 
 
     public void cleanTheColumn(Data_Manager dm, int thisCol) {
-        if (printTheStuff) {
-            System.out.println("312 --- ColumnOfData, cleanTheColumn");
-        }
         DataCleaner dc = new DataCleaner(dm, dm.getAllTheColumns()
                                                .get(thisCol));
         nCasesInColumn = dm.getNCasesInStruct();
         dc.cleanAway();
+        strReturnStatus = dc.getReturnStatus();
         String[] fixedData = new String[nCasesInColumn];
         fixedData = dc.getFixedData();
         
@@ -334,24 +364,28 @@ public class ColumnOfData {
     }
 
     public void setStringInIthRow(int row, String toThisValue) {
+        
         if (row >= nCasesInColumn) {
             int casesToAdd = row - nCasesInColumn + 1;
             addNCasesOfThese(casesToAdd, "*");
         }
+        
         str_al_TheCases.set(row, toThisValue);  
     }
     
     private int calculateNumberOfDistinctLegalValues() {
-        if (printTheStuff) {
-            System.out.println("346 --- ColumnOfData, calculateNumberOfDistinctLegalValues()");
-        }  
+        if (printTheStuff == true) {
+            //System.out.println("377 --- ColOfData, calculateNumberOfDistinctLegalValues()");
+        }
         str_al_DistinctValues = new ArrayList();
         int nCases = str_al_TheCases.size();
         nDistinctLegalValues = 1;
         String[] tempData = new String[nCases];
         tempData[0] = str_al_TheCases.get(0);
+        
         for (int ith = 0; ith < nCases; ith++) {
             tempData[ith] = str_al_TheCases.get(ith);
+            
             if (tempData[ith].equals("*")) {
                 hasMissingData = true;
             }
@@ -367,7 +401,11 @@ public class ColumnOfData {
             }
         }
         
-        if (hasMissingData) { nDistinctLegalValues--; }      
+        if (hasMissingData) { nDistinctLegalValues--; }
+        if (printTheStuff == true) {
+            //System.out.println("405 --- ColOfData, END calculateNumberOfDistinctLegalValues()");
+            //System.out.println("406 --- ColOfData, nDistinctLegalValues = " + nDistinctLegalValues);
+        }        
         return nDistinctLegalValues;
     }  
     
@@ -397,13 +435,10 @@ public class ColumnOfData {
         maxOrdMag++;
 
         formatTheCases();
-        columnIsFormatted = true;
+        hasBeenFormatted = true;
     }
 
-    public void determineMaxOrdOfMag() {
-        if (printTheStuff) {
-            System.out.println("405 --- ColumnOfData, determineMaxOrdOfMag()");
-        } 
+    private void determineMaxOrdOfMag() {
         for (int ithString = 0; ithString < nStrings; ithString++) { 
             if (DataUtilities.strIsADouble(str_al_TheCases.get(ithString))) {              
                 str_ValueOfString = str_al_TheCases.get(ithString);
@@ -431,13 +466,10 @@ public class ColumnOfData {
                     maxSigDecimals = adjusted_sigDecimals;
                 }
             }
-        }   //  End ithString loop   
+        }   //  End ithString loop        
     }
     
-    public void determineMaxLengthOfFormattedString() {
-        if (printTheStuff) {
-            System.out.println("439 --- ColumnOfData, determineMaxLengthOfFormattedString()");
-        } 
+    private void determineMaxLengthOfFormattedString() {
         for (int jthString = 0; jthString < nStrings; jthString++) {               
             if (DataUtilities.strIsADouble(str_al_TheCases.get(jthString))) {                
                 str_ValueOfString = str_al_TheCases.get(jthString);
@@ -448,17 +480,14 @@ public class ColumnOfData {
                     maxLen_FormattedString = strFormatted.length();
                 }
             }
-        }  
+        }         
     }  
     
-    public void formatTheCases() {  
-       //if (getDataAreFormatted()) { return; }
-        if (printTheStuff) {
-            System.out.println("457 --- ColumnOfData, formatTheCases()");
-        } 
+    private void formatTheCases() {        
         if (maxLen_FormattedString > textBoxLen) {
             adjusted_sigDecimals = textBoxLen - maxOrdMag - 1;
-        } else {
+        }
+        else {
             adjusted_sigDecimals = maxLen_FormattedString - maxOrdMag - 1;
         }    
         
@@ -472,26 +501,14 @@ public class ColumnOfData {
                 dbl_ParsedValue = Double.parseDouble(str_ValueOfString);
                 strFormatted = String.format(strNumericStringFormat, dbl_ParsedValue);
                 strFormatted = StringUtilities.getStringOfNSpaces(textBoxLen - strFormatted.length()) + strFormatted; 
-            } else {
+            }
+            else {
                 if (strFormatted.equals("")) {
                     strFormatted = strRawCase;
                 } 
             } 
             str_al_FormattedCases.set(kthString, strFormatted);
-        } 
-        
-        columnIsFormatted = true;
-    }
-    
-    private void doSomeInitializations() {
-        strMissingValue = "*";
-        containsNumerics = false;
-        containsCats = false;
-        significantDigits = 0;
-        strFormatString = "%.0f";
-        columnIsFormatted = false;  
-        containsData = false;
-        nDistinctLegalValues = 0;
+        }        
     }
     
     public void deleteThisRow(int thisOne) {
@@ -516,11 +533,9 @@ public class ColumnOfData {
     
     public int getNCategorical() { return nCategorical; }
     public int getNMissing() { return nMissing; }
-    public boolean getDataAreFormatted() { return columnIsFormatted; }
+    public boolean getHasBeenFormatted() { return hasBeenFormatted; }
     
     public ColumnOfData getColumnOfData() {return this; }
-    
-    public boolean getContainsData() {return containsData; }
     
     public String getGenericVarInfo() { return strMissingValue; }
     public void setGenericVarInfo(String toThisInfo) {
@@ -530,58 +545,52 @@ public class ColumnOfData {
     public String getVarLabel() { return strVarLabel; } 
     public void setVarLabel(String toThis) { strVarLabel = toThis; }    
     
-    public String getVarDescription () { return strVarDescr; }
-    public void setVarDescription(String toThis) { strVarDescr = toThis; }
+    public String getVarDescription () { return strVarDescription; }
+    public void setVarDescription(String toThis) { strVarDescription = toThis; }
+    
+    public boolean getIsBlank() { return containsBlanks; }
+    public void setIsBlank(boolean yn_IsBlank) { containsNumerics = yn_IsBlank; }
 
-    public boolean getIsNumeric() { return containsNumerics; }
-    public void setIsNumeric(boolean yn_IsNumeric) { 
-        containsNumerics = yn_IsNumeric; 
+    public boolean getAnyonesGuess() { return containsNumerics; }
+    
+    public boolean getIsZeroOne() { return containsZeroOnes; }
+        
+    public String getDataType() { 
+        if (printTheStuff == true) {
+            //System.out.println("562 --- ColumnOfData, getDataType(), " + dataType);
+        }        
+        return dataType; 
     }
     
-    public String getDataType() { 
-        if (containsNumerics) {
-            return "Quantitative";
-        }
-        else 
-        if (containsCats) {
-            return "Categorical";
-        }
-        else 
-        return "Clueless";
+    public void setDataType(String toThis) {
+        if (printTheStuff == true) {
+            //System.out.println("569 --- ColumnOfData, setDataType() to" + toThis);
+        } 
+        dataType = "Undetermined";
+        if (toThis.equals("Quantitative")) { dataType = toThis; }
+        if (toThis.equals("Categorical")) { dataType = toThis; }
     }
     
     public int getNCasesInColumn() { return nCasesInColumn; }
     
     public int getNLegalCasesInColumn() {
         int nLegals;
-        //System.out.println("557 ColumnOfData, missingData = " + getHasMissingData());
         if (!getHasMissingData()) {
             nLegals = nCasesInColumn; 
         } else {
             nLegals = nCasesInColumn - nMissing;    
         }
-        //System.out.println("563 ColumnOfData nLegals = " + nLegals);
         return nLegals;
     }
     public int getColumnSize() { return str_al_TheCases.size(); }  
     
-    public double[] getTheLegalCases_asDoubles() { 
-        int nCases = getNCasesInColumn();
-        //System.out.println("\n\n570 ColumnOfData, var = " + strVarLabel);
-        //System.out.println("571 ColOData, nCases = " + nCases);
-        //System.out.println("572 ColOData, nLegals = " + getNLegalCasesInColumn());
-        double[] theLegalDblCases = new double[getNLegalCasesInColumn()]; 
-        int index = 0;
+    public double[] getTheCases_asDoubles() { 
+        int nCases = getColumnSize();
+        double[] theDblCases = new double[nCases];        
         for (int ithCase = 0; ithCase < nCases; ithCase++ ) {
-            //System.out.println("576 ColumnOfData, ithCase = " + getIthCase(ithCase));
-            if (DataUtilities.strIsADouble(getIthCase(ithCase))) {
-                //System.out.println("578 ColumnOfData, ithCase  = " + getIthCase(ithCase));
-                theLegalDblCases[index] = Double.parseDouble(getStringInIthRow(ithCase));
-                index++;
-            }
-        }   
-        //System.out.println("583 ColumnOfData, theLegalDblCases.len = " + theLegalDblCases.length);
-        return theLegalDblCases; 
+            theDblCases[ithCase] = Double.parseDouble(getStringInIthRow(ithCase));
+        }        
+        return theDblCases; 
     }
 
     public String[] getTheCases_asStrings() { 
@@ -623,17 +632,13 @@ public class ColumnOfData {
     }
     
     public boolean getHasMissingData() {
-        hasMissingData = false;     
-        nMissing = 0;
-        for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++) {   
-            //System.out.println("629 ColumnOfData, Aha? -- " + str_al_TheCases.get(ithCase));
+        hasMissingData = false;        
+        for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++) {            
             if (str_al_TheCases.get(ithCase).equals(strMissingValue)) {
-                //System.out.println("631 ColumnOfData, Aha! -- " + str_al_TheCases.get(ithCase));
                nMissing++;
                hasMissingData = true;
             }
         }  
-        //System.out.println("636 ColumnOfData, nMissing = " + nMissing);
         return hasMissingData;
     }
     
@@ -646,18 +651,20 @@ public class ColumnOfData {
         }
         return colIsEmpty;
     }
+    
+    public String getReturnStatus() { 
+        //System.out.println("658 --- ColumnOfData, getReturnStatus() = " + strReturnStatus);
+        return strReturnStatus; }
 
 
     @Override
     public String toString() {  
-        System.out.println("\n  Col of Data -- toString()");
+        System.out.println("\n  Col of Data -- toString =========================");
         System.out.println("Var Label = " + strVarLabel + "; nCasesInColumn = " + nCasesInColumn + "\n");
-        
-        //for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++){
-        for (int ithCase = 0; ithCase < 5; ithCase++){
+        for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++){
            System.out.print("\n x  " + str_al_TheCases.get(ithCase) + " x ");
         }
-        System.out.println("Col of Data -- end toString\n");
+        System.out.println("\n  =============== Col of Data -- end toString");
         return "ColumnOfData.toString() -- end";
     }      
 }

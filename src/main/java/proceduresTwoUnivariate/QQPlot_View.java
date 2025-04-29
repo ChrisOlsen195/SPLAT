@@ -1,7 +1,7 @@
 /**************************************************
  *                   QQPlot_View                  *
- *                    02/19/24                    *
- *                     15:00                      *
+ *                    01/16/25                    *
+ *                     12:00                      *
  *************************************************/
 /******************************************************************
 *                                                                 *
@@ -37,6 +37,8 @@ import javafx.scene.text.Text;
 
 public class QQPlot_View extends BivariateScale_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int nOneDataPoints, nTwoDataPoints, smallerN, largerN;
     
@@ -69,7 +71,9 @@ public class QQPlot_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight)  {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("75 QQPlot, constructing");
+        if (printTheStuff == true) {
+            System.out.println("75 *** QQPlot_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         graphCanvas = new Canvas(initWidth, initHeight); 
@@ -112,7 +116,9 @@ public class QQPlot_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("112 QQPlot_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("120 *** QQPlot_View, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.qqPlot_Model = qqPlot_Model;
@@ -154,7 +160,9 @@ public class QQPlot_View extends BivariateScale_View {
     }
     
     private void doEqualSizeProcedure() {
-        //System.out.println("154 QQPlot_View, doEqualSizeProcedure()");
+        if (printTheStuff == true) {
+            System.out.println("164 --- QQPlot_View, doEqualSizeProcedure()");
+        }
         smallerN = nOneDataPoints;  // These should be equal; distinction is
         largerN = nTwoDataPoints;   // for the plotting
         xSmaller = new double[smallerN];  
@@ -164,7 +172,9 @@ public class QQPlot_View extends BivariateScale_View {
     }
     
     private void doUnEqualSizeProcedure() {
-        //System.out.println("164 QQPlot_View, doUnEqualSizeProcedure()");
+        if (printTheStuff == true) {
+            System.out.println("176 --- QQPlot_View, doUnEqualSizeProcedure()");
+        }
         int /*smallSize,*/ leftQIndex; //, indexLeftInterval;
         double oneThird = 1.0 / 3.0;
         double smallDenom;
@@ -275,6 +285,9 @@ public class QQPlot_View extends BivariateScale_View {
     }
    
     public void initializeGraphParameters() {  
+        if (printTheStuff == true) {
+            System.out.println("289 --- QQPlot_View, initializeGraphParameters()");
+        }
         constructDataArray();
         xAxis = new genericClasses.JustAnAxis(xDataMin, xDataMax);
         xAxis.setSide(Side.BOTTOM);       

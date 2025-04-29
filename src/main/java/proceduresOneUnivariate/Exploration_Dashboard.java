@@ -1,7 +1,7 @@
 /**************************************************
  *             Exploration_Dashboard              *
- *                   04/03/24                     *
- *                    00:00                       *
+ *                   02/17/25                     *
+ *                    18:00                       *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -23,9 +23,7 @@ public class Exploration_Dashboard extends Dashboard {
 
     final String[] expCheckBoxDescr = { "Histogram", "NormalDiff", "NormalProb", 
                                          "StemNLeaf", "DotPlot", "HorizBox", 
-                                         "VertBox", "Cumulative Freq", 
-                                         "Rel. Cumulative Freq", 
-                                         "PrintStats" };
+                                         "VertBox", "PrintStats" };
     
     // Make empty if no-print
     //String waldoFile = "Exploration_Dashboard";
@@ -39,7 +37,6 @@ public class Exploration_Dashboard extends Dashboard {
     NormProb_DiffModel normProb_DiffModel;
     StemNLeaf_Model stemNLeafModel;
     VerticalBoxPlot_Model vBoxModel;
-    CumulativeFrequency_Model cumFreqs_Model;
     PrintUStats_Model printUStatsModel;
     
     DotPlot_View dotPlot_View;          
@@ -49,8 +46,6 @@ public class Exploration_Dashboard extends Dashboard {
     NormProb_DiffView normProb_DiffView;
     StemNLeaf_View stemNLeaf_View;
     VerticalBoxPlot_View vertBoxView;
-    CumulativeFrequency_View cumFreq_View;
-    CumulativeRelativeFrequency_View relCumFreq_View;
     PrintUStats_View printUStats_View;
     
     //  POJO / FX
@@ -58,11 +53,10 @@ public class Exploration_Dashboard extends Dashboard {
          normProbDiffContainingPane,
          stemNLeafContainingPane, dotPlotContainingPane,
           horizBoxContainingPane, vertBoxContainingPane,
-          cumFreqContainingPane, relCumFreqContainingPane,
           printUStatsContainingPane; 
         
     public Exploration_Dashboard(Univ_Quant_Controller univ_Quant_Controller, QuantitativeDataVariable univ_Model) {
-        super(10);
+        super(8);
         dm = univ_Quant_Controller.getDataManager();
         dm.whereIsWaldo(64, waldoFile, "Constructing");
 
@@ -73,8 +67,7 @@ public class Exploration_Dashboard extends Dashboard {
         dotPlotModel = univ_Quant_Controller.getDotPlotModel();
         dm.whereIsWaldo(74, waldoFile, "Constructing");
         hBoxModel = univ_Quant_Controller.getHBoxModel();
-        vBoxModel = univ_Quant_Controller.getVBoxModel(); 
-        cumFreqs_Model = univ_Quant_Controller.getOgiveModel(); 
+        vBoxModel = univ_Quant_Controller.getVBoxModel();  
         printUStatsModel = univ_Quant_Controller.getPrintUStatsModel(); 
         printUStatsModel.constructThePrintLines();
         dm.whereIsWaldo(80, waldoFile, "Constructing");
@@ -138,18 +131,6 @@ public class Exploration_Dashboard extends Dashboard {
         else { vertBoxContainingPane.setVisible(false);  } 
         
         if (checkBoxSettings[7] == true) {
-            cumFreqContainingPane.setVisible(true);
-            cumFreq_View.doTheGraph();
-        }
-        else { cumFreqContainingPane.setVisible(false); } 
-        
-        if (checkBoxSettings[8] == true) {
-            relCumFreqContainingPane.setVisible(true);
-            relCumFreq_View.doTheGraph();
-        }
-        else { relCumFreqContainingPane.setVisible(false);  } 
-        
-        if (checkBoxSettings[9] == true) {
             printUStatsContainingPane.setVisible(true);
         }
         else { printUStatsContainingPane.setVisible(false); } 
@@ -207,20 +188,10 @@ public class Exploration_Dashboard extends Dashboard {
         vertBoxContainingPane = vertBoxView.getTheContainingPane();  
         vertBoxContainingPane.setStyle(containingPaneStyle);
         dm.whereIsWaldo(208, waldoFile, "populateTheBackGround()");
-        cumFreq_View = new CumulativeFrequency_View(cumFreqs_Model, this, 0.9 * sixteenths_across[7], sixteenths_down[7], initWidth[7], initHeight[7]);
-        cumFreq_View.completeTheDeal();        
-        cumFreqContainingPane = cumFreq_View.getTheContainingPane();  
-        cumFreqContainingPane.setStyle(containingPaneStyle);
-        dm.whereIsWaldo(213, waldoFile, "populateTheBackGround()");
-        relCumFreq_View = new CumulativeRelativeFrequency_View(cumFreqs_Model, this, 0.9 * sixteenths_across[8], sixteenths_down[8], initWidth[8], initHeight[9]);
-        relCumFreq_View.completeTheDeal();   
-        dm.whereIsWaldo(216, waldoFile, "populateTheBackGround()");
-        relCumFreqContainingPane = relCumFreq_View.getTheContainingPane();  
-        relCumFreqContainingPane.setStyle(containingPaneStyle);
-        dm.whereIsWaldo(219, waldoFile, "populateTheBackGround()");
-        initWidth[9] = 350; 
-        initHeight[9] = 550;
-        printUStats_View = new PrintUStats_View(printUStatsModel, this, 0.9 * sixteenths_across[9], sixteenths_down[9] - 225, initWidth[9], initHeight[9]);
+
+        initWidth[7] = 350; 
+        initHeight[7] = 550;
+        printUStats_View = new PrintUStats_View(printUStatsModel, this, 0.9 * sixteenths_across[7], sixteenths_down[7] - 225, initWidth[7], initHeight[7]);
         printUStats_View.completeTheDeal();        
         printUStatsContainingPane = printUStats_View.getTheContainingPane();  
         printUStatsContainingPane.setStyle(containingPaneStyle);
@@ -232,8 +203,6 @@ public class Exploration_Dashboard extends Dashboard {
                                          dotPlotContainingPane,
                                          horizBoxContainingPane,
                                          vertBoxContainingPane,
-                                         cumFreqContainingPane,
-                                         relCumFreqContainingPane,
                                          printUStatsContainingPane); 
         dm.whereIsWaldo(238, waldoFile, "end populateTheBackGround()");
     } 

@@ -1,7 +1,7 @@
 /**************************************************
  *                  QuantCat_View                 *
- *                    09/03/24                    *
- *                      00:00                     *
+ *                    01/15/25                    *
+ *                      12:00                     *
  *************************************************/
 package superClasses;
 
@@ -46,6 +46,9 @@ public class QuantCat_View extends Region {
     // POJOs
     public boolean dragging, yAxisHasForcedLowEnd, yAxisHasForcedHighEnd;
     public boolean[] checkBoxSettings;
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     public int nEntities, nCheckBoxes, nDataPoints;
     
@@ -94,7 +97,9 @@ public class QuantCat_View extends Region {
     public QuantCat_View(VerticalBoxPlot_Model vBoxModel, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight)  {
-        System.out.println("\n97 QuantCat_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("101 *** QuantCat_View (Super), Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.vBoxModel = vBoxModel;
@@ -123,7 +128,9 @@ public class QuantCat_View extends Region {
                          String whichView, 
                          double placeHoriz, double placeVert, 
                          double withThisWidth, double withThisHeight) {
-        //System.out.println("\n126 QuantCat_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("132 *** QuantCat_View, constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.whichView = whichView;
@@ -147,7 +154,9 @@ public class QuantCat_View extends Region {
                          String whichView, 
                          double placeHoriz, double placeVert, 
                          double withThisWidth, double withThisHeight) {
-        //System.out.println("\n150 QuantCat_View, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("158 *** QuantCat_View, constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.whichView = whichView;
@@ -173,7 +182,9 @@ public class QuantCat_View extends Region {
                          String whichView, 
                          double placeHoriz, double placeVert, 
                          double withThisWidth, double withThisHeight)  {
-        System.out.println("\n176 QuantCat_View, constructing");
+        if (printTheStuff == true) {
+            System.out.println("186 *** QuantCat_View, constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.whichView = whichView;
@@ -196,6 +207,9 @@ public class QuantCat_View extends Region {
     }
     
     public void completeTheDeal() { 
+        if (printTheStuff == true) {
+            System.out.println("211 *** QuantCat_View, completeTheDeal()");
+        }
         initializeGraphParameters();  
         setUpAnchorPane();
         setHandlers();
@@ -301,7 +315,7 @@ public class QuantCat_View extends Region {
                     break;
 
                 default:
-                    String switchFailure = "Switch failure: QuantCat_View 304 " + whichView;
+                    String switchFailure = "Switch failure: QuantCat_View 318 " + whichView;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
             }   
         }

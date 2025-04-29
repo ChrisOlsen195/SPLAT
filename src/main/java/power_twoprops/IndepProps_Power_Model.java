@@ -1,7 +1,7 @@
 /**************************************************
  *           IndepProps_Power_Model               *
- *                  11/02/23                      *
- *                    15:00                       *
+ *                  04/17/25                      *
+ *                    12:00                       *
  *************************************************/
 package power_twoprops;
 
@@ -12,6 +12,9 @@ import probabilityDistributions.*;
 import utilityClasses.*;
 
 public class IndepProps_Power_Model {
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int n_1, n_2, archived_n_1, archived_n_2;
     
@@ -33,7 +36,9 @@ public class IndepProps_Power_Model {
     StandardNormal standardNormal;
     
     public IndepProps_Power_Model(IndepProps_Power_Controller indepMeans_Power_Controller) {
-        //System.out.println("36 IndepProps_Power_Model, constructing");
+        if (printTheStuff == true) {
+            System.out.println("40 *** IndepProps_Power_Model, Constructing");
+        }
         this.indepProps_Power_Controller = indepMeans_Power_Controller;
         powerReport = new ArrayList();
         standardNormal = new StandardNormal();
@@ -81,7 +86,7 @@ public class IndepProps_Power_Model {
                 break;   
                 
             default:
-                String switchFailure = "Switch failure: IndepProps_Power_Model 84 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepProps_Power_Model 89 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         return power;        
@@ -103,7 +108,6 @@ public class IndepProps_Power_Model {
     
     public void calculateAltDistribution() {
         double p1, p2, q1, q2, dbl_n1, dbl_n2;
-        //System.out.println("117 IndPropsPowMod, effectSize = " + effectSize);
         p1 = null_Prop_1;
         p2 = null_Prop_2;
         p2 = p1 - effectSize;
@@ -143,7 +147,7 @@ public class IndepProps_Power_Model {
             break;
             
             default:
-                String switchFailure = "Switch failure: IndepProps_Power_Model 146 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndepProps_Power_Model 150 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
 

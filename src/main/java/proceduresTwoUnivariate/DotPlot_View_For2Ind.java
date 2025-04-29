@@ -1,7 +1,7 @@
 /**************************************************
  *                DotPlotView_For2Ind             *
- *                     11/01/23                   *
- *                      18:00                     *
+ *                     01/16/25                   *
+ *                      12:00                     *
  *************************************************/
 package proceduresTwoUnivariate;
 
@@ -30,7 +30,9 @@ import proceduresOneUnivariate.DotPlot_Model;
 
 public class DotPlot_View_For2Ind {
     // POJOs
-
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nLegalDataPoints, nBinsToLeft, nBinsToRight, nBinsTotal;
     
     double xMin, xMax, minScale, maximumFreq, ithBinLow, ithBinHigh, binWidth,
@@ -58,7 +60,9 @@ public class DotPlot_View_For2Ind {
     public Text txtTitle1, txtTitle2;
 
     public DotPlot_View_For2Ind(DotPlot_Model dotPlot_Model) {
-        System.out.println("54 DotPlot_View_For2Ind, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("64 *** DotPlot_View_For2Ind, Constructing");
+        }
         this.dotPlot_Model = dotPlot_Model;
         nLegalDataPoints = dotPlot_Model.getQDV().getLegalN();
         ithBinLimits = this.dotPlot_Model.getBinLimits();
@@ -76,7 +80,9 @@ public class DotPlot_View_For2Ind {
         relRad = 0.90;  //  Default
 
         btn_BinReset.setOnAction(e -> {
-            System.out.println("72 DotPlot_View_For2Ind, Bin Reset");
+        if (printTheStuff == true) {
+            System.out.println("84 --- DotPlot_View_For2Ind, btn_BinReset");
+        }
             chBins_Dialog = new Change_Bins_Dialog(minDataRange, maxDataRange);
             chBins_Dialog.showAndWait();
             ithBinLow = chBins_Dialog.getDblLeftBin();
@@ -91,7 +97,9 @@ public class DotPlot_View_For2Ind {
         });
         
         btn_RadiusReset.setOnAction(e -> {
-            System.out.println("87 ----------------------  DotPlot_View_For2Ind, Radius Reset");
+        if (printTheStuff == true) {
+            System.out.println("101 --- DotPlot_View_For2Ind, btn_RadiusReset");
+        }
             chRadius_Dialog = new Change_Radius_Dialog(this);
             chRadius_Dialog.showAndWait();
             returnStatus = chRadius_Dialog.getReturnStatus();
@@ -105,7 +113,9 @@ public class DotPlot_View_For2Ind {
 
         hBox_BinReset = new HBox();
         hBox_BinReset.getChildren().addAll(btn_BinReset, btn_RadiusReset);
-        System.out.println("101 -----------------------  DotPlot_View_For2Ind, makeItHappen()");
+        if (printTheStuff == true) {
+            System.out.println("117 --- DotPlot_View_For2Ind, hBox_BinReset");
+        }
         gc = graphCanvas.getGraphicsContext2D();
         gc.setFont(Font.font("Times New Roman", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 14));
         graphCanvas.heightProperty().addListener(ov-> {doTheGraph();});

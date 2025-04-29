@@ -29,13 +29,13 @@ public class QuadReg_Dashboard extends Dashboard {
     
     // My classes
     QuadReg_BestFit_View bestFitView; 
-    PrintQuadRegReport_View printQuadRegReport_View;
+    QuadReg_PrintReport_View printQuadRegReport_View;
     QuadReg_Model quadReg_Model;   
     NormProb_Model normProb_Model;
     QuadReg_PDFView regression_PDFView;  
     QuadReg_Residuals_View quadReg_Residuals_View;
     NormProb_View nppResidsView;
-    PrintQuadRegStats_View printQuadRegStats_View;
+    QuadReg_PrintStats_View printQuadRegStats_View;
     QuantitativeDataVariable qdv_Resids;
 
     // POJOs / FX
@@ -115,7 +115,7 @@ public class QuadReg_Dashboard extends Dashboard {
         
         initWidth[2] = 675;
         initHeight[2] = 500;
-        printQuadRegReport_View = new PrintQuadRegReport_View(quadReg_Model, this, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
+        printQuadRegReport_View = new QuadReg_PrintReport_View(quadReg_Model, this, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
         printQuadRegReport_View.completeTheDeal();
         printQuadRegReportContainingPane = printQuadRegReport_View.getTheContainingPane(); 
         printQuadRegReportContainingPane.setStyle(containingPaneStyle);
@@ -136,7 +136,7 @@ public class QuadReg_Dashboard extends Dashboard {
         
         initWidth[5] = 675;
         initHeight[5] = 775;
-        printQuadRegStats_View = new PrintQuadRegStats_View(quadReg_Model, this, sixteenths_across[5], sixteenths_down[5], initWidth[5], initHeight[5]);
+        printQuadRegStats_View = new QuadReg_PrintStats_View(quadReg_Model, this, sixteenths_across[5], sixteenths_down[5], initWidth[5], initHeight[5]);
         printQuadRegStats_View.completeTheDeal();        
         printQuadRegStatsContainingPane = printQuadRegStats_View.getTheContainingPane();  
         printQuadRegStatsContainingPane.setStyle(containingPaneStyle);

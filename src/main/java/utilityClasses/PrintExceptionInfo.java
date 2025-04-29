@@ -14,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
+
 public class PrintExceptionInfo {
     
     public PrintExceptionInfo(Exception ex, String otherInfo) {       

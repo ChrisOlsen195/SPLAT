@@ -1,7 +1,7 @@
 /************************************************************
- *                       Splat_EditOps                      *
- *                          12/29/24                        *
- *                            18:00                         *
+ *                           EditOps                        *
+ *                          11/11/23                        *
+ *                            12:00                         *
  ***********************************************************/
 package splat;
 
@@ -16,19 +16,16 @@ public class Edit_Ops {
     
     int indexOfVar;
     
-    //String waldoFile = "Edit_Ops";
-    String waldoFile = "";
-    
     Data_Manager dm;
 
     public Edit_Ops(Data_Manager dm) { 
         this.dm = dm; 
-        dm.whereIsWaldo(26, waldoFile, "Constructing");
+        //System.out.println("23 Edit_Ops, constructing");
     }
     
     public void insertRow() {
         if (dm.getFileName() == null) {
-            MyAlerts.showAintGotNoDataAlert_1Var();
+            MyAlerts.showAintGotNoDataAlert();
             //return;
         } else {
             TextInputDialog dialog = new TextInputDialog("");
@@ -44,9 +41,8 @@ public class Edit_Ops {
     }
     
     public void deleteRow() {
-        dm.whereIsWaldo(47, waldoFile, "Delete row");
         if (dm.getFileName() == null) {
-            MyAlerts.showAintGotNoDataAlert_1Var();
+            MyAlerts.showAintGotNoDataAlert();
             //return;
         } else {
             String txtResult;
@@ -69,7 +65,7 @@ public class Edit_Ops {
     }
     
     public void insertColumn() {
-        dm.whereIsWaldo(72, waldoFile, "Insert column");
+        System.out.println("60 Edit_Ops, insertColumn");
         InsertOrDeleteColumn_Dialog inOrOut = new InsertOrDeleteColumn_Dialog(dm, "INSERT");
         inOrOut.showAndWait();
         String returnStatus = inOrOut.getReturnStatus();        
@@ -90,7 +86,7 @@ public class Edit_Ops {
     }
     
     public void insertColumn(ColumnOfData colOfData) {
-        dm.whereIsWaldo(93, waldoFile, "Insert column");
+        System.out.println("81 Edit_Ops, insertColumn(col)");
         InsertOrDeleteColumn_Dialog inOrOut = new InsertOrDeleteColumn_Dialog(dm, "INSERT");
         inOrOut.showAndWait();
         String returnStatus = inOrOut.getReturnStatus();        
@@ -112,7 +108,7 @@ public class Edit_Ops {
 
     //  Seems to work if nVars > maxVarsInGrid, but not if not
     public void deleteColumn() {
-        dm.whereIsWaldo(115, waldoFile, "Delete column");
+        System.out.println("103 Edit_Ops, deleteColumn");
         InsertOrDeleteColumn_Dialog inOrOut = new InsertOrDeleteColumn_Dialog(dm, "DELETE");
         inOrOut.showAndWait();
         String returnStatus = inOrOut.getReturnStatus();        
@@ -125,7 +121,7 @@ public class Edit_Ops {
     }
     
     public void cleanDataInColumn() {
-        dm.whereIsWaldo(128, waldoFile, "cleanDataInColumn");
+        System.out.println("116 Edit_Ops, cleanDataInColumn");
         CleanAColumn_Dialog cleanData_Dialog = new CleanAColumn_Dialog(dm, "Either");
         cleanData_Dialog.showAndWait();
         int col = cleanData_Dialog.getVarIndex();

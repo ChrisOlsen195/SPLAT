@@ -1,7 +1,7 @@
 /**************************************************
  *            OneProp_Power_Dashboard             *
- *                  05/29/24                      *
- *                    06:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -15,7 +15,11 @@ import superClasses.*;
 
 public class OneProp_Power_Dashboard extends Dashboard {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
+    // My Classes
     OneProp_Power_PdfView oneProp_Power_PdfView;
     OneProp_Power_VsEffectSizeView oneProp_Power_VsEffectSizeView;
     OneProp_Power_VsSampleSizeView oneProp_Power_VsSampleSizeView;
@@ -30,7 +34,9 @@ public class OneProp_Power_Dashboard extends Dashboard {
     
     public OneProp_Power_Dashboard(OneProp_Power_Controller oneProp_Power_Controller) {
         super(5);
-        //System.out.println("33 OneProp_Power_Dashboard, constructing");
+        if (printTheStuff == true) {
+            System.out.println("38 *** OneProp_Power_Dashboard, Constructing");
+        }
         this.oneProp_Power_Controller = oneProp_Power_Controller;
     }
     
@@ -60,27 +66,32 @@ public class OneProp_Power_Dashboard extends Dashboard {
         if (checkBoxSettings[0] == true) {
             pdfViewContainingPane.setVisible(true);
             oneProp_Power_PdfView.doTheGraph();
-        } else { pdfViewContainingPane.setVisible(false); }
+        }
+        else { pdfViewContainingPane.setVisible(false); }
         
         
         if (checkBoxSettings[1] == true) {
             pVsESContainingPane.setVisible(true);
             oneProp_Power_VsEffectSizeView.doTheGraph();
-        } else { pVsESContainingPane.setVisible(false); }
+        }
+        else { pVsESContainingPane.setVisible(false); }
         
         if (checkBoxSettings[2] == true) {
             pVsNContainingPane.setVisible(true);
             oneProp_Power_VsSampleSizeView.doTheGraph();
-        } else { pVsNContainingPane.setVisible(false);  }
+        }
+        else { pVsNContainingPane.setVisible(false);  }
        
         if (checkBoxSettings[3] == true) {
             pVsAlphaContainingPane.setVisible(true);
             oneProp_Power_VsAlphaView.doTheGraph();
-        } else { pVsAlphaContainingPane.setVisible(false);  }
+        }
+        else { pVsAlphaContainingPane.setVisible(false);  }
         
         if (checkBoxSettings[4] == true) {
             prntReportContainingPane.setVisible(true);
-        } else { prntReportContainingPane.setVisible(false); }
+        }
+        else { prntReportContainingPane.setVisible(false); }
     }
 
     public void makeTheBackGround() {

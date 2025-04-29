@@ -37,8 +37,8 @@ public class ANOVA2_RCB_Model {
     ArrayList<String> rcb_Report;    
     ObservableList<String> blockLevels, treatLevels;
     
-    String waldoFile = "ANOVA2_RCB_Model";
     //String  waldoFile = "";
+    String waldoFile = "ANOVA2_RCB_Model";
     
     // My classes
     ANOVA2_RCB_Controller anova2_RCB_Controller;
@@ -54,7 +54,7 @@ public class ANOVA2_RCB_Model {
                         CategoricalDataVariable blockValues,
                         QuantitativeDataVariable qdv_ResponseValues) { 
         this.dm = dm;
-        dm.whereIsWaldo(57, waldoFile, "\nConstructing, RCB Model");
+
         this.anova2_RCB_Controller = anova2_RCB_Controller;
         this.blockValues = blockValues;
         this.treatValues = treatValues;
@@ -76,7 +76,7 @@ public class ANOVA2_RCB_Model {
                         CategoricalDataVariable blockValues, 
                         QuantitativeDataVariable responseValues) { 
         this.dm = dm;
-        dm.whereIsWaldo(79, waldoFile, "\nConstructing, RCB(RM) Model");
+        dm.whereIsWaldo(79, waldoFile, "Constructing, RM Model");
         this.anova2_RM_Controller = anova2_RM_Controller;
         this.blockValues = blockValues;
         this.treatValues = treatValues;
@@ -92,7 +92,7 @@ public class ANOVA2_RCB_Model {
     
     
     public String doTwoWayANOVA() {
-        dm.whereIsWaldo(95, waldoFile, " --- doTwoWayANOVA()");
+        dm.whereIsWaldo(95, waldoFile, "doTwoWayANOVA()");
         returnStatus = "OK";
         confLevel = 0.95;
         blockLevels = FXCollections.observableArrayList();
@@ -144,12 +144,13 @@ public class ANOVA2_RCB_Model {
             default:
                 String switchFailure = "Switch failure: ANOVA2_RVB_Model 145 " + whichANOVA2;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
+
         }
         return returnStatus;     
     }
 
     private String performInitialOneWays() {
-        dm.whereIsWaldo(152, waldoFile, " --- performInitialOneWays()");
+        dm.whereIsWaldo(153, waldoFile, "performInitialOneWays()");
         returnStatus = "OK";
         prelimBlocks = new ANOVA2_RCB_PrelimANOVA1(dm, blockValues, qdv_ResponseValues);
         returnStatus = prelimBlocks.doThePrelims();
@@ -177,7 +178,7 @@ public class ANOVA2_RCB_Model {
     }   
     
     private void doRCBAnalysis_NoReplicates() {  
-        dm.whereIsWaldo(180, waldoFile, " --- doRCBAnalysis_NoReplicates()");
+        dm.whereIsWaldo(181, waldoFile, "doRCBAnalysis_NoReplicates()");
         ssBlocks = prelimBlocks.getSSTreatments();
         dfBlocks = prelimBlocks.getDFLevels();
         msBlocks = ssBlocks / dfBlocks;
@@ -213,7 +214,7 @@ public class ANOVA2_RCB_Model {
     }  
     
     private String doRCBAnalysis_WithReplicates() {  
-        dm.whereIsWaldo(216, waldoFile, " --- doRCBAnalysis_WithReplicates()");
+        dm.whereIsWaldo(217, waldoFile, "doRCBAnalysis_WithReplicates()");
         nReplications = anova2_RCB_Controller.getNReplications();
         String interactionABString;
         factor_AB_CatDataVar = new CategoricalDataVariable ("Interactions", nDataTriples);
@@ -269,7 +270,7 @@ public class ANOVA2_RCB_Model {
     }  
     
     private void print_ANOVA2_Results_1() { 
-        dm.whereIsWaldo(272, waldoFile, " --- print_ANOVA2_Results_1()");
+        dm.whereIsWaldo(273, waldoFile, "print_ANOVA2_Results_1()");
         rcb_Report = new ArrayList<>();    
         rcb_Report.add(String.format("-----------------------------------------------------------------------------------\n"));
         rcb_Report.add(String.format("       Source of              Sum of\n"));
@@ -314,7 +315,7 @@ public class ANOVA2_RCB_Model {
    }    // end printANOVA_Results
     
     private void print_ANOVA2_Results_n() {  
-        dm.whereIsWaldo(317, waldoFile, " --- print_ANOVA2_Results_n()");
+        dm.whereIsWaldo(318, waldoFile, "print_ANOVA2_Results_n()");
         rcb_Report = new ArrayList<>();    
         rcb_Report.add(String.format("-----------------------------------------------------------------------------------\n"));
         rcb_Report.add(String.format("       Source of              Sum of\n"));
@@ -342,7 +343,7 @@ public class ANOVA2_RCB_Model {
          * Kirk, Experimental Design: Procedures for the Behavioral *
          * Sciences (4th).  pp 134- 137                             *
          ***********************************************************/ 
-        dm.whereIsWaldo(345, waldoFile, " --- doTheEffectSizes_RCB_NoReplicates()");
+        dm.whereIsWaldo(346, waldoFile, "doTheEffectSizes_RCB_NoReplicates()");
         
         if (whichANOVA2.equals("RCB")) {
             // Kirk, p293
@@ -367,7 +368,7 @@ public class ANOVA2_RCB_Model {
         }
 
         else if (whichANOVA2.equals("RM")) {
-            System.out.println("371 --- ANOVA2_RCB_Model SWITCH ACCESS PROBLEM, whichANOVA2 = RM");
+            System.out.println("371 ANOVA2_RCB_Model -- SWITCH ACCESS PROBLEM, whichANOVA2 = RM");
             /*
             omegaSquare_Treats_Numerator = ssTreats - (nTreats- 1) * msWithIn;
             omegaSquareTreats_Denominator = ssTotal + msWithIn;

@@ -1,7 +1,7 @@
 /************************************************************
  *                 Power_SingleMean_Dialog                  *
- *                          05/26/24                        *
- *                            21:00                         *
+ *                          01/15/25                        *
+ *                            15:00                         *
  ***********************************************************/
 /************************************************************
 *       Checked for error messages 3/25/20                  *
@@ -29,6 +29,9 @@ import javafx.stage.WindowEvent;
 public class Power_SingleMean_Dialog extends Power_Dialog { 
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     boolean valuesLeftBlank;
     boolean boolNullMeanGood, boolSigmaGood, 
             boolEffectSizeGood, boolSampleSizeGood, boolAllFieldsGood;
@@ -49,7 +52,7 @@ public class Power_SingleMean_Dialog extends Power_Dialog {
     
     // My classes
     SmartTextFieldsController stf_Controller;
-    DoublyLinkedSTF al_STF;
+    SmartTextFieldDoublyLinkedSTF al_STF;
     
     // JavaFX POJOs
     RadioButton hypNE, hypLT, hypGT;
@@ -73,7 +76,9 @@ public class Power_SingleMean_Dialog extends Power_Dialog {
 
     public Power_SingleMean_Dialog() {
         super("Quantitative");
-        System.out.println("\n76 Power_SingleMean_Dialog, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("80 *** Power_SingleMean_Dialog, Constructing");
+        }
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         sep = new Separator();
         sep.setOrientation(Orientation.VERTICAL);

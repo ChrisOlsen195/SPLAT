@@ -1,7 +1,7 @@
 /************************************************************
  *                     Splat_VarCheckList                   *
- *                          11/01/23                        *
- *                            15:00                         *
+ *                          01/20/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package splat;
 
@@ -41,7 +41,7 @@ public class Var_CheckList {
             box.get(i).setPrefWidth(stdWidth);
             box.get(i).setText(this.dm.getVariableName(i));
             vPanel.getChildren().add(box.get(i));            
-            if ((numericOnly) & (!this.dm.getVariableIsNumeric(i))) {
+            if ((numericOnly) & (!this.dm.getDataType(i).equals("Quantitative"))) {
                 box.get(i).setDisable(true);
             }
         }

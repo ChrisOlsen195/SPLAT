@@ -1,7 +1,7 @@
 /**************************************************
  *       IndepMeans_Power_VsSampleSizeView        *
- *                  02/19/24                      *
- *                    15:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_twomeans;
 
@@ -28,7 +28,9 @@ import javafx.scene.input.MouseEvent;
 
 public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
-
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int sampleSize_1, sampleSize_2, maxSampleSize;
 
     double xMax, yMin, yMax, effectSize, dbl_daN1, dbl_daN2, lowN1, lowN2;
@@ -49,7 +51,9 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("52 IndepMeans_Power_VsSampleSizeView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("55 *** IndepMeans_Power_VsSampleSizeView, Constructing");
+        }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

@@ -1,7 +1,7 @@
 /**************************************************
  *         OneProp_Power_VsSampleSizeView         *
- *                  05/30/24                      *
- *                    15:00                       *
+ *                  04/08/25                      *
+ *                    12:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -26,10 +26,12 @@ import javafx.scene.input.KeyCode;
 
 public class OneProp_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int sampleSize;
 
-    double /*xMin, xMax,*/ yMin, yMax, nullProp, nullSigma, altProp, effectSize;
+    double yMin, yMax, /*nullProp, nullSigma, altProp,*/ effectSize;
 
     //  FX 
     Pane theContainingPane;
@@ -44,17 +46,19 @@ public class OneProp_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        //System.out.println("47 OneProp_Power_VsSampleSizeView, constructing");
+        if (printTheStuff == true) {
+            System.out.println("50 *** OneProp_Power_VsSampleSizeView, Constructing");
+        }
         this.oneProp_Power_Model = oneProp_PowerModel;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         sampleSize = oneProp_PowerModel.getSampleSize();
-        nullProp = oneProp_PowerModel.getNullProp();
-        nullSigma = oneProp_PowerModel.getStErr_PNull();
+        //nullProp = oneProp_PowerModel.getNullProp();
+        //nullSigma = oneProp_PowerModel.getStErr_PNull();
         alpha = oneProp_PowerModel.getAlpha();
-        altProp = oneProp_PowerModel.getAltProp();
+        //altProp = oneProp_PowerModel.getAltProp();
         effectSize = oneProp_PowerModel.getEffectSize();
-        fromHere = 1.0; toThere = 50.0;
+        fromHere = 1.0; toThere = 1.25 * sampleSize;
         makeItHappen();
     }  
     
@@ -126,9 +130,11 @@ public class OneProp_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
         deltaX = 0.005 * xRange; deltaY = 0.005 * yRange;   
     }
     
+    /*
     public void setIntervalOfInterest(double startHere, double endHere)  {
         fromHere = startHere; toThere = endHere;
     }
+    */
     
     public double getInitialYMax() { return 1.025; }
    
@@ -179,7 +185,7 @@ public class OneProp_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
         yStart = yAxis.getDisplayPosition(0.0);
         yStop = yAxis.getDisplayPosition(1.0);       
         
-        for (int daN = 2; daN < 201; daN++) {
+        for (int daN = 2; daN < toThere; daN++) {
             dbl_daN = daN;
             oneProp_Power_Model.setSampleSize(daN);
             power = oneProp_Power_Model.calculatePower();         

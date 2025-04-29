@@ -1,8 +1,3 @@
-/****************************************************************************
- *                            Matrix                                        *
- *                            10/03/24                                      *
- *                             15:00                                        *
- ***************************************************************************/
 package matrixProcedures;
 
 import java.io.BufferedReader;
@@ -12,12 +7,12 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
-import utilityClasses.MyAlerts;
+import utilityClasses.*;
 
 public class Matrix implements Cloneable, java.io.Serializable 
 {
     private static final long serialVersionUID = 1L;
-
+    MyAlerts myAlerts;
    /** private utility routines **/
 
    /** Check magnitude of difference of scalars. **/
@@ -174,10 +169,11 @@ public static void check(Matrix X, Matrix Y) {
       public Matrix (int m, int n) {
          this.m = m;
          this.n = n;
+         
          try {
-            A = new double[m][n];
-         }
-         catch (OutOfMemoryError E) {
+         A = new double[m][n];
+         } catch (OutOfMemoryError oom) {
+             System.out.println("Yikes!  OOM!!!");
              MyAlerts.showOutOfMemoryAlert();
              System.exit(0);
          }
@@ -192,13 +188,7 @@ public static void check(Matrix X, Matrix Y) {
       public Matrix (int m, int n, double s) {
          this.m = m;
          this.n = n;
-         try {
-            A = new double[m][n];
-         }
-         catch (OutOfMemoryError E) {
-             MyAlerts.showOutOfMemoryAlert();
-             System.exit(0);
-         }
+         A = new double[m][n];
          for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                A[i][j] = s;
@@ -246,22 +236,20 @@ public static void check(Matrix X, Matrix Y) {
       public Matrix (double vals[], int m) {
          this.m = m;
          n = (m != 0 ? vals.length/m : 0);
-         if (m * n != vals.length) {
+         if (m*n != vals.length) {
             throw new IllegalArgumentException("Array length must be a multiple of m.");
          }
-         try {
-            A = new double[m][n];
-         }
-         catch (OutOfMemoryError E) {
-             MyAlerts.showOutOfMemoryAlert();
-             System.exit(0);
-         }         
+         A = new double[m][n];
          for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                A[i][j] = vals[i+j*m];
             }
          }
       }
+
+
+
+
 
    /* ------------------------
       Public Methods

@@ -1,7 +1,7 @@
 /**************************************************
  *               Indep_t_PDFView                  *
- *                  02/19/24                      *
- *                    15:00                       *
+ *                  03/08/25                      *
+ *                    12:00                       *
  *************************************************/
 package the_t_procedures;
 
@@ -29,7 +29,7 @@ import theRProbDists.*;
 
 public class Indep_t_PDFView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
-    double tStat, absValTStat, df; 
+    double tStat, absValTStat, dbl_df, xStart_tPVal; 
     
     final double daMode = 0.4;    //  Let's see how this works.
     final double MIDDLE_T = 0.99999;
@@ -42,6 +42,7 @@ public class Indep_t_PDFView extends BivariateScale_W_CheckBoxes_View {
 
     // My classes  
     Data_Manager dm;
+    Indep_t_Model indep_t_Model;
     T_double_df tDistr;
 
     //  POJOs / FX
@@ -52,12 +53,13 @@ public class Indep_t_PDFView extends BivariateScale_W_CheckBoxes_View {
     public Indep_t_PDFView(Indep_t_Model indep_t_Model, Indep_t_Dashboard indep_t_Dashboard, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
+        super(placeHoriz, placeVert, withThisWidth, withThisHeight);
+        this.indep_t_Model = indep_t_Model;
         dm = indep_t_Model.getDataManager();
-        dm.whereIsWaldo(53, waldoFile, "Constructing");
+        dm.whereIsWaldo(59, waldoFile, "Constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
-        
+        //this.indep_t_Model = indep_t_Model;
         nCheckBoxes = 2;
         scatterPlotCheckBoxDescr = new String[nCheckBoxes];
         scatterPlotCheckBoxDescr[0] = " Identify P-value ";
@@ -68,11 +70,11 @@ public class Indep_t_PDFView extends BivariateScale_W_CheckBoxes_View {
         hypotheses = indep_t_Model.getHypotheses();
         alpha = indep_t_Model.getAlpha();
         
-        df = indep_t_Model.getDF();
+        dbl_df = indep_t_Model.getDF();
         tStat = indep_t_Model.getTStat();
         absValTStat = Math.abs(tStat);
         pValue = indep_t_Model.getPValue();
-        tDistr = new T_double_df(df);
+        tDistr = new T_double_df(dbl_df);
         initialInterval = new double[2];
         middle_ForGraph = MIDDLE_T; 
         initialInterval[0] = tDistr.quantile((1. - middle_ForGraph) / 2.0);
@@ -97,7 +99,7 @@ public class Indep_t_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default:
-                String switchFailure = "Switch failure: Indep_t_PDFView 96 " + hypotheses;
+                String switchFailure = "Switch failure: Indep_t_PDFView 102 " + hypotheses;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         
@@ -129,11 +131,11 @@ public class Indep_t_PDFView extends BivariateScale_W_CheckBoxes_View {
         String title2String;
         txtTitle1 = new Text(50, 25, " t test");
         
-        if (df > 1) {
-            title2String = String.format("%5.2f", df) + " degrees of freedom";
+        if (dbl_df > 1) {
+            title2String = String.format("%5.2f", dbl_df) + " degrees of freedom";
         }
         else {
-            title2String = String.valueOf(df) + " degree of freedom";
+            title2String = String.valueOf(dbl_df) + " degree of freedom";
         }
         
         txtTitle2 = new Text (60, 45, title2String);
@@ -181,11 +183,11 @@ public class Indep_t_PDFView extends BivariateScale_W_CheckBoxes_View {
     
     public double getInitialYMax() {
         yDataMax = 1.0;
-        if (df == 2)
+        if (dbl_df == 2)
             yDataMax = 0.40;                
-        if (df > 2)
+        if (dbl_df > 2)
             yDataMax = 0.45;
-        if (df > 5)
+        if (dbl_df > 5)
             yDataMax = 0.50;                
         return yDataMax;
     }
@@ -269,24 +271,28 @@ public class Indep_t_PDFView extends BivariateScale_W_CheckBoxes_View {
             xx0 = xx1; yy0 = yy1;   //  Next start point for line segment
         }   
 
-        xStart = xStop = xAxis.getDisplayPosition(tStat);
+        xStart = xStop = xStart_tPVal = xAxis.getDisplayPosition(tStat);
         yStart = yAxis.getDisplayPosition(0.0);
         yStop = yAxis.getDisplayPosition(daMode);        
 
         gc.setLineWidth(2);
         gc.setStroke(Color.RED);
         gc.strokeLine(xStart, yStart, xStop, yStop);
-
+        double rightEndPad = 225.;
+        double temp  = dbl_df / (dbl_df - 2.0);
+        
         if (identifyPValueIsDesired) {
+            if (paneWidth - xStart_tPVal < rightEndPad) { xStart_tPVal = xAxis.getDisplayPosition(temp) - 100.; }
             tempString = String.format("t = %6.3f, pValue = %4.3f", tStat, pValue);
-        }
-        else {
+            gc.setFill(Color.RED);
+            gc.fillText(tempString, xStart_tPVal + 5, yStop - 5);
+        } else {
+            if (paneWidth - xStart_tPVal < rightEndPad) { xStart_tPVal = xAxis.getDisplayPosition(temp) - 100.; }
             tempString = String.format("t = %6.3f", tStat);
+            gc.setFill(Color.RED);
+            gc.fillText(tempString, xStart_tPVal + 5, yStop - 5);            
         }
-        
-        gc.setFill(Color.RED);
-        gc.fillText(tempString, xStop + 5, yStop - 5);
-        
+
         if (assumptionCheckIsDesired) {
             double daMode = 0.4;    //  Let's see how this works.
             double otherXStart, otherXStop;           
@@ -342,7 +348,7 @@ public class Indep_t_PDFView extends BivariateScale_W_CheckBoxes_View {
                         break;
 
                     default:
-                        String switchFailure = "Switch failure: Indep_t_PDFView 341 " + hypotheses;
+                        String switchFailure = "Switch failure: Indep_t_PDFView 347 " + hypotheses;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 }                 
             }

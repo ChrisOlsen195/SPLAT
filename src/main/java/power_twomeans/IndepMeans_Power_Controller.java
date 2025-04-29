@@ -1,7 +1,7 @@
 /**************************************************
  *         IndepMeans_Power_Controller            *
- *                  05/29/24                      *
- *                    18:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_twomeans;
 
@@ -12,6 +12,8 @@ import utilityClasses.MyAlerts;
 public class IndepMeans_Power_Controller {
     
     //POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int n_1, n_2;
     double alpha, effectSize;
@@ -19,8 +21,8 @@ public class IndepMeans_Power_Controller {
     double nullMu_1, nullMu_2, altDiff_InMeans, nullSigma_1, nullSigma_2,
            nullDiff_InMeans, power;
     
-    String strRejectionCriterion, strPrinted_Null, strPrinted_Alt, 
-           strReturnStatus;
+    String strRejectionCriterion, /*rejectionStrategy,*/ strPrinted_Null, 
+           strPrinted_Alt, strReturnStatus;
     
     // My Classes
     Point_2D nonRejectionRegion;
@@ -29,8 +31,10 @@ public class IndepMeans_Power_Controller {
     IndepMeans_Power_Dashboard indepMeans_Power_Dashboard;
     
     public IndepMeans_Power_Controller() {
-         power_IndMeans_Dialog = new Power_IndMeans_Dialog();
-         System.out.println("33 IndepMeans_Power_Controller, constructing");
+        power_IndMeans_Dialog = new Power_IndMeans_Dialog();
+        if (printTheStuff == true) {
+            System.out.println("36 *** IndepMeans_Power_Controller, Constructing");
+        }
     }
     
     public String ShowNWait() {
@@ -64,6 +68,7 @@ public class IndepMeans_Power_Controller {
                 
             case "NotEqual":
                 altDiff_InMeans = nullDiff_InMeans + effectSize ;
+                //System.out.println("74 controller, altDiffInMeans = " + altDiffInMeans);
                 break;
                 
             case "GreaterThan":
@@ -71,7 +76,7 @@ public class IndepMeans_Power_Controller {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Controller 74 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_Controller 75 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
 
@@ -101,7 +106,7 @@ public class IndepMeans_Power_Controller {
                 break;
 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Controller 104 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_Controller 105 " + strRejectionCriterion;
                 System.exit(150);
         }
 

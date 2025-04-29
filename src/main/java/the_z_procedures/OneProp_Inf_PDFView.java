@@ -1,7 +1,7 @@
 /**************************************************
  *           OneProp_Inf_PDFView                  *
- *                  11/27/24                      *
- *                    12:00                       *
+ *                  04/25/25                      *
+ *                    15:00                       *
  *************************************************/
 package the_z_procedures;
 
@@ -29,7 +29,10 @@ import utilityClasses.MyAlerts;
 public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
     
     // POJOs
-    double zStatistic, pHypoth, absVal_zStatistic, daMode;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
+    double zStatistic, pHypoth, absVal_zStatistic, daMode, xStart_zPVal;
     final double MIDDLE_Z = 0.9999;
     final double[] alphas = {0.10, 0.05, 0.025, 0.01};
     double[] initialInterval;
@@ -49,7 +52,9 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
             double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        //System.out.println("48 OneProp_Inf_PDFView. constructing");
+        if (printTheStuff == true) {
+            System.out.println("56 *** OneProp_Inf_PDFView, Constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.oneProp_Inf_Model = oneProp_Inf_Model;
@@ -62,7 +67,7 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
         
         txtTitle1 = new Text(50, 25, " Sampling distribution ");
         title2String = "";
-        hypotheses = oneProp_Inf_Model.getHypotheses();
+        hypotheses = oneProp_Inf_Model.getAltHypotheses();
         alpha = this.oneProp_Inf_Model.getAlpha();
         pHypoth = oneProp_Inf_Model.getHypothProp();        
         zStatistic = this.oneProp_Inf_Model.getZStat();
@@ -139,7 +144,7 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneProp_Inf_PDFView 138 " + "hypotheses";
+                String switchFailure = "Switch failure: OneProp_Inf_PDFView 137 " + "hypotheses";
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);          
         }
 
@@ -265,20 +270,28 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
             xx0 = xx1; yy0 = yy1;   //  Next start point for line segment
         }   
 
-        xStart = xStop = xAxis.getDisplayPosition(zStatistic);
+        xStart = xStop = xStart_zPVal = xAxis.getDisplayPosition(zStatistic);
         yStart = yAxis.getDisplayPosition(0.0);
-        yStop = yAxis.getDisplayPosition(daMode);        
+        yStop = yAxis.getDisplayPosition(0.425);        
 
         gc.setLineWidth(2);
         gc.setStroke(Color.RED);
-        gc.strokeLine(xStart, yStart, xStop, yStop + 15);
+        gc.strokeLine(xStart, yStart, xStop, yStop - 20);
 
+        double rightEndPad = 225.;
+        double temp  = 1.0;
+        
         if (identifyPValueIsDesired) {
-            tempString = String.format("z = %6.3f,  pValue = %4.3f", zStatistic, pValue);
+            if (paneWidth - xStart_zPVal < rightEndPad) { xStart_zPVal = xAxis.getDisplayPosition(temp); }
+            tempString = String.format("z = %6.3f, pValue = %4.3f", zStatistic, pValue);
+            gc.setFill(Color.RED);
+            gc.fillText(tempString, xStart_zPVal + 25, yStop - 25);
+        } else {
+            if (paneWidth - xStart_zPVal < rightEndPad) { xStart_zPVal = xAxis.getDisplayPosition(temp); }
+            tempString = String.format("z = %6.3f",  zStatistic);
+            gc.setFill(Color.RED);
+            gc.fillText(tempString, xStart_zPVal + 25, yStop  - 25);            
         }
-        else { tempString = String.format("z = %6.3f", zStatistic); }
-        gc.setFill(Color.RED);
-        gc.fillText(tempString, xStop + 5, yStop + 15);
  
         if (assumptionCheckIsDesired) {
             double otherXStart, otherXStop;

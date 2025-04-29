@@ -1,7 +1,7 @@
 /**************************************************
  *            OneMean_Power_Model                 *
- *                  05/28/24                      *
- *                    15:00                       *
+ *                  01/15/25                      *
+ *                    21:00                       *
  *************************************************/
 package power_OneMean;
 
@@ -12,6 +12,10 @@ import utilityClasses.*;
 
 public class OneMean_Power_Model {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int sampleSize, archivedSampleSize;
     double alpha, altMu, effectSize, nullMu, nullSigma, power, lowerLimit, 
            upperLimit, standErrMean, loCum, hiCum, archivedNullMu, 
@@ -27,7 +31,9 @@ public class OneMean_Power_Model {
     
     public OneMean_Power_Model(OneMean_Power_Controller oneMean_Controller) {
         this.oneMean_Power_Controller = oneMean_Controller;
-        //System.out.println("\n30 OneMean_Power_Model, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("35 *** OneMean_Power_Model, Constructing");
+        }
         str_al_PowerReport = new ArrayList();
     }
     
@@ -56,7 +62,7 @@ public class OneMean_Power_Model {
                 break;
             
             default:
-                String switchFailure = "Switch failure: OneMean_Power_Model 59 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneMean_Power_Model 65 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
         nonRejectionRegion = new Point_2D(lowerLimit, upperLimit);
@@ -83,7 +89,7 @@ public class OneMean_Power_Model {
                 break;   
                 
             default:
-                String switchFailure = "Switch failure: OneMean_Power_Model 86 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneMean_Power_Model 92 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
         return power;        

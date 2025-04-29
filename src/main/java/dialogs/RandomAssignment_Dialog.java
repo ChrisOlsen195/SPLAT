@@ -1,7 +1,7 @@
 /************************************************************
  *                    RandomAssignment_Dialog               *
- *                          02/14/24                        *
- *                            15:00                         *
+ *                          01/20/25                        *
+ *                            21:00                         *
  ***********************************************************/
 package dialogs;
 
@@ -302,7 +302,7 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
         switch (daCorrectType) {
             case "Quantitative":
                 
-                if(dm.getAllTheColumns().get(varIndex).getIsNumeric()) {
+                if(dm.getAllTheColumns().get(varIndex).getDataType().equals("Quantitative")) {
                     isCorrectType = true;
                 }
                 else {
@@ -314,7 +314,7 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
             case "Categorical":
                 dm.whereIsWaldo(313, waldoFile, "At 313");
                 
-                if(!dm.getAllTheColumns().get(varIndex).getIsNumeric()) {
+                if(!dm.getAllTheColumns().get(varIndex).getDataType().equals("Quantitative")) {
                     isCorrectType = true;
                 }
                 else {

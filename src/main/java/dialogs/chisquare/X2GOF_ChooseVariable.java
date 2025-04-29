@@ -1,7 +1,7 @@
 /************************************************************
  *                        X2GOF_Dialog                      *
- *                          09/07/24                        *
- *                            06:00                         *
+ *                          01/15/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package dialogs.chisquare;
 
@@ -11,9 +11,14 @@ import splat.Data_Manager;
 
 public class X2GOF_ChooseVariable extends One_Variable_Dialog{ 
     
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     public X2GOF_ChooseVariable(Data_Manager myData, String variableType) {
         super(myData, "Categorical"); 
-        System.out.println("16 X2GOF_ChooseVariable, Constructing");
+        if (printTheStuff == true) {
+            System.out.println("20 *** X2GOF_ChooseVariable, Constructing");
+        }
         lbl_Title.setText("Chi square Goodness Of Fit");
         lblFirstVar.setText("  Variable:");
         defineTheCheckBoxes();

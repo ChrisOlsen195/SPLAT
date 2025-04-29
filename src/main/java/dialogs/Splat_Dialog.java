@@ -1,7 +1,7 @@
 /************************************************************
  *                        Splat_Dialog                      *
- *                          08/20/24                        *
- *                            12:00                         *
+ *                          02/15/25                        *
+ *                            00:00                         *
  ***********************************************************/
 
 package dialogs;
@@ -35,30 +35,32 @@ public class Splat_Dialog extends Stage {
     public Splat_Dialog(String messageOfSomeSort) { initialize(); }
     
     private void initialize() {
+        //System.out.println("38 Splash_Dialog");
         boolGoodToGo = true;
         strReturnStatus = "OK";    //  Initialize to OK
         this.setTitle("SPLAT: StatisticsPackageForLearningAndTeaching"); 
         this.getIcons().add(new Image(getClass().getResource("/SplatJPG.jpg").toExternalForm())); 
         strCSS = getClass().getClassLoader().getResource("StatDialogs.css").toExternalForm();
         
-        btnOK = new Button("");
+        btnOK = new Button("OK");
+        btnOK.setStyle("-fx-text-fill: red;");
         btnOK.setOnAction((ActionEvent event) -> {
             boolGoodToGo = true;
             strReturnStatus = "OK";
-            close();
+            hide();
         });
         
-        btnCancel = new Button("");
-        btnCancel.setOnAction((ActionEvent event) -> {
+        btnCancel = new Button("Cancel");
+        btnCancel.setStyle("-fx-text-fill: red;");
+        btnCancel.setOnAction(e -> {  
+            //System.out.println("56 Splat_Dialog, btnCancel clicked...");
             boolGoodToGo = false;
             strReturnStatus = "Cancel";
-            close();
-        });
+            hide();
+        }); 
         
         setOnCloseRequest((WindowEvent we) -> {
-            boolGoodToGo = false;
-            strReturnStatus = "Cancel";
-            close();
+            btnCancel.fire();
         });
         
     }

@@ -12,7 +12,7 @@ public class UnivCat_DataFromFileDialog extends One_Variable_Dialog {
     
     public UnivCat_DataFromFileDialog(Data_Manager dm, String variableType) {
         super(dm, "Categorical");
-        System.out.println("15 UnivCat_DataFromFileDialog, dm = " + dm);
+        //System.out.println("15 UnivCat_DataFromFileDialog, dm = " + dm);
         minSampleSize = 3;
         setTitle("Univariate Data Exploration");
     }   
