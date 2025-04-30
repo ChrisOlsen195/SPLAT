@@ -1,6 +1,6 @@
 /**************************************************
  *               LogisticReg_Model                *
- *                   04/23/25                     *
+ *                   04/30/25                     *
  *                     03:00                      *
  *************************************************/
 package simpleLogisticRegression;
@@ -502,7 +502,7 @@ public class Logistic_Model {
             logisticEquation[4] = "                1 + e";
             
             logisticReport.add(String.format("                    %15s", "Response values:\n\n"));
-            logisticReport.add(String.format("           %15s", "0 = " + twoCategories[0] + "\n"));
+            logisticReport.add(String.format("            %15s", "0 = " + twoCategories[0] + "\n"));
             logisticReport.add(String.format("             %15s", "1 = " + twoCategories[1] + "\n\n"));
             
             String lrTable0 = "        **********     Logistic Regression Equation     **********\n\n";

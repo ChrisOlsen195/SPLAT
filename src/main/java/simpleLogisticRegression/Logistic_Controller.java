@@ -1,6 +1,6 @@
 /************************************************************
  *                     Logistic_Controller                  *
- *                          04/23/25                        *
+ *                          04/30/25                        *
  *                            03:00                         *
  ***********************************************************/
 /******************************************************************
@@ -85,7 +85,7 @@ public class Logistic_Controller {
             ColumnOfData colOfData = new ColumnOfData(dm, "LogisticContr83", "LogisticRegContr83", dc.getFixedData());
             int colSize = colOfData.getNCasesInColumn(); 
 
-            if(!colOfData.getIsZeroOne()) {  
+            //if(!colOfData.getIsZeroOne()) {  
                 twoCategories = dc.getFinalCategories();                
                 for (int ithCase = 0; ithCase < colSize; ithCase++) {
                     if ((colOfData.getStringInIthRow(ithCase).trim()).equals((twoCategories[0].trim()))) {                        
@@ -94,7 +94,7 @@ public class Logistic_Controller {
                     else  { 
                         data.get(1).setStringInIthRow(ithCase, "1"); }  
                 }
-            }
+            //}
 
             qdv_XVariable = new QuantitativeDataVariable("LogisticRegContr95", "LogisticRegContr099", data.get(0));
             qdv_YVariable = new QuantitativeDataVariable("LogisticRegContr96", "LogisticRegContr100", data.get(1)); 
