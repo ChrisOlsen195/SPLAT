@@ -61,18 +61,18 @@ public class Indep_t_TI8x_Dialog extends Splat_Dialog{
     // ******************************************************************
     public Indep_t_TI8x_Dialog(Data_Manager dm) {
         this.dm = dm;
-        if (printTheStuff == true) {
-            System.out.println("63 *** Indep_t_TI8x_Dialog, constructing");
+        if (printTheStuff) {
+            System.out.println("*** 65 Indep_t_TI8x_Dialog, constructing");
         }        
         TWO = 2;
         create_Indep_t_TI8x_Dialog();
     }
 
     private void create_Indep_t_TI8x_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("71 --- Explore_2Ind_TI8x_Dialog, create_Indep_t_TI8x_Dialog()");
+        if (printTheStuff) {
+            System.out.println("*** 73 Explore_2Ind_TI8x_Dialog, create_Indep_t_TI8x_Dialog()");
         }
-        dm.whereIsWaldo(70, waldoFile, "create_Indep_t_TI8x_Dialog()");
+        dm.whereIsWaldo(75, waldoFile, "create_Indep_t_TI8x_Dialog()");
         boolGoodToGo = true;
         strReturnStatus = "OK";
         str_ChosenLabels = new ArrayList();
@@ -235,9 +235,6 @@ public class Indep_t_TI8x_Dialog extends Splat_Dialog{
     }
 
     public void show_Indep_t_2Ind_TI8x_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("239 --- Indep_t_TI8x_Dialog, show_Indep_t_2Ind_TI8x_Dialog()");
-        } 
         lblTitle.setText("Explore 2 Vars");
         stageDialog.setTitle("Explore 2 Vars");
         stageDialog.showAndWait();

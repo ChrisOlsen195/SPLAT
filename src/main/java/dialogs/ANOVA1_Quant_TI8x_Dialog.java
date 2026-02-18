@@ -1,7 +1,7 @@
 /**************************************************
  *            ANOVA1_Quant_TI8x_Dialog            *
- *                    02/15/25                    *
- *                     00:00                      *
+ *                    05/26/25                    *
+ *                     21:00                      *
  *************************************************/
 package dialogs;
 
@@ -28,6 +28,9 @@ import utilityClasses.MyAlerts;
 public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
 
     // POJOs
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     private int nLevels;
     final int THREE;
     Separator sepTitle, sepDirections, sepButtons;
@@ -59,17 +62,17 @@ public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
     // ******************************************************************
     public ANOVA1_Quant_TI8x_Dialog(Data_Manager dm) {
         this.dm = dm;
-        
-        // Make empty if no-print
-        //waldoFile = "ANOVA1_Quant_TI8x_Dialog";
-        waldoFile = "";
-        
-        dm.whereIsWaldo(67, waldoFile, "Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 66 ANOVA1_Quant_TI8x_Dialog, Constructing");
+        }
         THREE = 3;
         createANOVA_TI8x_Dialog();
     }
 
     private void createANOVA_TI8x_Dialog() {
+        if (printTheStuff) {
+            System.out.println("*** 74 ANOVA1_Quant_TI8x_Dialog, createANOVA_TI8x_Dialog()");
+        }
         dm.whereIsWaldo(73, waldoFile, "createANOVA_NS_Dialog()");
         boolGoodToGo = true;
         strReturnStatus = "OK";
@@ -160,10 +163,9 @@ public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
 
         btnCancel.setStyle("-fx-text-fill: red;");
         btnCancel.setOnAction(e -> {  
-            System.out.println("163 ANOVA1_Quant_TI8x_Dlg, btnCancel clicked...");
-            boolGoodToGo = false;
             strReturnStatus = "Cancel";
-            hide();
+            stageDialog.hide();
+            close();
         });
 
         btnReset.setOnAction((ActionEvent event) -> {
@@ -191,7 +193,7 @@ public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
             if (boolGoodToGo) {
                 for (String tmpVar : str_al_QuantsSelected) {                    
                     if (!dm.getDataType(dm.getVariableIndex(tmpVar)).equals("Quantitative")) {
-                        System.out.println("191 ANOVA1_Quant_TI8x_Dialog");
+                        //System.out.println("193 ANOVA1_Quant_TI8x_Dialog");
                         MyAlerts.showIncorrectDataTypeErrorAlert();
                         boolGoodToGo = false;
                         btnReset.fire();
@@ -248,6 +250,9 @@ public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
     }
     
     public void show_ANOVA1_TI8x_Dialog() {
+        if (printTheStuff) {
+            System.out.println("*** 254 ANOVA1_Quant_TI8x_Dialog, show_ANOVA1_TI8x_Dialog()");
+        }
         lblTitle.setText("One way ANOVA");
         stageDialog.setTitle("One way ANOVA");
         stageDialog.showAndWait();
@@ -257,7 +262,7 @@ public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
     public String getResponseVariable() { return tfResponseVar.getText(); } 
     public int getNLevels() { return nLevels; }
     public ArrayList<ColumnOfData> getData() { return col_al_Data; }
-    public String getReturnStatus() { return strReturnStatus; }
+    public String getStrReturnStatus() { return strReturnStatus; }
 } 
 
 

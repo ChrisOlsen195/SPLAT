@@ -1,7 +1,7 @@
 /**************************************************
  *              VerticalBoxPlot_Model             *
- *                    02/13/25                    *
- *                      21:00                     *
+ *                    01/31/26                    *
+ *                      18:00                     *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -31,7 +31,7 @@ public class VerticalBoxPlot_Model {
     // Called by Univ_Quant_Controller
     public VerticalBoxPlot_Model(String descriptionOfVariable, QuantitativeDataVariable theQDV) {
         if (printTheStuff) {
-            System.out.println("34 *** VerticalBoxPlot_Model, Constructing");
+            System.out.println("*** 34 VerticalBoxPlot_Model, Constructing");
         }
         allTheQDVs = new ArrayList<>();
         strSubTitle = descriptionOfVariable;
@@ -42,7 +42,7 @@ public class VerticalBoxPlot_Model {
     
     public VerticalBoxPlot_Model(Explore_2Ind_Controller explore_2Ind_Controller, String descriptionOfVariable, ArrayList<QuantitativeDataVariable> allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("43 *** VerticalBoxPlot_Model, constructing");
+            System.out.println("*** 45 VerticalBoxPlot_Model, constructing form Explor2Ind_Controller");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;
@@ -60,7 +60,7 @@ public class VerticalBoxPlot_Model {
     // Called by Indep_t_PrepStructs
     public VerticalBoxPlot_Model(Indep_t_Controller indep_t_Controller, String descriptionOfVariable, ArrayList<QuantitativeDataVariable> allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("59 *** VerticalBoxPlot_Model, constructing");
+            System.out.println("*** 63 VerticalBoxPlot_Model, constructing from indep_t_Controller");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;
@@ -79,8 +79,8 @@ public class VerticalBoxPlot_Model {
     
     public VerticalBoxPlot_Model(ANOVA1_Cat_Model anova1_Cat_Model, ArrayList<QuantitativeDataVariable>  allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("78 *** VerticalBoxPlot_Model, constructing");
-            System.out.println("  --- 79 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
+            System.out.println("*** 82 VerticalBoxPlot_Model, constructing from anova_Cat_Model");
+            System.out.println("--- 83 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
         }
         strSubTitle = anova1_Cat_Model.getSubTitle();
         this.allTheQDVs = new ArrayList();
@@ -91,7 +91,7 @@ public class VerticalBoxPlot_Model {
     
     public VerticalBoxPlot_Model(ANOVA1_Quant_Model anova1_Quant_Model, ArrayList<QuantitativeDataVariable> allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("94 *** VerticalBoxPlot_Model, Constructing");
+            System.out.println("*** 94 VerticalBoxPlot_Model, Constructing from anova_Quant_Model");
         }
         strSubTitle = anova1_Quant_Model.getSubTitle();  
         this.allTheQDVs = new ArrayList();
@@ -102,10 +102,14 @@ public class VerticalBoxPlot_Model {
     
     public VerticalBoxPlot_Model(MultUni_Model multUni_Model, ArrayList<QuantitativeDataVariable> allTheQDVs) {
         if (printTheStuff) {
-            System.out.println("102 *** VerticalBoxPlot_Model, Constructing");
-            System.out.println(" --- 103 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
+            System.out.println("*** 105 VerticalBoxPlot_Model, Constructing from MultUni_Model");
+            System.out.println("--- 106 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
         }
         strSubTitle = multUni_Model.getSubTitle();
+        if (printTheStuff) {
+            System.out.println("... 110 VerticalBoxPlot_Model, strSubTitle = " + strSubTitle);
+
+        }
         this.allTheQDVs = new ArrayList();
         this.allTheQDVs = allTheQDVs;
         n_QDVs = allTheQDVs.size();
@@ -113,13 +117,16 @@ public class VerticalBoxPlot_Model {
     }
     
     public VerticalBoxPlot_Model(ANOVA2_RM_Model anova2_RM_Model, ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        if (printTheStuff == true) {
-            System.out.println("109 VerticalBoxPlot_Model, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 121 VerticalBoxPlot_Model, Constructing from ANOVA_RM_Model");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;
         n_QDVs = allTheQDVs.size();
         strSubTitle = "Repeated Measures: Subjects x response";
+        if (printTheStuff) {
+            System.out.println("--- 128 VerticalBoxPlot_Model, strSubTitle = " + strSubTitle);
+        }
         collectAllTheLabels();          
     }
     

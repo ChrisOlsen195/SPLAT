@@ -1,7 +1,7 @@
 /************************************************************
  *                     OneProp_Inf_Dialog                   *
- *                          03/14/25                        *
- *                            15:00                         *
+ *                          12/13/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -35,6 +35,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 import smarttextfield.*;
+import the_z_procedures.OneProp_Inf_Model;
 
 public class OneProp_Inf_Dialog extends Splat_Dialog { 
     
@@ -60,6 +61,7 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
     final Text currNullProp = new Text("   Current null hypothesis: p\u2080 = ");
 
     // My classes
+    OneProp_Inf_Model oneProp_Inf_Model;
     SmartTextFieldDoublyLinkedSTF al_STF;
     SmartTextFieldsController stf_Controller;
 
@@ -86,11 +88,13 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
     VBox root, vBox_NullsPanel, vBox_NumValsPanel, vBox_Group,
          vBox_CI, vBox_Alpha, vBox_InfChoicesPanel, vBox_VarsPanel; 
 
-    public OneProp_Inf_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("91 *** OneProp_Inference_Dialog, Constructing");
+    public OneProp_Inf_Dialog(OneProp_Inf_Model oneProp_Inf_Model) {
+        if (printTheStuff) {
+            System.out.println("*** 93 OneProp_Inference_Dialog, Constructing");
         }
+        this.oneProp_Inf_Model = oneProp_Inf_Model;
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
+        strReturnStatus = "OK";
         sep = new Separator();
         sep.setOrientation(Orientation.VERTICAL);
 
@@ -147,6 +151,9 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
     }  
 
     private void makeNullsPanel() { 
+        if (printTheStuff) {
+            System.out.println("*** 155 OneProp_Inference_Dialog, makeNullsPanel()");
+        }
         vBox_NullsPanel = new VBox();
         hBox_YesNoHypoth = new HBox();
         hBox_YesNoHypoth.setMinSize(150, 40);
@@ -233,9 +240,6 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
                 rb_HypLT.setSelected(false);
                 rb_HypGT.setSelected(false);  
                 strAltHypChosen = "NotEqual";
-                if (printTheStuff == true) {
-                    System.out.println("237 --- OneProp_Inference_Dialog, NotEqual selected");
-                }
         });
             
         rb_HypLT.setOnAction(e->{
@@ -246,9 +250,6 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
                 rb_HypLT.setSelected(true);
                 rb_HypGT.setSelected(false); 
                 strAltHypChosen = "LessThan";
-                if (printTheStuff == true) {
-                    System.out.println("250 --- OneProp_Inference_Dialog, LessThan selected");
-                }
         });
             
         rb_HypGT.setOnAction(e->{
@@ -259,9 +260,6 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
                 rb_HypLT.setSelected(false);
                 rb_HypGT.setSelected(true);   
                 strAltHypChosen = "GreaterThan";
-                if (printTheStuff == true) {
-                    System.out.println("263 --- OneProp_Inference_Dialog, GreaterThan selected");
-                }
         });
         
         btn_ChangeNull.setOnAction((ActionEvent event) -> {
@@ -319,6 +317,9 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
     }
  
     private void makeNumericValuesPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 321 OneProp_Inference_Dialog, makeNumericValuesPanel()");
+        }
         vBox_NumValsPanel = new VBox();
         vBox_Group = new VBox();
         vBox_Group.setAlignment(Pos.CENTER);
@@ -384,6 +385,9 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
     }
     
     private void makeInfDecisionsPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 389 OneProp_Inference_Dialog, makeInfDecisionsPanel()");
+        }
         hypothesizedProp = 0.5;       
         ciLabel = new Label("   Select conf level");
         ciLabel.setMaxWidth(120);
@@ -440,6 +444,9 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
     }
     
 private void makeVariableDefPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 448 OneProp_Inference_Dialog, makeVariableDefPanel()");
+        }
         lbl_GraphProp = new Label(" Prop 1 Label: ");
         lbl_GraphTitle  = new Label("        Title: ");
         
@@ -466,7 +473,10 @@ private void makeVariableDefPanel() {
         vBox_VarsPanel.getChildren().add(gridChoicesMade);            
     }
     
-    private void makeBottomPanel() {        
+    private void makeBottomPanel() { 
+        if (printTheStuff) {
+            System.out.println("*** 478 OneProp_Inference_Dialog, makeBottomPanel()");
+        }
         hBox_BottomPanel = new HBox(10);
         hBox_BottomPanel.setAlignment(Pos.CENTER);
         hBox_BottomPanel.setPadding(new Insets(5, 5, 5, 5));
@@ -505,13 +515,13 @@ private void makeVariableDefPanel() {
         
         setOnCloseRequest((WindowEvent t) -> {
             boolGoodToGo = false;
-            strReturnStatus = "CloseWindowRequest";
+            oneProp_Inf_Model.setReturnStatus("CloseWindow");
             close();
         });
         
         btnCancel.setOnAction((ActionEvent event) -> {
             boolGoodToGo = false;
-            strReturnStatus = "Cancel";
+            oneProp_Inf_Model.setReturnStatus("Cancel");
             close();
         });
 
@@ -677,11 +687,7 @@ private void makeVariableDefPanel() {
     
     public boolean getGoodToGo() { return boolGoodToGo; } 
     public double getLevelOfSignificance() { return significanceLevel; }
-    public String getAltHypothesis() { 
-        if (printTheStuff == true) {
-            System.out.println("682 --- OneProp_Inference_Dialog, returning strAltHypChosen = " + strAltHypChosen);
-        }
-        return strAltHypChosen; }
+    public String getAltHypothesis() { return strAltHypChosen; }
     public double getHypothesizedProp() { return hypothesizedProp; }
     public int getN1() { return n; }
     public double getPHat() {return prop; }

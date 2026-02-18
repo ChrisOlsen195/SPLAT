@@ -1,7 +1,7 @@
 /****************************************************************************
  *                         BivCat_Model                                     *
- *                           03/22/25                                       *
- *                             21:00                                        *
+ *                           12/09/25                                       *
+ *                             15:00                                        *
  ***************************************************************************/
 package bivariateProcedures_Categorical;
 
@@ -12,8 +12,11 @@ import splat.Data_Manager;
 
 public class BivCat_Model {
     // POJOs
-    boolean cleanReturnFromSummaryDialog, designIsBalanced, 
-            thereAreReplications, dataAreMissing;
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
+    boolean designIsBalanced, thereAreReplications, dataAreMissing;
     
     int nLegalValues, nRows, nCols, nCells;
     int[][] observedValues;
@@ -29,8 +32,8 @@ public class BivCat_Model {
     String[] strTopLabels, strLeftLabels;
     
     // Make empty if no-print
-    String waldoFile = "BivCat_Model";
-    //String waldoFile = "";
+    //String waldoFile = "BivCat_Model";
+    String waldoFile = "";
 
 //  My classes   
     ArrayList<ColumnOfData> al_ColumnsOfData;
@@ -43,10 +46,12 @@ public class BivCat_Model {
     // POJOs / FX
     
     public  BivCat_Model(BivCat_Controller bivCat_Controller, String assocType) { 
+        if (printTheStuff) {
+            System.out.println("*** 50 BivCat_Model, Constructing");
+        }
         this.bivCat_Controller = bivCat_Controller;
         this.assocType = assocType;
-        dm = bivCat_Controller.getDataManager();
-        dm.whereIsWaldo(49, waldoFile, "  *** Constructing");
+        dm = bivCat_Controller.getDataManager(); 
     }   
     
     /*************************************************************************
@@ -56,7 +61,9 @@ public class BivCat_Model {
     *    both of which procedures require equal n's.                         *
     *************************************************************************/ 
     public  BivCat_Model(ColumnOfData colA, ColumnOfData colB, String assocType) { 
-        System.out.println("59 *** BivCat_Model, Constructing from two Cols");
+        if (printTheStuff) {
+            System.out.println( "*** 65 BivCat_Model, Constructing");
+        }
         this.assocType = assocType;
         designIsBalanced = false;       //  To avoid nulls
         thereAreReplications = false;   //  To avoid nulls
@@ -64,10 +71,11 @@ public class BivCat_Model {
     } 
      
     public String doBivCatModelFromTable() {
-        System.out.println("69 --- BivCat_Model, doModelFromTable()");
+        if (printTheStuff) {
+            System.out.println("*** 74 BivCat_Model, doBivCatModelFromTable()");
+        }
         bivCat_SummaryDialog = new BivCat_SummaryDialog(this);
-        bivCat_SummaryDialog.showAndWait();
-        strReturnStatus = bivCat_SummaryDialog.getReturnStatus();        
+        bivCat_SummaryDialog.showAndWait();  
         if (strReturnStatus.equals("OK")) {
             nRows = bivCat_SummaryDialog.getNRows();
             nCols = bivCat_SummaryDialog.getNCols();
@@ -95,7 +103,9 @@ public class BivCat_Model {
     }
     
     private String doModelFromTwoFactorANOVA(ColumnOfData columnA, ColumnOfData columnB) {
-        //System.out.println("100 --- BivCat_Model, doModelFromTwoFactorANOVA(ColumnOfData columnA, ColumnOfData columnB)");
+        if (printTheStuff) {
+            System.out.println("*** 107 BivCat_Model,doModelFromTwoFactorANOVA");
+        }
         al_ColumnsOfData = new ArrayList();
         al_ColumnsOfData.add(columnA); 
         al_ColumnsOfData.add(columnB); 
@@ -107,9 +117,9 @@ public class BivCat_Model {
         
         nLegalValues = al_ColumnsOfData.get(0).getColumnSize();
         dblNLegalValues = nLegalValues;
-        strTopVariable = al_ColumnsOfData.get(0).getVarLabel();
-        strLeftVariable =  al_ColumnsOfData.get(1).getVarLabel();
-        System.out.println("112 BivCat_Model, strTop/LefVariable = " + strTopVariable + " / " + strLeftVariable);
+        
+        strTopVariable = columnA.getVarLabel();
+        strLeftVariable = columnB.getVarLabel();
         ucdoCat_Left = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(0));
         ucdoCat_Top = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(1));
 
@@ -157,7 +167,9 @@ public class BivCat_Model {
     } 
     
     public String doBivCatModelFromFile() {
-        //System.out.println("161 --- BivCat_Model, doModelFromFile()");
+        if (printTheStuff) {
+            System.out.println("*** 171 BivCat_Model,doBivCatModelFromFile()");
+        }
         al_ColumnOfData = new ArrayList();
         al_ColumnOfData = bivCat_Controller.getData(); 
 
@@ -165,10 +177,6 @@ public class BivCat_Model {
         dblNLegalValues = nLegalValues;
         strTopVariable = al_ColumnOfData.get(0).getVarLabel();     //  From data col
         strLeftVariable =  al_ColumnOfData.get(1).getVarLabel();   //  From data col
-        //strTopVariable = al_ColumnOfData.get(0).getVarDescription();     //  From data col
-        //strLeftVariable =  al_ColumnOfData.get(1).getVarDescription();   //  From data col
-        System.out.println("168 BivCat_Model, strTopVariable = " + strTopVariable);
-        System.out.println("169 BivCat_Model, strLeftVariable = " + strLeftVariable);
         ucdoCat_Top = new UnivariateCategoricalDataObj(al_ColumnOfData.get(0));
         ucdoCat_Left = new UnivariateCategoricalDataObj(al_ColumnOfData.get(1));
 
@@ -196,7 +204,9 @@ public class BivCat_Model {
     }    
         
     private void constructNecessaryArrays() {
-        //System.out.println("202 BivCat_Model, constructNecessaryArrays()");
+        if (printTheStuff) {
+            System.out.println("*** 208 BivCat_Model, constructNecessaryArrays()");
+        }
         observedValues = new int[nRows][nCols];
         observedProportions = new double[nRows][nCols];
         rowTotals = new int[nRows];
@@ -214,7 +224,9 @@ public class BivCat_Model {
     }
         
     public String calculateTheProportions() { 
-        //System.out.println("213 --- BivCat_Model, doChiSqAnalysisCalculations()");
+        if (printTheStuff) {
+            System.out.println("*** 228 BivCat_Model, calculateTheProportions()");
+        }
         nCells = nRows * nCols;
               
         maxProportion = 0.0;
@@ -282,16 +294,16 @@ public class BivCat_Model {
     public String getTopVariable() {return strTopVariable; }    //  A
     public String getLeftVariable() {return strLeftVariable; }  // B
 
-    public String[] getTopLabels() { return strTopLabels; } // A
-    public String[] getLeftLabels() {  return strLeftLabels; } // B 
+    public String[] getStrTopLabels() { return strTopLabels; } // A
+    public String[] getStrLeftLabels() {  return strLeftLabels; } // B 
     
     public double getMaxProportion() { return maxProportion; }
     
     public double[][] getObservedProportions() { return observedProportions; }
     public double[] getRowProportions() {return rowProportions; }
     public double[] getColumnProportions() {return columnProportions; } 
-    public double[] getCumRowProps() { return cumulativeRowProps; }
-    public double[] getCumColProps() { return cumulativeColumnProps; } 
+    public double[] getCumulativeRowProps() { return cumulativeRowProps; }
+    public double[] getCumulativeColProps() { return cumulativeColumnProps; } 
     public int[] getRowTotals() { return rowTotals; }
     public int[] getColumnTotals() {return columnTotals; }
     public double[] getCumMarginalRowProps() { return cumMarginalRowProps; }
@@ -302,12 +314,9 @@ public class BivCat_Model {
     
     public Data_Manager getDataManager() { return dm; }
     
-    public void setCleanReturnToProcedure(String toThis) { 
+    public String getReturnStatus() { return strReturnStatus; }    
+    public void setReturnStatus(String toThis) { 
         strReturnStatus = toThis; 
-    }
-
-    public void setCleanReturnFromSummaryDialog(String toThis) {
-        strReturnStatus = toThis;
     }
     
     public boolean getDesignIsBalanced() { return designIsBalanced; }

@@ -1,6 +1,6 @@
 /**************************************************
  *              ReOrderStrings_Dialog             *
- *                    03/11/25                    *
+ *                    12/12/25                    *
  *                     12:00                      *
  *************************************************/
 package dialogs;
@@ -67,8 +67,8 @@ public class ReOrderStringDisplay_Dialog extends Splat_Dialog{
     X2GOF_Model x2GOF_Model;
 
 public ReOrderStringDisplay_Dialog(MultUni_Controller multUni_Controller, String[] theOriginalOrder) {
-    if (printTheStuff == true) {
-        System.out.println("71 *** ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff) {
+        System.out.println("*** 71 ReOrderStringDisplay_Dialog, Constructing");
     }
     this.multUni_Controller = multUni_Controller;
     if (buttonFormat == null) {
@@ -82,8 +82,8 @@ public ReOrderStringDisplay_Dialog(MultUni_Controller multUni_Controller, String
 }
 
 public ReOrderStringDisplay_Dialog(ANOVA1_Cat_Controller anova1_Cat_Controller, String[] theOriginalOrder) {
-    if (printTheStuff == true) {
-        System.out.println("86 *** ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff) {
+        System.out.println("*** 86 ReOrderStringDisplay_Dialog, Constructing");
     }
     this.anova1_Cat_Controller = anova1_Cat_Controller;
     if (buttonFormat == null) {
@@ -97,8 +97,8 @@ public ReOrderStringDisplay_Dialog(ANOVA1_Cat_Controller anova1_Cat_Controller, 
 }
 
 public ReOrderStringDisplay_Dialog(ANOVA1_Quant_Controller anova1_Quant_Controller, String[] theOriginalOrder) {
-    if (printTheStuff == true) {
-        System.out.println("102 *** ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff) {
+        System.out.println("*** 101 ReOrderStringDisplay_Dialog, Constructing");
     }
     this.anova1_Quant_Controller = anova1_Quant_Controller;
     if (buttonFormat == null) {
@@ -112,8 +112,8 @@ public ReOrderStringDisplay_Dialog(ANOVA1_Quant_Controller anova1_Quant_Controll
 }
 
 public ReOrderStringDisplay_Dialog(Explore_2Ind_Controller explore_2Ind_Controller, String[] theOriginalOrder) {
-    if (printTheStuff == true) {
-        System.out.println("117 *** ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff) {
+        System.out.println("*** 116 ReOrderStringDisplay_Dialog, Constructing");
     }
     this.explore_2Ind_Controller = explore_2Ind_Controller;
     if (buttonFormat == null) {
@@ -127,8 +127,8 @@ public ReOrderStringDisplay_Dialog(Explore_2Ind_Controller explore_2Ind_Controll
 }
 
 public ReOrderStringDisplay_Dialog(Indep_t_Controller indep_t_Controller, String[] theOriginalOrder) {
-    if (printTheStuff == true) {
-        System.out.println("132 *** ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff) {
+        System.out.println("*** 131 ReOrderStringDisplay_Dialog, Constructing");
     }
     this.indep_t_Controller = indep_t_Controller;
     if (buttonFormat == null) {
@@ -143,8 +143,8 @@ public ReOrderStringDisplay_Dialog(Indep_t_Controller indep_t_Controller, String
 
 //  *******************************  Cancel OK  ************************
 public ReOrderStringDisplay_Dialog(X2GOF_Model x2GOF_Model, String[] theOriginalOrder) {
-    if (printTheStuff == true) {
-        System.out.println("148 *** ReOrderStringDisplay_Dialog, Constructing");
+    if (printTheStuff) {
+        System.out.println("*** 147 ReOrderStringDisplay_Dialog, Constructing");
     }
     this.x2GOF_Model = x2GOF_Model;
     if (buttonFormat == null) {
@@ -290,7 +290,7 @@ private void doTheDialog() {
                     break;
                
                 default:
-                    String switchFailure = "Switch failure: ReOrderStringDisplay_Dialog doButtons() 294 " + daModel;
+                    String switchFailure = "Switch failure: ReOrderStringDisplay_Dialog doButtons() 293 " + daModel;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                     break;
             }
@@ -341,5 +341,5 @@ private void doTheDialog() {
         });
     }
      
-     public String getReturnStatus() { return strReturnStatus; }
+     public String getStrReturnStatus() { return strReturnStatus; }
 }

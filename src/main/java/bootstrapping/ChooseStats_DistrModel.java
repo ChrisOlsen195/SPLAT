@@ -1,12 +1,11 @@
 /**************************************************
  *                ChooseStats_DistrModel          *
- *                     02/24/25                   *
- *                      09:00                     *
+ *                     08/20/25                   *
+ *                      12:00                     *
  *************************************************/
 package bootstrapping;
 
-import dataObjects.QuantitativeDataVariable;
-import dataObjects.UnivariateContinDataObj;
+import dataObjects.*;
 import genericClasses.Point_2D;
 import splat.Data_Manager;
 
@@ -28,35 +27,32 @@ public class ChooseStats_DistrModel {
     Data_Manager dm;
     Point_2D ithBinLimits, percentiles_05, percentiles; //, percentileRanks;
     QuantitativeDataVariable theQDV;
-    UnivariateContinDataObj ucdo;
 
     public ChooseStats_DistrModel() { }
         
-    public ChooseStats_DistrModel(ChooseStats_Controller boot_Controller,QuantitativeDataVariable theQDV ) {  
+    public ChooseStats_DistrModel(ChooseStats_Controller boot_Controller, QuantitativeDataVariable theQDV ) {  
         dm = boot_Controller.getTheDataManager();
-        dm.whereIsWaldo(37, waldoFile, "Constructing");
+        dm.whereIsWaldo(35, waldoFile, "*** Constructing");
+        int nOriginal = theQDV.getOriginalN();
+ 
         this.boot_Controller = boot_Controller;
         this.theQDV = theQDV;
-        ucdo = new UnivariateContinDataObj("Boot_Histogram_Model", theQDV);
         descrOfVar = boot_Controller.getDescriptionOfVariable();
-        double daMin = ucdo.getMinValue();
-        double daMax = ucdo.getMaxValue();
-        double leftPercentile = ucdo.fromPercentileRank_toPercentile(.05);
-        double rightPercentile = ucdo.fromPercentileRank_toPercentile(0.95);
+        double daMin = theQDV.getMinValue();
+        double daMax = theQDV.getMaxValue();
+        double leftPercentile = theQDV.fromPercentileRank_toPercentile(.05);
+        double rightPercentile = theQDV.fromPercentileRank_toPercentile(0.95);
         
         percentiles_05 = new Point_2D(leftPercentile, leftPercentile);
-        double leftPCRank = ucdo.fromPercentile_toPercentileRank(leftPercentile);
-        double rightPCRank = ucdo.fromPercentile_toPercentileRank(rightPercentile);
+        double leftPCRank = theQDV.fromPercentile_toPercentileRank(leftPercentile);
+        double rightPCRank = theQDV.fromPercentile_toPercentileRank(rightPercentile);
         percentiles = new Point_2D(leftPercentile, rightPercentile);
-        // percentileRanks = new Point_2D(leftPCRank, rightPCRank);
         double daRange = daMax - daMin;
         ithBinLow = daMin + 0.4 * daRange;
         ithBinHigh = daMin + 0.6 * daRange;
         ithBinLimits = new Point_2D(ithBinLow, ithBinHigh); 
-        
     }
-    
-    
+        
     public ChooseStats_DistrModel get_1Stat_DistrModel() { return this; }
     public Point_2D getBinLimits() { return ithBinLimits; }
     public Point_2D get_05_Percentiles() {return percentiles_05; }
@@ -110,7 +106,7 @@ public class ChooseStats_DistrModel {
     public ChooseStats_Controller getBootStrapController() { return boot_Controller; }
     public String getDescriptionOfVariable() { return descrOfVar; }
     public QuantitativeDataVariable getTheQDV() { return theQDV; }
-    public UnivariateContinDataObj getUCDO()  {return ucdo; }
+    public UnivariateContinDataObj getTheUCDO() { return theQDV.getTheUCDO();}
     public Data_Manager getDataManager() { return dm; }
 }
 

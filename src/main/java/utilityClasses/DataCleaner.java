@@ -1,7 +1,7 @@
 /******************************************************************
  *                     DataCleaner                                *
- *                       02/10/25                                 *
- *                        15:00                                   *
+ *                       12/16/25                                 *
+ *                        21:00                                   *
  *****************************************************************/
 package utilityClasses;
 
@@ -29,7 +29,7 @@ import splat.*;
 
 public class DataCleaner {
     // POJOs
-    boolean inListToClean, doubleTrouble, dataAreClean;
+    boolean inListToClean, doubleTrouble;
     
     int nEdits, nDataToClean, currentlyEditing, nUniques, nStringsToClean,
         nNonMissingData;
@@ -40,7 +40,6 @@ public class DataCleaner {
 
     //String waldoFile = "DataCleaner";    
     String waldoFile  = "";
-
     
     ArrayList<String> listView_From, listView_To, al_NonMissing;
     ListView<String> lv_Uniques, listView_PreChoice, listView_PostChoice;
@@ -56,7 +55,7 @@ public class DataCleaner {
       
     public DataCleaner(Data_Manager dm, ColumnOfData columnToClean) {
         this.dm = dm; 
-        dm.whereIsWaldo(59, waldoFile, " *** Constructing");
+        dm.whereIsWaldo(58, waldoFile, " *** Constructing");
         nDataToClean = dm.getNCasesInStruct();
         str_FixedData = new String[nDataToClean];
         al_NonMissing = new ArrayList();  
@@ -66,10 +65,10 @@ public class DataCleaner {
         }  
     }
     
-    public boolean cleanAway() {
-        dm.whereIsWaldo(70, waldoFile, " --- cleanAway()");
+    public String cleanAway() {
+        dm.whereIsWaldo(69, waldoFile, " --- cleanAway()");
+        strReturnStatus = "OK";
         stage = new Stage();
-        dataAreClean = true;    //  Initialize
         
         for (int ith = 0; ith < nDataToClean; ith++) {         
             al_NonMissing.add(str_FixedData[ith]);
@@ -85,6 +84,7 @@ public class DataCleaner {
         nNonMissingData = str_NonMissing.length;
         
         if (nNonMissingData > 0) {
+            dm.whereIsWaldo(87, waldoFile, "--- cleanAway(), nNonMissingData > 0");
             str_CleanedData = new String[nNonMissingData];
             lv_Uniques = new ListView<>();
             listView_From = new ArrayList<>();
@@ -124,18 +124,19 @@ public class DataCleaner {
             lv_Uniques.setOnEditStart(this::editStart);
             lv_Uniques.setOnEditCommit(this::editCommit);
 
-            dataAreClean = cleanTheStrings();
+            strReturnStatus = cleanTheStrings();
+            dm.whereIsWaldo(128, waldoFile, "--- cleanAway(), strReturnStatus = " + strReturnStatus);
         }
         
         else {
             // No-op
         }
-        dm.whereIsWaldo(133, waldoFile, " --- END cleanAway()");
-        return dataAreClean;
+        dm.whereIsWaldo(134, waldoFile, " --- END cleanAway()");
+        return strReturnStatus;
     } 
     
-    private boolean cleanTheStrings() {
-        dm.whereIsWaldo(138, waldoFile, " --- cleanTheStrings()");
+    private String cleanTheStrings() {
+        dm.whereIsWaldo(139, waldoFile, " --- cleanTheStrings()");
         root = new VBox();
         nStringsToClean = str_NonMissing.length;
         directions = new Text();
@@ -159,7 +160,7 @@ public class DataCleaner {
         btn_Cancel = new Button("Cancel");
         btn_Cancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                dataAreClean = false;
+                dm.whereIsWaldo(163, waldoFile, "*** btn_Cancel.setOnAction");
                 strReturnStatus = "Cancel";
                 stage.hide();
                 return;
@@ -179,7 +180,7 @@ public class DataCleaner {
                 for (int i = 0; i < nDataToClean; i++) {
                     for (int fromTos = 0; fromTos < nEdits; fromTos++) {
                         if (str_FixedData[i].equals(listView_From.get(fromTos))) {
-                            dataAreClean = false;
+                            strReturnStatus = "UncleanData";
                             str_FixedData[i] = listView_To.get(fromTos);
                             break;
                         }
@@ -211,8 +212,8 @@ public class DataCleaner {
         stage.setScene(scene);		
         stage.setTitle("Editing categorical list from DataManager");
         stage.showAndWait();
-        dm.whereIsWaldo(214, waldoFile, " --- END cleanTheStrings()");
-        return dataAreClean;
+        dm.whereIsWaldo(215, waldoFile, " --- END cleanTheStrings()");
+        return strReturnStatus;
     }   //  end cleanTheseStrings
     
     public boolean isInListToClean(String thisOne) {
@@ -275,7 +276,6 @@ public class DataCleaner {
     }
     
     public String[] getFixedData() { return str_FixedData; }
-    public boolean getGoodToGo() { return dataAreClean; }
     public String getReturnStatus() { return strReturnStatus; }
     public String[] getUniques() { return finalCategories; }
     public int getNUniques() { return nUniques; }

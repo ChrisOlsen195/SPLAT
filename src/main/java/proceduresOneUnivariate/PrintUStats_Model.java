@@ -61,7 +61,7 @@ public class PrintUStats_Model {
         
         if (theMoments[0] != 0.0) {
             coefOfVar = ucdo.getCoefOfVar();
-            fp_Skew = ucdo.getFisherPearsonSkew();
+            fp_Skew = ucdo.getTheSkew();
             adj_fp_Skew = ucdo.getAdjustedFisherPearsonSkew();
             kurtosis = ucdo.getTheKurtosis();
             excessKurtosis = ucdo.getTheExcessKurtosis();

@@ -1,7 +1,7 @@
 /************************************************************
  *                           EditOps                        *
- *                          11/11/23                        *
- *                            12:00                         *
+ *                          12/17/25                        *
+ *                            00:00                         *
  ***********************************************************/
 package splat;
 
@@ -13,18 +13,29 @@ import dataObjects.*;
 import utilityClasses.*;
 
 public class Edit_Ops {
+    // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;    
     
     int indexOfVar;
     
+    String strReturnStatus;
+    
+    // My classes
     Data_Manager dm;
 
     public Edit_Ops(Data_Manager dm) { 
         this.dm = dm; 
-        //System.out.println("23 Edit_Ops, constructing");
+        if (printTheStuff) {
+            System.out.println("*** 30 Edit Ops, Constructing");
+        }
     }
     
     public void insertRow() {
-        if (dm.getFileName() == null) {
+        if (printTheStuff) {
+            System.out.println("--- 36 Edit Ops, insertRow()");
+        }
+        if (dm.getTheFile() == null) {
             MyAlerts.showAintGotNoDataAlert();
             //return;
         } else {
@@ -41,7 +52,10 @@ public class Edit_Ops {
     }
     
     public void deleteRow() {
-        if (dm.getFileName() == null) {
+        if (printTheStuff) {
+            System.out.println("--- 56 Edit Ops, deleteRow()");
+        }
+        if (dm.getTheFile() == null) {
             MyAlerts.showAintGotNoDataAlert();
             //return;
         } else {
@@ -65,13 +79,14 @@ public class Edit_Ops {
     }
     
     public void insertColumn() {
-        System.out.println("60 Edit_Ops, insertColumn");
+        if (printTheStuff) {
+            System.out.println("--- 83 Edit Ops, insertColumn()");
+        }
         InsertOrDeleteColumn_Dialog inOrOut = new InsertOrDeleteColumn_Dialog(dm, "INSERT");
         inOrOut.showAndWait();
-        String returnStatus = inOrOut.getReturnStatus();        
+        String returnStatus = inOrOut.getStrReturnStatus();        
         if (returnStatus.equals("OK")) {
             indexOfVar = inOrOut.getIndexOfVariable();
-            System.out.println("64 Edit_Ops, indexOfVar = " + indexOfVar);
             String descrOfVar = inOrOut.getDescriptionOfVariable();            
             CheckForDuplicateStrings check4DupLabels = new CheckForDuplicateStrings(dm.getVariableNames(), descrOfVar);
             String haveDups = check4DupLabels.CheckTheStrings();            
@@ -86,13 +101,14 @@ public class Edit_Ops {
     }
     
     public void insertColumn(ColumnOfData colOfData) {
-        System.out.println("81 Edit_Ops, insertColumn(col)");
+        if (printTheStuff) {
+            System.out.println("--- 105 Edit Ops, insertColumn(ColumnOfData colOfData)");
+        }
         InsertOrDeleteColumn_Dialog inOrOut = new InsertOrDeleteColumn_Dialog(dm, "INSERT");
         inOrOut.showAndWait();
-        String returnStatus = inOrOut.getReturnStatus();        
+        String returnStatus = inOrOut.getStrReturnStatus();        
         if (returnStatus.equals("OK")) {
             indexOfVar = inOrOut.getIndexOfVariable();
-            System.out.println("87 Edit_Ops, indexOfVar = " + indexOfVar);
             String descrOfVar = inOrOut.getDescriptionOfVariable();            
             CheckForDuplicateStrings check4DupLabels = new CheckForDuplicateStrings(dm.getVariableNames(), descrOfVar);
             String haveDups = check4DupLabels.CheckTheStrings();            
@@ -108,27 +124,36 @@ public class Edit_Ops {
 
     //  Seems to work if nVars > maxVarsInGrid, but not if not
     public void deleteColumn() {
-        System.out.println("103 Edit_Ops, deleteColumn");
+        if (printTheStuff) {
+            System.out.println("--- 128 Edit Ops, deleteColumn()");
+        }
         InsertOrDeleteColumn_Dialog inOrOut = new InsertOrDeleteColumn_Dialog(dm, "DELETE");
         inOrOut.showAndWait();
-        String returnStatus = inOrOut.getReturnStatus();        
+        String returnStatus = inOrOut.getStrReturnStatus();        
         if (returnStatus.equals("OK")) {
             indexOfVar = inOrOut.getIndexOfVariable();
-            System.out.println("109 Edit_Ops, indexOfVar = " + indexOfVar);
             dm.deleteAColumn(indexOfVar);
             dm.setDataAreClean(false);
         }
     }
     
-    public void cleanDataInColumn() {
-        System.out.println("116 Edit_Ops, cleanDataInColumn");
+    public String cleanDataInColumn() {
+       if (printTheStuff) {
+            System.out.println("--- 142 Edit Ops, deleteColumn()");
+        }
+       strReturnStatus = "OK";
         CleanAColumn_Dialog cleanData_Dialog = new CleanAColumn_Dialog(dm, "Either");
         cleanData_Dialog.showAndWait();
+        if (!strReturnStatus.equals("OK")) { return strReturnStatus; }
         int col = cleanData_Dialog.getVarIndex();
         ColumnOfData col_x = dm.getAllTheColumns().get(col);
         col_x.cleanTheColumn(dm, col);
+        return strReturnStatus;
     }
     
     public int getIndexOfVar() { return indexOfVar; }
+    
+    public String getStrReturnStatus() { return strReturnStatus; }
+    public void setStrReturnStatus(String toThis) { strReturnStatus = toThis; }
 } 
 

@@ -1,7 +1,7 @@
 /**************************************************
  *               ChiSquarePDFView                 *
- *                  02/26/25                      *
- *                    09:00                       *
+ *                  05/20/25                      *
+ *                    18:00                       *
  *************************************************/
 package chiSquare;
 
@@ -58,8 +58,8 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
                         double withThisWidth, double withThisHeight) {
 
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("62 *** ChiSqPDFView, constructing");
+        if (printTheStuff) {
+            System.out.println("62 *** X2_PDFView, constructing");
         }
         df = x2GOF_Model.getDF();
         chiSquare = x2GOF_Model.getX2();
@@ -73,8 +73,8 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("77 *** ChiSqPDFView, constructing");
+        if (printTheStuff) {
+            System.out.println("77 *** X2_PDFView, constructing");
         }
         df = x2Assoc_Model.getDF();
         chiSquare = x2Assoc_Model.getChiSquare();
@@ -85,8 +85,8 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
     } 
   
     private void makeItHappen() {
-        if (printTheStuff == true) {
-            System.out.println("89 --- ChiSqPDFView, makeItHappen()");
+        if (printTheStuff) {
+            System.out.println("89 --- X2_PDFView, makeItHappen()");
         }            
         for (int spaces = 1; spaces < maxSpaces; spaces++) {
             stringOfNSpaces.add(stringOfNSpaces.get(spaces - 1) + " ");
@@ -96,7 +96,7 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
         df = chiSquareDistr.getDegreesOfFreedom();
 
         initialInterval = chiSquareDistr.getInverseMiddleArea(middle_ForGraph);
-        identifyPValueIsDesired = true; assumptionCheckIsDesired = true;
+        identifyPValueIsDesired = true; //assumptionCheckIsDesired = true;
         
         x2PdfContainingPane = new Pane();
         graphCanvas = new Canvas(initWidth, initHeight);
@@ -107,8 +107,8 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
     }
         
     public void completeTheDeal() {
-        if (printTheStuff == true) {
-            System.out.println("111 --- ChiSqPDFView, completeTheDeal()");
+        if (printTheStuff) {
+            System.out.println("111 --- X2_PDFView, completeTheDeal()");
         }
         initializeGraphParameters();
         setUpUI();       
@@ -248,7 +248,6 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
         
         //  Start point for graph
         xx0 = xGraphLeft; yy0 = chiSquareDistr.getDensity(xx0);
-        
         for (double x = xGraphLeft; x <= xGraphRight; x += delta) {
             xx1 = x;
             yy1 = chiSquareDistr.getDensity(xx1);
@@ -260,23 +259,23 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
             gc.setStroke(Color.BLACK);
             gc.strokeLine(xStart, yStart, xStop, yStop);
 
-            if ((shadeLeftTail == true) && (x < leftTailCutPoint)) {
+            if ((shadeLeftTail) && (x < leftTailCutPoint)) {
                 yStart = yAxis.getDisplayPosition(0.0);                
                 gc.strokeLine(xStart, yStart, xStop, yStop);
             }
             
-            if ((shadeRightTail == true) && (x > rightTailCutPoint)) {
+            if ((shadeRightTail) && (x > rightTailCutPoint)) {
                 yStart = yAxis.getDisplayPosition(0.0);                
                 gc.strokeLine(xStart, yStart, xStop, yStop);
             }     
-
             xx0 = xx1; yy0 = yy1;   //  Next start point for line segment
         }   
         
         if (identifyPValueIsDesired) {
             double elFactoro = 7.0;
             // Vert line for X2 / pVal
-            xStart = xStop = xStart_X2PVal = xAxis.getDisplayPosition(rightTailCutPoint);
+            xStart = xStop = xAxis.getDisplayPosition(rightTailCutPoint);
+            xStart_X2PVal = xStart;
             yStart = yAxis.getDisplayPosition(0.0);
                         
             double heightAtPoint_10 = yAxis.getDisplayPosition(chiSquareDistr.getDensity(chiSquareDistr.getInvRightTailArea(0.10))) - elFactoro * 0.1 * yStart;
@@ -291,13 +290,16 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
             double rightEndPad = 225.;
             double dbl_df = df;
             double temp  = dbl_df + Math.sqrt(2.0 * dbl_df);
-            if (paneWidth - xStart_X2PVal < rightEndPad) { xStart_X2PVal = xAxis.getDisplayPosition(temp) - 100.; }
+            if (paneWidth - xStart_X2PVal < rightEndPad) { xStart_X2PVal = xAxis.getDisplayPosition(temp) + 75; }
+            if (printTheStuff) {
+                System.out.println("296 X2_PDFView, xStart_X2PVal = " + xStart_X2PVal);
+            }
+            
             tempString = String.format("\u03C7\u00B2 = %6.3f, pValue = %4.3f", chiSquare, thePValue);              
             gc.setFill(Color.RED);
             gc.fillText(tempString, xStart_X2PVal + 5, yStop - 5);
         }
         
-        if (assumptionCheckIsDesired) {
             // elFactoro is there to help the alphas to avoid each other. It is intended
             //  to represent a fraction of the vertical size of the window
             double elFactoro = 7.0;
@@ -308,12 +310,11 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
                 yStop = yAxis.getDisplayPosition(chiSquareDistr.getDensity(theCriticalValue)) - elFactoro * e *yStart;   // Hard-wired test statistic  
                 gc.setLineWidth(2);
                 gc.setStroke(Color.BLUE);
-                gc.strokeLine(xStart, yStart, xStop, yStop);
+                gc.strokeLine(xStart, yStart, xStop, yStop + 10);
                 gc.setFill(Color.BLUE);
                 tempString = String.format("Critical Value (\u03B1 = %4.3f) =%7.3f", e, theCriticalValue);
-                gc.fillText(tempString, xStop - 00, yStop - 5);  // <---
+                gc.fillText(tempString, xStop - 00, yStop + 5);
             }
-        } 
         
         x2PdfContainingPane.requestFocus();
         x2PdfContainingPane.setOnKeyPressed((ke -> {
@@ -327,8 +328,7 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
                 content.put(DataFormat.IMAGE, writableImage);
                 clipboard.setContent(content);
             }
-        }));        
-        
+        }));         
     }
 
     public Pane getTheContainingPane() { return x2PdfContainingPane; }

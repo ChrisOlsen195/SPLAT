@@ -137,7 +137,7 @@ public class BivCat_PieChartView {
 
     private void initializeGraphParams() {
         for (int lab = 0; lab < nColsCat; lab++) {
-            topLabels = x2Assoc_Model.getTopLabels();
+            topLabels = x2Assoc_Model.getStrTopLabels();
         }
 
         xAxis = new JustAnAxis(-0.05, 0.95);
@@ -442,7 +442,7 @@ public class BivCat_PieChartView {
         columnProps = x2Assoc_Model.getColumnProportions();
 
         leftLabels = new String[nRowsCat];
-        leftLabels = x2Assoc_Model.getLeftLabels();
+        leftLabels = x2Assoc_Model.getStrLeftLabels();
     }  
     
     EventHandler<MouseEvent> dragableAnchorPaneMouseHandler = new EventHandler<MouseEvent>() {

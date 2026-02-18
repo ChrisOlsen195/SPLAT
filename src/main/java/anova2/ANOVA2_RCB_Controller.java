@@ -1,7 +1,7 @@
 /**************************************************
  *            ANOVA2_RCB_Controller               *
- *                  05/24/25                      *
- *                   06:00                        *
+ *                  11/25/25                      *
+ *                   15:00                        *
  *************************************************/
 /**************************************************
  *    Tested against Kirk p289  02/12/24          *
@@ -24,9 +24,9 @@ public class ANOVA2_RCB_Controller {
     String whichANOVA2, returnStatus, factorA_Name, factorB_Name, 
            varLabel, varDescription;
 
-    //String waldoFile = "";
-    String waldoFile = "ANOVA2_Controller";
-    
+    //String waldoFile = "ANOVA2_RCB_Controller";
+    String waldoFile = "";
+
     // My classes
     ANOVA2_RCB_Dashboard anova2_RCB_Dashboard;
     ANOVA2_Factorial_Model anova2_Factorial_Model;
@@ -38,7 +38,7 @@ public class ANOVA2_RCB_Controller {
     public ANOVA2_RCB_Controller (Data_Manager dm, String whichANOVA2) {
         this.whichANOVA2 = whichANOVA2;
         this.dm = dm; 
-        dm.whereIsWaldo(41, waldoFile, "Constructing");
+        dm.whereIsWaldo(41, waldoFile, "*** Constructing, whichANOVA2 = " + whichANOVA2);
         anova2_RCB_Dialog = new ANOVA2_RCB_Dialog(dm, whichANOVA2);
         anova2_RCB_Dialog.doTheDialog();
     }
@@ -49,11 +49,11 @@ public String doTheANOVA2() {
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
-            // showAintGotNoDataAlert(); -- Alert would already be shown in Step0
+            // showAintGotNoDataAlert() would already be shown in Step0
             return "Cancel";
         }
         
-        if (anova2_RCB_Dialog.getReturnStatus().equals("Cancel")) {
+        if (anova2_RCB_Dialog.getStrReturnStatus().equals("Cancel")) {
             returnStatus = "Cancel";
             return returnStatus;
         }
@@ -107,9 +107,10 @@ public String doTheANOVA2() {
         CategoricalDataVariable cdv_FactorB = new CategoricalDataVariable(factorA_Name, rowVar);  
         QuantitativeDataVariable qdv_Response = new QuantitativeDataVariable(varLabel, varDescription, responseVar); 
         
+        dm.whereIsWaldo(110, waldoFile, "doTheANOVA2, whichANOVA2 = " + whichANOVA2);
+        
         switch (whichANOVA2) {
-            case "Factorial":
-                System.out.println("112 ANOVA2_RCB_Controller -- (factorial) switch attained error?!?!?!?");
+            case "Factorial":;
                 anova2_Factorial_Model = new ANOVA2_Factorial_Model(dm,
                                                this, 
                                                cdv_FactorB,
@@ -156,7 +157,7 @@ public String doTheANOVA2() {
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);                 
         }
         return returnStatus;
-    } // TwoFactor CR    
+    }  
     
     public String getFactorAName() { return factorA_Name; }
     public String getFactorBName() { return factorB_Name;}

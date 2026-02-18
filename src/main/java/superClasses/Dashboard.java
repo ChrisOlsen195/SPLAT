@@ -1,6 +1,6 @@
 /**************************************************
  *                   Dashboard                    *
- *                   01/16/25                     *
+ *                   12/14/25                     *
  *                     18:00                      *
  *************************************************/
 /**************************************************
@@ -22,7 +22,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import splat.Data_Manager;
 
 public abstract class Dashboard extends Stage {
@@ -42,7 +41,7 @@ public abstract class Dashboard extends Stage {
     
     protected double[] initWidth, initHeight; 
     
-    protected String returnStatus;
+    protected String strReturnStatus;
     protected final String cbStyle = "-fx-font-size: 14;" +
                                 "-fx-border-insets: -5; " + 
                                 "-fx-border-radius: 5;" +
@@ -73,8 +72,8 @@ public abstract class Dashboard extends Stage {
     final protected Screen primaryScreen;
                 
     public Dashboard(int numberOfCheckBoxes) { 
-        if (printTheStuff == true) {
-            System.out.println("77 *** Dashboard (Super), Constructing");
+        if (printTheStuff) {
+            System.out.println("76 *** Dashboard (Super), Constructing");
         }
         strJustClickedOn = "xxx";   // Initialize
         primaryScreen = Screen.getPrimary();
@@ -179,11 +178,6 @@ public abstract class Dashboard extends Stage {
             checkBoxRow.getChildren().add(checkBoxes[ithCB]);
         }
         
-        setOnCloseRequest((WindowEvent event) -> {
-            returnStatus = "OK";
-            close();
-        });
-        
         backGround = new Pane();
         backGround.setStyle("-fx-background-color: lightblue;");
         backGroundHeight = dashHeight /* - titleTextHeight - checkBoxHeight */;
@@ -201,7 +195,7 @@ public abstract class Dashboard extends Stage {
     
     public Data_Manager getDataManager() { return dm; }
         
-    public String getReturnStatus() { return returnStatus; }
+    public String getStrReturnStatus() { return strReturnStatus; }
         
     protected abstract void populateTheBackGround();
     protected abstract void putEmAllUp();  

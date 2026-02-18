@@ -1,7 +1,7 @@
 /************************************************************
  *                    Two-Variables_Dialog                  *
- *                          04/16/25                        *
- *                           00:00                          *
+ *                          02/04/26                        *
+ *                           12:00                          *
  ***********************************************************/
 package dialogs;
 
@@ -31,6 +31,9 @@ public class Two_Variables_Dialog extends Splat_Dialog {
     private boolean boolQuantLabelChecked, bool_X_VarType_Ok, bool_Y_VarType_Ok; 
     boolean isCorrectType;
     
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     private int varIndex, varIndexFor_X, varIndexFor_Y;
     protected int nCheckBoxes;
     
@@ -42,9 +45,6 @@ public class Two_Variables_Dialog extends Splat_Dialog {
     public String strNullChangeQuery;
     private ArrayList<String> str_al_VarLabels;
     
-    //public String waldoFile = "Two_Variables_Dialog";
-    public String waldoFile  = "";
-    
     // My classes
     private ArrayList<ColumnOfData> al_ColOfData;
     protected Var_List var_List;    
@@ -54,7 +54,7 @@ public class Two_Variables_Dialog extends Splat_Dialog {
     private Button btnSelect_Y_Var;
     protected Button btnReset;
     protected CheckBox[] chBoxDashBoardOptions;
-    CheckBox cbxSaveTheResids, cbxSaveTheHats;
+    //CheckBox cbxSaveTheResids, cbxSaveTheHats;
     protected GridPane gridPaneChoicesMade;
     private HBox hBox_Middle_Panel, hBoxButtonPanel;
     private VBox vBoxMainPanel; 
@@ -73,31 +73,32 @@ public class Two_Variables_Dialog extends Splat_Dialog {
         this.dm = dm;
         this.callingProcedure = callingProcedure;
         this.procInfo = procInfo;
-        dm.whereIsWaldo(75, waldoFile, " *** Constructing: callingProcedure = " + callingProcedure);
-        dm.whereIsWaldo(76, waldoFile, " *** Constructing: procInfo = " + procInfo);
+        if (printTheStuff) {
+            System.out.println("*** 77 Two_Variables_Dialog, Constructing: callingProcedure = " + callingProcedure);
+        }
         strReturnStatus = "OK";
         strReturnStatusX = "OK";
         strReturnStatusY = "OK";
-        dm.whereIsWaldo(80, waldoFile, " *** Constructing: strReturnStatus = " + strReturnStatus);
         strReturnStatus = doTheRest();
-        dm.whereIsWaldo(82, waldoFile, " *** Constructing: strReturnStatus = " + strReturnStatus);
     }
 
     private String doTheRest() {
-        dm.whereIsWaldo(86, waldoFile, " --- doTheRest()");
-        dm.whereIsWaldo(87, waldoFile, " --- callingProcedure = " + callingProcedure);
+        if (printTheStuff) {
+            System.out.println("--- 87 Two_Variables_Dialog, doTheRest()");
+        }
         switch (callingProcedure) {
             case "Explore_2Ind_Dialog":
             case "ANOVA1_Quant_Tidy":
             case "Indep_t_ti8x":
             case "MatchedPairs_Dialog":
+            case "Randomization":
                 strDataType_1 = "Quantitative";
                 strDataType_2 = "Quantitative";    
                 break;
             
             case "BivCatAssoc":
             case "BivCatDialog":
-            case "EpiDialog":
+            case "Epi_Assoc_Dlg":
             case "X2Assoc_Dialog":
                 strDataType_1 = "Categorical";
                 strDataType_2 = "Categorical";  
@@ -117,14 +118,11 @@ public class Two_Variables_Dialog extends Splat_Dialog {
                 break;               
             
             default:
-                String switchFailure = "Switch failure: Two-Variables_Dialog 120: " + callingProcedure;
+                String switchFailure = "Switch failure: Two-Variables_Dialog 121: " + callingProcedure;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);           
         }
 
         strReturnStatus = "OK";
-        dm.whereIsWaldo(125, waldoFile, " strReturnStatus = " + strReturnStatus);
-        dm.whereIsWaldo(126, waldoFile, " strDataType_1 = " + strDataType_1);
-        dm.whereIsWaldo(127, waldoFile, " strDataType_2 = " + strDataType_2);
         boolQuantLabelChecked = false;
         boolGoodToGo = true;
         al_ColOfData = new ArrayList<>();   
@@ -138,7 +136,6 @@ public class Two_Variables_Dialog extends Splat_Dialog {
                             + "\nwould be hypothesized, but I'm willing to believe you know what"
                             + "\nyou're doing. No skin off MY nose...";
         
-        //boolQuantLabelChecked = false;
         vBoxVars2ChooseFrom = new VBox();
         vBoxVars2ChooseFrom.setAlignment(Pos.TOP_LEFT);
         lblVarsInData = new Label("Variables in File:");
@@ -173,39 +170,97 @@ public class Two_Variables_Dialog extends Splat_Dialog {
             case "Logistic_Dialog":
             case "ANOVA1_Cat_Tidy":
             case "ANOVA1_Quant_Tidy":
-                dm.whereIsWaldo(175, waldoFile, " --- case 1:");
+                if (printTheStuff) {
+                    System.out.println("... 174 Two_Variables_Dialog, case 1");
+                }
                 lblExplanVar =   new Label(" Explanatory variable: ");
                 lblResponseVar = new Label("    Response variable: ");
-                tf_Var_1_Pref = new TextField("Explanatory variable");
+                tf_Var_1_Pref = new TextField("Explanatory variable:");
                 tf_Var_2_Pref = new TextField("Response variable");
                 break;
-            case "EpiDialog":
-                dm.whereIsWaldo(182, waldoFile, " --- case 2:");
+            case "Epi_Assoc_Dlg":
+            case "EpiAssocFromFile":
+                if (printTheStuff) {
+                    System.out.println("... 184 Two_Variables_Dialog, case 2");
+                }
                 lblExplanVar =   new Label(" Exposure variable: ");
                 lblResponseVar = new Label("  Outcome variable: ");
                 tf_Var_1_Pref = new TextField(" Exposure variable: ");
                 tf_Var_2_Pref = new TextField("  Outcome variable: ");
                 break;
             case "Indep_t_tidy":
-                dm.whereIsWaldo(189, waldoFile, " --- case 3:");
+                if (printTheStuff) {
+                    System.out.println("... 193 Two_Variables_Dialog, case 3");
+                }
                 lblExplanVar =   new Label("Group/Treat var: ");
                 lblResponseVar = new Label("   Response var: ");
                 tf_Var_1_Pref = new TextField("Group/Treat var: ");
                 tf_Var_2_Pref = new TextField("   Response var: ");
                 break;
-            case "BivCatDialog":
-                dm.whereIsWaldo(196, waldoFile, " --- case 4:");
+            case "Indep_t_ti8x":
+            case "Randomization":
+            case "BivCatAssocFromFile":
+            if (printTheStuff) {
+                    System.out.println("... 204 Two_Variables_Dialog, case 4");
+                }
                 lblExplanVar =   new Label("  First variable: ");
                 lblResponseVar = new Label(" Second variable: ");
+                tf_Var_1_Pref = new TextField("  First variable: ");
+                tf_Var_2_Pref = new TextField(" Second variable: ");
+                break;
+            case "BivCatDialog":
+                if (printTheStuff) {
+                    System.out.println("... 213 Two_Variables_Dialog, case 5");
+                }
+                lblExplanVar =   new Label("  'X' variable: ");
+                lblResponseVar = new Label("  'Y' variable: ");
+                tf_Var_1_Pref = new TextField("  'X' variable: ");
+                tf_Var_2_Pref = new TextField("  'Y' variable: ");
+                break;
+                
+                // *************************************************
+            case "Explore_2Ind_Tidy":
+                if (printTheStuff) {
+                    System.out.println("... 224 Two_Variables_Dialog, case 5");
+                }
+                lblExplanVar =   new Label("Group/Treat var: ");
+                lblResponseVar = new Label("   Response var: ");
                 tf_Var_1_Pref = new TextField("Group/Treat var: ");
                 tf_Var_2_Pref = new TextField("   Response var: ");
+                break;             
+                // *************************************************
+            case "X2Assoc_Dialog":
+                if (printTheStuff) {
+                    System.out.println("... 234 Two_Variables_Dialog, case 6");
+                }
+                if (procInfo.equals("EXPERIMENT")) {
+                   lblTitle.setText("Chi Square test -- Experiment");
+                   lblExplanVar =   new Label("Explanatory variable: ");
+                   lblResponseVar = new Label(" Response variable: ");    
+                   tf_Var_1_Pref = new TextField("Explanatory variable: ");
+                   tf_Var_2_Pref = new TextField(" Response variable: ");
+                } else if (procInfo.equals("HOMOGENEITY")) {
+                   lblTitle.setText("Chi Square test of Homogeneity");
+                   lblExplanVar.setText("Population:");
+                   lblResponseVar.setText("Variable:"); 
+                   tf_Var_1_Pref = new TextField("Population:");
+                   tf_Var_2_Pref = new TextField("Variable:");
+                } else {
+                    lblTitle.setText("Chi Square test of Independence");
+                    lblExplanVar.setText("X Variable:");
+                    lblResponseVar.setText("Y Variable:");
+                    tf_Var_1_Pref = new TextField("X Variable:");
+                    tf_Var_2_Pref = new TextField("Y Variable:");
+                }
                 break;
             default:
-                dm.whereIsWaldo(203, waldoFile, " --- case 5:");
+                if (printTheStuff) {
+                    System.out.println("... 258 Two_Variables_Dialog, case 7");
+                }
                 lblExplanVar =   new Label("  First variable: ");
                 lblResponseVar = new Label(" Second variable: ");
-                tf_Var_1_Pref = new TextField("First variable");
-                tf_Var_2_Pref = new TextField("Second variable");
+                tf_Var_1_Pref = new TextField("First variable:");
+                tf_Var_2_Pref = new TextField("Second variable:");
                 break;            
         }
         
@@ -218,13 +273,13 @@ public class Two_Variables_Dialog extends Splat_Dialog {
         gridPaneChoicesMade = new GridPane();
         gridPaneChoicesMade.setHgap(10);
         gridPaneChoicesMade.setVgap(15);
-        Label lblTopExplanVar = new Label("Explanatory variable");
+        Label lblTopExplanVar = new Label(lblExplanVar.getText());
         gridPaneChoicesMade.add(lblTopExplanVar, 1, 0);
         gridPaneChoicesMade.add(btnSelect_X_Var, 0, 1);
         gridPaneChoicesMade.add(vBox_X_VarChoice, 1, 1);
         gridPaneChoicesMade.add(btnSelect_Y_Var, 0, 3);
         gridPaneChoicesMade.add(vBox_Y_VarChoice, 1, 3);
-        Label lblTopResponseVar = new Label("Response variable");
+        Label lblTopResponseVar = new Label(lblResponseVar.getText());
         gridPaneChoicesMade.add(lblTopResponseVar, 1, 2);
         gridPaneChoicesMade.add(lblExplanVar, 0, 4);
         gridPaneChoicesMade.add(lblResponseVar, 0, 5);
@@ -237,8 +292,6 @@ public class Two_Variables_Dialog extends Splat_Dialog {
         GridPane.setValignment(btnSelect_Y_Var, VPos.BOTTOM);
         GridPane.setValignment(lblExplanVar, VPos.TOP);
         GridPane.setValignment(lblResponseVar, VPos.TOP);
-        //GridPane.setValignment(lblExplanVar_top, VPos.BOTTOM);
-        //GridPane.setValignment(lblResponseVar_top, VPos.BOTTOM);
         GridPane.setValignment(tf_Var_1_InFile, VPos.TOP);
         GridPane.setValignment(tf_Var_2_InFile, VPos.TOP);
         gridPaneChoicesMade.setPadding(new Insets(0, 10, 0, 0));
@@ -283,6 +336,9 @@ public class Two_Variables_Dialog extends Splat_Dialog {
         
         btnCancel.setStyle("-fx-text-fill: red;");
         btnCancel.setOnAction(e -> {  
+            if (printTheStuff) {
+                System.out.println("... 340 Two_Variables_Dialog, btnCancel");
+            }
             boolGoodToGo = false;
             strReturnStatus = "Cancel";
             hide();
@@ -290,7 +346,6 @@ public class Two_Variables_Dialog extends Splat_Dialog {
         
         btnReset.setStyle("-fx-text-fill: black;");
         btnReset.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(287, waldoFile, "btnReset");
             var_List.resetList();
             tf_Var_1_InFile.setText("");
             tf_Var_2_InFile.setText("");
@@ -301,40 +356,40 @@ public class Two_Variables_Dialog extends Splat_Dialog {
         });
         
         btnSelect_X_Var.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(298, waldoFile, "selectXVariable");
+            if (printTheStuff) {
+                System.out.println("... 360 Two_Variables_Dialog, btnSelect_X_Var");
+            }
             if (var_List.getNamesSelected().size() == 1) {
-                dm.whereIsWaldo(300, waldoFile, "XvarsSelected = 1");
                 xLabelFromFile = var_List.getNamesSelected().get(0);
-                
                 tf_Var_1_InFile.setText(xLabelFromFile);
                 var_List.delVarName(var_List.getNamesSelected());
                 strSelected = tf_Var_1_InFile.getText();
                 varIndexFor_X = dm.getVariableIndex(strSelected);
                 bool_X_VarType_Ok = checkDataType(1, strDataType_1);
-                
                 if (!isCorrectType) { btnReset.fire(); }
             }
         });
         
         btnSelect_Y_Var.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(314, waldoFile, "selectYVariable");
+            if (printTheStuff) {
+                System.out.println("... 375 Two_Variables_Dialog, btnSelect_Y_Var");
+            }
             if (var_List.getNamesSelected().size() == 1) {
-                dm.whereIsWaldo(316, waldoFile, "YvarsSelected = 1");
                 yLabelFromFile = var_List.getNamesSelected().get(0);
-                
                 tf_Var_2_InFile.setText(yLabelFromFile);
                 var_List.delVarName(var_List.getNamesSelected());
                 strSelected = tf_Var_2_InFile.getText();
                 varIndexFor_Y = dm.getVariableIndex(strSelected);
                 bool_Y_VarType_Ok = checkDataType(2, strDataType_2);
-                
                 if (!isCorrectType) { btnReset.fire(); }
             }
         });
 
         btnOK.setStyle("-fx-text-fill: black;");
         btnOK.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(330, waldoFile, "okButton");
+            if (printTheStuff) {
+                System.out.println("... 391 Two_Variables_Dialog, btnOK = Compute");
+            }
             boolGoodToGo = true;
             strSelected = tf_Var_1_InFile.getText();
             varIndexFor_X = dm.getVariableIndex(strSelected);
@@ -345,35 +400,35 @@ public class Two_Variables_Dialog extends Splat_Dialog {
                 btnReset.fire();
                 boolGoodToGo = false;
             }
-            dm.whereIsWaldo(341, waldoFile, " strReturnStatus = " + strReturnStatus);
-            dm.whereIsWaldo(342, waldoFile, " boolGoodToGo = " + boolGoodToGo);
             if (boolGoodToGo) {
                 strSelected = tf_Var_2_InFile.getText();
                 varIndexFor_Y = dm.getVariableIndex(strSelected);
-                
                 if ((varIndexFor_Y == -1) && (varIndexFor_X > -1)) {
                    MyAlerts.showFewerThanTwoVariablesAlert();
                    btnReset.fire();
                    boolGoodToGo = false;
                 }
             }
-            dm.whereIsWaldo(353, waldoFile, " strReturnStatus = " + strReturnStatus);
-            dm.whereIsWaldo(354, waldoFile, " boolGoodToGo = " + boolGoodToGo);
+            if (printTheStuff) {
+                System.out.println("... 413 Two_Variables_Dialog, btnOK");
+            }
             if (boolGoodToGo) {
                 if (strDataType_1.equals("Categorical")) {
                     ColumnOfData col_x = dm.getAllTheColumns().get(varIndexFor_X);
                     col_x.cleanTheColumn(dm, varIndexFor_X);
                     strReturnStatusX = col_x.getReturnStatus();
-                    dm.whereIsWaldo(360, waldoFile, " strReturnStatusX = " + strReturnStatusX);
+                    dm.whereIsWaldo(408, waldoFile, "--- btnOK, strReturnStatusX = " + strReturnStatusX);
                 }
-                if (strReturnStatusX.equals("OK") &&strDataType_2.equals("Categorical")) {
+                if (strReturnStatusX.equals("OK") && strDataType_2.equals("Categorical")) {
                     ColumnOfData col_y = dm.getAllTheColumns().get(varIndexFor_Y);
                     col_y.cleanTheColumn(dm, varIndexFor_Y);
                     strReturnStatusX = col_y.getReturnStatus();
-                    dm.whereIsWaldo(366, waldoFile, " strReturnStatusY = " + strReturnStatusY);
+                    dm.whereIsWaldo(414, waldoFile, "--- btn OK, strReturnStatusY = " + strReturnStatusY);
                 }  
             }
-            dm.whereIsWaldo(369, waldoFile, " strReturnStatus = " + strReturnStatus);            
+            if (printTheStuff) {
+                System.out.println("... 430 Two_Variables_Dialog, btnOK");
+            }           
             if ((varIndexFor_X > -1 && varIndexFor_Y > -1)){
                 str_al_VarLabels.add(dm.getVariableName(varIndexFor_X));
                 al_ColOfData.add(dm.getSpreadsheetColumn(varIndexFor_X));    
@@ -384,25 +439,23 @@ public class Two_Variables_Dialog extends Splat_Dialog {
             {
                 boolGoodToGo = false; 
             }
-            dm.whereIsWaldo(380, waldoFile, " boolGoodToGo = " + boolGoodToGo);
             if (!boolGoodToGo) { 
                 strReturnStatus = "Cancel";
-                dm.whereIsWaldo(383, waldoFile, " strReturnStatus = " + strReturnStatus);
             } else {
                 strReturnStatus = "OK"; 
-                dm.whereIsWaldo(36, waldoFile, " strReturnStatus = " + strReturnStatus);
             }
-            dm.whereIsWaldo(388, waldoFile, " boolGoodToGo = " + boolGoodToGo);
+            if (printTheStuff) {
+                System.out.println("... 448 Two_Variables_Dialog, btnOK");
+            }
             if(boolGoodToGo) {
                 String explanVarLabel, explanVarDescr, 
                        responseVarLabel, responseVarDescr;
-                dm.whereIsWaldo(392, waldoFile, " strReturnStatus = " + strReturnStatus);
                 explanVarLabel = tf_Var_1_InFile.getText();
                 responseVarLabel = tf_Var_2_InFile.getText();
                 explanVarDescr =  tf_Var_1_Pref.getText();
                 responseVarDescr =  tf_Var_2_Pref.getText();
                 
-                if (StringUtilities.stringIsEmpty(explanVarDescr) || StringUtilities.stringIsEmpty(responseVarDescr))  {
+                if (StringUtilities.isEmpty(explanVarDescr) || StringUtilities.isEmpty(responseVarDescr))  {
                     strSubTitle = responseVarLabel  + " vs. " + explanVarLabel;  
                     setPreferredFirstVarDescription(explanVarLabel);
                     setPreferredSecondVarDescription(responseVarLabel);
@@ -410,14 +463,13 @@ public class Two_Variables_Dialog extends Splat_Dialog {
                     strSubTitle = responseVarDescr  + " vs. " + explanVarDescr; 
                 }     
                 strReturnStatus = "OK";
-                dm.whereIsWaldo(406, waldoFile, " strReturnStatus = " + strReturnStatus);
+                dm.whereIsWaldo(454, waldoFile, "... btnOK, strReturnStatus = " + strReturnStatus);
                 hide();
             }
+            if (printTheStuff) {
+                System.out.println("... 470 Two_Variables_Dialog, END btnOK");
+            }
         });  
-        
-
-        dm.whereIsWaldo(412, waldoFile, " strReturnStatus = " + strReturnStatus);
-        dm.whereIsWaldo(413, waldoFile, " --- END doTheRest()");
         return strReturnStatus;
     }
     
@@ -434,28 +486,34 @@ public class Two_Variables_Dialog extends Splat_Dialog {
     }
     
     public boolean checkDataType(int variableNowChecking, String strDataType) {
-        dm.whereIsWaldo(430, waldoFile, " --- checkDataType()");
+        if (printTheStuff) {
+            System.out.println("--- 490 Two_Variables_Dialog, checkDataType()");
+        }
         isCorrectType = true;
         
         switch (variableNowChecking) {
             case 1:
+                if (printTheStuff) {
+                    System.out.println("--- 497 Two_Variables_Dialog, checking " + tf_Var_1_InFile.getText());
+                }
                 strSelected = tf_Var_1_InFile.getText();
                 break;
                 
             case 2:
+                if (printTheStuff) {
+                    System.out.println("--- 504 Two_Variables_Dialog, checking " + tf_Var_2_InFile.getText());
+                }
                 strSelected = tf_Var_2_InFile.getText();
                 break;
                 
             default:
-                String switchFailure = "Switch failure: Two-Variables_Dialog 443; checking Type of " + variableNowChecking;
+                String switchFailure = "Switch failure: Two-Variables_Dialog 510; checking Type of " + variableNowChecking;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         
         varIndex = dm.getVariableIndex(strSelected);    
         String colDataType = dm.getAllTheColumns().get(varIndex).getDataType();
-        dm.whereIsWaldo(449, waldoFile, " --- TwoVarsDlg, colDataType = " + colDataType);
         isCorrectType = true;
-        dm.whereIsWaldo(451, waldoFile, " --- TwoVarsDlg, isCorrectType = " + isCorrectType);
         if (colDataType.equals("Quantitative") && !strDataType.equals("Quantitative")) {
             isCorrectType = false;
             MyAlerts.showInappropriateNumericVariableAlert();
@@ -465,11 +523,10 @@ public class Two_Variables_Dialog extends Splat_Dialog {
             isCorrectType = false;
             MyAlerts.showInappropriateNonNumericVariableAlert();
         }    
-        dm.whereIsWaldo(461, waldoFile, " --- checkDataType(), isCorrectType = " + isCorrectType);
         return isCorrectType;
     }
     
-    public String getReturnStatus() { 
+    public String getStrReturnStatus() { 
         if (strReturnStatusX.equals("Cancel")
                 || strReturnStatusY.equals("Cancel")) 
                    {strReturnStatus = "Cancel"; }
@@ -477,8 +534,8 @@ public class Two_Variables_Dialog extends Splat_Dialog {
     
     public String getXLabel() { return xLabelFromFile; }
     public String getYLabel() { return yLabelFromFile; }
-    public String getReturnStatusX() { return strReturnStatusX;}
-    public String getReturnStatusY() { return strReturnStatusY;}
+    public String getReturnStatusX() { return strReturnStatusX; }
+    public String getReturnStatusY() { return strReturnStatusY; }
     public ArrayList<ColumnOfData> getData() { return al_ColOfData; }
     public String getFirstVarLabel_InFile() { return tf_Var_1_InFile.getText(); }
     public String getSecondVarLabel_InFile() {  return tf_Var_2_InFile.getText(); }    

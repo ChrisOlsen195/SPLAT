@@ -1,6 +1,6 @@
 /****************************************************************************
  *                        UnivCat_Model                                     *
- *                           02/16/25                                       *
+ *                           05/11/25                                       *
  *                            18:00                                         *
  ***************************************************************************/
 package univariateProcedures_Categorical;
@@ -10,6 +10,8 @@ import dataObjects.UnivariateCategoricalDataObj;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import splat.Data_Manager;
+import utilityClasses.MyAlerts;
+
 
 public class UnivCat_Model {
     //POJOs
@@ -41,8 +43,8 @@ public class UnivCat_Model {
     public String doUnivCat_FromFile(UnivCat_Controller univCat_Controller) {
         dm = univCat_Controller.getDataManager();
         createUnivCatDialog_FromFile();
-        if (printTheStuff == true) {
-            System.out.println("45 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
+        if (printTheStuff) {
+            System.out.println("47 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
         }  
         if (!strReturnStatus.equals("OK")) {
             strReturnStatus = "Cancel";
@@ -55,12 +57,15 @@ public class UnivCat_Model {
 ******************************************************************************/     
     //// GOF information provided via UnivCatDataObj
     public String createUnivCatDialog_FromFile() {   
+        if (printTheStuff) {
+            System.out.println("61 --- UnivCat_Model, createUnivCatDialog_FromFile()");
+        }
         // The 'categorical' is needed due to access to OneVarDialog
         univCat_DataFromFileDialog = new UnivCat_DataFromFileDialog(dm, "Categorical");
         univCat_DataFromFileDialog.showAndWait();
-        strReturnStatus = univCat_DataFromFileDialog.getReturnStatus();
-        if (printTheStuff == true) {
-            System.out.println("63 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
+        strReturnStatus = univCat_DataFromFileDialog.getStrReturnStatus();
+        if (printTheStuff) {
+            System.out.println("68 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
         }  
         if (!strReturnStatus.equals("OK")) { return "Cancel"; }
         
@@ -69,14 +74,20 @@ public class UnivCat_Model {
             ColumnOfData col_x = dm.getAllTheColumns().get(thisCol);
             col_x.cleanTheColumn(dm, thisCol);
             strReturnStatus = col_x.getReturnStatus();
-            if (printTheStuff == true) {
-                System.out.println("73 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
+            if (printTheStuff) {
+                System.out.println("78 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
             }             
             univCatDataObj = new UnivariateCategoricalDataObj(col_x); 
-            nCategories = univCatDataObj.getNUniques();          
+            nCategories = univCatDataObj.getNUniques(); 
+            if (nCategories > 13) {
+                MyAlerts.showTooManyCategoriesAlert();
+                strReturnStatus = "Cancel";
+                return strReturnStatus;
+            } 
             categoriesAsStrings = new String[nCategories]; 
             observedCounts = new int[nCategories]; 
             observedProps = new double[nCategories];
+            
            // Fill some of arrays
            categoriesAsStrings = univCatDataObj.getCategories();
            categoryLabels = FXCollections.observableArrayList(categoriesAsStrings);
@@ -92,11 +103,10 @@ public class UnivCat_Model {
            }
            
            descriptionOfVariable = univCat_DataFromFileDialog.getDescriptionOfVariable();
-            if (printTheStuff == true) {
-                System.out.println("96 --- UnivCat_Model, strReturnStatus = " + strReturnStatus);
+            if (printTheStuff) {
+                System.out.println("107 --- UnivCat_Model, createUnivCatDialog_FromFile(), strReturnStatus = " + strReturnStatus);
             } 
        }
-        
         return strReturnStatus;
     }
     

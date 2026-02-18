@@ -23,8 +23,8 @@ public class ANOVA2_RCB_InteractionView extends ANOVA2_RCB_BoxCircleInterActView
             double withThisWidth, double withThisHeight) {
         super(anova2_RCB_Model, anova2_RCB_wReplicates_Dashboard, placeHoriz, placeVert,
             withThisWidth, withThisHeight);
-        //waldoFile = "";
-        waldoFile = "ANOVA2_RCB_InteractionView";
+        waldoFile = "";
+        //waldoFile = "ANOVA2_RCB_InteractionView";
         dm.whereIsWaldo(28, waldoFile, "  ***  Constructing");
         strTitle2 = "InterActy Wackty Twosie";
     }

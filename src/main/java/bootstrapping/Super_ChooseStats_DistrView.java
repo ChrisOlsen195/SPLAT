@@ -1,6 +1,6 @@
 /**************************************************
  *           Super_ChooseStats_DistrView          *
- *                   02/24/25                     *
+ *                   08/14/25                     *
  *                     09:00                      *
  *************************************************/
 package bootstrapping;
@@ -59,17 +59,12 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     
     public int q1, q2, q3;
 
-    //     ********  Left and Right base X positions ********
-    //double left_Middle_Boundary, middle_Right_Boundary, leftArea, midArea, rightArea;
-    
+    //     ********  Left and Right base X positions ********  
     public double xPrintPosLeft, xPrintPosCenter,  xPrintPosRight, 
            yPrintPosLeftRight,  yPrintPosCenter, maxOfYScale;
     
     public double daPDF;
 
-    //                 ***********  Printing positions   ***********************
-    //double leftArea_XPosition, middleArea_XPosition, rightArea_XPosition;
- 
     //                 *********  Do-The-Graph variables   *********************
     public double dTG_xx0, dTG_yy0, dTG_xAsDouble, dTG_xx1, dTG_yy1;
     
@@ -112,7 +107,7 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
                         double withThisWidth, double withThisHeight) {
     super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         dm = boot_ChooseStats_DistrModel.getDataManager();
-        dm.whereIsWaldo(115, waldoFile, "Constructing"); 
+        dm.whereIsWaldo(110, waldoFile, "Constructing"); 
         descrOfVar = boot_ChooseStats_DistrModel.getDescriptionOfVariable();
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -192,7 +187,7 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     }
     
     public void respondToChanges() {
-        dm.whereIsWaldo(195, waldoFile, "respondToChanges()");
+        dm.whereIsWaldo(190, waldoFile, "respondToChanges()");
         chooseStats_DialogView.constructGraphStatus();
         // Check for shading
         leftTailChecked = chooseStats_DistrModel.get_LeftTail_IsChecked();

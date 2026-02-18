@@ -1,6 +1,6 @@
 /****************************************************************************
  *                        StringUtilities                                   * 
- *                            09/14/24                                      *
+ *                            12/31/25                                      *
  *                             21:00                                        *
  ***************************************************************************/
 package utilityClasses;
@@ -190,7 +190,7 @@ public class StringUtilities {
         }
     }
 
-    public static boolean stringIsEmpty (String str) {
+    public static boolean isEmpty (String str) {
         boolean isEmpty = (str == null || str.trim().isEmpty());
         return isEmpty;
     }

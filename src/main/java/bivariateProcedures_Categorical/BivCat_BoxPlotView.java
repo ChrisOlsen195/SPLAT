@@ -19,8 +19,8 @@ import utilityClasses.*;
 public class BivCat_BoxPlotView extends BivCat_BoxCircleInterActView { 
     
         double dbl_Zero = 0.0;
-        //String waldoFile = "";
-        String waldoFile = "BivCat_BoxPlotView";
+        String waldoFile = "";
+        //String waldoFile = "BivCat_BoxPlotView";
 
     BivCat_BoxPlotView(BivCat_Model bivCat_Model, 
             BivCat_Dashboard anova2_Dashboard,

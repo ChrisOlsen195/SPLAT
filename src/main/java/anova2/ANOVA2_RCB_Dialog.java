@@ -1,7 +1,7 @@
 /**************************************************
  *             ANOVA2_RCB_Dialog                  *
- *                  03/18/25                      *
- *                   09:00                        *
+ *                  11/25/25                      *
+ *                   15:00                        *
  *************************************************/
 package anova2;
 
@@ -38,8 +38,8 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
 
     private int index_FactorA, index_FactorB, index_ResponseVar, numCols, numRows;
     
-    String waldoFile = "ANOVA2_RCB_Dialog";
-    // String waldoFile = "";
+    //String waldoFile = "ANOVA2_RCB_Dialog";
+    String waldoFile = "";
     
     private String str_NameFactorA, str_NameFactorB, str_NameResponse, 
                    whichANOVA2;
@@ -62,13 +62,13 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
     
     public ANOVA2_RCB_Dialog(Data_Manager dm, String whichANOVA2) {
         super(dm);
-        dm.whereIsWaldo(65, waldoFile, "\nConstructing");
+        dm.whereIsWaldo(65, waldoFile, "*** Constructing, whichANOVA2 = " + whichANOVA2);
         this.whichANOVA2 = whichANOVA2; 
         strReturnStatus = "OK";
     }
 
     public String doTheDialog() { 
-        dm.whereIsWaldo(71, waldoFile, "doTheDialog()");
+        dm.whereIsWaldo(71, waldoFile, "*** doTheDialog()");
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
@@ -92,7 +92,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
     } // showStep0
     
     public void showTheDialog() {
-        dm.whereIsWaldo(95, waldoFile, "showTheDialog()");
+        dm.whereIsWaldo(95, waldoFile, "*** showTheDialog()");
         VBox mainPanel = new VBox(10);
         mainPanel.setAlignment(Pos.CENTER);
         mainPanel.setPadding(new Insets(10, 10, 10, 10));
@@ -122,7 +122,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
 
         VBox vBox_FactorA_Panel = new VBox();
         vBox_FactorA_Panel.setAlignment(Pos.TOP_LEFT);
-        dm.whereIsWaldo(125, waldoFile, "doTheDialog()");
+        //dm.whereIsWaldo(125, waldoFile, "--- showTheDialog()");
         
         switch(whichANOVA2) {
             case "Factorial":
@@ -140,7 +140,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }   
         
-        dm.whereIsWaldo(143, waldoFile, "doTheDialog()");
+        //dm.whereIsWaldo(143, waldoFile, "--- showTheDialog()");
         
         lblFactorA.setPadding(new Insets(0, 0, 5, 0));
         tf_FactorA = new TextField("");
@@ -164,7 +164,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }
         
-        dm.whereIsWaldo(167, waldoFile, "doTheDialog()");
+        //dm.whereIsWaldo(167, waldoFile, "--- showTheDialog()");
         lblFactorB.setPadding(new Insets(0, 0, 5, 0));
         tf_FactorB = new TextField("");
         tf_FactorB.setPrefWidth(125.0);
@@ -238,9 +238,9 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
             if (varList1.getNamesSelected().size() == 1) {
                 str_NameFactorA = varList1.getNamesSelected().get(0);
                 index_FactorA = dm.getVariableIndex(str_NameFactorA);
-                int numGroups = dm.numDistinctVals(index_FactorA);
-                System.out.println("242 ANOVA2_RCB_Dialog, numGroups = " + numGroups);
-               if ((numGroups < 2) || (numGroups > 5)) {
+                int numGroupsA = dm.numDistinctVals(index_FactorA);
+                dm.whereIsWaldo(242, waldoFile, "--- showTheDialog() btnFactorA, numGroupsA = " + numGroupsA);
+               if ((numGroupsA < 2) || (numGroupsA > 5)) {
                     MyAlerts.showRCB_2_5_VarAlert();
                     ok = false;
                 } else {
@@ -256,9 +256,9 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
             if (varList1.getNamesSelected().size() == 1) {
                 str_NameFactorB = varList1.getNamesSelected().get(0);
                 index_FactorB = dm.getVariableIndex(str_NameFactorB);
-                int numGroups = dm.numDistinctVals(index_FactorB);
-                System.out.println("250 ANOVA2_RCB_Dialog, numGroups = " + numGroups);
-                if ((numGroups < 2) || (numGroups > 5)) {
+                int numGroupsB = dm.numDistinctVals(index_FactorB);
+                 dm.whereIsWaldo(260, waldoFile, "--- showTheDialog() btnFactorB, numGroupsB = " + numGroupsB);
+                if ((numGroupsB < 2) || (numGroupsB > 5)) {
                     MyAlerts.showRCB_2_5_VarAlert();
                     ok = false;
                 } else {
@@ -273,7 +273,6 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
                 str_NameResponse = varList1.getNamesSelected().get(0);
                 index_ResponseVar = dm.getVariableIndex(str_NameResponse);
                 if (!dm.getDataType(dm.getVariableIndex(str_NameResponse)).equals("Quantitative")) {
-                System.out.println("276 ANOVA2_RCB_Dialog");
                     MyAlerts.showIncorrectDataTypeErrorAlert();
                     btn_Reset.fire();
                 } else {
@@ -284,7 +283,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
         });
 
         btn_Compute.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(287, waldoFile, "btn_Compute");
+            dm.whereIsWaldo(286, waldoFile, "--- showTheDialog(), btn_Compute");
             boolean ok = true;
             
             if ((tf_FactorA.getText().equals(""))
@@ -344,11 +343,11 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
 
         stageDialog.setScene(sceneDialog);
         stageDialog.setTitle("Step #1");
-        dm.whereIsWaldo(347, waldoFile, "End ShowStep1()");
+        dm.whereIsWaldo(346, waldoFile, "--- End showTheDialog()");
     }
     
     public ArrayList<String> getDummyCodes(int groupingVar) {
-        dm.whereIsWaldo(351, waldoFile, "getDummyCodes()");
+        dm.whereIsWaldo(350, waldoFile, "*** getDummyCodes()");
         ArrayList<String> alstr_SortedTempCodes = new ArrayList();
         ArrayList<String> alstr_DumsToReturn = new ArrayList();
         ArrayList<String> alstr_TempData = dm.getSpreadsheetColumnAsStrings(groupingVar, -1, null);
@@ -371,7 +370,7 @@ public class ANOVA2_RCB_Dialog extends Splat_Dialog {
     public boolean getDesignIsBalanced() { return designIsBalanced; } 
     public boolean getThereAreReplications() { return thereAreReplications; }
     public boolean getDataAreMissing() { return dataAreMissing; }
-    public String getReturnStatus() { return strReturnStatus; }
+    public String getStrReturnStatus() { return strReturnStatus; }
     public int getNumRows() {return numRows; }
     public int getNumCols() { return numCols; }
     public ArrayList<String>[][] getData() {return al_Data; }

@@ -49,7 +49,7 @@ public class NoIntercept_Regr_Controller {
             Regr_Dialog regressionDialog = new Regr_Dialog(dm, "QUANTITATIVE", "One parameter linear regression");
 
             regressionDialog.showAndWait();
-            returnStatus = regressionDialog.getReturnStatus();
+            returnStatus = regressionDialog.getStrReturnStatus();
             
             if (!returnStatus.equals("OK")) { return returnStatus; }
 
@@ -83,7 +83,7 @@ public class NoIntercept_Regr_Controller {
             noInt_Regr_Dashboard.populateTheBackGround();
             noInt_Regr_Dashboard.putEmAllUp();
             noInt_Regr_Dashboard.showAndWait();
-            returnStatus = noInt_Regr_Dashboard.getReturnStatus();
+            returnStatus = noInt_Regr_Dashboard.getStrReturnStatus();
 
             returnStatus = "Ok";
             return returnStatus;

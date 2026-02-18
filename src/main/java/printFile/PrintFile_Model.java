@@ -41,7 +41,7 @@ public class PrintFile_Model {
         this.dm = dm;
         dm.whereIsWaldo(42, waldoFile, "Constructing");
         this.printFile_Controller = printFile_Controller;
-        fileName = dm.getFileName();
+        fileName = dm.getTheFile();
         prtFile_Report = new ArrayList();
     }
    

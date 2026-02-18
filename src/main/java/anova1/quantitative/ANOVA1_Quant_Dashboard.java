@@ -13,7 +13,6 @@ import anova1.categorical.FDistPDFView;
 import proceduresManyUnivariate.VerticalBoxPlot_Model;
 import proceduresOneUnivariate.NormProb_Model;
 import proceduresOneUnivariate.NormProb_View;
-import proceduresManyUnivariate.VerticalBoxPlot_View;
 import superClasses.Dashboard;
 import dataObjects.QuantitativeDataVariable;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import javafx.scene.layout.Pane;
 import proceduresOneUnivariate.NormProb_DiffModel;
 import proceduresOneUnivariate.NormProb_DiffView;
 import splat.Data_Manager;
-import utilityClasses.MyAlerts;
 
 public class ANOVA1_Quant_Dashboard extends Dashboard {
 
@@ -131,6 +129,8 @@ public class ANOVA1_Quant_Dashboard extends Dashboard {
     public void populateTheBackGround() {
         dm.whereIsWaldo(144, waldoFile, "populateTheBackGround()");
         
+        initWidth[0] = 500.;
+        initHeight[0] = 325.;
         fPDFView = new FDistPDFView(anova_Quant_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
         fPDFView.completeTheDeal();
         fPDFPlotContainingPane = fPDFView.getTheContainingPane(); 

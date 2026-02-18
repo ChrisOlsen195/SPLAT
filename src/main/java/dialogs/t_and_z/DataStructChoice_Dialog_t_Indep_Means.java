@@ -1,7 +1,7 @@
 /**************************************************
  *         DataStructChoice_Dialog_t_Indep_Means  *
- *                    01/27/25                    *
- *                      12:00                     *
+ *                    12/13/25                    *
+ *                      18:00                     *
  *************************************************/
 package dialogs.t_and_z;
 
@@ -24,8 +24,8 @@ import the_t_procedures.Indep_t_Controller;
 public class DataStructChoice_Dialog_t_Indep_Means extends Stage {
     
     // POJOs
-    boolean printTheStuff = true;
-    //boolean printTheStuff = false;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     double alertTitleBoxWidth, alertTitleBoxHeight, alertBoxWidth,
            alertBoxHeight;
@@ -43,8 +43,8 @@ public class DataStructChoice_Dialog_t_Indep_Means extends Stage {
     Indep_t_Controller indep_t_Controller;
      
     public DataStructChoice_Dialog_t_Indep_Means(Indep_t_Controller indep_t_Controller) {
-        if (printTheStuff == true) {
-            System.out.println("47 *** DataStructChoice_Dialog_t_Indep_Means, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 47 DataStructChoice_Dialog_t_Indep_Means, Constructing");
         }
         this.indep_t_Controller = indep_t_Controller;
         indep_t_Controller.setTidyOrTI8x("Bailed"); // The default
@@ -52,8 +52,8 @@ public class DataStructChoice_Dialog_t_Indep_Means extends Stage {
     }
     
     private void finishTheJob() {
-        if (printTheStuff == true) {
-            System.out.println("56 *** DataStructChoice_Dialog_t_Indep_Means, finishTheJob()");
+        if (printTheStuff) {
+            System.out.println("*** 56 DataStructChoice_Dialog_t_Indep_Means, finishTheJob()");
         }
         alertTitleFont = Font.font("Times New Roman", FontWeight.BOLD, 24);
         alertContextFont = Font.font("Times New Roman", FontWeight.BOLD, 18);

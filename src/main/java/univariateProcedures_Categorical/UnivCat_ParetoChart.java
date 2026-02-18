@@ -44,8 +44,8 @@ public class UnivCat_ParetoChart {
 
     String[] strMyCategoryLabels;
     
-    String waldoFile = "UnivCat_ParetoChart";
-    //String waldoFile = "";  
+    //String waldoFile = "UnivCat_ParetoChart";
+    String waldoFile = "";  
     
     ObservableList<String> model_CategoryLabels, my_CategoryLabels; 
 

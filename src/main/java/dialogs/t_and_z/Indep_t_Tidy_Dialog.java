@@ -13,14 +13,13 @@ public class Indep_t_Tidy_Dialog extends Two_Variables_Dialog{
         super(dm, "Indep_t_Tidy", "None");
         this.dm = dm;
         
-        //waldoFile = "Indep_t_Tidy_Dialog";
-        waldoFile = "";
+        waldoFile = "Indep_t_Tidy_Dialog";
+        //waldoFile = "";
         
         dm.whereIsWaldo(19, waldoFile, " *** Constructing");
         lblTitle.setText("Independent Samples (Tidy data)");
         lblExplanVar.setText("Group / Treatment Variable:");
         lblResponseVar.setText("        Response Variable:");
         setTitle("Independent Samples");
-        // showAndWait();
     }    
 }

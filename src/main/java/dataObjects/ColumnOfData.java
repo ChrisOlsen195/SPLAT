@@ -1,13 +1,14 @@
 /************************************************************
  *                        ColumnOfData                      *
- *                          03/22/25                        *
- *                           21:00                          *
+ *                          12/16/25                        *
+ *                           12:00                          *
  ***********************************************************/
 package dataObjects;
 
 import utilityClasses.DataCleaner;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import splat.*;
 import utilityClasses.StringUtilities;
 import utilityClasses.DataUtilities;
@@ -25,7 +26,8 @@ public class ColumnOfData {
         maxSigDecimals, maxLen_FormattedString, maxOrdMag, textBoxLen,
         necessarylength, overFlow, minOrdMag, nDistinctLegalValues; 
 
-    private int nCasesInColumn, nCategorical, nMissing, significantDigits;
+    private int nCasesInColumn, nCategorical, nLegals, nMissing, 
+            significantDigits;
     
     double dbl_ParsedValue;
     
@@ -42,8 +44,8 @@ public class ColumnOfData {
     Data_Manager dm;
 
     public ColumnOfData() { 
-        if (printTheStuff == true) {
-            System.out.println("46 *** ColOfData, constructing blank");
+        if (printTheStuff) {
+            System.out.println("*** 48 ColOfData, constructing blank");
         }
         str_al_TheCases = new ArrayList<>(); 
         str_al_FormattedCases = new ArrayList<>();
@@ -65,8 +67,8 @@ public class ColumnOfData {
 
     // This constructor should not have to look at the data??  Where called??
     public ColumnOfData (ColumnOfData dataColumn) {  // Copy constructor
-        if (printTheStuff == true) {
-            System.out.println("69 *** ColOfData, constructing from ColOfData");
+        if (printTheStuff) {
+            System.out.println("*** 71 ColOfData, constructing from ColOfData");
         }
         dataType = dataColumn.getDataType();
         strVarLabel = dataColumn.getVarLabel();
@@ -92,8 +94,8 @@ public class ColumnOfData {
     }
     
     public ColumnOfData(int nCasesInColumn, String varLabel) {
-        if (printTheStuff == true) {
-            System.out.println("96 *** ColOfData, constructing from nCases and varLabel");
+        if (printTheStuff) {
+            System.out.println("*** 98 ColOfData, constructing from nCases and varLabel");
         }
         this.nCasesInColumn = nCasesInColumn;
         str_al_TheCases = new ArrayList<>();
@@ -121,8 +123,8 @@ public class ColumnOfData {
     
     // This constructor creates an empty column of data; only used at startup.
     public ColumnOfData(Data_Manager dm, int nCasesInColumn, String varLabel) {
-        if (printTheStuff == true) {
-            System.out.println("125 *** ColOfData, constructing from dm, nCases and varLabel");
+        if (printTheStuff) {
+            System.out.println("*** 127 ColOfData, constructing from dm, nCases and varLabel");
         }
         this.nCasesInColumn = nCasesInColumn;
         str_al_TheCases = new ArrayList<>();
@@ -149,8 +151,8 @@ public class ColumnOfData {
 
     // This constructor is used when doing two-way ANOVA
     public ColumnOfData(CategoricalDataVariable catDatVar) {
-        if (printTheStuff == true) {
-            System.out.println("153 *** ColOfData, constructing from catDatVar");
+        if (printTheStuff) {
+            System.out.println("*** 155 ColOfData, constructing from catDatVar");
         }
         nCasesInColumn = catDatVar.get_N();
         String daData[] = new String[nCasesInColumn];
@@ -175,13 +177,12 @@ public class ColumnOfData {
         strFormatString = "%.0f";
         myYesNoAlerts = new MyYesNoAlerts();
         nDistinctLegalValues = calculateNumberOfDistinctLegalValues();
-
         determineDataType();
     }
 
     public ColumnOfData(QuantitativeDataVariable qdv) {
-        if (printTheStuff == true) {
-            System.out.println("184 *** ColOfData, constructing from qdv");
+        if (printTheStuff) {
+            System.out.println("*** 185 ColOfData, constructing from qdv");
         }
         nCasesInColumn = qdv.getLegalN();
         str_al_TheCases = new ArrayList<>();
@@ -203,8 +204,8 @@ public class ColumnOfData {
     
     // Needed by the BivariateCatagoricalDataObj
     public ColumnOfData(Data_Manager dm, String varLabel, String varDescription, ArrayList<String> theData) {
-        if (printTheStuff == true) {
-            System.out.println("207 *** ColOfData, constructing from dm, varLabel, varDescr, ArrayList<String> theData");
+        if (printTheStuff) {
+            System.out.println("*** 208 ColOfData, constructing from dm, varLabel, varDescr, ArrayList<String> theData");
         }
         nCasesInColumn = theData.size();
         str_al_TheCases = new ArrayList<>();
@@ -224,14 +225,14 @@ public class ColumnOfData {
         myYesNoAlerts = new MyYesNoAlerts();
         nDistinctLegalValues = calculateNumberOfDistinctLegalValues();
         determineDataType();
-        if (printTheStuff == true) {
-            System.out.println("227 --- ColOfData, END constructing from dm, varLabel, varDescr, ArrayList<String> theData");
+        if (printTheStuff) {
+            System.out.println("--- 229 ColOfData, END constructing from dm, varLabel, varDescr, ArrayList<String> theData");
         }
     }
     
     public ColumnOfData(String varLabel, String varDescription, ArrayList<String> al_theData) {
-        if (printTheStuff == true) {
-            System.out.println("233 *** ColOfData, constructing from varLabel, varDescr, al_Data");
+        if (printTheStuff) {
+            System.out.println("*** 234 ColOfData, constructing from varLabel, varDescr, al_Data");
         }
         nCasesInColumn = al_theData.size();
         str_al_TheCases = new ArrayList<>();
@@ -255,8 +256,8 @@ public class ColumnOfData {
     
     // Needed by Logistic_Controller
     public ColumnOfData(Data_Manager dm, String varLabel, String varDescription, String[] theData) {
-        if (printTheStuff == true) {
-            System.out.println("258 *** ColOfData, constructing from dm, varLabel, varDescr, String[] theData");
+        if (printTheStuff) {
+            System.out.println("*** 260 ColOfData, constructing from dm, varLabel, varDescr, String[] theData");
         }
         nCasesInColumn = theData.length;
         str_al_TheCases = new ArrayList<>();
@@ -299,8 +300,8 @@ public class ColumnOfData {
     }
 
     public void determineDataType() {
-        if (printTheStuff == true) {
-            //System.out.println("302 --- ColumnOfData, determineDataType()");
+        if (printTheStuff) {
+            System.out.println("*** 304 ColumnOfData, determineDataType()");
         }
         containsNumerics = false;
         for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++) {
@@ -374,8 +375,8 @@ public class ColumnOfData {
     }
     
     private int calculateNumberOfDistinctLegalValues() {
-        if (printTheStuff == true) {
-            //System.out.println("377 --- ColOfData, calculateNumberOfDistinctLegalValues()");
+        if (printTheStuff) {
+            System.out.println("*** 379 ColOfData, calculateNumberOfDistinctLegalValues()");
         }
         str_al_DistinctValues = new ArrayList();
         int nCases = str_al_TheCases.size();
@@ -402,9 +403,9 @@ public class ColumnOfData {
         }
         
         if (hasMissingData) { nDistinctLegalValues--; }
-        if (printTheStuff == true) {
-            //System.out.println("405 --- ColOfData, END calculateNumberOfDistinctLegalValues()");
-            //System.out.println("406 --- ColOfData, nDistinctLegalValues = " + nDistinctLegalValues);
+        if (printTheStuff) {
+            System.out.println("--- 407 ColOfData, END calculateNumberOfDistinctLegalValues()");
+            System.out.println("--- 408 ColOfData, nDistinctLegalValues = " + nDistinctLegalValues);
         }        
         return nDistinctLegalValues;
     }  
@@ -522,6 +523,16 @@ public class ColumnOfData {
         nCasesInColumn++;
     }   
     
+    /************************************************************
+     *   DANGER!  This routine only randomizes all the cases,   *
+     *   intended to make randomization code more efficient. No *
+     *   other action is anticipated, and the object should be  *
+     *   regarded as unstable and contain incorrect information *
+     *   Best practice would be to only use this procedure for  *
+     *   very temporary objects with minimal scope.             *
+     ***********************************************************/
+    public void randomizeTheCases() { Collections.shuffle(str_al_TheCases);}
+    
     public int getSigDig() { return significantDigits; }
     public void setSigDig(int toThisNumberOfDigits) { 
         significantDigits = toThisNumberOfDigits;
@@ -532,13 +543,17 @@ public class ColumnOfData {
     public void setFormatString(int toThisSigDig) { setSigDig(toThisSigDig);  }
     
     public int getNCategorical() { return nCategorical; }
-    public int getNMissing() { return nMissing; }
+    public int getNMissing() { 
+        nLegals = getNLegalQuantCasesInColumn();
+        nMissing = nCasesInColumn - nLegals;
+        return nMissing; 
+    }
     public boolean getHasBeenFormatted() { return hasBeenFormatted; }
     
     public ColumnOfData getColumnOfData() {return this; }
     
-    public String getGenericVarInfo() { return strMissingValue; }
-    public void setGenericVarInfo(String toThisInfo) {
+    public String getStrMissing() { return strMissingValue; }
+    public void setStrMissing(String toThisInfo) {
         strMissingValue = toThisInfo;
     }
     
@@ -553,18 +568,18 @@ public class ColumnOfData {
 
     public boolean getAnyonesGuess() { return containsNumerics; }
     
-    public boolean getIsZeroOne() { return containsZeroOnes; }
+    //public boolean getIsZeroOne() { return containsZeroOnes; }
         
     public String getDataType() { 
         if (printTheStuff == true) {
-            //System.out.println("562 --- ColumnOfData, getDataType(), " + dataType);
+            //System.out.println("564 --- ColumnOfData, getDataType(), " + dataType);
         }        
         return dataType; 
     }
     
     public void setDataType(String toThis) {
         if (printTheStuff == true) {
-            //System.out.println("569 --- ColumnOfData, setDataType() to" + toThis);
+            //System.out.println("571 --- ColumnOfData, setDataType() to" + toThis);
         } 
         dataType = "Undetermined";
         if (toThis.equals("Quantitative")) { dataType = toThis; }
@@ -573,22 +588,34 @@ public class ColumnOfData {
     
     public int getNCasesInColumn() { return nCasesInColumn; }
     
-    public int getNLegalCasesInColumn() {
-        int nLegals;
-        if (!getHasMissingData()) {
-            nLegals = nCasesInColumn; 
-        } else {
-            nLegals = nCasesInColumn - nMissing;    
+    public int getNLegalQuantCasesInColumn() {
+        //System.out.println("581 ColumnOfData, dataType = " + dataType);
+        int numberOfQuants = 0;
+        for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++ ) {
+            //System.out.println("584 ColumnOfData, getStringInIthRow(ithCase) = " + getStringInIthRow(ithCase));
+            if (DataUtilities.strIsADouble(getStringInIthRow(ithCase))) {
+                //System.out.println("586 ColumnOfData, getStringInIthRow(ithCase) = " + getStringInIthRow(ithCase));
+                numberOfQuants++;
+            }
         }
-        return nLegals;
+        //System.out.println("590 ColumnOfData, nLegals = " + numberOfQuants);
+        return numberOfQuants;
     }
     public int getColumnSize() { return str_al_TheCases.size(); }  
     
-    public double[] getTheCases_asDoubles() { 
-        int nCases = getColumnSize();
-        double[] theDblCases = new double[nCases];        
-        for (int ithCase = 0; ithCase < nCases; ithCase++ ) {
-            theDblCases[ithCase] = Double.parseDouble(getStringInIthRow(ithCase));
+    public double[] getLegalCases_asDoubles() { 
+        int nLegalCases = getNLegalQuantCasesInColumn();
+        //System.out.println("597 ColumnOfData, nLegalCases = " + nLegalCases);
+        //System.out.println("598 ColumnOfData, nCasesInColumn = " + nCasesInColumn);
+        double[] theDblCases = new double[nLegalCases]; 
+        int thisCase = 0;
+        for (int ithCase = 0; ithCase < nCasesInColumn; ithCase++ ) {
+            //System.out.println("602 ColumnOfData, getStringInIthRow(ithCase) = " + getStringInIthRow(ithCase));
+            if (DataUtilities.strIsADouble(getStringInIthRow(ithCase))) {
+                theDblCases[ithCase] = Double.parseDouble(getStringInIthRow(ithCase));
+                //System.out.println("605 ColumnOfData, theDblCases[ithCase] = " + theDblCases[ithCase]);
+                thisCase++;
+            }
         }        
         return theDblCases; 
     }

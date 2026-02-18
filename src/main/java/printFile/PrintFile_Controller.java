@@ -39,7 +39,7 @@ public class PrintFile_Controller {
         try {
             printFile_ChooseVars_Dialog = new PrintFile_ChooseVars_Dialog(dm);
             printFile_ChooseVars_Dialog.showAndWait();          
-            returnStatus = printFile_ChooseVars_Dialog.getReturnStatus();
+            returnStatus = printFile_ChooseVars_Dialog.getStrReturnStatus();
             
             if (returnStatus.equals("Cancel")) { return "Cancel"; }
             data = new ArrayList<>();
@@ -50,7 +50,7 @@ public class PrintFile_Controller {
             printFile_Dashboard.populateTheBackGround();
             printFile_Dashboard.putEmAllUp();
             printFile_Dashboard.showAndWait();
-            returnStatus = printFile_Dashboard.getReturnStatus();
+            returnStatus = printFile_Dashboard.getStrReturnStatus();
             return returnStatus;  
         }
         catch(Exception ex) {

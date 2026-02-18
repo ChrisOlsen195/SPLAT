@@ -1,7 +1,7 @@
 /****************************************************************************
  *                       DoublyLinkedSTF                                    * 
- *                           01/22/25                                       *
- *                            00:00                                         *
+ *                           01/01/26                                       *
+ *                            09:00                                         *
  ***************************************************************************/
 package smarttextfield;
 
@@ -19,7 +19,7 @@ public class SmartTextFieldDoublyLinkedSTF {
     public SmartTextFieldDoublyLinkedSTF() { }
     
     public SmartTextFieldDoublyLinkedSTF (SmartTextFieldsController stf_Controller, int size) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("23 *** DoublyLinkedSTF, Constructing, size = " + size);
         }
         this.size = size;
@@ -35,7 +35,7 @@ public class SmartTextFieldDoublyLinkedSTF {
     } 
     
     public void makeCircular() {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("39 --- DoublyLinkedSTF, makeCircular() ");
         }
         al_STF.get(0).setPre_Me_AndPostSmartTF(size - 1, 0, 1);

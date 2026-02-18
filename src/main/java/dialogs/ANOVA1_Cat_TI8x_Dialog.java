@@ -1,7 +1,7 @@
 /**************************************************
  *             ANOVA1_Cat_TI8x_Dialog             *
- *                    01/26/25                    *
- *                     12:00                      *
+ *                    12/16/25                    *
+ *                     09:00                      *
  *************************************************/
 package dialogs;
 
@@ -27,6 +27,9 @@ import utilityClasses.MyAlerts;
 public class ANOVA1_Cat_TI8x_Dialog extends Splat_Dialog {
 
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     private int nLevels;
     final int THREE;
     Separator sepTitle, sepDirections, sepButtons;
@@ -56,18 +59,17 @@ public class ANOVA1_Cat_TI8x_Dialog extends Splat_Dialog {
     // ******************************************************************
     public ANOVA1_Cat_TI8x_Dialog(Data_Manager dm) {
         this.dm = dm;
-        
-        // Make empty if no-print
-        //waldoFile = "ANOVA1_Cat_TI8x_Dialog";
-        waldoFile = "";
-        
-        dm.whereIsWaldo(64, waldoFile, " *** Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 63 ANOVA1_Cat_TI8x_Dialog, Constructing");
+        }
         THREE = 3;
         createANOVA_TI8x_Dialog();
     }
 
     private void createANOVA_TI8x_Dialog() {
-        dm.whereIsWaldo(70, waldoFile, "createANOVA_TI8x_Dialog()");
+        if (printTheStuff) {
+            System.out.println("*** 71 ANOVA1_Cat_TI8x_Dialog, createANOVA_TI8x_Dialog()");
+        }
         boolGoodToGo = true;
         strReturnStatus = "OK";
         str_ChosenLabels = new ArrayList();

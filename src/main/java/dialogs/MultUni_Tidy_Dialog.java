@@ -7,16 +7,17 @@ package dialogs;
 
 import splat.Data_Manager;
 public class MultUni_Tidy_Dialog extends Two_Variables_Dialog{ 
-
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     public MultUni_Tidy_Dialog(Data_Manager dm) {
         super(dm, "MultUni_Tidy_Dialog", "None");
-        //waldoFile = "MultUni_Tidy_Dialog";
-        waldoFile = "";
-        dm.whereIsWaldo(15, waldoFile, "ContinueConstruction()");
+       if (printTheStuff) {
+            System.out.println("*** 16 MultUni_Tidy_Dialog, Constructing");
+        }
         lblTitle.setText("Comparing distributions");
         lblExplanVar.setText("Group / Treatment Variable:");
         lblResponseVar.setText("            Data Variable:");
         setTitle("Tidy data");
-        // showAndWait();
     }
 }

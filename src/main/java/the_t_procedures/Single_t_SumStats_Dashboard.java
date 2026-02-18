@@ -1,6 +1,6 @@
 /**************************************************
  *               Single_t_Dashboard               *
- *                    01/16/25                    *
+ *                    12/13/25                    *
  *                     18:00                      *
  *************************************************/
 /**************************************************
@@ -30,8 +30,8 @@ public class Single_t_SumStats_Dashboard extends Dashboard {
       
     public Single_t_SumStats_Dashboard(Single_t_SumStats_Controller single_t_sumStats_Controller) {
         super(2);  
-        if (printTheStuff == true) {
-            System.out.println("44 *** Single_t_SumStats_Dashboard, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 34 Single_t_SumStats_Dashboard, Constructing");
         }
         single_t_SumStats_Model = single_t_sumStats_Controller.getSingle_t_SumStats_Model();        
         checkBoxDescr = new String[nCheckBoxes];

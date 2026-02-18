@@ -1,7 +1,7 @@
 /**************************************************
  *              Inf_Regression_Model              *
- *                    11/01/23                    *
- *                     00:00                      *
+ *                    12/13/25                    *
+ *                     21:00                      *
  *************************************************/
 package simpleRegression;
 
@@ -15,7 +15,6 @@ import superClasses.*;
 public class Inf_Regr_Model extends Regression_Model
 {     
     // POJOs
-    
     String deBlankedRegEq; 
     
     // Make empty if no-print
@@ -30,13 +29,13 @@ public class Inf_Regr_Model extends Regression_Model
     public Inf_Regr_Model(Inf_Regr_Controller inf_regression_Controller) {   
         super(inf_regression_Controller);
         dm = inf_regression_Controller.getDataManager();
-        dm.whereIsWaldo(33, waldoFile, "Constructing");
+        dm.whereIsWaldo(32, waldoFile, "Constructing");
         this.regression_Controller = inf_regression_Controller;
         dm = inf_regression_Controller.getDataManager();
         tracker = inf_regression_Controller.getDataManager().getPositionTracker();
         nVarsCommitted = tracker.getNVarsCommitted();
         nVarsInStruct = dm.getNVarsInStruct();
-
+        nCasesInStruct = dm.getNCasesInStruct();
         explanatoryVariable = inf_regression_Controller.getExplanVar();
         responseVariable = inf_regression_Controller.getResponseVar();
         respVsExplanVar = inf_regression_Controller.getSubTitle();

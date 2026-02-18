@@ -1,7 +1,7 @@
 /************************************************************
  *                     TwoVars_Dialog_One                   *
- *                          04/18/25                        *
- *                           03:00                          *
+ *                          12/12/25                        *
+ *                           12:00                          *
  ***********************************************************/
 package dialogs;
 
@@ -27,6 +27,10 @@ import utilityClasses.StringUtilities;
 
 public class TwoVars_Dialog_One extends Splat_Dialog {
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     private boolean boolQuantLabelChecked, bool_X_VarType_Ok, bool_Y_VarType_Ok; 
     boolean isCorrectType;
     
@@ -35,7 +39,7 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
     
     private String strSelected, strSubTitle; 
     String xLabelFromFile, yLabelFromFile;
-    public String strReturnStatusX, strReturnStatusY;
+    public String strReturnStatus_X, strReturnStatus_Y;
     String strDataType_1, strDataType_2;
     String callingProcedure, procInfo;
     public String strNullChangeQuery;
@@ -47,8 +51,8 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
     
     double height_VBoxes = 400.;
     double width_MainHBox = 50.0;
-
-    //public String waldoFile = "Two_Variables_Dialog";
+    
+    //public String waldoFile = "Two_Variables_Dialog_One";
     public String waldoFile  = "";
     
     // My classes
@@ -69,12 +73,16 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
     
     public TwoVars_Dialog_One(Data_Manager dm,  String callingProcedure, String procInfo) {
         super(dm);
+        if (printTheStuff) {
+            System.out.println("*** 77 TwoVars_Dialog_One, Constructing");
+        }
         this.dm = dm;
+   
         this.callingProcedure = callingProcedure;
         this.procInfo = procInfo;
         strReturnStatus = "OK";
-        strReturnStatusX = "OK";
-        strReturnStatusY = "OK";
+        strReturnStatus_X = "OK";
+        strReturnStatus_Y = "OK";
         lblExplanPref = new Label("Your preference for");
         lblResponsePref = new Label("Your preference for");
         strDataType_1 = "Quantitative";
@@ -85,11 +93,14 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
     }
 
     private String doTheRest() {
+        if (printTheStuff) {
+            System.out.println("*** 97 TwoVars_Dialog_One, doTheRest()");
+        }
         switch (callingProcedure) {
             case "RegressionDialog":
                 break;
             default:
-                String switchFailure = "Switch failure: Two-Variables_Dialog 92: " + callingProcedure;
+                String switchFailure = "Switch failure: Two-Variables_Dialog 103: " + callingProcedure;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);           
         }
 
@@ -293,12 +304,14 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
                 if (strDataType_1.equals("Categorical")) {
                     ColumnOfData col_x = dm.getAllTheColumns().get(varIndexFor_X);
                     col_x.cleanTheColumn(dm, varIndexFor_X);
-                    strReturnStatusX = col_x.getReturnStatus();
+                    strReturnStatus_X = col_x.getReturnStatus();
+                    dm.whereIsWaldo(306, waldoFile, " strReturnStatusX = " + strReturnStatus_X);
                 }
-                if (strReturnStatusX.equals("OK") &&strDataType_2.equals("Categorical")) {
+                if (strReturnStatus_X.equals("OK") &&strDataType_2.equals("Categorical")) {
                     ColumnOfData col_y = dm.getAllTheColumns().get(varIndexFor_Y);
                     col_y.cleanTheColumn(dm, varIndexFor_Y);
-                    strReturnStatusX = col_y.getReturnStatus();
+                    strReturnStatus_Y = col_y.getReturnStatus();
+                    dm.whereIsWaldo(312, waldoFile, " strReturnStatusY = " + strReturnStatus_Y);
                 }  
             }            
             if ((varIndexFor_X > -1 && varIndexFor_Y > -1)){
@@ -321,7 +334,7 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
                 explanVarDescr =  tf_Var_1_Pref.getText();
                 responseVarDescr =  tf_Var_2_Pref.getText();
                 
-                if (StringUtilities.stringIsEmpty(explanVarDescr) || StringUtilities.stringIsEmpty(responseVarDescr))  {
+                if (StringUtilities.isEmpty(explanVarDescr) || StringUtilities.isEmpty(responseVarDescr))  {
                     strSubTitle = responseVarLabel  + " vs. " + explanVarLabel;  
                     setPreferredFirstVarDescription(explanVarLabel);
                     setPreferredSecondVarDescription(responseVarLabel);
@@ -360,7 +373,7 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: Two-Variables_Dialog 363; checking Type of " + variableNowChecking;
+                String switchFailure = "Switch failure: Two-Variables_Dialog_One 376; checking Type of " + variableNowChecking;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         
@@ -381,11 +394,10 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
                 lblResponseVar= new Label("  'Response' variable:");    
                 break;
             default:
-                String switchFailure = "Switch failure: Two-Variables_Dialog 384: " + callingProcedure;
+                String switchFailure = "Switch failure: Two-Variables_Dialog_One 397: " + callingProcedure;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);           
         }        
-    }
-    
+    }    
 
     private void doResidsAndHats() {
         cbxSaveTheResids = new CheckBox("Save the residuals");
@@ -417,16 +429,16 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
         } else { strSaveTheHats = "No"; }
     }
     
-    public String getReturnStatus() { 
-        if (strReturnStatusX.equals("Cancel")
-                || strReturnStatusY.equals("Cancel")) 
+    public String getStrReturnStatus() { 
+        if (strReturnStatus_X.equals("Cancel")
+                || strReturnStatus_Y.equals("Cancel")) 
                    {strReturnStatus = "Cancel"; }
         return strReturnStatus; }
     
     public String getXLabel() { return xLabelFromFile; }
     public String getYLabel() { return yLabelFromFile; }
-    public String getReturnStatusX() { return strReturnStatusX;}
-    public String getReturnStatusY() { return strReturnStatusY;}
+    public String getReturnStatusX() {  return strReturnStatus_X; }
+    public String getReturnStatusY() {  return strReturnStatus_Y; }
     public ArrayList<ColumnOfData> getData() { return al_ColOfData; }
     public String getFirstVarLabel_InFile() { return tf_Var_1_InFile.getText(); }
     public String getSecondVarLabel_InFile() {  return tf_Var_2_InFile.getText(); }    

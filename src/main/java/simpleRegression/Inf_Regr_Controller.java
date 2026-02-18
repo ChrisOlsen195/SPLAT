@@ -1,7 +1,7 @@
 /************************************************************
  *                  Inf_Regression_Controller               *
- *                          11/18/23                        *
- *                            15:00                         *
+ *                          01/07/26                        *
+ *                            18:00                         *
  ***********************************************************/
 package simpleRegression;
 
@@ -17,7 +17,7 @@ import utilityClasses.PrintExceptionInfo;
 public class Inf_Regr_Controller {
     // POJOs
     private String explanVarLabel, responseVarLabel, explanVarDescr,  
-            respVarDescr, subTitle, saveTheResids, saveTheHats, returnStatus;
+            respVarDescr, subTitle, saveTheResids, saveTheHats, strReturnStatus;
     private String[] strAxisLabels;
     private ArrayList<String> xStrings, yStrings;
     
@@ -36,11 +36,11 @@ public class Inf_Regr_Controller {
     
     public Inf_Regr_Controller(Data_Manager dm) { 
         this.dm = dm; 
-        dm.whereIsWaldo(39, waldoFile, "Inf_Regression_Controller, Constructing");    
+        dm.whereIsWaldo(39, waldoFile, "*** Constructing");    
     }  
         
     public String doTheProcedure() {
-        dm.whereIsWaldo(43, waldoFile, "Inf_Regression_Controller, Constructing"); 
+        dm.whereIsWaldo(43, waldoFile, "*** doTheProcedure()"); 
         try {
             int casesInStruct = dm.getNCasesInStruct();
             
@@ -52,14 +52,14 @@ public class Inf_Regr_Controller {
             if (casesInStruct > 2000) {
                 MyAlerts.showLongTimeComingWarning();
             } 
-            
+            dm.whereIsWaldo(55, waldoFile, "--- doTheProcedure()");
             Regr_Dialog regressionDialog = new Regr_Dialog(dm, "QUANTITATIVE", "Simple Linear Regression");
             dm.whereIsWaldo(57, waldoFile, "doTheProcedure()");
             regressionDialog.showAndWait();
-            returnStatus = regressionDialog.getReturnStatus();
-            
-            if (!returnStatus.equals("OK")) { return returnStatus; }
-
+            strReturnStatus = regressionDialog.getStrReturnStatus();
+            dm.whereIsWaldo(60, waldoFile, "--- doTheProcedure()");
+            if (!strReturnStatus.equals("OK")) { return strReturnStatus; }
+            dm.whereIsWaldo(115, waldoFile, "--- doTheProcedure()"); 
             explanVarLabel = regressionDialog.getFirstVarLabel_InFile();
             responseVarLabel = regressionDialog.getSecondVarLabel_InFile();
             explanVarDescr = regressionDialog.getPreferredFirstVarDescription();
@@ -73,12 +73,12 @@ public class Inf_Regr_Controller {
             saveTheHats = regressionDialog.getSaveTheHats();
             ArrayList<ColumnOfData> data = regressionDialog.getData();
             bivContin = new BivariateContinDataObj(dm, data);
-            
+            dm.whereIsWaldo(76, waldoFile, "--- doTheProcedure()");
             if (bivContin.getDataExists()) { bivContin.continueConstruction(); }
             else {
                 MyAlerts.showNoLegalBivDataAlert();
-                returnStatus = "Cancel";
-                return returnStatus;
+                strReturnStatus = "Cancel";
+                return strReturnStatus;
             }
 
             xStrings = bivContin.getLegalXsAs_AL_OfStrings();
@@ -88,30 +88,36 @@ public class Inf_Regr_Controller {
             qdv_YVariable = new QuantitativeDataVariable(responseVarLabel, respVarDescr, yStrings);   
              
             regModel = new Inf_Regr_Model(this);
-
-            returnStatus = regModel.setupRegressionAnalysis(qdv_XVariable, qdv_YVariable);   // 0 is the y-var
+            dm.whereIsWaldo(91, waldoFile, "--- doTheProcedure()");
+            strReturnStatus = regModel.setupRegressionAnalysis(qdv_XVariable, qdv_YVariable);   // 0 is the y-var
             
-            if (returnStatus.equals("OK")) {
+            if (strReturnStatus.equals("OK")) {
+                dm.whereIsWaldo(95, waldoFile, "--- doTheProcedure()");
                 regModel.doRegressionAnalysis();
                 regModel.pearsonRInferenceCalculations();
+                dm.whereIsWaldo(98, waldoFile, "--- doTheProcedure()");
                 regDashboard = new Regr_Dashboard(this, regModel);
+                dm.whereIsWaldo(100, waldoFile, "--- doTheProcedure()");
                 regDashboard.populateTheBackGround();
+                dm.whereIsWaldo(102, waldoFile, "--- doTheProcedure()");
                 regDashboard.putEmAllUp();
+                dm.whereIsWaldo(104, waldoFile, "--- doTheProcedure()");
                 regDashboard.showAndWait();
             }
             else {
-                returnStatus = "Cancel";
-                return returnStatus;
+                strReturnStatus = "Cancel";
+                return strReturnStatus;
             }
-            
-            returnStatus = regDashboard.getReturnStatus();
+            dm.whereIsWaldo(107, waldoFile, "--- doTheProcedure()");
+            strReturnStatus = regDashboard.getStrReturnStatus();
 
-            return returnStatus;
+            return strReturnStatus;
         }
         catch (Exception ex) { // Constructs stack trace?
             PrintExceptionInfo pei = new PrintExceptionInfo(ex, "RegressionProcedure");
         }     
-        return returnStatus;
+        dm.whereIsWaldo(115, waldoFile, "--- End doTheProcedure()"); 
+        return strReturnStatus;
     }
     
     public Data_Manager getDataManager() { return dm; }

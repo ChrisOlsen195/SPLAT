@@ -1,7 +1,7 @@
 /**************************************************
  *              OneProp_Inf_Controller            *
- *                    01/16/25                    *
- *                     18:00                      *
+ *                    12/16/25                    *
+ *                     00:00                      *
  *************************************************/
 package the_z_procedures;
 
@@ -12,11 +12,10 @@ public class OneProp_Inf_Controller {
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
-    boolean goodToGo;
     int confidenceLevel;
     double alpha;
             
-    String returnStatus, yesOrNo;
+    String strReturnStatus, yesOrNo;
     
     // My classes
     MyYesNoAlerts myYesNoAlerts;
@@ -24,47 +23,56 @@ public class OneProp_Inf_Controller {
     OneProp_Inf_Dashboard oneProp_Inf_Dashboard;
     
     public OneProp_Inf_Controller() {
-        if (printTheStuff == true) {
-            System.out.println("28 *** OneProp_Inf_Controller, Constructing");
-        }
+        strReturnStatus = "OK";
+        //if (printTheStuff) {
+        //    System.out.println("*** 28 OneProp_Inf_Controller, Constructing");
+        //}
         myYesNoAlerts = new MyYesNoAlerts();
+        strReturnStatus = "OK";
     }
     
     public String doTheControllerThing() { 
+        //if (printTheStuff) {
+        //    System.out.println("--- 36 OneProp_Inf_Controller, doTheControllerThing()");
+        //}
         yesOrNo = "Yes";
         while (yesOrNo.equals("Yes")) {
-            returnStatus = "Cancel";        
-            oneProp_Inf_Model = new OneProp_Inf_Model();
-            goodToGo = oneProp_Inf_Model.getGoodToGo();
-            returnStatus = oneProp_Inf_Model.getReturnStatus();
-        
-            if (goodToGo) {
+            strReturnStatus = "OK";        
+            oneProp_Inf_Model = new OneProp_Inf_Model(this);
+            if (strReturnStatus.equals("OK")) {
                 oneProp_Inf_Model.doZProcedure();
+                if (strReturnStatus.equals("Cancel") 
+                    || strReturnStatus.equals("CloseWindow")) {
+                 return strReturnStatus; 
+                }
                 alpha = oneProp_Inf_Model.getAlpha();
                 confidenceLevel = oneProp_Inf_Model.getConfidenceLevel();
-                goodToGo = oneProp_Inf_Model.getGoodToGo();
-                returnStatus = oneProp_Inf_Model.getReturnStatus();
+                strReturnStatus = oneProp_Inf_Model.getReturnStatus();
             }
 
-            if (goodToGo) {
-                returnStatus = "OK";
+            if (strReturnStatus.equals("OK")) {
                 oneProp_Inf_Dashboard = new OneProp_Inf_Dashboard(this);
                 oneProp_Inf_Dashboard.populateTheBackGround();
                 oneProp_Inf_Dashboard.putEmAllUp();
                 oneProp_Inf_Dashboard.showAndWait();
-                returnStatus = oneProp_Inf_Dashboard.getReturnStatus();        
-                //return returnStatus;
+                strReturnStatus = oneProp_Inf_Dashboard.getStrReturnStatus();        
+                //if (printTheStuff) {
+                //    System.out.println("--- 60 OneProp_Inf_Controller, strReturnStatus = " + strReturnStatus);
+                //}
             }
 
             myYesNoAlerts.showAvoidRepetitiousClicksAlert();
             yesOrNo = myYesNoAlerts.getYesOrNo();        
         } 
          
-        return returnStatus; 
+        return strReturnStatus; 
     }
     
     public OneProp_Inf_Model getOnePropModel() { return oneProp_Inf_Model; }    
     public double getAlpha() { return alpha; }
     public int getConfidenceLevel() { return confidenceLevel; }    
-    public String getReturnStatus() { return returnStatus; }
+    public String getReturnStatus() { return strReturnStatus; }
+    public void setReturnStatus( String daReturnStatus) {
+        strReturnStatus = daReturnStatus;
+    }
 }

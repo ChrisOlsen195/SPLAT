@@ -1,6 +1,6 @@
 /**************************************************
  *               NormProb-DiffView                *
- *                    01/16/25                    *
+ *                    01/01/26                    *
  *                     12:00                      *
  *************************************************/
 package proceduresOneUnivariate;
@@ -40,7 +40,7 @@ import the_t_procedures.Matched_t_Dashboard;
 public class NormProb_DiffView extends Region {
 
     // POJOs
-    //boolean printTheStuff = true;
+    // boolean printTheStuff = true;
     boolean printTheStuff = false;
     
     private boolean dragging;    
@@ -84,8 +84,8 @@ public class NormProb_DiffView extends Region {
     public NormProb_DiffView ( NormProb_DiffModel normProb_DiffModel, Exploration_Dashboard exploration_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
-            System.out.println("44 *** NormProb_DiffView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 88 NormProb_DiffView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -120,7 +120,7 @@ public class NormProb_DiffView extends Region {
     public NormProb_DiffView ( NormProb_DiffModel normProb_DiffModel, ANOVA1_Cat_Dashboard anova1_Cat_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("124 *** NormProb_DiffView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -156,7 +156,7 @@ public class NormProb_DiffView extends Region {
     public NormProb_DiffView ( NormProb_DiffModel normProb_DiffModel, ANOVA1_Quant_Dashboard anova1_Quant_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("160 *** NormProb_DiffView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -192,7 +192,7 @@ public class NormProb_DiffView extends Region {
     public NormProb_DiffView ( NormProb_DiffModel normProb_DiffModel, Matched_t_Dashboard matched_t_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("196 *** NormProb_DiffView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -297,6 +297,9 @@ public class NormProb_DiffView extends Region {
     }
     
     public void doTheGraph(){
+        if (printTheStuff) {
+            System.out.println("*** 301 NormProb_DiffView, doTheGraph()");
+        }
         yAxis.setForcedAxisEndsFalse(); // Just in case
         double vertLineAt = 145.;
         double text1Width = txtTitle1.getLayoutBounds().getWidth();

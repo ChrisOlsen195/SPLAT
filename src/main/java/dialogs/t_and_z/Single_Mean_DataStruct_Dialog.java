@@ -35,8 +35,8 @@ public class Single_Mean_DataStruct_Dialog extends Splat_Dialog {
     // *****************************************************************
       
     public Single_Mean_DataStruct_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("38 *** Single_Mean_DataStruct_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 39 Single_Mean_DataStruct_Dialog, Constructing");
         }
         colOfData = new RadioButton("Data are tidy");
         selectedLabel = "Data are tidy";

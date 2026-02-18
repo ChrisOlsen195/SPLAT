@@ -1,7 +1,7 @@
 /************************************************************
  *                          Data_Grid                       *
- *                          04/01/25                        *
- *                            15:00                         *
+ *                           12/26/25                        *
+ *                            18:00                         *
  ***********************************************************/
 
 /**************************************************
@@ -26,6 +26,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
+import static javafx.geometry.Pos.CENTER_LEFT;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import utilityClasses.PrintExceptionInfo;
@@ -363,7 +364,9 @@ public class Data_Grid {
                 tf.setEditable(true);
                 tf.setMinWidth(pxCellWidth);
                 tf.setMaxWidth(pxCellWidth);
-                tf.setOnMousePressed(mouseHandler);          
+                tf.setOnMousePressed(mouseHandler);
+                tf.setPrefColumnCount(20);  // ********************************
+                tf.setAlignment(CENTER_LEFT);  // ********************************
                 newAL.add(tf);
             }
             theGridCells.add(newAL);
@@ -520,7 +523,8 @@ public class Data_Grid {
         if (dgRow >= nCasesInStruct) { 
             //System.out.println("---520 dg, START goDownOneRow(), SCROLLED, dgRow >= nCasesInStruct trapped");
             return; }
-        if (dgRow >= 14) { 
+        //if (dgRow >= 14) { 
+        if (dgRow >= dm.getMaxVisCases()) { 
             //System.out.println("---523 dg, START goDownOneRow(), SCROLLED, dgRow >= 13 trapped");
             return; }
         if (!positionTracker.cursorIsAtBottomOfGrid()) {  //  Cursor not at bottom of grid

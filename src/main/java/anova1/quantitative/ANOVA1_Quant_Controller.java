@@ -85,7 +85,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
             
             anova1_Quant_Tidy_Dialog = new ANOVA1_Quant_Tidy_Dialog( dm, "Categorical" );
             anova1_Quant_Tidy_Dialog.showAndWait();
-            super.strReturnStatus = anova1_Quant_Tidy_Dialog.getReturnStatus();
+            super.strReturnStatus = anova1_Quant_Tidy_Dialog.getStrReturnStatus();
             if (super.strReturnStatus.equals("Cancel")) {return "Cancel";}
             
             anova1_ColsOfData = anova1_Quant_Tidy_Dialog.getData();
@@ -132,7 +132,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
         
         anova1_Quant_TI8x_Dialog = new ANOVA1_Quant_TI8x_Dialog( dm );
         anova1_Quant_TI8x_Dialog.show_ANOVA1_TI8x_Dialog();
-        strReturnStatus = anova1_Quant_TI8x_Dialog.getReturnStatus();
+        strReturnStatus = anova1_Quant_TI8x_Dialog.getStrReturnStatus();
         
         goodToGo = strReturnStatus.equals("OK"); 
         if (!goodToGo) { return "Cancel"; }
@@ -192,7 +192,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
         anova1_Quant_Dashboard.populateTheBackGround();
         anova1_Quant_Dashboard.putEmAllUp();
         anova1_Quant_Dashboard.showAndWait();
-        strReturnStatus = anova1_Quant_Dashboard.getReturnStatus();
+        strReturnStatus = anova1_Quant_Dashboard.getStrReturnStatus();
         strReturnStatus = "OK";
         dm.whereIsWaldo(198, waldoFile, " END doTheANOVA()");
         return "OK";       
@@ -227,7 +227,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
         
         reOrderStrings_Dialog = new ReOrderStringDisplay_Dialog(this, incomingLabels);
         reOrderStrings_Dialog.showAndWait();
-        strReturnStatus = reOrderStrings_Dialog.getReturnStatus();
+        strReturnStatus = reOrderStrings_Dialog.getStrReturnStatus();
         if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
         allTheQDVs = new ArrayList<>();
         for (int ithQDV = 0; ithQDV < n_QDVs; ithQDV++) {

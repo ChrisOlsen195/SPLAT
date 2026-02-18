@@ -41,7 +41,7 @@ public final class Data_Manager {
     private int maxCasesInGrid, maxVarsInGrid;   // Set the initial size of the grid displayed
 
     final int SIX = 6;
-    private File fileName = null;
+    private File theFile = null;
     private File lastPath = new File(System.getProperty("user.dir") + File.separator);
 
     public String currentVersion, ti_or_tidy, rawOrSummary;
@@ -176,7 +176,7 @@ public final class Data_Manager {
         }
         whereIsWaldo(177, waldoFile, "Sending dataStruct to Grid (0, 0)");
         sendDataStructToGrid(0, 0);
-        fileName = null;
+        theFile = null;
         delimiter = ',';
     } // end initialize grid
 
@@ -817,8 +817,8 @@ public final class Data_Manager {
     
     public boolean getdataExists() { return dataExists; }
     public void setDataExists(boolean trueOrFalse) { dataExists = trueOrFalse; }    
-    public File getFileName() { return fileName; }        
-    public void setFileName(File file) { fileName = file; }    
+    public File getTheFile() { return theFile; }        
+    public void setTheFile(File file) { theFile = file; }    
     public char getDelimiter() { return delimiter; }
     public void setDelimiter(char delimit) { delimiter = delimit; }
     
@@ -854,7 +854,10 @@ public final class Data_Manager {
     } 
     
     public int getMaxVisCases() {return maxCasesInGrid; }
-    public void setMaxVisCases(int toThisMany) { maxCasesInGrid = toThisMany; }    
+    public void setMaxVisCases(int toThisMany) { 
+        maxCasesInGrid = toThisMany; 
+        //System.out.println("859 dm, setting maxCasesInGrid = " + maxCasesInGrid);
+    }    
     public int getNVarsInStruct() { return positionTracker.getNVarsInStruct(); }
     
     public void setNVarsInStruct(int toThis) { 
@@ -892,6 +895,10 @@ public final class Data_Manager {
      *******************************************************************/
     public String getTIorTIDY() { return ti_or_tidy; }
     public void setTIorTIDY(String toThis) { ti_or_tidy = toThis; }
+    public String getTheFileName() { 
+        if (theFile == null) { return "null"; }
+        System.out.println("899 " + theFile.getName());
+        return theFile.getName(); }
     public boolean getHasBeenScrolled() { return scrollEventInitiated; }    
     public int getDataStructSize() { return dataStruct.size(); }
     public int getMaxVisVars() { return maxVarsInGrid; }

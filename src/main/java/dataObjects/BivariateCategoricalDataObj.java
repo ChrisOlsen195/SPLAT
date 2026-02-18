@@ -15,8 +15,8 @@ public class BivariateCategoricalDataObj {
     ArrayList<String> al_legalXVariable, al_legalYVariable;
     
     // Make empty if no-print
-    String waldoFile = "BivariateCategoricalDataObj";
-    //String waldoFile = "";
+    //String waldoFile = "BivariateCategoricalDataObj";
+    String waldoFile = "";
     
     // My classes
     ArrayList<ColumnOfData> bivCatDataOut;

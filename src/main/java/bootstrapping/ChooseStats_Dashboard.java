@@ -1,7 +1,7 @@
 /**************************************************
  *             Boot_ChooseStats_Dashboard         *
- *                    04/26/24                    *
- *                     12:00                      *
+ *                    08/14/25                    *
+ *                     15:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -9,7 +9,6 @@
 **************************************************/
 package bootstrapping;
 
-import dataObjects.QuantitativeDataVariable;
 import superClasses.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -35,9 +34,7 @@ public class ChooseStats_Dashboard extends Dashboard {
                                   chooseStats_Shifted_DotPlot_DistrView;
     ChooseStats_DialogView chooseStats_DialogView;
     Data_Manager dm;
-    
-    //QuantitativeDataVariable qdv_TheOriginalSample, qdv_bootstrappedStat;
-   
+
     // POJOs / FX
     
     Pane oneStatHisto_OriginalContainingPane, oneStatDotPlot_OriginalContainingPane, 
@@ -49,15 +46,12 @@ public class ChooseStats_Dashboard extends Dashboard {
                                       ChooseStats_DistrModel boot_ChooseStats_Shifted_DistrModel) {
         super(5);  // nCheckBoxes = 5;
         dm = boot_ChooseStats_Controller.getTheDataManager();
-        dm.whereIsWaldo(44, waldoFile, "Constructing"); 
+        dm.whereIsWaldo(49, waldoFile, "Constructing"); 
         checkBoxDescr = new String[nCheckBoxes];
         this.chooseStats_Controller = boot_ChooseStats_Controller;
         this.chooseStats_Original_DistrModel = boot_ChooseStats_Original_DistrModel;
         this.chooseStats_Shifted_DistrModel = boot_ChooseStats_Shifted_DistrModel;
 
-        //qdv_TheOriginalSample = boot_ChooseStats_Controller.getTheOriginalSample();
-        //qdv_bootstrappedStat = boot_ChooseStats_Controller.getTheBootstrappedStats();
-        
         for (int ithCheckBox = 0; ithCheckBox < nCheckBoxes; ithCheckBox++) {
             checkBoxDescr[ithCheckBox] = regrCheckBoxDescr[ithCheckBox];
             checkBoxes[ithCheckBox].setText(checkBoxDescr[ithCheckBox]);
@@ -84,7 +78,7 @@ public class ChooseStats_Dashboard extends Dashboard {
     }  
     
     public void putEmAllUp() { 
-        dm.whereIsWaldo(78, waldoFile, "putEmAllUp()");
+        dm.whereIsWaldo(81, waldoFile, "putEmAllUp()");
         if (checkBoxSettings[0] == true) {
             oneStatHisto_OriginalContainingPane.setVisible(true);
             chooseStats_Original_Histo_DistrView.doTheGraph();
@@ -138,7 +132,7 @@ public class ChooseStats_Dashboard extends Dashboard {
     // *****************************************************************
     
     public void populateTheBackGround() {
-        dm.whereIsWaldo(114, waldoFile, "populateTheBackGround()");
+        dm.whereIsWaldo(135, waldoFile, "populateTheBackGround()");
         // First, construct the DialogView and DistrView, in that order.
         
         initWidth[0] = 450; initHeight[0] = 300;

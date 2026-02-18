@@ -188,6 +188,7 @@ public class ANOVA1_Cat_Model {
     }  // end doFixedEffectsAnalysis
     
     private void constructTheResiduals() {
+        dm.whereIsWaldo(191, waldoFile, "*** constructTheResiduals()");
         ArrayList<String> residuals = new ArrayList();
         for (int ithQDV = 0; ithQDV < nLevels; ithQDV++) {
             QuantitativeDataVariable qdvThisTime = allTheQDVs.get(ithQDV);
@@ -201,7 +202,8 @@ public class ANOVA1_Cat_Model {
         
         qdvResiduals = new QuantitativeDataVariable(
                        "Residuals", "Residuals",
-                       residuals);        
+                       residuals);  
+        dm.whereIsWaldo(206, waldoFile, "--- End constructTheResiduals()");
     }
     
 private void printTheStuff() {  
@@ -213,6 +215,7 @@ private void printTheStuff() {
         postHocReport.add(String.format("     Group       Size       Mean       St Dev     of mean    of Error      Bound        Bound\n"));
         
         for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
+            dm.whereIsWaldo(218, waldoFile, "--- ithLevel = " + ithLevel);
             strIthLevel = StringUtilities.truncateString(variableLabels.get(ithLevel), 10);
             int iSampleSize = allTheQDVs.get(ithLevel).getLegalN();
             double iMean = allTheQDVs.get(ithLevel).getTheMean();
@@ -304,9 +307,10 @@ private void doTukeyKramer() {
         //  Add the Post Hoc linwa
         int nPostHocLines = postHocReport.size();        
         for (int ithPHLine = 0; ithPHLine < nPostHocLines; ithPHLine++) {
+            //dm.whereIsWaldo(310, waldoFile, " --- ithPostHocLine = " + ithPHLine);
             anova1Report.add(postHocReport.get(ithPHLine));
         }
-        
+        dm.whereIsWaldo(309, waldoFile, " --- End printANOVA_Results()");
    }    // end printANOVA_Results
     
     private void doTheEffectSizes() {

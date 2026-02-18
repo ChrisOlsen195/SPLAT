@@ -1,7 +1,7 @@
 /**************************************************
  *              ANOVA1_Cat_Dashboard              *
- *                    03/08/25                    *
- *                     12:00                      *
+ *                    05/14/25                    *
+ *                     15:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -29,7 +29,7 @@ public class ANOVA1_Cat_Dashboard extends Dashboard {
     private final String responseVariable;
     
     // Make empty if no-print
-    //String waldoFile = "ANOVA1_Cat_Dashboard";
+    // String waldoFile = "ANOVA1_Cat_Dashboard";
     String waldoFile = "";
     
     private final String[] anova1CheckBoxDescr = { " FDist \n (Inference)",  

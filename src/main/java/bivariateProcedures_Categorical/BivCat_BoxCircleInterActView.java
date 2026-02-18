@@ -45,8 +45,8 @@ public class BivCat_BoxCircleInterActView extends BivCat_Views_Super {
         
         categoryLabels = FXCollections.observableArrayList();
         
-        strTopLabels = bivCat_Model.getTopLabels();
-        strLeftLabels = bivCat_Model.getLeftLabels();
+        strTopLabels = bivCat_Model.getStrTopLabels();
+        strLeftLabels = bivCat_Model.getStrLeftLabels();
         
         nTopLabels = strTopLabels.length;
         nLeftLabels = strLeftLabels.length;

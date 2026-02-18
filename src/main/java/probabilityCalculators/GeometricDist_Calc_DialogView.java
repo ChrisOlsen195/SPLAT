@@ -1,7 +1,7 @@
 /**************************************************
  *             GeometricDist_Calc_DialogView      *
- *                    01/16/25                    *
- *                     09:00                      *
+ *                    11/01/25                    *
+ *                     12:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -55,7 +55,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     
     // FX Classes
     Button btn_ResetGeometric, btn_ResetParameters;
+    
     Font probFont;
+    
     GridPane allTheOptions;
     
     HBox hBox_LeftProbX_Is_LT,
@@ -73,7 +75,7 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     Label lbl_N2Display_Equals, lbl_P_Equals;
     Label[] probLabels;
     
-    Text txt_ProbTitle;
+    Text txtProbTitle;
 
     Pane theContainingPane;
     Region spacers[];
@@ -87,14 +89,14 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);     
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("91 *** GeometricDist_Calc_DialogView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         
-        txt_ProbTitle = new Text(60, 25, "        Geometric Distribution -- Make your choices! ");
-        txt_ProbTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,18));
+        txtProbTitle = new Text(60, 25, "        Geometric Distribution -- Make your choices! ");
+        txtProbTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,18));
         probFont = Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,15.);
         
         stf_ProbCalcs_Controller = new SmartTextFieldsController();
@@ -191,7 +193,7 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
         hBox_LeftProbX_Is_LTLT.setPadding(insets_1);
         
         btn_ResetGeometric = new Button("Reset Geometric");
-        btn_ResetGeometric.setOnAction(e -> resetBinomial());
+        btn_ResetGeometric.setOnAction(e -> resetGeometric());
         
         hBox_LeftProbX_Is_LTLT.setPadding(insets_1);
         
@@ -205,7 +207,7 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
         
         allTheOptions = new GridPane();
         
-        allTheOptions.add(txt_ProbTitle, 0, 0, 2, 1);
+        allTheOptions.add(txtProbTitle, 0, 0, 2, 1);
         allTheOptions.add(hBox_N_Equals, 0, 1);
         allTheOptions.add(hBox_LeftProbX_Is_LT, 0, 2);
         allTheOptions.add(hBox_LeftProbX_Is_LE, 0, 3);
@@ -224,7 +226,10 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
         makeItHappen();
     }
     
-    private void resetBinomial() {
+    private void resetGeometric() {
+        if (printTheStuff) {
+            System.out.println("229 *** GeometricDist_Calc_DialogView, resetGeometric()");
+        }
         al_ProbCalcs_STF.get(0).setText(toBlank); 
         al_ProbCalcs_STF.get(1).setText(toBlank);
         resetParameters();
@@ -240,6 +245,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     }
     
     public void setUpAnchorPane() {
+        if (printTheStuff) {
+            System.out.println("247 *** GeometricDist_Calc_DialogView, setUpAnchorPane()");
+        }
         dragableAnchorPane = new DragableAnchorPane();  
         anchorPane = dragableAnchorPane.getTheAP();
         dragableAnchorPane.makeDragable();
@@ -251,6 +259,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     }
     
     private void makeANewGraph() {
+        if (printTheStuff) {
+            System.out.println("261 *** GeometricDist_Calc_DialogView, makeANewGraph()");
+        }
         geometricDist_Calc_PDFView.respondToChanges();
         geometricDist_Calc_PDFView.doTheGraph(); 
     } 
@@ -260,6 +271,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     }
   
     private void createHBoxes() {
+        if (printTheStuff) {
+            System.out.println("273 *** GeometricDist_Calc_DialogView, createHBoxes()");
+        }
         hBox_LeftProbX_Is_LT = new HBox(); hBox_LeftProbX_Is_LE = new HBox();
         hBox_LeftProbX_Is_EQ = new HBox(); hBox_LeftProbX_Is_GE = new HBox();
         hBox_LeftProbX_Is_GT = new HBox(); hBox_LeftProbX_Is_LTLT = new HBox();
@@ -303,6 +317,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     }
     
     private void createSTFs() { 
+        if (printTheStuff) {
+            System.out.println("319 *** GeometricDist_Calc_DialogView, createSTFs()");
+        }
         /*****************************************************************
          * The STFs:                                                     *
          *     0:  n                                                     *
@@ -358,6 +375,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     
     
     private void createTheLabels() {
+        if (printTheStuff) {
+            System.out.println("377 *** GeometricDist_Calc_DialogView, createTheLabels()");
+        }
         /****************************************************************
          * The Labels:                                                   *
          *     0:  lbl_Title                                             *
@@ -453,6 +473,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     }
     
     private boolean checkWhetherToGraph() { 
+        if (printTheStuff) {
+            System.out.println("475 *** GeometricDist_Calc_DialogView, checkWhetherToGraph()");
+        }
         okToGraph = false;
         // Check for geometric not yet defined        
         if (al_ProbCalcs_STF.get(0).getText().isEmpty() || al_ProbCalcs_STF.get(1).getText().isEmpty()) {
@@ -463,7 +486,7 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
         geometric_N2Display = Integer.parseInt(al_ProbCalcs_STF.get(0).getText());
         geometric_p = Double.parseDouble(al_ProbCalcs_STF.get(1).getText());
         geometricDist_Calc_PDFView.setInitializing(false);
-        
+        okToGraph = true;
         boolean moreThanOneSelected = moreThanOneIsSelected();
         
         if (moreThanOneSelected) {
@@ -505,30 +528,35 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
         
         // Check for X LT, LE, EQ, GE, GT
         if (!al_ProbCalcs_STF.get(2).getText().isEmpty()) {   //  LT N
+            System.out.println("529 GeomCalcDial, LT N");
             lowerShadeBound = 0; 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(2).getText()) - 1;
             probSelection = 1;
             okToGraph = true;
         }  
         else if (!al_ProbCalcs_STF.get(3).getText().isEmpty()) {  //  LE N
+            System.out.println("536 GeomCalcDial, LE N");
             lowerShadeBound = 0; 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(3).getText());
             probSelection = 2;
             okToGraph = true;
         }   
         else if (!al_ProbCalcs_STF.get(4).getText().isEmpty()) {  //  EQ N
+            System.out.println("543 GeomCalcDial, EQ N");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(4).getText());  
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(4).getText()); 
             probSelection = 3;
             okToGraph = true;
         } 
         else if (!al_ProbCalcs_STF.get(5).getText().isEmpty()) {  //  GE N
+            System.out.println("550 GeomCalcDial, GE N");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(5).getText()); 
             upperShadeBound = geometric_N2Display;
             probSelection = 4;
             okToGraph = true;
         } 
         else if (!al_ProbCalcs_STF.get(6).getText().isEmpty()) { //  GT N
+            System.out.println("557 GeomCalcDial, GT N");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(6).getText()) + 1; 
             upperShadeBound = geometric_N2Display;
             probSelection = 5;
@@ -539,6 +567,7 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
         
         //                      7  <  x  <  8
         else if (!al_ProbCalcs_STF.get(7).getText().isEmpty() && !al_ProbCalcs_STF.get(8).getText().isEmpty()) {
+            System.out.println("568 GeomCalcDial, 7  <  x  <  8");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(7).getText()) + 1; 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(8).getText()) - 1;
             probSelection = 6;
@@ -546,6 +575,7 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
         }  
         //                        9 <  x <= 10
         else if (!al_ProbCalcs_STF.get(9).getText().isEmpty() && !al_ProbCalcs_STF.get(10).getText().isEmpty()) {
+            System.out.println("576 GeomCalcDial, 9 <  x <= 10");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(9).getText()) + 1; 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(10).getText());
             probSelection = 7;
@@ -553,6 +583,7 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
         }  
         //                      11  <=  x  <  12
         else if (!al_ProbCalcs_STF.get(11).getText().isEmpty() && !al_ProbCalcs_STF.get(12).getText().isEmpty()) {
+            System.out.println("584 GeomCalcDial, 11  <=  x  <  12");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(11).getText()); 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(12).getText()) - 1;
             probSelection = 8;
@@ -560,6 +591,7 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
         }  
         //                      13  <=  x  <=  14
         else if (!al_ProbCalcs_STF.get(13).getText().isEmpty() && !al_ProbCalcs_STF.get(14).getText().isEmpty()) {
+            System.out.println("592 GeomCalcDial, 13  <=  x  <=  14");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(13).getText()); 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(14).getText());
             probSelection = 9;
@@ -570,6 +602,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     } 
 
     public void clearTheSTFs() {
+        if (printTheStuff) {
+            System.out.println("604 *** GeometricDist_Calc_DialogView, clearTheSTFs()");
+        }
         for (int ithSTF = 2; ithSTF < 15; ithSTF++) {
             al_ProbCalcs_STF.get(ithSTF).setText(toBlank);
         }
@@ -580,6 +615,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     }
     
     private boolean moreThanOneIsSelected() {
+        if (printTheStuff) {
+            System.out.println("617 *** GeometricDist_Calc_DialogView, moreThanOneIsSelected()");
+        }
         // Check the singles
         boolean moreThanOne = false;
         int nSelected = 0;
@@ -618,6 +656,9 @@ public class GeometricDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_V
     
             //    ************   Check for bad range  **********
     private boolean rangeOrderIsBad() {
+        if (printTheStuff) {
+            System.out.println("658 *** GeometricDist_Calc_DialogView, rangeOrderIsBad()");
+        }
         boolean badRange = false;
         
         for (int ithSTF = 7; ithSTF <= 13; ithSTF = ithSTF + 2) {

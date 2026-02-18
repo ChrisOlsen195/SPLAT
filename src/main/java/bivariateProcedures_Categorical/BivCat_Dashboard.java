@@ -1,6 +1,6 @@
 /**************************************************
 *                BivCat_Dashboard                 *
-*                     03/22/25                    *
+*                     12/11/25                    *
 *                      21:00                      *
 **************************************************/
 /**************************************************
@@ -27,8 +27,8 @@ public class BivCat_Dashboard extends Dashboard {
                                    " Comparative bar chart",
                                    " Pie Chart "};
     
-    String waldoFile = "BivCat_Dashboard";
-    //String waldoFile = "";
+    //String waldoFile = "BivCat_Dashboard";
+    String waldoFile = "";
     
     // My classes
    
@@ -47,7 +47,7 @@ public class BivCat_Dashboard extends Dashboard {
       
     public BivCat_Dashboard(BivCat_Controller bivCat_Controller, BivCat_Model bivCat_Model) {
         super(5);
-        //System.out.println(50 *** BivCat_Dashboard, Constructing");
+        //System.out.println(*** 50 BivCat_Dashboard, Constructing");
         setTitle("Bivariate Categorical Association dashboard");  
         this.bivCat_Model = bivCat_Model;  
         assocType = bivCat_Model.getAssociationType();
@@ -73,7 +73,7 @@ public class BivCat_Dashboard extends Dashboard {
 
         if (checkBoxSettings[1] == true) {
             mosaicPlotContainingPane.setVisible(true);
-            bivCat_MosaicPlotView.doThePlot();
+            bivCat_MosaicPlotView.doTheGraph();
         }
         else
             mosaicPlotContainingPane.setVisible(false);    
@@ -107,9 +107,10 @@ public class BivCat_Dashboard extends Dashboard {
         bivCat_PrintStatistics.completeTheDeal();
         printStatisticsContainingPane = bivCat_PrintStatistics.getTheContainingPane();
         printStatisticsContainingPane.setStyle(containingPaneStyle);
-
-        initWidth[1] = 550;
-        initHeight[1] = 475;
+        
+        initWidth[1] = 800;
+        initHeight[1] = 700;
+              
         bivCat_MosaicPlotView = new BivCat_MosaicPlotView(bivCat_Model, this, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]);
         bivCat_MosaicPlotView.completeTheDeal();
         mosaicPlotContainingPane = bivCat_MosaicPlotView.getTheContainingPane();

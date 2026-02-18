@@ -1,7 +1,7 @@
 /************************************************************
- *                      Inference_Dialog                    *
- *                          02/11/25                        *
- *                            12:00                         *
+ *                     Boot_OneVar_Dialog                   *
+ *                          12/31/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package bootstrapping;
 
@@ -27,10 +27,14 @@ import javafx.scene.text.Text;
 import splat.Data_Manager;
 import utilityClasses.*;
 
-public class Inference_Dialog extends One_Variable_Dialog { 
+public class Boot_OneVar_Dialog extends One_Variable_Dialog { 
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
+    boolean okToContinue;
     int alphaIndex, ciIndex, confidenceLevel;
     int[] confLevels; 
-    boolean okToContinue;
+
     double hypothesizedMean, alpha;
     Double daNewNullMean;      
     double[] alphaLevels; 
@@ -41,7 +45,7 @@ public class Inference_Dialog extends One_Variable_Dialog {
            strHypChosen;
     String resultAsString;
     
-    //String waldoFile = "Inference_Dialog";
+    //String waldoFile = "Boot_OneVar_Dialog";
     String waldoFile = "";
     
     String[] hypothPair;
@@ -58,9 +62,11 @@ public class Inference_Dialog extends One_Variable_Dialog {
     
     ListView<String> list_CIViews, list_AlphaViews; 
 
-    public Inference_Dialog(Data_Manager dm, String variableType) {
+    public Boot_OneVar_Dialog(Data_Manager dm, String variableType) {
         super(dm, "Quantitative");
-        dm.whereIsWaldo(63, waldoFile, "\nConstructing");
+        if (printTheStuff) {
+            System.out.println("*** 68 Boot_OneVar_Dialog, Constructing");
+        }
         lbl_Title.setText("Inference for a single parameter");
         lblFirstVar.setText("Variable choice:");
         alphaLevels = new double[] { 0.10, 0.05, 0.01};
@@ -72,7 +78,9 @@ public class Inference_Dialog extends One_Variable_Dialog {
     }  
 
  private void makeHypotheses() {
-        dm.whereIsWaldo(75, waldoFile, "makeHypotheses()");
+        if (printTheStuff) {
+            System.out.println("*** 82 Boot_OneVar_Dialog, makeHypotheses()");
+        }
         hypothesizedMean = 0.0;
         daNewNullMean = 0.0;
         strHypChosen = "NotEqual";
@@ -168,7 +176,9 @@ public class Inference_Dialog extends One_Variable_Dialog {
     }
  
 private void makeAlphaAndCIPanel() {
-        dm.whereIsWaldo(171, waldoFile, "makeAlphaAndCIPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 180 Boot_OneVar_Dialog, makeAlphaAndCIPanel()");
+        }
         ciLabel = new Label("   Select conf level");
         ciLabel.setMaxWidth(130);
         ciLabel.setMinWidth(130);

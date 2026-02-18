@@ -1,7 +1,7 @@
 /**************************************************
  *               Single_t_Dashboard               *
- *                    11/01/23                    *
- *                     21:00                      *
+ *                    01/31/26                    *
+ *                     18:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -50,9 +50,11 @@ public class Single_t_Dashboard extends Dashboard {
     public Single_t_Dashboard(Single_t_Controller single_t_Controller, QuantitativeDataVariable theQDV) {
         super(5);       
         dm = single_t_Controller.getDataManager();
-        dm.whereIsWaldo(53, waldoFile, "Constructing");
+        dm.whereIsWaldo(53, waldoFile, "*** Constructing from single_t_Controller");
+        //dm.whereIsWaldo(54, waldoFile, "--- theQDV.toString() = " + theQDV.toString());
         descriptionOfVariable = single_t_Controller.getDescriptionOfVariable();
-        returnStatus = "OK";
+        dm.whereIsWaldo(56, waldoFile, "descriptionOfVariable = " + descriptionOfVariable);
+        strReturnStatus = "OK";
         hBox_Model = new HorizontalBoxPlot_Model(descriptionOfVariable, theQDV);
         vBox_Model = new VerticalBoxPlot_Model(descriptionOfVariable, theQDV);
         
@@ -78,7 +80,6 @@ public class Single_t_Dashboard extends Dashboard {
         setTitle("Single t inference dashboard");  
     }  
 
-    
     public void putEmAllUp() { 
         if (checkBoxSettings[0] == true) {
             single_t_ContainingPane.setVisible(true);

@@ -1,7 +1,7 @@
 /**********************************************************************
  *                         ChooseStats_Dialog                         *
- *                             02/24/25                               *
- *                               06:00                                *
+ *                             01/01/26                               *
+ *                               00:00                                *
  *********************************************************************/
 package bootstrapping;
 
@@ -21,6 +21,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.WindowEvent;
 import javafx.scene.text.Text;
 import splat.Data_Manager;
+import utilityClasses.*;
 
 public class ChooseStats_Dialog  extends Splat_Dialog{
     // POJOs
@@ -33,12 +34,15 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
     double paneWidth, paneHeight;
     double[][] initWidth, initHeight; 
     
-    String /*strJustClickedOn,*/ strDirections, returnStatus;
+    String strDirections, strReturnStatus;
     String[] checkBoxDescr;
     
     // Make empty if no-print
     //String waldoFile = "ChooseStats_Dialog";
     String waldoFile = "";
+    
+    // My Classes
+    ChooseStats_Controller boot_Controller;
     
     // FX POJOs
     //Button btnOK, btnCancel;
@@ -53,11 +57,12 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
     Scene scene;
     
     public ChooseStats_Dialog(ChooseStats_Controller boot_Controller) {
+        this.boot_Controller = boot_Controller;
         dm = boot_Controller.getTheDataManager();
-        dm.whereIsWaldo(56, waldoFile, "\nChooseStats_Dialog, Constructing"); 
+        dm.whereIsWaldo(62, waldoFile, "*** ChooseStats_Dialog, Constructing"); 
         root = new Pane();
         root.setPrefSize(1200, 500);
-        returnStatus = "OK";
+        strReturnStatus = "OK";
         txtTitle = new Text("Bootstrapping the statistics!");
         txtTitle.setFont(Font.font("Times New Roman", FontWeight.BOLD, 24));
         
@@ -71,8 +76,9 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
         txtNReps.setFont(Font.font("Times New Roman", FontWeight.BOLD, 16));
 
         tfNReps = new TextField();
-        tfNReps.setPrefColumnCount(4);
+        tfNReps.setPrefColumnCount(5);
         tfNReps.setOnAction(e -> {
+            dm.whereIsWaldo(81, waldoFile, "--- ChooseStats_Dialog, Constructing"); 
             numberOfReps = Integer.parseInt(tfNReps.getText());
             boot_Controller.setNReps(numberOfReps);
         });
@@ -87,14 +93,13 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
         btnOK = new Button("OK");
 
         btnOK.setOnAction(e -> {  
+            dm.whereIsWaldo(96, waldoFile, "---ChooseStats_Dialog, btnOKChecked");
             nBoxesChecked = 0;
             boot_Controller.setReturnStatus("OK");
             for (int ithRow = 0; ithRow < nGridRows; ithRow++) {
                 for (int jthCol = 0; jthCol < nGridCols; jthCol++) {
                     index = ithRow * nGridCols + jthCol;
-                    //System.out.println("94 ChooseStats_Dialog, index = " + index);
                     checked = checkBoxes[ithRow][jthCol].selectedProperty().getValue();
-                    //System.out.println("96 ChooseStats_Dialog, checked = " + checked);
                     if (checked) { index2Return = index; }
                     boot_Controller.setACheckBoxValue(index, checked);
                     if (checked) {
@@ -102,15 +107,37 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
                     }
                 }
             } 
+
+        if (numberOfReps == 0 ) {
+            dm.whereIsWaldo(113, waldoFile, "--- ChooseStats_Dialog");
+            MyAlerts.showZeroReplicationsAlert();
+            strReturnStatus = "Cancel";
+        }
+        else {
+            if (nBoxesChecked == 0 ) {
+                dm.whereIsWaldo(119, waldoFile, "--- ChooseStats_Dialog");
+                MyAlerts.showZeroStatsChosenAlert();
+                strReturnStatus = "Cancel";
+            }
+
+            if (nBoxesChecked > 1 ) {
+                dm.whereIsWaldo(126, waldoFile, "--- ChooseStats_Dialog");
+                MyAlerts.showOnlyOneStatisticAllowedAlert();
+                strReturnStatus = "Cancel";
+            }
+        }
+
+            dm.whereIsWaldo(132, waldoFile, "---ChooseStats_Dialog, nBoxesChecked = " + nBoxesChecked);
             if (nBoxesChecked == 0) {
-                returnStatus = "Cancel";
+                dm.whereIsWaldo(134, waldoFile, "---ChooseStats_Dialog, nBoxesChecked = " + nBoxesChecked);
+                strReturnStatus = "Cancel";
             }
             hide();
         });
         
         btnCancel = new Button("Cancel");
         btnCancel.setOnAction(e -> {            
-            returnStatus = "Cancel";
+            strReturnStatus = "Cancel";
             hide();
         });
 
@@ -206,13 +233,8 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
             }
         }
         
-        setOnCloseRequest((WindowEvent event) -> {            
-            for (int ithRow = 0; ithRow < nGridRows; ithRow++) {
-                for (int jthCol = 0; jthCol < nGridCols; jthCol++) {
-                    index = ithRow * nGridCols + jthCol;
-                    boot_Controller.setACheckBoxValue(index, checkBoxes[ithRow][jthCol].selectedProperty().getValue());
-                }
-            }           
+        setOnCloseRequest((WindowEvent event) -> {  
+            strReturnStatus = "Cancel";
         });
         
         scene = new Scene(root, 900, 500);
@@ -222,11 +244,19 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
     public void changeNReps(ObservableValue<? extends String> prop,
         String oldValue,
         String newValue) {
+        dm.whereIsWaldo(247, waldoFile, "--- ChooseStats_Dialog, oldValue = " + oldValue);
+        dm.whereIsWaldo(248, waldoFile, "--- ChooseStats_Dialog, newValue = " + newValue);
         tfNReps.setText(newValue);
-        numberOfReps = Integer.parseInt(newValue);
+        if (!newValue.isEmpty()){
+            if (DataUtilities.strIsAPosInt(newValue)) {
+                numberOfReps = Integer.parseInt(newValue);
+            } else {
+                MyAlerts.showGenericBadNumberAlert("positive integer");
+            }
+        }
     }
     
-    public String getReturnStatus() { return returnStatus; }
+    public String getStrReturnStatus() { return strReturnStatus; }
     public int getSampleSize() { return sampleSize; }
     public int getNReps() { return numberOfReps; }
     public int getNStatsChecked() { return nBoxesChecked; }   

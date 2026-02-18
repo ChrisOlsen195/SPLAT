@@ -151,7 +151,8 @@ public class FDistPDFView extends BivariateScale_W_CheckBoxes_View {
         
         if (df1 > 2) {
             double modeIsAt = (dbl_df1 - 2.) * dbl_df2 / (dbl_df1 * (dbl_df2 + 2.0));
-            yDataMax = 1.05 * fDistr.getDensity(modeIsAt);
+            //yDataMax = 1.05 * fDistr.getDensity(modeIsAt);
+            yDataMax = 1.25 * fDistr.getDensity(modeIsAt);
         }
  
         yAxis = new JustAnAxis(yDataMin, yDataMax);
@@ -247,16 +248,15 @@ public class FDistPDFView extends BivariateScale_W_CheckBoxes_View {
             gc.setStroke(Color.BLACK);
             gc.strokeLine(xStart, yStart, xStop, yStop);
 
-            if ((shadeLeftTail == true) && (x < leftTailCutPoint)) {
+            if ((shadeLeftTail) && (x < leftTailCutPoint)) {
                 yStart = yAxis.getDisplayPosition(0.0);                
                 gc.strokeLine(xStart, yStart, xStop, yStop);
             }
             
-            if ((shadeRightTail == true) && (x > rightTailCutPoint)) {
+            if ((shadeRightTail) && (x > rightTailCutPoint)) {
                 yStart = yAxis.getDisplayPosition(0.0);                
                 gc.strokeLine(xStart, yStart, xStop, yStop);
             }     
-
             xx0 = xx1; yy0 = yy1;   //  Next start point for line segment
         }   
         
@@ -282,7 +282,8 @@ public class FDistPDFView extends BivariateScale_W_CheckBoxes_View {
             tempString = String.format("F = %6.3f, pValue = %4.3f", fStat, pValue);              
    
             gc.setFill(Color.RED);
-            gc.fillText(tempString, xStart_fPVal + 5, yStop - 5);
+            //gc.fillText(tempString, xStart_fPVal + 5, yStop - 5);
+            gc.fillText(tempString, xStart_fPVal - 100, yStop - 5);
         }
         
         if (assumptionCheckIsDesired == true) {

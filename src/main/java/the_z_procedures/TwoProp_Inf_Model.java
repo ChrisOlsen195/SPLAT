@@ -1,7 +1,7 @@
 /************************************************************
  *                     TwoProp_Inf_Model                    *
- *                          04/17/25                        *
- *                            00:00                         *
+ *                          12/13/25                        *
+ *                            18:00                         *
  ***********************************************************/
 /************************************************************
  *    Plus-4 calculations agree with Moore/McCabe/Craig     *
@@ -11,8 +11,9 @@
  ***********************************************************/
 package the_z_procedures;
 
+import bivariateProcedures_Categorical.BivCat2x_Model;
 import genericClasses.Point_2D;
-import dialogs.t_and_z.TwoProp_Inference_Dialog;
+import dialogs.t_and_z.TwoProp_Inf_Dialog;
 import probabilityDistributions.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,15 +42,17 @@ public class TwoProp_Inf_Model {
     int nSuccesses_1, nSuccesses_2, nTrials_1, nTrials_2, nFailures_1, 
         nFailures_2, pAndPSize, confidenceLevel;
     
+    final int ONE, TWO, TEN;
+    
     double ciDiff_Low, ciDiff_High, pValueDiff, alpha, alphaOverTwo,
            diff_In_pHats, hypDiff, pValueFisher, zForTwoTails, zForOneTail, 
            stErrP1, stErrP2, ciLowP1, ciHighP1, ciLowP2, ciHighP2, stErrUnpooled, 
            stErrPooled, z_for_Pooled, dbl_NSuccesses_1, dbl_NSuccesses_2, 
            dbl_NTrials_1, dbl_NTrials_2, pHat_1, pHat_2, cohensH, effectSize; 
     
-    final double ONE, TWO;
+    final double DBL_ONE, DBL_TWO;
 
-    String returnStatus, altHypoth, prop1_Descr, prop2_Descr, title_Descr;
+    String strReturnStatus, altHypoth, firstProp_Label, secondProp_Label, variableOfInterest;
     
     ArrayList<String> twoPropReport;
     
@@ -58,34 +61,42 @@ public class TwoProp_Inf_Model {
     Point_2D  lowEnds, highEnds, pHats, ciDiff;
 
     // FX Classes
+    BivCat2x_Model bivCat2x_Model;
     StandardNormal standNorm;   
-    TwoProp_Inference_Dialog twoProp_Inf_Dialog;
-
+    TwoProp_Inf_Dialog twoProp_Inf_Dialog;
+    
     public TwoProp_Inf_Model() {
-        if (printTheStuff == true) {
-            System.out.println("66 *** TwoProp_Inf_Model, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 70 TwoProp_Inf_Model, Constructing");
         }
         standNorm = new StandardNormal();
-        twoProp_Inf_Dialog = new TwoProp_Inference_Dialog();
-        ONE = 1.0; TWO = 2.0;
+        twoProp_Inf_Dialog = new TwoProp_Inf_Dialog(this);
+        ONE = 1; TWO = 2; TEN = 10;
+        DBL_ONE = 1.0; DBL_TWO = 2.0;
     }
     
     public String doZProcedure() {
-        returnStatus = "OK";
-        twoProp_Inf_Dialog.showAndWait();
-        returnStatus = twoProp_Inf_Dialog.getReturnStatus(); 
-        if (returnStatus.equals("OK")) {
-            prop1_Descr = twoProp_Inf_Dialog.getP1Label();
-            prop2_Descr = twoProp_Inf_Dialog.getP2Label();
-            
-            title_Descr = twoProp_Inf_Dialog.getTheTitle();
-            System.out.println("82 TwoProp_Inf_Model, title_Descr = " + title_Descr);
+        if (printTheStuff) {
+            System.out.println("*** 80 TwoProp_Inf_Model, doZProcedure()");
+        }
+        strReturnStatus = "OK";
+        twoProp_Inf_Dialog.showAndWait(); 
+        // Check for cancel or WindowClose
+        if (strReturnStatus.equals("Cancel") 
+                || strReturnStatus.equals("CloseWindow")) { 
+                    return strReturnStatus; 
+        }
+        strReturnStatus = twoProp_Inf_Dialog.getStrReturnStatus(); 
+        if (strReturnStatus.equals("OK")) {
+            firstProp_Label = twoProp_Inf_Dialog.getProp_1_Label();
+            secondProp_Label = twoProp_Inf_Dialog.getProp_2_Label();            
+            variableOfInterest = twoProp_Inf_Dialog.getTheVariable();
             altHypoth = twoProp_Inf_Dialog.getAltHypothesis();
             twoPropReport = new ArrayList();
             nTrials_1 = twoProp_Inf_Dialog.getN1();
             nTrials_2 = twoProp_Inf_Dialog.getN2();
-            nSuccesses_1 = twoProp_Inf_Dialog.getX1();
-            nSuccesses_2 = twoProp_Inf_Dialog.getX2();
+            nSuccesses_1 = twoProp_Inf_Dialog.getSuccesses1();
+            nSuccesses_2 = twoProp_Inf_Dialog.getSuccesses2();
             nFailures_1 = nTrials_1 - nSuccesses_1;
             nFailures_2 = nTrials_2 - nSuccesses_2;
             
@@ -106,42 +117,42 @@ public class TwoProp_Inf_Model {
             hypDiff = twoProp_Inf_Dialog.getHypothesizedDiff();
 
             alpha = twoProp_Inf_Dialog.getLevelOfSignificance();
-            confidenceLevel = (int)(100. * (1 - alpha));
-            alphaOverTwo = alpha / TWO;
+            confidenceLevel = (int)(100. * (DBL_ONE - alpha));
+            alphaOverTwo = alpha / DBL_TWO;
 
             // These functions deliver the positive z's
             zForOneTail = -standNorm.getInvLeftTailArea(alpha);
             zForTwoTails =  -standNorm.getInvLeftTailArea(alphaOverTwo);     
 
-            double temp1 = pHat_1 * (ONE - pHat_1) / dbl_NTrials_1 + pHat_2 * (ONE - pHat_2) / dbl_NTrials_2;
+            double temp1 = pHat_1 * (DBL_ONE - pHat_1) / dbl_NTrials_1 + pHat_2 * (DBL_ONE - pHat_2) / dbl_NTrials_2;
             double p_sub_c = (dbl_NSuccesses_1 + dbl_NSuccesses_2) / (dbl_NTrials_1 + dbl_NTrials_2);
 
-            stErrP1 = Math.sqrt(pHat_1 * (ONE - pHat_1) / dbl_NTrials_1);
-            stErrP2 = Math.sqrt(pHat_2 * (ONE - pHat_2) / dbl_NTrials_2);
+            stErrP1 = Math.sqrt(pHat_1 * (DBL_ONE - pHat_1) / dbl_NTrials_1);
+            stErrP2 = Math.sqrt(pHat_2 * (DBL_ONE - pHat_2) / dbl_NTrials_2);
 
             ciLowP1 = pHat_1 - zForTwoTails * stErrP1;
-            ciLowP1 = Math.max(ciLowP1, -ONE);
+            ciLowP1 = Math.max(ciLowP1, -DBL_ONE);
             ciHighP1 = pHat_1 + zForTwoTails * stErrP1;
-            ciHighP1 = Math.min(ciHighP1, ONE);
+            ciHighP1 = Math.min(ciHighP1, DBL_ONE);
 
             ciLowP2 = pHat_2 - zForTwoTails * stErrP2;
-            ciLowP2 = Math.max(ciLowP2, -ONE);
+            ciLowP2 = Math.max(ciLowP2, -DBL_ONE);
             ciHighP2 = pHat_2 + zForTwoTails * stErrP2;
-            ciHighP2 = Math.min(ciHighP2, ONE);
+            ciHighP2 = Math.min(ciHighP2, DBL_ONE);
             
             lowEnds = new Point_2D(ciLowP1, ciLowP2);
             highEnds = new Point_2D(ciHighP1, ciHighP2);
             
             stErrUnpooled = Math.sqrt(temp1);
-            stErrPooled = Math.sqrt((p_sub_c) * (ONE  - p_sub_c) * (ONE / dbl_NTrials_1 + ONE / dbl_NTrials_2));
+            stErrPooled = Math.sqrt((p_sub_c) * (DBL_ONE  - p_sub_c) * (DBL_ONE / dbl_NTrials_1 + DBL_ONE / dbl_NTrials_2));
             z_for_Pooled = diff_In_pHats / stErrPooled;
             
             switch (altHypoth) {
                 case "NotEqual":        
                     ciDiff_Low = diff_In_pHats - zForTwoTails * stErrUnpooled;
-                    ciDiff_Low = Math.max(ciDiff_Low, -TWO);
+                    ciDiff_Low = Math.max(ciDiff_Low, -DBL_TWO);
                     ciDiff_High = diff_In_pHats + zForTwoTails * stErrUnpooled;
-                    ciDiff_High = Math.min(ciDiff_High, TWO);
+                    ciDiff_High = Math.min(ciDiff_High, DBL_TWO);
                     double zLo = -Math.abs(z_for_Pooled);
                     double zHi = Math.abs(z_for_Pooled);
                     pValueDiff = 1.0 - standNorm.getMiddleArea(zLo, zHi);
@@ -152,14 +163,14 @@ public class TwoProp_Inf_Model {
 
             case "LessThan":
                 ciDiff_Low = diff_In_pHats - zForOneTail * stErrUnpooled;
-                ciDiff_High = TWO;
+                ciDiff_High = DBL_TWO;
                 pValueDiff = standNorm.getLeftTailArea(z_for_Pooled);
                 printSummaryInformation();
                 printLessThan();
                 break;
 
             case "GreaterThan":
-                ciDiff_Low = -TWO;
+                ciDiff_Low = -DBL_TWO;
                 ciDiff_High = diff_In_pHats + zForOneTail * stErrUnpooled;
                 pValueDiff = standNorm.getRightTailArea(z_for_Pooled);
                 printSummaryInformation();
@@ -167,35 +178,41 @@ public class TwoProp_Inf_Model {
                 break;
 
             default:
-                String switchFailure = "Switch failure: TwoProp_Inf_Model 170 " + altHypoth;
+                String switchFailure = "Switch failure: TwoProp_Inf_Model 181 " + altHypoth;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
             }   
             
-            ciDiff = new Point_2D(ciDiff_Low, ciDiff_High);           
+            ciDiff = new Point_2D(ciDiff_Low, ciDiff_High);  
+            bivCat2x_Model = new BivCat2x_Model(this, "AssocType");
+            bivCat2x_Model.doBivCat2xModelFrom2PropInf();  
         }   //  end ok to continue
-        else { return returnStatus; }
-                
-        return returnStatus;
+        else { 
+            return strReturnStatus; 
+        }
+        return strReturnStatus;
     }
     
     private void printSummaryInformation() {
-        addNBlankLinesToTwoPropReport(1);
-        String titleStringOut = StringUtilities.centerTextInString(title_Descr, 76);
+        if (printTheStuff) {
+            System.out.println("*** 197 TwoProp_Inf_Model, printSummaryInformation()");
+        }
+        addNBlankLinesToTwoPropReport(ONE);
+        String titleStringOut = StringUtilities.centerTextInString(variableOfInterest, 76);
         twoPropReport.add(titleStringOut);
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add("                        *** Summary information ***   ");
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add("       Prop            NSize     NSucc     prop     ciLow     ciHigh");
-        addNBlankLinesToTwoPropReport(1);
-        String propDescr_1 = StringUtilities.truncateString(prop1_Descr + "      ", 14);
-        String propDescr_2 = StringUtilities.truncateString(prop2_Descr + "      ", 14);
+        addNBlankLinesToTwoPropReport(ONE);
+        String propDescr_1 = StringUtilities.truncateString(firstProp_Label + "                ", 14);
+        String propDescr_2 = StringUtilities.truncateString(secondProp_Label + "                ", 14);
         twoPropReport.add(String.format("   %10s      %4d     %4d      %5.3f     %5.3f      %5.3f",     propDescr_1,
                                                                                    nTrials_1,
                                                                                    nSuccesses_1,
                                                                                    pHat_1,
                                                                                    ciLowP1,
                                                                                    ciHighP1));
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
 
         twoPropReport.add(String.format("   %10s      %4d     %4d      %5.3f     %5.3f      %5.3f",     propDescr_2,
                                                                                    nTrials_2,
@@ -206,60 +223,60 @@ public class TwoProp_Inf_Model {
     }
     
     private void printNotEqualTo() {
-        addNBlankLinesToTwoPropReport(2);       
+        addNBlankLinesToTwoPropReport(TWO);       
         twoPropReport.add("                   ***  Hypothesis Test  ***");
-        addNBlankLinesToTwoPropReport(2);    
+        addNBlankLinesToTwoPropReport(TWO);    
         twoPropReport.add(String.format("           %15s", "       Null hypothesis:  Ho:p\u2081 - p\u2082 = 0"));
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         twoPropReport.add(String.format("           %15s", "Alternative hypothesis:  Ho:p\u2081 - p\u2082 \u2260 0"));
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add(String.format("           %15s %6.3f", "           z-statistic: ", z_for_Pooled));
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         twoPropReport.add(String.format("           %15s %6.3f", "               p-Value: ", pValueDiff));
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         String strCITitle = "              ***  " + String.valueOf(confidenceLevel) + "% Confidence interval for p\u2081 - p\u2082 ***";
         twoPropReport.add(strCITitle);
-        addNBlankLinesToTwoPropReport(2);    
+        addNBlankLinesToTwoPropReport(TWO);    
         twoPropReport.add("             p1 - p2      StandErr      ciLow    ciHigh");
-        addNBlankLinesToTwoPropReport(1); 
+        addNBlankLinesToTwoPropReport(ONE); 
         twoPropReport.add(String.format("             %6.4f       %6.3f      %6.3f    %6.3f",
                                                                                 diff_In_pHats,
                                                                                 stErrUnpooled,
                                                                                 ciDiff_Low,
                                                                                 ciDiff_High));  
         
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add(String.format("        Effect size (Cohen's H) = %5.3f",  effectSize)); 
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         
         if (!assumptionsAreOK()) {
             doFishersExact();
-            addNBlankLinesToTwoPropReport(2);
+            addNBlankLinesToTwoPropReport(TWO);
             twoPropReport.add(String.format("%50s",   "*** Warning: Your data do not satisfy the assumptions for the normal approximation. ***"));
-            addNBlankLinesToTwoPropReport(1);
+            addNBlankLinesToTwoPropReport(ONE);
             twoPropReport.add(String.format("%50s", "***  An alternative inference procedure in this circumstance is Fishers Exact Test. ***")); 
-            addNBlankLinesToTwoPropReport(2);
+            addNBlankLinesToTwoPropReport(TWO);
             twoPropReport.add(String.format("                    %15s %5.3f", "p-value for Fishers Exact Test = ", pValueFisher));
         }
     }
     
     private void printLessThan() {
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add("                   ***  Hypothesis Test  ***");
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add(String.format("           %15s", "       Null hypothesis:  Ho:p\u2081 - p\u2082 = 0"));
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         twoPropReport.add(String.format("           %15s", "Alternative hypothesis:  Ho:p\u2081 - p\u2082 < 0"));
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(ONE);
         twoPropReport.add(String.format("           %15s %6.3f", "           z-statistic: ", z_for_Pooled));
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         twoPropReport.add(String.format("           %15s %6.3f", "               p-Value: ", pValueDiff));
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         String strCITitle = "              ***  " + String.valueOf(confidenceLevel) + "% Confidence interval for p\u2081 - p\u2082 ***";
         twoPropReport.add(strCITitle);
         addNBlankLinesToTwoPropReport(2);
         twoPropReport.add("            p1 - p2      StandErr     ciLow    ciHigh");
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         twoPropReport.add(String.format("               %7.4f        %5.3f     %6.3f    %6.3f",
                                                                             diff_In_pHats,
                                                                             stErrUnpooled,
@@ -267,52 +284,52 @@ public class TwoProp_Inf_Model {
                                                                             ciDiff_High));  
         addNBlankLinesToTwoPropReport(2);
         twoPropReport.add(String.format("        Effect size (Cohen's H) = %5.3f",  effectSize)); 
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         
         if (!assumptionsAreOK()) {
             doFishersExact();
-            addNBlankLinesToTwoPropReport(2);
+            addNBlankLinesToTwoPropReport(TWO);
             twoPropReport.add(String.format("%50s",   "*** Warning: Your data do not satisfy the assumptions for the normal approximation. ***"));
-            addNBlankLinesToTwoPropReport(1);
+            addNBlankLinesToTwoPropReport(ONE);
             twoPropReport.add(String.format("%50s", "***  An alternative inference procedure in this circumstance is Fishers Exact Test. ***")); 
-            addNBlankLinesToTwoPropReport(2);
+            addNBlankLinesToTwoPropReport(TWO);
             twoPropReport.add(String.format("                    %15s %5.3f", "p-value for Fishers Exact Test = ", pValueFisher));
         }
     }
     
     private void printGreaterThan() {
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add("                   ***  Hypothesis Test  ***");
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add(String.format("           %15s", "       Null hypothesis:  Ho:p\u2081 - p\u2082 = 0"));
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         twoPropReport.add(String.format("           %15s", "Alternative hypothesis:  Ho:p\u2081 - p\u2082 > 0"));
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add(String.format("           %15s %6.3f", "           z-statistic: ", z_for_Pooled));
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         twoPropReport.add(String.format("           %15s %6.3f", "               p-Value: ", pValueDiff));
-        addNBlankLinesToTwoPropReport(2); 
+        addNBlankLinesToTwoPropReport(TWO); 
         String strCITitle = "              ***  " + String.valueOf(confidenceLevel) + "% Confidence interval for p\u2081 - p\u2082 ***";
         twoPropReport.add(strCITitle);
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add("             p1 - p2      StandErr     ciLow    ciHigh");
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         twoPropReport.add(String.format("             %6.4f        %5.3f     %6.3f    %6.3f",
                                                                             diff_In_pHats,
                                                                             stErrUnpooled,
                                                                             ciDiff_Low,
                                                                             ciDiff_High));  
-        addNBlankLinesToTwoPropReport(2);
+        addNBlankLinesToTwoPropReport(TWO);
         twoPropReport.add(String.format("        Effect size (Cohen's H) = %5.3f",  effectSize)); 
-        addNBlankLinesToTwoPropReport(1);
+        addNBlankLinesToTwoPropReport(ONE);
         
         if (!assumptionsAreOK()) {
             doFishersExact();
-            addNBlankLinesToTwoPropReport(2);
+            addNBlankLinesToTwoPropReport(TWO);
             twoPropReport.add(String.format("%50s",   "*** Warning: Your data do not satisfy the assumptions for the normal approximation. ***"));
-            addNBlankLinesToTwoPropReport(1);
+            addNBlankLinesToTwoPropReport(ONE);
             twoPropReport.add(String.format("%50s", "***  An alternative inference procedure in this circumstance is Fishers Exact Test. ***")); 
-            addNBlankLinesToTwoPropReport(2);
+            addNBlankLinesToTwoPropReport(TWO);
             twoPropReport.add(String.format("                    %15s %5.3f", "p-value for Fishers Exact Test = ", pValueFisher));
         }
     }
@@ -322,10 +339,10 @@ public class TwoProp_Inf_Model {
     //  with the pooled rule is that the sample sizes are nearly equal
     private boolean assumptionsAreOK() {
        boolean assumptionsOK;
-       assumptionsOK = ((nSuccesses_1 >= 10) && 
-                        (nSuccesses_2 >= 10) && 
-                        (nFailures_1 >= 10) && 
-                        (nFailures_2 >= 10));   
+       assumptionsOK = ((nSuccesses_1 >= TEN) && 
+                        (nSuccesses_2 >= TEN) && 
+                        (nFailures_1 >= TEN) && 
+                        (nFailures_2 >= TEN));   
        return assumptionsOK;
     }
     
@@ -373,16 +390,25 @@ public class TwoProp_Inf_Model {
         return cohensH;
     }
     
+    public BivCat2x_Model getBivCat2xModel() {return bivCat2x_Model; }
     public ArrayList<String> getStringsToPrint() { return twoPropReport; }
-    public String getReturnStatus() { return returnStatus; }
+    public String getReturnStatus() { return strReturnStatus; }
+    public void setReturnStatus(String daReturnStatus) { 
+        strReturnStatus = daReturnStatus; 
+    }
     public int getConfidenceLevel() {return confidenceLevel; }
     public Point_2D getLowEnds() {return lowEnds; }
     public Point_2D getHighEnds() {return highEnds; }
     public Point_2D getPHats() {return pHats; }   
-    public String getP1_Descr() { return prop1_Descr; }
-    public String getP2_Descr() { return prop2_Descr; }
-    public String getTheTitle() { return title_Descr; }    
+    public String getFirstProp_Label() { return firstProp_Label; }
+    public String getSecondProp_Label() { return secondProp_Label; }
+    public String getTheVariable() { return variableOfInterest; }    
     public double getDiffInPHats() { return diff_In_pHats; }
     public Point_2D getCIDiff() { return ciDiff; }
+    
+    public int getVar1Succeses() { return nSuccesses_1; }
+    public int getVar1Failures() { return nFailures_1; }
+    public int getVar2Succeses() { return nSuccesses_2; }
+    public int getVar2Failures() { return nFailures_2; }
 }
 

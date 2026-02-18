@@ -105,12 +105,12 @@ public class MultUni_Controller {
             
             multUni_Tidy_Dialog = new MultUni_Tidy_Dialog( dm);
             multUni_Tidy_Dialog.showAndWait();
-            strReturnStatus = multUni_Tidy_Dialog.getReturnStatus();
+            strReturnStatus = multUni_Tidy_Dialog.getStrReturnStatus();
             if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
             goodToGo = multUni_Tidy_Dialog.getGoodToGO();
             
             if (!goodToGo) {
-                strReturnStatus = multUni_Tidy_Dialog.getReturnStatus();
+                strReturnStatus = multUni_Tidy_Dialog.getStrReturnStatus();
                 return "Cancel";
             }
             
@@ -159,7 +159,7 @@ public class MultUni_Controller {
         strReturnStatus = "OK";
         multUni_TI8x_Dialog = new MultUni_TI8x_Dialog( dm );
         multUni_TI8x_Dialog.show_NS_Dialog();
-        strReturnStatus = multUni_TI8x_Dialog.getReturnStatus();
+        strReturnStatus = multUni_TI8x_Dialog.getStrReturnStatus();
         
         if (!strReturnStatus.equals("OK")) { return strReturnStatus; }
         // else...
@@ -231,7 +231,7 @@ public class MultUni_Controller {
         multUni_Dashboard.populateTheBackGround();
         multUni_Dashboard.putEmAllUp();
         multUni_Dashboard.showAndWait();
-        strReturnStatus = multUni_Dashboard.getReturnStatus();
+        strReturnStatus = multUni_Dashboard.getStrReturnStatus();
         strReturnStatus = "Ok";
         return strReturnStatus;        
     }

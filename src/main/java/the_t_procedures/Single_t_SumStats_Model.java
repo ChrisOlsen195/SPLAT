@@ -1,7 +1,7 @@
 /**************************************************
  *             Single_t_SumStats_Model            *
- *                    02/15/25                    *
- *                     09:00                      *
+ *                    12/13/25                    *
+ *                     18:00                      *
  *************************************************/
 
 package the_t_procedures;
@@ -13,8 +13,8 @@ import utilityClasses.*;
 
 public class Single_t_SumStats_Model {
     // POJOs
-    boolean printTheStuff = true;
-    //boolean printTheStuff = false;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int df, n, confidenceLevel;
     
@@ -34,14 +34,14 @@ public class Single_t_SumStats_Model {
                                        Single_t_SumStats_Dialog oneMeanDialog) {
         this.single_t_SummaryStats_Controller = single_t_SummaryStats_Controller;
         this.oneMeanDialog = oneMeanDialog;
-        if (printTheStuff == true) {
-            System.out.println("38 *** Single_t_SumStats_Model, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 38 Single_t_SumStats_Model, Constructing");
         }
     }
     
     public String doSingleTAnalysis() {
-        if (printTheStuff == true) {
-            System.out.println("44 --- Single_t_SumStats_Model, doSingleTAnalysis()");
+        if (printTheStuff) {
+            System.out.println("*** 44 Single_t_SumStats_Model, doSingleTAnalysis()");
         }
         returnStatus = "OK";
         altHypothesis = single_t_SummaryStats_Controller.getHypotheses();
@@ -83,12 +83,11 @@ public class Single_t_SumStats_Model {
     }
     
     public void printStatistics() {
-        if (printTheStuff == true) {
-            System.out.println("87 --- Single_t_SumStats_Model, printStatistics()");
+        if (printTheStuff) {
+            System.out.println("*** 87 Single_t_SumStats_Model, printStatistics()");
         }
         double tLow, tHigh;
-        singleMeanReport = new ArrayList();  
-        
+        singleMeanReport = new ArrayList();          
         switch (altHypothesis) {
             case "NotEqual":  
                 critical_t = tDist.getCriticalT(0.025);                
@@ -127,7 +126,6 @@ public class Single_t_SumStats_Model {
                 break;
         
             case "LessThan":
-                System.out.println("109 singleTsumstats, doing LessThan");
                 critical_t = tDist.getCriticalT(0.05);
                 tHigh = critical_t ;
                 ciMean_Low = xBar - critical_t * stErr;
@@ -160,7 +158,6 @@ public class Single_t_SumStats_Model {
                 break;
             
             case "GreaterThan":
-                System.out.println("138 singleTsumstats, doing GreaterThan");
                 critical_t = tDist.getCriticalT(0.05);
                 tLow = critical_t ;
                 ciMean_Low = xBar - critical_t * stErr;
@@ -193,15 +190,15 @@ public class Single_t_SumStats_Model {
                 break;
             
             default: 
-                String switchFailure = "Switch failure: Single t SumStats_Model 185 " + altHypothesis;
+                String switchFailure = "Switch failure: Single t SumStats_Model 193 " + altHypothesis;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 break;
             }          
     }
     
 private void printSummaryInformation() {
-    if (printTheStuff == true) {
-        System.out.println("204 --- Single_t_SumStats_Model, printSummaryInformation()");
+    if (printTheStuff) {
+        System.out.println("*** 201 Single_t_SumStats_Model, printSummaryInformation()");
     }
     addNBlankLinesToOneMeanReport(2);
     singleMeanReport.add("                       *** Summary information ***   ");

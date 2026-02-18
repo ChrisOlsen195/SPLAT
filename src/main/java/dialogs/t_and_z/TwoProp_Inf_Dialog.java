@@ -1,6 +1,6 @@
 /************************************************************
- *                  TwoProp_Inference_Dialog                *
- *                          01/15/25                        *
+ *                     TwoProp_Inf_Dialog                   *
+ *                          12/13/25                        *
  *                            18:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
@@ -31,8 +31,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 import smarttextfield.*;
+import the_z_procedures.TwoProp_Inf_Model;
 
-public class TwoProp_Inference_Dialog extends Splat_Dialog { 
+public class TwoProp_Inf_Dialog extends Splat_Dialog { 
     
     // POJOs
     //boolean printTheStuff = true;
@@ -40,14 +41,14 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     
     boolean valuesLeftBlank;
     boolean bool_Prop1Good, bool_Prop2Good, bool_Succ1Good, bool_Succ2Good, 
-            bool_N1Good, bool_N2Good; //, bool_AlphaGood;
+            bool_N1Good, bool_N2Good;
     boolean allFieldsGood;
     
     int succ1, succ2, n1, n2, alphaIndex, ciIndex;
     
-    double prop1, prop2, significanceLevel, /*confidenceLevel,*/ daNullDiff;
+    double prop1, prop2, significanceLevel, daNullDiff;
     double hypothesizedDifference;
-    double[] theAlphaLevs; //, theCILevs; 
+    double[] theAlphaLevs;
     
     String strHypNE, strHypLT, strHypGT, strHypNull, strNullAndAlt, strAltHypChosen,  
            str_Group1_Title, str_Group1_SumInfo, str_OROne, str_Group1_N,
@@ -58,6 +59,7 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     // My classes
     SmartTextFieldsController stf_Controller;
     SmartTextFieldDoublyLinkedSTF al_STF;
+    TwoProp_Inf_Model twoProp_Inf_Model; 
     
     // JavaFX POJOs
     Button btn_ChangeNull, btn_Reset;
@@ -70,7 +72,7 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
 
     Label lblNullAndAlt, lbl_Title, ciLabel, alphaLabel, lblProp_1, 
           lblProp_2, lblTitle;
-    RadioButton rb_HypNE, rb_HypLT, rb_HypGT; // , rb_HypNull;
+    RadioButton rb_HypNE, rb_HypLT, rb_HypGT;
     Scene scene;
     Separator sep_NullsFromInf, sep_InfFromNumbers, sep_MiddleAndVars,
               sep_Prop1_and_Prop2, sep_Alpha, sep, sep_VarsAndBottom;  
@@ -78,17 +80,18 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     Text txt_Group1_Title, txt_Group1_SumInfo, txt_OROne, txt_Group1_N,
          txt_Group2_Title, txt_Group2_SumInfo, txt_ORTwo, txt_Group2_N;
     
-    TextField tf_Prop_1, tf_Prop_2, tf_Title;
+    TextField tf_Prop_1_Label, tf_Prop_2_Label, tf_Variable;
 
     ObservableList<String> ciLevels, alphaLevels;
     ListView<String> ciView, alphaView;
 
-    public TwoProp_Inference_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("88 *** TwoProp_Inference_Dialog, Constructing");
+
+    public TwoProp_Inf_Dialog(TwoProp_Inf_Model twoProp_Inf_Model) {
+        if (printTheStuff) {
+            System.out.println("*** 91 TwoProp_Inference_Dialog, Constructing");
         }
+        this.twoProp_Inf_Model = twoProp_Inf_Model;
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
-        // theCILevs = new double[] {0.90, 0.95, 0.99};
         sep = new Separator();
         sep.setOrientation(Orientation.VERTICAL);
 
@@ -144,7 +147,9 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     }  
     
     private void makeNullsPanel() { 
-        //System.out.println("142, TwoPropInfDialog, makeNullsPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 151 TwoPropInfDialog, makeNullsPanel()");
+        }
         vBox_NullsPanel = new VBox();
 
         strAltHypChosen = "NotEqual";
@@ -220,7 +225,9 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     }
  
     private void makeNumericValuesPanel() {
-        //System.out.println("218, TwoPropInfDialog, makeNumericValuesPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 229, TwoPropInfDialog, makeNumericValuesPanel()");
+        } 
         vBox_NumValsPanel = new VBox();
         vBox_Group_1 = new VBox();
         vBox_Group_1.setAlignment(Pos.CENTER);
@@ -350,7 +357,9 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     }
     
     private void makeInfDecisionsPanel() {
-        //System.out.println("348, TwoPropInfDialog, makeInfDecisionsPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 361, TwoPropInfDialog, makeInfDecisionsPanel()");
+        } 
         hypothesizedDifference = 0.;
         daNullDiff = 0.0;
        
@@ -408,35 +417,37 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     }
     
     private void makeVariableDefPanel() {
-        //System.out.println("406, TwoPropInfDialog, makeVariableDefPanel()");
-        lblProp_1 = new Label(" Prop 1 Label: ");
-        lblProp_2 = new Label(" Prop 2 Label: ");
-        lblTitle  = new Label("        Title: ");
+        if (printTheStuff) {
+            System.out.println("*** 421, TwoPropInfDialog, makeVariableDefPanel()");
+        } 
+        lblProp_1 = new Label("  Treat/Grp 1: ");
+        lblProp_2 = new Label("  Treat/Grp 2: ");
+        lblTitle  = new Label("     Variable: ");
 
-        tf_Prop_1 = new TextField("First prop");
-        tf_Prop_2 = new TextField("Second prop");
-        tf_Title  = new TextField("Title ");
+        tf_Prop_1_Label = new TextField("Sample 1");
+        tf_Prop_2_Label = new TextField("Sample 2");
+        tf_Variable  = new TextField("Variable ");
         
-        tf_Prop_1.setPrefColumnCount(15);
-        tf_Prop_2.setPrefColumnCount(15);
-        tf_Title.setPrefColumnCount(15);
+        tf_Prop_1_Label.setPrefColumnCount(15);
+        tf_Prop_2_Label.setPrefColumnCount(15);
+        tf_Variable.setPrefColumnCount(15);
         
-        tf_Prop_1.textProperty().addListener(this::changeProp_1_Description);
-        tf_Prop_2.textProperty().addListener(this::changeProp_2_Description);
-        tf_Title.textProperty().addListener(this::changeTitle_Description);
+        tf_Prop_1_Label.textProperty().addListener(this::changeProp_1_Description);
+        tf_Prop_2_Label.textProperty().addListener(this::changeProp_2_Description);
+        tf_Variable.textProperty().addListener(this::changeTitle_Description);
 
         gridChoicesMade = new GridPane();
         gridChoicesMade.setHgap(10);
         gridChoicesMade.setVgap(15);        
         gridChoicesMade.add(lblProp_1, 0, 0);
         gridChoicesMade.add(lblProp_2, 0, 1);        
-        gridChoicesMade.add(tf_Prop_1, 1, 0);
-        gridChoicesMade.add(tf_Prop_2, 1, 1);        
+        gridChoicesMade.add(tf_Prop_1_Label, 1, 0);
+        gridChoicesMade.add(tf_Prop_2_Label, 1, 1);        
         gridChoicesMade.add(lblTitle, 0, 2);
-        gridChoicesMade.add(tf_Title, 1, 2);
+        gridChoicesMade.add(tf_Variable, 1, 2);
         
-        GridPane.setValignment(tf_Prop_1, VPos.BOTTOM);
-        GridPane.setValignment(tf_Prop_2, VPos.BOTTOM);
+        GridPane.setValignment(tf_Prop_1_Label, VPos.BOTTOM);
+        GridPane.setValignment(tf_Prop_2_Label, VPos.BOTTOM);
         gridChoicesMade.setPadding(new Insets(0, 10, 0, 0));
         
         vBox_VarsPanel = new VBox(10);
@@ -446,7 +457,9 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     }
     
     private void makeBottomPanel() { 
-        //System.out.println("444, TwoPropInfDialog, makeBottomPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 461, TwoPropInfDialog, makeBottomPanel()");
+        } 
         hBox_BottomPanel = new HBox(10);
         hBox_BottomPanel.setAlignment(Pos.CENTER);
         hBox_BottomPanel.setPadding(new Insets(5, 5, 5, 5));
@@ -467,12 +480,16 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     });
         
         setOnCloseRequest((WindowEvent t) -> {
-            strReturnStatus = "WindowClosed";
+            twoProp_Inf_Model.setReturnStatus("CloseWindow");
             close();
         });
         
         btnCancel.setOnAction((ActionEvent event) -> {
+        if (printTheStuff) {
+            System.out.println("--- 489, TwoPropInfDialog, btnCancel.setOnAction");
+        }
             strReturnStatus = "Cancel";
+            twoProp_Inf_Model.setReturnStatus("Cancel");
             close();
         });
 
@@ -510,28 +527,24 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     public void changeProp_1_Description(ObservableValue<? extends String> prop,
         String oldValue,
         String newValue) {
-        tf_Prop_1.setText(newValue); 
-        //System.out.println("509, TwoPropInfDialog");
+        tf_Prop_1_Label.setText(newValue); 
     }
 
     public void changeProp_2_Description(ObservableValue<? extends String> prop,
         String oldValue,
         String newValue) {
-        tf_Prop_2.setText(newValue); 
-        //System.out.println("516, TwoPropInfDialog");
+        tf_Prop_2_Label.setText(newValue); 
     }  
     
     public void changeTitle_Description(ObservableValue<? extends String> title,
         String oldValue,
         String newValue) {
-        tf_Title.setText(newValue); 
-        //System.out.println("523, TwoPropInfDialog");
+        tf_Variable.setText(newValue); 
     } 
     
     
     // The evaluations here will be specific to the dialog
     private boolean checkForMissing() {
-        //System.out.println("529, TwoPropInfDialog, checkForMissing()");
         boolGoodToGo = true;
         valuesLeftBlank = false;
         
@@ -549,7 +562,9 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     }
         
     private boolean checkLegal() {
-        //System.out.println("547, TwoPropInfDialog, checkLegal()");
+        if (printTheStuff) {
+           System.out.println("*** 566, TwoPropInfDialog, checkLegal()");
+        }
         boolGoodToGo = true;
         bool_Prop1Good = DataUtilities.txtFieldHasProp(al_STF.get(0).getTextField());
         bool_Prop2Good = DataUtilities.txtFieldHasProp(al_STF.get(3).getTextField());
@@ -559,22 +574,18 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
             boolGoodToGo = false;
             strReturnStatus = "BadProportion";
         }
-        
-        //System.out.println("558, TwoPropInfDialog, checkLegal()");
-        
+
         if (boolGoodToGo) {  
             boolean choices_1_good = (bool_Succ1Good || bool_Prop1Good) && bool_N1Good;
             boolean choices_2_good = (bool_Succ2Good || bool_Prop2Good) && bool_N2Good;
             allFieldsGood = choices_1_good && choices_2_good;
             
             if (!allFieldsGood) {
-                //System.out.println("566, TwoPropInfDialog, checkLegal()");
                 MyAlerts.showGenericBadNumberAlert(" a positive integer ");
                 boolGoodToGo = false;
                 strReturnStatus = "BadCountField";
             }
         }
-        //System.out.println("572, TwoPropInfDialog, checkLegal()");
         return boolGoodToGo;
     }
 
@@ -585,22 +596,21 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     *************************************************************************/
     
     public boolean checkAndHandlelProportionEntered(int theProp, SmartTextField theSTF) {
+        if (printTheStuff) {
+           System.out.println("*** 600, TwoPropInfDialog, checkAndHandlelProportionEntered()");
+        }
         boolean propIsGood = false; 
         int whichProp = theProp;
         double goodProp;
         
         propIsGood = DataUtilities.txtFieldHasProp(theSTF.getTextField());
-        //System.out.println("588 TwoProp_Inf_Dialog, propIsGood = " + propIsGood);
         //  If it really was a number, check for Prop
         if (!propIsGood) {
              MyAlerts.showGenericBadNumberAlert(" a bad fraction or decimal ");
              theSTF.setText("");
         }    
         else {
-            //goodProp = Double.valueOf(theSTF.getText());
-            goodProp = Double.parseDouble(theSTF.getText());
-            //System.out.println("597 TwoProp_Inf_Dialog, goodProp = " + goodProp);
-            
+            goodProp = Double.parseDouble(theSTF.getText());  
             if (whichProp == 1) {
                 prop1 = goodProp;
                 bool_Prop1Good = true;
@@ -616,7 +626,6 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
                 }
             } else if (whichProp == 2) {
                 prop2 = goodProp;
-                //System.out.println("614 TwoProp_Inf_Dialog, goodProp = " + goodProp);
                 bool_Prop2Good = true;
                 bool_N2Good = DataUtilities.strIsAPosInt(al_STF.get(5).getText());
                 bool_Succ2Good = DataUtilities.strIsAPosInt(al_STF.get(4).getText());
@@ -640,7 +649,6 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     *************************************************************************/
     
     public boolean checkAndHandleSuccessesEntered(int theSucc, SmartTextField theSTF) {
-        // boolean succIsGood = true;
         int goodSucc;
         int whichSucc = theSucc;
         if (theSTF.getText().isEmpty()) {
@@ -711,7 +719,6 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
     *************************************************************************/
         
     public boolean checkAndHandleSampleSizeEntered(int theSS, SmartTextField theSTF) {
-        //boolean nIsGood = true;
         int goodN;
         int whichSS = theSS;
         if (theSTF.getText().isEmpty()) { return false; }
@@ -772,19 +779,19 @@ public class TwoProp_Inference_Dialog extends Splat_Dialog {
             return false;            
         }
     }   
-    
+
     public double getLevelOfSignificance() { return significanceLevel; }
     public String getAltHypothesis() { return strAltHypChosen; }    
     public double getHypothesizedDiff() { return hypothesizedDifference; }   
     public int getN1() { return n1; }    
     public int getN2() { return n2; }    
+    public int getSuccesses1() { return succ1; }    
+    public int getSuccesses2() { return succ2; }   
     public double getP1() {return prop1; }
     public double getP2() {return prop2; }    
-    public String getP1Label() { return tf_Prop_1.getText(); }
-    public String getP2Label() { return tf_Prop_2.getText(); }
-    public String getTheTitle() { return tf_Title.getText(); }    
-    public int getX1() { return succ1; }   
-    public int getX2() { return succ2; }    
+    public String getProp_1_Label() { return tf_Prop_1_Label.getText(); }
+    public String getProp_2_Label() { return tf_Prop_2_Label.getText(); }
+    public String getTheVariable() { return tf_Variable.getText(); }       
     public double getTheNullDiff() { return daNullDiff; }
 }
 

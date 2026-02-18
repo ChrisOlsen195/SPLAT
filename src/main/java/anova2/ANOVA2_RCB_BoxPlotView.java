@@ -1,6 +1,6 @@
 /**************************************************
  *                RCB_BoxPlotView                 *
- *                  03/22/25                      *
+ *                  12/16/25                      *
  *                    21:00                       *
  *************************************************/
 package anova2;
@@ -23,8 +23,8 @@ public class ANOVA2_RCB_BoxPlotView extends ANOVA2_RCB_BoxCircleInterActView {
         super(anova2_Model, rcb_Dashboard, placeHoriz, placeVert,
             withThisWidth, withThisHeight);
 
-        //waldoFile = "";
-        waldoFile = "RCB_BoxPlotView";
+        //waldoFile = "RCB_BoxPlotView";
+        waldoFile = "";
         dm.whereIsWaldo(24, waldoFile, "Constructing");
         strTitle2 = "Boxy Woxy Twozie";
         whiskerEndRanks = new int[2]; 

@@ -26,7 +26,6 @@ import splat.*;
 import utilityClasses.MyAlerts;
 
 public class Explore_2Ind_TI8x_Dialog extends Splat_Dialog {
-
     // POJOs
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
@@ -266,7 +265,7 @@ public class Explore_2Ind_TI8x_Dialog extends Splat_Dialog {
             tfSecondVar.setText(newValue); 
     }
 
-    public String getReturnStatus() { 
+    public String getStrReturnStatus() { 
         if (printTheStuff == true) {
             System.out.println("263 --- Explore_2Ind_TI8x_Dlg strReturnStatus = " + strReturnStatus);
         } 

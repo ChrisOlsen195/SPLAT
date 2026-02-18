@@ -1,7 +1,7 @@
 /************************************************************
  *                      QuadReg_Controller                  *
- *                          11/03/23                        *
- *                            12:00                         *
+ *                          12/31/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package quadraticRegression;
 
@@ -17,7 +17,7 @@ import utilityClasses.PrintExceptionInfo;
 public class QuadReg_Controller {
     // POJOs
     private String explanatoryVariable, responseVariable, subTitle, 
-            saveTheResids, saveTheHats, returnStatus;
+            saveTheResids, saveTheHats, strReturnStatus;
     
     String waldoFile;
     
@@ -50,9 +50,9 @@ public class QuadReg_Controller {
             Regr_Dialog regressionDialog = new Regr_Dialog(dm, "QUANTITATIVE", "Quadratic regression");
 
             regressionDialog.showAndWait();
-            returnStatus = regressionDialog.getReturnStatus();
+            strReturnStatus = regressionDialog.getStrReturnStatus();
             
-            if (!returnStatus.equals("OK")) { return returnStatus; }
+            if (!strReturnStatus.equals("OK")) { return strReturnStatus; }
 
             explanatoryVariable = regressionDialog.getPreferredFirstVarDescription();
             responseVariable = regressionDialog.getPreferredSecondVarDescription();
@@ -69,8 +69,8 @@ public class QuadReg_Controller {
             else
             {
                 MyAlerts.showNoLegalBivDataAlert();
-                returnStatus = "Cancel";
-                return returnStatus;
+                strReturnStatus = "Cancel";
+                return strReturnStatus;
             }
 
             qdv_XVariable = new QuantitativeDataVariable("qdRegCont75", "qdRegCont75", data.get(0));
@@ -84,14 +84,14 @@ public class QuadReg_Controller {
             quadReg_Dashboard.populateTheBackGround();
             quadReg_Dashboard.putEmAllUp();
             quadReg_Dashboard.showAndWait();
-            returnStatus = quadReg_Dashboard.getReturnStatus();
-            returnStatus = "Ok";
-            return returnStatus;
+            strReturnStatus = quadReg_Dashboard.getStrReturnStatus();
+            strReturnStatus = "Ok";
+            return strReturnStatus;
         }
         catch (Exception ex) { // Constructs stack trace?
             PrintExceptionInfo pei = new PrintExceptionInfo(ex, "RegressionProcedure");
         }     
-        return returnStatus;
+        return strReturnStatus;
     }
     
     public Data_Manager getDataManager() { return dm; }

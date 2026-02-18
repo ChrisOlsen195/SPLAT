@@ -1,7 +1,7 @@
 /**************************************************
  *                   YesNoAlert                   *
- *                    02/15/25                    *
- *                      12:00                     *
+ *                    12/16/25                    *
+ *                      09:00                     *
  *************************************************/
 package utilityClasses;
 
@@ -27,6 +27,8 @@ import javafx.stage.WindowEvent;
 public class YesNoAlert extends Stage {
     
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
     double alertTitleBoxWidth, alertTitleBoxHeight,
            alertHeaderBoxWidth, alertHeaderBoxHeight, 
@@ -57,6 +59,9 @@ public class YesNoAlert extends Stage {
                       double imageOffSetY,
                       int horizImageSpace,
                       int fitWidth) {
+        if (printTheStuff) {
+            System.out.println("*** 63 YesNoAlert, strAlertTitle = " + strAlertTitle);
+        }
         this.theYes = theYes;
         this.theNo = theNo;
         

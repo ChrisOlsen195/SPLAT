@@ -114,7 +114,8 @@ public class X2Assoc_Dashboard extends Dashboard {
         assocPrintAdvStatsContainingPane = x2Assoc_PrintAdvStats.getTheContainingPane();
         assocPrintAdvStatsContainingPane.setStyle(containingPaneStyle);
 
-        initHeight[3] = 600;
+        initWidth[3] = 800;
+        initHeight[3] = 700;
         x2Assoc_MosaicPlotView = new X2Assoc_MosaicPlotView(x2assoc_Model, this, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
         x2Assoc_MosaicPlotView.completeTheDeal();
         mosaicPlotContainingPane = x2Assoc_MosaicPlotView.getTheContainingPane();

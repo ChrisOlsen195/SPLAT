@@ -1,7 +1,7 @@
 /**************************************************
  *         DataStructChoice_Dialog_t_SingleMean   *
- *                    01/21/25                    *
- *                      15:00                     *
+ *                    12/13/25                    *
+ *                      18:00                     *
  *************************************************/
 package dialogs.t_and_z;
 
@@ -43,8 +43,8 @@ public class DataStructChoice_Dialog_t_Single_Mean extends Stage {
     Single_t_Controller single_t_Controller;
      
     public DataStructChoice_Dialog_t_Single_Mean( Single_t_Controller single_t_Controller) {
-        if (printTheStuff == true) {
-            System.out.println("47 *** DataStructChoice_Dialog_t_Single_Mean, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 47 DataStructChoice_Dialog_t_Single_Mean, Constructing");
         }
         this.single_t_Controller = single_t_Controller;
         single_t_Controller.setDataOrSummary("Bailed"); // The default
@@ -52,8 +52,8 @@ public class DataStructChoice_Dialog_t_Single_Mean extends Stage {
     }
     
     private void finishTheJob() {
-        if (printTheStuff == true) {
-            System.out.println("56 --- DataStructChoice_Dialog_t_Single_Mean, finishTheJob()");
+        if (printTheStuff) {
+            System.out.println("*** 56 DataStructChoice_Dialog_t_Single_Mean, finishTheJob()");
         }
         alertTitleFont = Font.font("Times New Roman", FontWeight.BOLD, 24);
         alertContextFont = Font.font("Times New Roman", FontWeight.BOLD, 18);

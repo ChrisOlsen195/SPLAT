@@ -1,7 +1,7 @@
 /**************************************************
  *              Single_t_PDFView                  *
- *                  02/19/24                      *
- *                    15:00                       *
+ *                  12/16/25                      *
+ *                    00:00                       *
  *************************************************/
 package the_t_procedures;
 
@@ -41,8 +41,8 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
     String hypotheses;
     String[] hBoxCheckBoxDescr;
     
-    //String waldoFile = "Single_t_PDFView";
-    String waldoFile = "";
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
     // My classes  
     Data_Manager dm;    
@@ -60,7 +60,9 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         dm = single_t_Model.getDataManager();
-        dm.whereIsWaldo(59, waldoFile, "*** Constructing");        
+        if (printTheStuff) {
+            System.out.println("*** 64 Single_t_PDFView, Constructing");
+        }        
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         
@@ -75,7 +77,9 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        System.out.println("74 Single_t_PDFView, constructing");
+        if (printTheStuff) {
+            System.out.println("*** 81 Single_t_PDFView, Constructing");
+        } 
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         
@@ -86,7 +90,10 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
         pValue = single_t_SumStats_Model.getPValue();   
     }
     
-    public void doTheRest() {        
+    public void doTheRest() {     
+        if (printTheStuff) {
+            System.out.println("*** 95 Single_t_PDFView, doTheRest()");
+        }
         nCheckBoxes = 2;
         hBoxCheckBoxDescr = new String[nCheckBoxes];
         hBoxCheckBoxDescr[0] = " Identify P-value ";
@@ -132,6 +139,9 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
     }  
         
     public void makeTheCheckBoxes() {
+        if (printTheStuff) {
+            System.out.println("*** 143 Single_t_PDFView, makeTheCheckBoxes()");
+        }
         hBoxCheckBoxSettings = new boolean[nCheckBoxes];
         for (int ithSetting = 0; ithSetting < nCheckBoxes; ithSetting++) {
             hBoxCheckBoxSettings[ithSetting] =  false;
@@ -190,6 +200,9 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
     }
   
     private void makeItHappen() {
+        if (printTheStuff) {
+            System.out.println("*** 204 Single_t_PDFView, makeItHappen()");
+        }
         theContainingPane = new Pane();        
         gc = graphCanvas.getGraphicsContext2D();
         gc.setFont(Font.font("Times New Roman", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 14));
@@ -210,6 +223,9 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
         
     @Override
     protected void setUpUI() { 
+        if (printTheStuff) {
+            System.out.println("*** 227 Single_t_PDFView, setUpUI()");
+        }
         String title2String;
         txtTitle1 = new Text(50, 25, " t test");
         
@@ -226,6 +242,9 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
     }
     
     public void setUpAnchorPane() {
+        if (printTheStuff) {
+            System.out.println("*** 246 Single_t_PDFView, setUpAnchorPane()");
+        }
         dragableAnchorPane = new DragableAnchorPane();
         graphCanvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
         graphCanvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
@@ -250,6 +269,9 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
     
     @Override
     public void initializeGraphParameters() {
+        if (printTheStuff) {
+            System.out.println("*** 273 Single_t_PDFView, initializeGraphParameters()");
+        }
         initialInterval[0] = tDistr.quantile((1.0 - MIDDLE_T) / 2.0);
         initialInterval[1] = - initialInterval[0];         
          
@@ -271,6 +293,9 @@ public class Single_t_PDFView extends BivariateScale_W_CheckBoxes_View {
     }
 
     private void prepareTheDensityAxis() {
+        if (printTheStuff) {
+            System.out.println("*** 297 Single_t_PDFView, prepareTheDensityAxis()");
+        } 
         xGraphLeft = fromHere;   
         xGraphRight = toThere;
         bigDelta = (xGraphRight - xGraphLeft) / NUMBER_OF_DXs;

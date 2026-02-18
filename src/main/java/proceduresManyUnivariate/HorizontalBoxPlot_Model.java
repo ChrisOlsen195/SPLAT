@@ -1,7 +1,7 @@
 /**************************************************
  *              HorizontalBoxPlot_Model           *
- *                    02/02/25                    *
- *                      12:00                     *
+ *                    01/31/26                    *
+ *                      18:00                     *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -25,8 +25,9 @@ public class HorizontalBoxPlot_Model {
     ArrayList<QuantitativeDataVariable> allTheQDVs;
 
     public HorizontalBoxPlot_Model(String descriptionOfVariable, QuantitativeDataVariable theQDV) {
-        if (printTheStuff == true) {
-            System.out.println("29 *** HorizontalBoxPlot_Model, constructing");
+        if (printTheStuff) {
+            System.out.println("*** 29 HorizontalBoxPlot_Model, constructing from QDV");
+            //System.out.println("--- 30 HorizontalBoxPlot_Model, theQDV = " + theQDV.toString());
         }
         
         allTheQDVs = new ArrayList<>();
@@ -38,8 +39,8 @@ public class HorizontalBoxPlot_Model {
     
     // This constructor is for a single set of data
     public HorizontalBoxPlot_Model(Single_t_Controller single_t_Controller, String descriptionOfVariable, QuantitativeDataVariable theQDV) {
-        if (printTheStuff == true) {
-            System.out.println("42 *** HorizontalBoxPlot_Model, constructing");
+        if (printTheStuff) {
+            System.out.println("*** 42 HorizontalBoxPlot_Model, constructing from Single_t_Controller");
         }
         allTheQDVs = new ArrayList<>();
         allTheQDVs.add(theQDV);
@@ -54,8 +55,8 @@ public class HorizontalBoxPlot_Model {
 
     // This constructor is for two indep data sets
     public HorizontalBoxPlot_Model(Explore_2Ind_Controller explore_2Ind_Controller, String descriptionOfVariable, ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        if (printTheStuff == true) {
-            System.out.println("58 *** HorizontalBoxPlot_Model, constructing");
+        if (printTheStuff) {
+            System.out.println("58 *** HorizontalBoxPlot_Model, constructing from Explore_2Ind_Controller");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;
@@ -70,8 +71,8 @@ public class HorizontalBoxPlot_Model {
     
     // This constructor is for independent t
     public HorizontalBoxPlot_Model(Indep_t_Controller indep_t_Controller, String descriptionOfVariable, ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        if (printTheStuff == true) {
-            System.out.println("74 *** HorizontalBoxPlot_Model, constructing");
+        if (printTheStuff) {
+            System.out.println("74 *** HorizontalBoxPlot_Model, constructing from Indep_t_Controller");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;
@@ -86,8 +87,8 @@ public class HorizontalBoxPlot_Model {
     
         // This constructor is for ANCOVA -- Labels/Descr handled externally
     public HorizontalBoxPlot_Model(ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        if (printTheStuff == true) {
-            System.out.println("90 *** HorizontalBoxPlot_Model, constructing");
+        if (printTheStuff) {
+            System.out.println("*** 90 HorizontalBoxPlot_Model, constructing from ANOVA");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;
@@ -97,13 +98,16 @@ public class HorizontalBoxPlot_Model {
     }
     
     public HorizontalBoxPlot_Model(MultUni_Model multUni_Model, ArrayList<QuantitativeDataVariable> allTheQDVs) {
-        if (printTheStuff == true) {
-            System.out.println("101 *** HorizontalBoxPlot_Model, constructing");
+        if (printTheStuff) {
+            System.out.println("*** 102 HorizontalBoxPlot_Model, constructing from MultUni_Model");
         }
         this.allTheQDVs = new ArrayList<>();
         this.allTheQDVs = allTheQDVs;
         n_QDVs = allTheQDVs.size();
         strSubTitle = multUni_Model.getSubTitle();
+        if (printTheStuff) {
+            System.out.println("--- 109 HorizontalBoxPlot_Model, strSubTitle = " + strSubTitle);
+        }
         collectAllTheLabels();          
     }
 
@@ -114,6 +118,9 @@ public class HorizontalBoxPlot_Model {
         categoryLabels = FXCollections.observableArrayList(); 
         for (int iVars = 0; iVars < n_QDVs; iVars++) {
             categoryLabels.add(allTheQDVs.get(iVars).getTheVarLabel());
+            if (printTheStuff) {
+                System.out.println("--- 121 HorizontalBoxPlot_Model, Label(ith) = " + allTheQDVs.get(iVars).getTheVarLabel());
+            }
         }   
     }
    

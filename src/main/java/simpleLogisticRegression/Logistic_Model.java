@@ -1,7 +1,7 @@
 /**************************************************
  *               LogisticReg_Model                *
- *                   04/23/25                     *
- *                     03:00                      *
+ *                   12/16/25                     *
+ *                     21:00                      *
  *************************************************/
 package simpleLogisticRegression;
 
@@ -53,7 +53,7 @@ public class Logistic_Model {
     String[] logisticEquation, twoCategories;
     
     // Make empty if no-print
-    //String waldoFile = "LogisticReg_Model";
+    //String waldoFile = "Logistic_Model";
     String waldoFile = "";
     
     // My classes
@@ -113,7 +113,6 @@ public class Logistic_Model {
         firstVarDescr = logReg_Controller.getFirstVarDescription();
         tf = new TableFormatter();
         twoCategories = logReg_Controller.getTwoCategories();
-        System.out.println("116 Logistic_Model, twoCategories = " + twoCategories[0] + " / " + twoCategories[1]);
     }
         
     public void doAllThatMathStuff() {        
@@ -504,7 +503,7 @@ public class Logistic_Model {
             
             logisticReport.add(String.format("                    %15s", "Response values:\n\n"));
             logisticReport.add(String.format("            %15s", "0 = " + twoCategories[0] + "\n"));
-            logisticReport.add(String.format("             %15s", "1 = " + twoCategories[1] + "\n\n"));
+            logisticReport.add(String.format("            %15s", "1 = " + twoCategories[1] + "\n\n"));
             
             String lrTable0 = "        **********     Logistic Regression Equation     **********\n\n";
 

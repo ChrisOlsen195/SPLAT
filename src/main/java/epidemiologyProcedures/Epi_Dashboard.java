@@ -105,7 +105,8 @@ public class Epi_Dashboard extends Dashboard {
         assocPrintAdvStatsContainingPane = epi_PrintAdvStats.getTheContainingPane();
         assocPrintAdvStatsContainingPane.setStyle(containingPaneStyle);
 
-        initWidth[1] = 600;
+        initWidth[1] = 800;
+        initHeight[1] = 600;
         epi_MosaicPlotView = new Epi_MosaicPlotView(epi_Model, this, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]);
         epi_MosaicPlotView.completeTheDeal();
         mosaicPlotContainingPane = epi_MosaicPlotView.getTheContainingPane();

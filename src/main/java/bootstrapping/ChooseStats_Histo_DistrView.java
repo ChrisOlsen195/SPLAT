@@ -56,7 +56,7 @@ public class ChooseStats_Histo_DistrView extends Super_ChooseStats_DistrView {
         chooseStats_Dashboard = chooseStats_Controller.getThe_Boot_Dashboard(); 
         nLegalDataPoints = this.chooseStats_DistrModel.getTheQDV().getLegalN();
         sortedData = new double[nLegalDataPoints];
-        sortedData = this.chooseStats_DistrModel.getUCDO().getTheDataSorted();
+        sortedData = this.chooseStats_DistrModel.getTheUCDO().getTheDataSorted();
     }
 
     public void continueConstruction() {    
@@ -79,8 +79,8 @@ public class ChooseStats_Histo_DistrView extends Super_ChooseStats_DistrView {
         graphCanvas = new Canvas(600, 600);
         gc = graphCanvas.getGraphicsContext2D();  
         btn_BinReset = new Button("Change bin width");
-        minDataRange = chooseStats_DistrModel.getUCDO().getMinValue();
-        maxDataRange = chooseStats_DistrModel.getUCDO().getMaxValue();
+        minDataRange = chooseStats_DistrModel.getTheUCDO().getMinValue();
+        maxDataRange = chooseStats_DistrModel.getTheUCDO().getMaxValue();
         
         btn_BinReset.setOnAction(e -> {
             change_Bins_Dialog = new Change_Bins_Dialog(minDataRange, maxDataRange);

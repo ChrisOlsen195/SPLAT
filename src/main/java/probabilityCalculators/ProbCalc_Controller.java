@@ -30,7 +30,7 @@ public class ProbCalc_Controller {
             probCalc_Dashboard.populateTheBackGround();
             probCalc_Dashboard.putEmAllUp();
             probCalc_Dashboard.showAndWait();
-            returnStatus = probCalc_Dashboard.getReturnStatus();
+            returnStatus = probCalc_Dashboard.getStrReturnStatus();
             return returnStatus;  
         }
         catch(Exception ex) {

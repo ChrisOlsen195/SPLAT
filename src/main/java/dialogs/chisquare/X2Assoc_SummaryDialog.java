@@ -1,7 +1,7 @@
 /****************************************************************************
  *                    X2Assoc_Summary_Dialog                                * 
- *                          01/22/25                                        *
- *                            00:00                                         *
+ *                          12/14/25                                        *
+ *                            15:00                                         *
  ***************************************************************************/
 package dialogs.chisquare;
 
@@ -74,8 +74,8 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
 
     public X2Assoc_SummaryDialog(X2Assoc_Model x2Assoc_Model) {   //  Constructor
         super();
-        if (printTheStuff == true) {
-            System.out.println("78 *** X2Assoc_SummaryDialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 78 X2Assoc_SummaryDialog, Constructing");
         }
         this.x2Assoc_Model = x2Assoc_Model;
         strAssocType = x2Assoc_Model.getAssociationType();
@@ -101,8 +101,8 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
  *                       Independence/Homogeneity                           * 
  ***************************************************************************/
     private void doX2ChosenPanel() {
-        if (printTheStuff == true) {
-            System.out.println("105 --- X2Assoc_SummaryDialog, doX2ChosenPanel()");
+        if (printTheStuff) {
+            System.out.println("--- 105 X2Assoc_SummaryDialog, doX2ChosenPanel()");
         }
         strCurControl = strX2Chosen;
         
@@ -132,27 +132,15 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
         al_RowCol_STF.get(3).getSmartTextField().getTextField().setPrefWidth(30);
         al_RowCol_STF.get(3).getSmartTextField().setText("");       
         gridPaneRowCol.add(al_RowCol_STF.get(3).getSmartTextField().getTextField(), 3, 3);
-        if (printTheStuff == true) {
-            System.out.println("136 --- X2Assoc_SummaryDialog, END doX2ChosenPanel()");
-        }
         
         armDirectionsButtons();
         al_RowCol_STF.get(0).getSmartTextField().getTextField().requestFocus();
         vBoxVisControl.getChildren().addAll(txt_Top, gridPaneRowCol, hBoxWhereToNext);
-
-        if (printTheStuff == true) {
-            System.out.println("144 X2Assoc_SummaryDlg, al_RowCol_STF = ...");
-            al_RowCol_STF.toString();
-        }
-
-        if (printTheStuff == true) {
-            System.out.println("149 --- X2Assoc_SummaryDialog, END doX2ChosenPanel()");
-        }
     }
     
     public void constructObservedValuesPanel() {
-        if (printTheStuff == true) {
-            System.out.println("155 --- X2Assoc_SummaryDialog, constructObservedValuesPanel()");
+        if (printTheStuff) {
+            System.out.println("--- 143 X2Assoc_SummaryDialog, constructObservedValuesPanel()");
         }
         strCurControl = strObserved;
         
@@ -198,14 +186,11 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
         
         armDirectionsButtons();
         vBoxVisControl.getChildren().addAll(txt_Bottom, borderPane_ObsValGrid, hBoxWhereToNext);
-        if (printTheStuff == true) {
-            System.out.println("202 --- X2Assoc_SummaryDialog, END constructObservedValuesPanel()");
-        }
     }
   
     private void initializeUIComponents() {   
-        if (printTheStuff == true) {
-            System.out.println("208 --- X2Assoc_SummaryDialog, initializeUIComponents()");
+        if (printTheStuff) {
+            System.out.println("--- 193 X2Assoc_SummaryDialog, initializeUIComponents()");
         }
     // **********************   Buttons  ***********************************
         btnCancel.setText("Return to Menu");
@@ -219,9 +204,6 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
         btnClearControl = new Button("Clear Entries");
         btnClearControl.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {   
-                if (printTheStuff == true) {
-                    System.out.println("223 --- X2Assoc_SummaryDialog, btnClearControl pressed");
-                }
                 switch (strCurControl) {
                     case strX2Chosen: 
                         al_RowCol_STF.get(0).getSmartTextField().setText(""); 
@@ -245,7 +227,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
                         break;
 
                     default:
-                        switchFailure = "Switch failure: X2Assoc_Summary_Dialog 246 " + strCurControl;
+                        switchFailure = "Switch failure: X2Assoc_Summary_Dialog 230 " + strCurControl;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);  
                     }   
             }
@@ -254,9 +236,6 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
         btnContinue = new Button("Continue");
         btnContinue.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-        if (printTheStuff == true) {
-            System.out.println("258 --- X2Assoc_SummaryDialog, Continue pressed");
-        }
                 switch (strCurControl) {
                     case strX2Chosen:                        
                         if (checkOKChosen()) {                          
@@ -302,10 +281,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
         
         btnGoBack = new Button("goBack");
         btnGoBack.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) { 
-        if (printTheStuff == true) {
-            System.out.println("307 --- X2Assoc_SummaryDialog, btnGoBack pressed");
-        }               
+            public void handle(ActionEvent event) {               
                 switch (strCurControl) {
                     case strX2Chosen: 
                         btnCancel.fire();
@@ -423,14 +399,11 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
         lbl_NColCats.setFont(CourierNew_14);
         lbl_variable1.setFont(CourierNew_14); 
         lbl_variable2.setFont(CourierNew_14); 
-        if (printTheStuff == true) {
-            System.out.println("427 --- X2Assoc_SummaryDialog, END initializeUIComponents()");
-        }
     }    
     
     public void setCurrentFocusOn(int thisListArrayElement) {
-        if (printTheStuff == true) {
-            System.out.println("433 *** ColumnOfData, setCurrentFocusOn()");
+        if (printTheStuff) {
+            System.out.println("*** 406 ColumnOfData, setCurrentFocusOn()");
         }
         switch (strCurControl) {
             case strX2Chosen: 
@@ -445,15 +418,15 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
             break;
             
             default:
-                switchFailure = "Switch failure: X2Assoc_SummaryDialog 448, strCurControl = " + strCurControl;
+                switchFailure = "Switch failure: X2Assoc_SummaryDialog 421, strCurControl = " + strCurControl;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
             }
     }
 
     // 'Final' check on any data entry problems for the X2Chosen Panel
     private boolean checkOKChosen() {
-        if (printTheStuff == true) {
-            System.out.println("456 --- X2Assoc_SummaryDialog, checkOKChosen()");
+        if (printTheStuff) {
+            System.out.println("--- 429 X2Assoc_SummaryDialog, checkOKChosen()");
         }
         boolean goForIt = true;
         boolean[] okToContinue = new boolean[4];    //  Yes, hard-coded
@@ -467,10 +440,7 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
                 goForIt  = false;
             }
         }
-
-        if (printTheStuff == true) {
-            System.out.println("472 --- X2Assoc_SummaryDialog, END checkOKChosen()");
-        }        
+       
         if (!goForIt) {
             MyAlerts.showMustBeNonBlankAlert();
             return false;
@@ -479,8 +449,8 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
     }
     
     public void constructCategoriesPanel()  {  
-        if (printTheStuff == true) {
-            System.out.println("483 --- X2Assoc_SummaryDialog, constructCategoriesPanel()");
+        if (printTheStuff) {
+            System.out.println("--- 453 X2Assoc_SummaryDialog, constructCategoriesPanel()");
         }
         strCurControl = strCategoriesGrid;
         gridPaneVarCat = new GridPane();
@@ -526,23 +496,14 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
         armDirectionsButtons();
         vBoxVisControl.getChildren().addAll(txt_Middle, gridPaneVarCat, hBoxWhereToNext);  
         al_VarCat_STF.get(0).getSmartTextField().getTextField().requestFocus();
-
-        if (printTheStuff == true) {
-            System.out.println("531 X2Assoc_SummaryDlg, al_VarCat_STF = ...");
-            al_VarCat_STF.toString();
-        }
-
-        if (printTheStuff == true) {
-            System.out.println("536 --- X2Assoc_SummaryDialog, END constructCategoriesPanel()");
-        }
     }   
     
     /***********************************************************************
      *        Formerly this code was in the X2Assoc_SummaryDialog_Obj      *
      **********************************************************************/
     private void doFormerDialogObj() {
-        if (printTheStuff == true) {
-            System.out.println("545 --- X2Assoc_SummaryDialog, doFormerDialogObj()");
+        if (printTheStuff) {
+            System.out.println("--- 506 X2Assoc_SummaryDialog, doFormerDialogObj()");
         }
         nRows = al_RowCol_STF.get(1).getSmartTextInteger();
         nCols = al_RowCol_STF.get(3).getSmartTextInteger();
@@ -566,14 +527,11 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
                         x2Grid.getGriddyWiddy_IJ(ithRow, jthCol);
             }
         } 
-        if (printTheStuff == true) {
-            System.out.println("570 --- X2Assoc_SummaryDialog, END doFormerDialogObj()");
-        }
     }
 
     private boolean checkOKCategoriesGrid() {
-        if (printTheStuff == true) {
-            System.out.println("576 --- X2Assoc_SummaryDialog, checkOKCategoriesGrid()");
+        if (printTheStuff) {
+            System.out.println("--- 534 X2Assoc_SummaryDialog, checkOKCategoriesGrid()");
         }
         boolean okToContinue = true;
         
@@ -588,32 +546,18 @@ public class X2Assoc_SummaryDialog extends Splat_Dialog {
             return false;
         }
         
-        if (printTheStuff == true) {
-            System.out.println("592 --- X2Assoc_SummaryDialog, nRowCategories = " + nRowCategories);
-            System.out.println("593 --- X2Assoc_SummaryDialog, nColCategories = " + nColCategories);
-        }
-        
         strRowCats = new String[nRowCategories];
         strColCats = new String[nColCategories];
         for (int ithRowCategory = 0; ithRowCategory < nRowCategories; ithRowCategory++) {
             strRowCats[ithRowCategory] = al_VarCat_STF.get(ithRowCategory).getSmartTextField().getText();
-            if (printTheStuff == true) {
-                System.out.println("601 --- X2Assoc_SummaryDlg, strRowCats[ithRowCategory] = " + strRowCats[ithRowCategory]);
-            }
         }
             
         for (int ithColumnCategory = 0; ithColumnCategory < nColCategories; ithColumnCategory++) {  
             strColCats[ithColumnCategory] = al_VarCat_STF.get(nRowCategories + ithColumnCategory).getSmartTextField().getText();
-            if (printTheStuff == true) {
-                System.out.println("608 --- X2Assoc_SummaryDlg, strColCats[ithColCategory] = " + strColCats[ithColumnCategory]);
-            }
         }
         
         okToContinue = StringUtilities.checkForUniqueStrings(strRowCats);
         
-        if (printTheStuff == true) {
-            System.out.println("615 --- X2Assoc_SummaryDialog, END checkOKCategoriesGrid()");
-        }
         if (!okToContinue) {
             return false;
         }

@@ -1,7 +1,7 @@
 /**************************************************
  *        ANOVA2_RCB_BoxCircleInterActView        *
- *                  02/19/24                      *
- *                    12:00                       *
+ *                  12/16/25                      *
+ *                    21:00                       *
  *************************************************/
 package anova2;
 
@@ -34,8 +34,8 @@ import utilityClasses.*;
 public class ANOVA2_RCB_BoxCircleInterActView extends ANOVA2_Views_Super  { 
     // POJOs
     
-    //String waldoFile = "";
-    String waldoFile = "RCB_BoxCircleInterActView";
+    //String waldoFile = "RCB_BoxCircleInterActView";
+    String waldoFile = "";
     
     // My Classes
     ANOVA2_RCB_Model anova2_RCB_Model;

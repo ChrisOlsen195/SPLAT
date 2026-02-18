@@ -33,7 +33,7 @@ public class BivCat_PrintStatistics extends PrintTextReport_View {
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        System.out.println("\n37 BivCat_PrintStatistics, Constructing");   
+        //System.out.println("\n37 BivCat_PrintStatistics, Constructing");   
         categoryAxisLabel = " "; 
         verticalAxisLabel = " ";
         strTopVariable = bivCat_Model.getTopVariable();
@@ -53,8 +53,8 @@ public class BivCat_PrintStatistics extends PrintTextReport_View {
         cumProps = new double[nRows + 1][nCols];    //  Internal cum props
         leftLabels = new String[nRows]; 
         topLabels = new String[nCols];
-        topLabels = bivCat_Model.getTopLabels();
-        leftLabels = bivCat_Model.getLeftLabels();
+        topLabels = bivCat_Model.getStrTopLabels();
+        leftLabels = bivCat_Model.getStrLeftLabels();
         observedValues = bivCat_Model.getObservedValues();
         totalN = bivCat_Model.getTotalN();
         proportions = bivCat_Model.getProportions();
@@ -62,8 +62,8 @@ public class BivCat_PrintStatistics extends PrintTextReport_View {
         colTotal = bivCat_Model.getColumnTotals();
         rowProportion = bivCat_Model.getRowProportions();
         colProportion = bivCat_Model.getColumnProportions();
-        cumColProps = bivCat_Model.getCumColProps();
-        cumRowProps = bivCat_Model.getCumRowProps();
+        cumColProps = bivCat_Model.getCumulativeColProps();
+        cumRowProps = bivCat_Model.getCumulativeRowProps();
         cumMarginalRowProps = bivCat_Model.getCumMarginalRowProps();
         cumProps = bivCat_Model.getCellCumProps();  
         strTitleText = "Contingency Table";

@@ -28,8 +28,8 @@ public class ANOVA2_RCB_MainEffect_BView extends ANOVA2_Views_Super {
     // POJOs
     double middleXPosition;
     
-    //String waldoFile = "";
-    String waldoFile = "ANOVA2_RCB_MainEffect_BView";
+    String waldoFile = "";
+    //String waldoFile = "ANOVA2_RCB_MainEffect_BView";
     
     //  My Classes
     ANOVA2_RCB_Model anova2_RCB_Model;

@@ -1,7 +1,7 @@
 /****************************************************************************
  *                          MyDialogs                                       * 
- *                           10/15/23                                       *
- *                            18:00                                         *
+ *                          12/29/25                                       *
+ *                            06:00                                         *
  ***************************************************************************/
 package dialogs;
 
@@ -12,10 +12,13 @@ import javafx.scene.control.ButtonType;
 
 public class MyDialogs {
     //  POJOs
-    //int intResp;
-    //String stringResp;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
     public void NoChoiceMessage(int type, String title, String announcement) {
+        if (printTheStuff) {
+            System.out.println("*** 20 MyDialogs, Constructing");
+        }
         Alert.AlertType aType = Alert.AlertType.INFORMATION;
         if (type == 1) {
             aType = Alert.AlertType.WARNING;
@@ -51,6 +54,5 @@ public class MyDialogs {
         }
 
         return yesNo;
-
     } // YesNo    
 }

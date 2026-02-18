@@ -79,8 +79,8 @@ public class DIffProp_Inf_CI_View extends Region {
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.twoProp_Inf_Model = twoProp_Inf_Model;
-        p1_Descr = twoProp_Inf_Model.getP1_Descr();
-        p2_Descr = twoProp_Inf_Model.getP2_Descr();
+        p1_Descr = twoProp_Inf_Model.getFirstProp_Label();
+        p2_Descr = twoProp_Inf_Model.getSecondProp_Label();
         diff_Descr = p1_Descr + " - " + p2_Descr;
         initStuff();
     }

@@ -1,7 +1,7 @@
 /****************************************************************************
- *                          MyYesNoAlerts                                      *
- *                            02/16/25                                      *
- *                             00:00                                        *
+ *                          MyYesNoAlerts                                   *
+ *                            02/04/26                                      *
+ *                             12:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -50,15 +50,15 @@ public class MyYesNoAlerts {
         backToTheRealWorld();
     }   
 
-    public void showUnsavedDataAlert() { 
+    public void showFileIsDirtyAlert() { 
         showingAnAlert = true;
         alertTitle = "Whoa, there, Bucko!";
         alertHeader = "Are you sure about this???";
         alertContext ="I, SPLAT the Magnificent, never cease to wonder about the frailty of human "
                         + " judgement.  Normally I just roll my eyes and shrug my shoulders, but I"
-                        + " just can't ignore this one.  After entering data you now want to just "
-                        + " trash it?!? Are you SURE you want to leave your data in the dustbin of "
-                        + " history?\n\n"; 
+                        + " just can't ignore this one.  After entering, creating, or changing data"
+                        + " you now want to just trash it?!? Are you SURE you want to leave your "
+                        + " data in the dustbin of history?\n\n"; 
         diffAlertBoxHeight = 300.;
         backToTheRealWorld();
     } 

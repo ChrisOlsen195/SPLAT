@@ -1,7 +1,7 @@
 /**************************************************
  *             ChooseStats_DialogView             *
- *                    02/24/25                    *
- *                     09:00                      *
+ *                    12/31/25                    *
+ *                     15:00                      *
  *************************************************/
 
 package bootstrapping;
@@ -29,6 +29,9 @@ import smarttextfield.SmartTextFieldDoublyLinkedSTF;
  ***************************************************************/
 
 public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
     // Make empty if no-print
     //String waldoFile = "ChooseStats_DialogView";
@@ -48,15 +51,19 @@ public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(chooseStats_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight);  
+        if (printTheStuff) {
+            System.out.println("*** 55 ChooseStats_DialogView, Constructing");
+        }
         chooseStats_Controller = chooseStats_Dashboard.get_Boot_Controller();
         dm = chooseStats_Controller.getTheDataManager();
-        dm.whereIsWaldo(53, waldoFile, "Constructing"); 
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
     }    
         
     public void continueConstruction() {    
-        dm.whereIsWaldo(59, waldoFile, "continueConstruction()");
+        if (printTheStuff) {
+            System.out.println("*** 65 ChooseStats_DialogView, continueConstruction()");
+        }
         chooseStats_Controller.set_Boot_DialogView(this);
         
         chooseStats_OriginalDistrView = chooseStats_Controller.get_Boot_OriginalHisto_DistrView();
@@ -196,7 +203,9 @@ public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
     }    
     
     public void makeANewGraph() {
-        dm.whereIsWaldo(199, waldoFile, "makeANewGraph()");
+        if (printTheStuff) {
+            System.out.println("*** 207 ChooseStats_DialogView, makeANewGraph()");
+        }
         chooseStats_OriginalDistrView.respondToChanges();
         chooseStats_OriginalDistrView.doTheGraph();  
         
@@ -215,7 +224,9 @@ public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
     
     @Override
     public void constructGraphStatus() {
-        dm.whereIsWaldo(218, waldoFile, "constructGraphStatus()");
+        if (printTheStuff) {
+            System.out.println("*** 228 ChooseStats_DialogView, constructGraphStatus()");
+        }
         shadeLeft = chooseStats_OriginalDistrModel.get_ShadeLeft();
         shadeRight = chooseStats_OriginalDistrModel.get_ShadeRight(); 
         

@@ -42,9 +42,9 @@ public class ANOVA2_RM_LinePlotView extends ANOVA2_Views_Super {
     
     String strSubjectLabel, strTreatLabel, tempString;
     
-    // String waldoFile = "";
-    String waldoFile = "ANOVA2_RM_LinePlotView";
-    
+    //String waldoFile = "ANOVA2_RM_LinePlotView";
+    String waldoFile = "";
+
     ObservableList<String> strTheSubjects, strTheTreatments;
     
     // My Classes

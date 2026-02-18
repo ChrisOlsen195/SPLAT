@@ -97,7 +97,7 @@ public class Explore_2Ind_Controller {
         }
         
         explore_2Ind_TI8x_Dialog = new Explore_2Ind_TI8x_Dialog( dm );
-        strReturnStatus = explore_2Ind_TI8x_Dialog.getReturnStatus();
+        strReturnStatus = explore_2Ind_TI8x_Dialog.getStrReturnStatus();
         dm.whereIsWaldo(101, waldoFile, " --- strReturnStatus = " + strReturnStatus);
         if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
         
@@ -168,12 +168,12 @@ public class Explore_2Ind_Controller {
             
             explore_2Ind_Tidy_Dialog = new Explore_2Ind_Tidy_Dialog( dm, "Categorical" );
             explore_2Ind_Tidy_Dialog.showAndWait();
-            strReturnStatus = explore_2Ind_Tidy_Dialog.getReturnStatus();
+            strReturnStatus = explore_2Ind_Tidy_Dialog.getStrReturnStatus();
             if (strReturnStatus.equals("Cancel")) {return "Cancel"; }
             goodToGo = explore_2Ind_Tidy_Dialog.getGoodToGO();
             
             if (!goodToGo) {
-                strReturnStatus = explore_2Ind_Tidy_Dialog.getReturnStatus();
+                strReturnStatus = explore_2Ind_Tidy_Dialog.getStrReturnStatus();
                 return "Cancel";
             }
             explore_2Ind_ColsOfData = explore_2Ind_Tidy_Dialog.getData();
@@ -239,7 +239,7 @@ public class Explore_2Ind_Controller {
         explore_2Ind_Dashboard.populateTheBackGround();
         explore_2Ind_Dashboard.putEmAllUp();
         explore_2Ind_Dashboard.showAndWait();
-        strReturnStatus = explore_2Ind_Dashboard.getReturnStatus();
+        strReturnStatus = explore_2Ind_Dashboard.getStrReturnStatus();
         strReturnStatus = "OK";
         dm.whereIsWaldo(247, waldoFile, " END doTheExplore2Ind()");
         return true;        
@@ -261,7 +261,7 @@ public class Explore_2Ind_Controller {
         reorderStringDisplay_Dialog = new ReOrderStringDisplay_Dialog(this, incomingLabels);
         reorderStringDisplay_Dialog.showAndWait();
         
-        strReturnStatus = reorderStringDisplay_Dialog.getReturnStatus();
+        strReturnStatus = reorderStringDisplay_Dialog.getStrReturnStatus();
         if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
         allTheQDVs = new ArrayList<>();
         for (int ithQDV = 0; ithQDV < n_QDVs; ithQDV++) {

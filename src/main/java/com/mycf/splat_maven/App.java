@@ -31,6 +31,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
 
         //                    initialGridCases, initialGridVars
+        //System.out.println("34 App in com.mycf.splat.maven");
         dm = new Data_Manager(initialGridRows, initialGridColumns);  
         
         dm.setDataAreClean(false);
@@ -52,6 +53,9 @@ public class App extends Application {
         primaryStage.setTitle("SPLAT: StatisticsPackageForLearningAndTeaching");
         primaryStage.getIcons().add(new Image(getClass().getResource("/SplatJPG.jpg").toExternalForm())); 
         
+        // *************************************
+        dm.setMaxVisCases(14);
+        // *************************************
         primaryStage.setResizable(true);
         primaryStage.centerOnScreen();
         primaryStage.show();
@@ -71,7 +75,7 @@ public class App extends Application {
             dm.getMainPane().setPrefHeight((double)newVal - 32);
             
             int newMaxRowCount = (int)((double)newVal / 31);
-            
+            //System.out.println("######  App, newMaxRowCount = " + newMaxRowCount);
             dm.resizeRowHeaderCellsArray(newMaxRowCount);
             dm.setMaxVisCases(newMaxRowCount);
             dm.resizeGrid(newMaxRowCount, dm.getMaxVisVars());

@@ -61,7 +61,7 @@ public class Univ_Quant_Controller {
         
         exploreUniv_Dialog = new Explore_Univ_Dialog(dm, strDataType);
         exploreUniv_Dialog.showAndWait();
-        returnStatus = exploreUniv_Dialog.getReturnStatus();
+        returnStatus = exploreUniv_Dialog.getStrReturnStatus();
         
         if (returnStatus.equals("OK")) {
             descriptionOfVar = exploreUniv_Dialog.getDescriptionOfVariable();
@@ -78,7 +78,7 @@ public class Univ_Quant_Controller {
                 exploration_Dashboard.populateTheBackGround();
                 exploration_Dashboard.putEmAllUp();
                 exploration_Dashboard.showAndWait();
-                returnStatus = exploration_Dashboard.getReturnStatus();
+                returnStatus = exploration_Dashboard.getStrReturnStatus();
                 return returnStatus;  
             }
         }

@@ -74,7 +74,7 @@ public class File_Ops {
         if (!dm.getDataAreClean()) {
             myYesNoAlerts.setTheYes("Trash it!");     //  Trash the data
             myYesNoAlerts.setTheNo("Save it!");    //  Keep the data
-            myYesNoAlerts.showUnsavedDataAlert();
+            myYesNoAlerts.showFileIsDirtyAlert();
             yesOrNo = myYesNoAlerts.getYesOrNo();
             if (yesOrNo.equals("No")) { return; }
         }
@@ -163,7 +163,7 @@ public class File_Ops {
                         fileParser.getDataElementColRow(jCol, iRow + 1));
             }
         }
-        dm.setFileName(fileName);
+        dm.setTheFile(fileName);
         dm.setLastPath(fileName);
         tracker.set_Current_DG_DS(0, 0, "170 File_Ops");
         tracker.set_ulDG(0, 0);
@@ -209,7 +209,7 @@ public class File_Ops {
             return;
         }
 
-        File fileName = dm.getFileName();
+        File fileName = dm.getTheFile();
         
         if (getFileName || (fileName == null)) {
             FileChooser fChoose = new FileChooser();
@@ -264,7 +264,7 @@ public class File_Ops {
             }
             writer.close();
 
-            dm.setFileName(fileName);
+            dm.setTheFile(fileName);
             dm.setLastPath(fileName);
 
         } catch (IOException e) { String str = this.toString();}           
@@ -283,7 +283,7 @@ public class File_Ops {
         if (!dm.getDataAreClean()) {  
             myYesNoAlerts.setTheYes("Trash it!");
             myYesNoAlerts.setTheNo("Save it!");
-            myYesNoAlerts.showUnsavedDataAlert();
+            myYesNoAlerts.showFileIsDirtyAlert();
             yesOrNo = myYesNoAlerts.getYesOrNo();
             if (yesOrNo.equals("No")) { exit = false; }
         }

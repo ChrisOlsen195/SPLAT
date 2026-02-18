@@ -1,7 +1,7 @@
 /****************************************************************************
  *                        SmartTextField                                    * 
- *                           01/16/25                                       *
- *                            12:00                                         *
+ *                           01/01/26                                       *
+ *                            09:00                                         *
  ***************************************************************************/
 /****************************************************************************
 *       Sample set up of text field & must-be, with label.                  *
@@ -52,7 +52,7 @@ public class SmartTextField {
     TextField lessThanSmart_TF;
     
     public SmartTextField() {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("56 *** ColumnOfData, Constructing");
         }
         lessThanSmart_TF = new TextField(); // Just a wrapper
@@ -60,7 +60,7 @@ public class SmartTextField {
     }
     
     public SmartTextField(String tfString) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("64 *** ColumnOfData, Constructing");
         }
         lessThanSmart_TF = new TextField(tfString); // Just an initialized wrapper
@@ -68,7 +68,7 @@ public class SmartTextField {
     }
     
     public SmartTextField(SmartTextFieldsController stf_Controller)  { 
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("72 *** ColumnOfData, Constructing");
         }
         this.stf_Controller = stf_Controller;

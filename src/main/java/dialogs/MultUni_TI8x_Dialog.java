@@ -1,7 +1,7 @@
 /**************************************************
  *               MultUni_TI8x_Dialog              *
- *                    02/15/25                    *
- *                     00:00                      *
+ *                    12/12/25                    *
+ *                     12:00                      *
  *************************************************/
 package dialogs;
 
@@ -28,6 +28,8 @@ import utilityClasses.MyAlerts;
 public class MultUni_TI8x_Dialog extends Splat_Dialog {
 
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false; 
     
     private int nVarsSelected; //, quantVar, minVars;
     final int TWO;
@@ -55,18 +57,18 @@ public class MultUni_TI8x_Dialog extends Splat_Dialog {
     // ******************************************************************
     public MultUni_TI8x_Dialog(Data_Manager dm) {
         this.dm = dm;
-        
-        //waldoFile = "MultUni_TI8x_Dialog";
-        waldoFile = "";
-        
-        dm.whereIsWaldo(60, waldoFile, "Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 61 MultUni_TI8x_Dialog, Constructing");
+        }
         TWO = 2;
         createMultUni_TI8x_Dialog();
         strReturnStatus = "Cancel";
     }
 
     private void createMultUni_TI8x_Dialog() {
-        dm.whereIsWaldo(69, waldoFile, "createMultUni_TI8x_Dialog()");
+        if (printTheStuff) {
+            System.out.println("*** 19 MultUni_TI81x_Dialog, createMultUni_TI8x_Dialog()");
+        }
         str_al_ChosenLabels = new ArrayList();
 
         VBox vBox_MainPanel = new VBox();
@@ -145,7 +147,6 @@ public class MultUni_TI8x_Dialog extends Splat_Dialog {
 
         btnCancel.setStyle("-fx-text-fill: red;");
         btnCancel.setOnAction(e -> {  
-            System.out.println("148 MultUni_TI8x_Dlg, btnCancel clicked...");
             boolGoodToGo = false;
             strReturnStatus = "Cancel";
             stageDialog.hide();
@@ -209,7 +210,7 @@ public class MultUni_TI8x_Dialog extends Splat_Dialog {
                 stageDialog.close();
                 strReturnStatus = "OK";                
                 
-            }   //  end if(goodToGo)   
+            } 
         });
     } 
     
@@ -220,7 +221,6 @@ public class MultUni_TI8x_Dialog extends Splat_Dialog {
     }
     
     public void show_NS_Dialog() {
-        dm.whereIsWaldo(219, waldoFile, "show_NS_Dialog()");
         lblTitle.setText("Comparing 2 or more distributions");
         stageDialog.setTitle("Comparing 2 or more distributions");
         stageDialog.showAndWait();

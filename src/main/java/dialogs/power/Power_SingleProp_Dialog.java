@@ -1,6 +1,6 @@
 /************************************************************
  *                 Power_SingleProp_Dialog                  *
- *                        01/15/25                          *
+ *                        12/31/25                          *
  *                         15:00                            *
  ***********************************************************/
 package dialogs.power;
@@ -72,8 +72,8 @@ public class Power_SingleProp_Dialog extends Power_Dialog {
 
     public Power_SingleProp_Dialog() {
         super("Quantitative");  //  Doesn't really do anything (no data chosen)
-        if (printTheStuff == true) {
-            System.out.println("76 *** Power_SingleProp_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 76 Power_SingleProp_Dialog, Constructing");
         }
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         sep = new Separator();
@@ -132,7 +132,10 @@ public class Power_SingleProp_Dialog extends Power_Dialog {
         setScene(scene);
     }  
     
-private void makeNullsPanel() {        
+private void makeNullsPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 137 Power_SingleProp_Dialog, makeNullsPanel()");
+        }
         strHypChosen = "NotEqual";
         strNullAndAlt = "  Choose from the null and \n  alternate hypothesis pairs \n  listed below:";
         lblNullAndAlt = new Label(strNullAndAlt);
@@ -195,6 +198,9 @@ private void makeNullsPanel() {
     }
  
     private void makeNumericValuesPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 202 Power_SingleProp_Dialog, makeNumericValuesPanel()");
+        }
         str_Prop = "Null prop: ";
         strEffectSize = "Min Effect size: ";
         str_SampleSize = "Sample size: ";
@@ -292,6 +298,9 @@ private void makeNullsPanel() {
     }
     
     private void makeInfDecisionsPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 302 Power_SingleProp_Dialog, makeInfDecisionsPanel()");
+        }
         lblCILabel = new Label("   Select conf level");
         lblCILabel.setMaxWidth(120);
         lblCILabel.setMinWidth(120);
@@ -345,7 +354,10 @@ private void makeNullsPanel() {
         vBoxInfChoicesPanel.getChildren().add(hBoxAlphaAndCI);           
     }
     
-    private void makeBottomPanel() {        
+    private void makeBottomPanel() {   
+        if (printTheStuff) {
+            System.out.println("*** 359 Power_SingleProp_Dialog, makeBottomPanel()");
+        }
         hBoxBottomPanel = new HBox(10);
         hBoxBottomPanel.setAlignment(Pos.CENTER);
         hBoxBottomPanel.setPadding(new Insets(5, 5, 5, 5));

@@ -66,5 +66,5 @@ public class Splat_Dialog extends Stage {
     }
     
     public boolean getGoodToGO() { return boolGoodToGo; }
-    public String getReturnStatus() { return strReturnStatus; }  
+    public String getStrReturnStatus() { return strReturnStatus; }  
 }

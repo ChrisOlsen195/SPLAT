@@ -1,6 +1,6 @@
 /************************************************************
  *                   Power_IndMeans_Dialog                  *
- *                          01/15/25                        *
+ *                          12/31/25                        *
  *                            15:00                         *
  ***********************************************************/
 package dialogs.power;
@@ -99,8 +99,8 @@ public class Power_IndMeans_Dialog extends Stage {
          txt_EffectSize;
     
     public Power_IndMeans_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("103 *** Power_IndMeans_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 103 Power_IndMeans_Dialog, Constructing");
         }
         theAlphaLevels = new double[] { 0.10, 0.05, 0.01};
 
@@ -159,7 +159,10 @@ public class Power_IndMeans_Dialog extends Stage {
         setScene(scene);
     }  
     
-private void makeNullsPanel() {       
+private void makeNullsPanel() { 
+        if (printTheStuff) {
+            System.out.println("*** 164 Power_IndMeans_Dialog, makeNullsPanel()");
+        }
         nullMeanDiff = 0.0;
         nullDiffRequested = 0.0;
         strHypChosen = "NotEqual";
@@ -270,6 +273,9 @@ private void makeNullsPanel() {
     }
  
     private void makeNumericValuesPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 277 Power_IndMeans_Dialog,makeNumericValuesPanel()");
+        }
         vBox_NumValsPanel = new VBox();
         group_Mean_1 = new VBox();
         group_Mean_1.setAlignment(Pos.CENTER);
@@ -422,6 +428,9 @@ private void makeNullsPanel() {
     }
     
     private void makeInfDecisionsPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 432 Power_IndMeans_Dialog, makeInfDecisionsPanel()");
+        }
         nullMeanDiff = 0.;
         daNullDiff = 0.0;
        
@@ -480,6 +489,9 @@ private void makeNullsPanel() {
     }
     
     private void makeBottomPanel() { 
+        if (printTheStuff) {
+            System.out.println("*** 493 Power_IndMeans_Dialog, makeBottomPanel()");
+        }
         bottomPanel = new HBox(10);
         bottomPanel.setAlignment(Pos.CENTER);
         bottomPanel.setPadding(new Insets(5, 5, 5, 5));

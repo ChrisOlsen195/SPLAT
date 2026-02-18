@@ -1,6 +1,6 @@
 /****************************************************************************
  *                     X2Assoc_PrintAdvStats                                *
- *                           04/19/25                                       *
+ *                           09/20/25                                       *
  *                             12:00                                        *
  ***************************************************************************/
 package chiSquare_Assoc;
@@ -61,8 +61,8 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
         cumProps = new double[nRows + 1][nCols];    //  Internal cum props
         strLeftLabels = new String[nRows]; 
         strTopLabels = new String[nCols];
-        strTopLabels = x2_Assoc_Model.getTopLabels();
-        strLeftLabels = x2_Assoc_Model.getLeftLabels();
+        strTopLabels = x2_Assoc_Model.getStrTopLabels();
+        strLeftLabels = x2_Assoc_Model.getStrLeftLabels();
         obsVals = x2_Assoc_Model.getObservedValues();
         totalN = x2_Assoc_Model.getTotalN();
         proportions = x2_Assoc_Model.getProportions();
@@ -75,8 +75,8 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
         pValue = x2_Assoc_Model.getPValue();
         x2Contribution = x2_Assoc_Model.getX2Contributions();
         standResids = x2_Assoc_Model.getStandardizedResiduals();
-        x2CumColProps = x2_Assoc_Model.getCumColProps();
-        x2CumRowProps = x2_Assoc_Model.getCumRowProps();
+        x2CumColProps = x2_Assoc_Model.getCumulativeColProps();
+        x2CumRowProps = x2_Assoc_Model.getCumulativeRowProps();
         cumMarginalRowProps = x2_Assoc_Model.getCumMarginalRowProps();
         cumProps = x2_Assoc_Model.getCellCumProps();  
         strTitleText = "Advanced chi square statistics";

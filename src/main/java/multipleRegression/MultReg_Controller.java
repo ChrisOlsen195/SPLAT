@@ -39,7 +39,7 @@ public class MultReg_Controller {
         try {
             MultReg_Dialog multReg_Dialog = new MultReg_Dialog(dm);
             multReg_Dialog.showAndWait();          
-            returnStatus = multReg_Dialog.getReturnStatus();
+            returnStatus = multReg_Dialog.getStrReturnStatus();
             
             if (returnStatus.equals("Cancel")) { return "Cancel"; }
             data = new ArrayList<>();
@@ -60,7 +60,7 @@ public class MultReg_Controller {
             multRegDashboard.populateTheBackGround();
             multRegDashboard.putEmAllUp();
             multRegDashboard.showAndWait();
-            returnStatus = multRegDashboard.getReturnStatus();
+            returnStatus = multRegDashboard.getStrReturnStatus();
             return returnStatus;  
         }
         catch(Exception ex) {

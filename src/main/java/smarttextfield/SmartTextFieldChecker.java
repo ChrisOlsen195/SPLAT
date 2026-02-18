@@ -1,7 +1,7 @@
 /****************************************************************************
  *                    SmartTextFieldChecker                                 * 
- *                           01/16/25                                       *
- *                            12:00                                         *
+ *                           02/04/26                                       *
+ *                            00:00                                         *
  ***************************************************************************/
 /****************************************************************************
  *  Checks: positive & negative fractions & decimals  01/03                 * 
@@ -37,8 +37,8 @@ public class SmartTextFieldChecker {
     SmartTextField theSTF;
     
     public SmartTextFieldChecker(SmartTextFieldsController stf_Controller, SmartTextField stf) { 
-        if (printTheStuff == true) {
-            System.out.println("41 *** SmartTextFieldChecker, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 41 SmartTextFieldChecker, Constructing");
         }
         theSTF = stf;
         stfHandler = stf_Controller.getSTFHandler();
@@ -53,7 +53,9 @@ public class SmartTextFieldChecker {
     
     //  Called from 196 STF
 public boolean checkAllRestrictions( String forThisString) {
-    
+    if (printTheStuff) {
+        System.out.println("--- 57 SmartTextFieldChecker, checkAllRestrictions)");
+    }
     stringToCheck = forThisString;
          
     /**************************************************************
@@ -62,7 +64,6 @@ public boolean checkAllRestrictions( String forThisString) {
     *  the SmartTextField needs to consume two changes: losing    *
     *  focus and the click on the Alert.                          *
     **************************************************************/
-    //System.out.println("62 stfChecker, checkAllRestrictions()");
         okToContinue = true;
         checkingForProbability = false; // Need to initialize here to avoid
                                         // false Bad Fraction alert.
@@ -163,6 +164,9 @@ public boolean checkAllRestrictions( String forThisString) {
     }
     
     private boolean checkSmartTextField_MB_POSITIVEINTEGER() {
+        if (printTheStuff) {
+            System.out.println("--- 168 SmartTextFieldChecker, checking for MB_POSITIVEINTEGER");
+        }
         okToContinue = true;
         
         if (!checkSmartTextField_MB_REAL()) { return false; }

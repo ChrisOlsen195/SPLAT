@@ -1,7 +1,7 @@
 /**************************************************
  *             OneInf_Prop_Dashboard              *
- *                    03/08/25                    *
- *                     21:00                      *
+ *                    12/13/25                    *
+ *                     18:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -34,7 +34,7 @@ public class OneProp_Inf_Dashboard extends Dashboard {
 
     public OneProp_Inf_Dashboard(OneProp_Inf_Controller oneProp_Inf_Controller) {
         super(4);       
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("38 *** OneProp_Inf_Dashboard, Constructing");
         }
         oneProp_Inf_Model = oneProp_Inf_Controller.getOnePropModel();
@@ -99,8 +99,8 @@ public class OneProp_Inf_Dashboard extends Dashboard {
         oneProp_Inf_PDF_ContainingPane = oneProp_Inf_PDF_View.getTheContainingPane();  
         oneProp_Inf_PDF_ContainingPane.setStyle(containingPaneStyle);
         
-        initWidth[1] = 500;
-        initHeight[1] = 400;
+        initWidth[1] = 480;
+        initHeight[1] = 440;
         oneProp_Inf_Report_View = new OneProp_Inf_Report_View(oneProp_Inf_Model, this, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]);
         oneProp_Inf_Report_View.completeTheDeal();
         oneProp_Inf_ReportContainingPane = oneProp_Inf_Report_View.getTheContainingPane(); 

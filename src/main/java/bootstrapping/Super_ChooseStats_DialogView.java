@@ -1,7 +1,7 @@
 /**************************************************
  *            Super_ChooseStats_DialogView        *
- *                    02/24/25                    *
- *                     09:00                      *
+ *                    08/19/25/25                    *
+ *                     15:00                      *
  *************************************************/
 
 /***************************************************************
@@ -36,7 +36,8 @@ import utilityClasses.*;
 
 public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_CheckBoxes_View {
     
-    boolean twoTail_IsChecked, rightTail_IsChecked, shadeLeft, shadeRight; 
+    boolean twoTail_IsChecked, leftTail_IsChecked, rightTail_IsChecked, 
+            shadeLeft, shadeRight; 
     
     final int PROB_ROUND = 4;
     
@@ -83,7 +84,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         chooseStats_Controller = chooseStats_Dashboard.get_Boot_Controller();
         dm = chooseStats_Controller.getTheDataManager();
-        dm.whereIsWaldo(87, waldoFile, "Constructing");
+        dm.whereIsWaldo(86, waldoFile, "Constructing");
         originalDistrModel = chooseStats_Controller.get_Boot_OriginalDistrModel();
         shiftedDistrModel = chooseStats_Controller.get_Boot_ShiftedDistrModel();
         initHoriz = placeHoriz; initVert = placeVert;
@@ -117,7 +118,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     }
     
     void doLeftStatistic() { 
-        dm.whereIsWaldo(121, waldoFile, "doLeftStatistic()");
+        dm.whereIsWaldo(120, waldoFile, "doLeftStatistic()");
         str_Left_Stat = al_STF.get(6).getText();
         if (str_Left_Stat.isEmpty()) { return; }
         
@@ -142,7 +143,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     } 
         
     void doRightStatistic() { 
-        dm.whereIsWaldo(146, waldoFile, "doRightStatistic()");
+        dm.whereIsWaldo(145, waldoFile, "doRightStatistic()");
         if (!DataUtilities.strIsADouble(al_STF.get(7).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -164,7 +165,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     } 
     
     public void doLeftProbability() {
-        dm.whereIsWaldo(168, waldoFile, "doLeftProbability()");
+        dm.whereIsWaldo(167, waldoFile, "doLeftProbability()");
         if (!DataUtilities.strIsADouble(al_STF.get(3).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -206,7 +207,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     *         Probabilities are the same for Originals & Shifteds            *
     *************************************************************************/
     public void doMiddleProbability() {
-        dm.whereIsWaldo(210, waldoFile, "doMiddleProbability()");
+        dm.whereIsWaldo(209, waldoFile, "doMiddleProbability()");
         if (!DataUtilities.strIsADouble(al_STF.get(4).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -234,10 +235,10 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
         str_Left_Prob = String.valueOf(DataUtilities.roundDoubleToNDigits(dbl_Left_Prob, PROB_ROUND));
         al_STF.get(3).setText(roundDoubleToProbString(dbl_Left_Prob));
         
-        leftPercentile_Original = originalDistrModel.getUCDO().fromPercentileRank_toPercentile(dbl_Left_Prob);
+        leftPercentile_Original = originalDistrModel.getTheUCDO().fromPercentileRank_toPercentile(dbl_Left_Prob);
         originalDistrModel.set_LeftPercentile(leftPercentile_Original); 
         
-        leftPercentile_Shifted = shiftedDistrModel.getUCDO().fromPercentileRank_toPercentile(dbl_Left_Prob);
+        leftPercentile_Shifted = shiftedDistrModel.getTheUCDO().fromPercentileRank_toPercentile(dbl_Left_Prob);
         shiftedDistrModel.set_LeftPercentile(leftPercentile_Shifted); 
         
       
@@ -249,10 +250,10 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
         str_Right_Prob = String.valueOf(DataUtilities.roundDoubleToNDigits(dbl_Right_Prob, PROB_ROUND));
         al_STF.get(5).setText(roundDoubleToProbString(dbl_Right_Prob));
         
-        rightPercentile_Original = originalDistrModel.getUCDO().fromPercentileRank_toPercentile(1.0 - dbl_Right_Prob);
+        rightPercentile_Original = originalDistrModel.getTheUCDO().fromPercentileRank_toPercentile(1.0 - dbl_Right_Prob);
         originalDistrModel.set_RightPercentile(rightPercentile_Original);
         
-        rightPercentile_Shifted = shiftedDistrModel.getUCDO().fromPercentileRank_toPercentile(1.0 - dbl_Right_Prob);
+        rightPercentile_Shifted = shiftedDistrModel.getTheUCDO().fromPercentileRank_toPercentile(1.0 - dbl_Right_Prob);
         shiftedDistrModel.set_RightPercentile(rightPercentile_Shifted);
         
         dbl_Right_Stat_Original = originalDistrModel.get_RightPercentile();
@@ -267,7 +268,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     }
     
     void doRightProbability() {
-        dm.whereIsWaldo(271, waldoFile, "doRightProbability()");
+        dm.whereIsWaldo(270, waldoFile, "doRightProbability()");
         if (!DataUtilities.strIsADouble(al_STF.get(5).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -395,7 +396,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     } 
     
     public void resetKandK() {  // Kit and Kaboodle
-        dm.whereIsWaldo(399, waldoFile, "resetKandK()");
+        dm.whereIsWaldo(398, waldoFile, "resetKandK()");
         al_STF.get(3).getTextField().setText(toBlank);
         al_STF.get(6).getTextField().setText(toBlank);
         al_STF.get(4).getTextField().setText(toBlank);

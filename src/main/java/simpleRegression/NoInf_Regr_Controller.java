@@ -1,7 +1,7 @@
 /************************************************************
- *                 NoInf_Regression_Controller              *
- *                          02/11/25                        *
- *                            09:00                         *
+ *                    NoInf_Regr_Controller                 *
+ *                          01/07/26                        *
+ *                            18:00                         *
  ***********************************************************/
 package simpleRegression;
 
@@ -18,7 +18,7 @@ public class NoInf_Regr_Controller {
     // POJOs
     private String explanVarDescription, responseVarDescription, 
             explanVarLabel, respVarLabel, subTitle, 
-            saveTheResids, saveTheHats, returnStatus;
+            saveTheResids, saveTheHats, strReturnStatus;
     private String[] strAxisLabels;
     private ArrayList<String> xStrings, yStrings;
     
@@ -56,9 +56,9 @@ public class NoInf_Regr_Controller {
             Regr_Dialog regressionDialog = new Regr_Dialog(dm, "QUANTITATIVE", "Simple Linear Regression");
             dm.whereIsWaldo(51, waldoFile, "doTheProcedure()");
             regressionDialog.showAndWait();
-            returnStatus = regressionDialog.getReturnStatus();
+            strReturnStatus = regressionDialog.getStrReturnStatus();
             
-            if (!returnStatus.equals("OK")) { return returnStatus; }
+            if (!strReturnStatus.equals("OK")) { return strReturnStatus; }
 
             explanVarLabel = regressionDialog.getFirstVarLabel_InFile();
             respVarLabel = regressionDialog.getSecondVarLabel_InFile();
@@ -73,11 +73,11 @@ public class NoInf_Regr_Controller {
             ArrayList<ColumnOfData> data = regressionDialog.getData();
             bivContin = new BivariateContinDataObj(dm, data);
             
-            if (bivContin.getDataExists() == true) {  bivContin.continueConstruction(); }
+            if (bivContin.getDataExists()) {  bivContin.continueConstruction(); }
             else {
                 MyAlerts.showNoLegalBivDataAlert();
-                returnStatus = "Cancel";
-                return returnStatus;
+                strReturnStatus = "Cancel";
+                return strReturnStatus;
             }
 
             xStrings = bivContin.getLegalXsAs_AL_OfStrings();
@@ -88,9 +88,9 @@ public class NoInf_Regr_Controller {
             
             noInf_RegModel = new NoInf_Regr_Model(this);
 
-            returnStatus = noInf_RegModel.setupRegressionAnalysis(qdv_XVariable, qdv_YVariable);   // 0 is the y-var
+            strReturnStatus = noInf_RegModel.setupRegressionAnalysis(qdv_XVariable, qdv_YVariable);   // 0 is the y-var
             
-            if (returnStatus.equals("OK")) {
+            if (strReturnStatus.equals("OK")) {
                 noInf_RegModel.doRegressionAnalysis();
                 noInf_RegDashboard = new NoInf_Regr_Dashboard(this, noInf_RegModel);
                 noInf_RegDashboard.populateTheBackGround();
@@ -98,17 +98,17 @@ public class NoInf_Regr_Controller {
                 noInf_RegDashboard.showAndWait();
             }
             else {
-                returnStatus = "Cancel";
-                return returnStatus;
+                strReturnStatus = "Cancel";
+                return strReturnStatus;
             }
             
-            returnStatus = noInf_RegDashboard.getReturnStatus();
-            return returnStatus;
+            strReturnStatus = noInf_RegDashboard.getStrReturnStatus();
+            return strReturnStatus;
         }
         catch (Exception ex) { // Constructs stack trace?
             PrintExceptionInfo pei = new PrintExceptionInfo(ex, "NoInf Regression:doTheProcedure()");
         }
-        return returnStatus;
+        return strReturnStatus;
     }
     
     public Data_Manager getDataManager() { return dm; }

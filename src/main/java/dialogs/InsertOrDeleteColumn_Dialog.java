@@ -1,7 +1,7 @@
 /************************************************************
  *                 InsertOrDeleteColumn_Dialog              *
- *                          01/15/25                        *
- *                            15:00                         *
+ *                          12/29/25                        *
+ *                            06:00                         *
  ***********************************************************/
 package dialogs;
 
@@ -26,6 +26,8 @@ import splat.Var_List;
 
 public class InsertOrDeleteColumn_Dialog extends Splat_Dialog {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     public int minVars, maxVars, varIndexForX, nCheckBoxes, minSampleSize;
     
@@ -54,11 +56,9 @@ public class InsertOrDeleteColumn_Dialog extends Splat_Dialog {
     public InsertOrDeleteColumn_Dialog(Data_Manager dm, String insertOrDelete) {
         super(dm);
         this.dm = dm;
-        
-        waldoFile = "InsertOrDeleteColumn_Dialog";
-        //waldoFile = "";
-        
-        dm.whereIsWaldo(61, waldoFile, "Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 60 InsertOrDeleteColumn_Dialog, Constructing");
+        }
         strReturnStatus = "Cancel";
         boolGoodToGo = true;
         

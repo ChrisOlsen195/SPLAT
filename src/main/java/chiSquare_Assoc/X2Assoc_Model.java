@@ -98,7 +98,7 @@ public class X2Assoc_Model {
         }
         x2Assoc_SummaryDialog = new X2Assoc_SummaryDialog(this);
         x2Assoc_SummaryDialog.showAndWait();
-        strReturnStatus = x2Assoc_SummaryDialog.getReturnStatus();        
+        strReturnStatus = x2Assoc_SummaryDialog.getStrReturnStatus();        
         if (strReturnStatus.equals("OK")) {
             nRows = x2Assoc_SummaryDialog.getNRows();
             nCols = x2Assoc_SummaryDialog.getNCols();
@@ -275,12 +275,12 @@ public class X2Assoc_Model {
     
     public String getTopVariable() { return strTopVariable; }
     public String getLeftVariable() { return strLeftVariable; } 
-    public String[] getTopLabels() { return strTopValues; }
-    public String[] getLeftLabels() {return strLeftValues; }  
+    public String[] getStrTopLabels() { return strTopValues; }
+    public String[] getStrLeftLabels() {return strLeftValues; }  
     public double[] getRowProportions() {return rowProportions; }
     public double[] getColumnProportions() {return columnProportions; } 
-    public double[] getCumRowProps() { return cumulativeRowProps; }
-    public double[] getCumColProps() { return cumulativeColumnProps; } 
+    public double[] getCumulativeRowProps() { return cumulativeRowProps; }
+    public double[] getCumulativeColProps() { return cumulativeColumnProps; } 
     public double[] getRowTotals() { return rowTotals; }
     public double[] getColumnTotals() {return columnTotals; }
     

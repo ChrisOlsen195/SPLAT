@@ -1,6 +1,6 @@
 /**************************************************
  *            ANOVA2_RM_Controller                *
- *                  05/24/24                      *
+ *                  11/25/25                      *
  *                   12:00                        *
  *            Tested against Cohen, p513          *
  *                  02/12/24                      *
@@ -35,20 +35,26 @@ public class ANOVA2_RM_Controller {
     public ANOVA2_RM_Controller (Data_Manager dm) {
         this.dm = dm; 
         dm.whereIsWaldo(37, waldoFile, "Constructing");
-        nMeasures = dm.getNVarsInStruct() - 1;
-        nSubjects= dm.getNCasesInStruct();
-        anova2_RM_Calculations = new ANOVA2_RM_Calculations(dm, this);
-        fileStructureIsOK = anova2_RM_Calculations.checkTheFileStructure();
-        if (fileStructureIsOK) {
-            anova2_RM_Calculations.doTheRMStuff();
-        }
-        else { 
-            MyAlerts.showBadRMFileStructureAlert(); 
+        
+        int casesInStruct = dm.getNCasesInStruct();
+        if (casesInStruct == 0) {
+            MyAlerts.showAintGotNoDataAlert();
+        } else {    
+            nMeasures = dm.getNVarsInStruct() - 1;
+            nSubjects= dm.getNCasesInStruct();
+            anova2_RM_Calculations = new ANOVA2_RM_Calculations(dm, this);
+            fileStructureIsOK = anova2_RM_Calculations.checkTheFileStructure();
+            if (fileStructureIsOK) {
+                anova2_RM_Calculations.doTheRMStuff();
+            }
+            else { 
+                MyAlerts.showBadRMFileStructureAlert(); 
+            }
         }
     }
         
     public String doTheANOVA2() {
-        dm.whereIsWaldo(51, waldoFile, "doTheANOVA2()");
+        dm.whereIsWaldo(57, waldoFile, "doTheANOVA2()");
         strReturnStatus = "OK";
         dataAreBalanced = anova2_RM_Calculations.getDesignIsBalanced();
         replicatesExist = anova2_RM_Calculations.getThereAreReplications();

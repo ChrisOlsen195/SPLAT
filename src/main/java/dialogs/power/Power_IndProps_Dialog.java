@@ -1,6 +1,6 @@
 /************************************************************
  *                   Power_IndProps_Dialog                  *
- *                          01/15/25                        *
+ *                          12/31/25                        *
  *                            15:00                         *
  ***********************************************************/
 package dialogs.power;
@@ -92,8 +92,8 @@ public class Power_IndProps_Dialog extends Stage {
          txt_EffectSize;
     
     public Power_IndProps_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("96 *** Power_IndProps_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 96 Power_IndProps_Dialog, Constructing");
         }
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         sep = new Separator();
@@ -154,7 +154,10 @@ public class Power_IndProps_Dialog extends Stage {
         setScene(scene);
     }  
     
-private void makeNullsPanel() {       
+private void makeNullsPanel() {    
+        if (printTheStuff) {
+            System.out.println("*** 159 Power_IndProps_Dialog, makeNullsPanel()");
+        }
         nullMeanDiff = 0.0;
         nullDiffRequested = 0.0;
         str_AltHypChosen = "NotEqual";
@@ -254,6 +257,9 @@ private void makeNullsPanel() {
     }
  
     private void makeNumericValuesPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 261 Power_IndProps_Dialog, makeNumericValuesPanel()");
+        }
         vBoxNumValsPanel = new VBox();
         vBox_Grp_Prop_1 = new VBox();
         vBox_Grp_Prop_1.setAlignment(Pos.CENTER);
@@ -423,6 +429,9 @@ private void makeNullsPanel() {
     }
     
     private void makeInfDecisionsPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 433 Power_IndProps_Dialog, makeInfDecisionsPanel()");
+        }
         nullMeanDiff = 0.;
         daNullDiff = 0.0;
        
@@ -480,7 +489,10 @@ private void makeNullsPanel() {
         vBoxInfChoicesPanel.getChildren().add(hBoxAlphaAndCI);           
     }
     
-    private void makeBottomPanel() { 
+    private void makeBottomPanel() {
+       if (printTheStuff) {
+            System.out.println("*** 494 Power_IndProps_Dialog, makeBottomPanel()");
+        }
         hBoxBottomPanel = new HBox(10);
         hBoxBottomPanel.setAlignment(Pos.CENTER);
         hBoxBottomPanel.setPadding(new Insets(5, 5, 5, 5));

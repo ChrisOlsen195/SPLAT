@@ -1,6 +1,6 @@
 /****************************************************************************
  *                      X2Assoc_PrintStats                                  *
- *                           04/19/25                                       *
+ *                           09/20/25                                       *
  *                             12:00                                        *
  ***************************************************************************/
 package chiSquare_Assoc;
@@ -55,16 +55,16 @@ public class X2Assoc_PrintStats extends PrintTextReport_View {
         cumProps = new double[nRows + 1][nCols];    //  Internal cum props
         strLeftLabels = new String[nRows]; 
         strTopLabels = new String[nCols];
-        strTopLabels = x2Assoc_Model.getTopLabels();
-        strLeftLabels = x2Assoc_Model.getLeftLabels();
+        strTopLabels = x2Assoc_Model.getStrTopLabels();
+        strLeftLabels = x2Assoc_Model.getStrLeftLabels();
         obsVals = x2Assoc_Model.getObservedValues();
         expVals = x2Assoc_Model.getExpectedValues();
         chiSquare = x2Assoc_Model.getChiSquare();
         pValue = x2Assoc_Model.getPValue();
         x2Contribution = x2Assoc_Model.getX2Contributions();
         standResids = x2Assoc_Model.getStandardizedResiduals();
-        cumColProps = x2Assoc_Model.getCumColProps();
-        cumRowProps = x2Assoc_Model.getCumRowProps();
+        cumColProps = x2Assoc_Model.getCumulativeColProps();
+        cumRowProps = x2Assoc_Model.getCumulativeRowProps();
         cumMarginalRowProps = x2Assoc_Model.getCumMarginalRowProps();
         cumProps = x2Assoc_Model.getCellCumProps();
         strTitleText = "Elementary chi square statistics";

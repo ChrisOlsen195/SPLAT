@@ -1,6 +1,6 @@
 /**************************************************
  *             Two_Prop_MosaicPlotView            *
- *                    2/19/24                     *
+ *                   12/10/25                     *
  *                     15:00                      *
  *************************************************/
 package the_z_procedures;
@@ -32,9 +32,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import utilityClasses.*;
 
-public class Two_Prop_MosaicPlotView {
+public class Two_Prop_Inf_MosaicPlot_View {
     
     // POJOs
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int TWO, THREE;
     
@@ -70,21 +73,41 @@ public class Two_Prop_MosaicPlotView {
     public Clipboard clipboard;
     public ClipboardContent content;
 
-    public Two_Prop_MosaicPlotView(TwoProp_Inf_Model twoProp_Inf_Model, 
+    public Two_Prop_Inf_MosaicPlot_View(TwoProp_Inf_Model twoProp_Inf_Model, 
                       TwoProp_Inf_Dashboard twoProp_Inf_Dashboard,
                       double placeHoriz, double placeVert,
                       double withThisWidth, double withThisHeight) {
-        System.out.println("74 Two_Prop_MosaicPlotView. constructing");
+        if (printTheStuff) {
+            System.out.println("*** 81 Two_Prop_MosaicPlotView. constructing");
+        }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         graphColors = Colors_and_CSS_Strings.getGraphColors_02();
         graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();
         theContainingPane = new Pane(); 
         TWO = 2; THREE = 3;
+        nColsCat = TWO; nRowsCat = TWO;
+        leftLabels = new String[2];
+        leftLabels[0] = "No"; leftLabels[1] = "Yes";
+        topLabels = new String[2];
+        topLabels[0] = "No"; topLabels[1] = "Yes";
+        
+        columnProps = new double[3];
+        columnProps = twoProp_Inf_Model.getBivCat2xModel().getColumnProportions();
+        cumColProps = new double[3];
+        cumColProps = twoProp_Inf_Model.getBivCat2xModel().getCumulativeColProps();
+        cumRowProps = new double[3];
+        cumRowProps = twoProp_Inf_Model.getBivCat2xModel().getCumulativeRowProps();
+        cumMarginalRowProps = new double[3];
+        cumMarginalRowProps = twoProp_Inf_Model.getBivCat2xModel().getCumMarginalRowProps();
+        cumProps = new double[3][3];
+        cumProps = twoProp_Inf_Model.getBivCat2xModel().getCumulativeProportions();
     }
     
     public void completeTheDeal() {
-        //constructMosaicInfo();
+        if (printTheStuff) {
+            System.out.println("*** 109 Two_Prop_MosaicPlotView. completeTheDeal()");
+        }
         txtTitle1 = new Text("Mosaic Plot"); 
         txtTitle1.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR, 18));        
         txtTitle1.getStyleClass().add("titleLabel");              
@@ -97,13 +120,16 @@ public class Two_Prop_MosaicPlotView {
         setUpUI();
         setUpAnchorPane();
         
-        dragableAnchorPane.heightProperty().addListener(ov-> {doThePlot();});
-        dragableAnchorPane.widthProperty().addListener(ov-> {doThePlot();});
+        dragableAnchorPane.heightProperty().addListener(ov-> {doTheGraph();});
+        dragableAnchorPane.widthProperty().addListener(ov-> {doTheGraph();});
         theContainingPane = dragableAnchorPane.getTheContainingPane();  
         dragableAnchorPane.setOnMouseReleased(dragableAnchorPaneMouseHandler);        
     }
     
     private void initializeGraphParams() {
+        if (printTheStuff) {
+            System.out.println("*** 131 Two_Prop_MosaicPlotView.initializeGraphParams()");
+        }
         xAxis = new JustAnAxis(-0.15, 1.25);
         xAxis.setSide(Side.BOTTOM);
 
@@ -121,6 +147,9 @@ public class Two_Prop_MosaicPlotView {
     }
     
     private void setUpUI() {
+        if (printTheStuff) {
+            System.out.println("*** 151 Two_Prop_MosaicPlotView, setUpUI()");
+        }
         mosaicCanvas = new Canvas(0.95 * initWidth, 0.8 * initHeight);
         mosaicGC = mosaicCanvas.getGraphicsContext2D();   
         
@@ -165,6 +194,9 @@ public class Two_Prop_MosaicPlotView {
     }
     
     private void setUpAnchorPane() {
+        if (printTheStuff) {
+            System.out.println("*** 198 Two_Prop_MosaicPlotView, setUpAnchorPane()");
+        }
         dragableAnchorPane = new DragableAnchorPane();
         mosaicCanvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
         mosaicCanvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
@@ -179,7 +211,10 @@ public class Two_Prop_MosaicPlotView {
         dragableAnchorPane.setInitialEventCoordinates(initHoriz, initVert, initHeight, initWidth);
     }
     
-    public void doThePlot() {    
+    public void doTheGraph() {   
+        if (printTheStuff) {
+            System.out.println("*** 216 Two_Prop_MosaicPlotView, doTheGraph()");
+        }
         double x1, y1, x2, y2, height, width;
         text1Width = txtTitle1.getLayoutBounds().getWidth();
         text2Width = txtTitle2.getLayoutBounds().getWidth();
@@ -306,6 +341,9 @@ public class Two_Prop_MosaicPlotView {
     } 
     
     private void doTheMarginalPlot() {
+        if (printTheStuff) {
+            System.out.println("*** 345 Two_Prop_MosaicPlotView, doTheGraph()");
+        }
         double mPlotx1, mPloty1, mPlotx2, mPloty2, mPlotHeight, mPlotWidth;
         //  Marginal rows
         mPlotx1 = xAxis.getDisplayPosition(1.05);   
@@ -332,6 +370,9 @@ public class Two_Prop_MosaicPlotView {
     }
     
     private void doTheXAxis() {
+        if (printTheStuff) {
+            System.out.println("*** 374 Two_Prop_MosaicPlotView, doTheXAxis()");
+        }
         double x1, x2, topLabelXValue, topLabelYValue, preTopLabelXValue;
         mosaicGC.setFill(Color.BLACK);
         
@@ -362,36 +403,6 @@ public class Two_Prop_MosaicPlotView {
     EventHandler<MouseEvent> dragableAnchorPaneMouseHandler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent)  { }
-    }; 
-    
-    private void constructMosaicInfo()
-    {
-        /*
-        xMin = -.10; xMax = 1.40; yMin = -0.15; yMax = 1.0;
-        xRange = xMax - xMin; yRange = yMax - yMin;  
-        //nRowsCat = twoProp_Inf_Model.getNumberOfRows();
-        //nColsCat = twoProp_Inf_Model.getNumberOfColumns();
-        nRowsCat = TWO;
-        nColsCat = TWO;
-        cumRowProps = new double[THREE];
-        cumRowProps = twoProp_Inf_Model.getCumRowProps(); 
-        columnProps = new double[TWO];
-        columnProps = twoProp_Inf_Model.getColumnProportions();      
-        
-        cumMarginalRowProps = new double[THREE];
-        cumMarginalRowProps = twoProp_Inf_Model.getCumMarginalRowProps();  
-        cumColProps = new double[THREE];
-        cumColProps = twoProp_Inf_Model.getCumColProps();
-  
-        cumProps = new double[THREE][THREE];
-        cumProps = twoProp_Inf_Model.getCellCumProps();
-        
-        topLabels = new String[TWO];
-        leftLabels = new String[TWO];
-        strTopVariable = twoProp_Inf_Model.getTopVariable();
-        strLeftVariable = twoProp_Inf_Model.getLeftVariable();
-        leftLabels = twoProp_Inf_Model.getLeftLabels();
-        */
-    }      
+    };       
     public Pane getTheContainingPane() { return theContainingPane; }
 }

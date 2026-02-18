@@ -1,7 +1,7 @@
 /************************************************************
  *                     OneProp_Inf_Model                    *
- *                          03/14/25                        *
- *                            15:00                         *
+ *                          12/08/25                        *
+ *                            12:00                         *
  ***********************************************************/
 /***************************************************************************
  *  Interval for exact confidence intervals is the Jeffreys Interval.      *
@@ -24,10 +24,10 @@ import utilityClasses.*;
 
 public class OneProp_Inf_Model {
     //  POJOs
-    //boolean printTheStuff = true;
-    boolean printTheStuff = false;
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
     
-    private boolean goodToGo;
+    private boolean goodToGo, hypothTestDesired;
     
     private int n, x, confidenceLevel;
     
@@ -35,36 +35,32 @@ public class OneProp_Inf_Model {
            wilson_CI_Low, wilson_CI_High, agCoul_CI_Low, agCoul_CI_High,
            standard_pValue, alpha, alphaOverTwo, dbl_x, dbl_n, standard_pHat,
            agCoul_pHat, hypothProp, crit_Z_twoTails, crit_Z_oneTail, k_oneTail,
-           stErr_CI_agCoul, z_statistic_agCoul, standard_SE_CI, wilson_pHat_1Tail,
-           wilson_pHat_2Tails,
-           stErr_Hypoth, z_statistic, zLo, zHi, agCoul_num, stErr_CI_Wilson,
-           agCoul_den, cohensH, effectSize, k_twoTails, wilson_crit_1Tail, wilson_crit_2Tails;
-    
-    double stErr_CI_Wilson_1Tail, factor_CI_Wilson_2Tails;
-    
-    double zeroPointZero, onePointZero, twoPointZero, fourPointZero;
+           stErr_CI_agCoul, standard_SE_CI, wilson_pHat_1Tail,
+           wilson_pHat_2Tails, stErr_Hypoth, z_statistic, zLo, zHi, agCoul_num,
+           agCoul_den, cohensH, effectSize, k_twoTails, wilson_crit_1Tail, 
+           wilson_crit_2Tails, stErr_CI_Wilson_1Tail, factor_CI_Wilson_2Tails,
+           zeroPointZero, onePointZero, twoPointZero, fourPointZero;
 
-    private String returnStatus, strAltHypoth, graphProp, graphTitle;
+    public String strReturnStatus, strAltHypoth, graphProp, graphTitle;
     ArrayList<String> onePropReport;
     
+    // My Classes
     BetaDistribution betaDist_Low, betaDist_High;
+    OneProp_Inf_Controller oneProp_Inf_Controller;
 
     // FX Classes 
     Point_2D confIntForP;
     StandardNormal standNorm;    
     OneProp_Inf_Dialog oneProp_Inf_Dialog;
 
-    public OneProp_Inf_Model() {
-        if (printTheStuff == true) {
-            System.out.println("59 *** OneProp_Inf_Model, Constructing");
-        }
+    public OneProp_Inf_Model(OneProp_Inf_Controller oneProp_Inf_Controller) {
+        //if (printTheStuff) {
+        //    System.out.println("*** 58 OneProp_Inf_Model, Constructing");
+        //}
+        this.oneProp_Inf_Controller = oneProp_Inf_Controller;
         standNorm = new StandardNormal();
-        oneProp_Inf_Dialog = new OneProp_Inf_Dialog();
-        if (printTheStuff == true) {
-            System.out.println("64 --- OneProp_Inf_Model, altHypoth = " + strAltHypoth);
-        }
-        goodToGo = true;
-        returnStatus = "OK";
+        oneProp_Inf_Dialog = new OneProp_Inf_Dialog(this);
+        strReturnStatus = "OK";
         zeroPointZero = 0.0;
         onePointZero = 1.0;
         twoPointZero = 2.0;
@@ -72,14 +68,28 @@ public class OneProp_Inf_Model {
     }
     
     public String doZProcedure() {
+        //if (printTheStuff) {
+        //    System.out.println("*** 72 OneProp_Inf_Model,  doZProcedure()");
+        //}
         oneProp_Inf_Dialog.showAndWait();
+        //if (printTheStuff) {
+        //    System.out.println("--- 76 OneProp_Inf_Model, strReturnStatus = " + strReturnStatus);
+        //}
+        if (strReturnStatus.equals("Cancel") 
+                || strReturnStatus.equals("CloseWindow")) {
+            oneProp_Inf_Controller.setReturnStatus(strReturnStatus);
+            return strReturnStatus; 
+        }
+        //if (printTheStuff) {
+        //    System.out.println("--- 84 OneProp_Inf_Model, strReturnStatus = " + strReturnStatus);
+        //} 
         goodToGo = oneProp_Inf_Dialog.getGoodToGo();
-        returnStatus = oneProp_Inf_Dialog.getReturnStatus();
-        
+
         if (goodToGo) {
             onePropReport = new ArrayList();
             graphProp = oneProp_Inf_Dialog.get_GraphProp();
             graphTitle = oneProp_Inf_Dialog.get_GraphTitle();
+            hypothTestDesired = oneProp_Inf_Dialog.getHypothesisTestDesired();
             n = oneProp_Inf_Dialog.getN1();
             x = oneProp_Inf_Dialog.getX1();
             strAltHypoth = oneProp_Inf_Dialog.getAltHypothesis();
@@ -119,9 +129,9 @@ public class OneProp_Inf_Model {
             
             switch (strAltHypoth) {
                 case "NotEqual":     
-                    if (printTheStuff == true) {
-                        System.out.println("123 OneProp_Inf_Model, NotEqual");
-                    }
+                    //if (printTheStuff) {
+                    //    System.out.println("133 OneProp_Inf_Model, NotEqual");
+                    //}
                     standard_CI_Low = standard_pHat - crit_Z_twoTails * standard_SE_CI;
                     standard_CI_Low = Math.max(standard_CI_Low, zeroPointZero);
                     standard_CI_High = standard_pHat + crit_Z_twoTails * standard_SE_CI;
@@ -137,14 +147,15 @@ public class OneProp_Inf_Model {
                     wilson_CI_High = wilson_pHat_2Tails + wilson_crit_2Tails * factor_CI_Wilson_2Tails;
                     wilson_CI_High = Math.min(wilson_CI_High, onePointZero);
                     
-                    if (printTheStuff == true) {
-                        System.out.println("141 OneProp_Inf_Model, NotEqual, k = " + k_twoTails);
-                        System.out.println("142 OneProp_Inf_Model, NotEqual, wilson_pHat_2Tails = " + wilson_pHat_2Tails);
-                        System.out.println("143 OneProp_Inf_Model, NotEqual, wilson_crit_2Tails = " + wilson_crit_2Tails);
-                        System.out.println("144 OneProp_Inf_Model, NotEqual, factor_CI_Wilson_2Tails = " + factor_CI_Wilson_2Tails);
-                        System.out.println("145 OneProp_Inf_Model, NotEqual, Wilson Low/High = " + wilson_CI_Low + " / " + wilson_CI_High);
+                    /*
+                    if (printTheStuff) {
+                        System.out.println("152 OneProp_Inf_Model, NotEqual, k = " + k_twoTails);
+                        System.out.println("153 OneProp_Inf_Model, NotEqual, wilson_pHat_2Tails = " + wilson_pHat_2Tails);
+                        System.out.println("154 OneProp_Inf_Model, NotEqual, wilson_crit_2Tails = " + wilson_crit_2Tails);
+                        System.out.println("155 OneProp_Inf_Model, NotEqual, factor_CI_Wilson_2Tails = " + factor_CI_Wilson_2Tails);
+                        System.out.println("156 OneProp_Inf_Model, NotEqual, Wilson Low/High = " + wilson_CI_Low + " / " + wilson_CI_High);
                     }
-
+                    */
                     
                     zLo = -Math.abs(z_statistic);
                     zHi = Math.abs(z_statistic);
@@ -157,9 +168,9 @@ public class OneProp_Inf_Model {
                     break;
 
                 case "LessThan":
-                    if (printTheStuff == true) {
-                        System.out.println("161 OneProp_Inf_Model, LessThan");
-                    }
+                    //if (printTheStuff) {
+                    //    System.out.println("172 OneProp_Inf_Model, LessThan");
+                    //}
                     agCoul_CI_Low = agCoul_pHat - crit_Z_twoTails * stErr_CI_agCoul;
                     agCoul_CI_Low = Math.max(agCoul_CI_Low, zeroPointZero);
                     standard_CI_Low = standard_pHat - crit_Z_oneTail * standard_SE_CI;
@@ -176,9 +187,9 @@ public class OneProp_Inf_Model {
                     break;
 
                 case "GreaterThan":
-                    if (printTheStuff == true) {
-                        System.out.println("180 OneProp_Inf_Model, GreaterThan");
-                    }
+                    //if (printTheStuff) {
+                    //    System.out.println("191 OneProp_Inf_Model, GreaterThan");
+                    //}
                     standard_CI_High = standard_pHat + crit_Z_oneTail * standard_SE_CI;
                     standard_CI_High = Math.min(standard_CI_High, onePointZero);
                     agCoul_CI_High = agCoul_pHat + crit_Z_oneTail * stErr_CI_agCoul;
@@ -194,14 +205,14 @@ public class OneProp_Inf_Model {
                     break;
 
                 default:
-                    String switchFailure = "Switch failure: OneProp_Inf_Model 197 " + strAltHypoth;
+                    String switchFailure = "Switch failure: OneProp_Inf_Model 208 " + strAltHypoth;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);  
                 }   
             
             confIntForP = new Point_2D(standard_CI_Low, standard_CI_High);
         }
 
-        return returnStatus;
+        return strReturnStatus;
     }
     
     private void doTheStandardInterval() {
@@ -277,8 +288,10 @@ public class OneProp_Inf_Model {
                                                                             wilson_CI_High)); 
         
         addNBlankLinesToOnePropReport(2);
-        onePropReport.add(String.format("        Effect size (Cohen's H) = %5.3f",  effectSize)); 
-        addNBlankLinesToOnePropReport(1);
+        if (hypothTestDesired) {
+            onePropReport.add(String.format("        Effect size (Cohen's H) = %5.3f",  effectSize)); 
+            addNBlankLinesToOnePropReport(1);
+        }
         
         if ((x < 10) || (n - x < 10)) {
         addNBlankLinesToOnePropReport(1);
@@ -439,8 +452,11 @@ public class OneProp_Inf_Model {
     public OneProp_Inf_Model getOnePropModel() { return this; }
     public ArrayList<String> getStringsToPrint() { return onePropReport; }
     public double getPHat() { return standard_pHat; }
+    public String getReturnStatus() { return strReturnStatus; }
+    public void setReturnStatus(String daReturnStatus) { 
+        strReturnStatus = daReturnStatus; 
+    }
     public boolean getGoodToGo() {return goodToGo; }
-    public String getReturnStatus() { return returnStatus; }
     public Point_2D getConfIntForP() { return confIntForP; }
     public String getGraphTitle() { return graphTitle; }
     public String getGraphProp() { return graphProp; }

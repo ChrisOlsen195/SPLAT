@@ -1,6 +1,6 @@
 /**************************************************
  *          X2Assoc_SegmentedBarChartView         *
- *                    01/15/25                    *
+ *                    09/20/25                    *
  *                     12:00                      *
  *************************************************/
 package chiSquare_Assoc;
@@ -113,7 +113,7 @@ public class X2Assoc_SegBarChartView  {
 
     private void initializeGraphParams() {        
         for (int lab = 0; lab < nColsCat; lab++) {
-            topLabels = x2Assoc_Model.getTopLabels();
+            topLabels = x2Assoc_Model.getStrTopLabels();
         }
 
         xAxis = new JustAnAxis(-0.15, 1.25);
@@ -362,7 +362,7 @@ public class X2Assoc_SegBarChartView  {
         
         strTopVariable = x2Assoc_Model.getTopVariable();
         strLeftVariable = x2Assoc_Model.getLeftVariable();
-        leftLabels = x2Assoc_Model.getLeftLabels();
+        leftLabels = x2Assoc_Model.getStrLeftLabels();
     }  
     
     EventHandler<MouseEvent> dragableAnchorPaneMouseHandler = new EventHandler<MouseEvent>() {

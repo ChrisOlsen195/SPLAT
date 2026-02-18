@@ -127,7 +127,7 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneProp_Exact_PDFView 121 " + hypotheses;
+                String switchFailure = "Switch failure: OneProp_Exact_PDFView 130 " + hypotheses;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         
@@ -175,7 +175,7 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneProp_Exact_PDFView 169 " + "hypotheses";
+                String switchFailure = "Switch failure: OneProp_Exact_PDFView 178 " + "hypotheses";
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);           
         }
 
@@ -340,7 +340,7 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneProp_Exact_PDFView 334 " + hypotheses;
+                String switchFailure = "Switch failure: OneProp_Exact_PDFView 343 " + hypotheses;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }         
         
@@ -351,7 +351,7 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
         if (identifyPValueIsDesired) {
             gc.setFill(Color.BLUE);
             tempString = String.format("pValue = %4.3f", pValue);
-            gc.fillText(tempString, 0.75 * paneWidth, 0.10 * paneHeight);
+            gc.fillText(tempString, 0.65 * paneWidth, 0.10 * paneHeight);
         }
         
         if (assumptionCheckIsDesired) {

@@ -67,7 +67,7 @@ public String doTheANCOVA() {
             return "Cancel";
         }
         
-        if (ancova_Dialog.getReturnStatus().equals("Cancel")) {
+        if (ancova_Dialog.getStrReturnStatus().equals("Cancel")) {
             returnStatus = "Cancel";
             return returnStatus;
         }

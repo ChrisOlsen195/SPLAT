@@ -19,8 +19,9 @@ public class ANOVA2_RCB_Dashboard extends Dashboard {
                                            "MainEffectA", "MainEffectB",
                                            "Interaction ", " Print Stats "
                                          };
-    //String waldoFile = "";
-    String waldoFile = "ANOVA2_Dashboard";  
+
+    //String waldoFile = "ANOVA2_Dashboard";  
+    String waldoFile = "";
     
     // My classes
     ANOVA2_Factorial_Model anova2_Factorial_Model;     

@@ -315,7 +315,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
     public boolean getDesignIsBalanced() { return designIsBalanced; } 
     public boolean getThereAreReplications() { return thereAreReplications; }
     public boolean getDataAreMissing() { return dataAreMissing; }
-    public String getReturnStatus() { return strReturnStatus; }
+    public String getStrReturnStatus() { return strReturnStatus; }
     public int getNumRows() {return numRows; }
     public int getNumCols() { return numCols; }
     public ArrayList<ColumnOfData> getData() {return al_Data; }

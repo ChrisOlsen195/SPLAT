@@ -1,6 +1,6 @@
 /**************************************************
  *                   LevenesTest                  *
- *                    11/01/23                    *
+ *                    05/12/25                    *
  *                      21:00                     *
  *************************************************/
 
@@ -15,29 +15,47 @@ import probabilityDistributions.*;
 
 public class LevenesTest {
     
+    // Make empty if no-print
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     private int nGroups, totalN;
     private int[] legalN;
-    private double grandSumZIJ, grandMeanZIJ, levenes_W, sumYIJ, levenes_W_PValue,
-                   brownForsyth_Stat, brownForsyth_PValue,
-                   levenes_W_Trimmed;
-    private double[] groupMean, groupMedian, trimmedMean;
+    private double grandSumZIJ, kirk_A, kirk_AS, grandMeanZIJ, levenes_W, 
+                   sumYIJ, brownForsyth_Stat, 
+                   brownForsyth_PValue, levenes_W_Trimmed;
+    
+    double kirk_SSBG, kirk_MSBG, kirk_MSWG, kirk_SSWG, kirk_F;
+    private double[] groupMean, groupMedian, trimmedMean, sumZIJ_Group;
     private double[] zBarI;
     private double[][] yIJ, zIJ;
     
 ArrayList<QuantitativeDataVariable> allTheQDVs;    
 
     public LevenesTest(ArrayList<QuantitativeDataVariable> allTheQDVs) {
+        if (printTheStuff == true) {
+            System.out.println("35 *** Levene's W, Constructing");
+        }
         this.allTheQDVs = allTheQDVs;
-        totalN = allTheQDVs.get(0).getLegalN();
-        nGroups = allTheQDVs.size() - 1;
-        legalN = new int[nGroups + 1];
-        groupMean = new double[nGroups + 1];
-        groupMedian = new double[nGroups + 1];
-        trimmedMean = new double[nGroups + 1];
-        zBarI = new double[nGroups + 1];   //  0 not used
+        nGroups = allTheQDVs.size();
+        totalN = 0;
+        for (int ithGroup = 0; ithGroup < nGroups; ithGroup++) {
+            totalN += allTheQDVs.get(ithGroup).getLegalN();
+        }
+        if (printTheStuff == true) {
+            System.out.println("46 --- Levene's W, Constructing totalN = " + totalN);
+        }
+        legalN = new int[nGroups];
+        groupMean = new double[nGroups];
+        groupMedian = new double[nGroups];
+        trimmedMean = new double[nGroups];
+        sumZIJ_Group = new double[nGroups];
+        
+        zBarI = new double[nGroups];
         sumYIJ = 0;
 
-        for (int qdv = 0; qdv <= nGroups; qdv++) {
+        for (int qdv = 0; qdv < nGroups; qdv++) {
+            //allTheQDVs.get(qdv).toString();  // ************************
             legalN[qdv] = allTheQDVs.get(qdv).getLegalN();
             groupMean[qdv] = allTheQDVs.get(qdv).getTheMean();
             groupMedian[qdv] = allTheQDVs.get(qdv).getTheMedian();
@@ -46,38 +64,41 @@ ArrayList<QuantitativeDataVariable> allTheQDVs;
         }
         
         int largestGroupSize = 0;        
-        for (int qdv = 1; qdv <= nGroups; qdv++) {
+        for (int qdv = 0; qdv < nGroups; qdv++) {
             largestGroupSize = Math.max(largestGroupSize, legalN[qdv]);
         }
         
-        yIJ = new double[nGroups + 1][largestGroupSize];
-        zIJ = new double[nGroups + 1][largestGroupSize];
+        yIJ = new double[nGroups][largestGroupSize];
+        zIJ = new double[nGroups][largestGroupSize];
         
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {            
+        for (int ithGroup = 0; ithGroup < nGroups; ithGroup++) {            
             for(int jthElement = 0; jthElement < legalN[ithGroup]; jthElement++) {
                 yIJ[ithGroup][jthElement] = allTheQDVs.get(ithGroup)
                                                       .getIthDataPtAsDouble(jthElement);
                 sumYIJ += yIJ[ithGroup][jthElement];   
-            }
-           
+            }      
         }
         
         FDistribution fDist = new FDistribution(nGroups - 1, totalN - nGroups);
         brownForsyth_Stat = doModifiedLevene();
         brownForsyth_PValue = fDist.getRightTailArea(brownForsyth_Stat);
         
-        levenes_W = doLevenesForMeans();
-        levenes_W_PValue = fDist.getRightTailArea(levenes_W);
+        //levenes_W = doLevenesForMeans();
+        //levenes_W_PValue = fDist.getRightTailArea(levenes_W);
         
         // Trimming for Levenes is hard coded for 10% trim until guidance discovered
-        levenes_W_Trimmed = doLevenesForTrimmedMeans(0.10);       
+        //levenes_W_Trimmed = doLevenesForTrimmedMeans(0.10); 
+        //levenes_W_PValue = fDist.getRightTailArea(levenes_W);
     }
     
    private double doLevenesForMeans() {
+       if (printTheStuff) {
+            System.out.println("108 *** Levene's W with Means, doLevenesForMeans()");
+        }
         grandSumZIJ = 0.0;
         grandMeanZIJ = 0.0;
         
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {
+        for (int ithGroup = 0; ithGroup < nGroups; ithGroup++) {
             double tempSumZIJ = 0.0;            
             for(int jthElement = 0; jthElement < legalN[ithGroup]; jthElement++) {
                 zIJ[ithGroup][jthElement] = Math.abs(yIJ[ithGroup][jthElement] - groupMean[ithGroup]);
@@ -92,12 +113,12 @@ ArrayList<QuantitativeDataVariable> allTheQDVs;
         double numerSum = 0.0;
         double denomSum = 0.0;
        
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {
+        for (int ithGroup = 0; ithGroup < nGroups; ithGroup++) {
             double temp1 = zBarI[ithGroup] - grandMeanZIJ;
             numerSum += legalN[ithGroup] * temp1 * temp1;
         }
         
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {            
+        for (int ithGroup = 0; ithGroup < nGroups; ithGroup++) {            
            for (int jthElement = 0; jthElement < legalN[ithGroup]; jthElement++) {
                double temp2 = zIJ[ithGroup][jthElement] - zBarI[ithGroup];
                denomSum += temp2 * temp2;
@@ -109,8 +130,9 @@ ArrayList<QuantitativeDataVariable> allTheQDVs;
     }
 
    // ***********************************************************************
-   // *     Brown-Forsythe agrees with Kirk, Experimental Design (3rd)      *
-   // *                     12/16/18                                        *
+   // *     Brown-Forsythe agrees with Kirk, Experimental Design (4th),     *
+   // *             and Cannon, et al.  STAT2 (2nd)                         *   
+   // *                     05/12/25                                        *
    // ***********************************************************************
    // ***********************************************************************
    // * Brown, M. & Forsyth, A.  Robust Tests for the Equality of Variances *
@@ -119,45 +141,49 @@ ArrayList<QuantitativeDataVariable> allTheQDVs;
    // ***********************************************************************
    
    private double doModifiedLevene() {  //  Brown-Forsythe
+       if (printTheStuff) {
+            System.out.println("162 *** Levene's W with Medians, doModifiedLevene()");
+        }
         grandSumZIJ = 0.0;
+        kirk_A = 0.0;
+        kirk_AS = 0;
         grandMeanZIJ = 0.0;        
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {
-            double tempSumZIJ = 0.0;            
+        for (int ithGroup = 0; ithGroup < nGroups; ithGroup++) {
+            double tempSumZIJ = 0.0; 
+            sumZIJ_Group[ithGroup] = 0.0;
             for(int jthElement = 0; jthElement < legalN[ithGroup]; jthElement++) {
                 zIJ[ithGroup][jthElement] = Math.abs(yIJ[ithGroup][jthElement] - groupMedian[ithGroup]);
-                tempSumZIJ += zIJ[ithGroup][jthElement];
-                grandSumZIJ += zIJ[ithGroup][jthElement];
+                double tempyWempy = zIJ[ithGroup][jthElement];
+                sumZIJ_Group[ithGroup] += tempyWempy;
+                tempSumZIJ += tempyWempy;
+                grandSumZIJ += tempyWempy;
+                kirk_AS += (tempyWempy * tempyWempy);
             }            
             zBarI[ithGroup] = tempSumZIJ / legalN[ithGroup];
+            kirk_A += (sumZIJ_Group[ithGroup] * sumZIJ_Group[ithGroup] / legalN[ithGroup]);
         }  
         
         grandMeanZIJ = grandSumZIJ / legalN[0];
+        
+        double kirk_Z = grandSumZIJ * grandSumZIJ / totalN;
 
-        double numerSum = 0.0;
-        double denomSum = 0.0;
-       
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {
-            double temp1 = zBarI[ithGroup] - grandMeanZIJ;
-            numerSum += legalN[ithGroup] * temp1 * temp1;
-        }
+        kirk_SSBG = kirk_A - kirk_Z;
+        kirk_SSWG = kirk_AS - kirk_A;
+        kirk_MSBG = kirk_SSBG / ( nGroups - 1);
+        kirk_MSWG = kirk_SSWG / (totalN - nGroups);
         
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {            
-           for (int jthElement = 0; jthElement < legalN[ithGroup]; jthElement++) {
-               double temp2 = zIJ[ithGroup][jthElement] - zBarI[ithGroup];
-               denomSum += temp2 * temp2;
-           }           
-        }   
-        
-       double W = (totalN - nGroups) * numerSum / ((nGroups - 1) * denomSum);
+       double W = kirk_MSBG / kirk_MSWG;
        return W;
        }
 
-
     private double doLevenesForTrimmedMeans(double trimProp) { 
+       if (printTheStuff == true) {
+            System.out.println("181 *** Levene's W, doLevenesForTrimmedMeans(double trimProp)");
+        }
         grandSumZIJ = 0.0;
         grandMeanZIJ = 0.0;
         
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {            
+        for (int ithGroup = 0; ithGroup < nGroups; ithGroup++) {            
             double tempSumZIJ = 0.0;            
             for(int jthElement = 0; jthElement < legalN[ithGroup]; jthElement++) {
                 zIJ[ithGroup][jthElement] = Math.abs(yIJ[ithGroup][jthElement] - trimmedMean[ithGroup]);
@@ -172,12 +198,12 @@ ArrayList<QuantitativeDataVariable> allTheQDVs;
        double numerSum = 0.0;
        double denomSum = 0.0;
        
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {
+        for (int ithGroup = 0; ithGroup < nGroups; ithGroup++) {
             double temp1 = zBarI[ithGroup] - grandMeanZIJ;
             numerSum += legalN[ithGroup] * temp1 * temp1;
         }
         
-        for (int ithGroup = 1; ithGroup <= nGroups; ithGroup++) {
+        for (int ithGroup = 0; ithGroup < nGroups; ithGroup++) {
            for (int jthElement = 0; jthElement < legalN[ithGroup]; jthElement++) {
                double temp2 = zIJ[ithGroup][jthElement] - zBarI[ithGroup];
                denomSum += temp2 * temp2;

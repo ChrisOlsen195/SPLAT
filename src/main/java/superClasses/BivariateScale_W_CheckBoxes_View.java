@@ -1,7 +1,7 @@
 /*************************************************
 *           BivariateScale_W_CheckBoxes_View     *
-*                    02/20/25                    *
-*                      15:00                     *
+*                    09/02/25                    *
+*                      18:00                     *
 *************************************************/
 package superClasses;
 
@@ -81,8 +81,8 @@ public abstract class BivariateScale_W_CheckBoxes_View extends BivariateScale_Vi
     public BivariateScale_W_CheckBoxes_View(double placeHoriz, double placeVert,
                                                 double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("89 *** BivariateScale_W_CheckBoxes_View (Super), Constructing");
+        if (printTheStuff) {
+            System.out.println("85 *** BivariateScale_W_CheckBoxes_View (Super), Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 

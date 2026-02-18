@@ -1,7 +1,7 @@
 /****************************************************************************
  *                Epidemiology_Summary_Dialog                               * 
- *                          08/19/24                                        *
- *                            00:00                                         *
+ *                          12/12/25                                        *
+ *                            12:00                                         *
  ***************************************************************************/
 package epidemiologyProcedures;
 
@@ -32,6 +32,8 @@ import utilityClasses.MyAlerts;
 public class Epi_SummaryDialog extends Splat_Dialog {
     //  POJOs
     boolean closeRequested;
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
 
     ArrayList<String> strEnteredData; 
     
@@ -50,7 +52,9 @@ public class Epi_SummaryDialog extends Splat_Dialog {
 
     public Epi_SummaryDialog(Epi_Model epi_Model) {
         super();
-        System.out.println("\n53 Epidemiology_SummaryDialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 56 Epi_SummaryDialog, Constructing");
+        }
         VBox root = new VBox();
         this.epi_Model = epi_Model;
         stf_al_Epi = new ArrayList<>();
@@ -139,9 +143,7 @@ public class Epi_SummaryDialog extends Splat_Dialog {
         btnCancel.setText("Return to Menu");
         btnCancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                epi_Model.setCleanReturnFromSummaryDialog("Cancel");
-                epi_Model.closeTheSummaryDialog(false);
-                strReturnStatus = "Cancel";
+                epi_Model.setStrReturnStatus("Cancel");
                 close();
             }
         });
@@ -272,7 +274,7 @@ public class Epi_SummaryDialog extends Splat_Dialog {
         return true;
     }
     
-    public String getReturnStatus() { return strReturnStatus;  }   
+    public String getStrReturnStatus() { return strReturnStatus;  }   
     public void armDirectionsButtons() {
         btnCancel.arm(); btnClearControl.arm(); btnContinue.arm(); 
     }      

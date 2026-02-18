@@ -58,7 +58,7 @@ public class RandomAssignment_Controller {
                     randAssign_CRD_Dialog = new RandomAssignment_CRD_Dialog(dm);
                     dm.whereIsWaldo(56, waldoFile, "randAssign_CRD");
                     randAssign_CRD_Dialog.showAndWait();
-                    returnStatus = randAssign_CRD_Dialog.getReturnStatus();
+                    returnStatus = randAssign_CRD_Dialog.getStrReturnStatus();
                     
                     if (!returnStatus.equals("OK")) {  return returnStatus; }
                     
@@ -72,7 +72,7 @@ public class RandomAssignment_Controller {
                     randAssign_RBD_Dialog = new RandomAssignment_RBD_Dialog(dm);
                     dm.whereIsWaldo(71, waldoFile, "randAssign_RBD");
                     randAssign_RBD_Dialog.showAndWait();
-                    returnStatus = randAssign_RBD_Dialog.getReturnStatus();
+                    returnStatus = randAssign_RBD_Dialog.getStrReturnStatus();
                     if (!returnStatus.equals("OK")) {
                         return returnStatus;
                     }
@@ -92,7 +92,7 @@ public class RandomAssignment_Controller {
             defineTreatments_Dialog = new Define_Treatments_Dialog(this);
             defineTreatments_Dialog.constructDialogGuts();
             defineTreatments_Dialog.showAndWait();
-            returnStatus = defineTreatments_Dialog.getReturnStatus();
+            returnStatus = defineTreatments_Dialog.getStrReturnStatus();
             
             if (!returnStatus.equals("OK")) { return "Cancel"; }
             

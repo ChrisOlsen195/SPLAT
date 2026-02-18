@@ -61,7 +61,7 @@ public String doTheRegr_Compare() {
         dm.whereIsWaldo(61, waldoFile, "doTheANCOVA()");
         returnStatus = "OK";
 
-        if (ancova_Dialog.getReturnStatus().equals("Cancel")) {
+        if (ancova_Dialog.getStrReturnStatus().equals("Cancel")) {
             returnStatus = "Cancel";
             return returnStatus;
         }

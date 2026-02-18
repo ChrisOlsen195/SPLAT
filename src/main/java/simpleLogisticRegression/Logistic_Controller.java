@@ -1,7 +1,7 @@
 /************************************************************
  *                     Logistic_Controller                  *
- *                          04/23/25                        *
- *                            03:00                         *
+ *                          12/16/25                        *
+ *                            21:00                         *
  ***********************************************************/
 /******************************************************************
  *   It is not obvious in the code what is happening here.  This   *
@@ -31,7 +31,7 @@ public class Logistic_Controller {
     private int[] nObservations, nSuccesses;
     
     private String returnStatus, explanVar, respVar, respVsExplanVar,
-                   firstVarDescr;
+                   firstVarDescr, strReturnStatus;
     ArrayList<String> xStrings, yStrings;
     
     // Make empty if no-print
@@ -52,10 +52,11 @@ public class Logistic_Controller {
     public Logistic_Controller(Data_Manager dm) {
         this.dm = dm;      
         dm.whereIsWaldo(54, waldoFile, "Constructing");
+        strReturnStatus = "OK";
     }  
         
     public String doTheProcedure() {    //  Called from Main Menu
-        dm.whereIsWaldo(58, waldoFile, "doTheProcedure()");
+        dm.whereIsWaldo(59, waldoFile, "doTheProcedure()");
         try {
             int casesInStruct = dm.getNCasesInStruct();
             
@@ -66,26 +67,30 @@ public class Logistic_Controller {
             
             logistic_Dialog = new Logistic_Dialog(dm, "QUANTITATIVE");
             logistic_Dialog.showAndWait();
-            returnStatus = logistic_Dialog.getReturnStatus();
+            returnStatus = logistic_Dialog.getStrReturnStatus();
             
             if (!returnStatus.equals("OK")) { return returnStatus; }
             firstVarDescr = logistic_Dialog.getPreferredFirstVarDescription();;
             respVsExplanVar = logistic_Dialog.getSubTitle();
             ArrayList<ColumnOfData> data = logistic_Dialog.getData();
             DataCleaner dc = new DataCleaner(dm, data.get(1));
-            dc.cleanAway();
+            strReturnStatus = dc.cleanAway();
+            
+            if (strReturnStatus.equals("Cancel")) { return strReturnStatus; }
+            
             int nUniques = dc.getNUniques();
             strUniques = dc.getUniques();
             
             if (nUniques != 2) {
+                dm.whereIsWaldo(85, waldoFile, "showMustBeTwoUniquesInLogisticAlert()");
                 MyAlerts.showMustBeTwoUniquesInLogisticAlert();
+                
                 return "NotOK";
             }
             
-            ColumnOfData colOfData = new ColumnOfData(dm, "LogisticContr83", "LogisticRegContr83", dc.getFixedData());
+            ColumnOfData colOfData = new ColumnOfData(dm, "LogisticContr91", "LogisticRegContr91", dc.getFixedData());
             int colSize = colOfData.getNCasesInColumn(); 
 
-            //if(!colOfData.getIsZeroOne()) {  
                 twoCategories = dc.getFinalCategories();                
                 for (int ithCase = 0; ithCase < colSize; ithCase++) {
                     if ((colOfData.getStringInIthRow(ithCase).trim()).equals((twoCategories[0].trim()))) {                        
@@ -94,10 +99,9 @@ public class Logistic_Controller {
                     else  { 
                         data.get(1).setStringInIthRow(ithCase, "1"); }  
                 }
-            //}
 
-            qdv_XVariable = new QuantitativeDataVariable("LogisticRegContr95", "LogisticRegContr099", data.get(0));
-            qdv_YVariable = new QuantitativeDataVariable("LogisticRegContr96", "LogisticRegContr100", data.get(1)); 
+            qdv_XVariable = new QuantitativeDataVariable("LogisticRegContr103", "LogisticRegContr099", data.get(0));
+            qdv_YVariable = new QuantitativeDataVariable("LogisticRegContr104", "LogisticRegContr100", data.get(1)); 
 
             dataXYLabels = new String[2];
             explanVar = qdv_XVariable.getTheVarLabel();
@@ -130,8 +134,8 @@ public class Logistic_Controller {
             logRegDashboard.populateTheBackGround();
             logRegDashboard.putEmAllUp();
             logRegDashboard.showAndWait();
-            returnStatus = logRegDashboard.getReturnStatus();
-            returnStatus = logistic_Dialog.getReturnStatus();
+            returnStatus = logRegDashboard.getStrReturnStatus();
+            returnStatus = logistic_Dialog.getStrReturnStatus();
 
             return returnStatus;
         }
@@ -244,7 +248,7 @@ public class Logistic_Controller {
     public QuantitativeDataVariable getQdvXVariable() { return qdv_XVariable; }
     
     public String[] getTwoCategories() { 
-        System.out.println("247 Logistic_Controller, twoCategories = " + twoCategories[0] + " / " + twoCategories[1]);
+        //System.out.println("247 Logistic_Controller, twoCategories = " + twoCategories[0] + " / " + twoCategories[1]);
         return twoCategories; }
     
 }

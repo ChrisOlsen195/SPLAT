@@ -1,7 +1,7 @@
 /**************************************************
  *           ANOVA2_RCB_CirclePlotView            *
- *                  02/19/24                      *
- *                    12:00                       *
+ *                  12/16/25                      *
+ *                    21:00                       *
  *************************************************/
 package anova2;
 
@@ -23,9 +23,10 @@ public class ANOVA2_RCB_CirclePlotView extends ANOVA2_RCB_BoxCircleInterActView 
         double withThisWidth, double withThisHeight) {
             super(rcbModel, rcb_Dashboard, placeHoriz, placeVert,
             withThisWidth, withThisHeight);
-            //waldoFile = "";
-            waldoFile = "RCB_CirclePlotView";
-            dm.whereIsWaldo(24, waldoFile, "Constructing");
+
+            //waldoFile = "RCB_CirclePlotView";
+            waldoFile = "";
+            dm.whereIsWaldo(29, waldoFile, "Constructing");
             strTitle2 = "Circly Wirkly Twosie";
     }
     

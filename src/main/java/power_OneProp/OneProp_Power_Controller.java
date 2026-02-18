@@ -35,7 +35,7 @@ public class OneProp_Power_Controller {
     
     public String ShowNWait() {
         power_SingleProp_Dialog.showAndWait();
-        strReturnStatus = power_SingleProp_Dialog.getReturnStatus();
+        strReturnStatus = power_SingleProp_Dialog.getStrReturnStatus();
         
         if (strReturnStatus.equals("Cancel")) { return strReturnStatus;  }
         
@@ -63,7 +63,7 @@ public class OneProp_Power_Controller {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: OneProp_Power_Controller 62 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneProp_Power_Controller 66 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);                
         }
         

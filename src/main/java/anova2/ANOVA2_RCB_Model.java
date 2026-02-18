@@ -1,7 +1,7 @@
 /**************************************************
  *               ANOVA2_RCB_Model                 *
- *                  05/24/24                      *
- *                    12:00                       *
+ *                  12/16/25                      *
+ *                    21:00                       *
  *************************************************/
 package anova2;
 
@@ -37,8 +37,8 @@ public class ANOVA2_RCB_Model {
     ArrayList<String> rcb_Report;    
     ObservableList<String> blockLevels, treatLevels;
     
-    //String  waldoFile = "";
-    String waldoFile = "ANOVA2_RCB_Model";
+    //String waldoFile = "ANOVA2_RCB_Model";
+    String  waldoFile = "";
     
     // My classes
     ANOVA2_RCB_Controller anova2_RCB_Controller;

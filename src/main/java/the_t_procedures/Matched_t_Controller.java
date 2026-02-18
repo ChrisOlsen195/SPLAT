@@ -67,7 +67,7 @@ public class Matched_t_Controller {
         
         matchedPairs_Dialog = new Matched_t_Dialog(dm, "QUANTITATIVE");
         matchedPairs_Dialog.showAndWait();
-        returnStatus = matchedPairs_Dialog.getReturnStatus();
+        returnStatus = matchedPairs_Dialog.getStrReturnStatus();
         
         if (returnStatus.equals("Cancel")) { return returnStatus; }
         
@@ -138,7 +138,6 @@ public class Matched_t_Controller {
         matched_t_Dashboard.populateTheBackGround();
         matched_t_Dashboard.putEmAllUp();
         matched_t_Dashboard.showAndWait();
-        returnStatus = matched_t_Dashboard.getReturnStatus();
         return returnStatus;           
     }
     

@@ -35,8 +35,8 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     // POJOs
     boolean equalPropsSelected;
     
-    //boolean printTheStuff = true;
-    boolean printTheStuff = false;
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
     
     int nCategories;
     int[] observedValues;
@@ -76,8 +76,8 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     
     public X2GOF_DataFromFile_Dialog(X2GOF_Model gof_Model) {
         super();
-        if (printTheStuff == true) {
-            System.out.println("80 *** X2GOF_DataFromFile_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 80 X2GOF_DataFromFile_Dialog, Constructing");
         }
         this.x2GOF_Model = gof_Model;
 
@@ -106,8 +106,8 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
  *                      Guts of the dialog                                  * 
  ***************************************************************************/
     public void x2FileDialog_Step1() {  
-        if (printTheStuff == true) {
-            System.out.println("110 *** X2GOF_DataFromFile_Dialog, x2FileDialog_Step1()");
+        if (printTheStuff) {
+            System.out.println("*** 110 X2GOF_DataFromFile_Dialog, x2FileDialog_Step1()");
         }
         vBoxGOF = new VBox();
         txtGOFControlTitle = new Text("X2 Goodness of Fit");  
@@ -157,8 +157,8 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     
     
     private void x2FileDialog_Step2() {   //  and CheckBox
-        if (printTheStuff == true) {
-            System.out.println("161 *** X2GOF_DataFromFile_Dialog, x2FileDialog_Step2()");
+        if (printTheStuff) {
+            System.out.println("*** 161 X2GOF_DataFromFile_Dialog, x2FileDialog_Step2()");
         }
         chBox_DoEqualProps = new CheckBox("H0 Equal Props");
         chBox_DoEqualProps.setOnAction(new EventHandler<ActionEvent>() {
@@ -288,8 +288,8 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     }
     
     public void x2FileDialog_Step3() {   
-        if (printTheStuff == true) {
-            System.out.println("292 --- X2GOF_DataFromFile_Dialog, x2FileDialog_Step3()");
+        if (printTheStuff) {
+            System.out.println("*** 292 X2GOF_DataFromFile_Dialog, x2FileDialog_Step3()");
         }
         strGOFCategories = new String[nCategories];
         strGOFCategories = x2GOF_Model.getPreCategoriesAsStrings();
@@ -343,8 +343,8 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     }   //  end whatever
     
     private boolean checkOKForAnalysis() { 
-        if (printTheStuff == true) {
-            System.out.println("347 --- X2GOF_DataFromFile_Dialog, checkOKForAnalysis()");
+        if (printTheStuff) {
+            System.out.println("*** 347 X2GOF_DataFromFile_Dialog, checkOKForAnalysis()");
         }
         boolean okToContinue = true;
         
@@ -367,8 +367,8 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
 *******************************************************************************/    
     
     public String doSumExpPropsDialog() {
-        if (printTheStuff == true) {
-            System.out.println("371 --- X2GOF_DataFromFile_Dialog, doSumExpPropsDialog()");
+        if (printTheStuff) {
+            System.out.println("*** 371 X2GOF_DataFromFile_Dialog, doSumExpPropsDialog()");
         }
         String returnString;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

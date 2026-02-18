@@ -1,7 +1,7 @@
 /************************************************************
  *                      Single_t_Dialog                     *
- *                          11/01/23                        *
- *                            09:00                         *
+ *                          12/14/25                        *
+ *                            15:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -28,23 +28,28 @@ import splat.Data_Manager;
 import utilityClasses.*;
 
 public class Single_t_Dialog extends One_Variable_Dialog { 
+      //boolean printTheStuff = true;
+      boolean printTheStuff = false;
+    
+    boolean okToContinue;
     int alphaIndex, ciIndex, confidenceLevel;
     int[] confLevels; 
-    boolean okToContinue;
+    
+    String strAltHypNE, strAltHypLT, strAltHypGT, strNullHyp, strNullAndAlt, 
+           strHypChosen, resultAsString;
+    
+    //String waldoFile = "Single_t_Dialog";
+    String waldoFile = "";
+    
+    String[] hypothPair;
+
     double hypothesizedMean, alpha;
     Double daNewNullMean;      
     double[] alphaLevels; 
     
     Button changeNull;
     RadioButton altHypNE, altHypLT, altHypGT;
-    String strAltHypNE, strAltHypLT, strAltHypGT, strNullHyp, strNullAndAlt, 
-           strHypChosen;
-    String resultAsString;
-    
-    //String waldoFile = "Single_t_Dialog";
-    String waldoFile = "";
-    
-    String[] hypothPair;
+
     Label lblNullAndAlt, ciLabel, alphaLabel;
     
     Separator sep;
@@ -60,7 +65,9 @@ public class Single_t_Dialog extends One_Variable_Dialog {
 
     public Single_t_Dialog(Data_Manager dm, String variableType) {
         super(dm, "Quantitative");
-        dm.whereIsWaldo(63, waldoFile, "Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 69 Single_t_Dialog, Constructing");
+        }
         lbl_Title.setText("Inference for a single mean (t)");
         lblFirstVar.setText("Variable choice:");
         alphaLevels = new double[] { 0.10, 0.05, 0.01};
@@ -72,7 +79,9 @@ public class Single_t_Dialog extends One_Variable_Dialog {
     }  
 
  private void makeHypotheses() {
-        dm.whereIsWaldo(75, waldoFile, "makeHypotheses()");
+        if (printTheStuff) {
+            System.out.println("*** 83 Single_t_Dialog, makeHypotheses()");
+        }
         hypothesizedMean = 0.0;
         daNewNullMean = 0.0;
         strHypChosen = "NotEqual";
@@ -168,7 +177,9 @@ public class Single_t_Dialog extends One_Variable_Dialog {
     }
  
 private void makeAlphaAndCIPanel() {
-        dm.whereIsWaldo(171, waldoFile, "makeAlphaAndCIPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 181 Single_t_Dialog, makeAlphaAndCIPanel()");
+        }
         ciLabel = new Label("   Select conf level");
         ciLabel.setMaxWidth(130);
         ciLabel.setMinWidth(130);

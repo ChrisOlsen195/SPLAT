@@ -76,8 +76,8 @@ public class Power_SingleMean_Dialog extends Power_Dialog {
 
     public Power_SingleMean_Dialog() {
         super("Quantitative");
-        if (printTheStuff == true) {
-            System.out.println("80 *** Power_SingleMean_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 80 Power_SingleMean_Dialog, Constructing");
         }
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         sep = new Separator();
@@ -139,7 +139,9 @@ public class Power_SingleMean_Dialog extends Power_Dialog {
     }  
     
 private void makeNullsPanel() {
-        
+        if (printTheStuff) {
+            System.out.println("*** 143 Power_SingleMean_Dialog, makeNullsPanel()");
+        }        
         strHypChosen = "NotEqual";
         strNullAndAlt = "  Choose from the null and \n  alternate hypothesis pairs \n  listed below:";
         lblNullAndAlt = new Label(strNullAndAlt);
@@ -201,6 +203,9 @@ private void makeNullsPanel() {
     }
  
     private void makeNumericValuesPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 207 Power_SingleMean_Dialog, makeNumericValuesPanel()");
+        } 
         str_Mean = "Null mean: ";
         str_Sigma = "Sigma: ";
         str_EffectSize = "Min Effect size: ";
@@ -325,6 +330,9 @@ private void makeNullsPanel() {
     }
     
     private void makeInfDecisionsPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 334 Power_SingleMean_Dialog, makeInfDecisionsPanel()");
+        }
         lblCILabel = new Label("   Select conf level");
         lblCILabel.setMaxWidth(120);
         lblCILabel.setMinWidth(120);
@@ -379,7 +387,10 @@ private void makeNullsPanel() {
         vBoxInfChoicesPanel.getChildren().add(hBoxAlphaAndCI);           
     }
     
-    private void makeBottomPanel() {        
+    private void makeBottomPanel() {  
+        if (printTheStuff) {
+            System.out.println("*** 392 Power_SingleMean_Dialog, makeBottomPanel()");
+        }
         hBoxBottomPanel = new HBox(10);
         hBoxBottomPanel.setAlignment(Pos.CENTER);
         hBoxBottomPanel.setPadding(new Insets(5, 5, 5, 5));

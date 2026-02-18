@@ -1,7 +1,7 @@
 /**************************************************
  *                 Indep_t_Model                  *
- *                    02/02/25                    *
- *                     06:00                      *
+ *                    08/12/25                    *
+ *                     12:00                      *
  *************************************************/
 package the_t_procedures;
 
@@ -171,8 +171,8 @@ public class Indep_t_Model {
                 dm.whereIsWaldo(171, waldoFile, " --- printStatistics() -- Case less than");
                 critical_t_Unpooled = tDist_Sat.quantile(oneMinusAlpha);
                 critical_t_Pooled = tDist_Pooled.quantile(oneMinusAlpha);
-                pValueDiff_Unpooled = tDist_Sat.cumulative(-Math.abs(tForTwoTails_Unpooled));
-                pValueDiff_Pooled = tDist_Sat.cumulative(-Math.abs(t_Pooled));
+                pValueDiff_Unpooled = 1.0 - tDist_Sat.cumulative(-Math.abs(tForTwoTails_Unpooled));
+                pValueDiff_Pooled = 1.0 - tDist_Sat.cumulative(-Math.abs(t_Pooled));
                 ciMean1_Low = xBar_1 - critical_t_mean1 * stErr_Var1;
                 ciMean1_High = xBar_1 + critical_t_mean1 * stErr_Var1;
                 ciMean2_Low = xBar_1 - critical_t_mean2 * stErr_Var2;
@@ -189,8 +189,8 @@ public class Indep_t_Model {
                 dm.whereIsWaldo(189, waldoFile, " --- printStatistics() -- Case greater than");
                 critical_t_Unpooled = tDist_Sat.quantile(oneMinusAlpha);
                 critical_t_Pooled = tDist_Pooled.quantile(oneMinusAlpha);
-                pValueDiff_Unpooled = 1.0 - tDist_Sat.cumulative(Math.abs(tForTwoTails_Unpooled));
-                pValueDiff_Pooled = 1.0 - tDist_Pooled.cumulative(Math.abs(t_Pooled));
+                pValueDiff_Unpooled = tDist_Sat.cumulative(-Math.abs(tForTwoTails_Unpooled));
+                pValueDiff_Pooled = tDist_Pooled.cumulative(-Math.abs(t_Pooled));  //  <--------------------------
                 
                 ciMean1_Low = xBar_1 - critical_t_mean1 * stErr_Var1;
                 ciMean1_High = xBar_1 + critical_t_mean1 * stErr_Var1;

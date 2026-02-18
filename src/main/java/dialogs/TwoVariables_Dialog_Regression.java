@@ -1,7 +1,7 @@
 /************************************************************
  *                TwoVariables_Dialog_Regression            *
- *                          04/16/25                        *
- *                           00:00                          *
+ *                          12/12/25                        *
+ *                           12:00                          *
  ***********************************************************/
 package dialogs;
 
@@ -31,6 +31,9 @@ public class TwoVariables_Dialog_Regression extends Splat_Dialog {
     private boolean boolQuantLabelChecked, bool_X_VarType_Ok, bool_Y_VarType_Ok; 
     boolean isCorrectType;
     
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     private int varIndex, varIndexFor_X, varIndexFor_Y;
     protected int nCheckBoxes;
     
@@ -58,8 +61,8 @@ public class TwoVariables_Dialog_Regression extends Splat_Dialog {
     
     Region leftAbove_VarsInFile, leftBelow_VarsInFile; 
 
-    //public String waldoFile = "Two_Variables_Dialog";
-    public String waldoFile  = "";
+    public String waldoFile = "Two_Variables_Dialog_Regression";
+    //public String waldoFile  = "";
     
     // My classes
     private ArrayList<ColumnOfData> al_ColOfData;
@@ -80,6 +83,9 @@ public class TwoVariables_Dialog_Regression extends Splat_Dialog {
     
     public TwoVariables_Dialog_Regression(Data_Manager dm,  String callingProcedure, String procInfo) {
         super(dm);
+        if (printTheStuff) {
+            System.out.println("*** 87 TwoVariables_Dialog_Regression, Constructing");
+        }
         this.dm = dm;
         this.callingProcedure = callingProcedure;
         this.procInfo = procInfo;
@@ -131,7 +137,7 @@ public class TwoVariables_Dialog_Regression extends Splat_Dialog {
                 break;               
             
             default:
-                String switchFailure = "Switch failure: Two-Variables_Dialog 120: " + callingProcedure;
+                String switchFailure = "Switch failure: Two-Variables_Dialog_Regression 120: " + callingProcedure;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);           
         }
 
@@ -395,7 +401,7 @@ public class TwoVariables_Dialog_Regression extends Splat_Dialog {
                 explanVarDescr =  tf_Var_1_Pref.getText();
                 responseVarDescr =  tf_Var_2_Pref.getText();
                 
-                if (StringUtilities.stringIsEmpty(explanVarDescr) || StringUtilities.stringIsEmpty(responseVarDescr))  {
+                if (StringUtilities.isEmpty(explanVarDescr) || StringUtilities.isEmpty(responseVarDescr))  {
                     strSubTitle = responseVarLabel  + " vs. " + explanVarLabel;  
                     setPreferredFirstVarDescription(explanVarLabel);
                     setPreferredSecondVarDescription(responseVarLabel);
@@ -434,7 +440,7 @@ public class TwoVariables_Dialog_Regression extends Splat_Dialog {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: Two-Variables_Dialog 448; checking Type of " + variableNowChecking;
+                String switchFailure = "Switch failure: Two-Variables_Dialog_Regression 443; checking Type of " + variableNowChecking;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         
@@ -490,7 +496,7 @@ public class TwoVariables_Dialog_Regression extends Splat_Dialog {
                 break;               
             
             default:
-                String switchFailure = "Switch failure: Two-Variables_Dialog 504: " + callingProcedure;
+                String switchFailure = "Switch failure: Two-Variables_Dialog_Regression 499: " + callingProcedure;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);           
         }        
         
@@ -531,7 +537,7 @@ public class TwoVariables_Dialog_Regression extends Splat_Dialog {
         }
     }
     
-    public String getReturnStatus() { 
+    public String getStrReturnStatus() { 
         if (strReturnStatusX.equals("Cancel")
                 || strReturnStatusY.equals("Cancel")) 
                    {strReturnStatus = "Cancel"; }

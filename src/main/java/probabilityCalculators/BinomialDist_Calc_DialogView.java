@@ -1,7 +1,7 @@
 /**************************************************
  *             BinomialDist_Calc_DialogView       *
- *                    01/16/25                    *
- *                     09:00                      *
+ *                    02/04/26                    *
+ *                     00:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -20,6 +20,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import superClasses.*;
+import static utilityClasses.DataUtilities.strIsANonNegInt;
+
 import utilityClasses.MyAlerts;
 
 public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_View {
@@ -81,8 +83,8 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);     
-        if (printTheStuff == true) {
-            System.out.println("85 *** BinomialDist_Calc_DialogView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 86 BinomialDist_Calc_DialogView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -219,8 +221,12 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     }
     
     private void resetBinomial() {
+        if (printTheStuff) {
+            System.out.println("--- 224 BinomialDist_Calc_DialogView, resetBinomial()");
+        }
         al_ProbCalcs_STF.get(0).setText(toBlank); 
         al_ProbCalcs_STF.get(1).setText(toBlank);
+        okToGraph = false;
         resetParameters();
     }
     
@@ -234,6 +240,9 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     }
     
     public void setUpAnchorPane() {
+        if (printTheStuff) {
+            System.out.println("--- 243 BinomialDist_Calc_DialogView, setUpAnchorPane()");
+        }
         dragableAnchorPane = new DragableAnchorPane();  
         anchorPane = dragableAnchorPane.getTheAP();
         dragableAnchorPane.makeDragable();
@@ -247,6 +256,9 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     }
     
     private void makeANewGraph() {
+        if (printTheStuff) {
+            System.out.println("--- 259 BinomialDist_Calc_DialogView, makeANewGraph()");
+        }
         binomialDist_Calc_PDFView.respondToChanges();
         binomialDist_Calc_PDFView.doTheGraph(); 
     } 
@@ -256,6 +268,9 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     }
   
     private void createHBoxes() {
+        if (printTheStuff) {
+            System.out.println("--- 271 BinomialDist_Calc_DialogView, createHBoxes()");
+        }
         hBox_LeftProbX_Is_LT = new HBox(); hBox_LeftProbX_Is_LE = new HBox();
         hBox_LeftProbX_Is_EQ = new HBox(); hBox_LeftProbX_Is_GE = new HBox();
         hBox_LeftProbX_Is_GT = new HBox(); hBox_LeftProbX_Is_LTLT = new HBox();
@@ -300,6 +315,9 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     
     
     private void createSTFs() { 
+        if (printTheStuff) {
+            //System.out.println("--- 318 BinomialDist_Calc_DialogView, createSTFs()");
+        }
         /*****************************************************************
          * The STFs:                                                     *
          *     0:  n                                                     *
@@ -339,9 +357,25 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
         al_ProbCalcs_STF.get(1).setSmartTextField_MB_PROBABILITY(true);
         
         for (int ithSTF = 2; ithSTF < 15; ithSTF++) {
-            al_ProbCalcs_STF.get(ithSTF).setSmartTextField_MB_POSITIVEINTEGER(true);
-        }      
+            al_ProbCalcs_STF.get(ithSTF).setSmartTextField_MB_NONNEGATIVE(true);
+        }   
         
+        /****************************************************************
+         *          Special cases, where 0 is allowed                   *
+         ***************************************************************/
+              //     *****  2, 3, 4  *****
+        for (int ithSTF = 2; ithSTF < 4; ithSTF++) {
+            al_ProbCalcs_STF.get(ithSTF).setSmartTextField_MB_NONNEGATIVE(false);
+            al_ProbCalcs_STF.get(ithSTF).setSmartTextField_MB_POSITIVEINTEGER(true);
+
+        }
+            //     *****  8, 10, 12, 14   *****
+        for (int ithSTF = 0; ithSTF < 4; ithSTF++) {
+            al_ProbCalcs_STF.get(8 + 2 * ithSTF).setSmartTextField_MB_NONNEGATIVE(false);
+            al_ProbCalcs_STF.get(8 + 2 * ithSTF).setSmartTextField_MB_POSITIVEINTEGER(true);
+
+        } 
+
         graphFound = false;
         for (int ithSTF = 0; ithSTF < 15; ithSTF++) {
             
@@ -360,7 +394,9 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     
     
     private void createTheLabels() {
-        //System.out.println("425 binomcalc, createTheLabels()");
+        if (printTheStuff) {
+            System.out.println("--- 397 BinomialDist_Calc_DialogView, createTheLabels()");
+        }
         /****************************************************************
          * The Labels:                                                   *
          *     0:  lbl_Title                                             *
@@ -456,22 +492,48 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     }
     
     private boolean checkWhetherToGraph() { 
-        okToGraph = false;
+        if (printTheStuff) {
+            System.out.println("--- 495 BinomialDist_Calc_DialogView, checkWhetherToGraph()");
+        }
         // Check for binomial not yet defined
         
         if (al_ProbCalcs_STF.get(0).getText().isEmpty() || al_ProbCalcs_STF.get(1).getText().isEmpty()) {
+            if (printTheStuff) {
+                System.out.println("... 501 BinomialDist_Calc_DialogView");
+            }
             binomialDist_Calc_PDFView.setInitializing(true);
-            return false;
+            okToGraph = false;
+            return okToGraph;
         }
 
         binomial_n = Integer.parseInt(al_ProbCalcs_STF.get(0).getText());
         binomial_p = Double.parseDouble(al_ProbCalcs_STF.get(1).getText());
         binomialDist_Calc_PDFView.setInitializing(false);
-        
+        okToGraph = true;
+        //    ************   Check for out of bounds values  **********
+        for (int ithSTF = 2; ithSTF < 15; ithSTF++) {
+            if (!(al_ProbCalcs_STF.get(ithSTF).getText().isEmpty())) {
+                String strTemp = al_ProbCalcs_STF.get(ithSTF).getText();   
+                if (strIsANonNegInt(strTemp)) {
+                    int tempInt = Integer.parseInt(strTemp);
+                    if (tempInt > binomial_n) {
+                        MyAlerts.showBinomialDaredevilAlert();
+                        resetBinomial();
+                        okToGraph = false;
+                        return okToGraph;
+                    }
+                }
+            }
+            
+        }
+                
         //    ************   Check for more than one selected  **********
         boolean moreThanOneSelected = moreThanOneIsSelected();
         
         if (moreThanOneSelected) {
+            if (printTheStuff) {
+                System.out.println("... 517 BinomialDist_Calc_DialogView");
+            }
             moreThanOneSelectedIndex++;
             
             if (moreThanOneSelectedIndex == 1) {
@@ -482,8 +544,13 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
                moreThanOneSelectedIndex = 0; 
             }
             moreThanOneSelected = false;
+
             okToGraph = false;
-            return false;
+            if (printTheStuff) {
+                System.out.println("... 532 BinomialDist_Calc_DialogView, moreThanOneSelected = false");
+                System.out.println("... 533 BinomialDist_Calc_DialogView, okToGraph = false");
+            }
+            return okToGraph;
         }  
         
         //    ************   Check for bad range order  **********
@@ -500,40 +567,52 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
             }
             //badRangeOrder = false;
             okToGraph = false;
-            return false;
+            if (printTheStuff) {
+                System.out.println("... 553 BinomialDist_Calc_DialogView,  badRangeOrderIndex = " + badRangeOrderIndex);
+                System.out.println("... 554 BinomialDist_Calc_DialogView, okToGraph = false");
+            }
+            return okToGraph;
         }      
+        
+        /***************************************************************
+         *   ProbSelection = 0 indicates that there will be no shading *
+         *   The effect of probSelection = 0 will be that the mean and *
+         *   standard deviation of the binomial can be printed without *
+         *   any shading.                                              *
+         **************************************************************/
+        probSelection = 0;
 
         // Check for X LT, LE, EQ, GE, GT
         if (!al_ProbCalcs_STF.get(2).getText().isEmpty()) {   //  LT N
-            //System.out.println("503 BinomCalcDial, 2 not empty");
+            //System.out.println("... 569 BinomCalcDial, 2 not empty");
             lowerShadeBound = 0; 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(2).getText()) - 1;
             probSelection = 1;
             okToGraph = true;
         }  
         else if (!al_ProbCalcs_STF.get(3).getText().isEmpty()) {  //  LE N
-            //System.out.println("510 BinomCalcDial, 3 not empty");
+            //System.out.println("... 576 BinomCalcDial, 3 not empty");
             lowerShadeBound = 0; 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(3).getText());
             probSelection = 2;
             okToGraph = true;
         }   
         else if (!al_ProbCalcs_STF.get(4).getText().isEmpty()) {  //  EQ N
-            //System.out.println("517 BinomCalcDial, 4 not empty");
+            //System.out.println("... 583 BinomCalcDial, 4 not empty");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(4).getText());  
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(4).getText()); 
             probSelection = 3;
             okToGraph = true;
         } 
         else if (!al_ProbCalcs_STF.get(5).getText().isEmpty()) {  //  GE N
-            //System.out.println("524 BinomCalcDial, 5 not empty");
+            //System.out.println("... 590 BinomCalcDial, 5 not empty");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(5).getText()); 
             upperShadeBound = binomial_n;
             probSelection = 4;
             okToGraph = true;
         } 
         else if (!al_ProbCalcs_STF.get(6).getText().isEmpty()) { //  GT N
-            //System.out.println("531 BinomCalcDial, 6 not empty");
+            //System.out.println("... 597 BinomCalcDial, 6 not empty");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(6).getText()) + 1; 
             upperShadeBound = binomial_n;
             probSelection = 5;
@@ -544,44 +623,57 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
         
         //                      7  <  x  <  8
         else if (!al_ProbCalcs_STF.get(7).getText().isEmpty() && !al_ProbCalcs_STF.get(8).getText().isEmpty()) {
-            //System.out.println("542 BinomCalcDial, 7, 8 not empty");
+            //System.out.println("... 608 BinomCalcDial, 7, 8 not empty");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(7).getText()) + 1; 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(8).getText()) - 1;
-            System.out.println("546 BinomCalcDial, lower/upperShadeBounds = " + lowerShadeBound + " / " + upperShadeBound);
+            System.out.println("... 604 BinomCalcDial, lower/upperShadeBounds = " + lowerShadeBound + " / " + upperShadeBound);
             probSelection = 6;
             okToGraph = true;
         }  
         //                        9 <  x  <= 10
         else if (!al_ProbCalcs_STF.get(9).getText().isEmpty() && !al_ProbCalcs_STF.get(10).getText().isEmpty()) {
-            //System.out.println("551 BinomCalcDial, 9, 10 not empty");
+            //System.out.println("... 617 BinomCalcDial, 9, 10 not empty");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(9).getText()) + 1; 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(10).getText());
-            System.out.println("555 BinomCalcDial, lower/upperShadeBounds = " + lowerShadeBound + " / " + upperShadeBound);
+            //System.out.println("... 620 BinomCalcDial, lower/upperShadeBounds = " + lowerShadeBound + " / " + upperShadeBound);
             probSelection = 7;
             okToGraph = true;
         }  
         //                      11  <=  x  <  12
         else if (!al_ProbCalcs_STF.get(11).getText().isEmpty() && !al_ProbCalcs_STF.get(12).getText().isEmpty()) {
-            //System.out.println("560 BinomCalcDial, 11, 12 not empty");
+            //System.out.println("... 626 BinomCalcDial, 11, 12 not empty");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(11).getText()); 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(12).getText()) - 1;
-            System.out.println("564 BinomCalcDial, lower/upperShadeBounds = " + lowerShadeBound + " / " + upperShadeBound);
+            //System.out.println("... 629 BinomCalcDial, lower/upperShadeBounds = " + lowerShadeBound + " / " + upperShadeBound);
             probSelection = 8;
             okToGraph = true;
         }  
         //                      13  <=  x  <=  14
         else if (!al_ProbCalcs_STF.get(13).getText().isEmpty() && !al_ProbCalcs_STF.get(14).getText().isEmpty()) {
-            //System.out.println("569 BinomCalcDial, 13, 14 not empty");
+            //System.out.println("... 635 BinomCalcDial, 13, 14 not empty");
             lowerShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(13).getText()); 
             upperShadeBound = Integer.parseInt(al_ProbCalcs_STF.get(14).getText());
-            //System.out.println("572 BinomCalcDial, lower/upperShadeBounds = " + lowerShadeBound + " / " + upperShadeBound);
+            //System.out.println("... 638 BinomCalcDial, lower/upperShadeBounds = " + lowerShadeBound + " / " + upperShadeBound);
             probSelection = 9;
             okToGraph = true;
-        }         
+        } 
+        if (printTheStuff) {
+            System.out.println("... 643 BinomialDist_Calc_DialogView, END checkWhetherToGraph()");
+            System.out.println("... 644 BinomialDist_Calc_DialogView, lower/upper = " + lowerShadeBound + " / " + upperShadeBound);
+            System.out.println("... 645 BinomialDist_Calc_DialogView, okToGraph = " + okToGraph);
+        }    
+        
+        if ((lowerShadeBound > binomial_n) || (upperShadeBound > binomial_n)) {
+            MyAlerts.showBinomialDaredevilAlert();
+            okToGraph = false;
+        }
         return okToGraph;
     } 
     
     public void clearTheSTFs() {
+        if (printTheStuff) {
+            System.out.println("--- 657 BinomialDist_Calc_DialogView, clearTheSTFs()");
+        }
         for (int ithSTF = 2; ithSTF < 15; ithSTF++) {
             al_ProbCalcs_STF.get(ithSTF).setText(toBlank);
         }
@@ -592,6 +684,9 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     }
     
     private boolean moreThanOneIsSelected() {
+        if (printTheStuff) {
+            System.out.println("--- 670 BinomialDist_Calc_DialogView, check for moreThanOneIsSelected()");
+        }
         // Check the singles
         boolean moreThanOne = false;
         int nSelected = 0;
@@ -626,6 +721,9 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     
             //    ************   Check for bad range  **********
     private boolean rangeOrderIsBad() {
+        if (printTheStuff) {
+            System.out.println("--- 707 BinomialDist_Calc_DialogView, check for rangeOrderIsBad()");
+        }
         boolean badRange = false;
         
         for (int ithSTF = 7; ithSTF <= 13; ithSTF = ithSTF + 2) {
@@ -637,7 +735,10 @@ public class BinomialDist_Calc_DialogView extends BivariateScale_W_CheckBoxes_Vi
                 }
             }
         }         
-        
+        if (printTheStuff) {
+            System.out.println("... 721 BinomialDist_Calc_DialogView, END check for rangeOrderIsBad()");
+            System.out.println("... 722 BinomialDist_Calc_DialogView, badRange = " + badRange);
+        }        
         return badRange;
     }
     

@@ -1,7 +1,7 @@
 /**************************************************
  *               VerticalBoxPlotView              *
- *                    09/03/24                    *
- *                     00:00                      *
+ *                    01/31/26                    *
+ *                     18:00                      *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -66,7 +66,7 @@ public class VerticalBoxPlot_View extends Region {
     double lowExtremeCutoff, highExtremeCutoff;
     double[] uniqueValues;
     private double[] fiveNumberSummary, means, stDevs;
-    private String strSubtitle, catLabels, graphsCSS;
+    private String strSubtitle, strSubTitle, graphsCSS;
     private String[] vBoxCheckBoxDescr;
   
     private ObservableList<String> varLabels;
@@ -99,13 +99,13 @@ public class VerticalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("102 *** VerticalBoxPlot_View, constructing");
+            System.out.println("*** 102 VerticalBoxPlot_View, constructing");
         }
         this.vBoxModel = vBoxModel;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.vBoxModel = vBoxModel;
-        catLabels = vBoxModel.getSubTitle();
+        strSubTitle = vBoxModel.getSubTitle();
         initStuff();
     }
     
@@ -113,7 +113,7 @@ public class VerticalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("116 *** VerticalBoxPlot_View, constructing");
+            System.out.println("*** 116 VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -125,7 +125,7 @@ public class VerticalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("128 *** VerticalBoxPlot_View, constructing");
+            System.out.println("*** 128 VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -137,12 +137,15 @@ public class VerticalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("140 *** VerticalBoxPlot_View, constructing");
+            System.out.println("*** 140 VerticalBoxPlot_View, constructing from single t Dashboard");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.vBoxModel = vBoxModel; 
-        catLabels = vBoxModel.getSubTitle();
+        strSubTitle = vBoxModel.getSubTitle();
+        if (printTheStuff) {
+            System.out.println("--- 147 VerticalBoxPlot_View, strSubTitle = " + strSubTitle);
+        }
         initStuff();
     }
     
@@ -150,12 +153,12 @@ public class VerticalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("153 *** VerticalBoxPlot_View, constructing");
+            System.out.println("*** 156 VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.vBoxModel = vBoxModel; 
-        catLabels = vBoxModel.getSubTitle();
+        strSubTitle = vBoxModel.getSubTitle();
         initStuff();
     }
     
@@ -163,12 +166,12 @@ public class VerticalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("166 *** VerticalBoxPlot_View, constructing");
+            System.out.println("*** 169 VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.vBoxModel = vBoxModel;
-        catLabels = vBoxModel.getSubTitle();
+        strSubTitle = vBoxModel.getSubTitle();
         initStuff();
     }
     
@@ -176,12 +179,12 @@ public class VerticalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("179 *** VerticalBoxPlot_View, constructing");
+            System.out.println("*** 182 VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.vBoxModel = vBoxModel;
-        catLabels = vBoxModel.getSubTitle();
+        strSubTitle = vBoxModel.getSubTitle();
         initStuff();
     }
     
@@ -189,7 +192,7 @@ public class VerticalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("191 *** VerticalBoxPlot_View, constructing");
+            System.out.println("*** 195 VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -201,7 +204,7 @@ public class VerticalBoxPlot_View extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("203 *** VerticalBoxPlot_View, constructing");
+            System.out.println("*** 207 VerticalBoxPlot_View, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -210,6 +213,9 @@ public class VerticalBoxPlot_View extends Region {
     }
     
     private void initStuff() {
+        if (printTheStuff) {
+            System.out.println("--- 217 VerticalBoxPlot_View, initStuff()");
+        }
         strSubtitle = vBoxModel.getSubTitle();
         varLabels = FXCollections.observableArrayList();
         varLabels = vBoxModel.getVarLabels();
@@ -237,7 +243,10 @@ public class VerticalBoxPlot_View extends Region {
         makeItHappen();        
     }
     
-    private void makeItHappen() {       
+    private void makeItHappen() { 
+        if (printTheStuff) {
+            System.out.println("--- 248 VerticalBoxPlot_View, makeItHappen()");
+        }
         theContainingPane = new Pane();
         gcVBox = graphCanvas.getGraphicsContext2D();
         gcVBox.setFont(Font.font("Times New Roman", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 14));
@@ -247,7 +256,7 @@ public class VerticalBoxPlot_View extends Region {
     
     public void completeTheDeal() { 
         if (printTheStuff) {
-            System.out.println("249 *** VerticalBoxPlot_View, completeTheDeal()");
+            System.out.println("--- 259 VerticalBoxPlot_View, completeTheDeal()");
         }
         initializeGraphParameters();
         setUpUI();       

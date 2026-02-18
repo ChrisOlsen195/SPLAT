@@ -1,6 +1,6 @@
 /************************************************************
  *                       Indep_t_Dialog                     *
- *                          02/15/25                        *
+ *                          12/25/25                        *
  *                            12:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
@@ -41,6 +41,9 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
     
     //String waldoFile = "Indep_t_Dialog";
     String waldoFile = "";
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
 
     // FX POJOs
     Button changeNull;
@@ -61,15 +64,16 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
     public Indep_t_Dialog(Data_Manager dm, String callingProcedure) {
         super(dm, callingProcedure, "None");
         this.dm = dm;
-        dm.whereIsWaldo(64, waldoFile, " *** Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 68 Indep_t_Dialog, Constructing");
+        }
         dm.whereIsWaldo(65, waldoFile, "CallingProc = " + callingProcedure);
         lblTitle.setText("Independent t inference");
         lblExplanVar.setText("Variable #1:");   //  Not really explan
         lblResponseVar.setText("Variable #2:"); //  Not really resp
-        dm.whereIsWaldo(69, waldoFile, "CallingProc = " + callingProcedure);
         
         if (callingProcedure.equals("Indep_t_tidy")) {
-            dm.whereIsWaldo(72, waldoFile, "CallingProc = " + callingProcedure);
+            dm.whereIsWaldo(71, waldoFile, "CallingProc = " + callingProcedure);
             lblExplanVar.setText("Group/Treat var: ");
             lblResponseVar.setText("   Response var: ");
             tf_Var_1_Pref.setText("Group/Treat var: ");
@@ -84,7 +88,9 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
     }  
  
     protected void defineTheCheckBoxes() {
-        dm.whereIsWaldo(87, waldoFile, " --- defineTheCheckBoxes()");
+        if (printTheStuff) {
+            System.out.println("*** 92 Indep_t_Dialog, defineTheCheckBoxes()");
+        }
         // Check box strings must match the order of dashboard strings
         // Perhaps pass them to dashboard in future?
         nCheckBoxes = 4;
@@ -98,7 +104,9 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
     } 
 
  private void makeHypotheses() {
-        dm.whereIsWaldo(101, waldoFile, " --- makeHypotheses()");
+        if (printTheStuff) {
+            System.out.println("*** 108 Indep_t_Dialog, makeHypotheses()");
+        }
         hypothesizedDifference = 0.0;
         daNewNullDiff = 0.0;
         strAltHypothesis = "NotEqual";
@@ -135,7 +143,7 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
                          changeNull, hBoxCurrDiff);
         
         hypNE.setOnAction(e->{
-            dm.whereIsWaldo(141, waldoFile, " --- hypeNE chosen");
+            dm.whereIsWaldo(137, waldoFile, " --- hypeNE chosen");
             hypNE.setSelected(true);
             hypLT.setSelected(false);
             hypGT.setSelected(false);
@@ -143,7 +151,7 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
         });
             
         hypLT.setOnAction(e->{
-            dm.whereIsWaldo(152, waldoFile, " --- hypLT chosen");
+            dm.whereIsWaldo(145, waldoFile, " --- hypLT chosen");
             hypNE.setSelected(false);
             hypLT.setSelected(true);
             hypGT.setSelected(false);
@@ -151,7 +159,7 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
         });
             
         hypGT.setOnAction(e->{
-            dm.whereIsWaldo(163, waldoFile, " --- hypGT chosen");
+            dm.whereIsWaldo(153, waldoFile, " --- hypGT chosen");
             hypNE.setSelected(false);
             hypLT.setSelected(false);
             hypGT.setSelected(true);
@@ -160,7 +168,7 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
             
         changeNull.setOnAction((ActionEvent event) -> {
             okToContinue = false;
-            dm.whereIsWaldo(163, waldoFile, " --- changeNull chosen");
+            dm.whereIsWaldo(162, waldoFile, " --- changeNull chosen");
             while (!okToContinue) {
                 okToContinue = true;
                 txtDialog = new TextInputDialog("");
@@ -192,11 +200,13 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
             hypothesizedDifference = daNewNullDiff;
             hypDiff.setText(String.valueOf(hypothesizedDifference));
         });
-        dm.whereIsWaldo(195, waldoFile, " --- END makeHypotheses()");
+        dm.whereIsWaldo(194, waldoFile, " --- END makeHypotheses()");
     }
  
  private void makeAlphaAndCIPanel() {
-        dm.whereIsWaldo(199, waldoFile, " --- makeAlphaAndCIPanel()");    
+        if (printTheStuff) {
+            System.out.println("*** 208 Indep_t_Dialog, makeAlphaAndCIPanel()");
+        }    
         ciLabel = new Label("   Select conf level");
         ciLabel.setMaxWidth(130);
         ciLabel.setMinWidth(130);

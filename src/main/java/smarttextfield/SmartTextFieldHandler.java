@@ -1,7 +1,7 @@
 /****************************************************************************
  *                     SmartTextFieldHandler                                * 
- *                           01/16/25                                      *
- *                             12:00                                        *
+ *                           01/01/26                                      *
+ *                             09:00                                        *
  ***************************************************************************/
 package smarttextfield;
 
@@ -22,7 +22,7 @@ public class SmartTextFieldHandler {
     SmartTextFieldDoublyLinkedSTF al_STF;
     
     public SmartTextFieldHandler(SmartTextFieldsController stf_Controller) { 
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("26 *** SmartTextFieldHandler, Constructing");
         }
         myAlerts = new MyAlerts();

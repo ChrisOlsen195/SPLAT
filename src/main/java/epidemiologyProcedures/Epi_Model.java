@@ -1,7 +1,7 @@
 /****************************************************************************
  *                           Epi_Model                                     *
- *                           08/21/24                                       *
- *                             15:00                                        *
+ *                           12/17/25                                       *
+ *                             00:00                                        *
  ***************************************************************************/
 package epidemiologyProcedures;
 
@@ -15,6 +15,9 @@ public class Epi_Model {
     boolean cleanReturnFromSummaryDialog, designIsBalanced, 
             thereAreReplications, dataAreMissing;
     
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     int nLegalValues, nUniqueExposures, nUniqueOutcomes, nCells, nCellsBelow5;
     int[][] replicates, observedValues;
     int[] rowTotals, columnTotals;
@@ -26,7 +29,8 @@ public class Epi_Model {
     double[][]  expectedValues, observedProportion, cumulativeProportions;
 
     String strTopVariable, strLeftVariable, assocType, returnStatus, 
-           cleanReturn, valExpNo, valExpYes, valOutNo, valOutYes;
+           cleanReturn, valExpNo, valExpYes, valOutNo, valOutYes, 
+           strReturnStatus;
     String[] strUniqueOutcomes, strUniqueExposures;
     String[] strOutcomeValues, strExposureValues;
     
@@ -47,19 +51,25 @@ public class Epi_Model {
     RiskAnalysisPane riskAnalysisPane;
     UnivariateCategoricalDataObj catUCDO_Outcomes, catUCDOExposures;
 
-    // POJOs / FX
     
     public  Epi_Model(Epi_Controller epi_Controller, String assocType) { 
-        //System.out.println("\n53 Epi_Model, Constructing");
-        //System.out.println("54 Epi_Model, assocType = " + assocType);
+        if (printTheStuff) {
+            System.out.println("*** 57  Epi_Model, Constructing");
+            System.out.println("--- 58 Epi_Model, assocType = " + assocType);
+        } 
+
         this.epi_Controller = epi_Controller;
         this.assocType = assocType;
         dm = epi_Controller.getDataManager();
-        dm.whereIsWaldo(58, waldoFile, "\nConstructing");
+        dm.whereIsWaldo(64, waldoFile, "\nConstructing");
     }    
     
-    public String doEpiFromFile() {    
-        dm.whereIsWaldo(62, waldoFile, "doEpiFromFile()");
+    public String doEpiFromFile() {   
+        if (printTheStuff) {
+            System.out.println("*** 69  Epi_Model, doEpiFromFile()");
+        }
+        strReturnStatus = "OK";
+        dm.whereIsWaldo(72, waldoFile, "doEpiFromFile()");
         al_ColumnsOfData = new ArrayList();
         al_ColumnsOfData = epi_Controller.getData(); 
         nLegalValues = al_ColumnsOfData.get(0).getColumnSize();
@@ -67,18 +77,15 @@ public class Epi_Model {
         strTopVariable = al_ColumnsOfData.get(0).getVarLabel();
         strLeftVariable =  al_ColumnsOfData.get(1).getVarLabel();
 
-        catUCDOExposures = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(1));
+        catUCDOExposures = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(0));
         strUniqueExposures = catUCDOExposures.getCategories();    
 
-        catUCDO_Outcomes = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(0));
+        catUCDO_Outcomes = new UnivariateCategoricalDataObj(al_ColumnsOfData.get(1));
         strUniqueOutcomes = catUCDO_Outcomes.getCategories();
 
-        cleanReturn = "NO";
-         do {
-            epi_Values_Dialog = new Epi_Values_Dialog(this);
-        } while (cleanReturn.equals("NO"));
-        
+        epi_Values_Dialog = new Epi_Values_Dialog(this);
         epi_Values_Dialog.getFileResponseListAsStrings();
+        if (!strReturnStatus.equals("OK")) {return strReturnStatus; }
 
         nUniqueExposures = catUCDOExposures.getNUniques();  // nRows
         nUniqueOutcomes = catUCDO_Outcomes.getNUniques();   // nCols
@@ -149,10 +156,12 @@ public class Epi_Model {
     } 
 
     public String doEpiFromTable() {
-        //System.out.println("152 Epi_Model, doEpiFromTable()");
+        if (printTheStuff) {
+            System.out.println("*** 160  Epi_Model, doEpiFromTable()");
+        }
         epi_SummaryDialog = new Epi_SummaryDialog(this);
         epi_SummaryDialog.doShowAndWait();
-        returnStatus = epi_SummaryDialog.getReturnStatus();
+        returnStatus = epi_SummaryDialog.getStrReturnStatus();
         
         if (returnStatus.equals("OK")) {
             nUniqueExposures = epi_SummaryDialogObj.getNRows();
@@ -191,6 +200,9 @@ public class Epi_Model {
     }
         
     private void constructArrays() {
+        if (printTheStuff) {
+            System.out.println("*** 204  Epi_Model, constructArrays()");
+        }
         replicates = new int[nUniqueExposures][nUniqueOutcomes];
         observedValues = new int[nUniqueExposures][nUniqueOutcomes];
         expectedValues = new double[nUniqueExposures][nUniqueOutcomes];
@@ -205,17 +217,6 @@ public class Epi_Model {
         cumulativeProportions = new double[nUniqueExposures + 1][nUniqueOutcomes + 1];
         strExposureValues = new String[nUniqueExposures]; 
         strOutcomeValues = new String[nUniqueOutcomes];
-    }
-    
-    public void closeTheSummaryDialog(boolean cleanReturn) {
-        cleanReturnFromSummaryDialog = cleanReturn;        
-        if (cleanReturnFromSummaryDialog) {            
-            if (!assocType.equals("Epidemiology")) {
-                epi_SummaryDialog.close();
-            } else {
-                epi_SummaryDialog.close();
-            }
-        }
     }
     
     public void calculateTheProportions() { 
@@ -328,6 +329,11 @@ public class Epi_Model {
     
     public void setCleanReturnFromSummaryDialog(String toThis) {
         cleanReturn = toThis;
+    }
+    
+    public String getStrReturnStatus() { return strReturnStatus; }
+    public void setStrReturnStatus(String toThis){ 
+        strReturnStatus = toThis;
     }
     
     public boolean getDesignIsBalanced() { return designIsBalanced; }

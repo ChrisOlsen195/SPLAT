@@ -29,15 +29,15 @@ public class Epi_Controller {
     // FX Objects
     
     public Epi_Controller(Data_Manager dm, String assocType) { 
-        dm.whereIsWaldo(32, waldoFile, " *** Constructing");
-        dm.whereIsWaldo(33, waldoFile, " --- assocType = " + assocType);
+        dm.whereIsWaldo(32, waldoFile, "*** Constructing");
+        dm.whereIsWaldo(33, waldoFile, "--- assocType = " + assocType);
         this.strAssocType = assocType;
         this.dm = dm;
         strReturnStatus = "OK";
     } 
     
     public String doEpidemiology_FromTable() {
-        dm.whereIsWaldo(40, waldoFile, " --- EpiController, doEpidemiology_FromTable()");
+        dm.whereIsWaldo(40, waldoFile, "--- EpiController, doEpidemiology_FromTable()");
         strReturnStatus = "OK";
         epi_Model = new Epi_Model(this, strAssocType);
         strReturnStatus = epi_Model.doEpiFromTable();
@@ -47,7 +47,7 @@ public class Epi_Controller {
             epi_Dashboard.populateTheBackGround();
             epi_Dashboard.putEmAllUp();
             epi_Dashboard.showAndWait();
-            strReturnStatus = epi_Dashboard.getReturnStatus();
+            strReturnStatus = epi_Dashboard.getStrReturnStatus();
             return strReturnStatus;
         }
         else {
@@ -56,9 +56,8 @@ public class Epi_Controller {
     }  
 
     public String doEpidemiology_FromFile(Data_Manager dm) {
-
         this.dm = dm;
-        dm.whereIsWaldo(60, waldoFile, "  -- doEpidemiology_FromFile(Data_Manager dm)");
+        dm.whereIsWaldo(60, waldoFile, "-- doEpidemiology_FromFile(Data_Manager dm)");
         int casesInStruct = dm.getNCasesInStruct();
         if (casesInStruct == 0) {
             MyAlerts.showAintGotNoDataAlert();
@@ -70,7 +69,7 @@ public class Epi_Controller {
         // *****  Choose the two variables  *****
         Epi_AssocDialog epi_Assoc_Dialog = new Epi_AssocDialog(dm, "EPIDEMIOLOGY");
         epi_Assoc_Dialog.showAndWait();
-        strReturnStatus = epi_Assoc_Dialog.getReturnStatus();
+        strReturnStatus = epi_Assoc_Dialog.getStrReturnStatus();
         if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
    
         strXDescr = epi_Assoc_Dialog.getPreferredFirstVarDescription();
@@ -86,13 +85,16 @@ public class Epi_Controller {
             epi_Dashboard.populateTheBackGround();
             epi_Dashboard.putEmAllUp();
             epi_Dashboard.showAndWait();
-            strReturnStatus = epi_Dashboard.getReturnStatus();
+            strReturnStatus = epi_Dashboard.getStrReturnStatus();
         }
         return strReturnStatus;
     }
 
     public ArrayList<ColumnOfData> getData() { return col_OutData; }    
     public Data_Manager getDataManager() { return dm; }
+    
+    public String getReturnStatus() { return strReturnStatus; }
+    public void setReturnStatus(String toThis) { strReturnStatus = toThis; }
 }
 
 

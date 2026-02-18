@@ -1,7 +1,7 @@
 /**************************************************
  *            Regr_Compare_Dialog                 *
- *                  01/21/25                      *
- *                   12:00                        *
+ *                  12/14/25                      *
+ *                   15:00                        *
  *************************************************/
 package simpleRegression;
 
@@ -31,13 +31,16 @@ import java.util.Collections;
 
 public class Regr_Compare_Dialog extends Splat_Dialog {
     //  POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     private boolean codedData = false;    
     private boolean readyForAnalysis = false;
     private boolean designIsBalanced, thereAreReplications, dataAreMissing;
 
     private int index_Treatment, index_Covariate, index_ResponseVar, numCols, numRows;
     
-    //String waldoFile = "ANCOVA_Dialog";
+    //String waldoFile = "Regr_Compare_Dialog";
     String waldoFile = "";
     
     private String str_NameTreatment, str_NameCovariate, str_NameResponse;
@@ -61,12 +64,17 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
     
     public Regr_Compare_Dialog(Data_Manager dm) {
         super(dm);
+        if (printTheStuff) {
+            System.out.println("*** 68 Regr_Compare_Dialog, Constructing");
+        }
         this.dm = dm;
         strReturnStatus = "OK";
     }
 
     public String doTheDialog() { 
-        dm.whereIsWaldo(69, waldoFile, "doTheDialog()");
+        if (printTheStuff) {
+            System.out.println("*** 76 Regr_Compare_Dialog, doTheDialog()");
+        }
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
@@ -90,7 +98,9 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
     } // showStep0
     
     public void showTheDialog() {
-        dm.whereIsWaldo(93, waldoFile, "showTheDialog()");
+        if (printTheStuff) {
+            System.out.println("*** 102 Regr_Compare_Dialog, showTheDialog()");
+        }
         VBox mainPanel = new VBox(10);
         mainPanel.setAlignment(Pos.CENTER);
         mainPanel.setPadding(new Insets(10, 10, 10, 10));
@@ -204,7 +214,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
         });
 
         arrow_SelectFactorA.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(207, waldoFile, "showTheDialog()");
+            dm.whereIsWaldo(217, waldoFile, "--- arrow_SelectFactorA");
             str_NameTreatment = varList1.getNamesSelected().get(0);
             index_Treatment = dm.getVariableIndex(str_NameTreatment);
             
@@ -226,7 +236,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
         });
 
         arrow_SelectFactorB.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(229, waldoFile, "showTheDialog()");
+            dm.whereIsWaldo(229, waldoFile, "--- arrow_SelectFactorB");
             str_NameCovariate = varList1.getNamesSelected().get(0);
             index_Covariate = dm.getVariableIndex(str_NameCovariate);
             if (dm.getAllTheColumns().get(index_Covariate).getDataType().equals("Quantitative")) {
@@ -240,7 +250,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
         });
 
         arrow_SelectResponse.setOnAction((ActionEvent event) -> {    
-            dm.whereIsWaldo(243, waldoFile, "showTheDialog()");
+            dm.whereIsWaldo(243, waldoFile, "--- arrow_SelectResponse");
             str_NameResponse = varList1.getNamesSelected().get(0);
             index_ResponseVar = dm.getVariableIndex(str_NameResponse);                
             if (dm.getAllTheColumns().get(index_ResponseVar).getDataType().equals("Quantitative")){
@@ -254,7 +264,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
         });
 
         btn_Compute.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(257, waldoFile, "btn_Compute");
+            dm.whereIsWaldo(257, waldoFile, "--- btn_Compute");
             boolean treatmentIsEmpty = (tf_FactorA.getText()).isEmpty();
             boolean covariateIsEmpty = (tf_FactorB.getText()).isEmpty();
             boolean responseIsEmpty = (tf_ResponseVar.getText()).isEmpty();
@@ -264,7 +274,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
                strReturnStatus = "Cancel";
                diagStage.close();
             } else {
-                dm.whereIsWaldo(267, waldoFile, "showTheDialog()");
+                dm.whereIsWaldo(277, waldoFile, "showTheDialog()");
  
                 colOfData_Treatment = new ColumnOfData(dm.getAllTheColumns().get(index_Treatment));
                 colOfData_Covariate = new ColumnOfData(dm.getAllTheColumns().get(index_Covariate));
@@ -290,7 +300,9 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
     }
     
     public ArrayList<String> getDummyCodes(int groupingVar) {
-        dm.whereIsWaldo(293, waldoFile, "getDummyCodes()");
+        if (printTheStuff) {
+            System.out.println("*** 304 Regr_Compare_Dialog, getDummyCodes");
+        }
         ArrayList<String> alstr_SortedTempCodes = new ArrayList();
         ArrayList<String> alstr_DumsToReturn = new ArrayList();
         ArrayList<String> alstr_TempData = dm.getSpreadsheetColumnAsStrings(groupingVar, -1, null);
@@ -314,7 +326,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
     public boolean getDesignIsBalanced() { return designIsBalanced; } 
     public boolean getThereAreReplications() { return thereAreReplications; }
     public boolean getDataAreMissing() { return dataAreMissing; }
-    public String getReturnStatus() { return strReturnStatus; }
+    public String getStrReturnStatus() { return strReturnStatus; }
     public int getNumRows() {return numRows; }
     public int getNumCols() { return numCols; }
     public ArrayList<ColumnOfData> getData() {return al_Data; }

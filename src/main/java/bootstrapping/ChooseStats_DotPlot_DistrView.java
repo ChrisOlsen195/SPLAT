@@ -60,7 +60,7 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         chooseStats_Dashboard = chooseStats_Controller.getThe_Boot_Dashboard(); 
         nLegalDataPoints = this.chooseStats_DistrModel.getTheQDV().getLegalN();
         sortedData = new double[nLegalDataPoints];
-        sortedData = this.chooseStats_DistrModel.getUCDO().getTheDataSorted();
+        sortedData = this.chooseStats_DistrModel.getTheUCDO().getTheDataSorted();
     }
 
     public void continueConstruction() {    
@@ -86,8 +86,8 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         btn_RadiusReset = new Button("Change radius");
         btn_BinReset.setPadding(new Insets(5, 10, 5, 10));
         btn_RadiusReset.setPadding(new Insets(5, 10, 5, 10));
-        minDataRange = chooseStats_DistrModel.getUCDO().getMinValue();
-        maxDataRange = chooseStats_DistrModel.getUCDO().getMaxValue();
+        minDataRange = chooseStats_DistrModel.getTheUCDO().getMinValue();
+        maxDataRange = chooseStats_DistrModel.getTheUCDO().getMaxValue();
         
         relRad = 0.975;
         

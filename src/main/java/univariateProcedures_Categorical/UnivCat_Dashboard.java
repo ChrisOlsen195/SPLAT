@@ -1,7 +1,7 @@
 /**************************************************
  *               UnivCat_Dashboard                *
- *                   11/01/23                     *
- *                     12:00                      *
+ *                   05/11/25                     *
+ *                     18:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -16,8 +16,8 @@ import javafx.scene.paint.Color;
 public class UnivCat_Dashboard extends Dashboard {
     // POJOs
 
-    String waldoFile = "UnivCat_Dashboard";
-    //String waldoFile = ""; 
+    //String waldoFile = "UnivCat_Dashboard";
+    String waldoFile = ""; 
     
     final String[] univCatCheckBoxDescr = {"Print Statistics", 
                                  "Frequency Distribution", 
@@ -98,17 +98,19 @@ public class UnivCat_Dashboard extends Dashboard {
         printStatsContainingPane = univCat_PrintStats.getTheContainingPane(); 
         printStatsContainingPane.setStyle(containingPaneStyle);
         
+        initWidth[1] = 500;
         univCat_FreqDistr = new UnivCat_FreqDistr(univCat_Model, this, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]);
         univCat_FreqDistr.completeTheDeal();        
         rawFreqContainingPane = univCat_FreqDistr.getTheContainingPane();  
         rawFreqContainingPane.setStyle(containingPaneStyle);
 
+        initWidth[2] = 500;
         univCat_RelFreqDistr = new UnivCat_RelFreqDistr(univCat_Model, this, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
         univCat_RelFreqDistr.completeTheDeal();        
         relFreqContainingPane = univCat_RelFreqDistr.getTheContainingPane();  
         relFreqContainingPane.setStyle(containingPaneStyle);   
         
-
+        initWidth[3] = 500;
         univCat_ParetoChart = new UnivCat_ParetoChart(univCat_Model, this, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
         univCat_ParetoChart.completeTheDeal();        
         paretoContainingPane = univCat_ParetoChart.getTheContainingPane();  

@@ -1,6 +1,6 @@
 /**************************************************************
 *                 DragableResizableAnchorPane                 *
-*                        11/05/23                             *
+*                        09/11/25                             *
 *                          21:00                              *
 **************************************************************/
 package genericClasses;
@@ -49,14 +49,16 @@ public class DragableAnchorPane extends Pane {
     
     public AnchorPane getTheAP() {return theAnchorPane; }
     
-    public void setParent(String daParent) { theParent = daParent; }
+    public void setParent(String daParent) { 
+        //System.out.println("--- 53 DAP, setParent = " + daParent);
+        theParent = daParent; }
     
     public void makeDragable() {
+        //System.out.println("--- 57 DAP, makeDraggable");
         translateXProperty().bind(thisNodeX);
         translateYProperty().bind(thisNodeY);
         setPrefSize(500, 500);
         theContainingPane = this;
-        
         setStyle("-fx-background-color: white;" +
                  "-fx-padding:10;" +
                  "-fx-border-style: solid inside;" +
@@ -70,7 +72,6 @@ public class DragableAnchorPane extends Pane {
                 public void handle(final MouseEvent mouseEvent) {
                     theContainingPane.toFront();
                     setNewEventCoordinates(mouseEvent);
-                    
                     // Corner drag is jumpy without this!!!!!
                     if (isInTopDragZone(mouseEvent)) {
                         state = S.DRAG;
@@ -92,12 +93,16 @@ public class DragableAnchorPane extends Pane {
         setOnMouseDragged(
             new EventHandler<MouseEvent>() {
                 public void handle(final MouseEvent mouseEvent) {
-
+                    //System.out.println("--- 112 DAP, setOnMouseDragged");
                     if (isInTopDragZone(mouseEvent)) {
+                        //System.out.println("... 102 DAP, isInTopDragZone(mouseEvent)");
                         double dragX = mouseEvent.getSceneX() - thisNodeDragAnchorX;
+                        //System.out.println("... 104, &&&&& thisNodeTranslateX / dragX = " + thisNodeTranslateX +  " / " + dragX);
                         thisNodeX.setValue(thisNodeTranslateX + dragX);
                         double dragY = mouseEvent.getSceneY() - thisNodeDragAnchorY;
-                        thisNodeY.setValue(thisNodeTranslateY + dragY); 
+                        thisNodeY.setValue(thisNodeTranslateY + dragY);
+                        //System.out.println("... 108, &&&&& thisNodeTranslateY / dragY = " + thisNodeTranslateY +  " / " + dragY);
+                        //System.out.println("... 109 DAP, end isInTopDragZone(mouseEvent)");
                     }
                     else {
                         resizeViaMouse(mouseEvent);
@@ -108,6 +113,7 @@ public class DragableAnchorPane extends Pane {
         setOnMouseMoved(
             new EventHandler<MouseEvent>() {
                 public void handle(final MouseEvent mouseEvent) {
+                    //System.out.println("120 DAP, EventHandler<MouseEvent>, setOnMouseMoved");
                     S state = currentMouseState(mouseEvent);
                     Cursor cursor = getCursorForState(state);
                     setCursor(cursor);    
@@ -117,6 +123,7 @@ public class DragableAnchorPane extends Pane {
         setOnMouseReleased(
             new EventHandler<MouseEvent>() {
                 public void handle(final MouseEvent mouseEvent) {
+                    //System.out.println("130 DAP, EventHandler<MouseEvent>, setOnMouseReleased");
                     S state = currentMouseState(mouseEvent);
                     Cursor cursor = getCursorForState(state);
                     setCursor(cursor);    
@@ -126,9 +133,9 @@ public class DragableAnchorPane extends Pane {
         setOnKeyPressed(
             new EventHandler<KeyEvent>() {
                 public void handle(final KeyEvent keyEvent) {
-                    //System.out.println("132 DragableAnchorPane KeyEvent!!!  Bravo!!!");
+                    //System.out.println("--- 150 DAP, EventHandler<MouseEvent>, setOnKeyPressed");
                     if (keyEvent.isControlDown() && (keyEvent.getCode() == KeyCode.C))  {
-                        //System.out.println("133 DragableAnchorPane Cntrl-C!!!  Bravo!!!");
+                        System.out.println("142 DragableAnchorPane Cntrl-C!!!  Bravo!!!");
                 }
    
                 }
@@ -136,6 +143,7 @@ public class DragableAnchorPane extends Pane {
     }
     
     public void setInitialEventCoordinates(double x, double y, double h, double w) {
+        //System.out.println("--- 160 DAP, EventHandler<MouseEvent>, setInitialEventCoordinates");
         thisNodeX.set(x);
         thisNodeY.set(y);
         setMinWidth(w); setMinHeight(h);
@@ -156,6 +164,7 @@ public class DragableAnchorPane extends Pane {
     }
    
     private S currentMouseState(MouseEvent event) {
+        //System.out.println("--- 167 DAP, EventHandler<MouseEvent>, currentMouseState");
         S state = S.DEFAULT;
         isInTopDragZone = false;
         boolean left = isLeftResizeZone(event);
@@ -175,11 +184,12 @@ public class DragableAnchorPane extends Pane {
         }   // i.e. top but not in resize
         else if (bottom) 
             state = S.S_RESIZE;
-     
+        //System.out.println("187 DAP, EventHandler<MouseEvent>, state = " + state);
         return state;
     }
 
     private static Cursor getCursorForState(S state) {
+        //System.out.println("---192 DAP, EventHandler<MouseEvent>, getCursorForState");
         switch (state) {
             case NW_RESIZE: return Cursor.NW_RESIZE;
             case SW_RESIZE: return Cursor.SW_RESIZE;
@@ -195,21 +205,21 @@ public class DragableAnchorPane extends Pane {
     }
 
     protected void resizeViaMouse(MouseEvent event) { 
+            //System.out.println("--- 208 DAP, EventHandler<MouseEvent>, resizeViaMouse");
             double dragwidth = theAnchorPane.getWidth();
-            // System.out.println("dragwidth = " + dragwidth);
-            // System.out.println("DragAP 194, ");
+            //System.out.println("... 232 DAP dragwidth = " + dragwidth);
             double mouseX = parentX(event.getX());
-            double mouseY = parentY(event.getY());           
-            
+            double mouseY = parentY(event.getY()); 
+
             if (state == S.DRAG) {  
+                //System.out.println("... 215 DAP, ResizeViaMouse.S.DRAG");
                 setPanePositionAndSize(mouseX - clickX, mouseY - clickY, nodeH, nodeW);
             } else if (state != S.DEFAULT) {
-                //resizing
+                //System.out.println("... 218 DAP, ResizeViaMouse.S.DEFAULT");
                 double newX = nodeX;
                 double newY = nodeY;
                 double newH = nodeH;
                 double newW = nodeW;
-
                 // Right Resize
                 if (state == S.E_RESIZE || state == S.NE_RESIZE || state == S.SE_RESIZE) {
                     newW = mouseX - nodeX;
@@ -217,6 +227,7 @@ public class DragableAnchorPane extends Pane {
                 
                 // Left Resize
                 if (state == S.W_RESIZE || state == S.NW_RESIZE || state == S.SW_RESIZE) {
+                    
                     newX = mouseX;
                     newW = nodeW + nodeX - newX;
                 }
@@ -234,57 +245,71 @@ public class DragableAnchorPane extends Pane {
 
                 //min valid rect Size Check
                 if (newW < MIN_W) {
-                    if (state == S.W_RESIZE || state == S.NW_RESIZE || state == S.SW_RESIZE)
+                    //System.out.println("... 248 DAP, &&&&& ResizeViaMouse.SizeCheck, (newW < MIN_W)");
+                    if (state == S.W_RESIZE || state == S.NW_RESIZE || state == S.SW_RESIZE) {
                         newX = newX - MIN_W + newW;
+                    }
                     newW = MIN_W;
                 }
 
                 if (newH < MIN_H) {
-                    if (state == S.N_RESIZE || state == S.NW_RESIZE || state == S.NE_RESIZE)
+                    //System.out.println("... 256 DAP, &&&&& ResizeViaMouse.SizeCheck, (newH < MIN_H)");
+                    if (state == S.N_RESIZE || state == S.NW_RESIZE || state == S.NE_RESIZE) {
                         newY = newY + newH - MIN_H;
+                    }
                     newH = MIN_H;
                 }
  
-                if ((minimumHeight <= newH) && (minimumWidth <= newW))
+                if ((minimumHeight <= newH) && (minimumWidth <= newW)) {
                     setPanePositionAndSize(newX, newY, newH, newW);
+                }
             }
     }
    
     private boolean isInLeftRightBottomResizeZone(MouseEvent event) {
+        //System.out.println("--- 270 DAP, ResizeViaMouse, isInLeftRightBottomResizeZone");
         return isLeftResizeZone(event) || isRightResizeZone(event)
                 || isBottomResizeZone(event);
     }
     
     private void setNewEventCoordinates(MouseEvent mouseEvent) {
-        nodeX = nodeX();
-        nodeY = nodeY();
-        nodeH = nodeH();
-        nodeW = nodeW();
+        nodeX = nodeX();    // Get bounds in Parent
+        nodeY = nodeY();    // Get bounds in Parent
+        nodeH = nodeH();    // Get bounds in Parent
+        nodeW = nodeW();    // Get bounds in Parent
         clickX = mouseEvent.getX();
         clickY = mouseEvent.getY();
     }
 
     private boolean isInTopDragZone(MouseEvent event) {
+        //System.out.println("--- 285 DAP, EventHandler<MouseEvent>, isInTopDragZone");
         return isInTopDragZone;
     }
 
     private boolean isLeftResizeZone(MouseEvent event) {
+        //System.out.println("--- 290 DAP, EventHandler<MouseEvent>, isLeftResizeZone");
         return intersect(0, event.getX());
     }
 
     private boolean isRightResizeZone(MouseEvent event) {
+        //System.out.println(" --- 295 DAP, EventHandler<MouseEvent>, isRightResizeZone");
         return intersect(nodeW(), event.getX());
     }
     
     private boolean isTopResizeZone(MouseEvent event) {
+        //System.out.println("--- 300 DAP, EventHandler<MouseEvent>, isTopResizeZone");
         return intersect(0, event.getY());
     }
 
     private boolean isBottomResizeZone(MouseEvent event) {
+        //System.out.println(" --- 305 DAP, EventHandler<MouseEvent>, isBottomResizeZone");
         return intersect(nodeH(), event.getY());
     }
 
     private boolean intersect(double side, double point) {
+        //System.out.println("--- 310 DAP, EventHandler<MouseEvent>, intersect");
+        boolean xx = side + MARGIN > point && side - MARGIN < point;
+        //System.out.println("... 312 DAP, EventHandler<MouseEvent>, intersect, xx = " + xx);
         return side + MARGIN > point && side - MARGIN < point;
     }
 
@@ -292,16 +317,26 @@ public class DragableAnchorPane extends Pane {
 
     private double parentY(double localY) { return nodeY() + localY; }
 
-    private double nodeX() { return getBoundsInParent().getMinX(); }
+    private double nodeX() { 
+        return getBoundsInParent().getMinX(); 
+    }
 
-    private double nodeY() { return getBoundsInParent().getMinY(); }
+    private double nodeY() { 
+        return getBoundsInParent().getMinY(); 
+    }
 
-    private double nodeW() { return getBoundsInParent().getWidth(); }
+    private double nodeW() { 
+        return getBoundsInParent().getWidth(); 
+    }
 
-    private double nodeH() { return getBoundsInParent().getHeight(); }
+    private double nodeH() { 
+        return  getBoundsInParent().getHeight(); 
+    }
     
     public Pane getTheContainingPane() {
+        //System.out.println("--- 337 DAP, Pane(h/w) = " + theContainingPane.getHeight() + " / " + theContainingPane.getWidth());
         theContainingPane.getChildren().add(theAnchorPane);
+        //System.out.println("--- 339 DAP, Pane(h/w) = " + theContainingPane.getHeight() + " / " + theContainingPane.getWidth());
         return theContainingPane;
     }
     

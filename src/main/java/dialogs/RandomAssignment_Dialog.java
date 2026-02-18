@@ -1,7 +1,7 @@
 /************************************************************
  *                    RandomAssignment_Dialog               *
- *                          01/20/25                        *
- *                            21:00                         *
+ *                          12/12/25                        *
+ *                            12:00                         *
  ***********************************************************/
 package dialogs;
 
@@ -30,17 +30,16 @@ import utilityClasses.MyAlerts;
 
 public class RandomAssignment_Dialog extends Splat_Dialog {
     // POJOs
-    private boolean quantLabelCheckedAlready; //, xVarType_Ok, yVarType_Ok;  
+    private boolean quantLabelCheckedAlready; 
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     private int varIndex, varIndexForX, varIndexForY, variableNowChecking; 
     protected int nCheckBoxes;
     
     private String /*callingProc,*/ strSelected;
     private String subTitle;
-    
-    // Make empty if no-print
-    // String waldoFile = "RandomAssignment_Dialog";
-    String waldoFile = "";
     
     public String wtf_NullChangeQuery;
     private ArrayList<String> strVarLabels;
@@ -65,8 +64,9 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
     public RandomAssignment_Dialog(Data_Manager dm, String callingProc) {
         super(dm);
         this.dm = dm;
-        //this.callingProc = callingProc;
-        dm.whereIsWaldo(67, waldoFile, "Constructing, callingProc = " + callingProc);
+        if (printTheStuff) {
+            System.out.println("*** 68 RandomAssignment_Dialog, Constructing");
+        }
         strReturnStatus = "OK";
         quantLabelCheckedAlready = false;
         boolGoodToGo = true;
@@ -170,7 +170,6 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
         });
 
         selectXVariable.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(170, waldoFile, "selectXVariable");
             variableNowChecking = 1;
             
             if (listOfVars.getNamesSelected().size() == 1) {
@@ -186,7 +185,6 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
         });
 
         selectYVariable.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(185, waldoFile, "*** selectYVariable ***");
             variableNowChecking = 2;
             
             if (listOfVars.getNamesSelected().size() == 1) {
@@ -202,7 +200,6 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
         });
 
         btnOK.setOnAction((ActionEvent event) -> {
-        dm.whereIsWaldo(203, waldoFile, "okButton.setOnAction()");
             boolGoodToGo = true;
             strSelected = tf_FirstVarLabel.getText();
             varIndexForX = dm.getVariableIndex(strSelected);
@@ -228,7 +225,6 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
             }
 
             if (boolGoodToGo) {
-                dm.whereIsWaldo(222, waldoFile, "At 222");
                 //if (strDataType_1.equals("Categorical")) {
                     ColumnOfData col_x = dm.getAllTheColumns().get(varIndexForX);
                     col_x.cleanTheColumn(dm, varIndexForX);
@@ -238,38 +234,24 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
                     ColumnOfData col_y = dm.getAllTheColumns().get(varIndexForY);
                     col_y.cleanTheColumn(dm, varIndexForY);
                 }  
-            }
-            dm.whereIsWaldo(233, waldoFile, "At 240");  
+            } 
             
             if ((varIndexForX > -1 && varIndexForY > -1) 
                || (varIndexForX > -1 && callingProc.equals("RandAssign_CRD"))){
-                dm.whereIsWaldo(236, waldoFile, "At 238");
                 strVarLabels.add(dm.getVariableName(varIndexForX));
                 al_OfColumns.add(dm.getSpreadsheetColumn(varIndexForX));
                 
                 if (!callingProc.equals("RandAssign_CRD")) {
-                    dm.whereIsWaldo(249, waldoFile, "At 249");
                     strVarLabels.add(dm.getVariableName(varIndexForY));
                     al_OfColumns.add(dm.getSpreadsheetColumn(varIndexForY));
                 }
-                dm.whereIsWaldo(253, waldoFile, "At 253");
             }
-            else 
-                {
-                    dm.whereIsWaldo(257, waldoFile, "At 257"); 
-                    boolGoodToGo = false; 
-                }
+            else { boolGoodToGo = false; }
             
-            if (!boolGoodToGo) {
-                dm.whereIsWaldo(262, waldoFile, "At 262"); 
-                strReturnStatus = "Cancel";
-            } else {
-                strReturnStatus = "OK";
-                dm.whereIsWaldo(266, waldoFile, "At 266"); 
-            }
+            if (!boolGoodToGo) { strReturnStatus = "Cancel";
+            } else { strReturnStatus = "OK"; }
 
             if(boolGoodToGo) {
-                dm.whereIsWaldo(270, waldoFile, "At 270"); 
                 subTitle = "SubTitle";
                 strReturnStatus = "OK";
                 close();
@@ -278,7 +260,6 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
     }
     
     public boolean checkVarForCorrectType(String daCorrectType) {
-        dm.whereIsWaldo(279, waldoFile, "checkVarForCorrectType(String daCorrectType)");
         boolean isCorrectType = true;
         strReturnStatus = "OK";
         
@@ -292,12 +273,11 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: TwovarsDial 292 " + variableNowChecking;
+                String switchFailure = "Switch failure: TwovarsDial 276 " + variableNowChecking;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         
         varIndex = dm.getVariableIndex(strSelected);
-        dm.whereIsWaldo(298, waldoFile, "At 298");
         
         switch (daCorrectType) {
             case "Quantitative":
@@ -312,8 +292,6 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
                 break;
                 
             case "Categorical":
-                dm.whereIsWaldo(313, waldoFile, "At 313");
-                
                 if(!dm.getAllTheColumns().get(varIndex).getDataType().equals("Quantitative")) {
                     isCorrectType = true;
                 }
@@ -338,7 +316,7 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: 339 Two_Variables_Dialog " + daCorrectType;
+                String switchFailure = "Switch failure: 319 RandomAssignment_Dialog " + daCorrectType;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }
         return isCorrectType;

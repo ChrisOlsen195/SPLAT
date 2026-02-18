@@ -1,7 +1,7 @@
 /**************************************************
  *                Epidemiology_View               *
- *                    08/19/24                    *
- *                      00:00                     *
+ *                    12/11/25                    *
+ *                      21:00                     *
  *************************************************/
 package epidemiologyProcedures;
 
@@ -50,7 +50,7 @@ public class Epi_View {
                       Epi_Dashboard epi_Dashboard,
                       double placeHoriz, double placeVert,
                       double withThisWidth, double withThisHeight) {
-        System.out.println("\n53 Epidemiology_View, Constructing");
+        System.out.println("*** 53 Epidemiology_View, Constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         this.epi_Model = epi_Model;
@@ -66,7 +66,7 @@ public class Epi_View {
     }
     
     public void completeTheDeal() {
-        //System.out.println("69 Epidemiology_View, completeTheDeal()");
+        //System.out.println("*** 69 Epidemiology_View, completeTheDeal()");
         initializeGraphParams();
         setUpUI();
         setUpAnchorPane();
@@ -92,7 +92,7 @@ public class Epi_View {
     }
     
     private void setUpUI() {
-        //System.out.println("95 Epidemiology_View, setUpUI()");
+        //System.out.println("*** 95 Epidemiology_View, setUpUI()");
         riskAnalysisPane = new RiskAnalysisPane();
         riskAnalysisPane = epi_Model.getRiskAnalysisPane();
     }

@@ -1,7 +1,7 @@
 /**************************************************
  *              BivariateContinDataObj            *
- *                    05/24/24                    *
- *                      15:00                     *
+ *                    11/21/25                    *
+ *                      12:00                     *
  *************************************************/
 package dataObjects;
 
@@ -40,7 +40,9 @@ public class BivariateContinDataObj {
     
     public BivariateContinDataObj(Data_Manager dm, ArrayList<ColumnOfData> inBivDat) {
         this.dm = dm;
-        dm.whereIsWaldo(43, waldoFile, "\n\nConstructing");
+        if (dm != null) {
+            dm.whereIsWaldo(44, waldoFile, "*** Constructing");
+        }
         rIsCalculated = false;
         al_xVariable = new ArrayList<>();
         al_yVariable = new ArrayList<>();
@@ -52,9 +54,12 @@ public class BivariateContinDataObj {
         yLabel = inBivDat.get(1).getVarLabel();
         al_xVariable = inBivDat.get(0).getTheCases_ArrayList();   // Whole column
         al_yVariable = inBivDat.get(1).getTheCases_ArrayList();   //  Whole column
-        nOrigDataPoints = al_xVariable.size();      // Whole column
+        nOrigDataPoints = al_xVariable.size();  // Whole column, including *
         nLegalDataPoints = 0;
         hasBadData = false;
+        if (dm != null) {
+            dm.whereIsWaldo(61, waldoFile, "... Constructing, nOrigDataPoints = " + nOrigDataPoints);
+        }        
         
         for (int ithPoint = 0; ithPoint < nOrigDataPoints; ithPoint++) {
             String xTemp = al_xVariable.get(ithPoint);
@@ -63,10 +68,14 @@ public class BivariateContinDataObj {
             boolean yTempIsDouble = DataUtilities.strIsADouble(yTemp);
             
             if (xTempIsDouble && yTempIsDouble) {
+                //System.out.println("67 BivContinDataObj, adding point");
                 al_bivLegalXVariable.add(xTemp);    //  Legal points
                 al_bivLegalYVariable.add(yTemp);    //  Legal points
                 nLegalDataPoints++;
             }
+            
+            al_bivLegalXVariable.toString();
+            al_bivLegalYVariable.toString();
             
             //  Check for unequally missing in the two variables            
             if ((xTempIsDouble && !yTempIsDouble) 
@@ -77,11 +86,16 @@ public class BivariateContinDataObj {
 
         nMissingDataPoints = nOrigDataPoints - nLegalDataPoints;
         if (hasBadData) {  MyAlerts.showUnequalNsInBivariateProcessAlert(); }
+        if (dm != null) {
+            dm.whereIsWaldo(90, waldoFile, "--- end Constructing");
+        } 
     }
     
     // For ANCOVA object
     public BivariateContinDataObj(ArrayList<ColumnOfData> inBivDat) {
-        //System.out.println("84 *** BivariateContinDataObj, constructing");
+        if (dm != null) {
+            dm.whereIsWaldo(97, waldoFile, "*** Constructing");
+        }
         rIsCalculated = false;
         al_xVariable = new ArrayList<>();
         al_yVariable = new ArrayList<>();
@@ -103,6 +117,9 @@ public class BivariateContinDataObj {
             boolean yTempIsDouble = DataUtilities.strIsADouble(yTemp);
             
             if (xTempIsDouble && yTempIsDouble) {
+                if (dm != null) {
+                    dm.whereIsWaldo(121, waldoFile, "Legal x/y = " + xTemp + " & " + yTemp);
+                }
                 al_bivLegalXVariable.add(xTemp);    //  Legal points
                 al_bivLegalYVariable.add(yTemp);    //  Legal points
                 nLegalDataPoints++;
@@ -117,6 +134,9 @@ public class BivariateContinDataObj {
 
         nMissingDataPoints = nOrigDataPoints - nLegalDataPoints;
         if (hasBadData) {  MyAlerts.showUnequalNsInBivariateProcessAlert(); }
+        if (dm != null) {
+            dm.whereIsWaldo(138, waldoFile, "---  end Constructing");
+        }
     }
     
     public boolean getDataExists() { 
@@ -126,7 +146,7 @@ public class BivariateContinDataObj {
     
     public void continueConstruction() { 
         if (dm != null) {
-            //System.out.println("129 *** BivariateContinDataObj, continueConstruction()");
+            dm.whereIsWaldo(149, waldoFile, "*** continueConstruction()");
         }
         xDataAsStrings = new String[nLegalDataPoints];
         yDataAsStrings = new String[nLegalDataPoints];
@@ -145,11 +165,14 @@ public class BivariateContinDataObj {
         al_bivDataAsDoubles.add(xDataAsDoubles);    // Legal
         al_bivDataAsDoubles.add(yDataAsDoubles);    // Legal
         calculateR();
+        if (dm != null) {
+            dm.whereIsWaldo(169, waldoFile, "--- end continueConstruction()");
+        }
     }    
     
     private void calculateR() { //  and covariance;
         if (dm != null) {
-            dm.whereIsWaldo(152, waldoFile, "calculateR()");
+            dm.whereIsWaldo(175, waldoFile, "*** calculateR()");
         }
         
         int ith;
@@ -208,6 +231,9 @@ public class BivariateContinDataObj {
         for (ith = 0; ith < nLegalDataPoints; ith++) {
             double ss_with_pointDeleted = tempRecip_2 * (ss_yHatDevSquared - yHat_Devs_Squared[ith]);
             studentized_Residuals[ith] = rawResiduals[ith] / (ss_with_pointDeleted * Math.sqrt(1.0 - h_sub_i[ith]));       
+        }
+        if (dm != null) {
+            dm.whereIsWaldo(236, waldoFile, "--- end calculateR()");
         }
     }
     
@@ -273,12 +299,16 @@ public class BivariateContinDataObj {
     public ArrayList<double[]> getBivDataAsDoubles() { return al_bivDataAsDoubles; }        // Legal
     
     public String toString() {
-        String toReturn = "BivConDataObj String to return";
-        System.out.println("\n\n257 BivariateContinDataObj, x/y Labels = " + xLabel + " / " + yLabel);
-        System.out.println("258 BCDO, meanX/Y = " + meanX + " / " + meanY);
-        System.out.println("259 BCDO, stDevX/Y = " + stDevX + " / " + stDevY);
-        System.out.println("260 BCDO, slope / intercept = " + slope + " / " + intercept);
-
-        return toReturn;
+        System.out.println("302 BCDO, ToPrint");
+        System.out.println("303 BCDO, x/y Labels = " + xLabel + " / " + yLabel);
+        System.out.println("304 BCDO, meanX/Y = " + meanX + " / " + meanY);
+        System.out.println("305 BCDO, stDevX/Y = " + stDevX + " / " + stDevY);
+        System.out.println("306 BCDO, slope / intercept = " + slope + " / " + intercept);
+        System.out.println("307 BCDO, nLegalPairs = " + nLegalDataPoints);
+        for (int ithLegal = 0; ithLegal < nLegalDataPoints; ithLegal++) {
+            System.out.println(al_bivLegalXVariable.get(ithLegal) + " / " + al_bivLegalYVariable.get(ithLegal));
+        }
+        System.out.println("311 BCDO, end ToPrint");
+        return "toString BCDO Return";
     }
 }

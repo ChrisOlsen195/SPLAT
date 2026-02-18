@@ -52,8 +52,8 @@ public class UnivCat_PieChart
     String strLeftVariable, graphsCSS, tempStr;
     String[] leftLabels, topLabels;
     
-    String waldoFile = "UnivCat_PieChartView";
-    //String waldoFile = ""; 
+    //String waldoFile = "UnivCat_PieChartView";
+    String waldoFile = ""; 
     
     //  My classes
     Data_Manager dm;
@@ -91,6 +91,7 @@ public class UnivCat_PieChart
         graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();
         theContainingPane = new Pane();
         graphColors = Colors_and_CSS_Strings.getGraphColors_06();
+        dm.whereIsWaldo(94, waldoFile, "Constructing, nGraphColors = " + graphColors.length);
         nColsCat = 1;
         
         txtTitle1 = new Text("Pie Chart"); 
@@ -426,7 +427,7 @@ public class UnivCat_PieChart
     
     private void constructPieInfo() {
             strLeftVariable = univCat_Model.getTheVariable();  // Var description
-            nRowsCat = univCat_Model.getNCategories();         // Number of categories
+            nRowsCat = univCat_Model.getNCategories();         // Number of categories in data
             nCatValues = nRowsCat;
             leftLabels = new String[nRowsCat];                  // Category labels
             leftLabels = univCat_Model.getCategoriesAsStrings();

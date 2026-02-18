@@ -1,7 +1,7 @@
 /************************************************************
  *                     Matched_t_Dialog                     *
- *                         02/09/25                         *
- *                          12:00                           *
+ *                         12/14/25                         *
+ *                          18:00                           *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -45,9 +45,8 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
     
     String[] hypothPair;
     
-    // Make empty if no-print
-    //String waldoFile = "MatchedPairs_Dialog";
-    String waldoFile = "";
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;;
     
     // POJOs / FX
     
@@ -66,7 +65,9 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
    
     public Matched_t_Dialog(Data_Manager dm, String variableType) {
         super(dm, "MatchedPairs_Dialog", "None");
-        dm.whereIsWaldo(69, waldoFile, "\nConstructing");        
+         if (printTheStuff) {
+            System.out.println("*** 69 Matched_t_Dialog, Constructing");
+        }       
         lblTitle.setText("Matched pairs t inference");
         lblExplanVar.setText("Variable #1:");   //  Not really explan
         lblResponseVar.setText("Variable #2:"); //  Not really resp
@@ -81,7 +82,9 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
     }  
 
     protected void defineTheCheckBoxes() {
-        dm.whereIsWaldo(84, waldoFile, "defineTheCheckBoxes()");
+         if (printTheStuff) {
+            System.out.println("*** 86 Matched_t_Dialog, defineTheCheckBoxes()");
+        } 
         // Check box strings must match the order of dashboard strings
         // Perhaps pass them to dashboard in future?
         nCheckBoxes = 4;
@@ -95,7 +98,9 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
     } 
 
  private void makeHypotheses() {
-        dm.whereIsWaldo(98, waldoFile, "makeHypotheses()");        
+         if (printTheStuff) {
+            System.out.println("*** 102 Matched_t_Dialog_Dialog, makeHypotheses()");
+        }        
         hypothesizedDifference = 0.0;
         daNewNullDiff = 0.0;
         strHypChosen = "NotEqual";
@@ -191,7 +196,9 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
     }
  
  private void makeAlphaAndCIPanel() {
-        dm.whereIsWaldo(194, waldoFile, "makeAlphaAndCIPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 200 Matched_t_Dialog, makeAlphaAndCIPanel()");
+        }  
         ciLabel = new Label("   Select conf level");
         ciLabel.setMaxWidth(130);
         ciLabel.setMinWidth(130);
@@ -242,7 +249,6 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
     public void ciChanged(ObservableValue<? extends String> observable,
                                                     String oldValue,
                                                     String newValue) {
-        dm.whereIsWaldo(245, waldoFile, "ciChanged()");
         ciIndex = list_CIViews.getSelectionModel().getSelectedIndex();
         alpha = alphaLevels[ciIndex];
         list_AlphaViews.getSelectionModel().select(ciIndex);
@@ -252,7 +258,6 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
     public void alphaChanged(ObservableValue<? extends String> observable,
                                                     String oldValue,
                                                     String newValue) {
-        dm.whereIsWaldo(255, waldoFile, "alphaChanged()");
         alphaIndex = list_AlphaViews.getSelectionModel().getSelectedIndex();
         alpha = alphaLevels[alphaIndex];
         list_CIViews.getSelectionModel().select(alphaIndex);

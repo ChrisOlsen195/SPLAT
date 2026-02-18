@@ -49,6 +49,7 @@ public class CatQuantDataVariable {
         col_OriginalQuantData = new ColumnOfData(quantColumn);  
     }
     
+    //  Called by ANCOVA_Controller
     public CatQuantDataVariable(Data_Manager dm, 
                                 ArrayList<String> originalLabels,
                                 ObservableList<String> transformedLabels, 
@@ -63,6 +64,7 @@ public class CatQuantDataVariable {
             al_CatQuantPairs.add(new CatQuantPair(pairString, pairDouble));
         }
     }
+
     
     public String finishConstructingTidy() {
         dm.whereIsWaldo(68, waldoFile, "finishConstructingTidy()");

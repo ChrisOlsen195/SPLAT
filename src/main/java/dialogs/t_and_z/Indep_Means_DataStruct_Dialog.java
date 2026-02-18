@@ -32,8 +32,8 @@ public class Indep_Means_DataStruct_Dialog extends Splat_Dialog {
     VBox buttonBox;
 
     public Indep_Means_DataStruct_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("36 *** Indep_Means_DataStruct_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 36 Indep_Means_DataStruct_Dialog, Constructing");
         }
         sepColumns = new RadioButton("Data are in separate columns");
         selectedLabel = "Data are TI8x-Like";
@@ -73,7 +73,6 @@ public class Indep_Means_DataStruct_Dialog extends Splat_Dialog {
         Scene scene = new Scene(root);
         setScene(scene);
         setTitle("Data structure inquiry...");
-        // showAndWait();
     }
     
     // A change listener to track the selection in the group

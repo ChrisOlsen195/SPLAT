@@ -1,7 +1,7 @@
 /**************************************************
  *                   JustAnAxis                   *
- *                    05/27/24                    *
- *                     15:00                      *          
+ *                    09/02/25                    *
+ *                     18:00                      *          
  *************************************************/
 package genericClasses;
 
@@ -20,14 +20,12 @@ public class JustAnAxis extends ValueAxis<Number> {
     // POJOs
     boolean hasForcedIntegerMajorTicks, hasForcedLowEndOfScale, 
             hasForcedHighEndOfScale, axisIsBad;
-    int nMajorTix; //, nMajorIntervals, nBins;
+    int nMajorTix;
         
-    double  /*originalTUP,*/ binSize, //, minMajorTick, maxMajorTick, majorTickRange, binWidth, 
-            lowerBound, upperBound, forcedLowEndOfScaleIs, forcedHighEndOfScaleIs;
+    double  binSize, lowerBound, upperBound, forcedLowEndOfScaleIs, 
+            forcedHighEndOfScaleIs;
     double[] originalScaleRecs,  newScaleRecs;
-    
-    //String graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();   
-    
+
     // My classes
     ScaleRecommendations scaleRecs;
     
@@ -37,8 +35,6 @@ public class JustAnAxis extends ValueAxis<Number> {
 
     // tickUnitProperty is the distance between major ticks
     public SimpleObjectProperty<Double> tickUnitProperty = new SimpleObjectProperty<>(1d); 
-
-    //Side side;
     
     Number[] range;
     List<Number> majorTickMarkPositions;
@@ -47,11 +43,10 @@ public class JustAnAxis extends ValueAxis<Number> {
 
     public JustAnAxis(double lowerBound, double upperBound) {
         super(lowerBound, upperBound); 
-        //System.out.println("50 JustAnAxis, constructing");
-        //System.out.println("51 JustAnAxis, low/up bound = " + lowerBound + " / " + upperBound);
         // Inelegant fixes!
         axisIsBad = false;
         if (upperBound < lowerBound) {
+            System.out.println("49 JustAnAxis, low/up bound = " + lowerBound + " / " + upperBound);
             double temp = lowerBound;
             lowerBound = upperBound;
             upperBound = temp;
@@ -60,6 +55,7 @@ public class JustAnAxis extends ValueAxis<Number> {
             return;
         }
         if (upperBound == lowerBound) {
+            System.out.println("58 JustAnAxis, low/up bound = " + lowerBound + " / " + upperBound);
             lowerBound = lowerBound - 1.0;
             upperBound = upperBound + 1.0;
             MyAlerts.showBadAxisAlert();
@@ -87,7 +83,6 @@ public class JustAnAxis extends ValueAxis<Number> {
         originalScaleRecs[1] = upperBoundProperty().get();
         originalScaleRecs[2] = tickUnitProperty.get();
         originalScaleRecs[3] = getMinorTickCount();
-        //originalTUP = originalScaleRecs[2];
         bindBoundsToDefaultBounds();
         calculateRecommendedScaleInfo();  
     }

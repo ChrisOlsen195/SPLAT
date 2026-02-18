@@ -86,7 +86,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
             
             anova1_Cat_Tidy_Dialog = new ANOVA1_Cat_Tidy_Dialog( dm, "Categorical" );
             anova1_Cat_Tidy_Dialog.showAndWait();
-            strReturnStatus = anova1_Cat_Tidy_Dialog.getReturnStatus();
+            strReturnStatus = anova1_Cat_Tidy_Dialog.getStrReturnStatus();
             if (strReturnStatus.equals("Cancel")) {return "Cancel";}
             
             anova1_ColsOfData = anova1_Cat_Tidy_Dialog.getData();
@@ -99,6 +99,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
             
             checkForLegalChoices = validateTidyChoices();
         } while (!checkForLegalChoices);
+        
         dm.whereIsWaldo(102, waldoFile, " --- doTidy()");
         explVarDescr = anova1_Cat_Tidy_Dialog.getPreferredFirstVarDescription();
         respVarDescr = anova1_Cat_Tidy_Dialog.getPreferredSecondVarDescription();
@@ -133,7 +134,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
         
         anova1_Cat_TI8x_Dialog = new ANOVA1_Cat_TI8x_Dialog( dm );
         anova1_Cat_TI8x_Dialog.show_ANOVA1_TI8x_Dialog();
-        strReturnStatus = anova1_Cat_TI8x_Dialog.getReturnStatus();
+        strReturnStatus = anova1_Cat_TI8x_Dialog.getStrReturnStatus();
          
         if (!super.strReturnStatus.equals("OK")) { return "Cancel"; }
         // else...
@@ -184,14 +185,14 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
         // The QDVs already have labels -- dump allTheLabels & get from QDV?
         anova1_Cat_Model = new ANOVA1_Cat_Model(this, explVarDescr, respVarDescr, allTheQDVs);
         String anovaOK = anova1_Cat_Model.continueInitializing();
-        
+        dm.whereIsWaldo(188, waldoFile, " --- anovaOK = " + anovaOK);
         if (!anovaOK.equals("OK")) { return "Cancel";  }
         
         anova1_Cat_Dashboard = new ANOVA1_Cat_Dashboard(this, anova1_Cat_Model);
         anova1_Cat_Dashboard.populateTheBackGround();
         anova1_Cat_Dashboard.putEmAllUp();
         anova1_Cat_Dashboard.showAndWait();
-        strReturnStatus = anova1_Cat_Dashboard.getReturnStatus();
+        strReturnStatus = anova1_Cat_Dashboard.getStrReturnStatus();
         strReturnStatus = "OK";
         dm.whereIsWaldo(199, waldoFile, " END doTheANOVA()");
         return strReturnStatus;        
@@ -224,7 +225,7 @@ public class ANOVA1_Cat_Controller extends ANOVA1_Controller {
         
         reOrderStrings_Dialog = new ReOrderStringDisplay_Dialog(this, incomingLabels);
         reOrderStrings_Dialog.showAndWait();
-        strReturnStatus = reOrderStrings_Dialog.getReturnStatus();
+        strReturnStatus = reOrderStrings_Dialog.getStrReturnStatus();
         if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
         allTheQDVs = new ArrayList<>();
         for (int ithQDV = 0; ithQDV < n_QDVs; ithQDV++) {

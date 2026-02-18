@@ -1,7 +1,7 @@
 /**************************************************
  *             UnivariateCategoricalDataObj       *
- *                    01/15/25                    *
- *                     12:00                      *
+ *                    08/21/25                    *
+ *                     15:00                      *
  *************************************************/
 package dataObjects;
 
@@ -16,7 +16,7 @@ public class UnivariateCategoricalDataObj {
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
-    int nLegalValues, nCategories, nUniques;
+    int nLegalValues, nMissing, nCategories, nUniques;
     int[] observedCounts;
     
     String varLabel;
@@ -44,7 +44,7 @@ public class UnivariateCategoricalDataObj {
         
         nLegalValues = str_al_LegalValues.size();
         strLegalValues = new String[nLegalValues];
-        
+        nMissing = colSize - nLegalValues;
         for (int ithLegalDat = 0; ithLegalDat < nLegalValues; ithLegalDat++) {
             strLegalValues[ithLegalDat] = str_al_LegalValues.get(ithLegalDat);
         } 
@@ -104,7 +104,8 @@ public class UnivariateCategoricalDataObj {
         return daReturnString;
     }
     
-    public int getNUniques() { return nUniques; }    
+    public int getNUniques() { return nUniques; }  
+    public int getNMissing() { return nMissing; }
     public String getIthValue(int ith) { return str_al_LegalValues.get(ith); }    
     public String[] getCategories() {return strUniqueCategories; }    
     public int[] getObservedCounts() { return observedCounts; }   

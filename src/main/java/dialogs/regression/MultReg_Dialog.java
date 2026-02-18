@@ -1,7 +1,7 @@
 /**************************************************
  *                 MultReg_Dialog                 *
- *                    01/20/25                    *
- *                     21:00                      *
+ *                    12/13/25                    *
+ *                     15:00                      *
  *************************************************/
 package dialogs.regression;
 
@@ -45,9 +45,9 @@ public class MultReg_Dialog extends Splat_Dialog {
 
     public MultReg_Dialog(Data_Manager dm) {
         super(dm);
-        
         //waldoFile = "MultReg_Dialog";
         waldoFile = "";
+        this.dm = dm;
         
         dm.whereIsWaldo(52, waldoFile, "Constructing");
         maxIVs = 12;
@@ -129,8 +129,7 @@ public class MultReg_Dialog extends Splat_Dialog {
 
         setScene(myScene);
 
-        btnReset.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(133, waldoFile, "btnReset.setOnAction");
+        btnReset.setOnAction((ActionEvent event) -> {;
             var_List_ToChoose.resetList();
             var_List_Chosen.clearList();
             tfIVText.setText("");
@@ -139,7 +138,6 @@ public class MultReg_Dialog extends Splat_Dialog {
         });
 
         btn_selectIV.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(142, waldoFile, "btn_selectIV.setOnAction");
             ArrayList<String> selected = var_List_ToChoose.getNamesSelected();
             ok = true;
             
@@ -161,7 +159,6 @@ public class MultReg_Dialog extends Splat_Dialog {
         });
 
         btn_selectDV.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(164, waldoFile, "selectDV.setOnAction");
             ok = true;
             
             if (var_List_ToChoose.getNamesSelected().size() == 1) {
@@ -179,7 +176,6 @@ public class MultReg_Dialog extends Splat_Dialog {
         });
 
         btnOK.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(182, waldoFile, "okButton.setOnAction");
             ok = true;
 
             str_al_IVsSelected = var_List_Chosen.getVarIndices();

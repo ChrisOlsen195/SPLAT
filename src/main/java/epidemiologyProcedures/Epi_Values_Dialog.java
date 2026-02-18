@@ -1,7 +1,7 @@
 /****************************************************************************
  *                Epidemiology_Values_Dialog                                * 
- *                          08/19/24                                        *
- *                            00:00                                         *
+ *                          12/10/25                                        *
+ *                            09:00                                         *
  ***************************************************************************/
 package epidemiologyProcedures;
 
@@ -23,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.WindowEvent;
 import utilityClasses.MyAlerts;
 
         
@@ -35,6 +36,9 @@ import utilityClasses.MyAlerts;
 public class Epi_Values_Dialog extends Splat_Dialog {
     //  POJOs
     boolean closeRequested, entriesDiffer;
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     int indexExposureYes, indexExposureNo, indexOutcomeYes, indexOutcomeNo;
 
@@ -56,7 +60,10 @@ public class Epi_Values_Dialog extends Splat_Dialog {
 
     public Epi_Values_Dialog(Epi_Model epi_Model) {
         super();
-        System.out.println("\n59 Epidemiology_Values_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 63 Epi_Values_Dialog, Constructing");
+        }  
+        
         strEnteredData = new String[10];
         VBox root = new VBox();
         this.epi_Model = epi_Model;
@@ -74,7 +81,9 @@ public class Epi_Values_Dialog extends Splat_Dialog {
     }
 
     private void constructObservedValuesPanel() {
-        //System.out.println("77 Epidemiology_Values_Dialog, constructObservedValuesPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 84 Epi_Values_Dialog,, constructObservedValuesPanel()");
+        } 
         setWidth(600);
         setHeight(425);  
         setWidth(825);
@@ -82,9 +91,10 @@ public class Epi_Values_Dialog extends Splat_Dialog {
     }
     
     private void constructTheAnchorPane() {
-        //System.out.println("85 Epidemiology_Values_Dialog, constructTheAnchorPane()");
+        if (printTheStuff) {
+            System.out.println("*** 94 Epidemiology_Values_Dialog, constructTheAnchorPane())");
+        } 
         anchorPane_DataEntry = new AnchorPane();
-        
         AnchorPane.setTopAnchor(lblExposure, 170.0);
         AnchorPane.setLeftAnchor(lblExposure, 25.0);
         AnchorPane.setRightAnchor(lblExposure, 450.0);
@@ -136,8 +146,10 @@ public class Epi_Values_Dialog extends Splat_Dialog {
         anchorPane_DataEntry.getChildren().add(lblOutNo);         
     }
   
-    private void initializeUIComponents() {    
-        //System.out.println("140 Epidemiology_Values_Dialog, initializeUIComponents()");
+    private void initializeUIComponents() {
+        if (printTheStuff) {
+            System.out.println("*** 150 Epidemiology_Values_Dialog, initializeUIComponents()");
+        }
         lblExposure = new Label("Exposure"); lblOutcome = new Label("Outcome");
         
         lblExpYes = new Label("Yes"); lblExpNo = new Label("No"); 
@@ -146,11 +158,14 @@ public class Epi_Values_Dialog extends Splat_Dialog {
         btnCancel.setText("Return to Menu");
         btnCancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                epi_Model.setCleanReturnFromSummaryDialog("Cancel");
-                epi_Model.closeTheSummaryDialog(false);
-                strReturnStatus = "Cancel";
+                epi_Model.setStrReturnStatus("Cancel");
                 close();
             }
+        });
+        
+        setOnCloseRequest((WindowEvent t) -> {
+            epi_Model.setStrReturnStatus("CloseWindow");
+            close();
         });
         
         // Not clear that clear is needed
@@ -219,7 +234,9 @@ public class Epi_Values_Dialog extends Splat_Dialog {
     } 
 
     private boolean checkEntriesAreOK() {
-        //System.out.println("222 Epidemiology_Values_Dialog, checkEntriesAreOK()"); 
+        if (printTheStuff) {
+            System.out.println("*** 234 Epidemiology_Values_Dialog, checkEntriesAreOK()"); 
+        }
         indexExposureYes = getIndexValueExposuresYes();
         indexExposureNo = getIndexValueExposuresNo();
         indexOutcomeYes = getIndexValueOutcomesYes();
@@ -229,37 +246,56 @@ public class Epi_Values_Dialog extends Splat_Dialog {
         return entriesDiffer;
     }
     
+    public void armDirectionsButtons() {
+        btnCancel.arm(); btnClearControl.arm(); btnContinue.arm(); 
+    } 
+    
     public String getExposureLabel() { 
-        //System.out.println("233 Epi_Values_Dialog, lblExposure.getText(); = " + lblExposure.getText());
+        if (printTheStuff) {
+            System.out.println("*** 247 Epidemiology_Values_Dialog, getExposureLabel()"); 
+        }
         return lblExposure.getText();
     }
     
     public String getValueExposuresYes() { 
-        //System.out.println("238 Epi_Values_Dialog, chBoxExpYes.getValue() = " + chBoxExpYes.getValue());
+        if (printTheStuff) {
+            System.out.println("*** 254 Epidemiology_Values_Dialog, getValueExposuresYes()"); 
+        }
         return chBoxExpYes.getValue(); 
     }
     
     public String getValueExposuresNo() { 
-        //System.out.println("243 Epi_Values_Dialog, chBoxExpNo.getValue() = " + chBoxExpNo.getValue());
+        if (printTheStuff) {
+            System.out.println("*** 261 Epidemiology_Values_Dialog, getValueExposuresNo()"); 
+        }
         return chBoxExpNo.getValue(); 
     }
     
     public String getOutcomeLabel() { 
-        //System.out.println("248 Epi_Values_Dialog, lblOutcome.getText(); = " + lblOutcome.getText());
+        if (printTheStuff) {
+            System.out.println("*** 268 Epidemiology_Values_Dialog, getOutcomeLabel()"); 
+        }
         return lblExposure.getText();
     }
 
     public String getValueOutcomesYes() { 
-        //System.out.println("253 Epi_Values_Dialog, chBoxOutYes.getValue() = " + chBoxOutYes.getValue());
+        if (printTheStuff) {
+            System.out.println("*** 275 Epidemiology_Values_Dialog, getValueOutcomesYes()"); 
+        }
         return chBoxOutYes.getValue();
     }
     
     public String getValueOutcomesNo() { 
-        //System.out.println("258 Epi_Values_Dialog, chBoxOutNo.getValue() = " + chBoxOutNo.getValue());
+        if (printTheStuff) {
+            System.out.println("*** 275 Epidemiology_Values_Dialog, getValueOutcomesNo()"); 
+        }
         return chBoxOutNo.getValue(); 
     }
     
     public int getIndexValueExposuresNo() { 
+        if (printTheStuff) {
+            System.out.println("*** 289 Epidemiology_Values_Dialog, getIndexValueExposuresNo()"); 
+        }
         int valueToReturn = 0;
         String strTheValue = chBoxExpNo.getValue();
         for (int ithValue = 0; ithValue < exposureUniques.size(); ithValue++) {
@@ -272,6 +308,9 @@ public class Epi_Values_Dialog extends Splat_Dialog {
     }
     
     public int getIndexValueExposuresYes() { 
+        if (printTheStuff) {
+            System.out.println("*** 304 Epidemiology_Values_Dialog, getIndexValueExposuresYes()"); 
+        }
         int valueToReturn = 0;
         String strTheValue = chBoxExpYes.getValue();
         for (int ithValue = 0; ithValue < exposureUniques.size(); ithValue++) {
@@ -284,6 +323,9 @@ public class Epi_Values_Dialog extends Splat_Dialog {
     }    
     
     public int getIndexValueOutcomesNo() { 
+        if (printTheStuff) {
+            System.out.println("*** 319 Epidemiology_Values_Dialog, getIndexValueOutcomesNo()"); 
+        }
         int valueToReturn = 0;
         String strTheValue = chBoxOutNo.getValue();
         for (int ithValue = 0; ithValue < outcomesUniques.size(); ithValue++) {
@@ -296,6 +338,9 @@ public class Epi_Values_Dialog extends Splat_Dialog {
     }
     
     public int getIndexValueOutcomesYes() { 
+        if (printTheStuff) {
+            System.out.println("*** 319 Epidemiology_Values_Dialog, getIndexValueOutcomesYes()"); 
+        }
         int valueToReturn = 0;
         String strTheValue = chBoxOutYes.getValue();
         for (int ithValue = 0; ithValue < outcomesUniques.size(); ithValue++) {
@@ -308,6 +353,9 @@ public class Epi_Values_Dialog extends Splat_Dialog {
     } 
     
     public String[] getFileResponseListAsStrings() {
+        if (printTheStuff) {
+            System.out.println("*** 349 Epidemiology_Values_Dialog, getFileResponseListAsStrings()"); 
+        }
         String[] strList = new String[10];
         
         for (int ithStr = 0; ithStr < 6; ithStr++) {
@@ -316,10 +364,9 @@ public class Epi_Values_Dialog extends Splat_Dialog {
         return strList;
     }
 
-    public String getReturnStatus() { return strReturnStatus;  }   
-    public void armDirectionsButtons() {
-        btnCancel.arm(); btnClearControl.arm(); btnContinue.arm(); 
-    }      
+    public String getStrReturnStatus() { return strReturnStatus;  }  
+    
+     
     public String[] getEpiDialogInfo() { return strEnteredData; }
     public boolean getCloseRequested() { return closeRequested; }    
 }

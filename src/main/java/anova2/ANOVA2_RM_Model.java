@@ -1,11 +1,13 @@
 /**************************************************
  *                ANOVA2_RM_Model                 *
- *                  02/23/25                      *
- *                    15:00                       *
+ *                  11/25/25                      *
+ *                    18:00                       *
  *************************************************/
 /**************************************************
  *          Tested against Cohen p513             *
  *                   02/17/24                     *
+ *          Tested against Kirk p292              *
+ *                   11/25/25                     *
  *************************************************/
 package anova2;
 
@@ -49,8 +51,8 @@ public class ANOVA2_RM_Model {
     
     ObservableList<String> treatmentLevels, subjectLevels;
     
-        String waldoFile = "";
-        //String waldoFile = "ANOVA2_RM_Model"; 
+    //String waldoFile = "ANOVA2_RM_Model"; 
+    String waldoFile = "";
 
     ArrayList<String> rm_Report, sphericity_Report, alStr_AllTheLabels;
     
@@ -71,7 +73,7 @@ public class ANOVA2_RM_Model {
                         CategoricalDataVariable subjectValues,
                         CategoricalDataVariable treatmentValues, 
                         QuantitativeDataVariable responseValues) { 
-        dm.whereIsWaldo(74, waldoFile, "Constructing, RM Model"); 
+        dm.whereIsWaldo(74, waldoFile, "*** Constructing, RM Model"); 
         this.dm = dm;
         this.rm_Controller = rm_Controller;
         this.treatmentValues = treatmentValues;
@@ -87,7 +89,7 @@ public class ANOVA2_RM_Model {
     } 
     
     public String doTwoWayANOVA() {
-        dm.whereIsWaldo(90, waldoFile, " -- doTwoWayANOVA()");
+        dm.whereIsWaldo(90, waldoFile, "*** doTwoWayANOVA()");
         returnStatus = "OK";
         treatmentLevels = FXCollections.observableArrayList();
         subjectLevels = FXCollections.observableArrayList();
@@ -114,7 +116,7 @@ public class ANOVA2_RM_Model {
     }
 
     private String performInitialOneWays() {
-        dm.whereIsWaldo(117, waldoFile, " -- performInitialOneWays()");
+        dm.whereIsWaldo(117, waldoFile, "*** performInitialOneWays()");
         returnStatus = "OK";        
         prelimTreatments = new ANOVA2_RCB_PrelimANOVA1(dm, treatmentValues, responseValues);
         
@@ -140,7 +142,7 @@ public class ANOVA2_RM_Model {
     }   
     
     private void doRMAnalysis() {  
-        dm.whereIsWaldo(143, waldoFile, " -- doRMAnalysis()");
+        dm.whereIsWaldo(143, waldoFile, "*** doRMAnalysis()");
         ssTreatments = prelimTreatments.getSSTreatments();
         dfTreatments = prelimTreatments.getDFLevels();
         msTreatments = ssTreatments / dfTreatments;
@@ -172,6 +174,7 @@ public class ANOVA2_RM_Model {
     } 
     
     private void grabTheOriginalData() { 
+        dm.whereIsWaldo(175, waldoFile, "*** grabTheOriginalData()");
         nOriginalColumns = dm.getNVarsInStruct();
         nTreatments = nOriginalColumns - 1;
         originalDataColumns = new ColumnOfData[nTreatments+1];
@@ -181,10 +184,6 @@ public class ANOVA2_RM_Model {
         }
         
         nSubjects = originalDataColumns[0].getNCasesInColumn();
-        
-        // Construct the All The QDVs.
-        // Stack the columns into one, put in allTheQDVs[0]
-        // Construct a ColumnOfData, make the QDV
         thisVarLabel = "All"; thisVarDescr = "All";
         
         // Construct QDV(0)
@@ -217,7 +216,7 @@ public class ANOVA2_RM_Model {
     }  
     
 private void printTheStuff() {  
-        dm.whereIsWaldo(220, waldoFile, "printTheStuff()");
+        dm.whereIsWaldo(217, waldoFile, "*** printTheStuff()");
         rm_Report.add(String.format("\n"));
         rm_Report.add(String.format("               **********         Parameter estimates for Levels         **********\n\n"));
         rm_Report.add(String.format("   Treatment/   Sample     Sample      Sample     Std Err     Margin     Lower 95PC  Upper 95PC\n"));
@@ -250,7 +249,7 @@ private void printTheStuff() {
     }
 
     public void print_ANOVA2_Results_1() { 
-        dm.whereIsWaldo(253, waldoFile, " -- print_ANOVA2_Results_1()");
+        dm.whereIsWaldo(250, waldoFile, "*** print_ANOVA2_Results_1()");
         rm_Report = new ArrayList<>();    
         rm_Report.add(String.format("-----------------------------------------------------------------------------------\n"));
         rm_Report.add(String.format("       Source of      Sum of\n"));
@@ -276,7 +275,7 @@ private void printTheStuff() {
     }    // end printANOVA_Results
     
 private void doTukeyKramer() {
-    dm.whereIsWaldo(279, waldoFile, "doTukeyKramer()");
+    dm.whereIsWaldo(276, waldoFile, "*** doTukeyKramer()");
     studRangeQ = new StudentizedRangeQ();
     qTK = studRangeQ.qrange(0.95, // cumulative p -- use .95 if alpha = .05
                            (double)nTreatments, // number of groups
@@ -312,7 +311,7 @@ private void doTukeyKramer() {
     }
     
     public void print_ANOVA2_Results_2() {
-        dm.whereIsWaldo(315, waldoFile, " -- print_ANOVA2_Results_2()");
+        dm.whereIsWaldo(312, waldoFile, "*** print_ANOVA2_Results_2()");
         sphericity_Report = new ArrayList<>();    
         sphericity_Report.add(String.format("-----------------------------------------------------------------------------------\n"));
         sphericity_Report.add(String.format("                  Advanced Repeated Measures  Concerns: Sphericity                 \n"));
@@ -363,29 +362,27 @@ private void doTukeyKramer() {
     }
     
     private void doTheEffectSizes() {
-        /************************************************************
-         * Kirk, Experimental Design: Procedures for the Behavioral *
-         * Sciences (4th).  pp 134- 137                             *
-         ***********************************************************/ 
-        dm.whereIsWaldo(370, waldoFile, " -- doTheEffectSizes_RCB_NoReplicates()");
-        // omegaSquare_Treats_Numerator = (nTreatments - 1.0) * (fStatTreatments - 1.0);
-        omegaSquare_Treats_Numerator = ssTreatments - (nTreatments - 1) * msWithin;
-        omegaSquareTreats_Denominator = ssTotal + msWithin;
+        /***************************************************************
+         * Kirk, Experimental Design: Procedures for the Behavioral    *
+         * Sciences (4th).  pp 290 - 292.  There is a typo for rho^2;  *
+         *following the calculations, which agree with pre-alternate.  *
+         ************************************************************/ 
+        dm.whereIsWaldo(368, waldoFile, "*** doTheEffectSizes_RCB_NoReplicates()");
+        omegaSquare_Treats_Numerator = (nTreatments - 1.0) * (fStatTreatments - 1.0);
+        omegaSquareTreats_Denominator = omegaSquare_Treats_Numerator + nSubjects * nTreatments;
         omegaSquare_Treatments = omegaSquare_Treats_Numerator / omegaSquareTreats_Denominator;
         
         if (omegaSquare_Treatments < 0) { omegaSquare_Treatments = 0;  }
-        
         cohensF_Treatments = Math.sqrt(omegaSquare_Treatments / (1.0 - omegaSquare_Treatments));
         omegaSquare_Subjects_Numerator = (nSubjects - 1.0) * (fStatSubjects - 1.0);
         omegaSquareSubjects_Denominator = omegaSquare_Subjects_Numerator + nTreatments * nSubjects;
         omegaSquare_Subjects = omegaSquare_Subjects_Numerator / omegaSquareSubjects_Denominator;
         
         if (omegaSquare_Subjects < 0) { omegaSquare_Subjects = 0; }
-        
-        cohensF_Subjects = Math.sqrt(omegaSquare_Subjects / (1.0 - omegaSquare_Subjects));
-        
+        // sum, not product in the denominator
+        double rho_squared = (fStatSubjects - 1.0) / ((nTreatments - 1.0) + fStatSubjects);
+        cohensF_Subjects = Math.sqrt(rho_squared / (1.0 - rho_squared));
         partial_eta_squared = ssTreatments / (ssTreatments + ssError);
-        //System.out.println("388 RM_Model, partial_eta_squared = " + partial_eta_squared);
     }
     
     private String leftMostChars(String original, int leftChars) {
@@ -399,7 +396,7 @@ private void doTukeyKramer() {
     public int getNSubjects() {  return nBlocks; }
     public int getNTreatments() {  return nTreatments; }
 
-    public ObservableList <String> getTreatmentLevels() { 
+    public ObservableList <String> getTreatmentLevels() {
         return treatmentLevels; 
     }     
 

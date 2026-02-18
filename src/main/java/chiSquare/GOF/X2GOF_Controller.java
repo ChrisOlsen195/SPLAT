@@ -47,7 +47,7 @@ public class X2GOF_Controller {
             x2GOF_Dashboard.populateTheBackGround();
             x2GOF_Dashboard.putEmAllUp();
             x2GOF_Dashboard.showAndWait();
-            returnStatus = x2GOF_Dashboard.getReturnStatus();
+            returnStatus = x2GOF_Dashboard.getStrReturnStatus();
         }
         return returnStatus;
     }
@@ -57,7 +57,7 @@ public class X2GOF_Controller {
         dm.whereIsWaldo(49, waldoFile, "doGOF_FromFileData");
         X2GOF_ChooseVariable x2GOF_Dialog = new X2GOF_ChooseVariable(dm, "Categorical");
         x2GOF_Dialog.showAndWait();
-        returnStatus = x2GOF_Dialog.getReturnStatus();
+        returnStatus = x2GOF_Dialog.getStrReturnStatus();
         
         if (returnStatus.equals("OK")) {
             columnOfData = x2GOF_Dialog.getData();
@@ -69,7 +69,7 @@ public class X2GOF_Controller {
                 x2GOF_Dashboard.populateTheBackGround();
                 x2GOF_Dashboard.putEmAllUp();
                 x2GOF_Dashboard.showAndWait();
-                returnStatus = x2GOF_Dashboard.getReturnStatus();
+                returnStatus = x2GOF_Dashboard.getStrReturnStatus();
             }            
         }
         dm.whereIsWaldo(75, waldoFile, "  *** END doGOF_FromFileData(Data_Manager dm)");

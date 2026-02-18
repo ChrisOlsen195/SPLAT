@@ -16,7 +16,7 @@ public class TwoProp_Inf_Report_View extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        System.out.println("19 *** TwoProp_Inf_Report_View, Constructing");
+        //System.out.println("19 *** TwoProp_Inf_Report_View, Constructing");
         sourceString = new String();
         stringsToPrint = twoProp_Inf_Model.getStringsToPrint();
         strTitleText = "Inference for a difference between proportions";

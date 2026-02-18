@@ -11,14 +11,18 @@ import splat.Data_Manager;
 
 public class X2GOF_Dialog extends One_Variable_Dialog{ 
     
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
+    
     public X2GOF_Dialog(Data_Manager myData, String variableType) {
         super(myData, "Categorical"); 
-        System.out.println("16 X2GOF_Dialog, constructing");
+        if (printTheStuff) {
+            System.out.println("*** 20 X2GOF_Dialog, Constructing");
+        }
         lbl_Title.setText("Chi square Goodness Of Fit");
         lblFirstVar.setText("  Variable:");
         defineTheCheckBoxes();
         setTitle("Chi square Goodness Of Fit");
-        // showAndWait();
     }  
     
     private void defineTheCheckBoxes() {

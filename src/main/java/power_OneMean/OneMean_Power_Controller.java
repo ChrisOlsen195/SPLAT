@@ -35,7 +35,7 @@ public class OneMean_Power_Controller {
     
     public String ShowNWait() {
         power_SingleMean_Dialog.showAndWait();
-        strReturnStatus = power_SingleMean_Dialog.getReturnStatus();
+        strReturnStatus = power_SingleMean_Dialog.getStrReturnStatus();
         
         if (strReturnStatus.equals("Cancel")) { return strReturnStatus; }
         

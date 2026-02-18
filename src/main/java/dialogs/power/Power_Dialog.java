@@ -60,8 +60,8 @@ public class Power_Dialog extends Splat_Dialog {
     //public Data_Manager dm;
 
     public Power_Dialog(String strMessageOfSomeSort) {
-        if (printTheStuff == true) {
-            System.out.println("64 *** Power_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 64 Power_Dialog, Constructing");
         }
         this.strMessageOfSomeSort = strMessageOfSomeSort;
         strReturnStatus = "Ok";

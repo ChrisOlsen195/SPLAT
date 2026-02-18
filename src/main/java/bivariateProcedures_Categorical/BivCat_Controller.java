@@ -1,7 +1,7 @@
 /************************************************************
  *                      BivCat_Controller                  *
- *                          03/22/25                        *
- *                            21:00                         *
+ *                          12/14/25                        *
+ *                            18:00                         *
  ***********************************************************/
 package bivariateProcedures_Categorical;
 
@@ -32,11 +32,11 @@ public class BivCat_Controller {
     public BivCat_Controller(Data_Manager dm, String assocType) { 
         this.dm = dm;
         OK = "OK";
-        dm.whereIsWaldo(35, waldoFile, "\nConstructing");       
+        dm.whereIsWaldo(35, waldoFile, "*** Constructing");       
     }
     
     public String doAssoc_FromTable() {
-        dm.whereIsWaldo(39, waldoFile, "\nConstructing");
+        dm.whereIsWaldo(39, waldoFile, "doAssoc_FromTable()");
         bivCat_Model = new BivCat_Model(this, assocType);
         strReturnStatus = bivCat_Model.doBivCatModelFromTable();
         if (strReturnStatus.equals(OK)) {
@@ -44,7 +44,7 @@ public class BivCat_Controller {
             bivCat_Dashboard.populateTheBackGround();
             bivCat_Dashboard.putEmAllUp();
             bivCat_Dashboard.showAndWait();
-            strReturnStatus = bivCat_Dashboard.getReturnStatus();
+            strReturnStatus = bivCat_Dashboard.getStrReturnStatus();
             return strReturnStatus;
         }
         else {
@@ -54,7 +54,7 @@ public class BivCat_Controller {
 
     public String doAssoc_FromFile(Data_Manager dm) {
         this.dm = dm;
-        dm.whereIsWaldo(57, waldoFile, "doAssoc_FromFile");
+        dm.whereIsWaldo(57, waldoFile, "*** doAssoc_FromFile");
         int casesInStruct = dm.getNCasesInStruct();
         if (casesInStruct == 0) {
             MyAlerts.showAintGotNoDataAlert();
@@ -66,11 +66,10 @@ public class BivCat_Controller {
         BivCat_Dialog bivCat_Dialog = new BivCat_Dialog(dm, "BivCatAssocFromFile");
         bivCat_Dialog.showAndWait();
 
-        strReturnStatus = bivCat_Dialog.getReturnStatus();
+        strReturnStatus = bivCat_Dialog.getStrReturnStatus();
         if (strReturnStatus.equals(OK)) {
-            xDescr = bivCat_Dialog.getXLabel();
-            yDescr = bivCat_Dialog.getYLabel();
-            System.out.println("73 BivCat_Controller, x/yDescr = " + xDescr + " / " + yDescr);
+           xDescr = bivCat_Dialog.getPreferredFirstVarDescription();
+           yDescr = bivCat_Dialog.getPreferredSecondVarDescription();
             bivCatDataObj = new BivariateCategoricalDataObj(dm, xDescr, 
             yDescr, bivCat_Dialog.getData());
             outData = new ArrayList();
@@ -89,7 +88,7 @@ public class BivCat_Controller {
                 bivCat_Dashboard.populateTheBackGround();
                 bivCat_Dashboard.putEmAllUp();
                 bivCat_Dashboard.showAndWait();
-                strReturnStatus = bivCat_Dashboard.getReturnStatus();
+                strReturnStatus = bivCat_Dashboard.getStrReturnStatus();
             }            
         }
         return strReturnStatus;

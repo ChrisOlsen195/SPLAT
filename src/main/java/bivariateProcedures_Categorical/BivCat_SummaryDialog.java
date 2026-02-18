@@ -1,7 +1,7 @@
 /****************************************************************************
  *                    BivCat_Summary_Dialog                                 * 
- *                           08/19/24                                       *
- *                            12:00                                         *
+ *                           12/13/25                                       *
+ *                            15:00                                         *
  ***************************************************************************/
 package bivariateProcedures_Categorical;
 
@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import smarttextfield.*;
 import chiSquare.*;
 import dialogs.Splat_Dialog;
+import javafx.stage.WindowEvent;
 import utilityClasses.*;
         
 /****************************************************************************
@@ -39,6 +40,9 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
     int[][] observedValues;
     
     String switchFailure;
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     //  These strings are for keeping track of which control is 'up.'
     final String step1 = "STEP1";
@@ -68,9 +72,10 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
 
     public BivCat_SummaryDialog(BivCat_Model bivCat_Model) {   //  Constructor
         super();
-        System.out.println("\n71 BivCat_SummaryDialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 76 BivCat_SummaryDialog, Constructing");
+        }
         this.bivCat_Model = bivCat_Model;
-        //strAssocType = bivCat_Model.getAssociationType();
         stf_RowCol_Controller = new SmartTextFieldsController();
         // stf_Controller is empty until size is set
         stf_RowCol_Controller.setSize(4);
@@ -93,7 +98,9 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
  *                       Independence/Homogeneity                           * 
  ***************************************************************************/
     private void doX2ChosenPanel() {
-        System.out.println("96 BivCat_SummaryDialog, doX2ChosenPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 102 BivCat_SummaryDialog, doX2ChosenPanel()");
+        }
         strCurControl = step1;
         
         lbl_NRowCats.setText("nRow categories:");
@@ -133,7 +140,9 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
     }
     
     public void constructObservedValuesPanel() {
-        System.out.println("136 BivCat_SummaryDialog, constructObservedValuesPanel()");
+        if (printTheStuff) {
+            System.out.println("144 BivCat_SummaryDialog, constructObservedValuesPanel()");
+        }
         strCurControl = step3;
         
         setWidth(200 + 175 * nColCategories);
@@ -185,15 +194,22 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
         vBoxVisControl.getChildren().addAll(txt_Bottom, borderPane_ObsValGrid, hBoxWhereToNext);
     }
   
-    private void initializeUIComponents() {   
-       System.out.println("189 BivCat_SummaryDialog, initializeUIComponents()");
+    private void initializeUIComponents() {  
+        if (printTheStuff) {
+            System.out.println("*** 199 BivCat_SummaryDialog, initializeUIComponents()");
+        }
     // **********************   Buttons  ***********************************
         btnCancel.setText("Return to Menu");
         btnCancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                strReturnStatus = "Cancel";
-                bivCat_Model.closeTheSummaryDialog(false);
+                bivCat_Model.setReturnStatus("Cancel");
+                close();
             }
+        });
+        
+        setOnCloseRequest((WindowEvent t) -> {
+            bivCat_Model.setReturnStatus("CloseWindow");
+            close();
         });
         
         btnClearControl = new Button("Clear Entries");
@@ -222,7 +238,7 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
                         break;
 
                     default:
-                        switchFailure = "Switch failure: BivCat_Summary_Dialog 225 " + strCurControl;
+                        switchFailure = "Switch failure: BivCat_Summary_Dialog 241 " + strCurControl;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);  
                     }   
             }
@@ -262,14 +278,9 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
                         }  
                         
                     default:
-                        /* Ignore */
-
-        /***************************************************************************
-         *        Formerly, construct the object and send it to Parent             *
-         **************************************************************************/
                         doFormerDialogObj();
-                        strReturnStatus = "OK";
-                        bivCat_Model.closeTheSummaryDialog( true);
+                        bivCat_Model.setReturnStatus("OK");
+                        close();
                     } 
                 }
         });         
@@ -330,7 +341,9 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
 }    
     
     public void setCurrentFocusOn(int thisListArrayElement) {
-        System.out.println("333 BivCat_SummaryDialog, setCurrentFocusOn()");
+        if (printTheStuff) {
+            System.out.println("*** 345 BivCat_SummaryDialog, setCurrentFocusOn()");
+        }
         switch (strCurControl) {
             case step1: 
                 al_VarCat_STF.get(thisListArrayElement).getSmartTextField().getTextField().requestFocus();
@@ -344,14 +357,16 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
             break;
             
             default:
-                switchFailure = "Switch failure: BivCat_SummaryDialog 347 " + strCurControl;
+                switchFailure = "Switch failure: BivCat_SummaryDialog 360 " + strCurControl;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
             }
     }
 
     // 'Final' check on any data entry problems for the X2Chosen Panel
     private boolean checkOKChosen() {
-        System.out.println("354 BivCat_SummaryDialog, checkOKChosen()");
+        if (printTheStuff) {
+            System.out.println("*** 368 BivCat_SummaryDialog, checkOKChosen()");
+        }
         boolean goForIt = true;
         boolean[] okToContinue = new boolean[4];    //  Yes, hard-coded
         okToContinue[0] = !al_RowCol_STF.get(0).isEmpty();
@@ -373,7 +388,9 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
     }
     
     public void constructCategoriesPanel()  {  
-        System.out.println("376 BivCat_SummaryDialog, constructCategoriesPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 392 BivCat_SummaryDialog, constructCategoriesPanel()");
+        }
         strCurControl = step2;
         gridPaneVarCat = new GridPane();
         gridPaneVarCat.setPadding(new Insets(10, 10, 10, 10));
@@ -424,7 +441,10 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
      *        Formerly this code was in the X2Assoc_SummaryDialog_Obj      *
      **********************************************************************/
     private void doFormerDialogObj() {
-        System.out.println("427 BivCat_SummaryDialog, doFormerDialogObj()");
+        if (printTheStuff) {
+            System.out.println("*** 445 BivCat_SummaryDialog, doFormerDialogObj()");
+        }
+        
         nRows = al_RowCol_STF.get(1).getSmartTextInteger();
         nCols = al_RowCol_STF.get(3).getSmartTextInteger();
         strYValues = new String[nRows];
@@ -449,7 +469,9 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
     }
 
     private boolean checkOKCategoriesGrid() {
-        System.out.println("452 BivCat_SummaryDialog, checkOKCategoriesGrid()");
+        if (printTheStuff) {
+            System.out.println("*** 473 BivCat_SummaryDialog, checkOKCategoriesGrid()");
+        }
         boolean okToContinue = true;
         
         for (int ithSTF = 0; ithSTF < al_VarCat_STF.getSize(); ithSTF++) {            

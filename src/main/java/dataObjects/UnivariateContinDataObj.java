@@ -1,6 +1,6 @@
 /**************************************************
  *             UnivariateContinDataObj            *
- *                    03/03/25                    *
+ *                    08/19/25                    *
  *                     15:00                      *
  *************************************************/
 package dataObjects;
@@ -603,7 +603,7 @@ public class UnivariateContinDataObj {
     public double getTheMean() { return mean; }
     public double getTheStandDev() { return sampleStandDev; }
     public double getTheVariance() { return sampleVariance; }
-    public double getFisherPearsonSkew() {  return fisher_pearson_skew; }
+    public double getTheSkew() {  return fisher_pearson_skew; }
     public double getAdjustedFisherPearsonSkew() { return adjusted_fisher_pearson_skew; }
     public double getTheKurtosis() { return kurtosis; }
     public double getTheExcessKurtosis() { return excessKurtosis; }        
@@ -669,7 +669,8 @@ public class UnivariateContinDataObj {
     }    
     public double[] getTheSortedArray() { return sortedArray; }    
    
-    public QuantitativeDataVariable getTheQDV() { return qdv; }    
+    public QuantitativeDataVariable getTheQDV() { return qdv; }  
+    
     public String toString() {
         System.out.println("ucdo ToString, min = " + String.valueOf(minimum));
         System.out.println("ucdo ToString, q1 = " + String.valueOf(q1));

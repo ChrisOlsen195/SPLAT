@@ -1,7 +1,7 @@
 /****************************************************************************
  *                            MyAlerts                                      *
- *                            04/23/25                                      *
- *                             15:00                                        *
+ *                            02/15/26                                      *
+ *                             00:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -30,6 +30,21 @@ public class MyAlerts {
        fourProbsAlreadyShown = false;
        showingAnAlert = false;
    }
+   
+
+    public static void showBinomialDaredevilAlert() { 
+        showingAnAlert = true;
+        alertTitle = "****  Binomial Daredevil Alert!!!!!  ****";
+        alertHeader = "Spreading our wings and tempting Fate, are we?";
+        alertContext = " The success rate of daredevils going over Niagara Falls is about 75%.  The success "
+                        + " rate of daredevils going outside the range of the binomial distribution while I, "
+                        + " SPLAT the Magnificent, is on guard is 0%. Your flight outside the bounds of binomial "
+                        + " decorum is duly noted, and Queen Victoria and I are not amused.  Let's stride "
+                        + " back to legitimate binomial values, shall we??  Perhaps values such as -- well, I "
+                        + " don't know -- between 0 and n maybe?? \n\n";
+   
+        backToTheRealWorld();
+    }
    
    
     public static void showWeirdMatchedTRequest() { 
@@ -508,9 +523,9 @@ public class MyAlerts {
                        + " one selection at a time. I, of course, being SPLAT, could"
                        + " handle any number of selections with one processor tied "
                        + " behind my motherboard.  But humans, even with NO hands"
-                       + " tied behind their behind, have proven to be inadequate."
-                       + " I'm only thinking of you. Click on OK below and you "
-                       + " can try counting up to one again.\n\n";
+                       + " tied behind their behinds, have proven to be inadequate."
+                       + " I'm only thinking of you. Click  below and you can try "
+                       + " counting up to one, and stopping there. \n\n";
         
         backToTheRealWorld();
 
@@ -589,16 +604,18 @@ public class MyAlerts {
     
     public static void showTextEntryAdvisoryAlert() { 
         showingAnAlert = true;
-        alertTitle = "Ack!! A potentially incredibly catastrophic malfeasance may have occurred!!";
+        alertTitle = "Ack!! A user (i.e. you) malfeasance may have occurred!!";
         alertHeader = "Or, on the other hand, it could just be a slight problem, or none at all.";
         alertContext = "Dear user, I need to explain a bit of inside SPLAT.  I, SPLAT, initialize all variables"
                         + " to be numeric when I start up.  It is perfectly fine to read files with categorical"
                         + " variables, and I, SPLAT will attempt to figure this out.  If I have difficulty, I"
                         + " will let you know.  Now, here is the deal.  If you accidentally key in a character"
-                        + " that is not numeric, I will proceed as if the variable as text.  So, even if you"
-                        + " fix it before ENTERing, I, SPLAT, will still treat the variable as categorical.  You"
-                        + " should first key in and ENTER the correct value; then click at the top of the"
-                        + " variable column and change the data type back to indicate 'numeric.'\n\n";
+                        + " that is not numeric, OR a data cell as blank (just an ENTER), I will proceed as if"
+                        + " the variable is text (= categorical).  Even if you fix it before ENTERing, I, SPLAT,"
+                        + " will still treat the variable as categorical.  You should first key in and ENTER the  "
+                        + " correct value; then click at the top of the variable column and change the data type "
+                        + " back to 'numeric.' You should click at the top NOW, change the data type to 'numeric,' "
+                        + "and click on 'Update Variable.' \n\n";
         
         backToTheRealWorld();
     }
@@ -754,13 +771,12 @@ public class MyAlerts {
         alertTitle = "Scuse me!?!?!?  You do NOT look like a Super Human!!!";
         alertHeader = "I, SPLAT, have been programmed to realize your limitations.";
         alertContext = "Not to be too condescending, but you humans and your color vision " 
-                    +  " reminds me of Jack Nicholson's character in 'A Few Good Men,'"
-                    + "  and his famous line, YOU CAN'T HANDLE THE TRUTH!!  In this case"
-                    + "  -- lowering my voice -- you can't handle all the colors needed " 
-                    + " to make a decent graphic plot. For once, my human programmer "
-                    + " made the reasonable decision to only give me permission to handle"
-                    + " about 12 different colors, fewer than would be needed for these data."
-                    + " Sorry, human; next time, evolve better.\n\n"; 
+                    + " remind me of Jack Nicholson's character in 'A Few Good Men,'"
+                    + " and his famous line, YOU CAN'T HANDLE THE TRUTH!!  In this case"
+                    + " you can't handle all the colors needed to make a decent graphic plot." 
+                    + " For once, my human programmer made a reasonable decision: limit the"
+                    + " legal number of different colors, and thus the number of categories"
+                    + " I, SPLAT, am permitted to analyze. Sorry, human; next time, evolve better.\n\n"; 
         
         backToTheRealWorld();
     }
@@ -1313,7 +1329,7 @@ public class MyAlerts {
                         + " (the person who, after all, caused this problem) may be able to "
                         + " isolate the difficulty. Or, possibly, you may be forced to call an"
                         + " exorcist. I, SPLAT, can only offer a less-than-helpful hint:"
-                        + " the offending variable is " + qdv.getTheVarLabel() + ".\n\n";
+                        + " the offending value is " + qdv.getTheVarLabel() + ".\n\n";
         
         backToTheRealWorld();
     } 

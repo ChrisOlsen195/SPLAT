@@ -1,7 +1,7 @@
 /****************************************************************************
  *                       X2GOF_ObsExpView                                   * 
- *                           01/15/25                                       *
- *                            12:00                                         *
+ *                           05/09/25                                       *
+ *                            21:00                                         *
  ***************************************************************************/
 package chiSquare.GOF;
 
@@ -227,7 +227,7 @@ public class X2GOF_ObsExpView {
         AnchorPane.setBottomAnchor(canvas_X2GOF_ObjExpView, 0.1 * tempHeight);
         
         gc.clearRect(0, 0 , canvas_X2GOF_ObjExpView.getWidth(), canvas_X2GOF_ObjExpView.getHeight());   
-        double spacing = 100.0;
+        double spacing = 80.0;
         double spaceFraction = 0.10 * spacing;  //  Controls widths and separations?
         gc.setLineWidth(2);
         

@@ -35,7 +35,7 @@ public class Regr_BestFit_View extends BivariateScale_W_CheckBoxes_View {
     double[] leverage;
         
     // Make empty if no-print
-    //String waldoFile = "Regression_BestFit_View";
+    //String waldoFile = "Regr_BestFit_View";
     String waldoFile = "";
 
     String[] axisLabels;

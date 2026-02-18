@@ -105,7 +105,7 @@ public class BivCat_SegBarChartView  {
 
     private void initializeGraphParams() {        
         for (int lab = 0; lab < nColsCat; lab++) {
-            strTopLabels = bivCat_Model.getTopLabels();
+            strTopLabels = bivCat_Model.getStrTopLabels();
         }
 
         xAxis = new JustAnAxis(-0.15, 1.25);
@@ -354,7 +354,7 @@ public class BivCat_SegBarChartView  {
         
         strTopVariable = bivCat_Model.getTopVariable();
         strLeftVariable = bivCat_Model.getLeftVariable();
-        strLeftLabels = bivCat_Model.getLeftLabels();
+        strLeftLabels = bivCat_Model.getStrLeftLabels();
     }  
     
     EventHandler<MouseEvent> dragableAnchorPaneMouseHandler = new EventHandler<MouseEvent>() {

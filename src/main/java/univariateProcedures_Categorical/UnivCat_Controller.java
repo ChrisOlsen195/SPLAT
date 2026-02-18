@@ -1,6 +1,6 @@
 /************************************************************
  *                    UnivCat_Controller                    *
- *                          02/16/25                        *
+ *                          05/11/25                        *
  *                            18:00                         *
  ***********************************************************/
 package univariateProcedures_Categorical;
@@ -44,7 +44,7 @@ public class UnivCat_Controller {
         strReturnStatus = "OK";
         univCat_Model = new UnivCat_Model();
         strReturnStatus = univCat_Model.doUnivCat_FromFile(this);
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("48 --- UnivCat_Controller, strReturnStatus = " + strReturnStatus);
         }  
         if (!strReturnStatus.equals("OK")) { return "Cancel"; }
@@ -54,8 +54,8 @@ public class UnivCat_Controller {
                 univCat_Dashboard.populateTheBackGround();
                 univCat_Dashboard.putEmAllUp();
                 univCat_Dashboard.showAndWait();
-                strReturnStatus = univCat_Dashboard.getReturnStatus();
-                if (printTheStuff == true) {
+                strReturnStatus = univCat_Dashboard.getStrReturnStatus();
+                if (printTheStuff) {
                     System.out.println("59 --- UnivCat_Controller, strReturnStatus = " + strReturnStatus);
                 } 
                 break;

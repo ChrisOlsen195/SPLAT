@@ -1,14 +1,14 @@
 /************************************************************
  *                      X2Assoc_Controller                  *
- *                          01/21/25                        *
- *                            21:00                         *
+ *                          12/11/25                        *
+ *                            12:00                         *
  ***********************************************************/
 package chiSquare_Assoc;
 
 import splat.Data_Manager;
 import dataObjects.BivariateCategoricalDataObj;
 import dataObjects.ColumnOfData;
-import dialogs.chisquare.X2Assoc_Dialog;
+import dialogs.Two_Variables_Dialog;
 import java.util.ArrayList;
 import utilityClasses.MyAlerts;
 
@@ -17,8 +17,8 @@ public class X2Assoc_Controller {
 
     String returnStatus, assocType, xDescr, yDescr;
     
-    boolean printTheStuff = true;
-    //boolean printTheStuff = false;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
     BivariateCategoricalDataObj bivCatDataObj;
@@ -31,17 +31,17 @@ public class X2Assoc_Controller {
 
     public X2Assoc_Controller(Data_Manager dm, String assocType) { 
         this.dm = dm;
-        if (printTheStuff == true) {
-            System.out.println("35 *** X2Assoc_Controller, Constructing ");
+        if (printTheStuff) {
+            System.out.println("*** 35 X2Assoc_Controller, Constructing ");
         }
         this.assocType = assocType;
         
         if (assocType.equals("INDEPENDENCE")) {
-            assocType = "Chi Square test of Independence";
+            assocType = "INDEPENDENCE";
         }
         
         if (assocType.equals("HOMOGENEITY")) {
-            assocType = "Chi Square test of Homogeneity";
+            assocType = "HOMOGENEITY";
         }
     }
     
@@ -58,7 +58,7 @@ public class X2Assoc_Controller {
             x2Assoc_Dashboard.populateTheBackGround();
             x2Assoc_Dashboard.putEmAllUp();
             x2Assoc_Dashboard.showAndWait();
-            returnStatus = x2Assoc_Dashboard.getReturnStatus();
+            returnStatus = x2Assoc_Dashboard.getStrReturnStatus();
             return returnStatus;
         }
         else {
@@ -68,24 +68,24 @@ public class X2Assoc_Controller {
 
     public String doAssoc_FromFile(Data_Manager dm) {
         this.dm = dm;
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("72 --- X2Assoc_Controller, doAssoc_FromFile(Data_Manager dm) ");
         }
         returnStatus = "";
         
         // Why is this not changed in the constructor???
         if (assocType.equals("INDEPENDENCE")) {
-            assocType = "Chi Square test of Independence";
+            assocType = "INDEPENDENCE";
         }
         
         if (assocType.equals("HOMOGENEITY")) {
-            assocType = "Chi Square test of Homogeneity";
+            assocType = "HOMOGENEITY";
         }
         
-        X2Assoc_Dialog x2Assoc_Dialog = new X2Assoc_Dialog(dm, "Categorical", "Categorical", assocType);
+        Two_Variables_Dialog x2Assoc_Dialog = new Two_Variables_Dialog(dm, "X2Assoc_Dialog", assocType);
         x2Assoc_Dialog.showAndWait();
 
-        returnStatus = x2Assoc_Dialog.getReturnStatus();
+        returnStatus = x2Assoc_Dialog.getStrReturnStatus();
 
         if (returnStatus.equals("OK")) {
         if (printTheStuff == true) {
@@ -114,7 +114,7 @@ public class X2Assoc_Controller {
                 x2Assoc_Dashboard.populateTheBackGround();
                 x2Assoc_Dashboard.putEmAllUp();
                 x2Assoc_Dashboard.showAndWait();
-                returnStatus = x2Assoc_Dashboard.getReturnStatus();
+                returnStatus = x2Assoc_Dashboard.getStrReturnStatus();
             }            
         }
         return returnStatus;

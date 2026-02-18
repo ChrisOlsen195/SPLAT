@@ -1,6 +1,6 @@
 /************************************************************
  *                   Single_t_SumStats_Dialog               *
- *                          01/15/25                        *
+ *                          12/13/25                        *
  *                            18:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
@@ -24,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import smarttextfield.*;
 import javafx.stage.WindowEvent;
+import the_t_procedures.Single_t_SumStats_Controller;
 import utilityClasses.MyAlerts;
 
 public class Single_t_SumStats_Dialog extends One_Variable_Dialog { 
@@ -32,9 +33,8 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
-    boolean okToContinue, dataPresent, 
-            valuesLeftBlank, bool_MeanGood, bool_SigmaGood, bool_NGood, 
-            allFieldsGood; 
+    boolean okToContinue, dataPresent, bool_ValuesLeftBlank, bool_MeanGood,
+            bool_SigmaGood, bool_NGood, bool_AllFieldsGood; 
     
     int  n, alphaIndex, ciIndex;
 
@@ -52,16 +52,14 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
     ListView<String> ciView, alphaView;
     
     // My classes
+    Single_t_SumStats_Controller single_t_SumStats_Controller;
     SmartTextFieldsController stf_Controller;
     SmartTextFieldDoublyLinkedSTF al_STF;
     
     // JavaFX POJOs
     Button changeNull;
-
     HBox bottomPanel, hBox_GPOne_SuccessRow, alphaAndCI, hBoxCurrDiff;
-    
     Label lblNullAndAlt, ciLabel, alphaLabel;
-    
     RadioButton hypNE, hypLT, hypGT;
     
     Scene scene;
@@ -76,17 +74,16 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
     TextInputDialog txtDialog;
     Text txt_Group_Title, txt_Group_SumInfo, txt_OROne, txt_Group_N;
 
-    public Single_t_SumStats_Dialog() {
+    public Single_t_SumStats_Dialog(Single_t_SumStats_Controller single_t_SumStats_Controller) {
         super("Quantitative");
-        if (printTheStuff == true) {
-            System.out.println("81 *** Single_t_SumStats_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 80 Single_t_SumStats_Dialog, Constructing");
         }
+        this.single_t_SumStats_Controller = single_t_SumStats_Controller;
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         sep = new Separator();
         sep.setOrientation(Orientation.VERTICAL);
-        
         strReturnStatus = "OK";
-
         root = new VBox();
         dataPresent = false;
         root.setAlignment(Pos.CENTER);
@@ -134,8 +131,8 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
         setTitle("Inference for a single mean");
 
         setOnCloseRequest((WindowEvent event) -> {
-            strReturnStatus = "Cancel";
-            close();
+            single_t_SumStats_Controller.setReturnStatus("Cancel");
+            this.close();
         });        
         
         setScene(scene);
@@ -143,6 +140,9 @@ public class Single_t_SumStats_Dialog extends One_Variable_Dialog {
     }  
     
 private void makeNullsPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 144 Single_t_SumStats_Dialog, makeNullsPanel()");
+        }
         hypothesizedMean = 0.0;
         nullDiffRequested = 0.0;
         strHypChosen = "NotEqual";
@@ -184,7 +184,7 @@ private void makeNullsPanel() {
             RadioButton tb = ((RadioButton) e.getTarget());
             String daID = tb.getId();
             Boolean checkValue = tb.selectedProperty().getValue();
-            System.out.println("hypNE chosen");
+            //System.out.println("hypNE chosen");
             hypNE.setSelected(true);
             hypLT.setSelected(false);
             hypGT.setSelected(false);
@@ -196,7 +196,7 @@ private void makeNullsPanel() {
 
             String daID = tb.getId();
             Boolean checkValue = tb.selectedProperty().getValue();
-            System.out.println("hypLT chosen");
+            //System.out.println("hypLT chosen");
             hypNE.setSelected(false);
             hypLT.setSelected(true);
             hypGT.setSelected(false);
@@ -207,7 +207,7 @@ private void makeNullsPanel() {
             RadioButton tb = ((RadioButton) e.getTarget());
             String daID = tb.getId();
             Boolean checkValue = tb.selectedProperty().getValue();
-            System.out.println("hypGT chosen");
+            //System.out.println("hypGT chosen");
             hypNE.setSelected(false);
             hypLT.setSelected(false);
             hypGT.setSelected(true);
@@ -248,6 +248,9 @@ private void makeNullsPanel() {
     }
  
     private void makeNumericValuesPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 252 Single_t_SumStats_Dialog, makeNumericValuesPanel()");
+        }
         numValsPanel = new VBox();
         group = new VBox();
         group.setAlignment(Pos.CENTER);
@@ -300,7 +303,6 @@ private void makeNullsPanel() {
             }
         });
 
-        
         hBox_GPOne_SuccessRow.setAlignment(Pos.CENTER);
         hBox_GPOne_SuccessRow.getChildren()
                              .addAll(al_STF.get(0).getTextField(),
@@ -309,15 +311,13 @@ private void makeNullsPanel() {
 
         str_Group1_N = "   Group / Sample Size   ";
         txt_Group_N = new Text(str_Group1_N);   
-        
-        //stf_N = new SmartTextField(meansHandler, 1, 0);
+
         al_STF.get(2).getTextField().setPrefColumnCount(12);
         al_STF.get(2).getTextField().setMaxWidth(65);
         al_STF.get(2).getTextField().setPadding(new Insets(5, 10, 5, 5));
         al_STF.get(2).getTextField().setText(toBlank);
         al_STF.get(2).getTextField().setId("SampleSize");
         al_STF.get(2).setSmartTextField_MB_POSITIVEINTEGER(true);
-        //al_stfForEntry.add(stf_N);
 
         // ??????  Why am I setting the text again?  Vestigial from prop?
 
@@ -350,6 +350,9 @@ private void makeNullsPanel() {
     }
     
     private void makeInfDecisionsPanel() {
+        if (printTheStuff) {
+            System.out.println("*** 354 Single_t_SumStats_Dialog, makeInfDecisionsPanel()");
+        }
         hypothesizedMean = 0.;
        
         ciLabel = new Label("   Select conf level");
@@ -393,9 +396,6 @@ private void makeNullsPanel() {
         alphaBox = new VBox();
         alphaBox.getChildren().addAll(alphaLabel, alphaView);
 
-        //alphaAndCI = new HBox();
-        //alphaAndCI.getChildren().addAll(alphaBox, sep, ciBox);
-
         alphaAndCI = new HBox();
         alphaAndCI.setPadding(new Insets(10, 5, 5, 5));
         alphaAndCI.getChildren().addAll(alphaBox, sep, ciBox);  
@@ -405,40 +405,51 @@ private void makeNullsPanel() {
         infChoicesPanel.getChildren().add(alphaAndCI);           
     }
     
-    private void makeBottomPanel() {        
+    private void makeBottomPanel() {  
+        if (printTheStuff) {
+            System.out.println("*** 410 Single_t_SumStats_Dialog, makeBottomPanel()");
+        }
         bottomPanel = new HBox(10);
         bottomPanel.setAlignment(Pos.CENTER);
         bottomPanel.setPadding(new Insets(5, 5, 5, 5));
         
         btnOK = new Button("Compute");
         btnCancel = new Button("Cancel");
-        resetButton = new Button("Reset");
+        btnReset = new Button("Reset");
         
         btnOK.setOnAction((ActionEvent event) -> { 
             
         doMissingAndOrWrong();
         
-        if (valuesLeftBlank) { MyAlerts.showMustBeNonBlankAlert(); }
+        if (bool_ValuesLeftBlank) { 
+            MyAlerts.showMustBeNonBlankAlert(); 
+            btnReset.fire();
+        }
         else 
-        if (!allFieldsGood) { MyAlerts.showNotAllFieldsGoodAlert(); }
+        if (!bool_AllFieldsGood) { 
+            MyAlerts.showNotAllFieldsGoodAlert(); 
+            btnReset.fire();
+        }
         else{
             strReturnStatus = "OK";
+            single_t_SumStats_Controller.setReturnStatus("OK");
             close();
         }
     });
         
         setOnCloseRequest((WindowEvent t) -> {
+            single_t_SumStats_Controller.setReturnStatus("Cancel");
             dataPresent = false;
             close();
         });
         
         btnCancel.setOnAction((ActionEvent event) -> {
-            strReturnStatus = "Cancel";
+            single_t_SumStats_Controller.setReturnStatus("Cancel");
             dataPresent = false;
             close();
         });
 
-        resetButton.setOnAction((ActionEvent event) -> {
+        btnReset.setOnAction((ActionEvent event) -> {
             al_STF.get(0).setText(toBlank); 
             al_STF.get(1).setText(toBlank); 
             al_STF.get(2).setText(toBlank);
@@ -448,7 +459,7 @@ private void makeNullsPanel() {
             bool_NGood = false; 
         });
         
-        bottomPanel.getChildren().addAll(btnOK, btnCancel, resetButton);
+        bottomPanel.getChildren().addAll(btnOK, btnCancel, btnReset);
     }
     
     public void ciChanged(ObservableValue<? extends String> observable,
@@ -469,11 +480,14 @@ private void makeNullsPanel() {
     
     // The evaluations here will be specific to the dialog
     private void doMissingAndOrWrong() {
-        valuesLeftBlank = al_STF.get(0).isEmpty() || al_STF.get(1).isEmpty() || al_STF.get(2).isEmpty();               
+        if (printTheStuff) {
+            System.out.println("*** 484 Single_t_SumStats_Dialog,doMissingAndOrWrong()");
+        }
+        bool_ValuesLeftBlank = al_STF.get(0).isEmpty() || al_STF.get(1).isEmpty() || al_STF.get(2).isEmpty();               
         bool_MeanGood = DataUtilities.txtFieldHasDouble(al_STF.get(0).getTextField());      
         bool_SigmaGood = DataUtilities.strIsAPosDouble(al_STF.get(1).getTextField().getText());
         bool_NGood = DataUtilities.txtFieldHasPosInt(al_STF.get(2).getTextField());
-        allFieldsGood = bool_MeanGood && bool_SigmaGood && bool_NGood;
+        bool_AllFieldsGood = bool_MeanGood && bool_SigmaGood && bool_NGood;
     }
     
     public double getAlpha() { return alphaLevel; }    
@@ -485,6 +499,7 @@ private void makeNullsPanel() {
     public int getN() { return n; }
     public double getStDev() {return sigma1; }
     public double getXBar() { return mean; }
+    public String getStrReturnStatus() { return strReturnStatus; }
 }
 
 

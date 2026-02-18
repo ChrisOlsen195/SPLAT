@@ -109,7 +109,7 @@ public class X2GOF_Model {
         x2GOF_DataByHand_Dialog = new X2GOF_DataByHand_Dialog(this);
         x2GOF_DataByHand_Dialog.constructDialogGuts();
         x2GOF_DataByHand_Dialog.showAndWait();
-        strReturnStatus = x2GOF_DataByHand_Dialog.getReturnStatus();
+        strReturnStatus = x2GOF_DataByHand_Dialog.getStrReturnStatus();
         
         if (strReturnStatus.equals("OK")) {
             x2GOF_DataDialogObj = new X2GOF_DataDialogObj();
@@ -149,7 +149,7 @@ public class X2GOF_Model {
         x2GOF_DataFromFile_Dialog = new X2GOF_DataFromFile_Dialog(this);
         x2GOF_DataFromFile_Dialog.x2FileDialog_Step1();
         x2GOF_DataFromFile_Dialog.showAndWait();
-        strReturnStatus = x2GOF_DataFromFile_Dialog.getReturnStatus();
+        strReturnStatus = x2GOF_DataFromFile_Dialog.getStrReturnStatus();
         
         if (strReturnStatus.equals("OK")) {
             x2GOF_DataDialogObj = new X2GOF_DataDialogObj();
@@ -198,8 +198,7 @@ public class X2GOF_Model {
         
         reOrderStringDisplay_Dialog = new ReOrderStringDisplay_Dialog(this, pre_StrCategoriesAsStrings);
         reOrderStringDisplay_Dialog.showAndWait();
-        strReturnStatus = reOrderStringDisplay_Dialog.getReturnStatus();
-        System.out.println("202 X2GOF_Model, strReturnStatus = " + strReturnStatus);
+        strReturnStatus = reOrderStringDisplay_Dialog.getStrReturnStatus();
     }
     
     public void closeTheReOrderDialog(int[] returnedOrder) {

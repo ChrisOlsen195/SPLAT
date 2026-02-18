@@ -1,7 +1,7 @@
 /**************************************************
  *             BinomialDist_Calc_PDFView          *
- *                    02/23/25                    *
- *                     12:00                      *
+ *                    02/04/26                    *
+ *                     00:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -50,8 +50,8 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double withThisWidth, double withThisHeight) {
     super(probCalc_Dashboard, placeHoriz, placeVert,
                         withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("54 *** BinomialDist_Calc_PDFView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 54 BinomialDist_Calc_PDFView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -78,6 +78,9 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     @Override
     protected void setUpUI() { 
+        if (printTheStuff) {
+            System.out.println("--- 82 BinomialDist_Calc_PDFView, setUpUI()");
+        }
         okToGraph = binomialDist_Calc_DialogView.getOKToGraph();
         txtTitle1 = new Text(50, 25, " Probability calculations -- Binomial Distribution ");
         title2String = "";
@@ -87,6 +90,9 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     }
     
     public void prepareTheSupportAxis() {
+        if (printTheStuff) {
+            System.out.println("--- 94 BinomialDist_Calc_PDFView, prepareTheSupportAxis()");
+        }
         xGraphLeft = fromHere;   
         xGraphRight = toThere;
         bigDelta = (xGraphRight - xGraphLeft) / NUMBER_OF_DXs;
@@ -99,7 +105,9 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     }
     
     public String respondToChanges() {
-        // System.out.println("93 BinomDistCalcPDF, respondToChanges()");
+        if (printTheStuff) {
+            System.out.println("--- 109 BinomialDist_Calc_PDFView, respondToChanges()");
+        }
         returnStatus = "OK";
         
         if (initializing) {
@@ -125,9 +133,22 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
             lowerShadeBound = binomialDist_Calc_DialogView.getLowerShadeBound();
             upperShadeBound = binomialDist_Calc_DialogView.getUpperShadeBound();
             probSelection = binomialDist_Calc_DialogView.getProbSelection();
+            if (printTheStuff) {
+                System.out.println("... 137 BinomialDist_Calc_PDFView,probSelection = " + probSelection);
+            }            
             switch (probSelection) {
                 
             // ************************  Singles  **********************
+         /***************************************************************
+         *   ProbSelection = 0 indicates that there will be no shading *
+         *   The effect of probSelection = 0 will be that the mean and *
+         *   standard deviation of the binomial can be printed without *
+         *   any shading.                                              *
+         **************************************************************/
+
+                case 0:
+                    
+                    break;
                 case 1:
                     strDaChoice = binomialDist_Calc_DialogView.getThisSTF(2);
                     daProb = binomDistr.getCDF(Integer.parseInt(strDaChoice) - 1);
@@ -197,7 +218,7 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
                     break;
 
                 default: 
-                    String switchFailure = "Switch failure: BinomialDist_Calc_PDFView 191" + String.valueOf(probSelection);
+                    String switchFailure = "Switch failure: BinomialDist_Calc_PDFView 221, probSelection = " + String.valueOf(probSelection);
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
             }
             txtTitle2.setText(strAnswer);
@@ -207,6 +228,9 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
    @Override
     public void initializeGraphParameters() { 
+        if (printTheStuff) {
+            System.out.println("--- 232 BinomialDist_Calc_PDFView, initializeGraphParameters()");
+        }
         fromHere = init_LeftX;
         toThere = init_RightX;
         xAxis = new JustAnAxis(fromHere, toThere);
@@ -225,6 +249,9 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     }
 
     private void reInitializeGraphParameters() { 
+        if (printTheStuff) {
+            System.out.println("--- 253 BinomialDist_Calc_PDFView, reInitializeGraphParameters()");
+        }
         binomial_N = binomialDist_Calc_DialogView.getBinomial_n();
         binomial_P = binomialDist_Calc_DialogView.getBinomial_p();
         init_LeftX = -0.5;
@@ -245,7 +272,11 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     }    
     
     @Override
-    public void doTheGraph() {   
+    public void doTheGraph() {  
+        if (printTheStuff) {
+            System.out.println("--- 277 BinomialDist_Calc_PDFView, doTheGraph()");
+            System.out.println("... 278 BinomialDist_Calc_PDFView, okToGraph = " + binomialDist_Calc_DialogView.getOKToGraph());
+        }
         okToGraph = binomialDist_Calc_DialogView.getOKToGraph();   
         
         dTG_Discrete();
@@ -281,19 +312,19 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
 
             if (!okToGraph) { binompdf = 0.0; }
 
-            if ((lowerShadeBound <= x) && (x <= upperShadeBound)) {
-                
-                for (double xToShade = dTG_xAsDouble - 0.5; xToShade < dTG_xAsDouble + 0.5; xToShade = xToShade + deltaX / 10.0) {
-                    double qxStart = xAxis.getDisplayPosition(xToShade); 
-                    double qyStart = yAxis.getDisplayPosition(0.0); 
-                    double qxStop = xAxis.getDisplayPosition(xToShade);
-                    double qyStop = yAxis.getDisplayPosition(binompdf);          
-                    gc.setLineWidth(2);
-                    gc.setStroke(Color.AQUAMARINE);
-                    gc.strokeLine(qxStart, qyStart, qxStop, qyStop);                
+            if (probSelection > 0) { /* Is there shading? */
+                if ((lowerShadeBound <= x) && (x <= upperShadeBound)) {
+                    for (double xToShade = dTG_xAsDouble - 0.5; xToShade < dTG_xAsDouble + 0.5; xToShade = xToShade + deltaX / 10.0) {
+                        double qxStart = xAxis.getDisplayPosition(xToShade); 
+                        double qyStart = yAxis.getDisplayPosition(0.0); 
+                        double qxStop = xAxis.getDisplayPosition(xToShade);
+                        double qyStop = yAxis.getDisplayPosition(binompdf);          
+                        gc.setLineWidth(2);
+                        gc.setStroke(Color.AQUAMARINE);
+                        gc.strokeLine(qxStart, qyStart, qxStop, qyStop);                
+                    }
                 }
             }
-
             daPDF = binompdf;
             //                 Lower left ,            upper right
             makeARectangle(dTG_xAsDouble - 0.5, 0.0, dTG_xAsDouble + 0.5, daPDF);
@@ -322,6 +353,9 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     }
     
     private void printTheProbs() {
+        if (printTheStuff) {
+            System.out.println("--- 357 BinomialDist_Calc_PDFView, printTheProbs()");
+        }
         double xPosition_ithBar, yPosition_ithBar, prob_ithBar;
         String strProb;
         
@@ -340,6 +374,9 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     }
     
     private void printTheQuartiles() {
+        if (printTheStuff) {
+            System.out.println("--- 378 BinomialDist_Calc_PDFView, printTheQuartiles()");
+        }
         double xPositionQ1, xPositionQ2, xPositionQ3;
         double yPositionQ1, yPositionQ2, yPositionQ3;
         String prtQ1, prtQ2, prtQ3;
@@ -350,9 +387,9 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
         xPositionQ2 = xAxis.getDisplayPosition(q2) - 16;
         xPositionQ3 = xAxis.getDisplayPosition(q3) - 16;
         
-        yPositionQ1 = yAxis.getDisplayPosition(binomDistr.getPDF(q1)) - 32;
-        yPositionQ2 = yAxis.getDisplayPosition(binomDistr.getPDF(q2)) - 32;
-        yPositionQ3 = yAxis.getDisplayPosition(binomDistr.getPDF(q3)) - 32;
+        yPositionQ1 = yAxis.getDisplayPosition(binomDistr.getPDF(q1)) - 15;
+        yPositionQ2 = yAxis.getDisplayPosition(binomDistr.getPDF(q2)) - 15;
+        yPositionQ3 = yAxis.getDisplayPosition(binomDistr.getPDF(q3)) - 15;
         
         gc.setFill(Color.RED);
         prtQ1 = "Q1 = " +  Integer.toString(q1);
@@ -365,9 +402,12 @@ public class BinomialDist_Calc_PDFView extends Distributions_Calc_PDFView {
     }
     
     private void printTheMoments() {
+        if (printTheStuff) {
+            System.out.println("--- 406 BinomialDist_Calc_PDFView, printTheMoments()");
+        }
         if (!binomialDist_Calc_DialogView.getThisSTF(0).isEmpty()) {   // i.e. not initializing  
             
-            double xPrintMomentsPosition, xNStart, yNStart,
+            double /* xPrintMomentsPosition,*/ xNStart, yNStart,
                                     xPStart, yPStart, 
                                     xMuStart, yMuStart, 
                                     xSigmaStart, ySigmaStart;

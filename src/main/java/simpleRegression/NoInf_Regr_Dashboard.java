@@ -35,8 +35,8 @@ public class NoInf_Regr_Dashboard extends Dashboard {
             
     public NoInf_Regr_Dashboard(NoInf_Regr_Controller noInf_Regression_Controller, NoInf_Regr_Model noInf_Regression_Model) {
         super(4);
-        if (printTheStuff == true) {
-            System.out.println("39 *** NoInf_Regression_Dashboard, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 39 NoInf_Regression_Dashboard, Constructing");
         }
         this.noInf_Regression_Model = noInf_Regression_Model;
         checkBoxDescr = new String[nCheckBoxes];
@@ -53,7 +53,6 @@ public class NoInf_Regr_Dashboard extends Dashboard {
     }  
     
     public void putEmAllUp() {
-        
         if (checkBoxSettings[0] == true) {
             bestFitContainingPane.setVisible(true);
             noInf_Regr_BestFit_View.doTheGraph();

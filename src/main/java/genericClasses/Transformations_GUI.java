@@ -1,7 +1,7 @@
 /************************************************************
  *                    Transformations_GUI                   *
- *                          01/20/25                        *
- *                            21:00                         *
+ *                          01/31/26                        *
+ *                            18:00                         *
  ***********************************************************/
 package genericClasses;
 
@@ -214,6 +214,7 @@ public class Transformations_GUI {
         makeTheHBoxAndSpacers();
         hBoxOkCancel.getChildren().addAll(spacer[0], okBtnLinTransVars, spacer[1], cancelBtnLinTransVars,spacer[2]); 
         showTheControlAndWait(hBoxLinTransVarsChoices);
+        dm.setDataAreClean(false);
     }
     
     public void linearCombOfVariables() {
@@ -256,10 +257,11 @@ public class Transformations_GUI {
         makeTheHBoxAndSpacers();
         hBoxOkCancel.getChildren().addAll(spacer[0], okBtnLinComVars, spacer[1], cancelBtnLinComVars, spacer[2]);
         showTheControlAndWait(hBoxLinCombVarsChoices);
+        dm.setDataAreClean(false);
     }
     
     public void linTransFuncs() {
-        dm.whereIsWaldo(261, waldoFile, "--- linTransFuncs()");        
+        dm.whereIsWaldo(262, waldoFile, "--- linTransFuncs()");        
         linTransFuncsParams = new String[] {newVarName, "0.0", "1.0"}; 
         strAlphaValue = linTransFuncsParams[1];
         strBetaValue = linTransFuncsParams[2];
@@ -298,6 +300,7 @@ public class Transformations_GUI {
         makeTheHBoxAndSpacers();
         hBoxOkCancel.getChildren().addAll(spacer[0], okBtnLinTransFuncs, spacer[1], cancelBtnLinTransFuncs, spacer[2]);
         showTheControlAndWait(hBoxLinTransFuncsChoices);
+        dm.setDataAreClean(false);
     }
     
     public void unaryOperationOnVar() {
@@ -321,7 +324,8 @@ public class Transformations_GUI {
         cancelBtnUnaryFuncs.setOnAction(e -> closeControlStage());
         makeTheHBoxAndSpacers();
         hBoxOkCancel.getChildren().addAll(spacer[0], okBtnUnaryFuncs, spacer[1], cancelBtnUnaryFuncs,  spacer[2]);
-        showTheControlAndWait(hBoxUnaryOpsChoices);          
+        showTheControlAndWait(hBoxUnaryOpsChoices);   
+        dm.setDataAreClean(false);
     }    
     
     public void binaryOpsWithVariables() {
@@ -345,6 +349,7 @@ public class Transformations_GUI {
         makeTheHBoxAndSpacers();
         hBoxOkCancel.getChildren().addAll(spacer[0], okButtonOpsWithVars, spacer[1], cancelButtonOpsWithVars, spacer[2]);
         showTheControlAndWait(hBoxBinaryOpsChoices);
+        dm.setDataAreClean(false);
     }
     
     public void var1ItemChanged(ObservableValue <? extends String> observable,

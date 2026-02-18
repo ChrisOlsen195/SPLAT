@@ -1,7 +1,7 @@
 /************************************************************
  *                       Logistic_Dialog                    *
- *                           02/01/25                       *
- *                            09:00                         *
+ *                           12/16/25                       *
+ *                            21:00                         *
  ***********************************************************/
 package dialogs.regression;
 
@@ -10,15 +10,14 @@ import javafx.event.ActionEvent;
 import splat.Data_Manager;
 
 public class Logistic_Dialog extends Two_Variables_Dialog{ 
-
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     public Logistic_Dialog(Data_Manager dm, String variableType) {
         super(dm, "Logistic_Dialog", "None");
-        // Make empty if no-print
-        
-        //waldoFile = "Logistic_Dialog";
-        waldoFile = "";
-        
-        dm.whereIsWaldo(21, waldoFile, "Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 19 Logistic_Dialog, Constructing");
+        }
         lblTitle.setText("Logistic Regression");
         lblExplanVar.setText("Explanatory variable:");
         lblResponseVar.setText("  Response variable:");

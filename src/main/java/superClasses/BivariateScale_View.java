@@ -1,7 +1,7 @@
 /**************************************************
  *              BivariateScale_View               *
- *                    01/16/25                    *
- *                      18:00                     *
+ *                    05/13/25                    *
+ *                      15:00                     *
  *************************************************/
 package superClasses;
 
@@ -38,7 +38,7 @@ public class BivariateScale_View extends Region {
   
     public BivariateScale_View(double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("42 *** BivariateScale_View (Super), Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -61,7 +61,7 @@ public class BivariateScale_View extends Region {
         dragableAnchorPane.setOnMouseReleased(scatterplotMouseHandler);
     }  
     
-    EventHandler<MouseEvent> xAxisMouseHandler = new EventHandler<MouseEvent>() {
+    public EventHandler<MouseEvent> xAxisMouseHandler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
             
@@ -136,7 +136,7 @@ public class BivariateScale_View extends Region {
         }
     };
     
-     EventHandler<MouseEvent> yAxisMouseHandler = new EventHandler<MouseEvent>() {
+     public EventHandler<MouseEvent> yAxisMouseHandler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
             

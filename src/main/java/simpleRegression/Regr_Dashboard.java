@@ -1,7 +1,7 @@
 /**************************************************
  *           Simple_Regression_Dashboard          *
- *                    11/01/23                    *
- *                     00:00                      *
+ *                    12/14/25                    *
+ *                     09:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -18,6 +18,9 @@ import javafx.scene.paint.Color;
 
 public class Regr_Dashboard extends Dashboard {
     // POJOs
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     String subTitle;
     final String[] regrCheckBoxDescr = { " Model Utility Test",
                                          " Scatterplot ", " Residual plot ",
@@ -26,7 +29,7 @@ public class Regr_Dashboard extends Dashboard {
                                          "Joint CI"};
     
     // Make empty if no-print
-    //String waldoFile = "Regression_Dashboard";
+    //String waldoFile = "Regr_Dashboard";
     String waldoFile = "";
     
     // My classes
@@ -51,6 +54,9 @@ public class Regr_Dashboard extends Dashboard {
             
     public Regr_Dashboard(Inf_Regr_Controller inf_Regression_Controller, Inf_Regr_Model inf_Regression_Model) {
         super(8);
+        if (printTheStuff) {
+            System.out.println("*** 58 Regr_Dashboard, Constructing");
+        }
         dm = inf_Regression_Controller.getDataManager();
         dm.whereIsWaldo(55, waldoFile, "Constructing");
         this.inf_Regression_Model = inf_Regression_Model;
@@ -72,7 +78,10 @@ public class Regr_Dashboard extends Dashboard {
         setTitle("Inference for regression dashboard"); 
     }  
     
-    public void putEmAllUp() {         
+    public void putEmAllUp() { 
+        if (printTheStuff) {
+            System.out.println("*** 83 Regr_Dashboard, Constructing");
+        }
         if (checkBoxSettings[0] == true) {
             pdfViewContainingPane.setVisible(true);
             regression_PDFView.doTheGraph();
@@ -118,6 +127,9 @@ public class Regr_Dashboard extends Dashboard {
     }
     
     public void populateTheBackGround() {
+        if (printTheStuff) {
+            System.out.println("*** 131 Regr_Dashboard, populateTheBackGround()");
+        }
         initWidth[0] = 450;
         initHeight[0] = 300;
         regression_PDFView = new Regr_PDFView(inf_Regression_Model, this, sixteenths_across[0], sixteenths_down[0], initWidth[0], initHeight[0]);
@@ -125,7 +137,7 @@ public class Regr_Dashboard extends Dashboard {
         pdfViewContainingPane = regression_PDFView.getTheContainingPane(); 
         pdfViewContainingPane.setStyle(containingPaneStyle);
         
-        initWidth[1] = 750;
+        initWidth[1] = 700;
         initHeight[1] = 500;
         prntRegReportView = new PrintRegrReport_View(inf_Regression_Model, this, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]);
         prntRegReportView.completeTheDeal();
@@ -161,7 +173,7 @@ public class Regr_Dashboard extends Dashboard {
         nppResidsContainingPane.setStyle(containingPaneStyle);
         
         initWidth[6] = 450;
-        initHeight[6] = 550;
+        initHeight[6] = 600;
         printBivStats_View = new PrintBivStats_View(inf_Regression_Model, this, sixteenths_across[6], sixteenths_down[6] - 150, initWidth[6], initHeight[6]);
         printBivStats_View.completeTheDeal();        
         printBivStatsContainingPane = printBivStats_View.getTheContainingPane();  

@@ -93,8 +93,8 @@ public class Indep_t_SumStats_Dialog extends Splat_Dialog {
          txt_Group2_Title, txt_Group2_SumInfo, txt_ORTwo, txt_Group2_N;
     
     public Indep_t_SumStats_Dialog() {;
-        if (printTheStuff == true) {
-            System.out.println("97 *** Ind_t_SumStats_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 97 Ind_t_SumStats_Dialog, Constructing");
         }
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
         // theCILevs = new double[] {0.90, 0.95, 0.99};
@@ -163,8 +163,8 @@ public class Indep_t_SumStats_Dialog extends Splat_Dialog {
     }  
     
 private void makeNullsPanel() {  
-        if (printTheStuff == true) {
-            System.out.println("167 --- Ind_t_SumStats_Dialog, makeNullsPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 167 Ind_t_SumStats_Dialog, makeNullsPanel()");
         }
         hypothesizedDifference = 0.0;
         nullDiffRequested = 0.0;
@@ -206,7 +206,7 @@ private void makeNullsPanel() {
             RadioButton tb = ((RadioButton) e.getTarget());
             String daID = tb.getId();
             Boolean checkValue = tb.selectedProperty().getValue();
-            System.out.println("hypNE chosen");
+            //System.out.println("hypNE chosen");
             hypNE.setSelected(true);
             hypLT.setSelected(false);
             hypGT.setSelected(false);
@@ -218,7 +218,7 @@ private void makeNullsPanel() {
             RadioButton tb = ((RadioButton) e.getTarget());
             String daID = tb.getId();
             Boolean checkValue = tb.selectedProperty().getValue();
-            System.out.println("hypLT chosen");
+            //System.out.println("hypLT chosen");
             hypNE.setSelected(false);
             hypLT.setSelected(true);
             hypGT.setSelected(false);
@@ -229,7 +229,7 @@ private void makeNullsPanel() {
             RadioButton tb = ((RadioButton) e.getTarget());
             String daID = tb.getId();
             Boolean checkValue = tb.selectedProperty().getValue();
-            System.out.println("hypGT chosen");
+            //System.out.println("hypGT chosen");
             hypNE.setSelected(false);
             hypLT.setSelected(false);
             hypGT.setSelected(true);
@@ -273,8 +273,8 @@ private void makeNullsPanel() {
     }
  
     private void makeNumericValuesPanel() {
-        if (printTheStuff == true) {
-            System.out.println("277 --- Ind_t_SumStats_Dialog, makeNumericValuesPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 277  Ind_t_SumStats_Dialog, makeNumericValuesPanel()");
         }
         numValsPanel = new VBox();
         group_1 = new VBox();
@@ -453,8 +453,8 @@ private void makeNullsPanel() {
     }
     
     private void makeInfDecisionsPanel() {
-        if (printTheStuff == true) {
-            System.out.println("457 --- Ind_t_SumStats_Dialog, makeInfDecisionsPanel()");
+        if (printTheStuff) {
+            System.out.println("*** 457  Ind_t_SumStats_Dialog, makeInfDecisionsPanel()");
         }
         hypothesizedDifference = 0.;
         daNullDiff = 0.0;
@@ -515,7 +515,7 @@ private void makeNullsPanel() {
     
     private void makeVariableDefPanel() {
         if (printTheStuff == true) {
-            System.out.println("518 --- Ind_t_SumStats_Dialog, makeVariableDefPanel()");
+            System.out.println("*** 518 Ind_t_SumStats_Dialog, makeVariableDefPanel()");
         }
         lblMean_1 = new Label(" Mean 1 Label: ");
         lblMean_2 = new Label(" Mean 2 Label: ");
@@ -558,7 +558,7 @@ private void makeNullsPanel() {
     
     private void makeBottomPanel() {
         if (printTheStuff == true) {
-            System.out.println("561 --- Ind_t_SumStats_Dialog, makeBottomPanel()");
+            System.out.println("*** 561  Ind_t_SumStats_Dialog, makeBottomPanel()");
         }
         bottomPanel = new HBox(10);
         bottomPanel.setAlignment(Pos.CENTER);
@@ -649,8 +649,8 @@ private void makeNullsPanel() {
     
     // The evaluations here will be specific to the dialog
     private void doMissingAndOrWrong() {
-        if (printTheStuff == true) {
-            System.out.println("653 --- Ind_t_SumStats_Dialog, doMissingAndOrWrong()");
+        if (printTheStuff) {
+            System.out.println("*** 653 Ind_t_SumStats_Dialog, doMissingAndOrWrong()");
         }
         valuesLeftBlank = false;
         
@@ -703,6 +703,6 @@ private void makeNullsPanel() {
     public double getXBar1() { return mean1; }
     public double getXBar2() { return mean2; }   
     public double getTheNullDiff() { return daNullDiff; }    
-    public String getReturnStatus() { return strReturnStatus; }
+    public String getStrReturnStatus() { return strReturnStatus; }
 }
 

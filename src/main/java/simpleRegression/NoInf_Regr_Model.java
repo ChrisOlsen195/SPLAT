@@ -27,7 +27,7 @@ public class NoInf_Regr_Model  extends Regression_Model
     
     public NoInf_Regr_Model(NoInf_Regr_Controller noInf_Regression_Controller) {   
         super (noInf_Regression_Controller);
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("31 *** NoInf_Regression_Model, Constructing");
         }
         this.noInf_Regr_Controller = noInf_Regression_Controller;
