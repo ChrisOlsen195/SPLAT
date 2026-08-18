@@ -33,7 +33,7 @@ public class UnivCat_Controller {
     }
     
     public String doUnivCat_FromFileData(Data_Manager dm) {
-        dm.whereIsWaldo(36, waldoFile, "UnivCat_Controller, doUnivCat_FromFileData(Data_Manager dm)");
+        dm.whereIsWaldo(36, waldoFile, " --- UnivCat_Controller, doUnivCat_FromFileData(Data_Manager dm)");
         this.dm = dm;
         int casesInStruct = dm.getNCasesInStruct();
         if (casesInStruct == 0) {
@@ -45,7 +45,7 @@ public class UnivCat_Controller {
         univCat_Model = new UnivCat_Model();
         strReturnStatus = univCat_Model.doUnivCat_FromFile(this);
         if (printTheStuff) {
-            System.out.println("48 --- UnivCat_Controller, strReturnStatus = " + strReturnStatus);
+            System.out.println("... 48 UnivCat_Controller, strReturnStatus = " + strReturnStatus);
         }  
         if (!strReturnStatus.equals("OK")) { return "Cancel"; }
         switch(strReturnStatus) {
@@ -56,7 +56,7 @@ public class UnivCat_Controller {
                 univCat_Dashboard.showAndWait();
                 strReturnStatus = univCat_Dashboard.getStrReturnStatus();
                 if (printTheStuff) {
-                    System.out.println("59 --- UnivCat_Controller, strReturnStatus = " + strReturnStatus);
+                    System.out.println("... 59 UnivCat_Controller, strReturnStatus = " + strReturnStatus);
                 } 
                 break;
                 

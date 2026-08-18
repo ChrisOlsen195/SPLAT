@@ -53,7 +53,7 @@ public class SmartTextField {
     
     public SmartTextField() {
         if (printTheStuff) {
-            System.out.println("56 *** ColumnOfData, Constructing");
+            System.out.println("*** 56 ColumnOfData, Constructing");
         }
         lessThanSmart_TF = new TextField(); // Just a wrapper
         setIsEditable(true);
@@ -61,7 +61,7 @@ public class SmartTextField {
     
     public SmartTextField(String tfString) {
         if (printTheStuff) {
-            System.out.println("64 *** ColumnOfData, Constructing");
+            System.out.println("*** 64 ColumnOfData, Constructing");
         }
         lessThanSmart_TF = new TextField(tfString); // Just an initialized wrapper
         setIsEditable(true);
@@ -69,7 +69,7 @@ public class SmartTextField {
     
     public SmartTextField(SmartTextFieldsController stf_Controller)  { 
         if (printTheStuff) {
-            System.out.println("72 *** ColumnOfData, Constructing");
+            System.out.println("*** 72 ColumnOfData, Constructing");
         }
         this.stf_Controller = stf_Controller;
         stf_Checker = new SmartTextFieldChecker(stf_Controller, this);  
@@ -176,7 +176,7 @@ public class SmartTextField {
     };    
     
     public void doEnterKey() {  //  and TAB
-        // System.out.println("168 stf, doEnterKey()");
+        // System.out.println("--- 179 SmartTextField, doEnterKey()");
         showingAnAlert = false;
         
         if (!showingAnAlert)  {  
@@ -193,7 +193,7 @@ public class SmartTextField {
             }
         
         } else { 
-            System.out.println("--------> Showing alert"); 
+            // Showing alert
         }
     }   //  end DoEnterKey
     
@@ -339,7 +339,7 @@ public class SmartTextField {
     }
     
     public String toString() {
-        System.out.print("stf.toString... ");
+        System.out.print("SmartTextField, toString... ");
         //     int previousInAL, meInAL, nextInAL;
         String textString = this.getText();
         String outString = textString + ", " + previousInAL + ", " + meInAL + ", " + nextInAL;

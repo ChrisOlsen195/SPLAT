@@ -153,8 +153,8 @@ public class Indep_t_SumStats_Dialog extends Splat_Dialog {
         
         setOnCloseRequest((WindowEvent event) -> {
             strReturnStatus = "Cancel";
-        if (printTheStuff == true) {
-            System.out.println("157 --- Ind_t_SumStats_Dialog, setOnCloseRequest");
+        if (printTheStuff) {
+            System.out.println("--- 157 Ind_t_SumStats_Dialog, setOnCloseRequest");
         }
             hide();
         });
@@ -164,7 +164,7 @@ public class Indep_t_SumStats_Dialog extends Splat_Dialog {
     
 private void makeNullsPanel() {  
         if (printTheStuff) {
-            System.out.println("*** 167 Ind_t_SumStats_Dialog, makeNullsPanel()");
+            System.out.println("--- 167 Ind_t_SumStats_Dialog, makeNullsPanel()");
         }
         hypothesizedDifference = 0.0;
         nullDiffRequested = 0.0;
@@ -206,7 +206,6 @@ private void makeNullsPanel() {
             RadioButton tb = ((RadioButton) e.getTarget());
             String daID = tb.getId();
             Boolean checkValue = tb.selectedProperty().getValue();
-            //System.out.println("hypNE chosen");
             hypNE.setSelected(true);
             hypLT.setSelected(false);
             hypGT.setSelected(false);
@@ -218,7 +217,6 @@ private void makeNullsPanel() {
             RadioButton tb = ((RadioButton) e.getTarget());
             String daID = tb.getId();
             Boolean checkValue = tb.selectedProperty().getValue();
-            //System.out.println("hypLT chosen");
             hypNE.setSelected(false);
             hypLT.setSelected(true);
             hypGT.setSelected(false);
@@ -229,7 +227,6 @@ private void makeNullsPanel() {
             RadioButton tb = ((RadioButton) e.getTarget());
             String daID = tb.getId();
             Boolean checkValue = tb.selectedProperty().getValue();
-            //System.out.println("hypGT chosen");
             hypNE.setSelected(false);
             hypLT.setSelected(false);
             hypGT.setSelected(true);
@@ -274,7 +271,7 @@ private void makeNullsPanel() {
  
     private void makeNumericValuesPanel() {
         if (printTheStuff) {
-            System.out.println("*** 277  Ind_t_SumStats_Dialog, makeNumericValuesPanel()");
+            System.out.println("--- 274  Ind_t_SumStats_Dialog, makeNumericValuesPanel()");
         }
         numValsPanel = new VBox();
         group_1 = new VBox();
@@ -454,7 +451,7 @@ private void makeNullsPanel() {
     
     private void makeInfDecisionsPanel() {
         if (printTheStuff) {
-            System.out.println("*** 457  Ind_t_SumStats_Dialog, makeInfDecisionsPanel()");
+            System.out.println("--- 454 Ind_t_SumStats_Dialog, makeInfDecisionsPanel()");
         }
         hypothesizedDifference = 0.;
         daNullDiff = 0.0;
@@ -514,8 +511,8 @@ private void makeNullsPanel() {
     }
     
     private void makeVariableDefPanel() {
-        if (printTheStuff == true) {
-            System.out.println("*** 518 Ind_t_SumStats_Dialog, makeVariableDefPanel()");
+        if (printTheStuff) {
+            System.out.println("--- 515 Ind_t_SumStats_Dialog, makeVariableDefPanel()");
         }
         lblMean_1 = new Label(" Mean 1 Label: ");
         lblMean_2 = new Label(" Mean 2 Label: ");
@@ -557,8 +554,8 @@ private void makeNullsPanel() {
     }    
     
     private void makeBottomPanel() {
-        if (printTheStuff == true) {
-            System.out.println("*** 561  Ind_t_SumStats_Dialog, makeBottomPanel()");
+        if (printTheStuff) {
+            System.out.println("--- 558  Ind_t_SumStats_Dialog, makeBottomPanel()");
         }
         bottomPanel = new HBox(10);
         bottomPanel.setAlignment(Pos.CENTER);
@@ -650,7 +647,7 @@ private void makeNullsPanel() {
     // The evaluations here will be specific to the dialog
     private void doMissingAndOrWrong() {
         if (printTheStuff) {
-            System.out.println("*** 653 Ind_t_SumStats_Dialog, doMissingAndOrWrong()");
+            System.out.println("--- 650 Ind_t_SumStats_Dialog, doMissingAndOrWrong()");
         }
         valuesLeftBlank = false;
         

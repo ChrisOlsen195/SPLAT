@@ -1,7 +1,7 @@
 /************************************************************
  *                     TwoProp_Inf_Dialog                   *
- *                          12/13/25                        *
- *                            18:00                         *
+ *                          06/10/26                        *
+ *                            00:00                         *
  ***********************************************************/
 package dialogs.t_and_z;
 
@@ -18,7 +18,6 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -35,16 +34,16 @@ import the_z_procedures.TwoProp_Inf_Model;
 
 public class TwoProp_Inf_Dialog extends Splat_Dialog { 
     
-    // POJOs
+    // POJOs                            
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
-    boolean valuesLeftBlank;
+    //boolean valuesLeftBlank;
     boolean bool_Prop1Good, bool_Prop2Good, bool_Succ1Good, bool_Succ2Good, 
             bool_N1Good, bool_N2Good;
     boolean allFieldsGood;
     
-    int succ1, succ2, n1, n2, alphaIndex, ciIndex;
+    int nSuccesses_1, nSuccesses_2, n1, n2, alphaIndex, ciIndex;
     
     double prop1, prop2, significanceLevel, daNullDiff;
     double hypothesizedDifference;
@@ -62,7 +61,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
     TwoProp_Inf_Model twoProp_Inf_Model; 
     
     // JavaFX POJOs
-    Button btn_ChangeNull, btn_Reset;
+    Button btn_Reset;
     
     GridPane gridChoicesMade;
     HBox hBox_MiddlePanel, hBox_BottomPanel, hBox_GPOne_SuccessRow, hBox_Group2_SuccessRow,
@@ -88,7 +87,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
 
     public TwoProp_Inf_Dialog(TwoProp_Inf_Model twoProp_Inf_Model) {
         if (printTheStuff) {
-            System.out.println("*** 91 TwoProp_Inference_Dialog, Constructing");
+            System.out.println("90 *** TwoProp_Inf_Dialog, Constructing");
         }
         this.twoProp_Inf_Model = twoProp_Inf_Model;
         theAlphaLevs = new double[] { 0.10, 0.05, 0.01};
@@ -148,12 +147,11 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
     
     private void makeNullsPanel() { 
         if (printTheStuff) {
-            System.out.println("*** 151 TwoPropInfDialog, makeNullsPanel()");
+            System.out.println("150 --- TwoPropInfDialog, makeNullsPanel()");
         }
         vBox_NullsPanel = new VBox();
 
         strAltHypChosen = "NotEqual";
-        btn_ChangeNull = new Button("Change null difference");
         strNullAndAlt = "  Choose from the null and \n  alternate hypothesis pairs \n  listed below:";
         lblNullAndAlt = new Label(strNullAndAlt);
         
@@ -210,23 +208,11 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
             rb_HypGT.setSelected(true);
             strAltHypChosen = "GreaterThan";
         });
-        
-        btn_ChangeNull.setOnAction((ActionEvent event) -> {
-            Alert cantDoNull = new Alert(Alert.AlertType.INFORMATION);
-            cantDoNull.setTitle("Just so you know...");
-            cantDoNull.setHeaderText("I can't actually 'test' this hypothesis");
-            cantDoNull.setContentText("Ok, so here's the deal.  Given the usual information about two "
-                        + "\nproportions, the standard error of the sampling distribution is"
-                        + "\nnot uniquely determined.  The best that can be done -- which, of"
-                        + "\ncourse what I, SPLAT, will do -- is find a confidence interval for"
-                        + "\nthe difference in proportions.");
-            cantDoNull.showAndWait();
-        });
     }
- 
+
     private void makeNumericValuesPanel() {
         if (printTheStuff) {
-            System.out.println("*** 229, TwoPropInfDialog, makeNumericValuesPanel()");
+            System.out.println("215 --- TwoPropInfDialog, makeNumericValuesPanel()");
         } 
         vBox_NumValsPanel = new VBox();
         vBox_Group_1 = new VBox();
@@ -251,7 +237,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         al_STF.get(0).getTextField().setId("Prop1");
         
         al_STF.get(0).getTextField().setOnAction(e -> { 
-            bool_Prop1Good = checkAndHandlelProportionEntered(1, al_STF.get(0));
+            bool_Prop1Good = check4ProportionEntered(1, al_STF.get(0));
         });
        
         //stf_Succ1 = new SmartTextField(propNStuffHandler, 0, 2);
@@ -260,7 +246,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         al_STF.get(1).getTextField().setText(toBlank); 
         al_STF.get(1).getTextField().setId("Successes1");
         al_STF.get(1).getTextField().setOnAction(e -> {
-            checkAndHandleSuccessesEntered(1, al_STF.get(1));
+            check4SuccessesEntered(1, al_STF.get(1));
         });
         hBox_GPOne_SuccessRow.setAlignment(Pos.CENTER);
         hBox_GPOne_SuccessRow.getChildren()
@@ -279,7 +265,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         al_STF.get(2).getTextField().setId("SampleSize1");
 
         al_STF.get(2).getTextField().setOnAction(e -> {
-            bool_N1Good = checkAndHandleSampleSizeEntered(1, al_STF.get(2));
+            bool_N1Good = check4SampleSizeEntered(1, al_STF.get(2));
         });
         
         vBox_Group_1.getChildren().addAll(txt_Group1_Title,
@@ -310,7 +296,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         al_STF.get(3).getTextField().setId("Prop2"); 
         
         al_STF.get(3).getTextField().setOnAction(e -> {
-            bool_Prop2Good = checkAndHandlelProportionEntered(2, al_STF.get(3));
+            bool_Prop2Good = check4ProportionEntered(2, al_STF.get(3));
         });
 
         al_STF.get(4).getTextField().setPrefColumnCount(8);
@@ -319,7 +305,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         al_STF.get(4).getTextField().setId("Successes2");
         
         al_STF.get(4).getTextField().setOnAction(e -> {
-            bool_Succ2Good = checkAndHandleSuccessesEntered(2, al_STF.get(4));
+            bool_Succ2Good = check4SuccessesEntered(2, al_STF.get(4));
         });
         
         hBox_Group2_SuccessRow.setAlignment(Pos.CENTER);
@@ -338,7 +324,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         al_STF.get(5).getTextField().setId("SampleSize2");
         
         al_STF.get(5).getTextField().setOnAction(e -> {
-            bool_N2Good = checkAndHandleSampleSizeEntered(2, al_STF.get(5));
+            bool_N2Good = check4SampleSizeEntered(2, al_STF.get(5));
         });    
         
         al_STF.get(0).getTextField().requestFocus();
@@ -358,7 +344,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
     
     private void makeInfDecisionsPanel() {
         if (printTheStuff) {
-            System.out.println("*** 361, TwoPropInfDialog, makeInfDecisionsPanel()");
+            System.out.println("347 --- TwoPropInfDialog, makeInfDecisionsPanel()");
         } 
         hypothesizedDifference = 0.;
         daNullDiff = 0.0;
@@ -418,7 +404,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
     
     private void makeVariableDefPanel() {
         if (printTheStuff) {
-            System.out.println("*** 421, TwoPropInfDialog, makeVariableDefPanel()");
+            System.out.println("407 --- TwoPropInfDialog, makeVariableDefPanel()");
         } 
         lblProp_1 = new Label("  Treat/Grp 1: ");
         lblProp_2 = new Label("  Treat/Grp 2: ");
@@ -458,7 +444,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
     
     private void makeBottomPanel() { 
         if (printTheStuff) {
-            System.out.println("*** 461, TwoPropInfDialog, makeBottomPanel()");
+            System.out.println("447 --- TwoPropInfDialog, makeBottomPanel()");
         } 
         hBox_BottomPanel = new HBox(10);
         hBox_BottomPanel.setAlignment(Pos.CENTER);
@@ -469,10 +455,11 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         btn_Reset = new Button("Reset");
         
         btnOK.setOnAction((ActionEvent event) -> { 
-        boolGoodToGo = checkForMissing();
+            
+        //boolGoodToGo = checkForMissing();
+        //if (boolGoodToGo) { boolGoodToGo = checkLegal(); }
         
-        if (boolGoodToGo) { boolGoodToGo = checkLegal(); }
-
+        check4LegalValues();
         if (boolGoodToGo) {
             strReturnStatus = "OK";
             close();
@@ -486,7 +473,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         
         btnCancel.setOnAction((ActionEvent event) -> {
         if (printTheStuff) {
-            System.out.println("--- 489, TwoPropInfDialog, btnCancel.setOnAction");
+            System.out.println("476 ... TwoPropInfDialog, btnCancel.setOnAction");
         }
             strReturnStatus = "Cancel";
             twoProp_Inf_Model.setReturnStatus("Cancel");
@@ -496,7 +483,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         btn_Reset.setOnAction((ActionEvent event) -> {
             al_STF.get(0).setText(toBlank); al_STF.get(3).setText(toBlank);
             al_STF.get(1).setText(toBlank); al_STF.get(4).setText(toBlank);
-            al_STF.get(3).setText(toBlank); al_STF.get(5).setText(toBlank);
+            al_STF.get(2).setText(toBlank); al_STF.get(5).setText(toBlank);
             
             bool_Prop1Good = false; bool_Prop2Good = false; 
             bool_Succ1Good = false; bool_Succ2Good = false; 
@@ -512,7 +499,6 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         ciIndex = ciView.getSelectionModel().getSelectedIndex();
         alphaView.getSelectionModel().select(ciIndex);
         significanceLevel = theAlphaLevs[ciIndex];
-        //confidenceLevel = theCILevs[ciIndex];
     }
 
     public void alphaChanged(ObservableValue<? extends String> observable,
@@ -520,8 +506,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
                                                     String newValue) {
         alphaIndex = alphaView.getSelectionModel().getSelectedIndex();
         ciView.getSelectionModel().select(alphaIndex);
-        significanceLevel = theAlphaLevs[alphaIndex];
-        //confidenceLevel = theCILevs[alphaIndex];    
+        significanceLevel = theAlphaLevs[alphaIndex];   
     }
     
     public void changeProp_1_Description(ObservableValue<? extends String> prop,
@@ -542,28 +527,9 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         tf_Variable.setText(newValue); 
     } 
     
-    
-    // The evaluations here will be specific to the dialog
-    private boolean checkForMissing() {
-        boolGoodToGo = true;
-        valuesLeftBlank = false;
-        
-        for (int ithSTF = 0; ithSTF < 6; ithSTF++) {
-            if (al_STF.get(ithSTF).isEmpty()) {
-                valuesLeftBlank = true;
-            }
-        }  
-        
-        if (valuesLeftBlank) {
-           MyAlerts.showMissingDataAlert();
-           boolGoodToGo = false;
-        }
-        return boolGoodToGo;
-    }
-        
-    private boolean checkLegal() {
+    private boolean check4LegalValues() {
         if (printTheStuff) {
-           System.out.println("*** 566, TwoPropInfDialog, checkLegal()");
+           System.out.println("532 --- TwoPropInfDialog, checkLegal()");
         }
         boolGoodToGo = true;
         bool_Prop1Good = DataUtilities.txtFieldHasProp(al_STF.get(0).getTextField());
@@ -595,9 +561,9 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
     *    number of successes.                                                *
     *************************************************************************/
     
-    public boolean checkAndHandlelProportionEntered(int theProp, SmartTextField theSTF) {
+    public boolean check4ProportionEntered(int theProp, SmartTextField theSTF) {
         if (printTheStuff) {
-           System.out.println("*** 600, TwoPropInfDialog, checkAndHandlelProportionEntered()");
+           System.out.println("--- 566 TwoPropInfDialog, check4ProportionEntered()");
         }
         boolean propIsGood = false; 
         int whichProp = theProp;
@@ -606,7 +572,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
         propIsGood = DataUtilities.txtFieldHasProp(theSTF.getTextField());
         //  If it really was a number, check for Prop
         if (!propIsGood) {
-             MyAlerts.showGenericBadNumberAlert(" a bad fraction or decimal ");
+             MyAlerts.showGenericBadNumberAlert(" a proper fraction or decimal ");
              theSTF.setText("");
         }    
         else {
@@ -618,10 +584,10 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
                 bool_Succ1Good = DataUtilities.strIsAPosInt(al_STF.get(1).getText());
                 
                 if (bool_N1Good) {
-                    succ1 = (int)Math.floor(prop1 * n1 + 0.5);
-                    al_STF.get(1).setText(String.valueOf(succ1));
+                    nSuccesses_1 = (int)Math.floor(prop1 * n1 + 0.5);
+                    al_STF.get(1).setText(String.valueOf(nSuccesses_1));
                 } else if (bool_Succ1Good) {    //  and N1 not
-                    n1 = (int)Math.floor(succ1 / prop1 + 0.5);
+                    n1 = (int)Math.floor(nSuccesses_1 / prop1 + 0.5);
                     al_STF.get(2).setText(String.valueOf(n1));                    
                 }
             } else if (whichProp == 2) {
@@ -631,10 +597,10 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
                 bool_Succ2Good = DataUtilities.strIsAPosInt(al_STF.get(4).getText());
                 
                 if (bool_N2Good) {
-                    succ2 = (int)Math.floor(prop2 * n2 + 0.5);
-                    al_STF.get(4).setText(String.valueOf(succ2));
+                    nSuccesses_2 = (int)Math.floor(prop2 * n2 + 0.5);
+                    al_STF.get(4).setText(String.valueOf(nSuccesses_2));
                 } else if (bool_Succ2Good) {    //  and N2 not
-                    n2 = (int)Math.floor(succ2 / prop2 + 0.5);
+                    n2 = (int)Math.floor(nSuccesses_2 / prop2 + 0.5);
                     al_STF.get(5).setText(String.valueOf(n2));                    
                 }
             }
@@ -648,7 +614,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
     *    sample size.                                                        *
     *************************************************************************/
     
-    public boolean checkAndHandleSuccessesEntered(int theSucc, SmartTextField theSTF) {
+    public boolean check4SuccessesEntered(int theSucc, SmartTextField theSTF) {
         int goodSucc;
         int whichSucc = theSucc;
         if (theSTF.getText().isEmpty()) {
@@ -662,49 +628,49 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
 
         goodSucc = Integer.parseInt(theSTF.getText());
         if (whichSucc == 1) {
-            succ1 = goodSucc;
+            nSuccesses_1 = goodSucc;
             bool_Succ1Good = true;
             bool_N1Good = DataUtilities.strIsAPosInt(al_STF.get(2).getText());
             bool_Prop1Good = DataUtilities.strIsAProb(al_STF.get(0).getText());  
             
             if (bool_N1Good) {
                 
-                if (succ1 >= n1) {
+                if (nSuccesses_1 >= n1) {
                     MyAlerts.showPropOopsAlert();
                     al_STF.get(0).setText(toBlank);
                     al_STF.get(1).setText(toBlank);
                     al_STF.get(2).setText(toBlank);
                     return false;
                 }
-                prop1 = succ1 / (double)n1;
+                prop1 = nSuccesses_1 / (double)n1;
                 al_STF.get(0).setText(String.valueOf(prop1));
                 return true;
             } else if (bool_Prop1Good) {    //  and N1 not
-                n1 = (int)Math.floor(succ1 / prop1 + 0.5);
+                n1 = (int)Math.floor(nSuccesses_1 / prop1 + 0.5);
                 al_STF.get(2).setText(String.valueOf(n1));  
                 return true;
             }
             return false;
         } else {    // whichSucc = 2
-            succ2 = goodSucc;
+            nSuccesses_2 = goodSucc;
             bool_Succ2Good = true;
             bool_N2Good = DataUtilities.strIsAPosInt(al_STF.get(5).getText());
             bool_Prop2Good = DataUtilities.strIsAProb(al_STF.get(3).getText());  
             
             if (bool_N2Good) {
                 
-                if (succ2 > n2) {
+                if (nSuccesses_2 > n2) {
                     MyAlerts.showPropOopsAlert();
                     al_STF.get(3).setText(toBlank);
                     al_STF.get(4).setText(toBlank);
                     al_STF.get(5).setText(toBlank);
                     return false;
                 }
-                prop2 = succ2 / (double)n2;
+                prop2 = nSuccesses_2 / (double)n2;
                 al_STF.get(3).setText(String.valueOf(prop2));
                 return true;
             } else if (bool_Prop2Good) {    //  and N2 not
-                n2 = (int)Math.floor(succ2 / prop2 + 0.5);
+                n2 = (int)Math.floor(nSuccesses_2 / prop2 + 0.5);
                 al_STF.get(5).setText(String.valueOf(n2));  
                 return true;
             }
@@ -718,7 +684,7 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
     *    proportion.                                                         *
     *************************************************************************/
         
-    public boolean checkAndHandleSampleSizeEntered(int theSS, SmartTextField theSTF) {
+    public boolean check4SampleSizeEntered(int theSS, SmartTextField theSTF) {
         int goodN;
         int whichSS = theSS;
         if (theSTF.getText().isEmpty()) { return false; }
@@ -737,19 +703,19 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
             bool_Prop1Good = DataUtilities.strIsAProb(al_STF.get(0).getText()); 
             
             if (bool_Succ1Good) {
-                if (succ1 >= n1) {
+                if (nSuccesses_1 >= n1) {
                     MyAlerts.showPropOopsAlert();
                     al_STF.get(0).setText(toBlank);
                     al_STF.get(1).setText(toBlank);
                     al_STF.get(2).setText(toBlank);
                     return false;
                 }
-                prop1 = succ1 / (double)n1;
+                prop1 = nSuccesses_1 / (double)n1;
                 al_STF.get(0).setText(String.valueOf(prop1));
                 return true;
             } else if (bool_Prop1Good) {    //  and Succ1 not
-                succ1 = (int)Math.floor(n1 * prop1 + 0.5);
-                al_STF.get(1).setText(String.valueOf(succ1));  
+                nSuccesses_1 = (int)Math.floor(n1 * prop1 + 0.5);
+                al_STF.get(1).setText(String.valueOf(nSuccesses_1));  
                 return true;
             }
             return false;
@@ -761,19 +727,19 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
             
             if (bool_Succ2Good) {
                 
-                if (succ2 > n2) {
+                if (nSuccesses_2 > n2) {
                     MyAlerts.showPropOopsAlert();
                     al_STF.get(3).setText(toBlank);
                     al_STF.get(4).setText(toBlank);
                     al_STF.get(5).setText(toBlank);
                     return false;
                 }
-                prop2 = succ2 / (double)n2;
+                prop2 = nSuccesses_2 / (double)n2;
                 al_STF.get(3).setText(String.valueOf(prop2));
                 return true;
             } else if (bool_Prop2Good) {    //  and Succ2 not
-                succ2 = (int)Math.floor(n2 * prop2 + 0.5);
-                al_STF.get(4).setText(String.valueOf(succ2));  
+                nSuccesses_2 = (int)Math.floor(n2 * prop2 + 0.5);
+                al_STF.get(4).setText(String.valueOf(nSuccesses_2));  
                 return true;
             }
             return false;            
@@ -785,8 +751,8 @@ public class TwoProp_Inf_Dialog extends Splat_Dialog {
     public double getHypothesizedDiff() { return hypothesizedDifference; }   
     public int getN1() { return n1; }    
     public int getN2() { return n2; }    
-    public int getSuccesses1() { return succ1; }    
-    public int getSuccesses2() { return succ2; }   
+    public int getSuccesses1() { return nSuccesses_1; }    
+    public int getSuccesses2() { return nSuccesses_2; }   
     public double getP1() {return prop1; }
     public double getP2() {return prop2; }    
     public String getProp_1_Label() { return tf_Prop_1_Label.getText(); }

@@ -313,7 +313,7 @@ public class ANOVA2_RM_Calculations {
         }
         
         for (int ithCol = 1; ithCol < dm.getNVarsInStruct(); ithCol++) {
-            boolean isNumeric = dm.getAllTheColumns().get(ithCol).getDataType().equals("Quantitative");
+            boolean isNumeric = dm.getAllTheColumns().get(ithCol).getStrDataType().equals("Quantitative");
             boolean hasMissingData = dm.getAllTheColumns().get(ithCol).getHasMissingData();
             if (!isNumeric || hasMissingData) {
                 return false;

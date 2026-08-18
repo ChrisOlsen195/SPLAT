@@ -80,7 +80,7 @@ public class VerticalBoxPlot_Model {
     public VerticalBoxPlot_Model(ANOVA1_Cat_Model anova1_Cat_Model, ArrayList<QuantitativeDataVariable>  allTheQDVs) {
         if (printTheStuff) {
             System.out.println("*** 82 VerticalBoxPlot_Model, constructing from anova_Cat_Model");
-            System.out.println("--- 83 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
+            System.out.println("... 83 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
         }
         strSubTitle = anova1_Cat_Model.getSubTitle();
         this.allTheQDVs = new ArrayList();
@@ -103,7 +103,7 @@ public class VerticalBoxPlot_Model {
     public VerticalBoxPlot_Model(MultUni_Model multUni_Model, ArrayList<QuantitativeDataVariable> allTheQDVs) {
         if (printTheStuff) {
             System.out.println("*** 105 VerticalBoxPlot_Model, Constructing from MultUni_Model");
-            System.out.println("--- 106 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
+            System.out.println("... 106 VerticalBoxPlot_Model, allTheQDVs.size = " + allTheQDVs.size());
         }
         strSubTitle = multUni_Model.getSubTitle();
         if (printTheStuff) {
@@ -125,7 +125,7 @@ public class VerticalBoxPlot_Model {
         n_QDVs = allTheQDVs.size();
         strSubTitle = "Repeated Measures: Subjects x response";
         if (printTheStuff) {
-            System.out.println("--- 128 VerticalBoxPlot_Model, strSubTitle = " + strSubTitle);
+            System.out.println("... 128 VerticalBoxPlot_Model, strSubTitle = " + strSubTitle);
         }
         collectAllTheLabels();          
     }

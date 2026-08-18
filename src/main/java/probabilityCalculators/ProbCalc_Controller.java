@@ -18,8 +18,8 @@ public class ProbCalc_Controller {
     // POJOs / FX
     
     public ProbCalc_Controller() { 
-        if (printTheStuff == true) {
-            System.out.println("22 *** ProbCalc_Controller, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 22 ProbCalc_Controller, Constructing");
         }
     } 
         

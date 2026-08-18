@@ -94,7 +94,7 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
 
     private String doTheRest() {
         if (printTheStuff) {
-            System.out.println("*** 97 TwoVars_Dialog_One, doTheRest()");
+            System.out.println("--- 97 TwoVars_Dialog_One, doTheRest()");
         }
         switch (callingProcedure) {
             case "RegressionDialog":
@@ -378,7 +378,7 @@ public class TwoVars_Dialog_One extends Splat_Dialog {
         }
         
         varIndex = dm.getVariableIndex(strSelected);    
-        String colDataType = dm.getAllTheColumns().get(varIndex).getDataType();
+        String colDataType = dm.getAllTheColumns().get(varIndex).getStrDataType();
         isCorrectType = true;
         if (!colDataType.equals("Quantitative")) {
             isCorrectType = false;

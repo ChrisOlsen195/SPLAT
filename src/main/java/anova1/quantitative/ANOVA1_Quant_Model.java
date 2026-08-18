@@ -47,7 +47,6 @@ public class ANOVA1_Quant_Model {
     private String subTitle, sourceString, strIthLevel, strJthLevel, 
                    returnValue, respVsExplanVar;
 
-    // Make empty if no-print
     //String waldoFile = "ANOVA1_Quant_Model";
     String waldoFile = "";
     
@@ -72,7 +71,7 @@ public class ANOVA1_Quant_Model {
                             String responseVariable,
                             ArrayList<QuantitativeDataVariable>  allTheQDVs) {
         dm = anova1_Quant_Controller.getDataManager();
-        dm.whereIsWaldo(75, waldoFile, "Constructing");
+        dm.whereIsWaldo(74, waldoFile, " *** Constructing");
         categoryLabels = FXCollections.observableArrayList();
         varLabels = anova1_Quant_Controller.getVarLabels();
         this.allTheQDVs = allTheQDVs;
@@ -82,7 +81,7 @@ public class ANOVA1_Quant_Model {
     }
     
     public String continueInitializing() { 
-        dm.whereIsWaldo(85, waldoFile, "continueInitializing()");
+        dm.whereIsWaldo(84, waldoFile, " *** continueInitializing()");
         returnValue = "OK";
         
         for (int ithLabel = 0; ithLabel < varLabels.size(); ithLabel++) {
@@ -120,19 +119,19 @@ public class ANOVA1_Quant_Model {
     }
    
     private void doOneWayANOVA() {  
-        dm.whereIsWaldo(123, waldoFile, "doOneWayANOVA()");
+        dm.whereIsWaldo(122, waldoFile, " *** doOneWayANOVA()");
         doAnalysis();        
         printANOVA_Results(); 
     }
     
     public void doOneWay4TwoWayANOVA() {
-        dm.whereIsWaldo(129, waldoFile, "doOneWay4TwoWayANOVA()");
+        dm.whereIsWaldo(128, waldoFile, " *** doOneWay4TwoWayANOVA()");
         doOneWayANOVA();
         doAnalysis();
     }
    
     private String setupAnalysis() {
-        dm.whereIsWaldo(135, waldoFile, "setupAnalysis()");
+        dm.whereIsWaldo(134, waldoFile, " *** setupAnalysis()");
         for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
             String varLabel = allTheQDVs.get(ithLevel)
                                          .getTheVarLabel()
@@ -153,7 +152,7 @@ public class ANOVA1_Quant_Model {
     } 
     
     public void doAnalysis() {  
-        dm.whereIsWaldo(156, waldoFile, " *** doAnalysis()");
+        dm.whereIsWaldo(155, waldoFile, " *** doAnalysis()");
 
         sumAll = 0.;
         totalN = 0;
@@ -194,7 +193,7 @@ public class ANOVA1_Quant_Model {
     }
     
 private void printTheStuff() {  
-        dm.whereIsWaldo(197, waldoFile, " *** printTheStuff()");
+        dm.whereIsWaldo(196, waldoFile, " *** printTheStuff()");
         postHocReport.add(String.format("\n"));
         
         postHocReport.add(String.format("               **********         Parameter estimates for Levels         **********\n\n"));        
@@ -279,7 +278,7 @@ private void doTukeyKramer() {
     }
 
     public void printANOVA_Results() {
-        dm.whereIsWaldo(282, waldoFile, " *** printANOVA_Results()");
+        dm.whereIsWaldo(281, waldoFile, " *** printANOVA_Results()");
         anova1Report.add(String.format("\n  One-way Analysis of Variance: %40s \n", respVsExplanVar));
         
         anova1Report.add(String.format("-----------------------------------------------------------------------------------\n"));
@@ -313,7 +312,7 @@ private void doTukeyKramer() {
    } 
     
     private void doTheEffectSizes() {
-        dm.whereIsWaldo(316, waldoFile, " *** doTheEffectSizes()");
+        dm.whereIsWaldo(315, waldoFile, " *** doTheEffectSizes()");
         /************************************************************
          * Kirk, Experimental Design: Procedures for the Behavioral *
          * Sciences (4th).  pp 134- 137                             *

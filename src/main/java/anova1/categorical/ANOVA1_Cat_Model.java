@@ -46,7 +46,6 @@ public class ANOVA1_Cat_Model {
     private String subTitle, sourceString, strIthLevel, strJthLevel, 
                    returnValue, respVsExplanVar;
 
-    // Make empty if no-print
     //String waldoFile = "ANOVA1_Cat_Model";
     String waldoFile = "";
     
@@ -70,7 +69,7 @@ public class ANOVA1_Cat_Model {
                             String responseVariable,
                             ArrayList<QuantitativeDataVariable>  allTheQDVs) {
         dm = anova1_Cat_Controller.getDataManager();
-        dm.whereIsWaldo(74, waldoFile, "Constructing");
+        dm.whereIsWaldo(72, waldoFile, "Constructing");
         variableLabels = FXCollections.observableArrayList();
         variableLabels = anova1_Cat_Controller.getVarLabels();
         this.allTheQDVs = allTheQDVs;    
@@ -81,7 +80,7 @@ public class ANOVA1_Cat_Model {
     }
     
     public String continueInitializing() { 
-        dm.whereIsWaldo(85, waldoFile, "continueInitializing()");
+        dm.whereIsWaldo(83, waldoFile, "continueInitializing()");
         returnValue = "OK";
         subTitle = responseVariable + " vs. " + explanatoryVariable;
         
@@ -114,19 +113,19 @@ public class ANOVA1_Cat_Model {
     }
    
     private void doOneWayANOVA() {  
-        dm.whereIsWaldo(117, waldoFile, "doOneWayANOVA()");
+        dm.whereIsWaldo(116, waldoFile, "doOneWayANOVA()");
         doAnalysis();        
         printANOVA_Results(); 
     }
     
     public void doOneWay4TwoWayANOVA() {
-        dm.whereIsWaldo(123, waldoFile, "doOneWay4TwoWayANOVA()");
+        dm.whereIsWaldo(122, waldoFile, "doOneWay4TwoWayANOVA()");
         doOneWayANOVA();
         doAnalysis();
     }
    
     private String setupAnalysis() {
-        dm.whereIsWaldo(129, waldoFile, "setupAnalysis()");
+        dm.whereIsWaldo(128, waldoFile, "setupAnalysis()");
         for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
             String varLabel = allTheQDVs.get(ithLevel)
                                                .getTheVarLabel()
@@ -147,7 +146,7 @@ public class ANOVA1_Cat_Model {
     } 
     
     public void doAnalysis() {  
-        dm.whereIsWaldo(150, waldoFile, " *** doAnalysis()");
+        dm.whereIsWaldo(149, waldoFile, " *** doAnalysis()");
 
         sumAll = 0.;
         totalN = 0;
@@ -188,7 +187,7 @@ public class ANOVA1_Cat_Model {
     }  // end doFixedEffectsAnalysis
     
     private void constructTheResiduals() {
-        dm.whereIsWaldo(191, waldoFile, "*** constructTheResiduals()");
+        dm.whereIsWaldo(190, waldoFile, "*** constructTheResiduals()");
         ArrayList<String> residuals = new ArrayList();
         for (int ithQDV = 0; ithQDV < nLevels; ithQDV++) {
             QuantitativeDataVariable qdvThisTime = allTheQDVs.get(ithQDV);
@@ -203,11 +202,11 @@ public class ANOVA1_Cat_Model {
         qdvResiduals = new QuantitativeDataVariable(
                        "Residuals", "Residuals",
                        residuals);  
-        dm.whereIsWaldo(206, waldoFile, "--- End constructTheResiduals()");
+        dm.whereIsWaldo(205, waldoFile, "--- End constructTheResiduals()");
     }
     
 private void printTheStuff() {  
-        dm.whereIsWaldo(208, waldoFile, " *** printTheStuff()");
+        dm.whereIsWaldo(209, waldoFile, " *** printTheStuff()");
         postHocReport.add(String.format("\n"));
         
         postHocReport.add(String.format("               **********         Parameter estimates for Levels         **********\n\n"));        
@@ -215,7 +214,7 @@ private void printTheStuff() {
         postHocReport.add(String.format("     Group       Size       Mean       St Dev     of mean    of Error      Bound        Bound\n"));
         
         for (int ithLevel = 0; ithLevel < nLevels; ithLevel++) {
-            dm.whereIsWaldo(218, waldoFile, "--- ithLevel = " + ithLevel);
+            dm.whereIsWaldo(217, waldoFile, "--- ithLevel = " + ithLevel);
             strIthLevel = StringUtilities.truncateString(variableLabels.get(ithLevel), 10);
             int iSampleSize = allTheQDVs.get(ithLevel).getLegalN();
             double iMean = allTheQDVs.get(ithLevel).getTheMean();
@@ -241,7 +240,7 @@ private void printTheStuff() {
     }
 
 private void doTukeyKramer() {
-    dm.whereIsWaldo(241, waldoFile, " ** doTukeyKramer()");
+    dm.whereIsWaldo(243, waldoFile, "*** doTukeyKramer()");
     studRangeQ = new StudentizedRangeQ();
     qTK = studRangeQ.qrange(0.95, // cumulative p -- use .95 if alpha = .05
                            (double)nLevels, // number of groups
@@ -275,7 +274,7 @@ private void doTukeyKramer() {
 }
 
     public void printANOVA_Results() {
-        dm.whereIsWaldo(275, waldoFile, " --- printANOVA_Results()");
+        dm.whereIsWaldo(277, waldoFile, "*** printANOVA_Results()");
         String strPreANOVALine = "\n\n  One-way Analysis of Variance: " + respVsExplanVar;
         String strANOVALine1 = StringUtilities.eliminateMultipleBlanks(strPreANOVALine);
         String strANOVALine2 = StringUtilities.centerTextInString(strANOVALine1, 84);
@@ -307,14 +306,14 @@ private void doTukeyKramer() {
         //  Add the Post Hoc linwa
         int nPostHocLines = postHocReport.size();        
         for (int ithPHLine = 0; ithPHLine < nPostHocLines; ithPHLine++) {
-            //dm.whereIsWaldo(310, waldoFile, " --- ithPostHocLine = " + ithPHLine);
+            //dm.whereIsWaldo(309, waldoFile, " --- ithPostHocLine = " + ithPHLine);
             anova1Report.add(postHocReport.get(ithPHLine));
         }
-        dm.whereIsWaldo(309, waldoFile, " --- End printANOVA_Results()");
+        dm.whereIsWaldo(312, waldoFile, " --- End printANOVA_Results()");
    }    // end printANOVA_Results
     
     private void doTheEffectSizes() {
-        dm.whereIsWaldo(313, waldoFile, " --- doTheEffectSizes()");
+        dm.whereIsWaldo(316, waldoFile, " --- doTheEffectSizes()");
         /************************************************************
          * Kirk, Experimental Design: Procedures for the Behavioral *
          * Sciences (4th).  pp 134- 137                             *

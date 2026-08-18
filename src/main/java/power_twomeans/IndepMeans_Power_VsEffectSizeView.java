@@ -46,8 +46,8 @@ public class IndepMeans_Power_VsEffectSizeView extends BivariateScale_W_CheckBox
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("50 *** IndepMeans_Power_VsEffectSizeView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 50 IndepMeans_Power_VsEffectSizeView, Constructing");
         }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
@@ -55,14 +55,14 @@ public class IndepMeans_Power_VsEffectSizeView extends BivariateScale_W_CheckBox
         indepMeans_Power_Model.restoreNullValues();
         sampleSize_1 = indepMeans_Power_Model.getSampleSize_1();
         sampleSize_2 = indepMeans_Power_Model.getSampleSize_2();
-        nullDiffMeans = indepMeans_Power_Model.getNullDiffMeans();
+        nullDiffMeans = indepMeans_Power_Model.getNullDiffInMeans();
         //altDiffMeans = indepMeans_Power_Model.getAltDiffMeans();
         //nullSigma_1 = indepMeans_Power_Model.getNullSigma_1();
         //nullSigma_2 = indepMeans_Power_Model.getNullSigma_2();
         //effectSize = indepMeans_Power_Model.getEffectSize();
         alpha = indepMeans_Power_Model.getAlpha();
         //effectSize = indepMeans_Power_Model.getEffectSize();
-        standErrDiffMeans = indepMeans_Power_Model.getStandErrDiffMeans();
+        standErrDiffMeans = indepMeans_Power_Model.getStErrDiffInMeans();
         fromHere = nullDiffMeans -3.25 * standErrDiffMeans; 
         toThere = nullDiffMeans + 3.25 * standErrDiffMeans; 
         makeItHappen();
@@ -185,13 +185,13 @@ public class IndepMeans_Power_VsEffectSizeView extends BivariateScale_W_CheckBox
         
         // Set initial yValue, and get the power there
         xx0 = xGraphLeft; 
-        indepMeans_Power_Model.setAltMuDiff(xx0 + nullMu); // xx0 is effect size
+        indepMeans_Power_Model.setAltDiffInMeans(xx0 + nullMu); // xx0 is effect size
         power = indepMeans_Power_Model.calculatePower();
         yy0 = power;
         
         for (double x = xGraphLeft; x <= xGraphRight; x += delta) {
             xx1 = x; 
-            indepMeans_Power_Model.setAltMuDiff(xx1 + nullMu); // xx1 is effect size
+            indepMeans_Power_Model.setAltDiffInMeans(xx1 + nullMu); // xx1 is effect size
             power = indepMeans_Power_Model.calculatePower();
             yy1 = power;            
             xStart = xAxis.getDisplayPosition(xx1); 

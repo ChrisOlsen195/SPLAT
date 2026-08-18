@@ -1,7 +1,7 @@
 /**************************************************
  *               Indep_t_Controller               *
- *                   12/03/25                     *
- *                     12:00                      *
+ *                   08/13/26                     *
+ *                     15:00                      *
  *************************************************/
 package the_t_procedures;
 
@@ -139,7 +139,7 @@ public class Indep_t_Controller {
             }
             if (tidyOrTI8x.equals("Yes") || tidyOrTI8x.equals("Tidy")) { // = Tidy
                 tidyOrTI8x = "Tidy";
-                dm.setTIorTIDY("Tidy");
+                dm.setTI8xorTIDY("Tidy");
                 strReturnStatus = doTidy(); 
                 if (printTheStuff) {
                     System.out.println("--- 145 Indep_t_Controller, strReturnStatus = " + strReturnStatus);
@@ -153,7 +153,7 @@ public class Indep_t_Controller {
                 }
             } else {    // No = TI8x
                 tidyOrTI8x = "TI8x";
-                dm.setTIorTIDY("TI8x");
+                dm.setTI8xorTIDY("TI8x");
                 strReturnStatus =  doTI8x();
                 if (printTheStuff) {
                     System.out.println("--- 159 Indep_t_Controller, strReturnStatus = " + strReturnStatus);
@@ -331,11 +331,11 @@ public class Indep_t_Controller {
             collectAllTheLabels();
             doTheIndep_t();
             dm.whereIsWaldo(333, waldoFile, " --- END doTidy()");
-            dm.setRawOrSummary("NULL"); //-------------------------------------
+            dm.setRawOrSummary("NULL");
             return "OK";
         }
         dm.whereIsWaldo(337, waldoFile, " --- END doTidy()");
-        dm.setRawOrSummary("NULL"); //-------------------------------------
+        dm.setRawOrSummary("NULL");
         return "Cancel";
     }
     
@@ -356,7 +356,7 @@ public class Indep_t_Controller {
             myYesNoAlerts.showAvoidRepetitiousClicksAlert();
             doItAgain = myYesNoAlerts.getYesOrNo();
         }
-        dm.setRawOrSummary("NULL"); //-------------------------------------
+        dm.setRawOrSummary("NULL");
         return strReturnStatus;
     } 
     
@@ -446,7 +446,7 @@ public class Indep_t_Controller {
         dm.whereIsWaldo(446, waldoFile, " --- validateTidyChoices()");
         theStrIsNumeric = new boolean[TWO];        
         for (int ithCol = 0; ithCol < TWO; ithCol++){
-            theStrIsNumeric[ithCol] = indep_t_ColsOfData.get(ithCol).getDataType().equals("Quantitative");  
+            theStrIsNumeric[ithCol] = indep_t_ColsOfData.get(ithCol).getStrDataType().equals("Quantitative");  
         }
         return true;
     }

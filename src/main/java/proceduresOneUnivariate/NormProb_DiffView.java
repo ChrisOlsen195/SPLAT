@@ -1,8 +1,12 @@
 /**************************************************
  *               NormProb-DiffView                *
- *                    01/01/26                    *
- *                     12:00                      *
+ *                    06/21/26                    *
+ *                     15:00                      *
  *************************************************/
+/*******************************************************
+ * This program does the two normal plots. It is not   *
+ * necessarily associated with the matched t procedure *
+ ******************************************************/
 package proceduresOneUnivariate;
 
 import anova1.categorical.ANOVA1_Cat_Dashboard;
@@ -14,16 +18,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -40,7 +37,7 @@ import the_t_procedures.Matched_t_Dashboard;
 public class NormProb_DiffView extends Region {
 
     // POJOs
-    // boolean printTheStuff = true;
+    //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
     private boolean dragging;    
@@ -50,7 +47,7 @@ public class NormProb_DiffView extends Region {
     private double initial_yMin, initial_yMax, initial_yRange, yMin, yMax, yRange,
         yPix_InitialPress, yPix_MostRecentDragPoint, newY_Lower, newY_Upper, 
         deltaY, dispLowerBound, dispUpperBound, initHoriz, initVert, initWidth, 
-        initHeight, lowZ, highZ, theMean, theStDev;
+        initHeight, lowZ, highZ, theMean, theStDev, vertLineAt;
     
     // normalScores = what qqnorm in R would give you
     // translatedNormalScores = are z's from qqnorm translated to the data scale
@@ -75,17 +72,12 @@ public class NormProb_DiffView extends Region {
     CategoryAxis xAxis;
     Pane theContainingPane;    
     Text txtTitle1, txtTitle2;
-    
-    public SnapshotParameters params;
-    public WritableImage image;
-    public Clipboard clipboard;
-    public ClipboardContent content;    
 
     public NormProb_DiffView ( NormProb_DiffModel normProb_DiffModel, Exploration_Dashboard exploration_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("*** 88 NormProb_DiffView, Constructing");
+            System.out.println("80 *** NormProb_DiffView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -121,7 +113,7 @@ public class NormProb_DiffView extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("124 *** NormProb_DiffView, Constructing");
+            System.out.println("116 *** NormProb_DiffView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -149,7 +141,6 @@ public class NormProb_DiffView extends Region {
         strPreLabel = "Normal Distribution";
         strPostLabel = "Residuals";
         descriptionOfDifference = strPreLabel + " vs. " + strPostLabel;
-
         initStuff();
     }
     
@@ -157,7 +148,7 @@ public class NormProb_DiffView extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("160 *** NormProb_DiffView, Constructing");
+            System.out.println("152 *** NormProb_DiffView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -193,7 +184,7 @@ public class NormProb_DiffView extends Region {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("196 *** NormProb_DiffView, Constructing");
+            System.out.println("188 *** NormProb_DiffView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -293,15 +284,17 @@ public class NormProb_DiffView extends Region {
         xAxis.setAutoRanging(true);
         
         xAxis.setMinWidth(40);  //  Controls the Min Y Axis width (for labels)
-        xAxis.setPrefWidth(40);     
+        xAxis.setPrefWidth(40); 
+        
+        vertLineAt = 145.;
     }
     
     public void doTheGraph(){
         if (printTheStuff) {
-            System.out.println("*** 301 NormProb_DiffView, doTheGraph()");
+            //System.out.println("294 --- NormProb_DiffView, doTheGraph()");
         }
         yAxis.setForcedAxisEndsFalse(); // Just in case
-        double vertLineAt = 145.;
+
         double text1Width = txtTitle1.getLayoutBounds().getWidth();
         double text2Width = txtTitle2.getLayoutBounds().getWidth();
         double paneWidth = dragableAnchorPane.getWidth();
@@ -350,14 +343,10 @@ public class NormProb_DiffView extends Region {
             gc.setStroke(Color.BLACK);
 
             // x, y, w, h
-            
-            //gc.strokeLine(startX, startY, endX, endY);
             gc.strokeLine(vertLineAt, startY, endX, endY);
             gc.setFill(Color.RED);
-            // gc.fillOval(startX - 4, startY - 4, 8, 8);
             gc.fillOval(vertLineAt - 4, startY - 4, 8, 8);
             gc.fillOval(endX - 4, endY - 4, 8, 8);  
-
         }
         
         // Draw the normal curve
@@ -381,30 +370,11 @@ public class NormProb_DiffView extends Region {
         String meanString =       "  Mean = " + String.format("%9.3f", theMean);
         String standDevString =   "St Dev = " + String.format("%9.3f", theStDev);
         gc.fillText(meanString, 10, 10);
-        gc.fillText(standDevString, 10, 30);        
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));
-        
+        gc.fillText(standDevString, 10, 30);           
     }
     
-    public void setHandlers() {
-        // yAxis.setOnMouseClicked(yAxisMouseHandler); 
+    public void setHandlers() { 
         yAxis.setOnMouseDragged(yAxisMouseHandler); 
-        // yAxis.setOnMouseEntered(yAxisMouseHandler); 
-        // yAxis.setOnMouseExited(yAxisMouseHandler); 
-        // yAxis.setOnMouseMoved(yAxisMouseHandler); 
         yAxis.setOnMousePressed(yAxisMouseHandler); 
         yAxis.setOnMouseReleased(yAxisMouseHandler);         
         dragableAnchorPane.setOnMouseReleased(scatterplotMouseHandler);

@@ -46,13 +46,13 @@ public class UnivariateContinDataObj {
         
     public UnivariateContinDataObj ()  {  //Need this constructor for ANOVA2 
         if (printTheStuff) {
-            System.out.println("49 *** UnivariateContinDataObj, constructing");
+            System.out.println("*** 49 UnivariateContinDataObj, constructing");
         }    
     } 
 
     public UnivariateContinDataObj(String callSource, QuantitativeDataVariable qdv) {
         if (printTheStuff) {
-            System.out.println("55 *** UnivariateContinDataObj, constructing");
+            System.out.println("*** 55 UnivariateContinDataObj, constructing");
         }
         this.qdv = new QuantitativeDataVariable();
         this.qdv = qdv;
@@ -71,7 +71,7 @@ public class UnivariateContinDataObj {
 
     private void init_UCDO()  {
         if (printTheStuff) {
-            System.out.println("74 --- UnivariateContinDataObj, init_UCDO()");
+            System.out.println("--- 74 UnivariateContinDataObj, init_UCDO()");
         }
         andersonDarlingCalculated = false;
         meanBasedDone = false;
@@ -91,7 +91,7 @@ public class UnivariateContinDataObj {
     
     public void doMedianBasedCalculations() {
         if (printTheStuff) {
-            System.out.println("94 --- UnivariateContinDataObj, doMedianBasedCalculations()");
+            System.out.println("--- 94 UnivariateContinDataObj, doMedianBasedCalculations()");
         }
         double temp1, temp2, lowOutlierCutOff, highOutlierCutOff; 
         
@@ -146,8 +146,8 @@ public class UnivariateContinDataObj {
                 String switchFailure = "Switch failure: UnivContinDataObj 146" + String.valueOf(mod4);
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
                     
-            }   //  end switch  
-        } // end if nDataPoints >= 4
+            }
+        } 
         else {
             switch (nLegalDataPoints) {
                 case 1:               
@@ -208,7 +208,7 @@ public class UnivariateContinDataObj {
     private void calculateFirstFourMoments() {
         if (meanBasedDone) { return; }
         if (printTheStuff) {
-            System.out.println("211 --- UnivariateContinDataObj, calculateFirstFourMoments()");
+            System.out.println("--- 211 UnivariateContinDataObj, calculateFirstFourMoments()");
         }
         
         meanBasedDone = true;
@@ -274,8 +274,8 @@ public class UnivariateContinDataObj {
     // 100 pcTile fraction at or below pcTile
     public double fromPercentile_toPercentileRank(double pcTile) {
         if (printTheStuff) {
-            System.out.println("277 *** UnivariateContinDataObj, fromPercentile_toPercentileRank");
-            System.out.println("278 UCDO, pcTile: " + pcTile);
+            System.out.println("--- 277 UnivariateContinDataObj, fromPercentile_toPercentileRank");
+            System.out.println("... 278 UCDO, pcTile: " + pcTile);
         }
 
         double pcRank = 0.;
@@ -309,10 +309,10 @@ public class UnivariateContinDataObj {
      * https://www.itl.nist.gov/div898/handbook/prc/section2/prc262.htm   *
      *********************************************************************/
     public double fromPercentileRank_toPercentile(double ithPCTileRank) { //    0 < pcTile < 1
-        if (printTheStuff == true) {
-            System.out.println("313 *** UnivariateContinDataObj, fromPercentileRank_toPercentile");
-            System.out.println("314 UCDO, fromPercentileRank_toPercentile");
-            System.out.println("315 UCDO, pcTileRank of: " + ithPCTileRank);
+        if (printTheStuff) {
+            System.out.println("--- 313 UnivariateContinDataObj, fromPercentileRank_toPercentile");
+            System.out.println("... 314 UCDO, fromPercentileRank_toPercentile");
+            System.out.println("... 315 UCDO, pcTileRank of: " + ithPCTileRank);
         }
 
         double temp1  = ithPCTileRank * (nLegalDataPoints + 1);
@@ -352,7 +352,7 @@ public class UnivariateContinDataObj {
     
     public double[] getAndersonDarling() {
         if (printTheStuff) {
-            System.out.println("357 *** UnivariateContinDataObj, getAndersonDarling()");
+            System.out.println("--- 357 UnivariateContinDataObj, getAndersonDarling()");
         }
         // Need to be sure data are sorted
         if (!medianBasedDone){ doMedianBasedCalculations(); }
@@ -430,8 +430,8 @@ public class UnivariateContinDataObj {
     }
     
     public double getTheTrimmedMean(double trimProp) {
-        if (printTheStuff == true) {
-            System.out.println("434 *** UnivariateContinDataObj, getTheTrimmedMean");
+        if (printTheStuff) {
+            System.out.println("--- 434 UnivariateContinDataObj, getTheTrimmedMean");
         }
         double sum, trimmedMean;
         int nToDrop = (int)Math.floor(trimProp * nLegalDataPoints);
@@ -451,7 +451,7 @@ public class UnivariateContinDataObj {
      ******************************************************************/
     private void constructFrequencyDistribution() {
         if (printTheStuff) {
-            System.out.println("454 *** UnivariateContinDataObj, constructFrequencyDistribution()");
+            System.out.println("--- 454 UnivariateContinDataObj, constructFrequencyDistribution()");
         }        
         ArrayList <Point_2D>  al_StartStop;
         ArrayList <Double> al_UniqueValues;
@@ -498,7 +498,7 @@ public class UnivariateContinDataObj {
             }      
         } 
         if (printTheStuff) {
-            System.out.println("501 *** UnivariateContinDataObj, end constructFrequencyDistribution()");
+            System.out.println("... 501 UnivariateContinDataObj, end constructFrequencyDistribution()");
         }
     }
 
@@ -609,7 +609,8 @@ public class UnivariateContinDataObj {
     public double getTheExcessKurtosis() { return excessKurtosis; }        
     public int getLegalN()  {return nLegalDataPoints; }
     public double getTheSS() {return sumOfSquaresDev; }    
-    public double getStandErrMean() {return seMean;}    
+    public double getStandErrMean() {return seMean;}  
+    
     public double getTheMarginOfErr(double middleOfDist) { 
         int df = nLegalDataPoints - 1;
         tDistribution = new TDistribution(df);
@@ -657,7 +658,8 @@ public class UnivariateContinDataObj {
     public double getTheRange() { return range; } 
     public String getTheDataLabel() { return dataLabel; }
     public String getTheDataDescription() { return dataDescription; }    
-    public double[] getTheDataSorted() { return sortedArray; }    
+    public double[] getTheDataSorted() { return sortedArray; }   
+    
     public double[] get_5NumberSummary(){
         double[] fiveNum = new double[5];
         fiveNum[0] = minimum;
@@ -667,6 +669,7 @@ public class UnivariateContinDataObj {
         fiveNum[4] = maximum;
         return fiveNum;
     }    
+    
     public double[] getTheSortedArray() { return sortedArray; }    
    
     public QuantitativeDataVariable getTheQDV() { return qdv; }  

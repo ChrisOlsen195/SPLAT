@@ -59,8 +59,8 @@ public class IndepProps_Power_VsEffectSizeView extends BivariateScale_W_CheckBox
         indepProps_Power_Model.restoreNullValues();
         n_1 = indepProps_Power_Model.getSampleSize_1();
         n_2 = indepProps_Power_Model.getSampleSize_2();
-        p1 = indepProps_Power_Model.getProp_1();
-        p2 = indepProps_Power_Model.getProp_2();
+        p1 = indepProps_Power_Model.getNullParam_1();
+        p2 = indepProps_Power_Model.getNullParam_2();
         //effectSize = indepProps_Power_Model.getEffectSize();
         alpha = indepProps_Power_Model.getAlpha();
         //effectSize = indepProps_Power_Model.getEffectSize();
@@ -210,13 +210,13 @@ public class IndepProps_Power_VsEffectSizeView extends BivariateScale_W_CheckBox
         
         // Set initial yValue, and get the power there
         xx0 = xGraphLeft; 
-        indepProps_Power_Model.setProp_2(xx0);
+        indepProps_Power_Model.setNullParam_2(xx0);
         power = indepProps_Power_Model.calculatePower();
         yy0 = power;
         
         for (double x = xGraphLeft; x <= xGraphRight; x += delta) {
             xx1 = x; 
-            indepProps_Power_Model.setProp_2(indepProps_Power_Model.getProp_1() - xx1);
+            indepProps_Power_Model.setNullParam_2(indepProps_Power_Model.getNullParam_1() - xx1);
             indepProps_Power_Model.setEffectSize(x);
             
             if (strRejectionCriterion.equals("LessThan")) { 

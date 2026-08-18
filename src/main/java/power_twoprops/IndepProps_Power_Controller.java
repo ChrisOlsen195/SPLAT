@@ -1,7 +1,7 @@
 /**************************************************
  *         IndepProps_Power_Controller            *
- *                  04/17/25                      *
- *                    09:00                       *
+ *                  05/24/26                      *
+ *                    18:00                       *
  *************************************************/
 package power_twoprops;
 
@@ -18,7 +18,7 @@ public class IndepProps_Power_Controller {
     int sampleSize_1, sampleSize_2;
     
     double nullProp_1, nullProp_2, altProp_1, altProp_2, alpha, effectSize,
-           power;
+           power, nullDiffInProps, altDiffInProps;
     
     String rejectionCriterion, printedNull, printedAlt, returnStatus;
     
@@ -29,7 +29,7 @@ public class IndepProps_Power_Controller {
     Power_IndProps_Dialog power_IndProps_Dialog;
     
     public IndepProps_Power_Controller() {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("33 *** IndepProps_Power_Controller, Constructing");
         }
         power_IndProps_Dialog = new Power_IndProps_Dialog();
@@ -43,10 +43,9 @@ public class IndepProps_Power_Controller {
         
         alpha = power_IndProps_Dialog.getLevelOfSignificance();
         effectSize = power_IndProps_Dialog.getEffectSize();
-        
         nullProp_1 = power_IndProps_Dialog.getProp_1();
         nullProp_2 = power_IndProps_Dialog.getProp_2();
- 
+        nullDiffInProps = nullProp_1 - nullProp_2;
         altProp_1 = nullProp_1 + effectSize;
         altProp_2 = nullProp_2 + effectSize;
 
@@ -59,15 +58,15 @@ public class IndepProps_Power_Controller {
 
         switch (rejectionCriterion) {
             case "LessThan":
-                //altDiffInProps = nullDiffInProps - effectSize ;
+                altDiffInProps = nullDiffInProps - effectSize ;
                 break;
                 
             case "NotEqual":
-                //altDiffInProps = nullDiffInProps + effectSize ;
+                altDiffInProps = nullDiffInProps + effectSize ;
                 break;
                 
             case "GreaterThan":
-                //altDiffInProps = nullDiffInProps + effectSize ;
+                altDiffInProps = nullDiffInProps + effectSize ;
                 break;
 
             default: 
@@ -79,9 +78,9 @@ public class IndepProps_Power_Controller {
 
         indepProps_Power_Model.setRejectionCriterion(rejectionCriterion);
         indepProps_Power_Model.setProp_1(nullProp_1);
-        indepProps_Power_Model.setProp_2(nullProp_2);   
-        indepProps_Power_Model.setAltProp_1(altProp_1);
-        indepProps_Power_Model.setAltProp_2(altProp_2); 
+        indepProps_Power_Model.setNullParam_2(nullProp_2);   
+        indepProps_Power_Model.setAltParam_1(altProp_1);
+        indepProps_Power_Model.setAltParam_2(altProp_2); 
         indepProps_Power_Model.setSampleSize_1(sampleSize_1);
         indepProps_Power_Model.setSampleSize_2(sampleSize_2);
         indepProps_Power_Model.setAlpha(alpha);  
@@ -104,7 +103,7 @@ public class IndepProps_Power_Controller {
                 break;
 
             default: 
-                String switchFailure = "Switch failure: IndProps_Power_Controller 107 " + rejectionCriterion;
+                String switchFailure = "Switch failure: IndProps_Power_Controller 106 " + rejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 returnStatus = "Cancel";
                 break;

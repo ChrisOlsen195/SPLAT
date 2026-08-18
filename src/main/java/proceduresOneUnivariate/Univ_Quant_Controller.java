@@ -42,12 +42,12 @@ public class Univ_Quant_Controller {
     public Univ_Quant_Controller(Data_Manager dm, String strDataType) {
         this.dm = dm;
         this.strDataType = strDataType;
-        dm.whereIsWaldo(46, waldoFile, "Constructing");
+        dm.whereIsWaldo(46, waldoFile, " *** Constructing");
     }  
         
     // Called by MainMenu
     public String doTheQuantitativeProcedure() {
-        dm.whereIsWaldo(51, waldoFile, "doTheQuantitativeProcedure()");
+        dm.whereIsWaldo(51, waldoFile, " --- doTheQuantitativeProcedure()");
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
@@ -73,7 +73,7 @@ public class Univ_Quant_Controller {
                 return returnStatus;
             }
             
-            goodToGo = PrepareQuantitativeStructs();
+            goodToGo = prepareQuantitativeStructs();
             if (goodToGo) {
                 exploration_Dashboard.populateTheBackGround();
                 exploration_Dashboard.putEmAllUp();
@@ -86,8 +86,8 @@ public class Univ_Quant_Controller {
         return returnStatus;
     }
     
-    public boolean PrepareQuantitativeStructs() {         
-        dm.whereIsWaldo(91, waldoFile, "PrepareQuantitativeStructs()");
+    public boolean prepareQuantitativeStructs() {         
+        dm.whereIsWaldo(91, waldoFile, " --- PrepareQuantitativeStructs()");
         theQDV = new QuantitativeDataVariable(columnOfData.getVarLabel(), columnOfData.getVarDescription(), columnOfData);  
         // Box plots require qdvs for All and Each
         qdvsForBoxPlots = new ArrayList<>();
@@ -104,7 +104,7 @@ public class Univ_Quant_Controller {
         hBoxPlotModel = new HorizontalBoxPlot_Model(descriptionOfVar, theQDV);
         vBoxModel = new VerticalBoxPlot_Model(descriptionOfVar, theQDV); 
         exploration_Dashboard = new Exploration_Dashboard(this, theQDV); 
-        dm.whereIsWaldo(109, waldoFile, "end PrepareQuantitativeStructs()");
+        dm.whereIsWaldo(109, waldoFile, " ... end PrepareQuantitativeStructs()");
         return true;
     }
     

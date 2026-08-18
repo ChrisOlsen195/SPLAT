@@ -1,7 +1,7 @@
 /**************************************************
  *              X2Dist_Calc_DialogView            *
- *                    01/16/25                    *
- *                     09:00                      *
+ *                    06/22/26                    *
+ *                     15:00                      *
  *************************************************/
 package probabilityCalculators;
 
@@ -54,7 +54,7 @@ public class X2Dist_Calc_DialogView extends ProbCalc_DialogView{
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("58 *** X2Dist_Calc_DialogView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;

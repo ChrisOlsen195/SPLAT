@@ -1,7 +1,7 @@
 /**************************************************
  *                   YesNoAlert                   *
- *                    12/16/25                    *
- *                      09:00                     *
+ *                    06/.27/26                    *
+ *                      15:00                     *
  *************************************************/
 package utilityClasses;
 
@@ -60,7 +60,7 @@ public class YesNoAlert extends Stage {
                       int horizImageSpace,
                       int fitWidth) {
         if (printTheStuff) {
-            System.out.println("*** 63 YesNoAlert, strAlertTitle = " + strAlertTitle);
+            System.out.println("63 *** YesNoAlert, strAlertTitle = " + strAlertTitle);
         }
         this.theYes = theYes;
         this.theNo = theNo;

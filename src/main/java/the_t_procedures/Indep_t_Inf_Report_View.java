@@ -22,7 +22,7 @@ public class Indep_t_Inf_Report_View extends PrintTextReport_View {
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);        
         dm = ind_t_Model.getDataManager();
-        dm.whereIsWaldo(25, waldoFile, "Constructing");        
+        dm.whereIsWaldo(25, waldoFile, " *** Constructing");        
         sourceString = new String();
         stringsToPrint = ind_t_Model.getIndepTReport();
         strTitleText = "Inference for independent means report";

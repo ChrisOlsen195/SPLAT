@@ -1,15 +1,13 @@
 /**************************************************
- *           ChooseStats_DotPlot_DistrView        *
- *                    02/24/25                    *
- *                     09:00                      *
+ *                 Histo_DistrView                *
+ *                    08/09/26                    *
+ *                     21:00                      *
  *************************************************/
 package bootstrapping;
 
 import dialogs.Change_Bins_Dialog;
-import dialogs.Change_Radius_Dialog;
 import genericClasses.DragableAnchorPane;
 import genericClasses.Point_2D;
-import javafx.geometry.Insets;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -24,49 +22,47 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import smarttextfield.*;
 
-public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
+public class Histo_DistrView extends Super_ChooseStats_DistrView {
     
-    double thisMuchIsGreen, thisMuchIsRed, ratioRed, binFrequency;
-    double relRad, xCenter, yCenter, leftPercentile, rightPercentile;
+    double displayThisMuchIsRed, displayThisMuchIsGreen;
+    double binHeight, binFrequency; 
     
-    String descrOfVar;
+    double leftPercentile, rightPercentile;
     
     // Make empty if no-print
-    //String waldoFile = "ChooseStats_DotPlot_DistrView";
+    //String waldoFile = "Histo_DistrView";
     String waldoFile = "";
     
-    // My classes 
-    Change_Radius_Dialog chRadius_Dialog;
+    // My classes  
 
     //  POJOs / FX   
-    Button btn_BinReset, btn_RadiusReset;
-    HBox hBox_BinAndRadReset;   
+    Button btn_BinReset;
+    HBox hBox_BinReset;   
     Point_2D ithBinLimits;
 
-    public ChooseStats_DotPlot_DistrView(ChooseStats_DistrModel chooseStats_DistrModel,
+    public Histo_DistrView(DistrModel distrModel,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
-        super(chooseStats_DistrModel, placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        dm = chooseStats_DistrModel.getDataManager();
-        dm.whereIsWaldo(51, waldoFile, "Constructing"); 
+        super(distrModel, placeHoriz, placeVert, withThisWidth, withThisHeight); 
+        dm = distrModel.getDataManager();
+        dm.whereIsWaldo(48, waldoFile, " *** Constructing"); 
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
-        descrOfVar = chooseStats_DistrModel.getDescriptionOfVariable();
-        this.chooseStats_DistrModel = chooseStats_DistrModel;
+        this.chooseStats_DistrModel = distrModel;
         ithBinLimits = this.chooseStats_DistrModel.getBinLimits();
         ithBinLow = ithBinLimits.getFirstValue();
         ithBinHigh = ithBinLimits.getSecondValue();
-        chooseStats_Controller = chooseStats_DistrModel.getBootStrapController();
-        chooseStats_Dashboard = chooseStats_Controller.getThe_Boot_Dashboard(); 
+        boot_Controller = distrModel.getBootStrapController();
+        chooseStats_Dashboard = boot_Controller.getThe_Boot_Dashboard(); 
         nLegalDataPoints = this.chooseStats_DistrModel.getTheQDV().getLegalN();
         sortedData = new double[nLegalDataPoints];
         sortedData = this.chooseStats_DistrModel.getTheUCDO().getTheDataSorted();
     }
 
     public void continueConstruction() {    
-        dm.whereIsWaldo(67, waldoFile, "continueConstruction()");
-        chooseStats_Controller.set_Boot_OriginalDotPlot_DistrView(this);
-        chooseStats_DialogView = chooseStats_Controller.get_Boot_DialogView();
+        dm.whereIsWaldo(63, waldoFile, " --- continueConstruction()");
+        boot_Controller.set_Boot_OriginalHisto_DistrView(this);
+        chooseStats_DialogView = boot_Controller.get_Boot_DialogView();
         xPrintPosLeft = 0.05;
         xPrintPosCenter = 0.325;
         xPrintPosRight = 0.5;
@@ -74,8 +70,8 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         yPrintPosCenter = 0.95;   
         maxOfYScale = 0.45; 
         
-        newX_Lower = chooseStats_Controller.getOriginalXLower();
-        newX_Upper =  chooseStats_Controller.getOriginalXUpper(); 
+        newX_Lower = boot_Controller.getOriginalXLower();
+        newX_Upper =  boot_Controller.getOriginalXUpper(); 
         initializeGraphParameters();
 
         binWidth = ithBinHigh - ithBinLow;
@@ -83,13 +79,8 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         graphCanvas = new Canvas(600, 600);
         gc = graphCanvas.getGraphicsContext2D();  
         btn_BinReset = new Button("Change bin width");
-        btn_RadiusReset = new Button("Change radius");
-        btn_BinReset.setPadding(new Insets(5, 10, 5, 10));
-        btn_RadiusReset.setPadding(new Insets(5, 10, 5, 10));
         minDataRange = chooseStats_DistrModel.getTheUCDO().getMinValue();
         maxDataRange = chooseStats_DistrModel.getTheUCDO().getMaxValue();
-        
-        relRad = 0.975;
         
         btn_BinReset.setOnAction(e -> {
             change_Bins_Dialog = new Change_Bins_Dialog(minDataRange, maxDataRange);
@@ -105,37 +96,25 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
                 doTheGraph();
             }
         });
-        
-        btn_RadiusReset.setOnAction(e -> {
-            chRadius_Dialog = new Change_Radius_Dialog(this);
-            chRadius_Dialog.showAndWait();
-            returnStatus = chRadius_Dialog.getReturnStatus();
-            
-            if (!returnStatus.equals("Cancel")) {
-                relRad = chRadius_Dialog.getRelativeRadius();
-                chRadius_Dialog.close();
-                doTheGraph();
-            }
-        });
 
-        hBox_BinAndRadReset = new HBox();
-        hBox_BinAndRadReset.getChildren().addAll(btn_BinReset, btn_RadiusReset);  
+        hBox_BinReset = new HBox();
+        hBox_BinReset.getChildren().add(btn_BinReset);  
     
-        // There are no check boxes, but superclass constructs a CheckBoxRow
+        //  There are no check boxes, but superclass constructs a CheckBoxRow
         nCheckBoxes = 0;
         initializing = true;
         al_ProbCalcs_STF = new SmartTextFieldDoublyLinkedSTF();
         chooseStats_DialogView = chooseStats_Dashboard.get_Boot_ChooseStats_DialogView();
         chooseStats_DialogView.getBootstrapOneStat_DialogView();
         al_ProbCalcs_STF = chooseStats_DialogView.getAllTheSTFs();
-        chooseStats_Controller = chooseStats_Dashboard.get_Boot_Controller();
+        boot_Controller = chooseStats_Dashboard.get_Boot_Controller();
         tailChoice = "NotEqual";
         respondToChanges();
         graphCanvas = new Canvas(initWidth, initHeight);
         makeTheCheckBoxes();
         makeItHappen();
     }
-    
+
     public void doTheGraph() {
         shadeLeft = chooseStats_DistrModel.get_ShadeLeft();
         shadeRight = chooseStats_DistrModel.get_ShadeRight();
@@ -156,10 +135,10 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         tempHeight = dragableAnchorPane.getHeight();
         tempWidth = dragableAnchorPane.getWidth();
          
-        AnchorPane.setTopAnchor(hBox_BinAndRadReset, 0.01 * tempHeight);
-        AnchorPane.setLeftAnchor(hBox_BinAndRadReset, 0.0 * txt1Edge * tempWidth);
-        AnchorPane.setRightAnchor(hBox_BinAndRadReset, txt1Edge * tempWidth);
-        AnchorPane.setBottomAnchor(hBox_BinAndRadReset, 0.95 * tempHeight);
+        AnchorPane.setTopAnchor(hBox_BinReset, 0.01 * tempHeight);
+        AnchorPane.setLeftAnchor(hBox_BinReset, 0.0 * txt1Edge * tempWidth);
+        AnchorPane.setRightAnchor(hBox_BinReset, txt1Edge * tempWidth);
+        AnchorPane.setBottomAnchor(hBox_BinReset, 0.95 * tempHeight);
         
         AnchorPane.setTopAnchor(txtTitle1, 0.07 * tempHeight);
         AnchorPane.setLeftAnchor(txtTitle1, txt1Edge * tempWidth);
@@ -194,33 +173,30 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         
         binWidth = leftBinEnd[1] - leftBinEnd[0];
         displayBinWidth = xAxis.getDisplayPosition(leftBinEnd[1]) - xAxis.getDisplayPosition(leftBinEnd[0]);  
-
-        diameter = relRad * displayBinWidth;
-        radius = 0.5 * diameter;
-        
-        for (int ithBin = 0; ithBin < nBinsTotal; ithBin++ ) {   
+    
+        for (int ithBin = 0; ithBin < nBinsTotal; ithBin++ ) {
             gc.setFill(Color.GREEN);
-            double preXCenter = (leftBinEnd[ithBin] + rightBinEnd[ithBin]) / 2.0;
-            xCenter = xAxis.getDisplayPosition(preXCenter);
             binFrequency = frequencies[ithBin];
             
             if (binFrequency > 0.) { 
                 double leftEndOfBin = leftBinEnd[ithBin];
                 double rightEndOfBin = rightBinEnd[ithBin];
-
+                double displayLeftEndOfBin = xAxis.getDisplayPosition(leftEndOfBin);
+                double displayRightEndOfBin = xAxis.getDisplayPosition(rightEndOfBin);
+                double displayLeftPercentile = xAxis.getDisplayPosition(leftPercentile);
+                double displayRightPercentile = xAxis.getDisplayPosition(rightPercentile);
+ 
                 bILT = (rightEndOfBin < leftPercentile);
                 bSLP = ((leftEndOfBin <= leftPercentile) && (leftPercentile < rightEndOfBin));
                 bITM = ((leftPercentile <= leftEndOfBin) && (rightEndOfBin < rightPercentile));
                 bSRP = ((leftEndOfBin <= rightPercentile) && (rightPercentile < rightEndOfBin));
                 bIRT = (rightPercentile <= leftEndOfBin);
-                
+ 
                 gc.setFill(Color.GREEN);
                 //  No tails are selected
                 if (!shadeLeft && !shadeRight) { 
-                    for (int ithCircle = 0; ithCircle < binFrequency; ithCircle++) {
-                        yCenter = yAxis.getDisplayPosition((double)(ithCircle + 1.));
-                        gc.fillOval(xCenter - radius, yCenter - radius , diameter, diameter);
-                    }                       
+                    binHeight = yAxis.getDisplayPosition(0.0) - yAxis.getDisplayPosition(binFrequency);
+                    gc.fillRect(displayLeftEndOfBin, yAxis.getDisplayPosition(binFrequency), displayBinWidth, binHeight);                      
                 }
                 else 
                 {
@@ -228,79 +204,63 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
                     if (bILT) {
                         gc.setFill(Color.GREEN);
                         if (shadeLeft) { gc.setFill(Color.RED);}
-                        for (int ithCircle = 0; ithCircle < binFrequency; ithCircle++) {
-                            yCenter = yAxis.getDisplayPosition((double)(ithCircle + 1.));
-                            gc.fillOval(xCenter - radius, yCenter - radius , diameter, diameter);
-                        }                        
+                        binHeight = yAxis.getDisplayPosition(0.0) - yAxis.getDisplayPosition(binFrequency);
+                        gc.fillRect(displayLeftEndOfBin, yAxis.getDisplayPosition(binFrequency), displayBinWidth, binHeight);                       
                     }
 
                     //  Bin contains the left percentile
                     if (bSLP && shadeLeft) {
-                        thisMuchIsRed = leftPercentile - leftEndOfBin;
-                        thisMuchIsGreen = rightEndOfBin - leftPercentile; 
-                        ratioRed = thisMuchIsRed / (thisMuchIsRed + thisMuchIsGreen);
+                        binHeight = yAxis.getDisplayPosition(0.0) - yAxis.getDisplayPosition(binFrequency);
 
-                        for (int ithCircle = 0; ithCircle < binFrequency; ithCircle++) {
-                            gc.setFill(Color.BLACK);
-                            if (ithCircle > binFrequency * ratioRed) {
-                                gc.setFill(Color.BLUE);
-                            }
-                            yCenter = yAxis.getDisplayPosition((double)(ithCircle + 1.));
-                            gc.fillOval(xCenter - radius, yCenter - radius , diameter, diameter);
-                        } 
+                        displayThisMuchIsRed = displayLeftPercentile - displayLeftEndOfBin;
+                        displayThisMuchIsGreen = displayRightEndOfBin - displayLeftPercentile;    
+ 
+                        gc.setFill(Color.BLACK);
+                        gc.fillRect(displayLeftEndOfBin, yAxis.getDisplayPosition(binFrequency), displayThisMuchIsRed, binHeight); 
+                        gc.setFill(Color.BLUE);
+                        gc.fillRect(displayLeftPercentile, yAxis.getDisplayPosition(binFrequency), displayThisMuchIsGreen, binHeight);
                     }
                     
                     if (bSLP && !shadeLeft) {
-                        for (int ithCircle = 0; ithCircle < binFrequency; ithCircle++) {
-                            yCenter = yAxis.getDisplayPosition((double)(ithCircle + 1.));
-                            gc.fillOval(xCenter - radius, yCenter - radius , diameter, diameter);
-                        }   
+                        binHeight = yAxis.getDisplayPosition(0.0) - yAxis.getDisplayPosition(binFrequency);
+                        gc.fillRect(displayLeftEndOfBin, yAxis.getDisplayPosition(binFrequency), displayBinWidth, binHeight);   
                     }
                     
                     //  Bin is totally in the middle
                     if (bITM) {
                         gc.setFill(Color.GREEN);
-                        for (int ithCircle = 0; ithCircle < binFrequency; ithCircle++) {
-                            yCenter = yAxis.getDisplayPosition((double)(ithCircle + 1.));
-                            gc.fillOval(xCenter - radius, yCenter - radius , diameter, diameter);
-                        } 
+                        binHeight = yAxis.getDisplayPosition(0.0) - yAxis.getDisplayPosition(binFrequency);
+                        gc.fillRect(displayLeftEndOfBin, yAxis.getDisplayPosition(binFrequency), displayBinWidth, binHeight); 
                     }
 
                     //  Bin contains the right percentile
                     if (bSRP && shadeRight) {
-                        thisMuchIsRed = rightPercentile - leftEndOfBin;
-                        thisMuchIsGreen = rightEndOfBin - rightPercentile; 
-                        ratioRed = thisMuchIsRed / (thisMuchIsRed + thisMuchIsGreen);   
-                        
-                        for (int ithCircle = 0; ithCircle < binFrequency; ithCircle++) {
-                            gc.setFill(Color.BLUE);
-                            if (ithCircle > binFrequency * ratioRed) {
-                                gc.setFill(Color.BLACK);
-                            }
-                            yCenter = yAxis.getDisplayPosition((double)(ithCircle + 1.));
-                            gc.fillOval(xCenter - radius, yCenter - radius , diameter, diameter);
-                        }                          
+                        binHeight = yAxis.getDisplayPosition(0.0) - yAxis.getDisplayPosition(binFrequency);
+
+                        displayThisMuchIsGreen = displayRightPercentile - displayLeftEndOfBin;
+                        displayThisMuchIsRed = displayRightEndOfBin - displayRightPercentile;                       
+                                               
+                        gc.setFill(Color.BLUE);
+                        gc.fillRect(displayLeftEndOfBin, yAxis.getDisplayPosition(binFrequency), displayThisMuchIsGreen, binHeight); 
+                        gc.setFill(Color.BLACK);
+                        gc.fillRect(displayRightPercentile, yAxis.getDisplayPosition(binFrequency), displayThisMuchIsRed, binHeight);                          
                     }
                     
                     if (bSRP && !shadeRight) {
-                        for (int ithCircle = 0; ithCircle < binFrequency; ithCircle++) {
-                            yCenter = yAxis.getDisplayPosition((double)(ithCircle + 1.));
-                            gc.fillOval(xCenter - radius, yCenter - radius , diameter, diameter);
-                        }   
+                        binHeight = yAxis.getDisplayPosition(0.0) - yAxis.getDisplayPosition(binFrequency);
+                        gc.fillRect(displayLeftEndOfBin, yAxis.getDisplayPosition(binFrequency), displayBinWidth, binHeight);   
                     }
                     
                     //  Bin is totally in the right tail
                     if (bIRT) {
                         gc.setFill(Color.GREEN);
                         if (shadeRight) { gc.setFill(Color.RED);}
-                        for (int ithCircle = 0; ithCircle < binFrequency; ithCircle++) {
-                            yCenter = yAxis.getDisplayPosition((double)(ithCircle + 1.));
-                            gc.fillOval(xCenter - radius, yCenter - radius , diameter, diameter);
-                        }                          
+                        binHeight = yAxis.getDisplayPosition(0.0) - yAxis.getDisplayPosition(binFrequency);
+                        gc.fillRect(displayLeftEndOfBin, yAxis.getDisplayPosition(binFrequency), displayBinWidth, binHeight);                          
                     }
                 }
-            }   // end else shading somewhere
-        }   // for iBin    
+            }   // end else shading somewhere                
+        }   // for ithBin   
         
         theContainingPane.requestFocus();
         theContainingPane.setOnKeyPressed((ke -> {
@@ -369,7 +329,7 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
             }
         }
         
-        if (yAxis != null) {    // If changing existing bins
+        if (yAxis != null) {    //  If changing existing bins
             yAxis.setUpperBound(maximumFreq);
         }
     }
@@ -383,18 +343,17 @@ public class ChooseStats_DotPlot_DistrView extends Super_ChooseStats_DistrView {
         dragableAnchorPane.getStylesheets().add(graphsCSS);    
         dragableAnchorPane.getTheAP()
                            .getChildren()
-                           .addAll(hBox_BinAndRadReset,txtTitle1, txtTitle2, xAxis, yAxis, graphCanvas);
+                           .addAll(hBox_BinReset,txtTitle1, txtTitle2, xAxis, yAxis, graphCanvas);
         dragableAnchorPane.setInitialEventCoordinates(initHoriz, initVert, initHeight, initWidth);
     }
- 
-    public ChooseStats_Controller get_Bootstrap_Controller() {
-        return chooseStats_Controller;
+    
+    public Boot_Controller get_Bootstrap_Controller() {
+        return boot_Controller;
     }
     
-    public void setBootstrapOneStat_DialogView(ChooseStats_DialogView boot_DialogView) {
-        this.chooseStats_DialogView = boot_DialogView;
+    public void setBootstrapOneStat_DialogView(ChooseStats_DialogView bootstrap_1Stat_DialogView) {
+        this.chooseStats_DialogView = bootstrap_1Stat_DialogView;
     }
 
     public void setInitializingToTrue() { initializing = true; }
-    public void setRelRad(double theNewRad) { relRad = theNewRad; }
 }

@@ -1,7 +1,7 @@
 /************************************************************
  *                      X2Assoc_Controller                  *
- *                          12/11/25                        *
- *                            12:00                         *
+ *                          06/27/26                        *
+ *                            15:00                         *
  ***********************************************************/
 package chiSquare_Assoc;
 
@@ -32,7 +32,7 @@ public class X2Assoc_Controller {
     public X2Assoc_Controller(Data_Manager dm, String assocType) { 
         this.dm = dm;
         if (printTheStuff) {
-            System.out.println("*** 35 X2Assoc_Controller, Constructing ");
+            System.out.println("35 *** X2Assoc_Controller, Constructing ");
         }
         this.assocType = assocType;
         
@@ -89,7 +89,7 @@ public class X2Assoc_Controller {
 
         if (returnStatus.equals("OK")) {
         if (printTheStuff == true) {
-            System.out.println("92 --- X2Assoc_Controller, doAssoc_FromFile(Data_Manager dm) ");
+            System.out.println("92 ... X2Assoc_Controller, doAssoc_FromFile(Data_Manager dm) ");
         }
             xDescr = x2Assoc_Dialog.getPreferredFirstVarDescription();
             yDescr = x2Assoc_Dialog.getPreferredSecondVarDescription();
@@ -107,7 +107,7 @@ public class X2Assoc_Controller {
 
             if (returnStatus.equals("OK")) {
         if (printTheStuff == true) {
-            System.out.println("110 --- X2Assoc_Controller, doAssoc_FromFile(Data_Manager dm) ");
+            System.out.println("110 ... X2Assoc_Controller, doAssoc_FromFile(Data_Manager dm) ");
         }
                 x2Assoc_Model.doChiSqAnalysisCalculations();
                 x2Assoc_Dashboard = new X2Assoc_Dashboard(this, x2Assoc_Model); 

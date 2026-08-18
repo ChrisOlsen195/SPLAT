@@ -1,14 +1,13 @@
 /**************************************************
  *           Super_ChooseStats_DistrView          *
- *                   08/14/25                     *
- *                     09:00                      *
+ *                   08/09/26                     *
+ *                     18:00                      *
  *************************************************/
 package bootstrapping;
 
 import dialogs.Change_Bins_Dialog;
 import genericClasses.JustAnAxis;
 import javafx.geometry.Side;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -45,9 +44,9 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     
     Data_Manager dm;
     SmartTextFieldDoublyLinkedSTF al_ProbCalcs_STF;
-    ChooseStats_Controller chooseStats_Controller;
+    Boot_Controller boot_Controller;
     ChooseStats_Dashboard chooseStats_Dashboard;
-    ChooseStats_DistrModel chooseStats_DistrModel;
+    DistrModel chooseStats_DistrModel;
     ChooseStats_DialogView chooseStats_DialogView;
     Change_Bins_Dialog change_Bins_Dialog; 
 
@@ -75,40 +74,22 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     // Make empty if no-print
     //String waldoFile = "Super_ChooseStats_DistrView";
     String waldoFile = "";
-
-    public Label lbl_LeftProb, lbl_MidProb, lbl_RightProb, lbl_N_Equals, lbl_P_Equals,
-          lbl_LeftParenProbX_LT, lbl_LeftParenProbX_LE, lbl_LeftParen_ProbX_EQ,
-          lbl_LeftProbX_LT_RightParen, lbl_LeftProbX_LE_RightParen,
-          lbl_LeftProbX_EQ_RightParen, lbl_LeftParenProbX_GE,
-          lbl_LeftProbX_GT_RightParen, lbl_LeftProbX_GE_RightParen,
-          lbl_LeftParenProbX_GT, lbl_Range_Prob_LTLT_Left_Paren,
-          lbl_Range_Prob_LTLE_Left_Paren, lbl_Range_Prob_LELE_Left_Paren,
-          lbl_Range_Prob_LELT_Left_Paren, lbl_RangeIs_LTLT, lbl_RangeIs_LTLE, 
-          lbl_RangeIs_LELE, lbl_RangeIs_LELT, lbl_RangeIs_LTLT_RightParen, 
-          lbl_RangeIs_LTLE_RightParen, lbl_RangeIs_LELE_RightParen,  
-          lbl_RangeIs_LELT_RightParen;      
-    
-    public String LT, EQ, GT, LE, GE, leftProb, rightProb, LT_AND_LT, LT_AND_LE, 
-           LE_AND_LE, LE_AND_LT, str_LeftParenProb_Is_LT, 
-           str_LeftParenProbX_Is_LE, str_LeftParenProbX_Is_EQ,
-           str_LeftParenProbX_Is_GE, str_LeftParenProbX_Is_GT,
-           str_Range_Prob_LeftParen, str_Range_Prob_LTLT, str_Range_Prob_LTLE, 
-           str_Range_Prob_LELT, str_Range_Prob_LELE,
-           strDaChoice, strDaLeftChoice, strDaRightChoice, strAnswer;    
     
     public String theModelName, tailChoice, prtLeftArea, prtMidArea, prtRightArea; 
     
     public Pane theContainingPane;
     
-    String title2String;
+    String strTitle2, strChosenStatistic;
 
-    public Super_ChooseStats_DistrView(ChooseStats_DistrModel boot_ChooseStats_DistrModel, 
+    public Super_ChooseStats_DistrView(DistrModel distrModel, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
     super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        dm = boot_ChooseStats_DistrModel.getDataManager();
-        dm.whereIsWaldo(110, waldoFile, "Constructing"); 
-        descrOfVar = boot_ChooseStats_DistrModel.getDescriptionOfVariable();
+        dm = distrModel.getDataManager();
+        dm.whereIsWaldo(110, waldoFile, " *** Constructing"); 
+        strChosenStatistic = distrModel.getChosenStatistic();
+        dm.whereIsWaldo(112, waldoFile, " strChosenStatistic = " + strChosenStatistic); 
+        descrOfVar = distrModel.getDescriptionOfVariable();
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
         xPrintPosLeft = 0.05;
@@ -124,19 +105,6 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
         scatterPlotCheckBoxDescr[2] = " Mean & StDev ";      
         checkBoxHeight = 350.0;       
         
-        LT = " < "; EQ = " = "; GT = " > "; LE = " \u2266 "; GE = " \u2267 ";
-
-        leftProb = "P(x"; 
-        rightProb = ") = ";
-
-        LT_AND_LT = LT + " x " + LT; LT_AND_LE = LT + " x " + LE;
-        LE_AND_LE = LE + " x " + LE; LE_AND_LT = LE + " x " + LT;  
-        
-        str_Range_Prob_LeftParen = "P(";
-        str_Range_Prob_LTLT = " < x < ";
-        str_Range_Prob_LTLE = " < x " + LE;
-        str_Range_Prob_LELT = LE + " x <";
-        str_Range_Prob_LELE = LE + " x <" + LE;                       
     }
     
     protected void makeItHappen() {
@@ -148,6 +116,7 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     }
     
     protected void completeTheDeal() {
+        dm.whereIsWaldo(119, waldoFile, " --- completeTheDeal()");
         initializeGraphParameters();
         setUpUI();       
         setUpAnchorPane();  //  Done in super
@@ -157,11 +126,13 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     }
     
     protected void setUpUI() { 
+        dm.whereIsWaldo(128, waldoFile, " --- setUpUI()");
         chooseStats_DialogView.constructGraphStatus();
         okToGraph = true;
-        txtTitle1 = new Text(50, 25, " Bootstrap -- " + descrOfVar);
-        title2String = "";
-        txtTitle2 = new Text (60, 45, title2String);
+        String strTitle1 = boot_Controller.getStrTitle1();
+        txtTitle1 = new Text(50, 25, strTitle1);
+        //strTitle2 = "This is title2String";
+        txtTitle2 = new Text (60, 45, strTitle2);
         txtTitle1.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,20));
         txtTitle2.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,15)); 
     }
@@ -187,7 +158,7 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     }
     
     public void respondToChanges() {
-        dm.whereIsWaldo(190, waldoFile, "respondToChanges()");
+        dm.whereIsWaldo(190, waldoFile, " --- respondToChanges()");
         chooseStats_DialogView.constructGraphStatus();
         // Check for shading
         leftTailChecked = chooseStats_DistrModel.get_LeftTail_IsChecked();
@@ -198,17 +169,6 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
         al_ProbCalcs_STF = chooseStats_DialogView.getAllTheSTFs(); 
         int nSTFs = al_ProbCalcs_STF.getSize();
 
-        /***************************************************************
-         *     STFs and dbl_STFs are:                                  *
-         *     [0] mu                                                  *
-         *     [1] sigma                                               *
-               [2] left probability                                    *
-         *     [3] middle probability                                  *
-         *     [4] right probability                                   *
-         *     [5] left-mid boundary                                   *
-         *     [6] mid-right boundary                                  *
-         *                                                             *
-         ***************************************************************/
         dbl_AllTheSTFs = new double[nSTFs];
 
         for (int ithSTF = 0; ithSTF < nSTFs; ithSTF++) {
@@ -285,4 +245,5 @@ public class Super_ChooseStats_DistrView extends BivariateScale_W_CheckBoxes_Vie
     }
     
     public Pane getTheContainingPane() { return theContainingPane; }
+    public void setStrTitle2 (String strTitle2String) { strTitle2 = strTitle2String; }
 }

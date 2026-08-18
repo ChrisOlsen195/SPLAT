@@ -1,7 +1,7 @@
 /**************************************************
  *            OneProp_Power_Dashboard             *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/21/26                      *
+ *                    18:00                       *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -34,7 +34,7 @@ public class OneProp_Power_Dashboard extends Dashboard {
     
     public OneProp_Power_Dashboard(OneProp_Power_Controller oneProp_Power_Controller) {
         super(5);
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("38 *** OneProp_Power_Dashboard, Constructing");
         }
         this.oneProp_Power_Controller = oneProp_Power_Controller;
@@ -42,7 +42,9 @@ public class OneProp_Power_Dashboard extends Dashboard {
     
     public void initializeFurther() {
         oneProp_Power_Model = oneProp_Power_Controller.get_power_Model_Z();
-        oneProp_Power_Model.printModelStuff();
+        if (printTheStuff) {
+            oneProp_Power_Model.printModelStuff();
+        }
         nCheckBoxes = 5;
         checkBoxDescr = new String[5]; 
         checkBoxDescr[0] = "Power distributions";
@@ -101,8 +103,7 @@ public class OneProp_Power_Dashboard extends Dashboard {
         backGround.setPrefSize(dashWidth, backGroundHeight);  
     }
     
-    public void populateTheBackGround() {
-        //String[] checkBoxDescr = { "Z-test", "HBoxPlot", "VBoxPlot"};  
+    public void populateTheBackGround() { 
         oneProp_Power_Model.restoreNullValues();
         initHeight[0] = 500.0;
         oneProp_Power_PdfView = new OneProp_Power_PdfView(oneProp_Power_Model, this,

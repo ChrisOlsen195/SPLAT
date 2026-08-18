@@ -37,8 +37,8 @@ public class ANOVA1_Controller {
 
     public ANOVA1_Controller(Data_Manager dm) {
         this.dm = dm;
-        if (printTheStuff == true) {
-            System.out.println("41 *** ANOVA1_Controller (Super), Constructing");
+        if (printTheStuff) {
+            System.out.println(" *** 41 ANOVA1_Controller (Super), Constructing");
         }
         anova1_ColsOfData = new ArrayList();
         varLabel = new ArrayList();

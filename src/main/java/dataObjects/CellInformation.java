@@ -13,14 +13,14 @@ public class CellInformation {
     
     // The -1's are so that a col or row can be individually (re)set
     public void setColAndRow(int toThisCol, int toThisRow) {
-            col = toThisCol;
-            row = toThisRow;
+        col = toThisCol;
+        row = toThisRow;
     }
     
     public void setCol_Row_Contents(int toThisCol, int toThisRow, String toThisContent) {
-            col = toThisCol;
-            row = toThisRow;
-            contents = toThisContent;
+        col = toThisCol;
+        row = toThisRow;
+        contents = toThisContent;
     }
     
     public CellInformation getRowAndCol() {return this; }

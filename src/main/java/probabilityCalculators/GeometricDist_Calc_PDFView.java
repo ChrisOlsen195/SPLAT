@@ -1,24 +1,15 @@
 /**************************************************
  *             GeometricDist_Calc_PDFView         *
- *                    11/01/25                    *
- *                     12:00                      *
+ *                    06/22/26                    *
+ *                     15:00                      *
  *************************************************/
 package probabilityCalculators;
 
 import genericClasses.JustAnAxis;
 import java.util.ArrayList;
 import javafx.geometry.Side;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;  //  Need for Static AnchorPane
 import javafx.scene.paint.Color;
-//import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -58,7 +49,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
         super(probCalc_Dashboard, placeHoriz, placeVert,
                         withThisWidth, withThisHeight); 
         if (printTheStuff) {
-            System.out.println("60 *** GeometricDist_Calc_PDFView, Constructing");
+            System.out.println("52 *** GeometricDist_Calc_PDFView, Constructing");
         }              
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -88,7 +79,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
     @Override
     protected void setUpUI() { 
         if (printTheStuff) {
-            System.out.println("91 *** GeometricDist_Calc_PDFView, setUpUI()");
+            System.out.println("82 --- GeometricDist_Calc_PDFView, setUpUI()");
         } 
         String title2String;
         okToGraph = geometricDist_Calc_DialogView.getOKToGraph();
@@ -101,7 +92,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     public void prepareTheSupportAxis() {
         if (printTheStuff) {
-            //System.out.println("104 *** GeometricDist_Calc_PDFView, prepareTheSupportAxis()");
+            //System.out.println("95 --- GeometricDist_Calc_PDFView, prepareTheSupportAxis()");
         } 
         xGraphLeft = fromHere;   
         xGraphRight = toThere;
@@ -116,7 +107,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     public String respondToChanges() {
         if (printTheStuff) {
-            System.out.println("119 *** GeometricDist_Calc_PDFView, respondToChanges()");
+            System.out.println("110 --- GeometricDist_Calc_PDFView, respondToChanges()");
         } 
         returnStatus = "OK";
         
@@ -225,7 +216,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
                     break;
 
                 default: 
-                    String switchFailure = "Switch failure: GeomDist_Calc_PDFView 228, probSelection = " + String.valueOf(probSelection);
+                    String switchFailure = "Switch failure: GeomDist_Calc_PDFView 227, probSelection = " + String.valueOf(probSelection);
                     MyAlerts.showUnexpectedErrorAlert(switchFailure); 
             }
             txtTitle2.setText(strAnswer);
@@ -236,7 +227,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
    @Override
     public void initializeGraphParameters() { 
         if (printTheStuff) {
-            //System.out.println("239 *** GeometricDist_Calc_PDFView, initializeGraphParameters()");
+            //System.out.println("230 --- GeometricDist_Calc_PDFView, initializeGraphParameters()");
         }
         fromHere = init_LeftX;
         toThere = init_RightX;
@@ -257,7 +248,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
 
     private void reInitializeGraphParameters() { 
         if (printTheStuff) {
-            System.out.println("260 *** GeometricDist_Calc_PDFView, reInitializeGraphParameters()");
+            System.out.println("251 --- GeometricDist_Calc_PDFView, reInitializeGraphParameters()");
         }
         geometric_nToDisplay = geometricDist_Calc_DialogView.getGeometric_nToDisplay();
         geometric_P = geometricDist_Calc_DialogView.getGeometric_p();
@@ -281,8 +272,8 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
     @Override
     public void doTheGraph() { 
         if (printTheStuff) {
-            System.out.println("*** 284 BinomialDist_Calc_PDFView, doTheGraph()");
-            System.out.println("--- 285 okToGraph = " + geometricDist_Calc_DialogView.getOKToGraph());
+            System.out.println("275 --- BinomialDist_Calc_PDFView, doTheGraph()");
+            System.out.println("276 ... okToGraph = " + geometricDist_Calc_DialogView.getOKToGraph());
         }
         okToGraph = geometricDist_Calc_DialogView.getOKToGraph();
         
@@ -343,26 +334,12 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
         
         if (probabilitiesDesired) { printTheProbs(); }
         if (quartilesDesired) { printTheQuartiles(); }
-        if (momentsDesired) {printTheMoments(); }
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));   
+        if (momentsDesired) {printTheMoments(); }   
     }
     
     private void printTheProbs() {
         if (printTheStuff) {
-            System.out.println("365 *** GeometricDist_Calc_PDFView, printTheProbs()");
+            System.out.println("342 --- GeometricDist_Calc_PDFView, printTheProbs()");
         }
         double xPosition_ithBar, yPosition_ithBar, prob_ithBar;
         String strProb;
@@ -383,7 +360,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     private void printTheQuartiles() {
         if (printTheStuff) {
-            System.out.println("386 *** GeometricDist_Calc_PDFView, printTheQuartiles()");
+            System.out.println("363 --- GeometricDist_Calc_PDFView, printTheQuartiles()");
         }
         double xPositionQ1, xPositionQ2, xPositionQ3;
         double yPositionQ1, yPositionQ2, yPositionQ3;
@@ -392,9 +369,9 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
         q2 = geomDistr.getPercentile(0.50);
         q3 = geomDistr.getPercentile(0.75);    
         if (printTheStuff) {
-            System.out.println("395 --- GeometricDist_Calc_PDFView, Q1 = " + q1);
-            System.out.println("396 --- GeometricDist_Calc_PDFView, Q2 = " + q2);
-            System.out.println("397 --- GeometricDist_Calc_PDFView, Q3 = " + q3);
+            System.out.println("... 394 GeometricDist_Calc_PDFView, Q1 = " + q1);
+            System.out.println("... 395 GeometricDist_Calc_PDFView, Q2 = " + q2);
+            System.out.println("... 396 GeometricDist_Calc_PDFView, Q3 = " + q3);
         }
         xPositionQ1 = xAxis.getDisplayPosition(q1) - 16;
         xPositionQ2 = xAxis.getDisplayPosition(q2) - 16;
@@ -416,7 +393,7 @@ public class GeometricDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     private void printTheMoments() {
         if (printTheStuff) {
-            System.out.println("414 *** GeometricDist_Calc_PDFView, printTheMoments()");
+            System.out.println("396 --- GeometricDist_Calc_PDFView, printTheMoments()");
         }
         if (!geometricDist_Calc_DialogView.getThisSTF(0).isEmpty()) {   // i.e. not initializing  
             

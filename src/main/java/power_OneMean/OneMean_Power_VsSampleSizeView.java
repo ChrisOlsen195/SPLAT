@@ -1,7 +1,7 @@
 /**************************************************
  *        OneMean_Power_VsSampleSizeView          *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/24/26                      *
+ *                    06:00                       *
  *************************************************/
 package power_OneMean;
 
@@ -16,21 +16,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import superClasses.*;
 import genericClasses.*;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 
-public class OneMean_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_View
-{
+public class OneMean_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
-    double yMin, yMax, effectSize;
+    int sampleSize;
+    
+    double yMin, yMax, effectSize, dbl_SampleSize, dbl_daN, power;
 
     //  FX 
     Pane theContainingPane;
@@ -44,17 +38,21 @@ public class OneMean_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("48 *** OneMean_Power_VsSampleSizeView, Constructing");
+        if (printTheStuff) {
+            System.out.println("42 *** OneMean_Power_VsSampleSizeView, Constructing");
         }
         this.oneMean_Power_Model = oneMean_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        
+        sampleSize = oneMean_Power_Model.getSampleSize();
+        if (printTheStuff) {
+            System.out.println("49 --- OneMean_Power_VsSampleSizeView, sampleSize = " + sampleSize);
+        }
+        dbl_SampleSize = sampleSize;        
         graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();                
         alpha = oneMean_Power_Model.getAlpha();
         effectSize = oneMean_Power_Model.getEffectSize();
-        fromHere = 1.0; toThere = 50.0;
+        fromHere = 1.0; toThere = dbl_SampleSize;
         makeItHappen();
     }  
     
@@ -127,11 +125,10 @@ public class OneMean_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
         fromHere = startHere; toThere = endHere;
     }
     
-    public double getInitialYMax() { return 1.025; }
+    //public double getInitialYMax() { return 1.025; }
    
     @Override
     public void doTheGraph() {      
-        double power, dbl_daN;
         
         double text1Width = txtTitle_1.getLayoutBounds().getWidth();
         double text2Width = txtTitle_2.getLayoutBounds().getWidth();
@@ -170,36 +167,38 @@ public class OneMean_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
         
         gc.setLineWidth(2);
         gc.setStroke(Color.BLACK);  
+        
         oneMean_Power_Model.restoreNullValues();
         //  Set initial display interval
         yStart = yAxis.getDisplayPosition(0.0);
         yStop = yAxis.getDisplayPosition(1.0);       
-        
-        for (int daN = 2; daN < 201; daN++) {
+        // Get needed current values for restoration 
+        // In the case of means, the StErrs are equal
+        double forRestorationNullStErr = oneMean_Power_Model.getStErr_NullParam();
+        double forRestorationAltStErr = oneMean_Power_Model.getStErr_AltParam(); 
+        System.out.println("179 OneMean_PowerVsN, sampleSize = " + sampleSize);
+        for (int daN = 2; daN < sampleSize; daN++) {
             dbl_daN = daN;
             oneMean_Power_Model.setSampleSize(daN);
-            power = oneMean_Power_Model.calculatePower();         
+            // Calculate changing stErrors
+            double tempStErrNull = oneMean_Power_Model.getNullSigma()/ Math.sqrt(dbl_daN);
+            double tempStErrAlt = tempStErrNull;
+            oneMean_Power_Model.setStErr_NullParam(tempStErrNull);
+            oneMean_Power_Model.setStErr_AltParam(tempStErrAlt);
+            power = oneMean_Power_Model.calculatePower();       
+        if (printTheStuff) {
+            System.out.println("/n190 ... OneMean_Power_VsSampleSizeView, daN = " + daN);
+            System.out.println("191 tempNull/AltStErr = " + tempStErrNull + " / " + tempStErrAlt);
+            System.out.println("192 power = " + power);
+        }
             xStop = xAxis.getDisplayPosition(dbl_daN);
-            yStop = yAxis.getDisplayPosition(power);            
+            yStop = yAxis.getDisplayPosition(power);     
             gc.setLineWidth(2);
             gc.setStroke(Color.BLUE); 
             gc.strokeOval(xStop - 1., yStop + 1., 2, 2);
-        }     
-        oneMean_Power_Model.restoreNullValues();
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));       
+        }  
+        oneMean_Power_Model.setStErr_NullParam(forRestorationNullStErr);
+        oneMean_Power_Model.setStErr_AltParam(forRestorationAltStErr);
     }   //  end doTheGraph    
     
    public Pane getTheContainingPane() { return theContainingPane; }  

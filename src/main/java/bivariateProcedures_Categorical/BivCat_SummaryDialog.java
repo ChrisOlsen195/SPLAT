@@ -287,58 +287,58 @@ public class BivCat_SummaryDialog extends Splat_Dialog {
         
     // **********************   Strings and Text  ***********************************    
 
-    strTop_Experiment = "\n\n          ******   Bivariate Categorical Analysis       *****" +
-                         "\n\n     In the fields below, globally define the 'column' variable," +                
-                         "\n        the 'row' variable, and the number of vaues for each.";    
+        strTop_Experiment = "\n\n          ******   Bivariate Categorical Analysis       *****" +
+                             "\n\n     In the fields below, globally define the 'column' variable," +                
+                             "\n        the 'row' variable, and the number of vaues for each.";    
 
-    strMiddle_Experiment = "\n\n       ******   Bivariate Categorical Analysis       *****" +
-                            "\n\n         In the fields below, indicate the values of the  " +                
-                            "\n                    two variales under study."; 
+        strMiddle_Experiment = "\n\n       ******   Bivariate Categorical Analysis       *****" +
+                                "\n\n         In the fields below, indicate the values of the  " +                
+                                "\n                    two variales under study."; 
 
-    txt_Bottom = new Text("\n\n      ******  In the fields below, enter the observed values.  *****\n\n");
-    
-// **********************   Labels  *********************************** 
-    lbl_RowVar = new Label("");              
-    lbl_NRowCats = new Label(""); 
-    lbl_ColVar = new Label("");
-    lbl_NColCats = new Label("");
-    lbl_variable1 = new Label("");
-    lbl_variable2 = new Label("");        
+        txt_Bottom = new Text("\n\n      ******  In the fields below, enter the observed values.  *****\n\n");
 
-    txt_Top = new Text(strTop_Experiment); 
-    txt_Middle = new Text(strMiddle_Experiment);  
-    lbl_RowVar.setText("    Rows: "); 
-    lbl_ColVar.setText(" Columns: "); 
+    // **********************   Labels  *********************************** 
+        lbl_RowVar = new Label("");              
+        lbl_NRowCats = new Label(""); 
+        lbl_ColVar = new Label("");
+        lbl_NColCats = new Label("");
+        lbl_variable1 = new Label("");
+        lbl_variable2 = new Label("");        
 
-// **********************   TextFields  ***********************************         
-    al_RowCol_STF.get(1).setSmartTextField_MB_POSITIVEINTEGER(true);    
-    al_RowCol_STF.get(3).setSmartTextField_MB_POSITIVEINTEGER(true); 
-    al_RowCol_STF.get(0).getTextField().requestFocus();
+        txt_Top = new Text(strTop_Experiment); 
+        txt_Middle = new Text(strMiddle_Experiment);  
+        lbl_RowVar.setText("    Rows: "); 
+        lbl_ColVar.setText(" Columns: "); 
 
- // **********************   HBoxes, VBoxes *******************************   
-    vBoxVisControl = new VBox(); 
-    hBoxWhereToNext = new HBox();
-    hBoxWhereToNext.setAlignment(Pos.CENTER);
-    // Insets top, right, bottom, left
-    Insets margin = new Insets(20, 10, 0, 10);
-    HBox.setMargin(btnCancel, margin);
-    HBox.setMargin(btnClearControl, margin);
-    HBox.setMargin(btnContinue, margin);
-    hBoxWhereToNext.getChildren().addAll(btnCancel, btnClearControl, btnContinue);
+    // **********************   TextFields  ***********************************         
+        al_RowCol_STF.get(1).setSmartTextField_MB_POSITIVEINTEGER(true);    
+        al_RowCol_STF.get(3).setSmartTextField_MB_POSITIVEINTEGER(true); 
+        al_RowCol_STF.get(0).getTextField().requestFocus();
 
-     // *************************   Misc  ***********************************      
-    Font CourierNew_14 = Font.font("Courier New", FontWeight.BOLD, FontPosture.REGULAR, 14);
-    txt_Top.setFont(CourierNew_14);
-    txt_Middle.setFont(CourierNew_14);
-    txt_Bottom.setFont(CourierNew_14);
-    
-    lbl_RowVar.setFont(CourierNew_14);
-    lbl_ColVar.setFont(CourierNew_14);
-    lbl_NRowCats.setFont(CourierNew_14);
-    lbl_NColCats.setFont(CourierNew_14);
-    lbl_variable1.setFont(CourierNew_14); 
-    lbl_variable2.setFont(CourierNew_14); 
-}    
+     // **********************   HBoxes, VBoxes *******************************   
+        vBoxVisControl = new VBox(); 
+        hBoxWhereToNext = new HBox();
+        hBoxWhereToNext.setAlignment(Pos.CENTER);
+        // Insets top, right, bottom, left
+        Insets margin = new Insets(20, 10, 0, 10);
+        HBox.setMargin(btnCancel, margin);
+        HBox.setMargin(btnClearControl, margin);
+        HBox.setMargin(btnContinue, margin);
+        hBoxWhereToNext.getChildren().addAll(btnCancel, btnClearControl, btnContinue);
+
+         // *************************   Misc  ***********************************      
+        Font CourierNew_14 = Font.font("Courier New", FontWeight.BOLD, FontPosture.REGULAR, 14);
+        txt_Top.setFont(CourierNew_14);
+        txt_Middle.setFont(CourierNew_14);
+        txt_Bottom.setFont(CourierNew_14);
+
+        lbl_RowVar.setFont(CourierNew_14);
+        lbl_ColVar.setFont(CourierNew_14);
+        lbl_NRowCats.setFont(CourierNew_14);
+        lbl_NColCats.setFont(CourierNew_14);
+        lbl_variable1.setFont(CourierNew_14); 
+        lbl_variable2.setFont(CourierNew_14); 
+    }    
     
     public void setCurrentFocusOn(int thisListArrayElement) {
         if (printTheStuff) {

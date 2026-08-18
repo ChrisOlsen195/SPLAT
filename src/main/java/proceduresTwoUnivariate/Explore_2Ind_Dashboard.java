@@ -138,6 +138,7 @@ public class Explore_2Ind_Dashboard extends Dashboard {
         qqPlotContainingPane.setStyle(containingPaneStyle);
         
         initWidth[3] = 650;
+        initHeight[3] = 675;
         bbsl_View = new BBSL_View(bbsl_Model, this, 0.5 * sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
         bbsl_View.completeTheDeal();        
         bbslContainingPane = bbsl_View.getTheContainingPane();  

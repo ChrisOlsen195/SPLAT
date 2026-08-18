@@ -69,7 +69,7 @@ public class TwoProp_Inf_Dashboard extends Dashboard {
     
     public void putEmAllUp() { 
         if (printTheStuff) {
-            System.out.println("*** 72 TwoProp_Inf_Dashboard, putEmAllUp()");
+            System.out.println("--- 72 TwoProp_Inf_Dashboard, putEmAllUp()");
         }
         if (checkBoxSettings[0] == true) {
             twoProp_Inf_PDF_ContainingPane.setVisible(true);
@@ -104,7 +104,7 @@ public class TwoProp_Inf_Dashboard extends Dashboard {
     
     public void populateTheBackGround() { 
         if (printTheStuff) {
-            System.out.println("*** 106 TwoProp_Inf_Dashboard, populateTheBackGround()");
+            System.out.println("--- 107 TwoProp_Inf_Dashboard, populateTheBackGround()");
         }
         containingPaneStyle =  "-fx-background-color: white;" +
             "-fx-border-color: blue, blue;" + 

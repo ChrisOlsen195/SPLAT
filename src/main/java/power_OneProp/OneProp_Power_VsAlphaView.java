@@ -1,7 +1,7 @@
 /**************************************************
  *           OneProp_Power_VsAlphaView            *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/21/26                      *
+ *                    18:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -46,18 +46,18 @@ public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
                          double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         if (printTheStuff == true) {
-            System.out.println("49 *** OneProp_Power_VsAlphaView, Constructing");
+            System.out.println("*** 49 OneProp_Power_VsAlphaView, Constructing");
         }
         this.oneProp_PowerModel = oneProp_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         oneProp_Power_Model.restoreNullValues();
         sampleSize = oneProp_Power_Model.getSampleSize();
-        hypothProp = oneProp_Power_Model.getNullProp();
-        hypothStDev = oneProp_Power_Model.getStErr_PNull();
+        hypothProp = oneProp_Power_Model.getNullParam();
+        hypothStDev = oneProp_Power_Model.getStErr_NullParam();
         effectSize = oneProp_Power_Model.getEffectSize();
         alpha = oneProp_Power_Model.getAlpha();
-        altMu = oneProp_Power_Model.getAltProp();
+        altMu = oneProp_Power_Model.getAltParam();
         effectSize = oneProp_Power_Model.getEffectSize();
         fromHere = 0.000; toThere = 0.200;
         makeItHappen();
@@ -202,22 +202,7 @@ public class OneProp_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
             xx0 = xx1; yy0 = yy1;   //  Next start point for line segment
         }     
         
-        oneProp_PowerModel.restoreNullValues();
-
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));
-        
+        oneProp_PowerModel.restoreNullValues();  
     }     
     
    public Pane getTheContainingPane() {  return theContainingPane; }

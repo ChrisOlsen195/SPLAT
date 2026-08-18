@@ -1,7 +1,7 @@
 /**************************************************
  *           IndepProps_Power_Model               *
- *                  04/17/25                      *
- *                    12:00                       *
+ *                  05/24/26                      *
+ *                    15:00                       *
  *************************************************/
 package power_twoprops;
 
@@ -16,14 +16,14 @@ public class IndepProps_Power_Model {
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
-    int n_1, n_2, archived_n_1, archived_n_2;
+    int sampleSize_1, sampleSize_2, archivedSampleSize_1, archivedSampleSize_2;
     
-    double alpha, meanAltDiffProps, altDiffInProps, nullDiffInProps, effectSize,
-           null_Prop_1, null_Prop_2, nullVar_1, nullVar_2, altProp_1, altProp_2, 
-           nullLowerLimit, nullUpperLimit, loCum, power, //zAltDiffProps,
+    double alpha, meanAltDiffInParams, altDiffInProps, nullDiffInProps, effectSize,
+           nullParam_1, nullParam_2, nullVar_1, nullVar_2, altParam_1, altParam_2, 
+           nullLowerLimit, nullUpperLimit, loCum, power,
            archivedNullDiffInProps, archivedNullVar_1, archivedNullVar_2,
            archivedAltDiffInProps, archivedAlpha, archivedEffectSize, isq_Sigma, 
-           meanNullDiffProps, standErrNullDiffProps, standErrAltDiffProps, 
+           nullDiffInParams, stErrNullDiffInParams, stErrAltDiffInParams, 
            epsilon, prePhi, critZForOneTailedAlpha, critZForTwoTailedAlpha, 
            criticalZ, archivedNullProp_1,archivedNullProp_2;
     
@@ -36,7 +36,7 @@ public class IndepProps_Power_Model {
     StandardNormal standardNormal;
     
     public IndepProps_Power_Model(IndepProps_Power_Controller indepMeans_Power_Controller) {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("40 *** IndepProps_Power_Model, Constructing");
         }
         this.indepProps_Power_Controller = indepMeans_Power_Controller;
@@ -62,26 +62,26 @@ public class IndepProps_Power_Model {
             criticalZ = critZForTwoTailedAlpha;
         } else { criticalZ = critZForOneTailedAlpha; }
         
-        double criticalValue = criticalZ * standErrNullDiffProps;
+        double criticalValue = criticalZ * stErrNullDiffInParams;
           
         switch(rejectionCriterion) {
             case "LessThan": 
                 epsilon = 0.0;  // p1 - p2???  Null diff?
-                prePhi = (effectSize - epsilon)/standErrNullDiffProps - critZForOneTailedAlpha;
+                prePhi = (effectSize - epsilon)/stErrNullDiffInParams - critZForOneTailedAlpha;
                 power = Normal.cumulative(prePhi, 0.0, 1.0, true, false);                 
-                loCum = Normal.cumulative(-criticalValue, meanAltDiffProps, standErrAltDiffProps, true, false);
+                loCum = Normal.cumulative(-criticalValue, meanAltDiffInParams, stErrAltDiffInParams, true, false);
                 power = loCum;
                 break;
                 
             case "NotEqual":   
                 epsilon = 0.0;  // p1 - p2???  Null diff?
-                prePhi = Math.abs(effectSize)/standErrNullDiffProps - critZForTwoTailedAlpha;
+                prePhi = Math.abs(effectSize)/stErrNullDiffInParams - critZForTwoTailedAlpha;
                 power = Normal.cumulative(prePhi, 0.0, 1.0, true, false); 
                 break;
                 
             case "GreaterThan":
                 epsilon = 0.0;  // p1 - p2???  Null diff?
-                prePhi = (effectSize - epsilon)/standErrNullDiffProps - critZForOneTailedAlpha;
+                prePhi = (effectSize - epsilon)/stErrNullDiffInParams - critZForOneTailedAlpha;
                 power = Normal.cumulative(prePhi, 0.0, 1.0, true, false);   
                 break;   
                 
@@ -94,31 +94,31 @@ public class IndepProps_Power_Model {
        
     public void calculateNullDistribution() {
         double p1, p2, q1, q2, /*pooled_P, pooled_Q,*/ dbl_n1, dbl_n2;
-        p1 = null_Prop_1;
-        p2 = null_Prop_2;
-        dbl_n1 = n_1;
-        dbl_n2 = n_2;
+        p1 = nullParam_1;
+        p2 = nullParam_2;
+        dbl_n1 = sampleSize_1;
+        dbl_n2 = sampleSize_2;
         
         q1 = 1.0 - p1;
         q2 = 1.0 - p2;
 
-        meanNullDiffProps = 0.0;
-        standErrNullDiffProps = Math.sqrt(p1 * q1 / dbl_n1 + p2 * q2 / dbl_n2);  
+        nullDiffInParams = 0.0;
+        stErrNullDiffInParams = Math.sqrt(p1 * q1 / dbl_n1 + p2 * q2 / dbl_n2);  
     }
     
     public void calculateAltDistribution() {
         double p1, p2, q1, q2, dbl_n1, dbl_n2;
-        p1 = null_Prop_1;
-        p2 = null_Prop_2;
+        p1 = nullParam_1;
+        p2 = nullParam_2;
         p2 = p1 - effectSize;
-        dbl_n1 = n_1;
-        dbl_n2 = n_2;
+        dbl_n1 = sampleSize_1;
+        dbl_n2 = sampleSize_2;
 
         q1 = 1.0 - p1;
         q2 = 1.0 - p2;
 
-        meanAltDiffProps = p1 - p2;
-        standErrAltDiffProps = Math.sqrt(p1 * q1 / dbl_n1 + p2 * q2 / dbl_n2); 
+        meanAltDiffInParams = p1 - p2;  //----------------------------------
+        stErrAltDiffInParams = Math.sqrt(p1 * q1 / dbl_n1 + p2 * q2 / dbl_n2); 
         //zAltDiffProps = meanAltDiffProps / standErrAltDiffProps;
     }
         
@@ -128,22 +128,22 @@ public class IndepProps_Power_Model {
         
         switch (rejectionCriterion) {
             case "LessThan":
-                nullLowerLimit = Normal.quantile(alpha, meanNullDiffProps, 
-                                             standErrNullDiffProps, true, false);
+                nullLowerLimit = Normal.quantile(alpha, nullDiffInParams, 
+                                             stErrNullDiffInParams, true, false);
                 nullUpperLimit = Double.POSITIVE_INFINITY; 
             break;
                     
             case "NotEqual":
-                nullLowerLimit = Normal.quantile(alpha / 2., meanNullDiffProps, 
-                                             standErrNullDiffProps, true, false);
-                nullUpperLimit = Normal.quantile(1.0 - alpha / 2., meanNullDiffProps, 
-                                             standErrNullDiffProps, true, false);  
+                nullLowerLimit = Normal.quantile(alpha / 2., nullDiffInParams, 
+                                             stErrNullDiffInParams, true, false);
+                nullUpperLimit = Normal.quantile(1.0 - alpha / 2., nullDiffInParams, 
+                                             stErrNullDiffInParams, true, false);  
             break;
                             
             case "GreaterThan":
                 nullLowerLimit = Double.NEGATIVE_INFINITY;
-                nullUpperLimit = Normal.quantile(1.0 - alpha, meanNullDiffProps, 
-                                             standErrNullDiffProps, true, false); 
+                nullUpperLimit = Normal.quantile(1.0 - alpha, nullDiffInParams, 
+                                             stErrNullDiffInParams, true, false); 
             break;
             
             default:
@@ -154,23 +154,23 @@ public class IndepProps_Power_Model {
         nonRejectionRegion = new Point_2D(nullLowerLimit, nullUpperLimit);
     }
     
-    public double getProp_1() { return null_Prop_1; }
-    public void setProp_1(double toThis) { null_Prop_1 = toThis; }
+    public double getNullParam_1() { return nullParam_1; }
+    public void setProp_1(double toThis) { nullParam_1 = toThis; }
     
-    public double getProp_2() { return null_Prop_2; }
-    public void setProp_2(double toThis) { null_Prop_2 = toThis; }
+    public double getNullParam_2() { return nullParam_2; }
+    public void setNullParam_2(double toThis) { nullParam_2 = toThis; }
     
-    public double getAltProp_1() { return altProp_1; }
-    public void setAltProp_1(double toThis) { altProp_1 = toThis;  }
+    public double getAltParam_1() { return altParam_1; }
+    public void setAltParam_1(double toThis) { altParam_1 = toThis;  }
     
-    public double getAltProp_2() { return altProp_2; }
-    public void setAltProp_2(double toThis) { altProp_2 = toThis; }
+    public double getAltParam_2() { return altParam_2; }
+    public void setAltParam_2(double toThis) { altParam_2 = toThis; }
     
-    public int getSampleSize_1() { return n_1; }
-    public void setSampleSize_1(int toThis) { n_1 = toThis; }
+    public int getSampleSize_1() { return sampleSize_1; }
+    public void setSampleSize_1(int toThis) { sampleSize_1 = toThis; }
     
-    public int getSampleSize_2() { return n_2; }
-    public void setSampleSize_2(int toThis) { n_2 = toThis; }
+    public int getSampleSize_2() { return sampleSize_2; }
+    public void setSampleSize_2(int toThis) { sampleSize_2 = toThis; }
     
     public double getAlpha() { return alpha; }
     public void setAlpha(double toThis) { 
@@ -190,14 +190,14 @@ public class IndepProps_Power_Model {
     }
    
     // getSENull and Alt are for graphing in the PDFView
-    public double getStandErrNullDiffProps() {return standErrNullDiffProps; }
-    public void setStandErrNullDiffProps(double toThis) {
-        standErrNullDiffProps = toThis; 
+    public double getStErrNullDiffInParams() {return stErrNullDiffInParams; }
+    public void setStErrNullDiffInParams(double toThis) {
+        stErrNullDiffInParams = toThis; 
     }
     
-    public double getStandErrAltDiffProps() {return standErrAltDiffProps; }
-    public void setStandErrAltDiffProps(double toThis) {
-        standErrAltDiffProps = toThis; 
+    public double getStErrAltDiffInParams() {return stErrAltDiffInParams; }
+    public void setStErrAltDiffInParams(double toThis) {
+        stErrAltDiffInParams = toThis; 
     }
     
     public double getIsq_Sigma() {return isq_Sigma; }
@@ -222,10 +222,10 @@ public class IndepProps_Power_Model {
     public void archiveNullValues() {
         archivedNullDiffInProps = nullDiffInProps;
         archivedAltDiffInProps = altDiffInProps;
-        archived_n_1 = n_1;
-        archived_n_2 = n_2;
-        archivedNullProp_1 = null_Prop_1;
-        archivedNullProp_2 = null_Prop_2;
+        archivedSampleSize_1 = sampleSize_1;
+        archivedSampleSize_2 = sampleSize_2;
+        archivedNullProp_1 = nullParam_1;
+        archivedNullProp_2 = nullParam_2;
         archivedNullVar_1 = nullVar_1;
         archivedNullVar_2 = nullVar_2;
         archivedAlpha = alpha;
@@ -236,10 +236,10 @@ public class IndepProps_Power_Model {
     public void restoreNullValues() {
         nullDiffInProps = archivedNullDiffInProps;
         altDiffInProps = archivedAltDiffInProps ;
-        n_1 = archived_n_1;
-        n_2 = archived_n_2;
-        null_Prop_1 = archivedNullProp_1;
-        null_Prop_2 = archivedNullProp_2;
+        sampleSize_1 = archivedSampleSize_1;
+        sampleSize_2 = archivedSampleSize_2;
+        nullParam_1 = archivedNullProp_1;
+        nullParam_2 = archivedNullProp_2;
         nullVar_1 = archivedNullVar_1;
         nullVar_2 = archivedNullVar_2;
         alpha  = archivedAlpha; 
@@ -260,10 +260,10 @@ public class IndepProps_Power_Model {
         powerReport.add(String.format("%15s ", sourceString));
         addNBlankLinesToPowerReport(1);
         sourceString = "Sample size 1 =";
-        powerReport.add(String.format("%20s %4d", sourceString, n_1));
+        powerReport.add(String.format("%20s %4d", sourceString, sampleSize_1));
         addNBlankLinesToPowerReport(1);
         sourceString = "Sample size 2 =";
-        powerReport.add(String.format("%20s %4d", sourceString, n_2));
+        powerReport.add(String.format("%20s %4d", sourceString, sampleSize_2));
         addNBlankLinesToPowerReport(1);
         sourceString = "Effect Size =";
         powerReport.add(String.format("%20s %8.3f", sourceString, effectSize));       

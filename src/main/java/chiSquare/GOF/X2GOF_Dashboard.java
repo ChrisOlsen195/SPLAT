@@ -1,6 +1,6 @@
 /**********************0****************************
  *                X2GOF_Dashboard                 *
- *                    01/15/25                    *
+ *                    06/27/26                    *
  *                     15:00                      *
  *************************************************/
 /**************************************************
@@ -42,7 +42,7 @@ public class X2GOF_Dashboard extends Dashboard {
             
     public X2GOF_Dashboard(X2GOF_Controller x2GOF_Controller, X2GOF_Model x2GOF_Model) {
         super(5);
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("46 *** X2GOF_Dashboard, Constructing");
         }
         // nCheckBoxes = 5;

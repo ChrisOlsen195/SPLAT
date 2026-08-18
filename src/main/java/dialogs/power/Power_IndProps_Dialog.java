@@ -29,8 +29,8 @@ import utilityClasses.MyAlerts;
 public class Power_IndProps_Dialog extends Stage { 
     
     // POJOs
-    //boolean printTheStuff = true;
-    boolean printTheStuff = false;
+    boolean printTheStuff = true;
+    //boolean printTheStuff = false;
     
     boolean okToContinue, showValuesLeftBlankAlert;
     boolean bool_Prop1Good, bool_Prop2Good, valuesLeftBlank,

@@ -1,7 +1,7 @@
 /**************************************************
  *          OneProp_Power_Controller              *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/21/26                      *
+ *                    18:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -16,9 +16,10 @@ public class OneProp_Power_Controller {
     
     int  sampleSize;
     
-    double  alpha, nullProp, altProp, standErrPHat, effectSize, power;
+    double  alpha, nullProp, altProp, stErrNullP, stErrAltP, 
+            effectSize, power;
     
-    String strRejectionCriterion, strPrinted_Null, strPrinted_Alt, strReturnStatus;
+    String strRejCriterion, strPrinted_Null, strPrinted_Alt, strReturnStatus;
     
     // My classes
     OneProp_Power_Dashboard oneProp_Power_Dashboard;
@@ -27,8 +28,8 @@ public class OneProp_Power_Controller {
     Power_SingleProp_Dialog power_SingleProp_Dialog;
 
     public OneProp_Power_Controller() {
-        if (printTheStuff == true) {
-            System.out.println("31 *** OneProp_Power_Controller, Constructing");
+        if (printTheStuff) {
+            System.out.println("32 *** OneProp_Power_Controller, Constructing");
         }
         power_SingleProp_Dialog = new Power_SingleProp_Dialog();
     }
@@ -44,12 +45,30 @@ public class OneProp_Power_Controller {
         effectSize = power_SingleProp_Dialog.getEffectSize();
         altProp = nullProp + effectSize;
         sampleSize = power_SingleProp_Dialog.getSampleSize();
-        strRejectionCriterion = power_SingleProp_Dialog.getRejectionCriterion();
-        standErrPHat = Math.sqrt(nullProp * (1.0 - nullProp) / sampleSize);  
+        strRejCriterion = power_SingleProp_Dialog.getRejectionCriterion();
+        stErrNullP = Math.sqrt(nullProp * (1.0 - nullProp) / sampleSize);
+        stErrAltP = Math.sqrt(altProp * (1.0 - altProp) / sampleSize); 
         oneProp_Power_Model = new OneProp_Power_Model(this);
-        oneProp_Power_Model.setNullProp(nullProp);
+        oneProp_Power_Model.setNullParam(nullProp); 
+        oneProp_Power_Model.setAltParam(altProp);
+        oneProp_Power_Model.setStErr_NullParam(stErrNullP); 
+        oneProp_Power_Model.setStErr_NullParam(stErrAltP);
+        oneProp_Power_Model.setRejectionCriterion(strRejCriterion);
+        oneProp_Power_Model.setEffectSize(effectSize);  // Needs RejCrit
+
         
-        switch (strRejectionCriterion) {
+        if (printTheStuff) {
+            System.out.println( "56 OneProp_Power_Controller, alpha = " +  alpha);
+            System.out.println( "56 OneProp_Power_Controller, nullProp = " +  nullProp);
+            System.out.println( "56 OneProp_Power_Controller, altProp = " +  altProp);
+            System.out.println( "56 OneProp_Power_Controller, effectSize = " +  effectSize);
+            System.out.println( "56 OneProp_Power_Controller, sampleSize = " +  sampleSize);
+            System.out.println("56 OneProp_Power_Controller, strRejectionCriterion = " +  strRejCriterion);
+            System.out.println("56 OneProp_Power_Controller, stErrNullP = " +  stErrNullP);
+            System.out.println("56 OneProp_Power_Controller, stErrAltP = " +  stErrAltP);
+        }
+        
+        switch (strRejCriterion) {
             case "LessThan":
                 altProp = nullProp - effectSize;
                 break;
@@ -63,21 +82,20 @@ public class OneProp_Power_Controller {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: OneProp_Power_Controller 66 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneProp_Power_Controller 85 " + strRejCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);                
         }
         
-        oneProp_Power_Model.setRejectionCriterion(strRejectionCriterion);
-        oneProp_Power_Model.setAltProp(altProp);
+        oneProp_Power_Model.setRejectionCriterion(strRejCriterion);
         oneProp_Power_Model.setSampleSize(sampleSize);
         oneProp_Power_Model.setAlpha(alpha);  
         oneProp_Power_Model.setEffectSize(effectSize);
-
-        oneProp_Power_Model.setStandErr_PAlt(standErrPHat);
+        oneProp_Power_Model.setStErr_NullParam(stErrNullP);
+        oneProp_Power_Model.setStErr_AltParam(stErrAltP);
 
         strPrinted_Null = "p = " + String.valueOf(nullProp);
         
-        switch (strRejectionCriterion) {
+        switch (strRejCriterion) {
             case "LessThan":
                 strPrinted_Alt = "p < " + String.valueOf(nullProp);
                 break;
@@ -91,7 +109,7 @@ public class OneProp_Power_Controller {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneProp_Power_Controller 90 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneProp_Power_Controller 112 " + strRejCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
 
@@ -112,7 +130,7 @@ public class OneProp_Power_Controller {
     }  
     
     public OneProp_Power_Model get_power_Model_Z() { return oneProp_Power_Model;}
-    public String getRejectionCriterion() { return strRejectionCriterion; }    
+    public String getRejectionCriterion() { return strRejCriterion; }    
     public Point_2D getNonRejectionRegion() { return nonRejectionRegion; }    
     public double getNullProp() { return nullProp; }    
     public double getAltProp() { return altProp; }    

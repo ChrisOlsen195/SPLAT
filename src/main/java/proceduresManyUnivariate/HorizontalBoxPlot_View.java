@@ -126,8 +126,8 @@ public class HorizontalBoxPlot_View extends Region {
         explanatoryVariable = hBoxModel.getFirstVarDescription();
         responseVariable = hBoxModel.getSecondVarDescription();
         if (printTheStuff) {
-            System.out.println("*** 129 HorizontalBoxPlot_View, explanatoryVariable = " + explanatoryVariable);
-            System.out.println("*** 130 HorizontalBoxPlot_View, responseVariable = " + responseVariable);
+            System.out.println("... 129 HorizontalBoxPlot_View, explanatoryVariable = " + explanatoryVariable);
+            System.out.println("... 130 HorizontalBoxPlot_View, responseVariable = " + responseVariable);
         }
         initStuff();
     }
@@ -145,8 +145,8 @@ public class HorizontalBoxPlot_View extends Region {
         responseVariable = hBoxModel.getSecondVarDescription();   
         categoryLabels = hBoxModel.getCategoryLabels();
         if (printTheStuff) {
-            System.out.println("--- 148 HorizontalBoxPlot_View, explanatoryVariable = " + explanatoryVariable);
-            System.out.println("--- 149 HorizontalBoxPlot_View, responseVariable = " + responseVariable);
+            System.out.println("... 148 HorizontalBoxPlot_View, explanatoryVariable = " + explanatoryVariable);
+            System.out.println("... 149 HorizontalBoxPlot_View, responseVariable = " + responseVariable);
         }
         initStuff();
     }
@@ -163,7 +163,7 @@ public class HorizontalBoxPlot_View extends Region {
         strSubTitle = hBoxModel.getSubTitle();
         categoryLabels = hBoxModel.getCategoryLabels();
         if (printTheStuff) {
-            System.out.println("--- 166 HorizontalBoxPlot_View, categoryLabels = " + categoryLabels);
+            System.out.println("... 166 HorizontalBoxPlot_View, categoryLabels = " + categoryLabels);
         }
         initStuff();
     }
@@ -223,7 +223,7 @@ public class HorizontalBoxPlot_View extends Region {
     
     private void initStuff() {
         if (printTheStuff) {
-            System.out.println("--- 215 HorizontalBoxPlot_View, initStuff()");
+            System.out.println("--- 226 HorizontalBoxPlot_View, initStuff()");
         }
         strSubTitle = hBoxModel.getSubTitle();       
         nCheckBoxes = 3;

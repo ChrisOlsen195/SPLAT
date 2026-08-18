@@ -1,6 +1,6 @@
 /**************************************************
  *             ChooseStats_DialogView             *
- *                    12/31/25                    *
+ *                    08/02/26                    *
  *                     15:00                      *
  *************************************************/
 
@@ -36,43 +36,42 @@ public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
     // Make empty if no-print
     //String waldoFile = "ChooseStats_DialogView";
     String waldoFile = "";
-
     // FX classes
-
     // My classes
-    ChooseStats_DistrModel chooseStats_OriginalDistrModel,
-                           chooseStats_ShiftedDistrModel;
-    ChooseStats_Histo_DistrView chooseStats_OriginalDistrView,
-                                chooseStats_ShiftedDistrView;  
-    ChooseStats_DotPlot_DistrView chooseStats_DotPlot_OriginalDistrView,
-                                  chooseStats_DotPlot_ShiftedDistrView;
+    Boot_Controller boot_Controller;
+    DistrModel chooseStats_OriginalDistrModel;
+    DistrModel chooseStats_ShiftedDistrModel;
+    Histo_DistrView chooseStats_OriginalDistrView;
+    Histo_DistrView chooseStats_ShiftedDistrView;  
+    DotPlot_DistrView chooseStats_DotPlot_OriginalDistrView;
+    DotPlot_DistrView chooseStats_DotPlot_ShiftedDistrView;
 
     public ChooseStats_DialogView(ChooseStats_Dashboard chooseStats_Dashboard,
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(chooseStats_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight);  
         if (printTheStuff) {
-            System.out.println("*** 55 ChooseStats_DialogView, Constructing");
+            System.out.println(" *** 55 ChooseStats_DialogView, Constructing");
         }
-        chooseStats_Controller = chooseStats_Dashboard.get_Boot_Controller();
-        dm = chooseStats_Controller.getTheDataManager();
+        boot_Controller = chooseStats_Dashboard.get_Boot_Controller();
+        dm = boot_Controller.getTheDataManager();
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
     }    
         
     public void continueConstruction() {    
         if (printTheStuff) {
-            System.out.println("*** 65 ChooseStats_DialogView, continueConstruction()");
+            System.out.println(" --- 65 ChooseStats_DialogView, continueConstruction()");
         }
-        chooseStats_Controller.set_Boot_DialogView(this);
+        boot_Controller.set_Boot_DialogView(this);
         
-        chooseStats_OriginalDistrView = chooseStats_Controller.get_Boot_OriginalHisto_DistrView();
-        chooseStats_DotPlot_OriginalDistrView = chooseStats_Controller.get_Boot_OriginalDotPlot_DistrView();
-        chooseStats_OriginalDistrModel = chooseStats_Controller.getOriginal_DistrModel();
+        chooseStats_OriginalDistrView = boot_Controller.get_Boot_OriginalHisto_DistrView();
+        chooseStats_DotPlot_OriginalDistrView = boot_Controller.get_Boot_OriginalDotPlot_DistrView();
+        chooseStats_OriginalDistrModel = boot_Controller.getOriginal_DistrModel();
         
-        chooseStats_ShiftedDistrView = chooseStats_Controller.get_Boot_ShiftedHisto_DistrView();
-        chooseStats_DotPlot_ShiftedDistrView = chooseStats_Controller.get_Boot_ShiftedDotPlot_DistrView();
-        chooseStats_ShiftedDistrModel = chooseStats_Controller.getShifted_DistrModel();
+        chooseStats_ShiftedDistrView = boot_Controller.get_Boot_ShiftedHisto_DistrView();
+        chooseStats_DotPlot_ShiftedDistrView = boot_Controller.get_Boot_ShiftedDotPlot_DistrView();
+        chooseStats_ShiftedDistrModel = boot_Controller.getBootstrap_DistrModel();
 
         /*********************************************************
         *     Reset the linking to eliminate the unneeded df     *
@@ -204,7 +203,7 @@ public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
     
     public void makeANewGraph() {
         if (printTheStuff) {
-            System.out.println("*** 207 ChooseStats_DialogView, makeANewGraph()");
+            System.out.println(" --- 207 ChooseStats_DialogView, makeANewGraph()");
         }
         chooseStats_OriginalDistrView.respondToChanges();
         chooseStats_OriginalDistrView.doTheGraph();  
@@ -225,7 +224,7 @@ public class ChooseStats_DialogView extends Super_ChooseStats_DialogView {
     @Override
     public void constructGraphStatus() {
         if (printTheStuff) {
-            System.out.println("*** 228 ChooseStats_DialogView, constructGraphStatus()");
+            System.out.println(" --- 228 ChooseStats_DialogView, constructGraphStatus()");
         }
         shadeLeft = chooseStats_OriginalDistrModel.get_ShadeLeft();
         shadeRight = chooseStats_OriginalDistrModel.get_ShadeRight(); 

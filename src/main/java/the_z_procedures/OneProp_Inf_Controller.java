@@ -24,17 +24,17 @@ public class OneProp_Inf_Controller {
     
     public OneProp_Inf_Controller() {
         strReturnStatus = "OK";
-        //if (printTheStuff) {
-        //    System.out.println("*** 28 OneProp_Inf_Controller, Constructing");
-        //}
+        if (printTheStuff) {
+            System.out.println("*** 28 OneProp_Inf_Controller, Constructing");
+        }
         myYesNoAlerts = new MyYesNoAlerts();
         strReturnStatus = "OK";
     }
     
     public String doTheControllerThing() { 
-        //if (printTheStuff) {
-        //    System.out.println("--- 36 OneProp_Inf_Controller, doTheControllerThing()");
-        //}
+        if (printTheStuff) {
+            System.out.println("--- 36 OneProp_Inf_Controller, doTheControllerThing()");
+        }
         yesOrNo = "Yes";
         while (yesOrNo.equals("Yes")) {
             strReturnStatus = "OK";        
@@ -56,9 +56,9 @@ public class OneProp_Inf_Controller {
                 oneProp_Inf_Dashboard.putEmAllUp();
                 oneProp_Inf_Dashboard.showAndWait();
                 strReturnStatus = oneProp_Inf_Dashboard.getStrReturnStatus();        
-                //if (printTheStuff) {
-                //    System.out.println("--- 60 OneProp_Inf_Controller, strReturnStatus = " + strReturnStatus);
-                //}
+                if (printTheStuff) {
+                    System.out.println("--- 60 OneProp_Inf_Controller, strReturnStatus = " + strReturnStatus);
+                }
             }
 
             myYesNoAlerts.showAvoidRepetitiousClicksAlert();

@@ -1,155 +1,63 @@
 /**************************************************
  *            OneMean_Power_Model                 *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/23/26                      *
+ *                    18:00                       *
  *************************************************/
 package power_OneMean;
 
-import genericClasses.Point_2D;
-import noncentrals.JDistr_Noncentrals.*;
 import java.util.ArrayList;
-import utilityClasses.*;
+import superClasses.*;
 
-public class OneMean_Power_Model {
+public class OneMean_Power_Model extends OneParam_Power_Model {
     // POJOs
     
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
-    int sampleSize, archivedSampleSize;
-    double alpha, altMu, effectSize, nullMu, nullSigma, power, lowerLimit, 
-           upperLimit, standErrMean, loCum, hiCum, archivedNullMu, 
-           archivedNullSigma, archivedAltMu, archivedAlpha, archivedEffectSize; 
-
-    String strRejectionCriterion, strSourceString, strPrinted_NullHypoth, 
-           strPrinted_AltHypoth;        
-    ArrayList<String> str_al_PowerReport;
-    
     // My classes
     OneMean_Power_Controller oneMean_Power_Controller;
-    Point_2D nonRejectionRegion;
+
     
-    public OneMean_Power_Model(OneMean_Power_Controller oneMean_Controller) {
-        this.oneMean_Power_Controller = oneMean_Controller;
-        if (printTheStuff == true) {
-            System.out.println("35 *** OneMean_Power_Model, Constructing");
+    public OneMean_Power_Model(OneMean_Power_Controller oneMean_Power_Controller) {
+        super();
+        this.oneMean_Power_Controller = oneMean_Power_Controller;
+        if (printTheStuff) {
+            System.out.println("25 *** OneMean_Power_Model, Constructing");
         }
         str_al_PowerReport = new ArrayList();
     }
     
-    public void constructNonRejectionRegion() {
-        lowerLimit = 0.0; upperLimit = 0.0;//  Happy compiler, happy runs
-        standErrMean = nullSigma / Math.sqrt(sampleSize);
-        
-        switch (strRejectionCriterion) {
-            case "LessThan":
-                lowerLimit = Normal.quantile(alpha, nullMu, 
-                                             standErrMean, true, false);
-                upperLimit = Double.POSITIVE_INFINITY; 
-                break;
-                    
-            case "NotEqual":
-                lowerLimit = Normal.quantile(alpha / 2., nullMu, 
-                                             standErrMean, true, false);
-                upperLimit = Normal.quantile(1.0 - alpha / 2., nullMu, 
-                                             standErrMean, true, false);  
-                break;
-                            
-            case "GreaterThan":
-                lowerLimit = Double.NEGATIVE_INFINITY;
-                upperLimit = Normal.quantile(1.0 - alpha, nullMu, 
-                                             standErrMean, true, false); 
-                break;
-            
-            default:
-                String switchFailure = "Switch failure: OneMean_Power_Model 65 " + strRejectionCriterion;
-                MyAlerts.showUnexpectedErrorAlert(switchFailure); 
+    //public int getSampleSize() { return oneMean_Power_Controller.g
+    
+    public void setNullParam(double toThis) { 
+        nullParam = toThis;
+        if (printTheStuff) {
+            System.out.println("33 *** OneMean_Power_Model, setNullMean to " + nullParam);
         }
-        nonRejectionRegion = new Point_2D(lowerLimit, upperLimit);
-    }
-    
-    public double calculatePower() {
-        constructNonRejectionRegion();
-        
-        switch(strRejectionCriterion) {
-            case "LessThan": 
-                loCum = Normal.cumulative(lowerLimit, altMu, standErrMean, true, false);
-                power = loCum;
-                break;
-                
-            case "NotEqual":     
-                loCum = Normal.cumulative(lowerLimit, altMu, standErrMean, true, false);
-                hiCum = 1.0 - Normal.cumulative(upperLimit, altMu, standErrMean, true, false);
-                power = loCum + hiCum;
-                break;
-                
-            case "GreaterThan":
-                hiCum = 1.0 - Normal.cumulative(upperLimit, altMu, standErrMean, true, false); 
-                power = hiCum;
-                break;   
-                
-            default:
-                String switchFailure = "Switch failure: OneMean_Power_Model 92 " + strRejectionCriterion;
-                MyAlerts.showUnexpectedErrorAlert(switchFailure); 
-        }
-        return power;        
-    }
-    
-    public int getSampleSize() { return sampleSize; }
-    public void setSampleSize(int toThis) {sampleSize = toThis; }
-    
-    public double getStandErrMean() { return standErrMean; }
-    public void setStandErrMean(double toThis) { standErrMean = toThis; }
-    
-    public double getNullMu() { return nullMu; }
-    public void setNullMu(double toThis) { nullMu = toThis; }
-    
-    public double getAltMu() { return altMu; }
-    public void setAltMu(double toThis) { 
-        altMu = toThis;
-        effectSize = Math.abs(altMu - nullMu);
     }
 
-    public double getNullSigma() {return nullSigma; }
-    public void setNullSigma(double toThis) { nullSigma = toThis; }
-    
-    public double getAlpha() { return alpha; }
-    public void setAlpha(double toThis) { alpha = toThis; }
-    
-    public String getPrintedNullHypothesis() { return strPrinted_NullHypoth;}
-    public void setPrintedNullHypothesis(String toThis) {
-        strPrinted_NullHypoth = toThis;
-    }
-    
-    public String getPrintedAltHypothesis() { return strPrinted_AltHypoth;}
-    public void setPrintedAltHypothesis(String toThis) {
-        strPrinted_AltHypoth = toThis;
-    }
-    
-    public double getPower() { return power; }
-    
-    public String getRejectionCriterion() { return strRejectionCriterion; }
-    public void setRejectionCriterion(String toThis) {
-        strRejectionCriterion = toThis;
-    }
-    
-    public double getEffectSize() { return effectSize; }
-    public void setEffectSize(double toThis) {
-        effectSize = toThis;
-        if (strRejectionCriterion.equals("LessThan")) {
-            altMu = nullMu - effectSize;
-        }  else {
-            altMu = nullMu + effectSize;   
+    public double getAltParam() { return altParam; }
+    public void setAltParam(double toThis) { 
+        altParam = toThis;
+        effectSize = Math.abs(altParam - nullParam);
+        if (printTheStuff) {
+            System.out.println("42 ... OneMean_Power_Model, setAltMean to " + altParam);
+            System.out.println("43 ... OneMean_Power_Model, effectSize = " + effectSize);
         }
     }
     
-    public Point_2D getNonRejectionRegion() {       
-        return nonRejectionRegion; 
+    public double getNullSigma() {return nullSigma; }
+    public void setNullSigma(double toThis) { 
+        nullSigma = toThis; 
+       if (printTheStuff) {
+            System.out.println("51 ... OneMean_Power_Model, setNullSigma to " + nullSigma);
+        }
     }
- 
+
+    
     public void archiveNullValues() {
-        archivedNullMu = nullMu;
-        archivedAltMu = altMu;
+        archivedNullParam = nullParam;
+        archivedAltParam = altParam;
         archivedSampleSize = sampleSize;
         archivedNullSigma = nullSigma;
         archivedAlpha = alpha;
@@ -158,8 +66,8 @@ public class OneMean_Power_Model {
     
 
     public void restoreNullValues() {
-        nullMu = archivedNullMu;
-        altMu = archivedAltMu ;
+        nullParam = archivedNullParam;
+        altParam = archivedAltParam ;
         sampleSize = archivedSampleSize;
         nullSigma = archivedNullSigma;
         alpha  = archivedAlpha; 
@@ -189,7 +97,7 @@ public class OneMean_Power_Model {
         str_al_PowerReport.add(String.format("%20s %8.3f", strSourceString,nullSigma)); 
         addNBlankLinesToPowerReport(1);
         strSourceString = "Standard error =";
-        str_al_PowerReport.add(String.format("%20s %8.3f", strSourceString,standErrMean));
+        str_al_PowerReport.add(String.format("%20s %8.3f", strSourceString,stErr_NullParam));
         addNBlankLinesToPowerReport(1);
         strSourceString = "Effect Size =";
         str_al_PowerReport.add(String.format("%20s %8.3f", strSourceString,effectSize));        
@@ -199,11 +107,6 @@ public class OneMean_Power_Model {
         addNBlankLinesToPowerReport(1);
    }    
    
-    private void addNBlankLinesToPowerReport(int thisMany) {
-        StringUtilities.addNLinesToArrayList(str_al_PowerReport, thisMany);
-    }
-
-    public ArrayList<String> getPowerReport() { return str_al_PowerReport; }
     public OneMean_Power_Controller getController() { return oneMean_Power_Controller; }
     
     public void printModelStuff() {

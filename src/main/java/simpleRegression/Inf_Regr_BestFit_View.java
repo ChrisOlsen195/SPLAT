@@ -1,7 +1,7 @@
 /**************************************************
- *             Regression_BestFit_View            *
- *                    05/29/24                    *
- *                      15:00                     *
+ *              Inf_Regr_BestFit_View             *
+ *                    06/04/26                    *
+ *                      09:00                     *
  *************************************************/
 package simpleRegression;
 
@@ -25,7 +25,7 @@ import matrixProcedures.Matrix;
 import probabilityDistributions.*;
 import splat.Data_Manager;
 
-public class Regr_BestFit_View extends BivariateScale_W_CheckBoxes_View {
+public class Inf_Regr_BestFit_View extends BivariateScale_W_CheckBoxes_View {
     // POJOs
     double influenceTrigger, defaultInfluencePlusLength, influencePlusLength,
            leverageTrigger, defaultLeverageCrossLength, leverageCrossLength,
@@ -49,12 +49,12 @@ public class Regr_BestFit_View extends BivariateScale_W_CheckBoxes_View {
     //  POJO / FX
     Pane theContainingPane;
 
-    public Regr_BestFit_View(Inf_Regr_Model inf_Regression_Model, Regr_Dashboard regression_Dashboard,
+    public Inf_Regr_BestFit_View(Inf_Regr_Model inf_Regression_Model, Inf_Regr_Dashboard regression_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
         dm = inf_Regression_Model.getDataManager();
-        dm.whereIsWaldo(57, waldoFile, "Constructing"); 
+        dm.whereIsWaldo(57, waldoFile, " *** Inf BestFit_View, Constructing"); 
         X = inf_Regression_Model.getXVar();
         Y = inf_Regression_Model.getY();
         initHoriz = placeHoriz; initVert = placeVert;

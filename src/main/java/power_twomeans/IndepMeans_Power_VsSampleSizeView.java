@@ -1,7 +1,7 @@
 /**************************************************
  *       IndepMeans_Power_VsSampleSizeView        *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/26/26                      *
+ *                    12:00                       *
  *************************************************/
 package power_twomeans;
 
@@ -17,13 +17,6 @@ import javafx.scene.text.Text;
 import superClasses.*;
 import genericClasses.*;
 import javafx.event.EventHandler;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
 public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_View {
@@ -36,7 +29,7 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
     double xMax, yMin, yMax, effectSize, dbl_daN1, dbl_daN2, lowN1, lowN2;
     
     float redColor, greenColor, blueColor;
-    float[][] power;
+    double[][] power_N1_N2;
     
     //  FX
     Color powerColor;
@@ -51,8 +44,8 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("55 *** IndepMeans_Power_VsSampleSizeView, Constructing");
+        if (printTheStuff) {
+            System.out.println("48 *** IndepMeans_Power_VsSampleSizeView, Constructing");
         }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
@@ -65,11 +58,14 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
 
         maxSampleSize = Math.max(sampleSize_1, sampleSize_2) + 10;
         fromHere = 2.0; toThere = maxSampleSize;
-        power = new float[maxSampleSize + 1][maxSampleSize + 1];
+        power_N1_N2 = new double[maxSampleSize + 1][maxSampleSize + 1];
         makeItHappen();
     }  
     
-    public void makeItHappen() {     
+    public void makeItHappen() {  
+        if (printTheStuff) {
+            System.out.println("67 --- IndepMeans_Power_VsSampleSizeView, makeItHappen()");
+        }
         theContainingPane = new Pane();
         graphCanvas = new Canvas(initWidth, initHeight);
         gc = graphCanvas.getGraphicsContext2D();
@@ -136,13 +132,24 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
     }
     
     public void doThePowerCalculations() {
+        if (printTheStuff) {
+            System.out.println("136 --- IndepMeans_Power_VsSampleSizeView, doThePowerCalculations()");
+            System.out.println("137 ... IndepMeans_Power_VsSampleSizeView, maxSampleSize = " + maxSampleSize);
+        }
         for (int daN1 = 2; daN1 < maxSampleSize; daN1++)
         {
+            indepMeans_Power_Model.setSampleSize_1(daN1);
             for (int daN2 = 2; daN2 < maxSampleSize; daN2++) {
                 dbl_daN1 = daN1; dbl_daN2 = daN2;
-                indepMeans_Power_Model.setSampleSize_1(daN1);
                 indepMeans_Power_Model.setSampleSize_2(daN2);
-                power[daN1][daN2] = (float)indepMeans_Power_Model.calculatePower();           
+                if (printTheStuff) {
+                    System.out.println("\n\n146 --- IndepMeans_Power_VsSampleSizeView, asking for power calculation");
+                }
+                power_N1_N2[daN1][daN2] = indepMeans_Power_Model.calculatePower(); 
+            if (printTheStuff) {
+                System.out.println("150 --- IndepMeans_Power_VsSampleSizeView, doThePowerCalculations()");
+                System.out.println("151 --- daN1 / daN2 / power = " + daN1 + " / " + daN2 + " / " + power_N1_N2[daN1][daN2]);
+            }            
             }
         }
         indepMeans_Power_Model.restoreNullValues();
@@ -197,20 +204,19 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
         for (int daN1 = 2; daN1 < maxSampleSize; daN1++) {
             for (int daN2 = 2; daN2 < maxSampleSize; daN2++) {
                 dbl_daN1 = daN1; dbl_daN2 = daN2;
-                float daPower = power[daN1][daN2];  
+                double daPower = power_N1_N2[daN1][daN2];  
                 xStop = xAxis.getDisplayPosition(dbl_daN1);
                 yStop = yAxis.getDisplayPosition(dbl_daN2);   
                 gc.setLineWidth(2);
-                float fl_power = (float)daPower;
                 
                 redColor = 1.0f;
                 greenColor = 0.f;
                 blueColor = 0.0f;
                 
-                greenColor = (float)Math.sqrt(power[daN1][daN2] - 0.25);
+                greenColor = (float)Math.sqrt(power_N1_N2[daN1][daN2] - 0.25);
                 
                 if ((daPower > 0.5) && (daPower <= 0.8)) { 
-                    redColor = -10.0f / 3.0f * fl_power + 8.0f / 3.0f;
+                    redColor = -10.0f / 3.0f * (float)daPower + 8.0f / 3.0f;
                 } 
                 
                 if (daPower > 0.8) { redColor = 0.0f; }
@@ -228,20 +234,6 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
 
         indepMeans_Power_Model.restoreNullValues();
         
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));
-        
     }   //  end doTheGraph    
     
    public Pane getTheContainingPane() { return theContainingPane; }
@@ -256,8 +248,6 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
             
             if (mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) { 
                 double minPythag = 999.999;
-                System.out.println(" x = " + (double)mouseEvent.getX());
-                System.out.println(" y = " + (double)mouseEvent.getY());
                 
                 for (int daMouseN1 = 2; daMouseN1 < maxSampleSize; daMouseN1++) {
                     for (int daMouseN2 = 2; daMouseN2 < maxSampleSize; daMouseN2++) {
@@ -275,7 +265,7 @@ public class IndepMeans_Power_VsSampleSizeView extends BivariateScale_W_CheckBox
                         }
                     }
                 }
-                title2Text.setText(String.format("          N1 = %3d,  N2 = %3d, Power = %4.3f", (int)lowN1, (int)lowN2, power[(int)lowN1][(int)lowN2]));
+                title2Text.setText(String.format("          N1 = %3d,  N2 = %3d, Power = %4.3f", (int)lowN1, (int)lowN2, power_N1_N2[(int)lowN1][(int)lowN2]));
                 mouseEvent.consume();
             }
         }

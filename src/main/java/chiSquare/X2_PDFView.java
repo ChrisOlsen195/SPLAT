@@ -1,7 +1,7 @@
 /**************************************************
- *               ChiSquarePDFView                 *
- *                  05/20/25                      *
- *                    18:00                       *
+ *                 X2_PDFView                     *
+ *                  06/27/26                      *
+ *                    15:00                       *
  *************************************************/
 package chiSquare;
 
@@ -74,7 +74,7 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         if (printTheStuff) {
-            System.out.println("77 *** X2_PDFView, constructing");
+            System.out.println("77 --- X2_PDFView, constructing");
         }
         df = x2Assoc_Model.getDF();
         chiSquare = x2Assoc_Model.getChiSquare();
@@ -108,7 +108,7 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
         
     public void completeTheDeal() {
         if (printTheStuff) {
-            System.out.println("111 --- X2_PDFView, completeTheDeal()");
+            System.out.println("111  --- X2_PDFView, completeTheDeal()");
         }
         initializeGraphParameters();
         setUpUI();       
@@ -292,7 +292,7 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
             double temp  = dbl_df + Math.sqrt(2.0 * dbl_df);
             if (paneWidth - xStart_X2PVal < rightEndPad) { xStart_X2PVal = xAxis.getDisplayPosition(temp) + 75; }
             if (printTheStuff) {
-                System.out.println("296 X2_PDFView, xStart_X2PVal = " + xStart_X2PVal);
+                System.out.println("295 ... X2_PDFView, xStart_X2PVal = " + xStart_X2PVal);
             }
             
             tempString = String.format("\u03C7\u00B2 = %6.3f, pValue = %4.3f", chiSquare, thePValue);              
@@ -300,35 +300,21 @@ public class X2_PDFView extends BivariateScale_W_CheckBoxes_View {
             gc.fillText(tempString, xStart_X2PVal + 5, yStop - 5);
         }
         
-            // elFactoro is there to help the alphas to avoid each other. It is intended
-            //  to represent a fraction of the vertical size of the window
-            double elFactoro = 7.0;
-            for (double e: alphas) {
-                theCriticalValue = chiSquareDistr.getInvRightTailArea(e); 
-                xStart = xStop = xAxis.getDisplayPosition(theCriticalValue);
-                yStart = yAxis.getDisplayPosition(0.0);
-                yStop = yAxis.getDisplayPosition(chiSquareDistr.getDensity(theCriticalValue)) - elFactoro * e *yStart;   // Hard-wired test statistic  
-                gc.setLineWidth(2);
-                gc.setStroke(Color.BLUE);
-                gc.strokeLine(xStart, yStart, xStop, yStop + 10);
-                gc.setFill(Color.BLUE);
-                tempString = String.format("Critical Value (\u03B1 = %4.3f) =%7.3f", e, theCriticalValue);
-                gc.fillText(tempString, xStop - 00, yStop + 5);
-            }
-        
-        x2PdfContainingPane.requestFocus();
-        x2PdfContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = anchorPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));         
+        // elFactoro is there to help the alphas to avoid each other. It is intended
+        //  to represent a fraction of the vertical size of the window
+        double elFactoro = 7.0;
+        for (double e: alphas) {
+            theCriticalValue = chiSquareDistr.getInvRightTailArea(e); 
+            xStart = xStop = xAxis.getDisplayPosition(theCriticalValue);
+            yStart = yAxis.getDisplayPosition(0.0);
+            yStop = yAxis.getDisplayPosition(chiSquareDistr.getDensity(theCriticalValue)) - elFactoro * e *yStart;   // Hard-wired test statistic  
+            gc.setLineWidth(2);
+            gc.setStroke(Color.BLUE);
+            gc.strokeLine(xStart, yStart, xStop, yStop + 10);
+            gc.setFill(Color.BLUE);
+            tempString = String.format("Critical Value (\u03B1 = %4.3f) =%7.3f", e, theCriticalValue);
+            gc.fillText(tempString, xStop - 00, yStop + 5);
+        }         
     }
 
     public Pane getTheContainingPane() { return x2PdfContainingPane; }

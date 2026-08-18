@@ -1,7 +1,7 @@
 /**************************************************
 *                X2Assoc_Dashboard                *
-*                     01/15/25                    *
-*                      12:00                      *
+*                     06/27/26                    *
+*                      15:00                      *
 **************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -42,7 +42,7 @@ public class X2Assoc_Dashboard extends Dashboard {
       
     public X2Assoc_Dashboard(X2Assoc_Controller x2Assoc_Controller, X2Assoc_Model x2assoc_Model) {
         super(6);
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("46 *** X2Assoc_Dashboard, Constructing");
         }
         checkBoxDescr = new String[nCheckBoxes];

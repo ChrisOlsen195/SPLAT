@@ -28,7 +28,7 @@ public class SmartTextFieldsController {
     
     public SmartTextFieldsController() {
         if (printTheStuff) {
-            System.out.println("31 *** SmartTextFieldsController, Constructing");
+            System.out.println("*** 31 SmartTextFieldsController, Constructing");
         }
        stf_Handler = new SmartTextFieldHandler(this);
     }

@@ -53,7 +53,7 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
         if (printTheStuff == true) {
-            System.out.println("56 *** OneProp_Inf_PDFView, Constructing");
+            System.out.println("*** 56 OneProp_Inf_PDFView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -97,7 +97,7 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneProp_Inf_PDFView 91 " + hypotheses;
+                String switchFailure = "Switch failure: OneProp_Inf_PDFView 100 " + hypotheses;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         
@@ -144,7 +144,7 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneProp_Inf_PDFView 137 " + "hypotheses";
+                String switchFailure = "Switch failure: OneProp_Inf_PDFView 147 " + "hypotheses";
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);          
         }
 
@@ -348,7 +348,7 @@ public class OneProp_Inf_PDFView extends BivariateScale_W_CheckBoxes_View {
                         break;
 
                     default:
-                        String switchFailure = "Switch failure: OneProp_Inf_PDFView 334 " + hypotheses;
+                        String switchFailure = "Switch failure: OneProp_Inf_PDFView 351 " + hypotheses;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 }                 
             }

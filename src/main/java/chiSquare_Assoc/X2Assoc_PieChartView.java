@@ -1,7 +1,7 @@
 /**************************************************
  *              X2Assoc_PieChartView              *
- *                    09/20/25                    *
- *                     12:00                      *
+ *                    06/27/26                    *
+ *                     15:00                      *
  *************************************************/
 package chiSquare_Assoc;
 
@@ -85,7 +85,7 @@ public class X2Assoc_PieChartView
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) 
     {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("89 *** X2Assoc_PieChartView, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -126,7 +126,7 @@ public class X2Assoc_PieChartView
     }
     
     public void completeTheDeal() {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("130 --- X2Assoc_PieChartView, completeTheDeal()");
         }
         constructPieInfo(); 
@@ -403,22 +403,7 @@ public class X2Assoc_PieChartView
         }   //  End col
 
         pieChartGC.setStroke(Color.BLACK);
-        doTheXAxis();
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));
-        
+        doTheXAxis();    
     }   //  End doThePlot
 
     private void doTheXAxis() {

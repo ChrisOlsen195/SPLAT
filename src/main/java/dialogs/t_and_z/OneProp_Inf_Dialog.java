@@ -152,7 +152,7 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
 
     private void makeNullsPanel() { 
         if (printTheStuff) {
-            System.out.println("*** 155 OneProp_Inference_Dialog, makeNullsPanel()");
+            System.out.println("--- 155 OneProp_Inference_Dialog, makeNullsPanel()");
         }
         vBox_NullsPanel = new VBox();
         hBox_YesNoHypoth = new HBox();
@@ -318,7 +318,7 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
  
     private void makeNumericValuesPanel() {
         if (printTheStuff) {
-            System.out.println("*** 321 OneProp_Inference_Dialog, makeNumericValuesPanel()");
+            System.out.println("--- 321 OneProp_Inference_Dialog, makeNumericValuesPanel()");
         }
         vBox_NumValsPanel = new VBox();
         vBox_Group = new VBox();
@@ -386,7 +386,7 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
     
     private void makeInfDecisionsPanel() {
         if (printTheStuff) {
-            System.out.println("*** 389 OneProp_Inference_Dialog, makeInfDecisionsPanel()");
+            System.out.println("--- 389 OneProp_Inference_Dialog, makeInfDecisionsPanel()");
         }
         hypothesizedProp = 0.5;       
         ciLabel = new Label("   Select conf level");
@@ -445,7 +445,7 @@ public class OneProp_Inf_Dialog extends Splat_Dialog {
     
 private void makeVariableDefPanel() {
         if (printTheStuff) {
-            System.out.println("*** 448 OneProp_Inference_Dialog, makeVariableDefPanel()");
+            System.out.println("--- 448 OneProp_Inference_Dialog, makeVariableDefPanel()");
         }
         lbl_GraphProp = new Label(" Prop 1 Label: ");
         lbl_GraphTitle  = new Label("        Title: ");
@@ -475,7 +475,7 @@ private void makeVariableDefPanel() {
     
     private void makeBottomPanel() { 
         if (printTheStuff) {
-            System.out.println("*** 478 OneProp_Inference_Dialog, makeBottomPanel()");
+            System.out.println("--- 478 OneProp_Inference_Dialog, makeBottomPanel()");
         }
         hBox_BottomPanel = new HBox(10);
         hBox_BottomPanel.setAlignment(Pos.CENTER);

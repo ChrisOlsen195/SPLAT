@@ -1,6 +1,6 @@
 /**************************************************
  *             QuantitativeDataVariable           *
- *                    08/20/25                    *
+ *                    04/13/26                    *
  *                      12:00                     *
  *************************************************/
 package dataObjects;
@@ -32,8 +32,8 @@ public class QuantitativeDataVariable {
     QuantitativeDataVariable qdv;
     
     public QuantitativeDataVariable () { 
-        if (printTheStuff == true) {
-            System.out.println("36 *** QuantitativeDataVariable, Constructing");
+        if (printTheStuff) {
+            //System.out.println("*** 36 QuantitativeDataVariable, Constructing");
         }
         varLabel = "";
         varDescription = "";
@@ -42,8 +42,8 @@ public class QuantitativeDataVariable {
     //  Copy constructor
 
     public QuantitativeDataVariable(QuantitativeDataVariable original_qdv) {
-        if (printTheStuff == true) {
-            System.out.println("46 *** QuantitativeDataVariable, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 46 QuantitativeDataVariable, Constructing");
         }
          this.varLabel = original_qdv.getTheVarLabel();
          this.varDescription = original_qdv.getTheVarDescription();
@@ -80,8 +80,8 @@ public class QuantitativeDataVariable {
     }
 
     public QuantitativeDataVariable(String varLabel, String varDescription, ColumnOfData colOfData) {
-        if (printTheStuff == true) {
-            System.out.println("84 --- QuantitativeDataVariable, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 84 QuantitativeDataVariable, Constructing");
         }
         this.colOfData = new ColumnOfData();
         this.colOfData = colOfData;
@@ -98,8 +98,8 @@ public class QuantitativeDataVariable {
     // Incoming Matrix must be m x 1, all legal
     // Used in multiple and noIntercept regression
     public QuantitativeDataVariable(Data_Manager dm, String varLabel, String varDescription, Matrix inMatrix) {
-        if (printTheStuff == true) {
-            System.out.println("102 --- QuantitativeDataVariable, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 102 QuantitativeDataVariable, Constructing");
         }
         this.varLabel = varLabel;
         this.varDescription = varDescription;
@@ -122,8 +122,8 @@ public class QuantitativeDataVariable {
     
     // This constructor is used by the VerticalBoxPlotPlatform, matchedPairs, and bootstrapping.
     public QuantitativeDataVariable (String varLabel, String varDescription, double[] dbl_Data)  {
-        if (printTheStuff == true) {
-            System.out.println("126 --- QuantitativeDataVariable, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 126 QuantitativeDataVariable, Constructing");
         }
         this.varLabel = varLabel;
         this.varDescription = varDescription;
@@ -141,8 +141,8 @@ public class QuantitativeDataVariable {
     }
 
     public QuantitativeDataVariable (String varLabel, String varDescription, ArrayList<String> inDataStrings)  {
-        if (printTheStuff == true) {
-            System.out.println("145 QuantitativeDataVariable, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 145 QuantitativeDataVariable, Constructing");
         }
         this.varLabel = varLabel;
         this.varDescription = varDescription;
@@ -155,8 +155,8 @@ public class QuantitativeDataVariable {
     }
     
     public QuantitativeDataVariable (String varLabel, String varDescription, String[] inDataStrings)  {
-        if (printTheStuff == true) {
-            System.out.println("159 QuantitativeDataVariable, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 159 QuantitativeDataVariable, Constructing");
         }
         this.varLabel = varLabel;
         this.varDescription = varDescription;
@@ -300,6 +300,7 @@ public class QuantitativeDataVariable {
     }
     
     public void makeTheUCDO() { ucdo = new UnivariateContinDataObj("299 QDV",this); }
+    
     public UnivariateContinDataObj getTheUCDO() { return ucdo; };   
     public QuantitativeDataVariable getTheQDV() { return this; }
     public double[] getTheSortedDoubles() { return ucdo.getTheSortedArray(); }

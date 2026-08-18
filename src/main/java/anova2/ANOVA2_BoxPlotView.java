@@ -28,7 +28,7 @@ public class ANOVA2_BoxPlotView extends ANOVA2_BoxCircleInterActView {
             double withThisWidth, double withThisHeight) {        
             super(anova2_Model, anova2_Dashboard, placeHoriz, placeVert,
                 withThisWidth, withThisHeight);
-        dm.whereIsWaldo(27, waldoFile, "Constructing");
+        dm.whereIsWaldo(31, waldoFile, " *** Constructing");
         strTitle2 = "Boxy Woxy Twozie";
         whiskerEndRanks = new int[2]; 
     }
@@ -40,7 +40,6 @@ public class ANOVA2_BoxPlotView extends ANOVA2_BoxCircleInterActView {
         double hBoxWidth = anova2CategoryBoxes.getWidth();
         
         double txt1Edge = (paneWidth - text1Width) / (2 * paneWidth);
-        //double txt2Edge = (paneWidth - text2Width) / (2 * paneWidth);
         double hBoxEdge = (paneWidth - hBoxWidth) / (2 * paneWidth);
         
         double tempHeight = dragableAnchorPane.getHeight();
@@ -131,8 +130,7 @@ public class ANOVA2_BoxPlotView extends ANOVA2_BoxCircleInterActView {
                         double yy = yAxis.getDisplayPosition(tempUCDO.getIthSortedValue(dataPoint));
                         gc.fillOval(xx - 3, yy - 3, 6, 6);
                         dataPoint++;
-                    }
-                    
+                    } 
                 }
 
                 if (whiskerEndRanks[1] != -1) { //  Are there high outliers?
@@ -141,7 +139,6 @@ public class ANOVA2_BoxPlotView extends ANOVA2_BoxCircleInterActView {
                         double yy = yAxis.getDisplayPosition(tempUCDO.getIthSortedValue(dataPoint));
                         gc.fillOval(xx - 3, yy - 3, 6, 6);
                     }
-                    
                 }
             } 
         } 

@@ -40,11 +40,11 @@ public class Matched_t_Model {
         this.theQDV = new QuantitativeDataVariable();
         this.theQDV = theQDV;
         dm = matched_t_Controller.getDataManager();
-        dm.whereIsWaldo(43, waldoFile, "Constructing");
+        dm.whereIsWaldo(43, waldoFile, " *** Constructing");
     }
 
     public String doMatched_TAnalysis() {
-        dm.whereIsWaldo(47, waldoFile, "doMatched_TAnalysis()");
+        dm.whereIsWaldo(47, waldoFile, " --- doMatched_TAnalysis()");
         varLabel = matched_t_Controller.getDescriptionOfDifference();
         varLabel = StringUtilities.getleftMostNChars(varLabel, 16);
         nLegal = theQDV.getLegalN();

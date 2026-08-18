@@ -70,9 +70,9 @@ public class Indep_t_TI8x_Dialog extends Splat_Dialog{
 
     private void create_Indep_t_TI8x_Dialog() {
         if (printTheStuff) {
-            System.out.println("*** 73 Explore_2Ind_TI8x_Dialog, create_Indep_t_TI8x_Dialog()");
+            System.out.println("--- 73 Explore_2Ind_TI8x_Dialog, create_Indep_t_TI8x_Dialog()");
         }
-        dm.whereIsWaldo(75, waldoFile, "create_Indep_t_TI8x_Dialog()");
+        dm.whereIsWaldo(75, waldoFile, " *** create_Indep_t_TI8x_Dialog()");
         boolGoodToGo = true;
         strReturnStatus = "OK";
         str_ChosenLabels = new ArrayList();
@@ -162,7 +162,7 @@ public class Indep_t_TI8x_Dialog extends Splat_Dialog{
 
         btnCancel.setStyle("-fx-text-fill: red;");
         btnCancel.setOnAction(e -> {  
-            System.out.println("165 Indep_t_TI8x_Dlg, btnCancel clicked...");
+            //System.out.println("... 165 Indep_t_TI8x_Dlg, btnCancel clicked...");
             boolGoodToGo = false;
             strReturnStatus = "Cancel";
             hide();

@@ -34,19 +34,19 @@ public class QuadReg_Controller {
         this.dm = dm;
         //waldoFile = "QuadReg_Controller";
         waldoFile = "";
-        dm.whereIsWaldo(37, waldoFile, "constructing"); 
+        dm.whereIsWaldo(37, waldoFile, " *** constructing"); 
     }  
         
     public String doTheProcedure() {
         try {
             int casesInStruct = dm.getNCasesInStruct();
-            dm.whereIsWaldo(43, waldoFile, "doTheProcedure()");
+            dm.whereIsWaldo(43, waldoFile, " --- doTheProcedure()");
             
             if (casesInStruct == 0) {
                 MyAlerts.showAintGotNoDataAlert();
                 return "Cancel";
             }
-            dm.whereIsWaldo(49, waldoFile, "doTheProcedure()");
+            dm.whereIsWaldo(49, waldoFile, " ... doTheProcedure()");
             Regr_Dialog regressionDialog = new Regr_Dialog(dm, "QUANTITATIVE", "Quadratic regression");
 
             regressionDialog.showAndWait();

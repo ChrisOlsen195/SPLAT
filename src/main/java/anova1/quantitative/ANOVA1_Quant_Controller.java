@@ -1,6 +1,6 @@
 /**************************************************
  *            ANOVA1_Quant_Controller             *
- *                    02/14/25                    *
+ *                    08/13/26                    *
  *                     15:00                      *
  *************************************************/
 package anova1.quantitative;
@@ -23,8 +23,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     
     String thisVarLabel, thisVarDescr, tidyOrTI8x, strReturnStatus;
     String[] incomingLabels;
-    
-    // Make empty if no-print
+
     //String waldoFile = "ANOVA1_Quant_Controller";
     String waldoFile = "";
     
@@ -40,14 +39,14 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     public ANOVA1_Quant_Controller(Data_Manager dm) {
         super(dm);
         this.dm = dm;
-        dm.whereIsWaldo(43, waldoFile, "Constructing");
+        dm.whereIsWaldo(42, waldoFile, " *** Constructing");
         anova1_ColsOfData = new ArrayList();
         strReturnStatus = "OK";
         myYesNoAlerts = new MyYesNoAlerts();
     }
     
     public String doTidyOrTI8x() {
-        dm.whereIsWaldo(50, waldoFile, " --- doTidyOrNot()");
+        dm.whereIsWaldo(49, waldoFile, " *** doTidyOrNot()");
         //  Check for existing value ( = not NULL)
         tidyOrTI8x = dm.getTIorTIDY();
         // If tidyOrTI8x not known, find out
@@ -58,24 +57,24 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
             // Get the Alert Yes/No = 'Yes' or 'No' and re-cast tidyOrTI8x
             tidyOrTI8x = myYesNoAlerts.getYesOrNo();
             if (tidyOrTI8x == null) { return "Cancel"; }
-            dm.setTIorTIDY(tidyOrTI8x);
+            dm.setTI8xorTIDY(tidyOrTI8x);
         }
 
         //              First time through                 Repeat
         if (tidyOrTI8x.equals("Yes") || tidyOrTI8x.equals("Tidy")) { // = Tidy
             tidyOrTI8x = "Tidy";
-            dm.setTIorTIDY("Tidy");
+            dm.setTI8xorTIDY("Tidy");
             doTidy(); 
         } else {    // No = TI8x
             tidyOrTI8x = "TI8x";
-            dm.setTIorTIDY("TI8x");
+            dm.setTI8xorTIDY("TI8x");
             doTI8x(); 
         } 
         return "OK";
     }
 
     protected String doTidy() {
-        dm.whereIsWaldo(78, waldoFile, "doTidy()");
+        dm.whereIsWaldo(77, waldoFile, " *** doTidy()");
         do {
             int casesInStruct = dm.getNCasesInStruct();            
             if (casesInStruct == 0) {
@@ -99,7 +98,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
             checkForLegalChoices = validateTidyChoices();
         } while (!checkForLegalChoices);
         
-        dm.whereIsWaldo(102, waldoFile, "doTidy()");
+        dm.whereIsWaldo(101, waldoFile, " --- doTidy()");
         explVarDescr = anova1_Quant_Tidy_Dialog.getPreferredFirstVarDescription();
         respVarDescr = anova1_Quant_Tidy_Dialog.getPreferredSecondVarDescription();
   
@@ -121,7 +120,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     }
 
     protected String doTI8x() {
-        dm.whereIsWaldo(125, waldoFile, "doTI8x()");
+        dm.whereIsWaldo(123, waldoFile, " *** doTI8x()");
         goodToGo = true;
         int casesInStruct = dm.getNCasesInStruct();
         
@@ -170,12 +169,12 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
         if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
         doTheANOVA();
 
-        dm.whereIsWaldo(174, waldoFile, " --- END doTI8x()");
+        dm.whereIsWaldo(172, waldoFile, " --- END doTI8x()");
         return strReturnStatus;
     }
     
     protected String doTheANOVA() {
-        dm.whereIsWaldo(179, waldoFile, " *** doTheANOVA()");
+        dm.whereIsWaldo(177, waldoFile, " *** doTheANOVA()");
         allTheLabels = new ArrayList<>();
         
         for (int iVars = 0; iVars < n_QDVs; iVars++) {
@@ -194,7 +193,7 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
         anova1_Quant_Dashboard.showAndWait();
         strReturnStatus = anova1_Quant_Dashboard.getStrReturnStatus();
         strReturnStatus = "OK";
-        dm.whereIsWaldo(198, waldoFile, " END doTheANOVA()");
+        dm.whereIsWaldo(196, waldoFile, " --- END doTheANOVA()");
         return "OK";       
     } 
     
@@ -203,17 +202,17 @@ public class ANOVA1_Quant_Controller extends ANOVA1_Controller {
     }
     
     private boolean validateTidyChoices() {
-        dm.whereIsWaldo(207, waldoFile, " --- validateTidyChoices()");
+        dm.whereIsWaldo(205, waldoFile, " --- validateTidyChoices()");
         theStringIsNumeric = new boolean[2];
         
         for (int ithCol = 0; ithCol < 2; ithCol++){
-            theStringIsNumeric[ithCol] = anova1_ColsOfData.get(ithCol).getDataType().equals("Quantitative");  
+            theStringIsNumeric[ithCol] = anova1_ColsOfData.get(ithCol).getStrDataType().equals("Quantitative");  
         }
         return true;
     }
     
     private String askAboutReOrdering() {
-        dm.whereIsWaldo(217, waldoFile, "  --- askAboutReOrdering()");
+        dm.whereIsWaldo(215, waldoFile, " --- askAboutReOrdering()");
         n_QDVs = incomingQDVs.size();
         theNewOrder = new int[n_QDVs];
         // Default

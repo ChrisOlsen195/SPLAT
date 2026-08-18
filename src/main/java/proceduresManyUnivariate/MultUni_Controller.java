@@ -1,7 +1,7 @@
 /**************************************************
  *                MultiUni_Controller             *
- *                    02/16/25                    *
- *                     00:00                      *
+ *                    08/13/26                    *
+ *                     15:00                      *
  *************************************************/
 package proceduresManyUnivariate;
 
@@ -77,17 +77,17 @@ public class MultUni_Controller {
         myYesNoAlerts.showTidyOrTI8xAlert();
         tidyOrTI8x = myYesNoAlerts.getYesOrNo();
         if (tidyOrTI8x.equals("Cancel")) { return "Cancel"; }
-        dm.setTIorTIDY(tidyOrTI8x);
+        dm.setTI8xorTIDY(tidyOrTI8x);
 
         //              First time through                 Repeat
         if (tidyOrTI8x.equals("Yes") || tidyOrTI8x.equals("Tidy")) { // = Tidy
             tidyOrTI8x = "Tidy";
-            dm.setTIorTIDY("Tidy");
+            dm.setTI8xorTIDY("Tidy");
             strReturnStatus = doTidy(); 
             if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
         } else {    // No = TI8x
             tidyOrTI8x = "TI8x";
-            dm.setTIorTIDY("TI8x");
+            dm.setTI8xorTIDY("TI8x");
             doTI8x(); 
         } 
         
@@ -147,15 +147,15 @@ public class MultUni_Controller {
 
             collectAllTheLabels();
             prepareTheStructs();
-            dm.whereIsWaldo(150, waldoFile, " --- END doTidy()");
+            dm.whereIsWaldo(150, waldoFile, " ... END doTidy()");
             return "OK";
         }
-        dm.whereIsWaldo(153, waldoFile, " --- END doTidy()");
+        dm.whereIsWaldo(153, waldoFile, " ... END doTidy()");
         return "Cancel";
     }
 
     protected String doTI8x() {
-        dm.whereIsWaldo(158, waldoFile, "doTI8x()");
+        dm.whereIsWaldo(158, waldoFile, " --- doTI8x()");
         strReturnStatus = "OK";
         multUni_TI8x_Dialog = new MultUni_TI8x_Dialog( dm );
         multUni_TI8x_Dialog.show_NS_Dialog();
@@ -213,7 +213,7 @@ public class MultUni_Controller {
     }
     
     protected String prepareTheStructs() {  // for the MultUniModel
-        dm.whereIsWaldo(216, waldoFile, "prepareTheStructs()");
+        dm.whereIsWaldo(216, waldoFile, " --- prepareTheStructs()");
         n_QDVs = allTheQDVs.size();
         allTheLabels = new ArrayList<>();
         
@@ -222,7 +222,7 @@ public class MultUni_Controller {
         }
         
         n_QDVs = allTheQDVs.size(); 
-        dm.whereIsWaldo(225, waldoFile, "prepareTheStructs()");        
+        dm.whereIsWaldo(225, waldoFile, "... prepareTheStructs()");        
         multUni_Model = new MultUni_Model(this, 
                                           genVarDescr,  // subTitle 
                                           allTheQDVs); 
@@ -240,7 +240,7 @@ public class MultUni_Controller {
         isNumeric = new boolean[TWO];
         
         for (int ithCol = 0; ithCol < TWO; ithCol++){
-            isNumeric[ithCol] = al_MultUni_ColOfData.get(ithCol).getDataType().equals("Quantitative");  
+            isNumeric[ithCol] = al_MultUni_ColOfData.get(ithCol).getStrDataType().equals("Quantitative");  
         }
         return true;
     }

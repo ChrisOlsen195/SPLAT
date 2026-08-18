@@ -144,7 +144,7 @@ public class VerticalBoxPlot_View extends Region {
         this.vBoxModel = vBoxModel; 
         strSubTitle = vBoxModel.getSubTitle();
         if (printTheStuff) {
-            System.out.println("--- 147 VerticalBoxPlot_View, strSubTitle = " + strSubTitle);
+            System.out.println("... 147 VerticalBoxPlot_View, strSubTitle = " + strSubTitle);
         }
         initStuff();
     }
@@ -323,7 +323,7 @@ public class VerticalBoxPlot_View extends Region {
                         break;
                         
                     default:
-                        String switchFailure = "Switch failure: VerticalBoxPlot_View 316 " + daID;
+                        String switchFailure = "Switch failure: VerticalBoxPlot_View 326 " + daID;
                         MyAlerts.showUnexpectedErrorAlert(switchFailure);
                     break;
                 }

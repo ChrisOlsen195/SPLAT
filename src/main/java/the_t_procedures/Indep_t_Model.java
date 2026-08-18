@@ -65,7 +65,7 @@ public class Indep_t_Model {
         dm.whereIsWaldo(65, waldoFile, " --- doIndepTAnalysis()");
         returnStatus = "OK";
         altHypothesis = indep_t_Dialog.getAltHypothesis();
-        hypothDiff = indep_t_Dialog.getHypothesizedDiffInMeans();
+        hypothDiff = indep_t_Dialog.getTheHypothesizedDiff();
         alpha = indep_t_Dialog.getInd_t_Alpha();
         confidenceLevel = (int)(100. *(1.0 - alpha));
         oneMinusAlpha = 1.0 - alpha;
@@ -136,7 +136,7 @@ public class Indep_t_Model {
         stErr_Pooled = Math.sqrt(s2_pooled_ratio * s2_pooled_ns);
         stErr_Unpooled = Math.sqrt(var_1 / n1 + var_2 / n2);
         tForTwoTails_Unpooled = (diffXBar - hypothDiff) / stErr_Unpooled;    
-        hypothDiff = indep_t_Dialog.getHypothesizedDiffInMeans();
+        hypothDiff = indep_t_Dialog.getTheHypothesizedDiff();
 
         t_Unpooled = (xBar_1 - xBar_2 - hypothDiff) / stErr_Unpooled;
         t_Pooled = (xBar_1 - xBar_2 - hypothDiff) / stErr_Pooled;

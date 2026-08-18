@@ -20,7 +20,7 @@ public class SmartTextFieldDoublyLinkedSTF {
     
     public SmartTextFieldDoublyLinkedSTF (SmartTextFieldsController stf_Controller, int size) {
         if (printTheStuff) {
-            System.out.println("23 *** DoublyLinkedSTF, Constructing, size = " + size);
+            System.out.println("*** 23 DoublyLinkedSTF, Constructing, size = " + size);
         }
         this.size = size;
         al_STF = new ArrayList(size);        
@@ -36,7 +36,7 @@ public class SmartTextFieldDoublyLinkedSTF {
     
     public void makeCircular() {
         if (printTheStuff) {
-            System.out.println("39 --- DoublyLinkedSTF, makeCircular() ");
+            System.out.println("--- 39 DoublyLinkedSTF, makeCircular() ");
         }
         al_STF.get(0).setPre_Me_AndPostSmartTF(size - 1, 0, 1);
         al_STF.get(size - 1).setPre_Me_AndPostSmartTF(size - 2, size - 1, 0);        

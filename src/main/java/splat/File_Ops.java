@@ -1,7 +1,7 @@
 /************************************************************
  *                            FileOps                       *
- *                           04/13/25                       *
- *                            18:00                         *
+ *                           08/13/26                       *
+ *                            15:00                         *
  ***********************************************************/
 /**************************************************
 *  All coordinate systems are zero-based:         *
@@ -54,7 +54,7 @@ public class File_Ops {
         returnStatus = "Ok";
         myYesNoAlerts = new MyYesNoAlerts();
         dm.setRawOrSummary(("NULL"));
-        dm.setTIorTIDY("NULL");
+        dm.setTI8xorTIDY("NULL");
     }
     
     public File_Ops( String fileName, Data_Manager dm) {
@@ -66,11 +66,11 @@ public class File_Ops {
         parseAndRead(theFile);
         myYesNoAlerts = new MyYesNoAlerts();
         dm.setRawOrSummary(("NULL"));
-        dm.setTIorTIDY("NULL");
+        dm.setTI8xorTIDY("NULL");
     }
 
     public void ClearTable() {
-        dm.whereIsWaldo(73, waldoFile, "Clear table"); 
+        dm.whereIsWaldo(73, waldoFile, " --- Clear table"); 
         if (!dm.getDataAreClean()) {
             myYesNoAlerts.setTheYes("Trash it!");     //  Trash the data
             myYesNoAlerts.setTheNo("Save it!");    //  Keep the data
@@ -80,7 +80,7 @@ public class File_Ops {
         }
         // Reinitialize values for 'no data'
         dm.setRawOrSummary(("NULL"));
-        dm.setTIorTIDY("NULL");
+        dm.setTI8xorTIDY("NULL");
         maxCasesInGrid = dm.getMaxVisCases();
         dm.initializeGrid(maxCasesInGrid);
         dm.setDataExists(false);
@@ -88,7 +88,7 @@ public class File_Ops {
     
 
     public String getDataFromFile(int startVariable) throws Exception {
-        dm.whereIsWaldo(91, waldoFile, "getDataFromFile(int startVariable)");
+        dm.whereIsWaldo(91, waldoFile, " --- getDataFromFile(int startVariable)");
         try {
             FileChooser fChoose = new FileChooser();
             fChoose.setTitle("Get Data");
@@ -117,7 +117,7 @@ public class File_Ops {
             return returnStatus;
         }
         catch(Exception ex) {
-            PrintExceptionInfo pei = new PrintExceptionInfo(ex, "113 File_Ops.getDataFromFile()");
+            PrintExceptionInfo pei = new PrintExceptionInfo(ex, "120 File_Ops.getDataFromFile()");
             returnStatus = "ExceptionThrown";
             return returnStatus;
         }
@@ -125,11 +125,11 @@ public class File_Ops {
 
     
     private String parseAndRead(File fileName) {
-        dm.whereIsWaldo(128, waldoFile, "parseAndRead(File fileName)");
+        dm.whereIsWaldo(128, waldoFile, " --- parseAndRead(File fileName)");
         /*************************************************************
          *    New file -->  format (Tidy or TI8x) unknown            *
          ************************************************************/
-        dm.setTIorTIDY(("NULL"));
+        dm.setTI8xorTIDY(("NULL"));
         fileParser = new CSV_FileParser(fileName, dm.getDelimiter());
         returnStatus = fileParser.parseTheFile();
         
@@ -152,6 +152,7 @@ public class File_Ops {
         
         for (int j = 0; j < nVarsInFile; j++) {
             dm.setVariableNameInStruct(j + startVariable, fileParser.getDataElementColRow(j, 0));
+            dm.whereIsWaldo(155, waldoFile, " --- setVarName = " + fileParser.getDataElementColRow(j, 0));
         }
         
         for (int iRow = 0; iRow < nCasesInFile; iRow++) {           
@@ -179,7 +180,8 @@ public class File_Ops {
 
         for (int ithInitColumn = 0; ithInitColumn < nVarsInFile; ithInitColumn++) {
             dm.getAllTheColumns().get(ithInitColumn).determineDataType();
-            String dataType = dm.getAllTheColumns().get(ithInitColumn).getDataType();            
+            String dataType = dm.getAllTheColumns().get(ithInitColumn).getStrDataType(); 
+             dm.whereIsWaldo(184, waldoFile, " ... at Init, dataType of col " + ithInitColumn + " = " + dataType);
             if (dataType.equals("Quantitative")) { 
                 dm.setDataType(ithInitColumn, "Quantitative");
             } else {
@@ -201,7 +203,7 @@ public class File_Ops {
     } // OpenData
 
     public void SaveData(Data_Manager dm, boolean getFileName) {
-        dm.whereIsWaldo(204, waldoFile, "  --- SaveData(Data_Manager dm, boolean getFileName)");
+        dm.whereIsWaldo(206, waldoFile, " --- SaveData()");
         int i, j, currVars, currCases;
         
         if (tracker.getNVarsInStruct() == 0) {            
@@ -239,10 +241,10 @@ public class File_Ops {
         }
 
         if (fileName.getName().equals("")) { return; }
-        
+        dm.whereIsWaldo(244, waldoFile, " ... SaveData()");
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-            currVars =tracker.getNVarsInStruct();
+            currVars = tracker.getNVarsInStruct();
             currCases = tracker.getNCasesInStruct();
             for (j = 0; j < currVars; j++) {
                 writer.write(dm.getVariableName(j));
@@ -253,9 +255,9 @@ public class File_Ops {
             }
             writer.write("\n");
             
-            for (i = 0; i < currCases; i++) {                
-                for (j = 0; j < currVars; j++) {                    
-                    writer.write(dm.getFromDataStruct(j, i));                    
+            for (i = 0; i < currCases; i++) {    
+                for (j = 0; j < currVars; j++) {   
+                    writer.write(dm.getFromDataStruct(j, i));   
                     if (j < (currVars - 1)) {
                         writer.write(dm.getDelimiter());
                     }
@@ -263,12 +265,11 @@ public class File_Ops {
                 writer.write("\n");
             }
             writer.close();
-
             dm.setTheFile(fileName);
             dm.setLastPath(fileName);
 
         } catch (IOException e) { String str = this.toString();}           
-    } // SaveData
+    }
     
     public String PrintFile(Data_Manager dm) {
         printFile_Controller = new PrintFile_Controller(dm) ;
@@ -277,7 +278,7 @@ public class File_Ops {
     }
 
     public void ExitProgram(Data_Manager dm) {
-        dm.whereIsWaldo(280, waldoFile, "  --- ExitProgram(Data_Manager dm)");
+        dm.whereIsWaldo(281, waldoFile, "  --- ExitProgram(Data_Manager dm)");
         boolean exit = true;
 
         if (!dm.getDataAreClean()) {  

@@ -1,6 +1,6 @@
 /**************************************************
  *        OneProp_Power_VsEffectSizeView          *
- *                  04/07/25                      *
+ *                  05/21/26                      *
  *                    18:00                       *
  *************************************************/
 package power_OneProp;
@@ -16,13 +16,6 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.AnchorPane;
 import superClasses.*;
 import genericClasses.*;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 
 public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
@@ -47,20 +40,20 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("51 *** OneProp_Power_VsEffectSizeView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 44 OneProp_Power_VsEffectSizeView, Constructing");
         }
         this.oneProp_Power_Model = oneProp_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         oneProp_Power_Model.restoreNullValues();
         sampleSize = oneProp_Power_Model.getSampleSize();
-        nullProp = oneProp_Power_Model.getNullProp();
-        nullStErr = oneProp_Power_Model.getStErr_PNull();
-        altProp = oneProp_Power_Model.getAltProp();
-        altStErr = oneProp_Power_Model.getStandErr_PAlt();
-        fromHere = -1.0; // ***********************************
-        toThere = 1.0;   // ***********************************
+        nullProp = oneProp_Power_Model.getNullParam();
+        nullStErr = oneProp_Power_Model.getStErr_NullParam();
+        altProp = oneProp_Power_Model.getAltParam();
+        altStErr = oneProp_Power_Model.getStErr_AltParam();
+        fromHere = -1.0; 
+        toThere = 1.0;  
         alpha = oneProp_Power_Model.getAlpha();   
         makeItHappen();
     }  
@@ -185,16 +178,34 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
         
         // Set initial yValue, and get the power there
         xx0 = xGraphLeft; 
-        oneProp_Power_Model.setAltProp(xx0 + nullProp); // xx0 is effect size
+        oneProp_Power_Model.setAltParam(xx0 + nullProp); // xx0 is effect size
         power = oneProp_Power_Model.calculatePower();
         yy0 = power;
-        
+        double daSampleSize = sampleSize;
         for (double x = xGraphLeft; x <= xGraphRight; x += delta) {
             xx1 = x; 
-            oneProp_Power_Model.setAltProp(xx1 + nullProp); // xx1 is effect size
-            double tempEffectSize = xx1; // *********************
+            oneProp_Power_Model.setAltParam(xx1 + nullProp); // xx1 is effect size
+            double tempEffectSize = xx1; 
+            // Get needed current values for restoration
+            double forRestorationAltProp = oneProp_Power_Model.getAltParam();   //  Move out of loop?
+            double forRestorationAltStErr = oneProp_Power_Model.getStErr_AltParam();    //  Move out of loop?
+            double tempAltProp = tempEffectSize + oneProp_Power_Model.getNullParam();
+            
+            if ((tempAltProp <= 0. ) || (tempAltProp >= 1.0)) {
+                continue;
+            }
+            if ((daSampleSize * tempAltProp < 10.) || (daSampleSize * (1.0 - tempAltProp) < 10.)) {
+                System.out.println("198 VsEffectSize np rule violation at effect size = " + tempEffectSize);
+                continue;
+            }
+
+            double tempStErrAlt = Math.sqrt(tempAltProp * (1.0 - tempAltProp) / daSampleSize);
+            oneProp_Power_Model.setAltParam(tempAltProp);
+            oneProp_Power_Model.setStErr_AltParam(tempStErrAlt);
             power = oneProp_Power_Model.calculatePower();
-            //System.out.println("195 OnePropPower_VsEffectSizeView, eff/power = " + tempEffectSize + " / " + power);
+            // restore to prior values
+            oneProp_Power_Model.setAltParam(forRestorationAltProp);
+            oneProp_Power_Model.setStErr_AltParam(forRestorationAltStErr);
             yy1 = power;            
             xStart = xAxis.getDisplayPosition(xx1); 
             yStart = yAxis.getDisplayPosition(yy0); 
@@ -207,21 +218,7 @@ public class OneProp_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
             xx0 = xx1; yy0 = yy1;   //  Next start point for line segment
         }  
         
-        oneProp_Power_Model.restoreNullValues();
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));              
+        oneProp_Power_Model.restoreNullValues();              
     }   //  end doTheGraph     
     
    public Pane getTheContainingPane() {  return theContainingPane; }

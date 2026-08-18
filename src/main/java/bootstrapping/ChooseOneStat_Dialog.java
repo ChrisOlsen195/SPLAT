@@ -1,6 +1,6 @@
 /**********************************************************************
- *                        ChooseOneVar_Dialog                        *
- *                             12/31/25                               *
+ *                        ChooseOneStat_Dialog                        *
+ *                             08/03/26                               *
  *                               15:00                                *
  *********************************************************************/
 package bootstrapping; 
@@ -8,12 +8,12 @@ package bootstrapping;
 import dialogs.One_Variable_Dialog;
 import splat.Data_Manager;
 
-public class ChooseOneVar_Dialog extends One_Variable_Dialog { 
+public class ChooseOneStat_Dialog extends One_Variable_Dialog { 
     
-    String waldoFile = "Boot_ChooseOneVar_Dialog";
-    //String waldoFile = "";
+    //String waldoFile = "Boot_ChooseOneStat_Dialog";
+    String waldoFile = "";
     
-public ChooseOneVar_Dialog(Data_Manager dm, String variableType) {
+public ChooseOneStat_Dialog(Data_Manager dm, String variableType) {
         super(dm, "Quantitative");
         dm.whereIsWaldo(18, waldoFile, "Constructing");
         lbl_Title.setText("Bootstrapping");

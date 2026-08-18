@@ -35,7 +35,7 @@ public class TwoProp_Inf_Controller {
     
     public String doTheControllerThing() { 
         if (printTheStuff) {
-            System.out.println("*** 38 TwoProp_Inf_Controller, doTheControllerThing()");
+            System.out.println("--- 38 TwoProp_Inf_Controller, doTheControllerThing()");
         }
         yesOrNo = "Yes";
         while (yesOrNo.equals("Yes")) {  

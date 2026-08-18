@@ -1,7 +1,7 @@
 /******************************************************************
  *                     DataCleaner                                *
- *                       12/16/25                                 *
- *                        21:00                                   *
+ *                       08/14/26                                 *
+ *                        15:00                                   *
  *****************************************************************/
 package utilityClasses;
 
@@ -29,7 +29,7 @@ import splat.*;
 
 public class DataCleaner {
     // POJOs
-    boolean inListToClean, doubleTrouble;
+    boolean inListToClean, doubleTrouble, columnIsClean;
     
     int nEdits, nDataToClean, currentlyEditing, nUniques, nStringsToClean,
         nNonMissingData;
@@ -41,6 +41,9 @@ public class DataCleaner {
     //String waldoFile = "DataCleaner";    
     String waldoFile  = "";
     
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
+    
     ArrayList<String> listView_From, listView_To, al_NonMissing;
     ListView<String> lv_Uniques, listView_PreChoice, listView_PostChoice;
     
@@ -49,25 +52,25 @@ public class DataCleaner {
     Data_Manager dm;
     HBox hBox_Buttons, lists;
     Stage stage;
-    Text captions;
-    Text directions;
+    Text captions, directions;
     VBox root;
       
     public DataCleaner(Data_Manager dm, ColumnOfData columnToClean) {
         this.dm = dm; 
-        dm.whereIsWaldo(58, waldoFile, " *** Constructing");
+        dm.whereIsWaldo(60, waldoFile, " *** Constructing");
         nDataToClean = dm.getNCasesInStruct();
         str_FixedData = new String[nDataToClean];
         al_NonMissing = new ArrayList();  
-        strReturnStatus = "OK";
+        setStrReturnStatus("OK");
         for (int ith = 0; ith < nDataToClean; ith++) {
             str_FixedData[ith] = columnToClean.getStringInIthRow(ith);
         }  
+        columnIsClean = true;
     }
     
     public String cleanAway() {
-        dm.whereIsWaldo(69, waldoFile, " --- cleanAway()");
-        strReturnStatus = "OK";
+        dm.whereIsWaldo(72, waldoFile, " --- cleanAway()");
+        setStrReturnStatus("OK");
         stage = new Stage();
         
         for (int ith = 0; ith < nDataToClean; ith++) {         
@@ -84,7 +87,7 @@ public class DataCleaner {
         nNonMissingData = str_NonMissing.length;
         
         if (nNonMissingData > 0) {
-            dm.whereIsWaldo(87, waldoFile, "--- cleanAway(), nNonMissingData > 0");
+            dm.whereIsWaldo(90, waldoFile, " --- cleanAway(), if nNonMissingData > 0");
             str_CleanedData = new String[nNonMissingData];
             lv_Uniques = new ListView<>();
             listView_From = new ArrayList<>();
@@ -123,20 +126,19 @@ public class DataCleaner {
             // Add Edit-related event handlers
             lv_Uniques.setOnEditStart(this::editStart);
             lv_Uniques.setOnEditCommit(this::editCommit);
-
-            strReturnStatus = cleanTheStrings();
-            dm.whereIsWaldo(128, waldoFile, "--- cleanAway(), strReturnStatus = " + strReturnStatus);
-        }
-        
-        else {
+            dm.whereIsWaldo(129, waldoFile, "... cleanAway(), pre-strReturnStatus = " + getStrReturnStatus());
+            setStrReturnStatus(cleanTheStrings());
+            dm.whereIsWaldo(131, waldoFile, "... cleanAway(), post-strReturnStatus = " + getStrReturnStatus());
+        } else {
             // No-op
         }
-        dm.whereIsWaldo(134, waldoFile, " --- END cleanAway()");
-        return strReturnStatus;
+        
+        dm.whereIsWaldo(136, waldoFile, " ... END cleanAway()");
+        return getStrReturnStatus();
     } 
     
     private String cleanTheStrings() {
-        dm.whereIsWaldo(139, waldoFile, " --- cleanTheStrings()");
+        dm.whereIsWaldo(141, waldoFile, " --- cleanTheStrings()");
         root = new VBox();
         nStringsToClean = str_NonMissing.length;
         directions = new Text();
@@ -160,20 +162,22 @@ public class DataCleaner {
         btn_Cancel = new Button("Cancel");
         btn_Cancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                dm.whereIsWaldo(163, waldoFile, "*** btn_Cancel.setOnAction");
-                strReturnStatus = "Cancel";
+                dm.whereIsWaldo(165, waldoFile, "*** btn_Cancel.setOnAction");
+                setStrReturnStatus("Cancel");
+                columnIsClean = false;
                 stage.hide();
-                return;
             }
         });
         
         stage.setOnCloseRequest(e -> {
+           dm.whereIsWaldo(173, waldoFile, "--- stage.setOnCloseRequest");
            btn_Cancel.fire(); 
         });
 
         btn_OK = new Button("OK");
         btn_OK.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {     
+            public void handle(ActionEvent event) {    
+                dm.whereIsWaldo(180, waldoFile, "--- btn_OK.setOnAction");
                 // For the edits made
                 // Make changes in the original list
                 // Clean if needed, else just copy                
@@ -188,6 +192,7 @@ public class DataCleaner {
                 }
 
                 collectUniqueValues();
+                columnIsClean = true;
                 stage.hide();
             }
         });                
@@ -212,9 +217,9 @@ public class DataCleaner {
         stage.setScene(scene);		
         stage.setTitle("Editing categorical list from DataManager");
         stage.showAndWait();
-        dm.whereIsWaldo(215, waldoFile, " --- END cleanTheStrings()");
-        return strReturnStatus;
-    }   //  end cleanTheseStrings
+        dm.whereIsWaldo(220, waldoFile, " ... END cleanTheStrings()");
+        return getStrReturnStatus();
+    }
     
     public boolean isInListToClean(String thisOne) {
         inListToClean = false;
@@ -276,7 +281,30 @@ public class DataCleaner {
     }
     
     public String[] getFixedData() { return str_FixedData; }
-    public String getReturnStatus() { return strReturnStatus; }
+    
+    public String getStrReturnStatus() { 
+        if (printTheStuff) {
+            System.out.println("... 287 DataCleaner, getting StrReturnStatus: " + strReturnStatus);
+        }    
+        return strReturnStatus; 
+    }  
+    public void setStrReturnStatus(String toThis) { 
+        if (printTheStuff) {
+            System.out.println("... 293 DataCleaner, settingStrReturnStatus to " + toThis);
+        }    
+        strReturnStatus = toThis; 
+    }
+    
+    /************************************************************************ 
+     *  This method is for columns of categorical data.  The intent is to   *
+     *  discern when a user bails of the data cleaning dialog with a Cancel *
+     *  or CloseWindow request.                                             *
+     ***********************************************************************/
+    public boolean getColumnIsClean() { 
+        dm.whereIsWaldo(304, waldoFile, " --- getColumnIsClean(), columnIsClean = " + columnIsClean);
+        return columnIsClean; 
+    }
+    
     public String[] getUniques() { return finalCategories; }
     public int getNUniques() { return nUniques; }
     public int[] getCategoryCount() { return categoryCount; }

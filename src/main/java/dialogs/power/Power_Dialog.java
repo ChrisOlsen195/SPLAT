@@ -1,7 +1,7 @@
 /************************************************************
  *                        Power_Dialog                      *
- *                          01/15/25                        *
- *                            15:00                         *
+ *                          06/06/12                        *
+ *                            12:00                         *
  ***********************************************************/
 package dialogs.power;
 
@@ -67,10 +67,10 @@ public class Power_Dialog extends Splat_Dialog {
         strReturnStatus = "Ok";
         ok = true;
 
-        lblTitle = new Label("One-variable dialog");
+        lblTitle = new Label("Power dialog");
         lblTitle.getStyleClass().add("dialogTitle");
         lblTitle.setPadding(new Insets(10, 10, 10, 10));
-        
+
         if (dm != null) {
             lblSelectionDirections = new Label("Please select the variable of interest below...");
             lblSelectionDirections.setPadding(new Insets(25, 0, 0, 0));      

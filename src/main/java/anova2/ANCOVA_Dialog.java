@@ -62,11 +62,12 @@ public class ANCOVA_Dialog extends Splat_Dialog {
     public ANCOVA_Dialog(Data_Manager dm) {
         super(dm);
         this.dm = dm;
+        dm.whereIsWaldo(65, waldoFile, " *** Constructing");
         strReturnStatus = "OK";
     }
 
     public String doTheDialog() { 
-        dm.whereIsWaldo(69, waldoFile, "doTheDialog()");
+        dm.whereIsWaldo(70, waldoFile, " *** doTheDialog()");
         int casesInStruct = dm.getNCasesInStruct();
         
         if (casesInStruct == 0) {
@@ -90,7 +91,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
     } // showStep0
     
     public void showTheDialog() {
-        dm.whereIsWaldo(93, waldoFile, "showTheDialog()");
+        dm.whereIsWaldo(93, waldoFile, " *** showTheDialog()");
         VBox mainPanel = new VBox(10);
         mainPanel.setAlignment(Pos.CENTER);
         mainPanel.setPadding(new Insets(10, 10, 10, 10));
@@ -120,11 +121,11 @@ public class ANCOVA_Dialog extends Splat_Dialog {
 
         VBox vBox_FactorA_Panel = new VBox();
         vBox_FactorA_Panel.setAlignment(Pos.TOP_LEFT);
-        dm.whereIsWaldo(123, waldoFile, "doTheDialog()");
+        dm.whereIsWaldo(123, waldoFile, " --- doTheDialog()");
         
         titleLabel = new Label("Analysis of Covariance");
         lbl_Treatment = new Label("Treatment:");
-        dm.whereIsWaldo(127, waldoFile, "doTheDialog()");
+        dm.whereIsWaldo(127, waldoFile, " --- doTheDialog()");
         
         lbl_Treatment.setPadding(new Insets(0, 0, 5, 0));
         tf_FactorA = new TextField("");
@@ -135,7 +136,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
         vBox_FactorB_Panel.setAlignment(Pos.TOP_LEFT);
         lbl_FactorB = new Label("Covariate:");
         
-        dm.whereIsWaldo(138, waldoFile, "doTheDialog()");
+        dm.whereIsWaldo(139, waldoFile, " --- doTheDialog()");
         lbl_FactorB.setPadding(new Insets(0, 0, 5, 0));
         tf_FactorB = new TextField("");
         tf_FactorB.setPrefWidth(125.0);
@@ -204,11 +205,11 @@ public class ANCOVA_Dialog extends Splat_Dialog {
         });
 
         arrow_SelectFactorA.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(207, waldoFile, "showTheDialog()");
+            dm.whereIsWaldo(208, waldoFile, " --- showTheDialog()");
             str_NameTreatment = varList1.getNamesSelected().get(0);
             index_Treatment = dm.getVariableIndex(str_NameTreatment);
             
-            if (dm.getAllTheColumns().get(index_Treatment).getDataType().equals("Quantitative")) {
+            if (dm.getAllTheColumns().get(index_Treatment).getStrDataType().equals("Quantitative")) {
                 MyAlerts.showANCOVA_NumericTreatmentAlert();
                 strReturnStatus = "Cancel";
                 diagStage.close();
@@ -226,10 +227,10 @@ public class ANCOVA_Dialog extends Splat_Dialog {
         });
 
         arrow_SelectFactorB.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(229, waldoFile, "showTheDialog()");
+            dm.whereIsWaldo(230, waldoFile, " --- showTheDialog()");
             str_NameCovariate = varList1.getNamesSelected().get(0);
             index_Covariate = dm.getVariableIndex(str_NameCovariate);
-            if (dm.getAllTheColumns().get(index_Covariate).getDataType().equals("Quantitative")) {
+            if (dm.getAllTheColumns().get(index_Covariate).getStrDataType().equals("Quantitative")) {
                 tf_FactorB.setText(str_NameCovariate);
                 varList1.delVarName(varList1.getNamesSelected());
             } else {
@@ -240,11 +241,10 @@ public class ANCOVA_Dialog extends Splat_Dialog {
         });
 
         arrow_SelectResponse.setOnAction((ActionEvent event) -> {    
-            dm.whereIsWaldo(243, waldoFile, "showTheDialog()");
+            dm.whereIsWaldo(244, waldoFile, " --- showTheDialog()");
             str_NameResponse = varList1.getNamesSelected().get(0);
             index_ResponseVar = dm.getVariableIndex(str_NameResponse);                
-            if (dm.getAllTheColumns().get(index_ResponseVar).getDataType().equals("Quantitative")){
-                //System.out.println("247 ANCOVA_Dialog, response is numeric");
+            if (dm.getAllTheColumns().get(index_ResponseVar).getStrDataType().equals("Quantitative")){
                 tf_ResponseVar.setText(str_NameResponse);
                 varList1.delVarName(varList1.getNamesSelected());
             } else {
@@ -255,7 +255,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
         });
 
         btn_Compute.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(258, waldoFile, "btn_Compute");
+            dm.whereIsWaldo(258, waldoFile, " --- btn_Compute");
             boolean treatmentIsEmpty = (tf_FactorA.getText()).isEmpty();
             boolean covariateIsEmpty = (tf_FactorB.getText()).isEmpty();
             boolean responseIsEmpty = (tf_ResponseVar.getText()).isEmpty();
@@ -265,7 +265,7 @@ public class ANCOVA_Dialog extends Splat_Dialog {
                strReturnStatus = "Cancel";
                diagStage.close();
             } else {
-                dm.whereIsWaldo(268, waldoFile, "showTheDialog()");
+                dm.whereIsWaldo(268, waldoFile, " --- showTheDialog()");
  
                 colOfData_Treatment = new ColumnOfData(dm.getAllTheColumns().get(index_Treatment));
                 colOfData_Covariate = new ColumnOfData(dm.getAllTheColumns().get(index_Covariate));
@@ -287,11 +287,11 @@ public class ANCOVA_Dialog extends Splat_Dialog {
 
         diagStage.setScene(diagScene1);
         diagStage.setTitle("Step #1");
-        dm.whereIsWaldo(290, waldoFile, "End ShowStep1()");
+        dm.whereIsWaldo(290, waldoFile, " --- End ShowStep1()");
     }
     
     public ArrayList<String> getDummyCodes(int groupingVar) {
-        dm.whereIsWaldo(294, waldoFile, "getDummyCodes()");
+        dm.whereIsWaldo(294, waldoFile, " --- getDummyCodes()");
         ArrayList<String> alstr_SortedTempCodes = new ArrayList();
         ArrayList<String> alstr_DumsToReturn = new ArrayList();
         ArrayList<String> alstr_TempData = dm.getSpreadsheetColumnAsStrings(groupingVar, -1, null);

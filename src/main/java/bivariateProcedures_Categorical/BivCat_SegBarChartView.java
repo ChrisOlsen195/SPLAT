@@ -75,7 +75,7 @@ public class BivCat_SegBarChartView  {
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) 
     {
-        //System.out.println("\n78 BivCat_SegBarChartView, constructing");
+        //System.out.println("*** 78 BivCat_SegBarChartView, constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;         
         this.bivCat_Model = bivCat_Model;
@@ -339,8 +339,7 @@ public class BivCat_SegBarChartView  {
                             leftXBaseLine - 2., topYBaseLine + 1.);   
     }
     
-    private void constructSegBarInfo()
-    {
+    private void constructSegBarInfo() {
         nRowsCat = bivCat_Model.getNumberOfRows();
         nColsCat = bivCat_Model.getNumberOfColumns();
 

@@ -83,7 +83,7 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
 
     protected void defineTheCheckBoxes() {
          if (printTheStuff) {
-            System.out.println("*** 86 Matched_t_Dialog, defineTheCheckBoxes()");
+            System.out.println("--- 86 Matched_t_Dialog, defineTheCheckBoxes()");
         } 
         // Check box strings must match the order of dashboard strings
         // Perhaps pass them to dashboard in future?
@@ -99,7 +99,7 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
 
  private void makeHypotheses() {
          if (printTheStuff) {
-            System.out.println("*** 102 Matched_t_Dialog_Dialog, makeHypotheses()");
+            System.out.println("--- 102 Matched_t_Dialog_Dialog, makeHypotheses()");
         }        
         hypothesizedDifference = 0.0;
         daNewNullDiff = 0.0;
@@ -197,7 +197,7 @@ public class Matched_t_Dialog extends Two_Variables_Dialog{
  
  private void makeAlphaAndCIPanel() {
         if (printTheStuff) {
-            System.out.println("*** 200 Matched_t_Dialog, makeAlphaAndCIPanel()");
+            System.out.println("--- 200 Matched_t_Dialog, makeAlphaAndCIPanel()");
         }  
         ciLabel = new Label("   Select conf level");
         ciLabel.setMaxWidth(130);

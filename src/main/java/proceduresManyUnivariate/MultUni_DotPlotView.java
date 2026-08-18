@@ -74,23 +74,23 @@ public class MultUni_DotPlotView extends BivariateScale_W_CheckBoxes_View {
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
         if (printTheStuff) {
-            System.out.println("77 *** MultUni_DotPlotView, constructing");
+            System.out.println("*** 77 MultUni_DotPlotView, constructing");
         }
         this.multUni_DotPlotModel = multUni_DotPlotModel;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.multUni_DotPlotModel = multUni_DotPlotModel;
         if (printTheStuff) {
-            System.out.println("84 *** MultUni_DotPlotView, constructing");
+            System.out.println("... 84 MultUni_DotPlotView, constructing");
         }
         cqdv = multUni_DotPlotModel.getCQDV();
         categoryLevels = new ArrayList();
         if (printTheStuff) {
-            System.out.println("89 *** MultUni_DotPlotView, constructing");
+            System.out.println("... 89 MultUni_DotPlotView, constructing");
         }
         categoryLevels = cqdv.getCategoryLevels();
         if (printTheStuff) {
-            System.out.println("93 *** MultUni_DotPlotView, constructing");
+            System.out.println("... 93 MultUni_DotPlotView, constructing");
         }
         nLevels = categoryLevels.size();
         finishConstruction();
@@ -98,7 +98,7 @@ public class MultUni_DotPlotView extends BivariateScale_W_CheckBoxes_View {
     
     private void finishConstruction() {
         if (printTheStuff) {
-            System.out.println("101 *** MultUni_DotPlotView, finishConstruction()");
+            System.out.println("--- 101 MultUni_DotPlotView, finishConstruction()");
         }
         nLegalDataPoints = multUni_DotPlotModel.getQDV().getLegalN();
         ithBinLimits = multUni_DotPlotModel.getBinLimits();
@@ -157,7 +157,7 @@ public class MultUni_DotPlotView extends BivariateScale_W_CheckBoxes_View {
         
     public void completeTheDeal() { 
         if (printTheStuff) {
-            System.out.println("160 *** MultUni_DotPlotView, completeTheDeal()");
+            System.out.println("--- 160 MultUni_DotPlotView, completeTheDeal()");
         }
         initializeGraphParameters();
         setUpUI();       

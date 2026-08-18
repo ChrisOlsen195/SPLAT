@@ -80,8 +80,8 @@ public class Distributions_Calc_PDFView extends BivariateScale_W_CheckBoxes_View
     super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
-        if (printTheStuff == true) {
-            System.out.println("85 *** Distributions_Calc_PDFView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 85 Distributions_Calc_PDFView, Constructing");
         }
         xPrintPosLeft = 0.05;
         xPrintPosCenter = 0.325;

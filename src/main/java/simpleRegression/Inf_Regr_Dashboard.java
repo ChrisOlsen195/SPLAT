@@ -1,7 +1,7 @@
 /**************************************************
- *           Simple_Regression_Dashboard          *
- *                    12/14/25                    *
- *                     09:00                      *
+ *              Inf_Regr_Dashboard                *
+ *                    06/06/26                    *
+ *                     12:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -12,11 +12,15 @@ package simpleRegression;
 import proceduresOneUnivariate.NormProb_Model;
 import proceduresOneUnivariate.NormProb_View;
 import dataObjects.QuantitativeDataVariable;
+import dialogs.power.Power_LinReg_Dialog;
+import javafx.event.EventHandler;
 import superClasses.Dashboard;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.WindowEvent;
+import power_LinReg.LinReg_Power_Controller;
 
-public class Regr_Dashboard extends Dashboard {
+public class Inf_Regr_Dashboard extends Dashboard {
     // POJOs
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
@@ -26,45 +30,54 @@ public class Regr_Dashboard extends Dashboard {
                                          " Scatterplot ", " Residual plot ",
                                          " RegrReport ", " DiagReport ",
                                          "NPP Residuals", "StatSummary",
-                                         "Joint CI"};
+                                         "Power"};
     
-    // Make empty if no-print
     //String waldoFile = "Regr_Dashboard";
     String waldoFile = "";
     
     // My classes
 
-    Regr_BestFit_View bestFitView;  
+    Inf_Regr_BestFit_View bestFitView;  
     PrintDiagReport_View prntDiagReportView; 
     PrintRegrReport_View prntRegReportView;
     Inf_Regr_Model inf_Regression_Model;   
     NormProb_Model normProb_Model;
     Regr_PDFView regression_PDFView;    
-    Regr_Residuals_View residualsView;
+    Inf_Regr_Residuals_View residualsView;
     NormProb_View nppResidsView;
     PrintBivStats_View printBivStats_View;
     QuantitativeDataVariable qdv_Resids;
-    Regr_JointCI_View jointCI_View;
+    LinReg_Power_Controller linReg_Power_Controller;
+
 
     // POJOs / FX
     Pane pdfViewContainingPane, bestFitContainingPane, residualsContainingPane,
          prntRegReportContainingPane, prntDiagReportContainingPane,
-         nppResidsContainingPane, printBivStatsContainingPane,
-         jointCIContainingPane; 
+         nppResidsContainingPane, printBivStatsContainingPane; 
             
-    public Regr_Dashboard(Inf_Regr_Controller inf_Regression_Controller, Inf_Regr_Model inf_Regression_Model) {
+    public Inf_Regr_Dashboard(Inf_Regr_Controller inf_Regression_Controller, Inf_Regr_Model inf_Regression_Model) {
         super(8);
         if (printTheStuff) {
-            System.out.println("*** 58 Regr_Dashboard, Constructing");
+            System.out.println("61 *** Inf_Regr_Dashboard, Constructing");
         }
         dm = inf_Regression_Controller.getDataManager();
-        dm.whereIsWaldo(55, waldoFile, "Constructing");
+        dm.whereIsWaldo(64, waldoFile, "Constructing");
         this.inf_Regression_Model = inf_Regression_Model;
+        linReg_Power_Controller = new LinReg_Power_Controller(this, inf_Regression_Controller);
         qdv_Resids = new QuantitativeDataVariable();
         qdv_Resids = inf_Regression_Model.getQDVResids();
         subTitle = inf_Regression_Controller.getSubTitle();
         normProb_Model = new NormProb_Model(subTitle, qdv_Resids);
         checkBoxDescr = new String[nCheckBoxes];
+        
+        addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent event) {
+                restoreNumberSeven();
+                Power_LinReg_Dialog power_LinReg_Dialog = linReg_Power_Controller.get_Power_LinReg_Dialog();
+                power_LinReg_Dialog.fireEvent(new WindowEvent(power_LinReg_Dialog, WindowEvent.WINDOW_CLOSE_REQUEST));
+                close();
+            }
+        });
         
         for (int ithCheckBox = 0; ithCheckBox < nCheckBoxes; ithCheckBox++) {
             checkBoxDescr[ithCheckBox] = regrCheckBoxDescr[ithCheckBox];
@@ -80,7 +93,7 @@ public class Regr_Dashboard extends Dashboard {
     
     public void putEmAllUp() { 
         if (printTheStuff) {
-            System.out.println("*** 83 Regr_Dashboard, Constructing");
+            System.out.println("96 --- Inf_Regr_Dashboard, putEmAllUp()");
         }
         if (checkBoxSettings[0] == true) {
             pdfViewContainingPane.setVisible(true);
@@ -120,15 +133,17 @@ public class Regr_Dashboard extends Dashboard {
         else { printBivStatsContainingPane.setVisible(false);  }
         
         if (checkBoxSettings[7] == true) {
-            jointCIContainingPane.setVisible(true);
-            jointCI_View.doTheGraph();
+            linReg_Power_Controller.ShowNWait();
+            checkBoxes[7].setSelected(false);
+            checkBoxes[7].setTextFill(Color.RED);
+            checkBoxSettings[7] = false;
         }
-        else { jointCIContainingPane.setVisible(false);  }
+        else { }
     }
     
     public void populateTheBackGround() {
         if (printTheStuff) {
-            System.out.println("*** 131 Regr_Dashboard, populateTheBackGround()");
+            System.out.println("146 --- Inf_Regr_Dashboard, populateTheBackGround()");
         }
         initWidth[0] = 450;
         initHeight[0] = 300;
@@ -153,14 +168,14 @@ public class Regr_Dashboard extends Dashboard {
 
         initWidth[3] = 650;
         initHeight[3] = 350;
-        bestFitView = new Regr_BestFit_View(inf_Regression_Model, this, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
+        bestFitView = new Inf_Regr_BestFit_View(inf_Regression_Model, this, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]);
         bestFitView.completeTheDeal();
         bestFitContainingPane = bestFitView.getTheContainingPane(); 
         bestFitContainingPane.setStyle(containingPaneStyle);
         
         initWidth[4] = 650;
         initHeight[4] = 350;
-        residualsView = new Regr_Residuals_View(inf_Regression_Model, this, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
+        residualsView = new Inf_Regr_Residuals_View(inf_Regression_Model, this, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
         residualsView.completeTheDeal();        
         residualsContainingPane = residualsView.getTheContainingPane();  
         residualsContainingPane.setStyle(containingPaneStyle);
@@ -179,20 +194,23 @@ public class Regr_Dashboard extends Dashboard {
         printBivStatsContainingPane = printBivStats_View.getTheContainingPane();  
         printBivStatsContainingPane.setStyle(containingPaneStyle);
         
-        initWidth[7] = 550;
-        initHeight[7] = 350;
-        jointCI_View = new Regr_JointCI_View(inf_Regression_Model, this, sixteenths_across[7], sixteenths_down[7], initWidth[7], initHeight[7]);
-        jointCI_View.completeTheDeal();        
-        jointCIContainingPane = jointCI_View .getTheContainingPane();  
-        jointCIContainingPane.setStyle(containingPaneStyle);
-
         backGround.getChildren().addAll( pdfViewContainingPane,
                                          bestFitContainingPane, 
                                          residualsContainingPane,
                                          prntRegReportContainingPane,
                                          prntDiagReportContainingPane,
                                          nppResidsContainingPane,
-                                         printBivStatsContainingPane,
-                                         jointCIContainingPane);          
+                                         printBivStatsContainingPane);         
+    }
+    
+    public Inf_Regr_Dashboard get_Inf_Regr_Dashboard() { return this; }
+    
+    public void restoreNumberSeven() {
+        if (printTheStuff) {
+            System.out.println("210 Inf_Regr_Dashboard, restoreNumberSeven()");
+        }
+        checkBoxes[7].setSelected(false);
+        checkBoxes[7].setTextFill(Color.RED);
+        checkBoxSettings[7] = false;
     }
 }

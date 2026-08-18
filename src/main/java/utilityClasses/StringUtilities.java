@@ -223,7 +223,7 @@ public class StringUtilities {
                 } 
             }
         }
-        //System.out.println("415  *** X2GOF_DataByHand, ALMOST END checkForUniqueCategories()");
+        //System.out.println("... 226 X2GOF_DataByHand, ALMOST END checkForUniqueCategories()");
         return true;        
     }
     

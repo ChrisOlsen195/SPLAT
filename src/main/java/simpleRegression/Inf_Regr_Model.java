@@ -1,7 +1,7 @@
 /**************************************************
- *              Inf_Regression_Model              *
- *                    12/13/25                    *
- *                     21:00                      *
+ *                 Inf_Regr_Model                 *
+ *                    06/09/26                    *
+ *                     15:00                      *
  *************************************************/
 package simpleRegression;
 
@@ -29,7 +29,7 @@ public class Inf_Regr_Model extends Regression_Model
     public Inf_Regr_Model(Inf_Regr_Controller inf_regression_Controller) {   
         super(inf_regression_Controller);
         dm = inf_regression_Controller.getDataManager();
-        dm.whereIsWaldo(32, waldoFile, "Constructing");
+        dm.whereIsWaldo(32, waldoFile, " *** Constructing");
         this.regression_Controller = inf_regression_Controller;
         dm = inf_regression_Controller.getDataManager();
         tracker = inf_regression_Controller.getDataManager().getPositionTracker();
@@ -77,12 +77,12 @@ public class Inf_Regr_Model extends Regression_Model
         addNBlankLinesToRegressionReport(2);
         regressionReport.add(String.format("Source of           Sum of     Degrees of"));
         addNBlankLinesToRegressionReport(1);
-        regressionReport.add(String.format("Variation           Squares      Freedom         Mean Square       F         P-value"));
+        regressionReport.add(String.format("Variation           Squares      Freedom         Mean Square        F        P-value"));
         addNBlankLinesToRegressionReport(1);
         regressionReport.add(String.format(fiftyOneDashesLong));
         addNBlankLinesToRegressionReport(1);
         sourceString = getLeftMostNChars("Regression", 12);
-        regressionReport.add(String.format("%12s    %13.3f      %4d             %8.2f   %8.3f      %6.4f", sourceString,  ssReg,  dfReg,  msReg,  fStatistic, pValue_F));
+        regressionReport.add(String.format("%12s    %13.3f      %4d           %10.2f    %8.3f     %6.3f", sourceString,  ssReg,  dfReg,  msReg,  fStatistic, pValue_F));
         addNBlankLinesToRegressionReport(1);
         sourceString = getLeftMostNChars("Residual", 12);
         regressionReport.add(String.format("%12s    %13.3f      %4d             %8.2f", sourceString, ssResid, dfResid,  msResid));
@@ -151,10 +151,10 @@ public class Inf_Regr_Model extends Regression_Model
             regressionReport.add(respVsExplan);
             addNBlankLinesToRegressionReport(2);
             sourceString = "The regression equation is:";
-            responseLabel2Print = getLeftMostNChars(paramTerm[2], 10) + " = ";
-            responseLabelForSummary = getLeftMostNChars(paramTerm[2], 10);
-            explanLabel2Print = getLeftMostNChars(paramTerm[1], 10);
-            String tempRegrEq = String.format(" %20s  %10s %8.3f %3s %8.3f %10s",
+            responseLabel2Print = getLeftMostNChars(paramTerm[2], 14) + " = ";
+            responseLabelForSummary = getLeftMostNChars(paramTerm[2], 14);
+            explanLabel2Print = getLeftMostNChars(paramTerm[1], 12);
+            String tempRegrEq = String.format(" %20s  %14s %8.3f %3s %8.3f %14s",
                                  sourceString, responseLabel2Print, mat_BetaHats.get(0, 0), "+",
                                  mat_BetaHats.get(1, 0), explanLabel2Print
                               );
@@ -188,7 +188,7 @@ public class Inf_Regr_Model extends Regression_Model
           paramTRatio = tStat.get(jj, 0);
           paramPValue = PValue_T.get(jj, 0);
           
-          regressionReport.add(String.format("%20s     %9.5f     %9.5f    %9.5f      %6.5f", sourceString,  paramEst,  paramStdErr,  paramTRatio,  paramPValue));
+          regressionReport.add(String.format("%20s     %10.4f   %10.4f    %10.4f    %6.3f", sourceString,  paramEst,  paramStdErr,  paramTRatio,  paramPValue));
           addNBlankLinesToRegressionReport(1);
         }    
        
@@ -202,9 +202,9 @@ public class Inf_Regr_Model extends Regression_Model
         addNBlankLinesToRegressionReport(1);
         regressionReport.add(String.format(fortyFiveDashesLong));
         addNBlankLinesToRegressionReport(1);
-        regressionReport.add(String.format("%40s", "                           95% Confidence interval"));
+        regressionReport.add(String.format("%48s", "                                  95% Confidence interval"));
         addNBlankLinesToRegressionReport(1);
-        regressionReport.add(String.format("     Parameter            Lower bound       Estimate         Upper Bound"));
+        regressionReport.add(String.format("     Parameter            Lower bound         Estimate         Upper Bound"));
         addNBlankLinesToRegressionReport(1);
         
         parameter = getLeftMostNChars(paramTerm[0] + bunchaBlanks, 21);
@@ -220,7 +220,7 @@ public class Inf_Regr_Model extends Regression_Model
         fudgedUpperXBound = daParam + fudgeFactor * theCriticalValue * stErrCoef.get(0, 0);
         initialScaleLimits_0 = new Point_2D(fudgedLowerXBound, fudgedUpperXBound);
         
-        regressionReport.add(String.format(" %20s     %9.5f         %9.5f        %9.5f", parameter,  lowBound,  daParam,  hiBound));
+        regressionReport.add(String.format(" %20s     %10.4f         %10.4f        %10.4f", parameter,  lowBound,  daParam,  hiBound));
         addNBlankLinesToRegressionReport(1);
         
         parameter = getLeftMostNChars(paramTerm[1] + bunchaBlanks, 21);
@@ -233,7 +233,7 @@ public class Inf_Regr_Model extends Regression_Model
 
         initialScaleLimits_1 = new Point_2D(initialLowerYBound, initialUpperYBound);
         
-        regressionReport.add(String.format(" %20s     %9.5f         %9.5f        %9.5f", parameter,  lowBound,  daParam,  hiBound));
+        regressionReport.add(String.format(" %20s     %10.4f         %10.4f        %10.4f", parameter,  lowBound,  daParam,  hiBound));
         addNBlankLinesToRegressionReport(1);
         
         parameter = getLeftMostNChars("Error" + bunchaBlanks, 21);
@@ -242,20 +242,22 @@ public class Inf_Regr_Model extends Regression_Model
         lowBound = Math.sqrt(dfResid * msResid / x2Hi);
         daParam = s;
         hiBound = Math.sqrt(dfResid * msResid / x2Low);
-        regressionReport.add(String.format(" %20s     %9.5f         %9.5f        %9.5f", parameter,  lowBound,  daParam,  hiBound));
+        regressionReport.add(String.format(" %20s     %10.4f         %10.4f        %10.4f", parameter,  lowBound,  daParam,  hiBound));
         addNBlankLinesToRegressionReport(1);
 
         parameter = getLeftMostNChars("Pearson's r" + bunchaBlanks, 21);
         lowBound = pearson_95CI_Lo;
         daParam = pearsonsR;
         hiBound = pearson_95CI_Hi;
-        regressionReport.add(String.format(" %20s     %9.5f         %9.5f        %9.5f", parameter,  lowBound,  daParam,  hiBound));        
+        regressionReport.add(String.format(" %20s     %10.4f         %10.4f        %10.4f", parameter,  lowBound,  daParam,  hiBound));        
     
         addNBlankLinesToRegressionReport(1);
         regressionReport.add(String.format(fortyFiveDashesLong));       
    }
    
    public Data_Manager getDataManager() { return dm; }
+   
+   public double getMSResid() { return msResid; }
    
     private void addNBlankLinesToDiagnosticReport(int thisMany) {
         StringUtilities.addNLinesToArrayList(regressionDiagnostics, thisMany);

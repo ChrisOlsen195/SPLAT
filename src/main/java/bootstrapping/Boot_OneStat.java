@@ -1,7 +1,7 @@
 /**********************************************************************
- *                           BootedOneStat                            *
- *                             08/27/25                               *
- *                               15:00                                *
+ *                           Boot_OneStat                             *
+ *                             08/03/26                               *
+ *                               18:00                                *
  *********************************************************************/
 package bootstrapping;
 
@@ -9,7 +9,7 @@ import dataObjects.QuantitativeDataVariable;
 import splat.Data_Manager;
 import utilityClasses.MyAlerts;
 
-public class BootedOneStat {
+public class Boot_OneStat {
     
     Boolean statChosen;
     Boolean[] checkBoxValues;
@@ -19,17 +19,17 @@ public class BootedOneStat {
     double valueOfStat;
     double[] copyOfSample, bootedSample;
     
-    String returnStatus, chosenStat, theStatLabel;
+    String returnStatus, chosenStat; //, theStatLabel;
     String[] cbArrStatDescriptions;
     
     // Make empty if no-print
-    //String waldoFile = "BootedOneStat";
+    //String waldoFile = "Boot_OneStat";
     String waldoFile = "";
 
     Data_Manager dm;
     QuantitativeDataVariable qdv_bootedSample, qdv_bootstrappedStats;
     
-    public BootedOneStat(ChooseStats_Controller chooseStats_Controller, double[] theOriginalSample) {
+    public Boot_OneStat(Boot_Controller chooseStats_Controller, double[] theOriginalSample) {
         dm = chooseStats_Controller.getTheDataManager();
         dm.whereIsWaldo(34, waldoFile, "Constructing"); 
         returnStatus = "OK";
@@ -71,7 +71,7 @@ public String constructTheBootstrapSample() {
         for (int ith = 0; ith < nCheckBoxes; ith++) {
             if (checkBoxValues[ith] == true) {  //  If this statistic is desired
                 theStatisticToCalculate = ith;
-                theStatLabel = cbArrStatDescriptions[ith]; 
+                //theStatLabel = cbArrStatDescriptions[ith]; 
                 statChosen = true;
             }
         }        

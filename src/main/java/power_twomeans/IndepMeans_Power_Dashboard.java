@@ -1,7 +1,7 @@
 /**************************************************
  *          IndepMeans_Power_Dashboard            *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/27/26                      *
+ *                    09:00                       *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -35,7 +35,7 @@ public class IndepMeans_Power_Dashboard extends Dashboard {
     
     public IndepMeans_Power_Dashboard(IndepMeans_Power_Controller indepMeans_Power_Controller) {
         super(5);
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("39 *** IndepMeans_Power_Dashboard, Constructing");
         }
         this.indepMeans_Power_Controller = indepMeans_Power_Controller;
@@ -61,7 +61,7 @@ public class IndepMeans_Power_Dashboard extends Dashboard {
             }
             else { checkBoxes[ithCheckBox].setTextFill(Color.RED); }
         }
-        setTitle("Power, Singe Mean, Sigma known");  
+        setTitle("Power, Independent means, Sigmas known");  
     }
 
     
@@ -106,7 +106,9 @@ public class IndepMeans_Power_Dashboard extends Dashboard {
     }
     
     public void populateTheBackGround() {
-        //String[] checkBoxDescr = { "Z-test", "HBoxPlot", "VBoxPlot"};  
+        if (printTheStuff) {
+            System.out.println("110 --- IndepMeans_Power_Dashboard, Populate the Background");
+        }  
         indepMeans_Power_Model.restoreNullValues();
         initHeight[0] = 500.0;
         indepMeans_Power_PdfView = new IndepMeans_Power_PdfView(indepMeans_Power_Model, this,
@@ -114,16 +116,27 @@ public class IndepMeans_Power_Dashboard extends Dashboard {
                                         initWidth[0], initHeight[0]);
         indepMeans_Power_PdfView.makeItHappen();
         indepMeans_Power_Model.restoreNullValues();
+        
+        if (printTheStuff) {
+            System.out.println("121 ... IndepMeans_Power_Dashboard, Making new vEffectSizeView");
+        }
         indepMeans_Power_VsEffectSizeView = new IndepMeans_Power_VsEffectSizeView(indepMeans_Power_Model, this,
                                                       sixteenths_across[1], sixteenths_down[1],
                                                       initWidth[1], initHeight[1]);
+
         indepMeans_Power_VsEffectSizeView.makeItHappen();
         indepMeans_Power_Model.restoreNullValues();
         initWidth[2] = 800.0;
         initHeight[2] = 625.0; 
+        
+        
+        if (printTheStuff) {
+            System.out.println("134 ... IndepMeans_Power_Dashboard, Making new VsSampleSizeView");
+        }
         indepMeans_PowerVs_SampleSizeView = new IndepMeans_Power_VsSampleSizeView(indepMeans_Power_Model, this,
                                                      sixteenths_across[2], sixteenths_down[2],
-                                                     initWidth[2], initHeight[2]);           
+                                                     initWidth[2], initHeight[2]);  
+        indepMeans_PowerVs_SampleSizeView.makeItHappen();
         indepMeans_Power_Model.restoreNullValues();
         
         indepMeans_Power_VsAlphaView = new IndepMeans_Power_VsAlphaView(indepMeans_Power_Model, this,

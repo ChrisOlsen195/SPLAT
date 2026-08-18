@@ -28,7 +28,7 @@ public class BivCat_BoxPlotView extends BivCat_BoxCircleInterActView {
             double withThisWidth, double withThisHeight) {        
             super(bivCat_Model, anova2_Dashboard, placeHoriz, placeVert,
                 withThisWidth, withThisHeight);
-        dm.whereIsWaldo(27, waldoFile, "Constructing");
+        dm.whereIsWaldo(31, waldoFile, " *** Constructing");
         strTitle2 = "Boxy Woxy Twozie";
         observedProportions = bivCat_Model.getObservedProportions();
     }

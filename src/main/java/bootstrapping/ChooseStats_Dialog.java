@@ -42,7 +42,7 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
     String waldoFile = "";
     
     // My Classes
-    ChooseStats_Controller boot_Controller;
+    Boot_Controller boot_Controller;
     
     // FX POJOs
     //Button btnOK, btnCancel;
@@ -56,10 +56,10 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
     AnchorPane daAnchorPane;
     Scene scene;
     
-    public ChooseStats_Dialog(ChooseStats_Controller boot_Controller) {
+    public ChooseStats_Dialog(Boot_Controller boot_Controller) {
         this.boot_Controller = boot_Controller;
         dm = boot_Controller.getTheDataManager();
-        dm.whereIsWaldo(62, waldoFile, "*** ChooseStats_Dialog, Constructing"); 
+        dm.whereIsWaldo(62, waldoFile, " *** ChooseStats_Dialog, Constructing"); 
         root = new Pane();
         root.setPrefSize(1200, 500);
         strReturnStatus = "OK";
@@ -78,7 +78,7 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
         tfNReps = new TextField();
         tfNReps.setPrefColumnCount(5);
         tfNReps.setOnAction(e -> {
-            dm.whereIsWaldo(81, waldoFile, "--- ChooseStats_Dialog, Constructing"); 
+            dm.whereIsWaldo(81, waldoFile, " ... ChooseStats_Dialog, Constructing"); 
             numberOfReps = Integer.parseInt(tfNReps.getText());
             boot_Controller.setNReps(numberOfReps);
         });
@@ -93,7 +93,7 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
         btnOK = new Button("OK");
 
         btnOK.setOnAction(e -> {  
-            dm.whereIsWaldo(96, waldoFile, "---ChooseStats_Dialog, btnOKChecked");
+            dm.whereIsWaldo(96, waldoFile, " ... ChooseStats_Dialog, btnOKChecked");
             nBoxesChecked = 0;
             boot_Controller.setReturnStatus("OK");
             for (int ithRow = 0; ithRow < nGridRows; ithRow++) {
@@ -109,27 +109,27 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
             } 
 
         if (numberOfReps == 0 ) {
-            dm.whereIsWaldo(113, waldoFile, "--- ChooseStats_Dialog");
+            dm.whereIsWaldo(112, waldoFile, " ... ChooseStats_Dialog");
             MyAlerts.showZeroReplicationsAlert();
             strReturnStatus = "Cancel";
         }
         else {
             if (nBoxesChecked == 0 ) {
-                dm.whereIsWaldo(119, waldoFile, "--- ChooseStats_Dialog");
+                dm.whereIsWaldo(118, waldoFile, " ... ChooseStats_Dialog");
                 MyAlerts.showZeroStatsChosenAlert();
                 strReturnStatus = "Cancel";
             }
 
             if (nBoxesChecked > 1 ) {
-                dm.whereIsWaldo(126, waldoFile, "--- ChooseStats_Dialog");
+                dm.whereIsWaldo(124, waldoFile, " ... ChooseStats_Dialog");
                 MyAlerts.showOnlyOneStatisticAllowedAlert();
                 strReturnStatus = "Cancel";
             }
         }
 
-            dm.whereIsWaldo(132, waldoFile, "---ChooseStats_Dialog, nBoxesChecked = " + nBoxesChecked);
+            dm.whereIsWaldo(130, waldoFile, " ... ChooseStats_Dialog, nBoxesChecked = " + nBoxesChecked);
             if (nBoxesChecked == 0) {
-                dm.whereIsWaldo(134, waldoFile, "---ChooseStats_Dialog, nBoxesChecked = " + nBoxesChecked);
+                dm.whereIsWaldo(134, waldoFile, " ... ChooseStats_Dialog, nBoxesChecked = " + nBoxesChecked);
                 strReturnStatus = "Cancel";
             }
             hide();
@@ -244,8 +244,8 @@ public class ChooseStats_Dialog  extends Splat_Dialog{
     public void changeNReps(ObservableValue<? extends String> prop,
         String oldValue,
         String newValue) {
-        dm.whereIsWaldo(247, waldoFile, "--- ChooseStats_Dialog, oldValue = " + oldValue);
-        dm.whereIsWaldo(248, waldoFile, "--- ChooseStats_Dialog, newValue = " + newValue);
+        dm.whereIsWaldo(247, waldoFile, " --- ChooseStats_Dialog, oldValue = " + oldValue);
+        dm.whereIsWaldo(248, waldoFile, " ... ChooseStats_Dialog, newValue = " + newValue);
         tfNReps.setText(newValue);
         if (!newValue.isEmpty()){
             if (DataUtilities.strIsAPosInt(newValue)) {

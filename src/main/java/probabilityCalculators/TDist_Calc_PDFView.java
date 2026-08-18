@@ -1,20 +1,13 @@
 /**************************************************
  *               TDist_Calc_PDFView               *
- *                    01/16/25                    *
- *                     09:00                      *
+ *                    06/22/26                    *
+ *                     15:00                      *
  *************************************************/
 package probabilityCalculators;
 
 import genericClasses.JustAnAxis;
 import javafx.geometry.Side;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -60,8 +53,8 @@ public class TDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
     super(probCalc_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("64 *** TDist_Calc_PDFView, Constructing");
+        if (printTheStuff) {
+            System.out.println("57 *** TDist_Calc_PDFView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -100,7 +93,6 @@ public class TDist_Calc_PDFView extends Distributions_Calc_PDFView {
         txtTitle2 = new Text (60, 45, "");
         txtTitle2.setFont(Font.font("Times New Roman", FontWeight.BOLD, FontPosture.REGULAR,15)); 
     }
-
     
     public void respondToChanges() {
         tDist_Calc_DialogView.constructGraphStatus();
@@ -157,8 +149,10 @@ public class TDist_Calc_PDFView extends Distributions_Calc_PDFView {
             rightArea = dbl_AllTheSTFs[5];
             left_Middle_Boundary = dbl_AllTheSTFs[6];
             middle_Right_Boundary = dbl_AllTheSTFs[7];
-            newX_Lower = tDistr.getInvLeftTailArea(0.005);
-            newX_Upper = tDistr.getInvRightTailArea(0.005);
+            if (initializing) {
+                newX_Lower = tDistr.getInvLeftTailArea(0.005);
+                newX_Upper = tDistr.getInvRightTailArea(0.005);
+            }
             if (newX_Upper < dbl_AllTheSTFs[5]) {
                 newX_Upper = 1.05 * dbl_AllTheSTFs[5];
             }
@@ -223,24 +217,9 @@ public class TDist_Calc_PDFView extends Distributions_Calc_PDFView {
             }      
 
             dTG_xx0 = dTG_xx1; dTG_yy0 = dTG_yy1;   //  Next start point for line segment
-        }   // End graph left to graph right   
+        }
         
-        if (okToGraph) { printTheProbabilities(); }
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));
-        
+        if (okToGraph) { printTheProbabilities(); }    
     }
     
     private void printTheProbabilities() {

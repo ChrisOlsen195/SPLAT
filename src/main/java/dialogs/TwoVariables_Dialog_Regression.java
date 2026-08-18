@@ -445,7 +445,7 @@ public class TwoVariables_Dialog_Regression extends Splat_Dialog {
         }
         
         varIndex = dm.getVariableIndex(strSelected);    
-        String colDataType = dm.getAllTheColumns().get(varIndex).getDataType();
+        String colDataType = dm.getAllTheColumns().get(varIndex).getStrDataType();
         isCorrectType = true;
         if (colDataType.equals("Quantitative") && !strDataType.equals("Quantitative")) {
             isCorrectType = false;

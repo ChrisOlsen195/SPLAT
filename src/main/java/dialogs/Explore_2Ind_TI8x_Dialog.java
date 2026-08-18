@@ -63,35 +63,35 @@ public class Explore_2Ind_TI8x_Dialog extends Splat_Dialog {
     // ******************************************************************
     public Explore_2Ind_TI8x_Dialog(Data_Manager dm) {
         this.dm = dm;
-        if (printTheStuff == true) {
-            System.out.println("67 *** Explore_2Ind_TI8x_Dialog, constructing");
+        if (printTheStuff) {
+            System.out.println("*** 67 Explore_2Ind_TI8x_Dialog, constructing");
         }        
         TWO = 2;
         createExplore_2Ind_TI8x_Dialog();
-        if (printTheStuff == true) {
-            System.out.println("72 --- Explore_2Ind_TI8x_Dialog, strReturnStatus = " + strReturnStatus);
+        if (printTheStuff) {
+            System.out.println("--- 72 Explore_2Ind_TI8x_Dialog, strReturnStatus = " + strReturnStatus);
         } 
         show_Explore_2Ind_TI8x_Dialog();
-        if (printTheStuff == true) {
-            System.out.println("76 --- Explore_2Ind_TI8x_Dialog, strReturnStatus = " + strReturnStatus);
+        if (printTheStuff) {
+            System.out.println("--- 76 Explore_2Ind_TI8x_Dialog, strReturnStatus = " + strReturnStatus);
         }
     }
     
     private void show_Explore_2Ind_TI8x_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("83 --- Explore_2Ind_TI8x_Dialog, createExplore_2Ind_TI8x_Dialog()");
+        if (printTheStuff) {
+            System.out.println("--- 83 Explore_2Ind_TI8x_Dialog, createExplore_2Ind_TI8x_Dialog()");
         }
         lblTitle.setText("Explore 2 Vars");
         stageDialog.setTitle("Explore 2 Vars");
         stageDialog.showAndWait();
-        if (printTheStuff == true) {
-            System.out.println("89 --- Explore_2Ind_TI8x_Dialog, strReturnStatus = " + strReturnStatus);
+        if (printTheStuff) {
+            System.out.println("... 89 Explore_2Ind_TI8x_Dialog, strReturnStatus = " + strReturnStatus);
         }
     }
 
     private String createExplore_2Ind_TI8x_Dialog() {
-        if (printTheStuff == true) {
-            System.out.println("94 --- Explore_2Ind_TI8x_Dialog, createExplore_2Ind_TI8x_Dialog()");
+        if (printTheStuff) {
+            System.out.println("--- 94 Explore_2Ind_TI8x_Dialog, createExplore_2Ind_TI8x_Dialog()");
         }
         boolGoodToGo = true;
         strReturnStatus = "OK";
@@ -181,8 +181,8 @@ public class Explore_2Ind_TI8x_Dialog extends Splat_Dialog {
 
         btnCancel.setStyle("-fx-text-fill: red;");
         btnCancel.setOnAction(e -> {  
-        if (printTheStuff == true) {
-            System.out.println("185 --- Explore_2Ind_TI8x_Dialog.createExplore_2Ind_TI8x_Dialog().btnCancel.setOnAction");
+        if (printTheStuff) {
+            System.out.println("... 185 Explore_2Ind_TI8x_Dialog.createExplore_2Ind_TI8x_Dialog().btnCancel.setOnAction");
         }
             boolGoodToGo = false;
             strReturnStatus = "Cancel";
@@ -190,8 +190,8 @@ public class Explore_2Ind_TI8x_Dialog extends Splat_Dialog {
         });
         
         stageDialog.setOnCloseRequest((WindowEvent we) -> {
-        if (printTheStuff == true) {
-            System.out.println("195 --- Explore_2Ind_TI8x_Dialog.createExplore_2Ind_TI8x_Dialog().setOnCloseRequest");
+        if (printTheStuff) {
+            System.out.println("... 194 Explore_2Ind_TI8x_Dialog.createExplore_2Ind_TI8x_Dialog().setOnCloseRequest");
         }
             btnCancel.fire();
         });
@@ -204,8 +204,8 @@ public class Explore_2Ind_TI8x_Dialog extends Splat_Dialog {
         });
 
         selectQuantVariable.setOnAction((ActionEvent event) -> {
-        if (printTheStuff == true) {
-            System.out.println("201 --- Explore_2Ind_TI8x_Dialog.createExplore_2Ind_TI8x_Dialog().selectQuantVariable.setOnAction");
+        if (printTheStuff) {
+            System.out.println("... 201 Explore_2Ind_TI8x_Dialog.createExplore_2Ind_TI8x_Dialog().selectQuantVariable.setOnAction");
         }
             al_QuantsSelected = varList_VarsAvailable.getNamesSelected();
             boolGoodToGo = true;     
@@ -266,8 +266,8 @@ public class Explore_2Ind_TI8x_Dialog extends Splat_Dialog {
     }
 
     public String getStrReturnStatus() { 
-        if (printTheStuff == true) {
-            System.out.println("263 --- Explore_2Ind_TI8x_Dlg strReturnStatus = " + strReturnStatus);
+        if (printTheStuff) {
+            System.out.println("--- 270 Explore_2Ind_TI8x_Dlg strReturnStatus = " + strReturnStatus);
         } 
         return strReturnStatus; 
     }

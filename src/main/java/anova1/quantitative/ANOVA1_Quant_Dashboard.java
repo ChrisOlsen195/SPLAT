@@ -27,8 +27,7 @@ public class ANOVA1_Quant_Dashboard extends Dashboard {
     // POJOs
     private final String explanatoryVariable;
     private final String responseVariable;
-    
-    // Make empty if no-print
+
     //String waldoFile = "ANOVA1_Quant_Dashboard";
     String waldoFile = "";
     
@@ -60,7 +59,7 @@ public class ANOVA1_Quant_Dashboard extends Dashboard {
     public ANOVA1_Quant_Dashboard(ANOVA1_Quant_Controller anova1_quant_controller, ANOVA1_Quant_Model anova1_Quant_Model) {
         super(7);
         dm = anova1_quant_controller.getDataManager();
-        dm.whereIsWaldo(65, waldoFile, "Constructing");
+        dm.whereIsWaldo(62, waldoFile, " *** Constructing");
         explanatoryVariable = anova1_quant_controller.getExplanatoryVariable();
         responseVariable = anova1_quant_controller.getResponseVariable();
         checkBoxDescr = new String[nCheckBoxes];
@@ -82,7 +81,7 @@ public class ANOVA1_Quant_Dashboard extends Dashboard {
     }  
     
     public void putEmAllUp() { 
-        dm.whereIsWaldo(87, waldoFile, "putEmAllUp()");
+        dm.whereIsWaldo(84, waldoFile, " *** putEmAllUp()");
 
         if (checkBoxSettings[0] == true) {
             fPDFPlotContainingPane.setVisible(true);
@@ -127,7 +126,7 @@ public class ANOVA1_Quant_Dashboard extends Dashboard {
     }
     
     public void populateTheBackGround() {
-        dm.whereIsWaldo(144, waldoFile, "populateTheBackGround()");
+        dm.whereIsWaldo(129, waldoFile, " *** populateTheBackGround()");
         
         initWidth[0] = 500.;
         initHeight[0] = 325.;

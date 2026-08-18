@@ -37,7 +37,7 @@ public class Single_t_Model {
 // ***************  Called by Independent t procedure  **********************    
     public Single_t_Model (Single_t_Controller single_t_Controller, QuantitativeDataVariable theQDV) {
         dm = single_t_Controller.getDataManager();
-        dm.whereIsWaldo(40, waldoFile, "Constructing from Single_t_Controller");        
+        dm.whereIsWaldo(40, waldoFile, " *** Constructing from Single_t_Controller");        
         this.single_t_Controller = single_t_Controller;
         this.theQDV = new QuantitativeDataVariable();
         this.theQDV = theQDV;
@@ -45,7 +45,7 @@ public class Single_t_Model {
     
     // ***************  Called by Independent t procedure  *******************
     public String doTAnalysis() {
-        dm.whereIsWaldo(48, waldoFile, "--- doTAnalysis()");         
+        dm.whereIsWaldo(48, waldoFile, " --- doTAnalysis()");         
         altHypothesis = single_t_Controller.getHypotheses();
         hypothMean = single_t_Controller.getHypothesizedMean();
         hypothesesToPrint = new String[2];
@@ -83,7 +83,7 @@ public class Single_t_Model {
     }
     
     public void printStatistics() {
-        dm.whereIsWaldo(88, waldoFile, "printStatistics()");
+        dm.whereIsWaldo(88, waldoFile, " --- printStatistics()");
         singleMeanReport = new ArrayList();  
         
         switch (altHypothesis) {
@@ -180,7 +180,7 @@ public class Single_t_Model {
                 break;
             
                 default:
-                    String switchFailure = "Switch failure: Single_t_Model 179 " + altHypothesis;
+                    String switchFailure = "Switch failure: Single_t_Model 183 " + altHypothesis;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
             }        
     }

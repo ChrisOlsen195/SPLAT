@@ -1,7 +1,7 @@
 /**************************************************
  *         OneProp_Power_VsSampleSizeView         *
- *                  04/08/25                      *
- *                    12:00                       *
+ *                  05/24/26                      *
+ *                    09:00                       *
  *************************************************/
 package power_OneProp;
 
@@ -16,13 +16,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import superClasses.*;
 import genericClasses.*;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 
 public class OneProp_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
@@ -31,14 +24,14 @@ public class OneProp_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
     
     int sampleSize;
 
-    double yMin, yMax, /*nullProp, nullSigma, altProp,*/ effectSize;
+    double yMin, yMax, effectSize, power, dbl_SampleSize, dbl_daN;
 
     //  FX 
     Pane theContainingPane;
     Text title1Text, title2Text;    
    
     // My classes
-    OneProp_Power_Model oneProp_Power_Model;    // parent is NOT the Dashboard!!
+    OneProp_Power_Model oneProp_Power_Model;
 
     public OneProp_Power_VsSampleSizeView(OneProp_Power_Model oneProp_PowerModel,
                          OneProp_Power_Dashboard oneProp_Power_Dashboard,
@@ -46,17 +39,19 @@ public class OneProp_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("50 *** OneProp_Power_VsSampleSizeView, Constructing");
+        if (printTheStuff) {
+            System.out.println("43 *** OneProp_Power_VsSampleSizeView, Constructing");
         }
         this.oneProp_Power_Model = oneProp_PowerModel;
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         sampleSize = oneProp_PowerModel.getSampleSize();
-        //nullProp = oneProp_PowerModel.getNullProp();
-        //nullSigma = oneProp_PowerModel.getStErr_PNull();
+        if (printTheStuff) {
+            System.out.println("50 --- OneProp_Power_VsSampleSizeView, sampleSize = " + sampleSize);
+        }
+        dbl_SampleSize = sampleSize;
+        graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm(); 
         alpha = oneProp_PowerModel.getAlpha();
-        //altProp = oneProp_PowerModel.getAltProp();
         effectSize = oneProp_PowerModel.getEffectSize();
         fromHere = 1.0; toThere = 1.25 * sampleSize;
         makeItHappen();
@@ -130,18 +125,10 @@ public class OneProp_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
         deltaX = 0.005 * xRange; deltaY = 0.005 * yRange;   
     }
     
-    /*
-    public void setIntervalOfInterest(double startHere, double endHere)  {
-        fromHere = startHere; toThere = endHere;
-    }
-    */
-    
     public double getInitialYMax() { return 1.025; }
    
     @Override
     public void doTheGraph() {      
-        double // xx0, yy0, xx1, yy1, h, altPropPrime, z_lambda,
-               power, z_power, criticalValue, dbl_daN;
         
         double text1Width = title1Text.getLayoutBounds().getWidth();
         double text2Width = title2Text.getLayoutBounds().getWidth();
@@ -183,32 +170,37 @@ public class OneProp_Power_VsSampleSizeView extends BivariateScale_W_CheckBoxes_
         
         //  Set initial display interval
         yStart = yAxis.getDisplayPosition(0.0);
-        yStop = yAxis.getDisplayPosition(1.0);       
-        
-        for (int daN = 2; daN < toThere; daN++) {
+        yStop = yAxis.getDisplayPosition(1.0);   
+        // Get needed current values for restoration 
+        // In the case of means, the StErrs are equal
+        double forRestorationNullStErr = oneProp_Power_Model.getStErr_NullParam();  // Not sure these are needed
+        double forRestorationAltStErr = oneProp_Power_Model.getStErr_AltParam(); 
+        for (int daN = 2; daN < sampleSize; daN++) {
             dbl_daN = daN;
             oneProp_Power_Model.setSampleSize(daN);
-            power = oneProp_Power_Model.calculatePower();         
+            // Get needed current values for restoration
+            double tempNullProp = oneProp_Power_Model.getNullParam();
+            double tempAltProp = oneProp_Power_Model.getAltParam();
+            // Calculate changing stErrors
+            double tempStErrNull = Math.sqrt(tempNullProp * (1.0 - tempNullProp) / dbl_daN);
+            double tempStErrAlt = Math.sqrt(tempAltProp * (1.0 - tempAltProp) / dbl_daN); 
+            oneProp_Power_Model.setStErr_NullParam(tempStErrNull);
+            oneProp_Power_Model.setStErr_AltParam(tempStErrAlt);
+            // Calculate power with the volative stErrs
+            power = oneProp_Power_Model.calculatePower();
+            if (printTheStuff) {
+                System.out.println("/n192 ... OneProp_Power_VsSampleSizeView, daN = " + daN);
+                System.out.println("193 tempNull/AltStErr = " + tempStErrNull + " / " + tempStErrAlt);
+                System.out.println("194 power = " + power);
+            }        
             xStop = xAxis.getDisplayPosition(dbl_daN);
             yStop = yAxis.getDisplayPosition(power);            
             gc.setLineWidth(2);
             gc.setStroke(Color.BLUE); 
             gc.strokeOval(xStop - 1., yStop + 1., 2, 2);
-        } 
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));              
+        }   
+        oneProp_Power_Model.setStErr_NullParam(forRestorationNullStErr);    // // Not sure these are needed
+        oneProp_Power_Model.setStErr_AltParam(forRestorationAltStErr);
     }   //  end doTheGraph    
     
    public Pane getTheContainingPane() { return theContainingPane; }   

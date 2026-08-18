@@ -1,6 +1,6 @@
 /**************************************************
- *               NormProb_DiffModel               *
- *                    01/16/25                    *
+ *                 NormProb_Model                 *
+ *                    06/20/26                    *
  *                      12:00                     *
  *************************************************/
 package proceduresOneUnivariate;
@@ -13,50 +13,49 @@ public class NormProb_Model {
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
-    int nDataPoints;
+    int nLegalDataPoints;
     
-    double[] theRawData;
+    double[] theLegalRawData;
     
-    String normProbVarLabel, normProbVarDescription, subTitle;    
+    String varLabel, varDescription, subTitle;    
     String[] strNormalScores;
 
     // My classes
-    NormProb_View normProb_View;
-    QuantitativeDataVariable qdv, qdvData;
-    QuantitativeDataVariable qdvNSs;
+    //NormProb_View normProb_View;
+    QuantitativeDataVariable qdv_Data, qdvNormalScores;
     Transformations_Calculations transCalc;
    
     public NormProb_Model()  { }
         
     public NormProb_Model(String subTitle, QuantitativeDataVariable qdv_Data) { 
-        if (printTheStuff == true) {
-            System.out.println("33 *** NormProb_Model, Constructing");
+        if (printTheStuff) {
+            System.out.println("32 *** NormProb_Model, Constructing");
         }
         this.subTitle = subTitle;
-        qdv = qdv_Data;
-        normProbVarLabel = qdv.getTheVarLabel();
-        normProbVarDescription = qdv.getTheVarDescription();
+        this.qdv_Data = qdv_Data;
+        varLabel = qdv_Data.getTheVarLabel();
+        varDescription = qdv_Data.getTheVarDescription();
         transCalc = new Transformations_Calculations();
-        theRawData = qdv_Data.getLegalDataAsDoubles();
+        theLegalRawData = qdv_Data.getLegalDataAsDoubles();
         
-        nDataPoints = theRawData.length;
-        strNormalScores = new String[nDataPoints];   // Sorted in views     
-        qdvData = new QuantitativeDataVariable(normProbVarLabel, normProbVarDescription, theRawData);
-        strNormalScores = transCalc.unaryOpsOfVars(theRawData, "rankits");  // Sorted in views
+        nLegalDataPoints = theLegalRawData.length;
+        strNormalScores = new String[nLegalDataPoints];   // Sorted in views     
+        //qdv_Data = new QuantitativeDataVariable(varLabel, varDescription, theLegalRawData);
+        strNormalScores = transCalc.unaryOpsOfVars(theLegalRawData, "rankits");  // Sorted in views
      
-        String nrml_Label = "Normal" + normProbVarLabel;
-        String nrml_Description = "Normal" + normProbVarDescription;
-        qdvNSs = new QuantitativeDataVariable(nrml_Label, nrml_Description, strNormalScores);
+        String nrml_Label = "Normal" + varLabel;
+        String nrml_Description = "Normal" + varDescription;
+        qdvNormalScores = new QuantitativeDataVariable(nrml_Label, nrml_Description, strNormalScores);
     }
     
     
     public String getSubTitle() { return subTitle; }
-    public NormProb_View getNormProb_View() { return normProb_View; }
-    public QuantitativeDataVariable getData() { return qdvData; }
-    public QuantitativeDataVariable getNormalScores() { return qdvNSs; }    
-    public int getNDataPoints() { return nDataPoints; }
-    public String getNormProbLabel() { return normProbVarLabel; }
-    public String getNormProbUnits() { return normProbVarDescription; }
+    //public NormProb_View getNormProb_View() { return normProb_View; }
+    public QuantitativeDataVariable getData() { return qdv_Data; }
+    public QuantitativeDataVariable getNormalScores() { return qdvNormalScores; }    
+    public int getNDataPoints() { return nLegalDataPoints; }
+    public String getNormProbLabel() { return varLabel; }
+    public String getNormProbUnits() { return varDescription; }
     
     public String toString() {
         String daString = "NormProb_DiffModel toString()";

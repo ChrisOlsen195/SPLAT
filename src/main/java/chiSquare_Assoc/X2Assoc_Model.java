@@ -1,6 +1,6 @@
 /****************************************************************************
  *                         X2Assoc_Model                                    *
- *                           01/15/25                                       *
+ *                           03/28/26                                       *
  *                             12:00                                        *
  ***************************************************************************/
 package chiSquare_Assoc;
@@ -20,7 +20,8 @@ public class X2Assoc_Model {
     
     int nLegalValues, nRows, nCols, nCells, nCellsBelow5, df;
     
-    double chiSquare, pValue, cramersV, dblNLegalValues;    
+    double chiSquare, pValue_1, pValue_2, cramersV, unbiasedCramersV, 
+           dblNLegalValues, temp_3, cramersV_Tilde;    
     double[] rowProportions, columnProportions, cumulativeRowProps, 
              cumulativeColumnProps, rowTotals, columnTotals, cumMarginalRowProps;    
     double[][] observedValues, expectedValues, chiSquareContributions,
@@ -44,14 +45,14 @@ public class X2Assoc_Model {
     public  X2Assoc_Model(X2Assoc_Controller x2Assoc_Controller, String assocType) { 
         this.x2Assoc_Controller = x2Assoc_Controller;
         this.strAssocType = assocType;
-        if (printTheStuff == true) {
-            System.out.println("48 *** X2Assoc_Model, Constructing");
+        if (printTheStuff) {
+            System.out.println("49 *** X2Assoc_Model, Constructing");
         }
     }    
                 
     public String doModelFromFile() {
-        if (printTheStuff == true) {
-            System.out.println("54 --- X2Assoc_Model, doModelFromFile()");
+        if (printTheStuff) {
+            System.out.println("55 --- X2Assoc_Model, doModelFromFile()");
         }
         al_ColumnOfData = new ArrayList();
         al_ColumnOfData = x2Assoc_Controller.getData(); 
@@ -93,8 +94,8 @@ public class X2Assoc_Model {
     } 
     
     public String doModelFromTable() {
-        if (printTheStuff == true) {
-            System.out.println("97 --- X2Assoc_Model, doModelFromTable()");
+        if (printTheStuff) {
+            System.out.println("98 --- X2Assoc_Model, doModelFromTable()");
         }
         x2Assoc_SummaryDialog = new X2Assoc_SummaryDialog(this);
         x2Assoc_SummaryDialog.showAndWait();
@@ -131,8 +132,8 @@ public class X2Assoc_Model {
     }
         
     private void constructNecessaryArrays() {
-        if (printTheStuff == true) {
-            System.out.println("135 --- X2Assoc_Model, constructNecessaryArrays()");
+        if (printTheStuff) {
+            System.out.println("136 --- X2Assoc_Model, constructNecessaryArrays()");
         }
         observedValues = new double[nRows][nCols];
         residuals = new double[nRows][nCols];
@@ -157,8 +158,8 @@ public class X2Assoc_Model {
     }
 
     public String doChiSqAnalysisCalculations() {  
-        if (printTheStuff == true) {
-            System.out.println("161 --- X2Assoc_Model, doChiSqAnalysisCalculations()");
+        if (printTheStuff) {
+            System.out.println("162 --- X2Assoc_Model, doChiSqAnalysisCalculations()");
         }
         nCells = nRows * nCols;
         nCellsBelow5 = 0;
@@ -249,23 +250,48 @@ public class X2Assoc_Model {
 
         // Cramer's V
         double temp = Math.min(nRows - 1, nCols - 1);
-        cramersV = Math.sqrt(chiSquare / (dblNLegalValues * temp)); 
         df = (nRows - 1)*(nCols - 1);
-        
         if (df < 1) {
             MyAlerts.showTooFewChiSquareDFAlert();
             return "Cancel";
         }
+        cramersV = Math.sqrt(chiSquare / (dblNLegalValues * temp)); 
+        doUnbiasedCramersV();
+        //System.out.println("Cramers bias/unbias = " + cramersV + " / " + cramersV_Tilde);
+        double chiSquare_Tilde = cramersV_Tilde * cramersV_Tilde * dblNLegalValues;
+        //System.out.println("chiSquare / chiSquare_Tilde = " + chiSquare + " / " + chiSquare_Tilde);
         x2Dist = new ChiSquareDistribution(df);
-        pValue = x2Dist.getRightTailArea(chiSquare);
+        pValue_1 = x2Dist.getRightTailArea(chiSquare);
+        pValue_2 = x2Dist.getRightTailArea(chiSquare_Tilde);
+        //System.out.println("pValue_1/2 = " + pValue_1 + " / " + pValue_2);
         return "OK";
+    }
+    
+    /***************************************************************************
+     *  Bergsma, W. (2013). A bias-correction for Cramer's V and Tshuprow's T. *
+     *  Journal of the Korean Statistical Society 42:323-328.                  *
+     **************************************************************************/
+    public void doUnbiasedCramersV() {
+        double rTilde, cTilde, cramers_V_Tilde_Num, cramers_V_Tilde_Denom; 
+        double prePhiSquare = chiSquare / dblNLegalValues - (nRows - 1) * (nCols - 1) / (dblNLegalValues - 1);
+        double phiSquare = Math.max(0.0, prePhiSquare);
+        
+        rTilde = nRows - (nRows - 1) * (nRows - 1) / (dblNLegalValues - 1);
+        cTilde = nCols - (nCols - 1) * (nCols - 1) / (dblNLegalValues - 1);
+        //System.out.println("rTilde / cTilde = " + rTilde + " / " + cTilde);
+        cramers_V_Tilde_Num = phiSquare;
+        cramers_V_Tilde_Denom = Math.min(rTilde - 1.0, cTilde - 1.0);
+        //System.out.println("cramV Num/Den = " + cramers_V_Tilde_Num + " / " + cramers_V_Tilde_Denom);
+        cramersV_Tilde = Math.sqrt(cramers_V_Tilde_Num / cramers_V_Tilde_Denom);
+        //System.out.println("cramersV_Tilde = " + cramersV_Tilde);
     }
     
     public String getReturnStatus() { return strReturnStatus; }
     public int getDF() { return df; }  
     public double getChiSquare()  {return chiSquare; }
     public double getCramersV() {return cramersV; }
-    public double getPValue() { return pValue; }
+    public double getUnbiasedCramersV() {return cramersV_Tilde; }
+    public double getPValue() { return pValue_1; }
     public double getTotalN() {return nLegalValues; }
     public int getNumberOfRows() { return nRows; }
     

@@ -37,15 +37,15 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
     boolean[] boolHBoxCheckBoxSettings;
     int n_1, n_2;
 
-    double /*xMin, xMax,*/ yMin, yMax, scaleDelta, nullDiffMeans, altMu,
+    double /*xMin, xMax,*/ yMin, yMax, scaleDelta, nullDiffParams, altDiffParams,
             rawCritValLT, rawCritValGT, yStart_Null,  yStop_Null, yStart_Alt, 
-            yStop_Alt, standErrDiffMeans, effectSize, lowerSliver, upperSliver, 
-            densityFactor, altDiffMeans, yNullDistDescr,
+            yStop_Alt, stErrDiffParams, effectSize, lowerSliver, upperSliver, 
+            densityFactor, yNullDistDescr,
             
            rejectionArrowStart, rejectionArrowStop, rejectionFailureArrowStart, 
            rejectionFailureArrowStop, nullArrowHeight, altScaleHeight,
            nullTextHeight, altScaleStart, altScaleStop,
-           rejectionTextStart, nonRejectionTextStart, // powerArrowHeight,
+           rejectionTextStart, nonRejectionTextStart,
     
            leftRejectionArrowStart, leftRejectionArrowStop,
            rightRejectionArrowStart, rightRejectionArrowStop,
@@ -86,8 +86,8 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                              double withThisWidth, double withThisHeight) {
 
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("90 *** IndepMeans_Power_PdfView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 90 IndepMeans_Power_PdfView, Constructing");
         }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
@@ -96,28 +96,28 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
         
         n_1 = indepMeans_Power_Model.getSampleSize_1();
         n_2 = indepMeans_Power_Model.getSampleSize_2();
-        standErrDiffMeans = indepMeans_Power_Model.getStandErrDiffMeans();
-        nullDiffMeans = indepMeans_Power_Model.getNullDiffMeans();
+        stErrDiffParams = indepMeans_Power_Model.getStErrDiffInMeans();
+        nullDiffParams = indepMeans_Power_Model.getNullDiffInMeans();
         
         // Control the height of the normal curves
-        densityFactor = 0.35 / Normal.density(nullDiffMeans, nullDiffMeans, standErrDiffMeans, false);
+        densityFactor = 0.35 / Normal.density(nullDiffParams, nullDiffParams, stErrDiffParams, false);
         
         alpha = indepMeans_Power_Model.getAlpha();
         effectSize = indepMeans_Power_Model.getEffectSize();
         lowerSliver =  (1.0 - MIDDLE_Z) / 2.0;
         upperSliver = 1 - lowerSliver;     
-        nullDiffMeans = indepMeans_Power_Model.getNullDiffMeans();
-        altDiffMeans = indepMeans_Power_Model.getAltDiffMeans();
+        nullDiffParams = indepMeans_Power_Model.getNullDiffInMeans();
+        altDiffParams = indepMeans_Power_Model.getAltDiffInMeans();
         rejectionCriterion = indepMeans_Power_Model.getRejectionCriterion();
         
         switch (rejectionCriterion) {
             case "LessThan":
-                altMu = nullDiffMeans - effectSize;
+                altDiffParams = nullDiffParams - effectSize;
                 break;
                 
             case "NotEqual":
             case "GreaterThan":
-                altMu = nullDiffMeans + effectSize;
+                altDiffParams = nullDiffParams + effectSize;
                 break;
 
             default:
@@ -290,10 +290,10 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
     
     public void initializeGraphParameters() {
         //  Get ranges of Central and NonCentral t
-        double lowZNull = nullDiffMeans - 4.0 * standErrDiffMeans;
-        double hiZNull = nullDiffMeans + 4.0 * standErrDiffMeans; 
-        double lowZAlt = altMu - 4.0 * standErrDiffMeans;
-        double hiZAlt = altMu + 4.0 * standErrDiffMeans;
+        double lowZNull = nullDiffParams - 4.0 * stErrDiffParams;
+        double hiZNull = nullDiffParams + 4.0 * stErrDiffParams; 
+        double lowZAlt = altDiffParams - 4.0 * stErrDiffParams;
+        double hiZAlt = altDiffParams + 4.0 * stErrDiffParams;
         fromHere = Math.min(lowZNull, lowZAlt);
         toThere = Math.max(hiZNull, hiZAlt);
         
@@ -420,11 +420,11 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
         }   //  end switch
 
         xx0_Null = xGraphLeft; 
-        yy0_Null = Normal.density(xx0_Null, nullDiffMeans, standErrDiffMeans, false); 
+        yy0_Null = Normal.density(xx0_Null, nullDiffParams, stErrDiffParams, false); 
         
         for (double x = xGraphLeft; x <= xGraphRight; x += scaleDelta) {
             xx1_Null = x;
-            density_Null = densityFactor * Normal.density(xx1_Null, nullDiffMeans, standErrDiffMeans, false); 
+            density_Null = densityFactor * Normal.density(xx1_Null, nullDiffParams, stErrDiffParams, false); 
             xStart = xAxis.getDisplayPosition(xx0_Null); 
             yStart = yAxis.getDisplayPosition(yy0_Null); 
             xStop = xAxis.getDisplayPosition(xx1_Null);
@@ -439,16 +439,16 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                 
         if (!rejectionCriterion.equals("NotEqual")) {
             xx0_Alt = xGraphLeft; 
-            yy0_Alt = Normal.density(xx0_Alt, altDiffMeans, standErrDiffMeans, false); 
+            yy0_Alt = Normal.density(xx0_Alt, altDiffParams, stErrDiffParams, false); 
 
             altScaleHeight = yAxis.getDisplayPosition(0.5);
-            altScaleStart = xAxis.getDisplayPosition(altDiffMeans - 3.5 * standErrDiffMeans);
-            altScaleStop = xAxis.getDisplayPosition(altDiffMeans + 3.5 * standErrDiffMeans);
+            altScaleStart = xAxis.getDisplayPosition(altDiffParams - 3.5 * stErrDiffParams);
+            altScaleStop = xAxis.getDisplayPosition(altDiffParams + 3.5 * stErrDiffParams);
             gc.strokeLine(altScaleStart, altScaleHeight, altScaleStop, altScaleHeight); 
 
             for (double x = xGraphLeft; x <= xGraphRight; x += scaleDelta) {
                 xx1_Alt = x;
-                density_Alt = densityFactor * Normal.density(xx1_Alt, altDiffMeans, standErrDiffMeans, false);
+                density_Alt = densityFactor * Normal.density(xx1_Alt, altDiffParams, stErrDiffParams, false);
                 xStart = xAxis.getDisplayPosition(xx0_Alt); 
                 yStart = yAxis.getDisplayPosition(yy0_Alt + .5); 
                 xStop = xAxis.getDisplayPosition(xx1_Alt);
@@ -473,8 +473,8 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
        
         for (double x = xGraphLeft; x <= xGraphRight; x += scaleDelta) {
             xx1_Null = x;
-            density_Null = densityFactor * Normal.density(xx1_Null, nullDiffMeans, standErrDiffMeans, false);        
-            density_Alt = densityFactor * Normal.density(xx1_Null, altDiffMeans, standErrDiffMeans, false);
+            density_Null = densityFactor * Normal.density(xx1_Null, nullDiffParams, stErrDiffParams, false);        
+            density_Alt = densityFactor * Normal.density(xx1_Null, altDiffParams, stErrDiffParams, false);
 
             xStart = xAxis.getDisplayPosition(xx1_Null); 
             xStop = xAxis.getDisplayPosition(xx1_Null); 
@@ -573,15 +573,15 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
         
         switch (rejectionCriterion) {
             case "LessThan":
-                xCritValDescrStart = xAxis.getDisplayPosition(rawCritValLT - 0.75  * standErrDiffMeans);
+                xCritValDescrStart = xAxis.getDisplayPosition(rawCritValLT - 0.75  * stErrDiffParams);
                 break;
                 
             case "NotEqual":
-                xCritValDescrStart = xAxis.getDisplayPosition(nullDiffMeans - 1.75  * standErrDiffMeans);
+                xCritValDescrStart = xAxis.getDisplayPosition(nullDiffParams - 1.75  * stErrDiffParams);
                 break;
                 
             case "GreaterThan":
-                xCritValDescrStart = xAxis.getDisplayPosition(rawCritValGT - 0.75  * standErrDiffMeans);
+                xCritValDescrStart = xAxis.getDisplayPosition(rawCritValGT - 0.75  * stErrDiffParams);
                 break;
                 
             default:
@@ -600,14 +600,14 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
         }
         switch (rejectionCriterion) {
             case "LessThan": 
-                xAltDistDescr = xAxis.getDisplayPosition(nullDiffMeans + 1.75  * standErrDiffMeans);
+                xAltDistDescr = xAxis.getDisplayPosition(nullDiffParams + 1.75  * stErrDiffParams);
                 break;
                 
             case "NotEqual":
                 break;
             
             case "GreaterThan": 
-                xAltDistDescr = xAxis.getDisplayPosition(nullDiffMeans - 3.0  * standErrDiffMeans);
+                xAltDistDescr = xAxis.getDisplayPosition(nullDiffParams - 3.0  * stErrDiffParams);
                 break;
                 
             default:
@@ -630,19 +630,19 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                     nullArrowHeight = yAxis.getDisplayPosition(0.40); 
                     nullTextHeight = yAxis.getDisplayPosition(0.80);
                     rejectionArrowStart = xAxis.getDisplayPosition(rawCritValLT);
-                    rejectionArrowStop = xAxis.getDisplayPosition(rawCritValLT - 1.5 * standErrDiffMeans);
+                    rejectionArrowStop = xAxis.getDisplayPosition(rawCritValLT - 1.5 * stErrDiffParams);
 
                     rejectionFailureArrowStart = rejectionArrowStart;
-                    rejectionFailureArrowStop = xAxis.getDisplayPosition(rawCritValLT + 1.5 * standErrDiffMeans);
-                    nonRejectionTextStart = xAxis.getDisplayPosition(standErrDiffMeans + 1.5 * standErrDiffMeans);
-                    rejectionTextStart = xAxis.getDisplayPosition(rawCritValLT - 2.7 * standErrDiffMeans);
+                    rejectionFailureArrowStop = xAxis.getDisplayPosition(rawCritValLT + 1.5 * stErrDiffParams);
+                    nonRejectionTextStart = xAxis.getDisplayPosition(stErrDiffParams + 1.5 * stErrDiffParams);
+                    rejectionTextStart = xAxis.getDisplayPosition(rawCritValLT - 2.7 * stErrDiffParams);
                     gc.strokeLine(rejectionArrowStart, nullArrowHeight, rejectionArrowStop, nullArrowHeight); 
                     gc.strokeLine(rejectionFailureArrowStart, nullArrowHeight, rejectionFailureArrowStop, nullArrowHeight);
 
-                    nonRejectionTextStart = xAxis.getDisplayPosition(rawCritValLT + 2.0 * standErrDiffMeans);
+                    nonRejectionTextStart = xAxis.getDisplayPosition(rawCritValLT + 2.0 * stErrDiffParams);
                     
-                    drawAnArrow(rawCritValLT, rawCritValLT - 1.5 * standErrDiffMeans, 0.40);
-                    drawAnArrow(rawCritValLT, rawCritValLT + 1.5 * standErrDiffMeans, 0.40);
+                    drawAnArrow(rawCritValLT, rawCritValLT - 1.5 * stErrDiffParams, 0.40);
+                    drawAnArrow(rawCritValLT, rawCritValLT + 1.5 * stErrDiffParams, 0.40);
 
                     gc.fillText(strRejectRegion, rejectionTextStart, nullArrowHeight);
                     gc.fillText(strNoRejectRegion, nonRejectionTextStart, nullArrowHeight);
@@ -657,21 +657,21 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                     gc.setStroke(Color.RED);   
                     nullArrowHeight = yAxis.getDisplayPosition(0.40); 
                     leftRejectionArrowStart = xAxis.getDisplayPosition(rawCritValLT);
-                    leftRejectionArrowStop = xAxis.getDisplayPosition(rawCritValLT - 1.5 * standErrDiffMeans);
+                    leftRejectionArrowStop = xAxis.getDisplayPosition(rawCritValLT - 1.5 * stErrDiffParams);
                     rightRejectionArrowStart = xAxis.getDisplayPosition(rawCritValGT);
-                    rightRejectionArrowStop = xAxis.getDisplayPosition(rawCritValGT + 1.5 * standErrDiffMeans);
+                    rightRejectionArrowStop = xAxis.getDisplayPosition(rawCritValGT + 1.5 * stErrDiffParams);
                     
-                    nonRejectionTextStart = xAxis.getDisplayPosition(nullDiffMeans - 1.0 * standErrDiffMeans);
+                    nonRejectionTextStart = xAxis.getDisplayPosition(nullDiffParams - 1.0 * stErrDiffParams);
                     gc.strokeLine(leftRejectionArrowStart, nullArrowHeight, leftRejectionArrowStop, nullArrowHeight); 
                     gc.strokeLine(rightRejectionArrowStart, nullArrowHeight, rightRejectionArrowStop, nullArrowHeight);
 
-                    leftRejectionTextStart = xAxis.getDisplayPosition(rawCritValLT - 1.25 * standErrDiffMeans);
-                    rightRejectionTextStart = xAxis.getDisplayPosition(rawCritValGT + 0.50 * standErrDiffMeans);
+                    leftRejectionTextStart = xAxis.getDisplayPosition(rawCritValLT - 1.25 * stErrDiffParams);
+                    rightRejectionTextStart = xAxis.getDisplayPosition(rawCritValGT + 0.50 * stErrDiffParams);
                     
                     gc.strokeLine(leftRejectionArrowStart, nullArrowHeight, leftRejectionArrowStop, nullArrowHeight); 
                     gc.strokeLine(rejectionFailureArrowStart, nullArrowHeight, rejectionFailureArrowStop, nullArrowHeight);
                     
-                    xNotEqualNoRejectRegionStart = xAxis.getDisplayPosition(nullDiffMeans - 0.25 * standErrDiffMeans); 
+                    xNotEqualNoRejectRegionStart = xAxis.getDisplayPosition(nullDiffParams - 0.25 * stErrDiffParams); 
                     yNotEqualNoRejectRegionStart = yAxis.getDisplayPosition(0.45);
                    
                     gc.fillText(strRejectRegion, leftRejectionTextStart, yAxis.getDisplayPosition(0.43));
@@ -679,8 +679,8 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                     
                     gc.fillText(strNoRejectRegion, xNotEqualNoRejectRegionStart, yNotEqualNoRejectRegionStart);
                     
-                    drawAnArrow(rawCritValLT, rawCritValLT - 1.5 * standErrDiffMeans, 0.40);                    
-                    drawAnArrow(rawCritValGT, rawCritValGT + 1.5 * standErrDiffMeans, 0.40);
+                    drawAnArrow(rawCritValLT, rawCritValLT - 1.5 * stErrDiffParams, 0.40);                    
+                    drawAnArrow(rawCritValGT, rawCritValGT + 1.5 * stErrDiffParams, 0.40);
                     
                 }                
                 break;
@@ -691,19 +691,19 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
                     nullArrowHeight = yAxis.getDisplayPosition(0.40); 
                     nullTextHeight = yAxis.getDisplayPosition(0.80);
                     rejectionArrowStart = xAxis.getDisplayPosition(rawCritValGT);
-                    rejectionArrowStop = xAxis.getDisplayPosition(rawCritValGT + 1.5 * standErrDiffMeans);
+                    rejectionArrowStop = xAxis.getDisplayPosition(rawCritValGT + 1.5 * stErrDiffParams);
 
                     rejectionFailureArrowStart = rejectionArrowStart;
-                    rejectionFailureArrowStop = xAxis.getDisplayPosition(rawCritValGT - 1.5 * standErrDiffMeans);
-                    nonRejectionTextStart = xAxis.getDisplayPosition(standErrDiffMeans - 2.5 * standErrDiffMeans);
-                    rejectionTextStart = xAxis.getDisplayPosition(rawCritValGT + 1.7 * standErrDiffMeans);
+                    rejectionFailureArrowStop = xAxis.getDisplayPosition(rawCritValGT - 1.5 * stErrDiffParams);
+                    nonRejectionTextStart = xAxis.getDisplayPosition(stErrDiffParams - 2.5 * stErrDiffParams);
+                    rejectionTextStart = xAxis.getDisplayPosition(rawCritValGT + 1.7 * stErrDiffParams);
                     gc.strokeLine(rejectionArrowStart, nullArrowHeight, rejectionArrowStop, nullArrowHeight); 
                     gc.strokeLine(rejectionFailureArrowStart, nullArrowHeight, rejectionFailureArrowStop, nullArrowHeight);
 
-                    nonRejectionTextStart = xAxis.getDisplayPosition(rawCritValGT - 3.0 * standErrDiffMeans);
+                    nonRejectionTextStart = xAxis.getDisplayPosition(rawCritValGT - 3.0 * stErrDiffParams);
                     
-                    drawAnArrow(rawCritValGT, rawCritValGT + 1.5 * standErrDiffMeans, 0.40);
-                    drawAnArrow(rawCritValGT, rawCritValGT - 1.5 * standErrDiffMeans, 0.40);
+                    drawAnArrow(rawCritValGT, rawCritValGT + 1.5 * stErrDiffParams, 0.40);
+                    drawAnArrow(rawCritValGT, rawCritValGT - 1.5 * stErrDiffParams, 0.40);
 
                     gc.fillText(strRejectRegion, rejectionTextStart, nullArrowHeight);
                     gc.fillText(strNoRejectRegion, nonRejectionTextStart, nullArrowHeight);
@@ -746,7 +746,7 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
         nullArrowHeight = yAxis.getDisplayPosition(atThisHeight);
         
         verticalArrowPointLength = SQRT2_OVER2 * 0.035;
-        horizontalArrowPointLength = 0.15 * standErrDiffMeans;
+        horizontalArrowPointLength = 0.15 * stErrDiffParams;
         yUpperPointEnd = atThisHeight + verticalArrowPointLength;
         yLowerPointEnd = atThisHeight - verticalArrowPointLength;        
 
@@ -780,16 +780,16 @@ public class IndepMeans_Power_PdfView extends BivariateScale_W_CheckBoxes_View
     public double[] getInverseMiddle_Z_Area(double middleArea)  {
         double[] middleInterval;
         middleInterval = new double[2];
-        middleInterval[0] = Normal.quantile(lowerSliver, nullDiffMeans, standErrDiffMeans, true, false);
-        middleInterval[1] = Normal.quantile(upperSliver, nullDiffMeans, standErrDiffMeans, true, false);
+        middleInterval[0] = Normal.quantile(lowerSliver, nullDiffParams, stErrDiffParams, true, false);
+        middleInterval[1] = Normal.quantile(upperSliver, nullDiffParams, stErrDiffParams, true, false);
         return middleInterval;
     }
     
     public double[] getInverseMiddle_NonC_Z_Area(double middleArea)  {
         double[] middleInterval;
         middleInterval = new double[2];
-        middleInterval[0] = Normal.quantile(lowerSliver, nullDiffMeans, standErrDiffMeans, true, false);
-        middleInterval[1] = Normal.quantile(upperSliver, nullDiffMeans, standErrDiffMeans, true, false);
+        middleInterval[0] = Normal.quantile(lowerSliver, nullDiffParams, stErrDiffParams, true, false);
+        middleInterval[1] = Normal.quantile(upperSliver, nullDiffParams, stErrDiffParams, true, false);
         return middleInterval;
     }
    

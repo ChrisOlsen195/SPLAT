@@ -52,12 +52,12 @@ public class Regr_PDFView extends BivariateScale_W_CheckBoxes_View {
     AnchorPane anchorPane;   
     Pane theContainingPane;
     
-    public Regr_PDFView(Inf_Regr_Model inf_Regression_Model, Regr_Dashboard regression_Dashboard, 
+    public Regr_PDFView(Inf_Regr_Model inf_Regression_Model, Inf_Regr_Dashboard regression_Dashboard, 
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
         dm = inf_Regression_Model.getDataManager();
-        dm.whereIsWaldo(60, waldoFile, "Constructing");
+        dm.whereIsWaldo(60, waldoFile, " *** Constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;       
         nCheckBoxes = 2;
@@ -109,7 +109,7 @@ public class Regr_PDFView extends BivariateScale_W_CheckBoxes_View {
     }  
   
     private void makeItHappen() {
-        dm.whereIsWaldo(112, waldoFile, "makeItHappen()");
+        dm.whereIsWaldo(112, waldoFile, " --- makeItHappen()");
         theContainingPane = new Pane();        
         gc = graphCanvas.getGraphicsContext2D();
         gc.setFont(Font.font("Times New Roman", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 14));
@@ -118,7 +118,7 @@ public class Regr_PDFView extends BivariateScale_W_CheckBoxes_View {
     }
         
     public void completeTheDeal() {
-        dm.whereIsWaldo(121, waldoFile, "completeTheDeal()");
+        dm.whereIsWaldo(121, waldoFile, " --- completeTheDeal()");
         initializeGraphParameters();
         setUpUI();       
         setUpAnchorPane();
@@ -129,7 +129,7 @@ public class Regr_PDFView extends BivariateScale_W_CheckBoxes_View {
         
     @Override
     protected void setUpUI() { 
-        dm.whereIsWaldo(132, waldoFile, "setUpUI()");
+        dm.whereIsWaldo(132, waldoFile, " --- setUpUI()");
         String title2String;
         txtTitle1 = new Text(50, 25, " Model Utility Test");       
         if (df > 1) {
@@ -144,7 +144,7 @@ public class Regr_PDFView extends BivariateScale_W_CheckBoxes_View {
     }
     
     public void initializeGraphParameters() {
-        dm.whereIsWaldo(147, waldoFile, "initializeGraphParameters()");
+        dm.whereIsWaldo(147, waldoFile, " --- initializeGraphParameters()");
         initialInterval = tDistr.getInverseMiddleArea(MIDDLE_T);
         fromHere = 1.05 * Math.min(-absValTStat, initialInterval[0]);
         toThere = 1.05 * Math.max(absValTStat, initialInterval[1]);
@@ -164,7 +164,7 @@ public class Regr_PDFView extends BivariateScale_W_CheckBoxes_View {
     }
 
     private void prepareTheDensityAxis() {
-        dm.whereIsWaldo(167, waldoFile, "prepareTheDensityAxis()");
+        dm.whereIsWaldo(167, waldoFile, " --- prepareTheDensityAxis()");
         xGraphLeft = fromHere;   
         xGraphRight = toThere;
         bigDelta = (xGraphRight - xGraphLeft) / NUMBER_OF_DXs;

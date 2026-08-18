@@ -23,9 +23,9 @@ public class SmartTextFieldHandler {
     
     public SmartTextFieldHandler(SmartTextFieldsController stf_Controller) { 
         if (printTheStuff) {
-            System.out.println("26 *** SmartTextFieldHandler, Constructing");
+            System.out.println("*** 26 SmartTextFieldHandler, Constructing");
         }
-        myAlerts = new MyAlerts();
+         myAlerts = MyAlerts.getMyAlerts();
         al_STF = stf_Controller.getLinkedSTF();   
     }
      
@@ -73,9 +73,9 @@ public class SmartTextFieldHandler {
         lastAccessed_AL_Index = toThis_AL_Index;
     }
  
-    public void setPreAndPostSmartTF (int shiftTab, int unshiftTab) {
-        prevSmartTF_Number = shiftTab; nextSmartTF_Number = unshiftTab;        
-    }
+    //public void setPreAndPostSmartTF (int shiftTab, int unshiftTab) {
+    //    prevSmartTF_Number = shiftTab; nextSmartTF_Number = unshiftTab;        
+    //}
     
     public SmartTextFieldChecker getSmartTextFieldChecker() {return stfChecker; }
 }

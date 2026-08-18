@@ -1,7 +1,7 @@
 /************************************************************
  *                   Power_IndMeans_Dialog                  *
- *                          12/31/25                        *
- *                            15:00                         *
+ *                          05/27/26                        *
+ *                            09:00                         *
  ***********************************************************/
 package dialogs.power;
 
@@ -38,7 +38,7 @@ public class Power_IndMeans_Dialog extends Stage {
             bool_Sigma2Good, bool_EffectSizeGood;
     boolean allFieldsGood; 
     
-    int  n1, n2, alphaIndex, ciIndex; //, numbersLeftBlankIndex,
+    int  n1, n2, alphaIndex, ciIndex;
 
     double sigma1, sigma2, alphaLevel, daNullDiff, nullMeanDiff, 
            nullDiffRequested, minEffectSize, mean1, mean2;
@@ -52,14 +52,7 @@ public class Power_IndMeans_Dialog extends Stage {
            strSigma2, strN1, strN2, strReturnStatus;
     
     final String toBlank = "";
-    
-    final String strBadDouble = "Ok, so here's the deal.  There are numbers, and there are other"
-                        + "\nthan numbers, like words and punctuation.  What you must enter in"
-                        + "\nthis field are numbers, specifically numbers of the Arabic persuation."
-                        + "\nThe Decline and Fall of the Roman Empire included the Decline and"
-                        + "\nFall of Roman Numerals.  Now, let's try this number thing again...";
 
-    
     final String wtfString = "What!?!?  My hypothesized null difference of zero is not good"
                                     + "\nenough for you? It is pretty unusual that a non-zero difference"
                                     + "\nwould be hypothesized, but I'm willing to believe you know what"
@@ -100,7 +93,7 @@ public class Power_IndMeans_Dialog extends Stage {
     
     public Power_IndMeans_Dialog() {
         if (printTheStuff) {
-            System.out.println("*** 103 Power_IndMeans_Dialog, Constructing");
+            System.out.println("96 *** Power_IndMeans_Dialog, Constructing");
         }
         theAlphaLevels = new double[] { 0.10, 0.05, 0.01};
 
@@ -161,7 +154,7 @@ public class Power_IndMeans_Dialog extends Stage {
     
 private void makeNullsPanel() { 
         if (printTheStuff) {
-            System.out.println("*** 164 Power_IndMeans_Dialog, makeNullsPanel()");
+            System.out.println("157 --- Power_IndMeans_Dialog, makeNullsPanel()");
         }
         nullMeanDiff = 0.0;
         nullDiffRequested = 0.0;
@@ -253,11 +246,8 @@ private void makeNullsPanel() {
                     }
                     catch (NumberFormatException ex ){ 
                         okToContinue = false;
-                        Alert badValue = new Alert(Alert.AlertType.ERROR);
-                        badValue.setTitle("Warning! Must be a real number");
-                        badValue.setHeaderText("You have entered something other than a number.");
-                        badValue.setContentText(strBadDouble);
-                        badValue.showAndWait();
+                        MyAlerts.showGenericBadNumberAlert("real number");
+                        resetButton.fire();
                         txtDialog.setContentText("");
                         okToContinue = false;
                         nullDiffRequested = 0.0;
@@ -274,7 +264,7 @@ private void makeNullsPanel() {
  
     private void makeNumericValuesPanel() {
         if (printTheStuff) {
-            System.out.println("*** 277 Power_IndMeans_Dialog,makeNumericValuesPanel()");
+            System.out.println("267 --- Power_IndMeans_Dialog,makeNumericValuesPanel()");
         }
         vBox_NumValsPanel = new VBox();
         group_Mean_1 = new VBox();
@@ -429,7 +419,7 @@ private void makeNullsPanel() {
     
     private void makeInfDecisionsPanel() {
         if (printTheStuff) {
-            System.out.println("*** 432 Power_IndMeans_Dialog, makeInfDecisionsPanel()");
+            System.out.println("422 --- Power_IndMeans_Dialog, makeInfDecisionsPanel()");
         }
         nullMeanDiff = 0.;
         daNullDiff = 0.0;
@@ -490,7 +480,7 @@ private void makeNullsPanel() {
     
     private void makeBottomPanel() { 
         if (printTheStuff) {
-            System.out.println("*** 493 Power_IndMeans_Dialog, makeBottomPanel()");
+            System.out.println("483 --- Power_IndMeans_Dialog, makeBottomPanel()");
         }
         bottomPanel = new HBox(10);
         bottomPanel.setAlignment(Pos.CENTER);
@@ -571,7 +561,7 @@ private void makeNullsPanel() {
                         && bool_EffectSizeGood;
     }
     
-    public void printTheLot() {
+    public void printTheLot() { // For diagnosis
         System.out.println("     N1Good = " + bool_N1Good);
         System.out.println("     N2Good = " + bool_N2Good);
         System.out.println("Sigma1Good  = " + bool_Sigma1Good );

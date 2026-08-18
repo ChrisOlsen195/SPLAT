@@ -67,7 +67,7 @@ public class MultUni_TI8x_Dialog extends Splat_Dialog {
 
     private void createMultUni_TI8x_Dialog() {
         if (printTheStuff) {
-            System.out.println("*** 19 MultUni_TI81x_Dialog, createMultUni_TI8x_Dialog()");
+            System.out.println("--- 19 MultUni_TI81x_Dialog, createMultUni_TI8x_Dialog()");
         }
         str_al_ChosenLabels = new ArrayList();
 

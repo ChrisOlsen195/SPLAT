@@ -34,7 +34,7 @@ import utilityClasses.StringUtilities;
 public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     
     boolean muExists, sigmaExists, shadeLeft, shadeRight; 
-        //boolean printTheStuff = true;
+    //boolean printTheStuff = true;
     boolean printTheStuff = false;
 
     // FX classes
@@ -49,8 +49,8 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);     
-        if (printTheStuff == true) {
-            System.out.println("53 *** NormalDist_Calc_DialogView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 53 NormalDist_Calc_DialogView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -235,7 +235,9 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     }
     
     private void doMu() {
-        //printAlert(235, "Normal --------------- doMu()");
+        if (printTheStuff) {
+            System.out.println("--- 239 NormalDist_Calc_DialogView, doMu()");
+        }
         strTempString = al_ProbCalcs_STF.get(0).getTextField().getText();
         mu = StringUtilities.convertStringToDouble(strTempString);
         resetProbsAndStats();
@@ -246,7 +248,9 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     }
   
     private void doSigma() {
-        //printAlert(246, "Normal --------------- doSigma()");
+        if (printTheStuff) {
+            System.out.println("--- 252 NormalDist_Calc_DialogView, doSigma()");
+        }
         strTempString = al_ProbCalcs_STF.get(1).getTextField().getText();
         sigma = StringUtilities.convertStringToDouble(strTempString);
         resetProbsAndStats(); 
@@ -257,7 +261,9 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     }
         
     public void fromLeftProbDoLeftStat() {
-        //printAlert(257, "Normal --------------- fromLeftProbDoLeftStat()");
+        if (printTheStuff) {
+            System.out.println("--- 265 NormalDist_Calc_DialogView, fromLeftProbDoLeftStat()");
+        }
         dbl_Left_Stat = getInverseAreaToTheLeftOf(dbl_Left_Prob);
         // Un-standardize
         dbl_Left_Stat = sigma * dbl_Left_Stat + mu;
@@ -266,7 +272,9 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     }
     
     public void fromRightProbDoRightStat() {
-        //printAlert(266, "Normal --------------- fromRightProbDoRightStat()");
+        if (printTheStuff) {
+            System.out.println("--- 276 NormalDist_Calc_DialogView, fromRightProbDoRightStat()");
+        }
         dbl_Right_Stat = getInverseAreaToTheRightOf(dbl_Right_Prob);
         // Un-standardize
         dbl_Right_Stat = sigma * dbl_Right_Stat + mu;
@@ -275,7 +283,9 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     }
     
     public void fromLeftStatDoLeftProb() {
-        //printAlert(275, "Normal --------------- fromLeftStatDoLeftProb()");
+        if (printTheStuff) {
+            System.out.println("--- 287 NormalDist_Calc_DialogView, fromLeftStatDoLeftProb()");
+        }
         double z = (dbl_Left_Stat - mu) / sigma;
         dbl_Left_Prob = getAreaToTheLeftOf(z);
         al_ProbCalcs_STF.get(3).setText(roundDoubleToProbString(dbl_Left_Prob)); 
@@ -283,7 +293,9 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     }
 
     public void fromRightStatDoRightProb() {
-        //printAlert(283, "Normal --------------- fromRightStatDoRightProb()");
+        if (printTheStuff) {
+            System.out.println("--- 297 NormalDist_Calc_DialogView, fromRightStatDoRightProb()");
+        }
         double z = (dbl_Right_Stat - mu) / sigma;
         dbl_Right_Prob = getAreaToTheRightOf(z);
         al_ProbCalcs_STF.get(5).setText(roundDoubleToProbString(dbl_Right_Prob));
@@ -291,13 +303,17 @@ public class NormalDist_Calc_DialogView extends ProbCalc_DialogView {
     }
     
     public void makeANewGraph() {
-        //printAlert(291, "Normal --------------- makeANewGraph()");
+        if (printTheStuff) {
+            System.out.println("--- 307 NormalDist_Calc_DialogView, makeANewGraph()");
+        }
         normal_Calc_PDFView.respondToChanges();
         normal_Calc_PDFView.doTheGraph();        
     } 
     
     public void makeAllTheSTFs() {
-        //printAlert(298, "Normal --------------- makeAllTheSTFs()");
+        if (printTheStuff) {
+            System.out.println("--- 315 NormalDist_Calc_DialogView, makeAllTheSTFs()");
+        }
         al_ProbCalcs_STF.get(0).setText(al_ProbCalcs_STF.get(0).getText());
         al_ProbCalcs_STF.get(1).setText(al_ProbCalcs_STF.get(1).getText());
         al_ProbCalcs_STF.get(3).setText(al_ProbCalcs_STF.get(3).getText());

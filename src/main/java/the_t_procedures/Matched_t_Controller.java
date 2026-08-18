@@ -1,7 +1,7 @@
 /**************************************************
  *              Matched_t_Controller              *
- *                    04/23/25                    *
- *                     15:00                      *
+ *                    06/21/26                    *
+ *                     18:00                      *
  *************************************************/
 package the_t_procedures;
 
@@ -50,13 +50,13 @@ public class Matched_t_Controller {
     // ******  Constructor called from Main Menu  ******
     public Matched_t_Controller(Data_Manager dm) {
         this.dm = dm; 
-        dm.whereIsWaldo(53, waldoFile, "Constructing");
+        dm.whereIsWaldo(53, waldoFile, " *** Constructing");
         indivColsOfData = new ArrayList();
     }
 
     // ******                 Called from Main Menu                 ******        
     public String prepColumns() {
-        dm.whereIsWaldo(59, waldoFile, "constructing");
+        dm.whereIsWaldo(59, waldoFile, " --- prepColumns()");
         returnStatus = "OK";
         int casesInStruct = dm.getNCasesInStruct();
         
@@ -114,7 +114,7 @@ public class Matched_t_Controller {
     } 
     
     private String doTheProcedure() {
-        dm.whereIsWaldo(117, waldoFile, "doTheProcedure()");
+        dm.whereIsWaldo(117, waldoFile, " --- doTheProcedure()");
         hBox_Model = new HorizontalBoxPlot_Model(diffDescription, theQDV);
         vBox_Model = new VerticalBoxPlot_Model(diffDescription, theQDV);
         
@@ -133,7 +133,7 @@ public class Matched_t_Controller {
     }
     
     public String showTheDashboard() {
-        dm.whereIsWaldo(136, waldoFile, "showTheDashboard()");
+        dm.whereIsWaldo(136, waldoFile, " --- showTheDashboard()");
         returnStatus = "OK";
         matched_t_Dashboard.populateTheBackGround();
         matched_t_Dashboard.putEmAllUp();

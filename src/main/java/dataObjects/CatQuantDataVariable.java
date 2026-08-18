@@ -56,7 +56,7 @@ public class CatQuantDataVariable {
                                 String callingProc) {
         this.dm = dm;
         this.strCallingProc = callingProc;
-        dm.whereIsWaldo(58, waldoFile, " *** Constructing"); 
+        dm.whereIsWaldo(58, waldoFile, " --- Constructing"); 
         al_CatQuantPairs = new ArrayList();
         for (int ithPair = 0; ithPair < originalLabels.size(); ithPair++) {
             String pairString = originalLabels.get(ithPair);
@@ -67,13 +67,13 @@ public class CatQuantDataVariable {
 
     
     public String finishConstructingTidy() {
-        dm.whereIsWaldo(68, waldoFile, "finishConstructingTidy()");
+        dm.whereIsWaldo(70, waldoFile, " --- finishConstructingTidy()");
         strReturnStatus = "OK";
         tempCatN = col_OriginalCatData.getColumnSize();
         tempQuantN = col_OriginalQuantData.getColumnSize();
         
         if (tempCatN != tempQuantN) {
-            dm.whereIsWaldo(74, waldoFile, "finishConstructingStacked()");
+            dm.whereIsWaldo(76, waldoFile, " ... finishConstructingStacked()");
             switch(strCallingProc) {
                 case "ANOVA2_RCB_PrelimANOVA1":
                     MyAlerts.showIncompleteBlocksAlert();
@@ -82,7 +82,7 @@ public class CatQuantDataVariable {
                 default: MyAlerts.showUnequalNsInBivariateProcessAlert();
             }
             
-            dm.whereIsWaldo(83, waldoFile, "finishConstructingStacked()");
+            dm.whereIsWaldo(85, waldoFile, " ... finishConstructingStacked()");
             strReturnStatus = "Cancel";
             return strReturnStatus;
         }
@@ -106,7 +106,7 @@ public class CatQuantDataVariable {
         }
         
         unTidyCatQuantPairs();
-        dm.whereIsWaldo(107, waldoFile, "END finishConstructingTidy(), strReturnStatus = " + strReturnStatus);
+        dm.whereIsWaldo(109, waldoFile, " ... END finishConstructingTidy(), strReturnStatus = " + strReturnStatus);
         return strReturnStatus;
     }
     
@@ -123,7 +123,7 @@ public class CatQuantDataVariable {
     private void unTidyCatQuantPairs() {
         boolean endOfStory;
         int startOfTie, endOfTie, cqpCompare;
-        dm.whereIsWaldo(124, waldoFile, "unTidyCatQuantPairs()"); 
+        dm.whereIsWaldo(126, waldoFile, " ... unTidyCatQuantPairs()"); 
         // Sort the data points by first dataVariable
         sortByCatValue();
         // Separate the data by value of the categorical variable
@@ -158,7 +158,7 @@ public class CatQuantDataVariable {
             if (endOfTie == nLegalCQPairs) { endOfStory = true; }
             
         }  while (endOfStory == false);  //    End do
-        dm.whereIsWaldo(159, waldoFile, "END unstackCatQuantPairs()");
+        dm.whereIsWaldo(161, waldoFile, " ... END unstackCatQuantPairs()");
     }
     
     public void sortByCatValue() {
@@ -200,7 +200,7 @@ public class CatQuantDataVariable {
     }
     
     private QuantitativeDataVariable createNewQDV(String qdvLabel, String qdvDescr, int fromHere, int toThere) {
-        //dm.whereIsWaldo(201, waldoFile, "createNewQDV(String qdvLabel, String qdvDescr, int fromHere, int toThere)");
+        //dm.whereIsWaldo(203, waldoFile, " /// createNewQDV(String qdvLabel, String qdvDescr, int fromHere, int toThere)");
         str_al_CategoryLabels.add(qdvLabel);
         QuantitativeDataVariable theNewQDV;
         int thisMany = toThere - fromHere + 1;
@@ -210,7 +210,7 @@ public class CatQuantDataVariable {
             theQuants[ith] = al_CatQuantPairs.get(ith + fromHere).getQuantValueDouble();
         }
         theNewQDV = new QuantitativeDataVariable(qdvLabel, qdvDescr, theQuants);
-        //dm.whereIsWaldo(211, waldoFile, "finish createNewQDV(String qdvLabel, String qdvDescr, int fromHere, int toThere)");
+        //dm.whereIsWaldo(213, waldoFile, " ... finish createNewQDV(String qdvLabel, String qdvDescr, int fromHere, int toThere)");
         return theNewQDV;
     }
     
@@ -220,7 +220,7 @@ public class CatQuantDataVariable {
     public ArrayList<QuantitativeDataVariable> getAllQDVs() { return al_QDVs; }
     
     public void unstackToDataStruct() { 
-        dm.whereIsWaldo(221, waldoFile, "unstackToDataStruct()");
+        dm.whereIsWaldo(223, waldoFile, " --- unstackToDataStruct()");
         dm.addToStructNColumnsWithExistingData(al_QDVs);
     }
     
@@ -250,7 +250,7 @@ public class CatQuantDataVariable {
         for (int ithPair = 0; ithPair < nLegalCQPairs; ithPair++) {
             String theCat = al_CatQuantPairs.get(ithPair).getCatValue();
             double theDouble = al_CatQuantPairs.get(ithPair).getQuantValueDouble();
-            System.out.println("251 cqdv, cat/quant = " + theCat + " / " + theDouble);            
+            System.out.println("253 cqdv, cat/quant = " + theCat + " / " + theDouble);            
         }        
         return "cqdv done.";
     }

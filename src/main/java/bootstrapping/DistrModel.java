@@ -1,7 +1,7 @@
 /**************************************************
  *                ChooseStats_DistrModel          *
- *                     08/20/25                   *
- *                      12:00                     *
+ *                     08/03/26                   *
+ *                      18:00                     *
  *************************************************/
 package bootstrapping;
 
@@ -9,43 +9,45 @@ import dataObjects.*;
 import genericClasses.Point_2D;
 import splat.Data_Manager;
 
-public class ChooseStats_DistrModel {  
+public class DistrModel {  
     // POJOs
     
     boolean leftTail_IsChecked, twoTail_IsChecked, rightTail_IsChecked;
     boolean shadeLeft, shadeRight;
     double ithBinLow, ithBinHigh;
     
-    String descrOfVar;
+    String descrOfVar, strChosenStatistic;
     
     // Make empty if no-print
-    //String waldoFile = "ChooseStats_DistrModel";
+    //String waldoFile = "DistrModel";
     String waldoFile = "";
     
     // My classes
-    ChooseStats_Controller boot_Controller;
+    Boot_Controller boot_Controller;
     Data_Manager dm;
-    Point_2D ithBinLimits, percentiles_05, percentiles; //, percentileRanks;
+    Point_2D ithBinLimits, percentiles_05, percentiles;
     QuantitativeDataVariable theQDV;
 
-    public ChooseStats_DistrModel() { }
+    public DistrModel() { }
         
-    public ChooseStats_DistrModel(ChooseStats_Controller boot_Controller, QuantitativeDataVariable theQDV ) {  
+    public DistrModel(Boot_Controller boot_Controller, QuantitativeDataVariable theQDV ) {  
         dm = boot_Controller.getTheDataManager();
-        dm.whereIsWaldo(35, waldoFile, "*** Constructing");
+        dm.whereIsWaldo(35, waldoFile, " *** Constructing");
         int nOriginal = theQDV.getOriginalN();
- 
         this.boot_Controller = boot_Controller;
         this.theQDV = theQDV;
         descrOfVar = boot_Controller.getDescriptionOfVariable();
+        dm.whereIsWaldo(40, waldoFile, " *** descrOfVar = " + descrOfVar);
+        strChosenStatistic = boot_Controller.getTheChosenStatistic();
+        dm.whereIsWaldo(41, waldoFile, " *** strChosenStatistic = " + strChosenStatistic);
         double daMin = theQDV.getMinValue();
         double daMax = theQDV.getMaxValue();
         double leftPercentile = theQDV.fromPercentileRank_toPercentile(.05);
         double rightPercentile = theQDV.fromPercentileRank_toPercentile(0.95);
         
         percentiles_05 = new Point_2D(leftPercentile, leftPercentile);
-        double leftPCRank = theQDV.fromPercentile_toPercentileRank(leftPercentile);
-        double rightPCRank = theQDV.fromPercentile_toPercentileRank(rightPercentile);
+        //double leftPCRank = theQDV.fromPercentile_toPercentileRank(leftPercentile);
+        //double rightPCRank = theQDV.fromPercentile_toPercentileRank(rightPercentile);
         percentiles = new Point_2D(leftPercentile, rightPercentile);
         double daRange = daMax - daMin;
         ithBinLow = daMin + 0.4 * daRange;
@@ -53,7 +55,7 @@ public class ChooseStats_DistrModel {
         ithBinLimits = new Point_2D(ithBinLow, ithBinHigh); 
     }
         
-    public ChooseStats_DistrModel get_1Stat_DistrModel() { return this; }
+    public DistrModel get_1Stat_DistrModel() { return this; }
     public Point_2D getBinLimits() { return ithBinLimits; }
     public Point_2D get_05_Percentiles() {return percentiles_05; }
     
@@ -103,10 +105,13 @@ public class ChooseStats_DistrModel {
         shadeRight = toThis;
     }
     
-    public ChooseStats_Controller getBootStrapController() { return boot_Controller; }
+    public Boot_Controller getBootStrapController() { return boot_Controller; }
     public String getDescriptionOfVariable() { return descrOfVar; }
     public QuantitativeDataVariable getTheQDV() { return theQDV; }
     public UnivariateContinDataObj getTheUCDO() { return theQDV.getTheUCDO();}
     public Data_Manager getDataManager() { return dm; }
+    public String getChosenStatistic() { 
+        dm.whereIsWaldo(113, waldoFile, " --- getChosenStatistic(), strChosenStatistic = " + strChosenStatistic);
+        return strChosenStatistic; }
 }
 

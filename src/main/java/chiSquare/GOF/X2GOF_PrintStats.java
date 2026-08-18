@@ -1,7 +1,7 @@
 /****************************************************************************
  *                     X2GOF_PrintStats                                     * 
- *                         01/15/25                                         *
- *                          12:00                                           *
+ *                         08/17/26                                         *
+ *                          15:00                                           *
  ***************************************************************************/
 package chiSquare.GOF;
 
@@ -67,7 +67,7 @@ public class X2GOF_PrintStats extends PrintTextReport_View {
         }
         String tempString;
         addNBlankLines(2); 
-        tempString = "                                Variable of interest: " + strGOFVariable;
+        tempString = "                      Variable of interest: " + strGOFVariable;
         stringsToPrint.add(tempString);        
         addNBlankLines(2);
         tempString = "                  Observed     Hypothesized     Expected      Contribution";

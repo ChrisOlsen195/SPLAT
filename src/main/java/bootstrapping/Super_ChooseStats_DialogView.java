@@ -1,6 +1,6 @@
 /**************************************************
  *            Super_ChooseStats_DialogView        *
- *                    08/19/25/25                    *
+ *                    08/09/26                    *
  *                     15:00                      *
  *************************************************/
 
@@ -36,8 +36,7 @@ import utilityClasses.*;
 
 public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_CheckBoxes_View {
     
-    boolean twoTail_IsChecked, leftTail_IsChecked, rightTail_IsChecked, 
-            shadeLeft, shadeRight; 
+    boolean twoTail_IsChecked, shadeLeft, shadeRight; 
     
     final int PROB_ROUND = 4;
     
@@ -73,20 +72,20 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     Data_Manager dm;
     SmartTextFieldDoublyLinkedSTF al_STF;
     ChooseStats_Dashboard chooseStats_Dashboard;
-    ChooseStats_DistrModel originalDistrModel;
-    ChooseStats_DistrModel shiftedDistrModel;
-    ChooseStats_Controller chooseStats_Controller;
+    DistrModel originalDistrModel;
+    DistrModel shiftedDistrModel;
+    Boot_Controller boot_Controller;
     SmartTextFieldsController stf_Controller;
  
     Super_ChooseStats_DialogView( ChooseStats_Dashboard chooseStats_Dashboard,
                                   double placeHoriz, double placeVert,
                                   double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        chooseStats_Controller = chooseStats_Dashboard.get_Boot_Controller();
-        dm = chooseStats_Controller.getTheDataManager();
-        dm.whereIsWaldo(86, waldoFile, "Constructing");
-        originalDistrModel = chooseStats_Controller.get_Boot_OriginalDistrModel();
-        shiftedDistrModel = chooseStats_Controller.get_Boot_ShiftedDistrModel();
+        boot_Controller = chooseStats_Dashboard.get_Boot_Controller();
+        dm = boot_Controller.getTheDataManager();
+        dm.whereIsWaldo(86, waldoFile, " *** Constructing");
+        originalDistrModel = boot_Controller.get_Boot_OriginalDistrModel();
+        shiftedDistrModel = boot_Controller.get_Boot_ShiftedDistrModel();
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;         
         stf_Controller = new SmartTextFieldsController();
@@ -118,7 +117,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     }
     
     void doLeftStatistic() { 
-        dm.whereIsWaldo(120, waldoFile, "doLeftStatistic()");
+        dm.whereIsWaldo(120, waldoFile, " --- doLeftStatistic()");
         str_Left_Stat = al_STF.get(6).getText();
         if (str_Left_Stat.isEmpty()) { return; }
         
@@ -143,7 +142,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     } 
         
     void doRightStatistic() { 
-        dm.whereIsWaldo(145, waldoFile, "doRightStatistic()");
+        dm.whereIsWaldo(146, waldoFile, " --- doRightStatistic()");
         if (!DataUtilities.strIsADouble(al_STF.get(7).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -165,7 +164,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     } 
     
     public void doLeftProbability() {
-        dm.whereIsWaldo(167, waldoFile, "doLeftProbability()");
+        dm.whereIsWaldo(168, waldoFile, " --- doLeftProbability()");
         if (!DataUtilities.strIsADouble(al_STF.get(3).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -207,7 +206,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     *         Probabilities are the same for Originals & Shifteds            *
     *************************************************************************/
     public void doMiddleProbability() {
-        dm.whereIsWaldo(209, waldoFile, "doMiddleProbability()");
+        dm.whereIsWaldo(210, waldoFile, " --- doMiddleProbability()");
         if (!DataUtilities.strIsADouble(al_STF.get(4).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -268,7 +267,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     }
     
     void doRightProbability() {
-        dm.whereIsWaldo(270, waldoFile, "doRightProbability()");
+        dm.whereIsWaldo(271, waldoFile, " --- doRightProbability()");
         if (!DataUtilities.strIsADouble(al_STF.get(5).getText())) {   //  Checks for empty also
             MyAlerts.showGenericBadNumberAlert("number");
             return;
@@ -396,7 +395,7 @@ public abstract class Super_ChooseStats_DialogView extends BivariateScale_W_Chec
     } 
     
     public void resetKandK() {  // Kit and Kaboodle
-        dm.whereIsWaldo(398, waldoFile, "resetKandK()");
+        dm.whereIsWaldo(398, waldoFile, " --- resetKandK()");
         al_STF.get(3).getTextField().setText(toBlank);
         al_STF.get(6).getTextField().setText(toBlank);
         al_STF.get(4).getTextField().setText(toBlank);

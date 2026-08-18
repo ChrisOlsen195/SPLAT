@@ -1,11 +1,11 @@
 /**************************************************
  *                  NormProb_View                 *
- *                    02/20/25                    *
- *                      15:00                     *
+ *                    06/21/26                    *
+ *                      18:00                     *
  *************************************************/
 package proceduresOneUnivariate;
 
-import simpleRegression.Regr_Dashboard;
+import simpleRegression.Inf_Regr_Dashboard;
 import multipleRegression.MultReg_Dashboard;
 import simpleLogisticRegression.Logistic_Dashboard;
 import genericClasses.DragableAnchorPane;
@@ -13,64 +13,38 @@ import dataObjects.QuantitativeDataVariable;
 import superClasses.BivariateScale_View;
 import javafx.geometry.Side;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import noInterceptRegression.NoIntercept_Regr_Dashboard;
 import quadraticRegression.*;
 import anova1.categorical.*;
 import anova1.quantitative.ANOVA1_Quant_Dashboard;
 import anova2.ANCOVA_Dashboard;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 import simpleRegression.Regr_Compare_Dashboard;
 import the_t_procedures.Matched_t_Dashboard;
-import utilityClasses.*;
 
 public class NormProb_View extends BivariateScale_View {
     // POJOs
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
     
-    boolean[] checkBoxSettings;
-    
     int nDataPoints, nCheckBoxes;
 
     double[] dataArraySorted, normalScoresSorted, adStats;
     
-    String npModelThisTime, adString, adPValue;
+    String adString, adPValue;
     AnchorPane anchorPane;    
-    
-    // This list is a dummy
-    final String[] scatterPlotCheckBoxDescr = {" Best Fit Line ", 
-                                               " Outliers ", 
-                                               " Influential points "}; 
-    
-    public SnapshotParameters params;
-    public WritableImage image;
-    public Clipboard clipboard;
-    public ClipboardContent content;
-
+  
     // My classes
-    CheckBox[] scatterPlotCheckBoxes;
     QuantitativeDataVariable qdv_Data, qdv_NormalScores;
     NormProb_Model normProb_Model;
     Text title1Text, title2Text;
     
     // FX
-    AnchorPane checkBoxRow;
     Pane theContainingPane;
-
 
     public NormProb_View(NormProb_Model normProb_Model, Exploration_Dashboard explore_Dashboard,
                         double placeHoriz, double placeVert,
@@ -78,13 +52,12 @@ public class NormProb_View extends BivariateScale_View {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);   
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        if (printTheStuff == true) {
-            System.out.println("82 *** NormProb_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("56 *** NormProb_View, Exploration Dashboard, Constructing");
         }
         setMinHeight(100);
         setMinWidth(100);
         this.normProb_Model = normProb_Model;
-        npModelThisTime = "UnivExploration";
         constructTheModel();
         String title2String = "Z  vs.  " + normProb_Model.getSubTitle();
         title2Text = new Text (60, 45, title2String);
@@ -96,15 +69,14 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("100 *** NormProb_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("73 *** NormProb_View, m MultReg Dashboard, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         setMinHeight(100);
         setMinWidth(100);
         this.normProb_Model = normProb_Model;
-        npModelThisTime = "MultipleRegression";
         constructTheModel();
         title2Text = new Text (60, 45, normProb_Model.getSubTitle());
         makeTheCheckBoxes();    
@@ -115,8 +87,8 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("119 *** NormProb_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("91 *** NormProb_View, Matched t Dashboard, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
@@ -124,7 +96,6 @@ public class NormProb_View extends BivariateScale_View {
         setMinWidth(100);
 
         this.normProb_Model = normProb_Model;
-        npModelThisTime = "MultipleRegression";
         constructTheModel();
         title2Text = new Text (60, 45, normProb_Model.getSubTitle());
         makeTheCheckBoxes();    
@@ -135,34 +106,32 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("139 *** NormProb_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("110 *** NormProb_View, QuadReg Dashboard, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         setMinHeight(100);
         setMinWidth(100);
         this.normProb_Model = normProb_Model;
-        npModelThisTime = "QuadraticRegression";
         constructTheModel();
         title2Text = new Text (60, 45, normProb_Model.getSubTitle());
         makeTheCheckBoxes();    
         makeItHappen();         
     }
     
-    public NormProb_View(NormProb_Model normProb_Model, Regr_Dashboard reg_Dashboard,
+    public NormProb_View(NormProb_Model normProb_Model, Inf_Regr_Dashboard reg_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("158 *** NormProb_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("128 *** NormProb_View, Inf Reg Dashboard, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         setMinHeight(100);
         setMinWidth(100);
         this.normProb_Model = normProb_Model; 
-        npModelThisTime = "SimpleRegression";
         constructTheModel();
         title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel()); 
         makeTheCheckBoxes();    
@@ -173,55 +142,32 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("177 *** NormProb_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("146 *** NormProb_View, Logistic Dashboard, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         setMinHeight(100);
         setMinWidth(100);
         this.normProb_Model = normProb_Model; 
-        npModelThisTime = "SimpleRegression";
         constructTheModel();
         title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());       
         makeTheCheckBoxes();    
         makeItHappen();         
     }
-    
-    public NormProb_View(NormProb_Model normProb_Model, NoIntercept_Regr_Dashboard noIntercept_Regr_Dashboard,
-                        double placeHoriz, double placeVert,
-                        double withThisWidth, double withThisHeight) {
-        super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("196 *** NormProb_View, Constructing");
-        }
-        initHoriz = placeHoriz; initVert = placeVert;
-        initWidth = withThisWidth; initHeight = withThisHeight; 
-        setMinHeight(100);
-        setMinWidth(100);
-        this.normProb_Model = normProb_Model;
-        npModelThisTime = "No intercept regression";
-        constructTheModel();
-        
-        title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());
-        
-        makeTheCheckBoxes();    
-        makeItHappen();         
-    }
-    
+      
     public NormProb_View(NormProb_Model normProb_Model, ANOVA1_Cat_Dashboard anova1_Cat_Dashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("236 *** NormProb_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("164 *** NormProb_View, ANOVA_1_Cat, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         setMinHeight(100);
         setMinWidth(100);
         this.normProb_Model = normProb_Model;
-        npModelThisTime = "One Way ANOVA";
         constructTheModel();        
         title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());        
         makeTheCheckBoxes();    
@@ -232,13 +178,12 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("255 *** NormProb_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("182 *** NormProb_View, ANOVA_1_Quant, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.normProb_Model = normProb_Model;
-        npModelThisTime = "One Way ANOVA";
         constructTheModel();        
         title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());        
         makeTheCheckBoxes();    
@@ -249,15 +194,12 @@ public class NormProb_View extends BivariateScale_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("272 *** NormProb_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("198 *** NormProb_View, ANCOVA, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
-        //System.out.println("240 NormProb_View, normProb_Model...");
-        //System.out.println(normProb_Model.toString());
         this.normProb_Model = normProb_Model;
-        npModelThisTime = "Analysis of Covariance";
         constructTheModel();        
         title2Text = new Text (60, 45, "Standardized residuals vs. " + normProb_Model.getNormProbLabel());        
         makeTheCheckBoxes();    
@@ -269,12 +211,11 @@ public class NormProb_View extends BivariateScale_View {
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
         if (printTheStuff) {
-            System.out.println("277 *** NormProb_View, constructing");
+            System.out.println("214 *** NormProb_View, Regr_Compare, constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         this.normProb_Model = normProb_Model;
-        npModelThisTime = "Regression Comparison";
         constructTheModel();        
         title2Text = new Text (60, 45, normProb_Model.getNormProbLabel() + " vs Standardized residuals");        
         makeTheCheckBoxes();    
@@ -282,8 +223,8 @@ public class NormProb_View extends BivariateScale_View {
     }
     
     private void constructTheModel() {
-        if (printTheStuff == true) {
-            System.out.println("288 --- NormProb_View, constructTheModel()");
+        if (printTheStuff) {
+            System.out.println("227 --- NormProb_View, constructTheModel()");
         }
         qdv_Data = new QuantitativeDataVariable();
         qdv_Data = normProb_Model.getData();
@@ -312,7 +253,9 @@ public class NormProb_View extends BivariateScale_View {
     }
     
     public void completeTheDeal() { 
-        //System.out.println("277 *** NormProb_View, completeTheDeal()");
+        if (printTheStuff) {
+            System.out.println("257 --- NormProb_View, completeTheDeal()");
+        }
         initializeGraphParameters();
         setUpUI();       
         setUpAnchorPane();
@@ -348,14 +291,6 @@ public class NormProb_View extends BivariateScale_View {
         dragableAnchorPane = new DragableAnchorPane();
         graphCanvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
         graphCanvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
-      
-        for (int iChex = 0; iChex < nCheckBoxes; iChex++) {
-            scatterPlotCheckBoxes[iChex].translateXProperty()
-                                        .bind(graphCanvas.widthProperty()
-                                        .divide(250.0)
-                                        .multiply(5 * iChex)
-                                        .subtract(50.0));
-        }
      
         anchorPane = dragableAnchorPane.getTheAP();
         dragableAnchorPane.makeDragable();
@@ -376,12 +311,7 @@ public class NormProb_View extends BivariateScale_View {
         
         double tempHeight = dragableAnchorPane.getHeight();
         double tempWidth = dragableAnchorPane.getWidth();
-        
-        AnchorPane.setTopAnchor(checkBoxRow, 0.01 * tempHeight);
-        AnchorPane.setLeftAnchor(checkBoxRow, txt1Edge * tempWidth);
-        AnchorPane.setRightAnchor(checkBoxRow, txt1Edge * tempWidth);
-        AnchorPane.setBottomAnchor(checkBoxRow, 0.95 * tempHeight);
-       
+
         AnchorPane.setTopAnchor(title1Text, 0.06 * tempHeight);
         AnchorPane.setLeftAnchor(title1Text, txt1Edge * tempWidth);
         AnchorPane.setRightAnchor(title1Text, txt1Edge * tempWidth);
@@ -406,10 +336,6 @@ public class NormProb_View extends BivariateScale_View {
         AnchorPane.setLeftAnchor(graphCanvas, 0.1 * tempWidth);
         AnchorPane.setRightAnchor(graphCanvas, 0.0 * tempWidth);
         AnchorPane.setBottomAnchor(graphCanvas, 0.1 * tempHeight);
-        
-        for (int chex = 0; chex < 3; chex++) {
-            AnchorPane.setLeftAnchor(scatterPlotCheckBoxes[chex], (chex) * tempWidth / 5.0);
-        }
 
         gc.clearRect(0, 0, graphCanvas.getWidth(), graphCanvas.getHeight());
 
@@ -418,102 +344,14 @@ public class NormProb_View extends BivariateScale_View {
             double yy = yAxis.getDisplayPosition(normalScoresSorted[i]);
             gc.fillOval(xx - 4, yy - 4, 8, 8); //  0.5*radius to get dot to center
         }
-        
-        if (npModelThisTime.equals("SimpleRegression") 
-            || npModelThisTime.equals("UnivExploration")
-            || npModelThisTime.equals("No intercept regression")
-            || npModelThisTime.equals("One Way ANOVA")) {
+
             adString = "Anderson-Darling = " + String.format("%5.3f", adStats[1]);
             adPValue = "pValue = " + String.format("%5.3f", adStats[2]);
             gc.fillText(adString, 10, 10);
             gc.fillText(adPValue, 75, 25);
-        }
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));             
     }
     
-    private void makeTheCheckBoxes() {
-        nCheckBoxes = 3;                
-        // Determine which graphs are initially shown
-        checkBoxSettings = new boolean[nCheckBoxes];
-        checkBoxSettings[0] = false;    //  Best fit line
-        checkBoxSettings[1] = false;    //  Outliers
-        checkBoxSettings[2] = false;   //  Influential points
-        
-        checkBoxRow = new AnchorPane();
-        checkBoxRow.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        scatterPlotCheckBoxes = new CheckBox[nCheckBoxes];
-
-        for (int i = 0; i < nCheckBoxes; i++) {
-            scatterPlotCheckBoxes[i] = new CheckBox(scatterPlotCheckBoxDescr[i]);
-            
-            scatterPlotCheckBoxes[i].setMaxWidth(Double.MAX_VALUE);
-            scatterPlotCheckBoxes[i].setId(scatterPlotCheckBoxDescr[i]);
-            scatterPlotCheckBoxes[i].setSelected(checkBoxSettings[i]);
-
-            scatterPlotCheckBoxes[i].setStyle(
-                                "-fx-font-size: 14;" +
-                                "-fx-border-insets: -5; " + 
-                                "-fx-border-radius: 5;" +
-                                "-fx-border-style: dotted;" +
-                                "-fx-border-width: 0;" );
-
-            
-            if (scatterPlotCheckBoxes[i].isSelected() == true) {
-                scatterPlotCheckBoxes[i].setTextFill(Color.GREEN);
-            }
-            else { scatterPlotCheckBoxes[i].setTextFill(Color.RED); }
-            
-            scatterPlotCheckBoxes[i].setOnAction(e->{
-                CheckBox tb = ((CheckBox) e.getTarget());                
-                String daID = tb.getId();
-                Boolean checkValueIsDesired = tb.selectedProperty().getValue();
-                // Reset selected color
-                
-                if (checkValueIsDesired) { tb.setTextFill(Color.GREEN); }
-                else { tb.setTextFill(Color.RED); }
-                
-                switch (daID) {    
-                    case " Best Fit Line ":
-                        checkBoxSettings[0] = (checkValueIsDesired == true);
-                        doTheGraph();
-                        break;
-                        
-                    case " Outliers ":  
-                        checkBoxSettings[1] = (checkValueIsDesired == true);
-                        doTheGraph();
-                        break;
-
-                    case " Influential points ":
-                        checkBoxSettings[2] = (checkValueIsDesired == true);
-                        doTheGraph();
-                        break;
-                        
-                    case "One Way ANOVA":
-                        checkBoxSettings[0] = (checkValueIsDesired == true);
-                        doTheGraph();
-                        break;
-                        
-                    default:
-                        String switchFailure = "Switch failure: NormProb_View 461 " + daID;
-                        MyAlerts.showUnexpectedErrorAlert(switchFailure); 
-                }
-            }); //  end setOnAction
-        }          
-        checkBoxRow.getChildren().addAll(scatterPlotCheckBoxes);
-    }
+    private void makeTheCheckBoxes() { /* No op */}
     
     private void constructDataArray() {
         xDataMin = xDataMax = dataArraySorted[0];

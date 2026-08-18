@@ -1,6 +1,6 @@
 /**************************************************************************
  *                  X2GOF_DataByHandDialog                                *
- *                        12/13/25                                        *
+ *                        06/27/26                                        *
  *                         15:00                                          *
  *************************************************************************/
 package dialogs.chisquare;
@@ -71,7 +71,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
     public X2GOF_DataByHand_Dialog(X2GOF_Model x2GOFModel) {
         super();
         if (printTheStuff) {
-            System.out.println("*** 74 X2GOF_DataByHand_Dialog, Constructing");
+            System.out.println("74 *** X2GOF_DataByHand_Dialog, Constructing");
         }
         this.x2GOF_Model = x2GOFModel;
         initialize();
@@ -79,7 +79,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
     
     private void initialize() {
         if (printTheStuff) {
-            System.out.println("*** 82 X2GOF_DataByHand_Dialog, initialize()");
+            System.out.println("82 --- X2GOF_DataByHand_Dialog, initialize()");
         }
         nCategories = x2GOF_Model.getNCategories();
         vBoxVisual = new VBox();
@@ -100,7 +100,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
  ***************************************************************************/
     public void constructDialogGuts() {
         if (printTheStuff) {
-            System.out.println("*** 103 X2GOF_DataByHand_Dialog, constructDialogGuts()");
+            System.out.println("103 --- X2GOF_DataByHand_Dialog, constructDialogGuts()");
         }
         vBoxGOF = new VBox();
         txtGOFControlTitle = new Text("   X2 Goodness of Fit");  
@@ -160,7 +160,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
     
     private void constructButtons() {   //  and CheckBox
         if (printTheStuff) {
-            System.out.println("*** 163 X2GOF_DataByHand_Dialog, constructButtons()");
+            System.out.println("163 --- X2GOF_DataByHand_Dialog, constructButtons()");
         }
         chBoxDoEqualProps = new CheckBox("H0 Equal Props");
         chBoxDoEqualProps.setOnAction(new EventHandler<ActionEvent>() {
@@ -418,7 +418,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
     
     private boolean checkForBlanks() {
         if (printTheStuff) {
-            System.out.println("*** 421 GOF_DataByHand_Dialog, checkForBlanks()");
+            System.out.println("421 --- X2GOF_DataByHand_Dialog, checkForBlanks()");
         }
         boolGoodToGo = true;
         
@@ -463,7 +463,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
     
     public String doSumExpPropsDialog() {
         if (printTheStuff) {
-            System.out.println("*** 466 GOF_DataByHandDialog.doSumExpPropsDialog()");
+            System.out.println("466 --- GOF_DataByHandDialog, doSumExpPropsDialog()");
         }
 
         String returnString;
@@ -472,7 +472,7 @@ public class X2GOF_DataByHand_Dialog extends Splat_Dialog {
         nonSumToOneAlert.setHeaderText("There is a problem with your hypothesized proportions.");
         nonSumToOneAlert.setContentText("The sum of your expected proportions is different from 1.0. This could be due to roundoff error, in which"
                                      + "\ncase your proportions can be (only slightly) adjusted for the chi square calculations.  If this difference"
-                                     + "\nindicates deeper doo-doo problems, you can fix them yourself. Your call.");         
+                                     + "\nindicates deeper doo-doo problems, you can fix them yourself. Your call...");         
 
         ButtonType bt_Adjust = new ButtonType("SPLAT, please adjust & continue");
         ButtonType bt_Fix = new ButtonType("I, human, will fix them myself");

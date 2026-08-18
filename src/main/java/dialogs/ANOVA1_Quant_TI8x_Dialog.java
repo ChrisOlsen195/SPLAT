@@ -1,7 +1,7 @@
 /**************************************************
  *            ANOVA1_Quant_TI8x_Dialog            *
- *                    05/26/25                    *
- *                     21:00                      *
+ *                    06/21/26                    *
+ *                     18:00                      *
  *************************************************/
 package dialogs;
 
@@ -28,8 +28,8 @@ import utilityClasses.MyAlerts;
 public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
 
     // POJOs
-    boolean printTheStuff = true;
-    //boolean printTheStuff = false;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     private int nLevels;
     final int THREE;
@@ -63,7 +63,7 @@ public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
     public ANOVA1_Quant_TI8x_Dialog(Data_Manager dm) {
         this.dm = dm;
         if (printTheStuff) {
-            System.out.println("*** 66 ANOVA1_Quant_TI8x_Dialog, Constructing");
+            System.out.println("66 *** ANOVA1_Quant_TI8x_Dialog, Constructing");
         }
         THREE = 3;
         createANOVA_TI8x_Dialog();
@@ -71,9 +71,8 @@ public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
 
     private void createANOVA_TI8x_Dialog() {
         if (printTheStuff) {
-            System.out.println("*** 74 ANOVA1_Quant_TI8x_Dialog, createANOVA_TI8x_Dialog()");
+            System.out.println("74 --- ANOVA1_Quant_TI8x_Dialog, createANOVA_TI8x_Dialog()");
         }
-        dm.whereIsWaldo(73, waldoFile, "createANOVA_NS_Dialog()");
         boolGoodToGo = true;
         strReturnStatus = "OK";
         str_ChosenLabels = new ArrayList();
@@ -251,7 +250,7 @@ public class ANOVA1_Quant_TI8x_Dialog extends Splat_Dialog {
     
     public void show_ANOVA1_TI8x_Dialog() {
         if (printTheStuff) {
-            System.out.println("*** 254 ANOVA1_Quant_TI8x_Dialog, show_ANOVA1_TI8x_Dialog()");
+            System.out.println("253 --- ANOVA1_Quant_TI8x_Dialog, show_ANOVA1_TI8x_Dialog()");
         }
         lblTitle.setText("One way ANOVA");
         stageDialog.setTitle("One way ANOVA");

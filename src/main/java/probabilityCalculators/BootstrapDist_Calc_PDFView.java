@@ -1,20 +1,13 @@
 /**************************************************
  *             NormalDist_Calc_PDFView            *
- *                    01/16/25                    *
- *                     09:00                      *
+ *                    06/22/26                    *
+ *                     15:00                      *
  *************************************************/
 package probabilityCalculators;
 
 import genericClasses.JustAnAxis;
 import javafx.geometry.Side;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -44,8 +37,8 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(probCalc_Dashboard, placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("48 *** BootstrapDist_Calc_PDFView, Constructing");
+        if (printTheStuff) {
+            System.out.println("41 *** BootstrapDist_Calc_PDFView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -63,24 +56,21 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
         initializing = true;
         mu = 0.0; sigma = 1.0;
         al_ProbCalcs_STF = new SmartTextFieldDoublyLinkedSTF();
-        //System.out.println("58 BootstrapDist_Calc_PDFView, constructing");
         normalDist_Calc_DialogView = probCalc_Dashboard.get_Normal_DialogView();
         al_ProbCalcs_STF = normalDist_Calc_DialogView.getAllTheSTFs();
         this.probCalc_Dashboard = probCalc_Dashboard;
         tailChoice = "NotEqual";
-        //System.out.println("63 BootstrapDist_Calc_PDFView, constructing");
         respondToChanges();
         graphCanvas = new Canvas(initWidth, initHeight);
-        //System.out.println("66 BootstrapDist_Calc_PDFView, constructing");
         makeTheCheckBoxes();
-        //System.out.println("68 BootstrapDist_Calc_PDFView, constructing");
         makeItHappen();
-        //System.out.println("70 BootstrapDist_Calc_PDFView, constructing");
     }
     
     @Override
     protected void setUpUI() { 
-        //System.out.println("75 BootstrapDist_Calc_PDFView, setUpUI()");
+        if (printTheStuff) {
+            System.out.println("72 --- BootstrapDist_Calc_PDFView, setUpUI()");
+        }
         String title2String;
         normalDist_Calc_DialogView.constructGraphStatus();
         okToGraph = normalDist_Calc_DialogView.getOKToGraph();
@@ -92,7 +82,9 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
     }
  
     public void respondToChanges() {
-        //System.out.println("87 BootstrapDist_Calc_PDFView, respondToChanges()");
+        if (printTheStuff) {
+            System.out.println("86 --- BootstrapDist_Calc_PDFView, respondToChanges()");
+        }
         normalDist_Calc_DialogView.constructGraphStatus();
         // Check for shading
         leftTailChecked = normalDist_Calc_DialogView.getLeftTailChecked();
@@ -151,7 +143,9 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
    @Override
     public void initializeGraphParameters() {
-        //System.out.println("146 BootstrapDist_Calc_PDFView, initializeGraphParameters()");
+        if (printTheStuff) {
+            System.out.println("147 --- BootstrapDist_Calc_PDFView, initializeGraphParameters()");
+        }
         xAxis = new JustAnAxis(newX_Lower, newX_Upper);
         xAxis.setSide(Side.BOTTOM);       
         prepareTheSupportAxis();
@@ -168,7 +162,9 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
     
     @Override
     public void doTheGraph() {  
-        //System.out.println("163 BootstrapDist_Calc_PDFView, doTheGraph()");
+        if (printTheStuff) {
+            System.out.println("166 --- BootstrapDist_Calc_PDFView, doTheGraph()");
+        }
         normalDist_Calc_DialogView.constructGraphStatus();
         okToGraph = normalDist_Calc_DialogView.getOKToGraph();
         dTG_Continuous();
@@ -205,28 +201,15 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
         
         if (okToGraph) {
             printTheProbabilities(); 
-        }     
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));        
+        }             
     }
     
     private void printTheProbabilities() {
-        //System.out.println("210 BootstrapDist_Calc_PDFView, printTheProbabilities()");
+        if (printTheStuff) {
+            System.out.println("209 --- BootstrapDist_Calc_PDFView, doTheGraph()");
+        }
         double xPrtPosition, yPrtPosition;
 
-        // if (normalDist_Calc_DialogView.getLeftTailChecked()) {
         if (leftTailChecked) {
             leftArea_XPosition = calculateScaleScoreOf(zDistr.getInvLeftTailArea(.01));
             xPrtPosition = xAxis.getDisplayPosition(leftArea_XPosition);
@@ -236,7 +219,6 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
             if (leftArea != Double.NaN) { gc.fillText(prtLeftArea, xPrtPosition, yPrtPosition);  }
         }
         
-        //if (normalDist_Calc_DialogView.getRightTailChecked() == true) {
         if (rightTailChecked) {
             rightArea_XPosition = calculateScaleScoreOf(zDistr.getInvRightTailArea(.05));
             xPrtPosition = xAxis.getDisplayPosition(rightArea_XPosition);
@@ -245,8 +227,6 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
             prtRightArea = "RightArea = " +  StringUtilities.roundDoubleToNDigitString(rightArea, 4);
             if (rightArea != Double.NaN) { gc.fillText(prtRightArea, xPrtPosition, yPrtPosition); }
         }
-        // On the other hand...
-        // if (normalDist_Calc_DialogView.getMidTailChecked() == true) {
         
         if (midTailChecked) {
             leftArea_XPosition = calculateScaleScoreOf(zDistr.getInvLeftTailArea(.01));
@@ -273,5 +253,4 @@ public class BootstrapDist_Calc_PDFView extends Distributions_Calc_PDFView {
     private double calculateZOf(double x) { return (x - mu)/sigma; }
     private double calculateScaleScoreOf(double z) { return z * sigma + mu; }
     public void setInitializingToTrue() { initializing = true; }
-    //public Pane getTheContainingPane() { return theContainingPane; }
 }

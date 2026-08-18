@@ -134,7 +134,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
         
         titleLabel = new Label("Analysis of Covariance");
         lbl_Treatment = new Label("Treatment:");
-        dm.whereIsWaldo(127, waldoFile, "doTheDialog()");
+        dm.whereIsWaldo(127, waldoFile, " --- doTheDialog()");
         
         lbl_Treatment.setPadding(new Insets(0, 0, 5, 0));
         tf_FactorA = new TextField("");
@@ -214,11 +214,11 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
         });
 
         arrow_SelectFactorA.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(217, waldoFile, "--- arrow_SelectFactorA");
+            dm.whereIsWaldo(217, waldoFile, " --- arrow_SelectFactorA");
             str_NameTreatment = varList1.getNamesSelected().get(0);
             index_Treatment = dm.getVariableIndex(str_NameTreatment);
             
-            if (dm.getAllTheColumns().get(index_Treatment).getDataType().equals("Quantitative")) {
+            if (dm.getAllTheColumns().get(index_Treatment).getStrDataType().equals("Quantitative")) {
                 MyAlerts.showANCOVA_NumericTreatmentAlert();
                 strReturnStatus = "Cancel";
                 diagStage.close();
@@ -236,10 +236,10 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
         });
 
         arrow_SelectFactorB.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(229, waldoFile, "--- arrow_SelectFactorB");
+            dm.whereIsWaldo(239, waldoFile, " --- arrow_SelectFactorB");
             str_NameCovariate = varList1.getNamesSelected().get(0);
             index_Covariate = dm.getVariableIndex(str_NameCovariate);
-            if (dm.getAllTheColumns().get(index_Covariate).getDataType().equals("Quantitative")) {
+            if (dm.getAllTheColumns().get(index_Covariate).getStrDataType().equals("Quantitative")) {
                 tf_FactorB.setText(str_NameCovariate);
                 varList1.delVarName(varList1.getNamesSelected());
             } else {
@@ -250,10 +250,10 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
         });
 
         arrow_SelectResponse.setOnAction((ActionEvent event) -> {    
-            dm.whereIsWaldo(243, waldoFile, "--- arrow_SelectResponse");
+            dm.whereIsWaldo(253, waldoFile, " --- arrow_SelectResponse");
             str_NameResponse = varList1.getNamesSelected().get(0);
             index_ResponseVar = dm.getVariableIndex(str_NameResponse);                
-            if (dm.getAllTheColumns().get(index_ResponseVar).getDataType().equals("Quantitative")){
+            if (dm.getAllTheColumns().get(index_ResponseVar).getStrDataType().equals("Quantitative")){
                 tf_ResponseVar.setText(str_NameResponse);
                 varList1.delVarName(varList1.getNamesSelected());
             } else {
@@ -264,7 +264,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
         });
 
         btn_Compute.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(257, waldoFile, "--- btn_Compute");
+            dm.whereIsWaldo(267, waldoFile, " --- btn_Compute");
             boolean treatmentIsEmpty = (tf_FactorA.getText()).isEmpty();
             boolean covariateIsEmpty = (tf_FactorB.getText()).isEmpty();
             boolean responseIsEmpty = (tf_ResponseVar.getText()).isEmpty();
@@ -274,7 +274,7 @@ public class Regr_Compare_Dialog extends Splat_Dialog {
                strReturnStatus = "Cancel";
                diagStage.close();
             } else {
-                dm.whereIsWaldo(277, waldoFile, "showTheDialog()");
+                dm.whereIsWaldo(277, waldoFile, " --- showTheDialog()");
  
                 colOfData_Treatment = new ColumnOfData(dm.getAllTheColumns().get(index_Treatment));
                 colOfData_Covariate = new ColumnOfData(dm.getAllTheColumns().get(index_Covariate));

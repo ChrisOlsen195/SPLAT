@@ -33,15 +33,15 @@ public class Indep_t_PrepareStructs
             QuantitativeDataVariable pooledQDV,
             ArrayList<QuantitativeDataVariable> allTheQDVs) { 
         dm = indep_t_Controller.getDataManager();
-        dm.whereIsWaldo(33, waldoFile, " *** Constructing");
+        dm.whereIsWaldo(36, waldoFile, " *** Constructing");
         strFirstVarDescription = indep_t_Controller.getFirstVarDescr();
         strSecondDescription = indep_t_Controller.getSecondVarDescr();           
         strSubtitle = strFirstVarDescription  + " & " + strSecondDescription; 
     }  
     
-    public String showTheDashboard() {
-        return "returnStatus";           
-    }
+    //public String showTheDashboard() {
+    //    return "returnStatus";           
+    //}
     
     public String getFirstVarDescription() { return strFirstVarDescription; }
     public String getSecondVarDescription() { return strSecondDescription; }

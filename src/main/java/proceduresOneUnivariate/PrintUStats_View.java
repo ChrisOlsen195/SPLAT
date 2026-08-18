@@ -19,8 +19,8 @@ public class PrintUStats_View extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("23 *** PrintUStats_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 23 PrintUStats_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -33,8 +33,8 @@ public class PrintUStats_View extends PrintTextReport_View {
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("37 *** PrintUStats_View, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 37 PrintUStats_View, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;

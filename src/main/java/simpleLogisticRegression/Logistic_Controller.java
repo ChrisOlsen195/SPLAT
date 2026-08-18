@@ -51,12 +51,12 @@ public class Logistic_Controller {
 
     public Logistic_Controller(Data_Manager dm) {
         this.dm = dm;      
-        dm.whereIsWaldo(54, waldoFile, "Constructing");
+        dm.whereIsWaldo(54, waldoFile, " *** Constructing");
         strReturnStatus = "OK";
     }  
         
     public String doTheProcedure() {    //  Called from Main Menu
-        dm.whereIsWaldo(59, waldoFile, "doTheProcedure()");
+        dm.whereIsWaldo(59, waldoFile, " --- doTheProcedure()");
         try {
             int casesInStruct = dm.getNCasesInStruct();
             
@@ -82,7 +82,7 @@ public class Logistic_Controller {
             strUniques = dc.getUniques();
             
             if (nUniques != 2) {
-                dm.whereIsWaldo(85, waldoFile, "showMustBeTwoUniquesInLogisticAlert()");
+                dm.whereIsWaldo(85, waldoFile, " ... showMustBeTwoUniquesInLogisticAlert()");
                 MyAlerts.showMustBeTwoUniquesInLogisticAlert();
                 
                 return "NotOK";
@@ -248,7 +248,7 @@ public class Logistic_Controller {
     public QuantitativeDataVariable getQdvXVariable() { return qdv_XVariable; }
     
     public String[] getTwoCategories() { 
-        //System.out.println("247 Logistic_Controller, twoCategories = " + twoCategories[0] + " / " + twoCategories[1]);
+        //System.out.println("251 Logistic_Controller, twoCategories = " + twoCategories[0] + " / " + twoCategories[1]);
         return twoCategories; }
     
 }

@@ -1,7 +1,7 @@
 /**************************************************
  *          OneMean_Power_Controller              *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/21/26                      *
+ *                    18:00                       *
  *************************************************/
 package power_OneMean;
 
@@ -15,7 +15,7 @@ public class OneMean_Power_Controller {
     boolean printTheStuff = false;
     
     int sampleSize;
-    double alpha, nullMu, altMu, nullSigma, standErrMean, effectSize;
+    double alpha, nullMu, altMu, nullSigma, standErrBeta, effectSize;
 
     String strRejectionCriterion, strPrinted_Null, strPrinted_Alt, 
            strReturnStatus;
@@ -24,13 +24,13 @@ public class OneMean_Power_Controller {
     OneMean_Power_Dashboard oneMeanPower_Dashboard;
     OneMean_Power_Model oneMeanPower_Model;
     Point_2D nonRejectionRegion;
-    Power_SingleMean_Dialog power_SingleMean_Dialog;
+    Power_OneMean_Dialog power_SingleMean_Dialog;
 
     public OneMean_Power_Controller() {
-        if (printTheStuff == true) {
-            System.out.println("31 *** OneMean_Power_Controller, constructing");
+        if (printTheStuff) {
+            System.out.println("31 --- OneMean_Power_Controller, constructing");
         }
-        power_SingleMean_Dialog = new Power_SingleMean_Dialog();
+        power_SingleMean_Dialog = new Power_OneMean_Dialog();
     }
     
     public String ShowNWait() {
@@ -45,9 +45,9 @@ public class OneMean_Power_Controller {
         effectSize = power_SingleMean_Dialog.getEffectSize();
         sampleSize = power_SingleMean_Dialog.getSampleSize();
         strRejectionCriterion = power_SingleMean_Dialog.getRejectionCriterion();        
-        standErrMean = nullSigma / Math.sqrt(sampleSize);
+        standErrBeta = nullSigma / Math.sqrt(sampleSize);
         oneMeanPower_Model = new OneMean_Power_Model(this);
-        oneMeanPower_Model.setNullMu(nullMu);
+        oneMeanPower_Model.setNullParam(nullMu);
         
         switch (strRejectionCriterion) {
             case "LessThan":
@@ -63,17 +63,18 @@ public class OneMean_Power_Controller {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: OneMean_Power_Controller 61 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneMean_Power_Controller 66 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);                 
         }
         
         oneMeanPower_Model.setRejectionCriterion(strRejectionCriterion);
-        oneMeanPower_Model.setAltMu(altMu);
+        oneMeanPower_Model.setAltParam(altMu);
         oneMeanPower_Model.setSampleSize(sampleSize);
         oneMeanPower_Model.setNullSigma(nullSigma);
         oneMeanPower_Model.setAlpha(alpha);  
         oneMeanPower_Model.setEffectSize(effectSize);
-        oneMeanPower_Model.setStandErrMean(standErrMean);        
+        oneMeanPower_Model.setStErr_NullParam(standErrBeta);    //  StandErr is 
+        oneMeanPower_Model.setStErr_AltParam(standErrBeta);     //  Homogeneous
         oneMeanPower_Model.calculatePower();
         // printed Strings for Power Report
         strPrinted_Null = "\u03BC = " + String.valueOf(nullMu);
@@ -92,7 +93,7 @@ public class OneMean_Power_Controller {
                 break;
 
             default:
-                String switchFailure = "Switch failure: OneMean_Power_Controller 90 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: OneMean_Power_Controller 96 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
 

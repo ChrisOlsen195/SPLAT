@@ -53,8 +53,8 @@ public class TDist_Calc_DialogView extends ProbCalc_DialogView {
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);  
-        if (printTheStuff == true) {
-            System.out.println("57 *** TDist_Calc_DialogView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 57 TDist_Calc_DialogView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;

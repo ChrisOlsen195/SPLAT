@@ -37,7 +37,7 @@ public class NoInf_Regr_Controller {
     
     public NoInf_Regr_Controller(Data_Manager dm) {
         this.dm = dm;
-        dm.whereIsWaldo(40, waldoFile, "NoInf_Regression_Controller, Constructing");
+        dm.whereIsWaldo(40, waldoFile, " --- NoInf_Regression_Controller, Constructing");
     }  
         
     public String doTheProcedure() {

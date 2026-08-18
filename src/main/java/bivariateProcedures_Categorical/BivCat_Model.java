@@ -72,7 +72,7 @@ public class BivCat_Model {
      
     public String doBivCatModelFromTable() {
         if (printTheStuff) {
-            System.out.println("*** 74 BivCat_Model, doBivCatModelFromTable()");
+            System.out.println("*** 75 BivCat_Model, doBivCatModelFromTable()");
         }
         bivCat_SummaryDialog = new BivCat_SummaryDialog(this);
         bivCat_SummaryDialog.showAndWait();  

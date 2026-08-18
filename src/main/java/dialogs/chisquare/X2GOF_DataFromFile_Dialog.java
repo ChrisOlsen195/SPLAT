@@ -77,7 +77,7 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     public X2GOF_DataFromFile_Dialog(X2GOF_Model gof_Model) {
         super();
         if (printTheStuff) {
-            System.out.println("*** 80 X2GOF_DataFromFile_Dialog, Constructing");
+            System.out.println("80 *** X2GOF_DataFromFile_Dialog, Constructing");
         }
         this.x2GOF_Model = gof_Model;
 
@@ -107,7 +107,7 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
  ***************************************************************************/
     public void x2FileDialog_Step1() {  
         if (printTheStuff) {
-            System.out.println("*** 110 X2GOF_DataFromFile_Dialog, x2FileDialog_Step1()");
+            System.out.println("110 --- X2GOF_DataFromFile_Dialog, x2FileDialog_Step1()");
         }
         vBoxGOF = new VBox();
         txtGOFControlTitle = new Text("X2 Goodness of Fit");  
@@ -152,13 +152,13 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
         
         x2FileDialog_Step3();
         
-        System.out.println("149 *** X2GOF_DataFromFile_Dialog, END x2FileDialog_Step1()");
+        System.out.println("155 ... X2GOF_DataFromFile_Dialog, END x2FileDialog_Step1()");
     }   //  End constructDialogGuts 
     
     
     private void x2FileDialog_Step2() {   //  and CheckBox
         if (printTheStuff) {
-            System.out.println("*** 161 X2GOF_DataFromFile_Dialog, x2FileDialog_Step2()");
+            System.out.println("161 --- X2GOF_DataFromFile_Dialog, x2FileDialog_Step2()");
         }
         chBox_DoEqualProps = new CheckBox("H0 Equal Props");
         chBox_DoEqualProps.setOnAction(new EventHandler<ActionEvent>() {
@@ -289,7 +289,7 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     
     public void x2FileDialog_Step3() {   
         if (printTheStuff) {
-            System.out.println("*** 292 X2GOF_DataFromFile_Dialog, x2FileDialog_Step3()");
+            System.out.println("292 --- X2GOF_DataFromFile_Dialog, x2FileDialog_Step3()");
         }
         strGOFCategories = new String[nCategories];
         strGOFCategories = x2GOF_Model.getPreCategoriesAsStrings();
@@ -344,7 +344,7 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     
     private boolean checkOKForAnalysis() { 
         if (printTheStuff) {
-            System.out.println("*** 347 X2GOF_DataFromFile_Dialog, checkOKForAnalysis()");
+            System.out.println("347 --- X2GOF_DataFromFile_Dialog, checkOKForAnalysis()");
         }
         boolean okToContinue = true;
         
@@ -368,7 +368,7 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
     
     public String doSumExpPropsDialog() {
         if (printTheStuff) {
-            System.out.println("*** 371 X2GOF_DataFromFile_Dialog, doSumExpPropsDialog()");
+            System.out.println("371 --- X2GOF_DataFromFile_Dialog, doSumExpPropsDialog()");
         }
         String returnString;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -378,7 +378,7 @@ public class X2GOF_DataFromFile_Dialog extends Splat_Dialog {
                            + "\nThis could be due to roundoff error, in which case your  "
                            + "\nproportions can be (slightly) adjusted.  Or, if "
                            + "\nyour proportions are  in deeper doo-doo, you can fix them."
-                           + "\nYour call. "
+                           + "\nYour call..."
         );
 
         ButtonType bt_Adjust = new ButtonType("Adjust & Continue");

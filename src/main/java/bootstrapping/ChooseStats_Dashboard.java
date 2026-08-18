@@ -1,7 +1,7 @@
 /**************************************************
- *             Boot_ChooseStats_Dashboard         *
- *                    08/14/25                    *
- *                     15:00                      *
+ *              ChooseStats_Dashboard             *
+ *                    08/09/26                    *
+ *                     21:00                      *
  *************************************************/
 /**************************************************
 *    Initial widths and heights from Super Class  *
@@ -17,21 +17,19 @@ import splat.Data_Manager;
 public class ChooseStats_Dashboard extends Dashboard {
     // POJOs
     
-    final String[] regrCheckBoxDescr = { " Samp Dist -- Histo ",  " Samp Dist -- Dotplot ",
-                                         " Hyp Test -- Histo ",  " Hyp Test -- Dotplot ", " Choices "};
+    final String[] regrCheckBoxDescr = { " Sampling Distribution -- Histo ",  " Sampling Distribution -- Dotplot ",
+                                         " Hypothesis Test -- Histo ",  " Hypothesis Test -- Dotplot ", " Choices "};
     
     // Make empty if no-print
     //String waldoFile = "ChooseStats_Dashboard";
     String waldoFile = "";
     
     // My classes
-    ChooseStats_Controller chooseStats_Controller;
-    ChooseStats_DistrModel chooseStats_Original_DistrModel,
-                           chooseStats_Shifted_DistrModel;
-    ChooseStats_Histo_DistrView chooseStats_Original_Histo_DistrView,
-                                chooseStats_Shifted_Histo_DistrView;
-    ChooseStats_DotPlot_DistrView chooseStats_Original_DotPlot_DistrView,
-                                  chooseStats_Shifted_DotPlot_DistrView;
+    Boot_Controller chooseStats_Controller;
+    DistrModel original_DistrModel;
+    DistrModel shifted_DistrModel;
+    Histo_DistrView original_Histo_DistrView, shifted_Histo_DistrView;
+    DotPlot_DistrView original_DotPlot_DistrView, shifted_DotPlot_DistrView;
     ChooseStats_DialogView chooseStats_DialogView;
     Data_Manager dm;
 
@@ -41,16 +39,16 @@ public class ChooseStats_Dashboard extends Dashboard {
          oneStatHisto_ShiftedContainingPane, oneStatDotPlot_ShiftedContainingPane,   
          oneStatDialogContainingPane;
             
-    public ChooseStats_Dashboard(ChooseStats_Controller boot_ChooseStats_Controller, 
-                                      ChooseStats_DistrModel boot_ChooseStats_Original_DistrModel,
-                                      ChooseStats_DistrModel boot_ChooseStats_Shifted_DistrModel) {
+    public ChooseStats_Dashboard(Boot_Controller boot_ChooseStats_Controller, 
+                                      DistrModel original_DistrModel,
+                                      DistrModel shifted_DistrModel) {
         super(5);  // nCheckBoxes = 5;
         dm = boot_ChooseStats_Controller.getTheDataManager();
-        dm.whereIsWaldo(49, waldoFile, "Constructing"); 
+        dm.whereIsWaldo(47, waldoFile, " *** Constructing"); 
         checkBoxDescr = new String[nCheckBoxes];
         this.chooseStats_Controller = boot_ChooseStats_Controller;
-        this.chooseStats_Original_DistrModel = boot_ChooseStats_Original_DistrModel;
-        this.chooseStats_Shifted_DistrModel = boot_ChooseStats_Shifted_DistrModel;
+        this.original_DistrModel = original_DistrModel;
+        this.shifted_DistrModel = shifted_DistrModel;
 
         for (int ithCheckBox = 0; ithCheckBox < nCheckBoxes; ithCheckBox++) {
             checkBoxDescr[ithCheckBox] = regrCheckBoxDescr[ithCheckBox];
@@ -78,10 +76,10 @@ public class ChooseStats_Dashboard extends Dashboard {
     }  
     
     public void putEmAllUp() { 
-        dm.whereIsWaldo(81, waldoFile, "putEmAllUp()");
+        dm.whereIsWaldo(79, waldoFile, " --- putEmAllUp()");
         if (checkBoxSettings[0] == true) {
             oneStatHisto_OriginalContainingPane.setVisible(true);
-            chooseStats_Original_Histo_DistrView.doTheGraph();
+            original_Histo_DistrView.doTheGraph();
         }
         else {
             oneStatHisto_OriginalContainingPane.setVisible(false);
@@ -90,7 +88,7 @@ public class ChooseStats_Dashboard extends Dashboard {
         
         if (checkBoxSettings[1] == true) {
             oneStatDotPlot_OriginalContainingPane.setVisible(true);
-            chooseStats_Original_DotPlot_DistrView.doTheGraph();
+            original_DotPlot_DistrView.doTheGraph();
         }
         else {
             oneStatDotPlot_OriginalContainingPane.setVisible(false);
@@ -99,7 +97,7 @@ public class ChooseStats_Dashboard extends Dashboard {
         
         if (checkBoxSettings[2] == true) {
             oneStatHisto_ShiftedContainingPane.setVisible(true);
-            chooseStats_Shifted_Histo_DistrView.doTheGraph();
+            shifted_Histo_DistrView.doTheGraph();
         }
         else {
             oneStatHisto_ShiftedContainingPane.setVisible(false);
@@ -108,7 +106,7 @@ public class ChooseStats_Dashboard extends Dashboard {
         
         if (checkBoxSettings[3] == true) {
             oneStatDotPlot_ShiftedContainingPane.setVisible(true);
-            chooseStats_Shifted_DotPlot_DistrView.doTheGraph();
+            shifted_DotPlot_DistrView.doTheGraph();
         }
         else {
             oneStatDotPlot_ShiftedContainingPane.setVisible(false);
@@ -132,7 +130,7 @@ public class ChooseStats_Dashboard extends Dashboard {
     // *****************************************************************
     
     public void populateTheBackGround() {
-        dm.whereIsWaldo(135, waldoFile, "populateTheBackGround()");
+        dm.whereIsWaldo(133, waldoFile, " --- populateTheBackGround()");
         // First, construct the DialogView and DistrView, in that order.
         
         initWidth[0] = 450; initHeight[0] = 300;
@@ -151,43 +149,45 @@ public class ChooseStats_Dashboard extends Dashboard {
         initWidth[4] = 600; initHeight[4] = 375;
         sixteenths_across[2] = 700; sixteenths_down[2] = 100;
         
-        chooseStats_Original_Histo_DistrView = new ChooseStats_Histo_DistrView(chooseStats_Original_DistrModel, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]); 
-        chooseStats_Original_DotPlot_DistrView = new ChooseStats_DotPlot_DistrView(chooseStats_Original_DistrModel, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
-   
-        chooseStats_Shifted_Histo_DistrView = new ChooseStats_Histo_DistrView(chooseStats_Shifted_DistrModel, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]); 
-        chooseStats_Shifted_DotPlot_DistrView = new ChooseStats_DotPlot_DistrView(chooseStats_Shifted_DistrModel, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
-
+        original_Histo_DistrView = new Histo_DistrView(original_DistrModel, sixteenths_across[1], sixteenths_down[1], initWidth[1], initHeight[1]); 
+        original_Histo_DistrView.setStrTitle2(regrCheckBoxDescr[0]);
+        original_DotPlot_DistrView = new DotPlot_DistrView(original_DistrModel, sixteenths_across[2], sixteenths_down[2], initWidth[2], initHeight[2]);
+        original_DotPlot_DistrView.setStrTitle2(regrCheckBoxDescr[1]);
+        shifted_Histo_DistrView = new Histo_DistrView(shifted_DistrModel, sixteenths_across[3], sixteenths_down[3], initWidth[3], initHeight[3]); 
+        shifted_Histo_DistrView.setStrTitle2(regrCheckBoxDescr[2]);
+        shifted_DotPlot_DistrView = new DotPlot_DistrView(shifted_DistrModel, sixteenths_across[4], sixteenths_down[4], initWidth[4], initHeight[4]);
+        shifted_DotPlot_DistrView.setStrTitle2(regrCheckBoxDescr[3]);
         
-        chooseStats_Controller.set_Boot_OriginalHisto_DistrView(chooseStats_Original_Histo_DistrView);
-        chooseStats_Controller.set_Boot_OriginalDotPlot_DistrView(chooseStats_Original_DotPlot_DistrView);
+        chooseStats_Controller.set_Boot_OriginalHisto_DistrView(original_Histo_DistrView);
+        chooseStats_Controller.set_Boot_OriginalDotPlot_DistrView(original_DotPlot_DistrView);
         
-        chooseStats_Controller.set_Boot_ShiftedHisto_DistrView(chooseStats_Shifted_Histo_DistrView);
-        chooseStats_Controller.set_Boot_ShiftedDotPlot_DistrView(chooseStats_Shifted_DotPlot_DistrView);
+        chooseStats_Controller.set_Boot_ShiftedHisto_DistrView(shifted_Histo_DistrView);
+        chooseStats_Controller.set_Boot_ShiftedDotPlot_DistrView(shifted_DotPlot_DistrView);
         
         // Now finish the construction of the DialogView and DistrView, in that order.
         chooseStats_DialogView.continueConstruction();
-        chooseStats_Original_Histo_DistrView.continueConstruction();
-        chooseStats_Original_DotPlot_DistrView.continueConstruction();
+        original_Histo_DistrView.continueConstruction();
+        original_DotPlot_DistrView.continueConstruction();
         
-        chooseStats_Shifted_Histo_DistrView.continueConstruction();
-        chooseStats_Shifted_DotPlot_DistrView.continueConstruction();
+        shifted_Histo_DistrView.continueConstruction();
+        shifted_DotPlot_DistrView.continueConstruction();
         
         // Now cross your fingers...
         chooseStats_DialogView.completeTheDeal();
         oneStatDialogContainingPane = chooseStats_DialogView.getTheContainingPane(); 
         oneStatDialogContainingPane.setStyle(containingPaneStyle);  
 
-        chooseStats_Original_Histo_DistrView.completeTheDeal();
-        chooseStats_Original_DotPlot_DistrView.completeTheDeal();
+        original_Histo_DistrView.completeTheDeal();
+        original_DotPlot_DistrView.completeTheDeal();
         
-        oneStatHisto_OriginalContainingPane = chooseStats_Original_Histo_DistrView.getTheContainingPane();   
-        oneStatDotPlot_OriginalContainingPane = chooseStats_Original_DotPlot_DistrView.getTheContainingPane(); 
+        oneStatHisto_OriginalContainingPane = original_Histo_DistrView.getTheContainingPane();   
+        oneStatDotPlot_OriginalContainingPane = original_DotPlot_DistrView.getTheContainingPane(); 
         
-        chooseStats_Shifted_Histo_DistrView.completeTheDeal();
-        chooseStats_Shifted_DotPlot_DistrView.completeTheDeal();
+        shifted_Histo_DistrView.completeTheDeal();
+        shifted_DotPlot_DistrView.completeTheDeal();
         
-        oneStatHisto_ShiftedContainingPane = chooseStats_Shifted_Histo_DistrView.getTheContainingPane();   
-        oneStatDotPlot_ShiftedContainingPane = chooseStats_Shifted_DotPlot_DistrView.getTheContainingPane(); 
+        oneStatHisto_ShiftedContainingPane = shifted_Histo_DistrView.getTheContainingPane();   
+        oneStatDotPlot_ShiftedContainingPane = shifted_DotPlot_DistrView.getTheContainingPane(); 
 
         backGround.getChildren().addAll(oneStatHisto_OriginalContainingPane,
                                         oneStatDotPlot_OriginalContainingPane,
@@ -196,13 +196,13 @@ public class ChooseStats_Dashboard extends Dashboard {
                                         oneStatDialogContainingPane);           
     }
     
-    public ChooseStats_Controller get_Boot_Controller() { return chooseStats_Controller; }
-    public ChooseStats_Histo_DistrView get_Boot_ChooseStats_OriginalHisto_DistrView() { return chooseStats_Original_Histo_DistrView; }
-    public ChooseStats_DotPlot_DistrView get_Boot_ChooseStats_OriginalDotPlot_DistrView() { return chooseStats_Original_DotPlot_DistrView; }
-    public ChooseStats_Histo_DistrView get_Boot_ChooseStats_ShiftedHisto_DistrView() { return chooseStats_Shifted_Histo_DistrView; }
-    public ChooseStats_DotPlot_DistrView get_Boot_ChooseStats_ShiftedDotPlot_DistrView() { return chooseStats_Shifted_DotPlot_DistrView; }
+    public Boot_Controller get_Boot_Controller() { return chooseStats_Controller; }
+    public Histo_DistrView get_Boot_ChooseStats_OriginalHisto_DistrView() { return original_Histo_DistrView; }
+    public DotPlot_DistrView get_Boot_ChooseStats_OriginalDotPlot_DistrView() { return original_DotPlot_DistrView; }
+    public Histo_DistrView get_Boot_ChooseStats_ShiftedHisto_DistrView() { return shifted_Histo_DistrView; }
+    public DotPlot_DistrView get_Boot_ChooseStats_ShiftedDotPlot_DistrView() { return shifted_DotPlot_DistrView; }
     public ChooseStats_DialogView get_Boot_ChooseStats_DialogView() { return chooseStats_DialogView; }  
-    public Data_Manager getDataManager() { return dm; }
+    //public Data_Manager getDataManager() { return dm; }
 }
 
 

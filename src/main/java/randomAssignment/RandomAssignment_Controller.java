@@ -1,7 +1,7 @@
 /************************************************************
  *                 RandomAssignment_Controller              *
- *                          02/14/24                        *
- *                            03:00                         *
+ *                          08/15/26                        *
+ *                            06:00                         *
  ***********************************************************/
 package randomAssignment;
 
@@ -19,12 +19,15 @@ public class RandomAssignment_Controller {
     // POJOs
     int nTreats, nSubjects;
     
-    private String returnStatus, theDesign;
+    private String strReturnStatus, theDesign;
     private String[] theTreats;
     
     // Make empty if no-print
     //String waldoFile = "RandomAssignment_Controller";
     String waldoFile = "";
+    
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
     
     // My classes
     ArrayList<ColumnOfData> data;
@@ -39,52 +42,53 @@ public class RandomAssignment_Controller {
     public RandomAssignment_Controller(Data_Manager dm, String design) {
         this.dm = dm;
         this.theDesign = design;
-        dm.whereIsWaldo(42, waldoFile, "Constructing");
+        dm.whereIsWaldo(45, waldoFile, "Constructing");
         data = new ArrayList<>();
-        returnStatus = "OK"; //  So far...
+        strReturnStatus = "OK"; //  So far...
         nSubjects = dm.getNCasesInStruct();
         
         if (nSubjects == 0) {
             MyAlerts.showAintGotNoDataAlert();
-            returnStatus = "Cancel";
+            strReturnStatus = "Cancel";
         }
     }  
         
     public String doTheProcedure() {
-        dm.whereIsWaldo(54, waldoFile, "doTheProcedure()");
+        dm.whereIsWaldo(57, waldoFile, "doTheProcedure()");
         try {            
             switch (theDesign) {
                 case "CRD":
+                    dm.whereIsWaldo(61, waldoFile, "case CRD");
                     randAssign_CRD_Dialog = new RandomAssignment_CRD_Dialog(dm);
-                    dm.whereIsWaldo(56, waldoFile, "randAssign_CRD");
+                    dm.whereIsWaldo(63, waldoFile, "randAssign_CRD");
                     randAssign_CRD_Dialog.showAndWait();
-                    returnStatus = randAssign_CRD_Dialog.getStrReturnStatus();
-                    
-                    if (!returnStatus.equals("OK")) {  return returnStatus; }
+                    strReturnStatus = randAssign_CRD_Dialog.getStrReturnStatus();
+                    dm.whereIsWaldo(66, waldoFile, "strReturnStatus = " + strReturnStatus);
+                    if (!strReturnStatus.equals("OK")) { return strReturnStatus; }
                     
                     data = randAssign_CRD_Dialog.getData();
-                    dm.whereIsWaldo(65, waldoFile, "randAssign_CRD");
+                    dm.whereIsWaldo(70, waldoFile, "randAssign_CRD");
                     
-                    if (!returnStatus.equals("OK")) { return returnStatus; }                
+                    if (!strReturnStatus.equals("OK")) { return strReturnStatus; }                
                     break;
                 
                 case "RBD":
                     randAssign_RBD_Dialog = new RandomAssignment_RBD_Dialog(dm);
-                    dm.whereIsWaldo(71, waldoFile, "randAssign_RBD");
+                    dm.whereIsWaldo(77, waldoFile, "randAssign_RBD");
                     randAssign_RBD_Dialog.showAndWait();
-                    returnStatus = randAssign_RBD_Dialog.getStrReturnStatus();
-                    if (!returnStatus.equals("OK")) {
-                        return returnStatus;
+                    strReturnStatus = randAssign_RBD_Dialog.getStrReturnStatus();
+                    if (!strReturnStatus.equals("OK")) {
+                        return strReturnStatus;
                     }
                     data = randAssign_RBD_Dialog.getData();
-                    dm.whereIsWaldo(78, waldoFile, "randAssign_RBD");
-                    if (!returnStatus.equals("OK")) {
-                        return returnStatus;
+                    dm.whereIsWaldo(84, waldoFile, "randAssign_RBD");
+                    if (!strReturnStatus.equals("OK")) {
+                        return strReturnStatus;
                     }             
                     break;           
                 
                 default:
-                    String switchFailure = "Switch failure: RandomAssignment_Controller 87 " + theDesign;
+                    String switchFailure = "Switch failure: RandomAssignment_Controller 91 " + theDesign;
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
                 break; 
             }
@@ -92,9 +96,9 @@ public class RandomAssignment_Controller {
             defineTreatments_Dialog = new Define_Treatments_Dialog(this);
             defineTreatments_Dialog.constructDialogGuts();
             defineTreatments_Dialog.showAndWait();
-            returnStatus = defineTreatments_Dialog.getStrReturnStatus();
+            strReturnStatus = defineTreatments_Dialog.getStrReturnStatus();
             
-            if (!returnStatus.equals("OK")) { return "Cancel"; }
+            if (!strReturnStatus.equals("OK")) { return "Cancel"; }
             
             theTreats = new String[nTreats];
             theTreats = defineTreatments_Dialog.getTreatments();
@@ -114,18 +118,24 @@ public class RandomAssignment_Controller {
         catch (Exception ex) { // Constructs stack trace?
             PrintExceptionInfo pei = new PrintExceptionInfo(ex, "RandomAssignment_Controller()");
         }
-        return returnStatus;
+        return strReturnStatus;
     }
     
     public String getTheDesign() { return theDesign; }
     public int getNTreatments() { return nTreats; }
     public int getNSubjects() { return nSubjects; }
-    public String getReturnStatus() { return returnStatus; }
     
-    public void setReturnStatusTo (String returnStatus) {
-        if (!returnStatus.equals("OK")) {
-            //randAssign_CRD_Dialog.close();
-        }
+    public String getStrReturnStatus() { 
+        if (printTheStuff) {
+            System.out.println("... 130 RandomAssignment_Controller, getting StrReturnStatus: " + strReturnStatus);
+        }    
+        return strReturnStatus; 
+    }  
+    public void setStrReturnStatus(String toThis) { 
+        if (printTheStuff) {
+            System.out.println("... 136 RandomAssignment_Controller, settingStrReturnStatus to " + toThis);
+        }    
+        strReturnStatus = toThis; 
     }
 }
 

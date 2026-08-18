@@ -1,7 +1,7 @@
 /**************************************************
  *         IndepMeans_Power_Controller            *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/26/26                      *
+ *                    12:00                       *
  *************************************************/
 package power_twomeans;
 
@@ -21,8 +21,8 @@ public class IndepMeans_Power_Controller {
     double nullMu_1, nullMu_2, altDiff_InMeans, nullSigma_1, nullSigma_2,
            nullDiff_InMeans, power;
     
-    String strRejectionCriterion, /*rejectionStrategy,*/ strPrinted_Null, 
-           strPrinted_Alt, strReturnStatus;
+    String strRejectionCriterion, strPrinted_Null,  strPrinted_Alt, 
+           strReturnStatus;
     
     // My Classes
     Point_2D nonRejectionRegion;
@@ -32,7 +32,7 @@ public class IndepMeans_Power_Controller {
     
     public IndepMeans_Power_Controller() {
         power_IndMeans_Dialog = new Power_IndMeans_Dialog();
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("36 *** IndepMeans_Power_Controller, Constructing");
         }
     }
@@ -68,7 +68,6 @@ public class IndepMeans_Power_Controller {
                 
             case "NotEqual":
                 altDiff_InMeans = nullDiff_InMeans + effectSize ;
-                //System.out.println("74 controller, altDiffInMeans = " + altDiffInMeans);
                 break;
                 
             case "GreaterThan":
@@ -76,17 +75,17 @@ public class IndepMeans_Power_Controller {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Controller 75 " + strRejectionCriterion;
+                String switchFailure = "Switch failure: IndepMeans_Power_Controller 78 " + strRejectionCriterion;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
 
         indepMeans_Power_Model.setRejectionCriterion(strRejectionCriterion);
-        indepMeans_Power_Model.setNullDiffMu(nullDiff_InMeans);
-        indepMeans_Power_Model.setAltMuDiff(altDiff_InMeans);
+        indepMeans_Power_Model.setNullDiffInMeans(nullDiff_InMeans);
+        indepMeans_Power_Model.setAltDiffInMeans(altDiff_InMeans);
         indepMeans_Power_Model.setSampleSize_1(n_1);
         indepMeans_Power_Model.setSampleSize_2(n_2);
-        indepMeans_Power_Model.setNullSigma_1(nullSigma_1);
-        indepMeans_Power_Model.setNullSigma_2(nullSigma_2);
+        indepMeans_Power_Model.setSigma_1(nullSigma_1);
+        indepMeans_Power_Model.setSigma_2(nullSigma_2);
         indepMeans_Power_Model.setAlpha(alpha);  
         indepMeans_Power_Model.setEffectSize(effectSize);
         // printed Strings for Power Report
@@ -106,8 +105,8 @@ public class IndepMeans_Power_Controller {
                 break;
 
             default:
-                String switchFailure = "Switch failure: IndepMeans_Power_Controller 105 " + strRejectionCriterion;
-                System.exit(150);
+                String switchFailure = "Switch failure: IndepMeans_Power_Controller 108 " + strRejectionCriterion;
+                MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
 
         indepMeans_Power_Model.setPrintedNullHypothesis(strPrinted_Null);

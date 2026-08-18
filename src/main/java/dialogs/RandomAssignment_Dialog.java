@@ -1,7 +1,7 @@
 /************************************************************
  *                    RandomAssignment_Dialog               *
- *                          12/12/25                        *
- *                            12:00                         *
+ *                          08/15/26                        *
+ *                            00:00                         *
  ***********************************************************/
 package dialogs;
 
@@ -24,13 +24,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.WindowEvent;
 import splat.Data_Manager;
 import splat.Var_List;
 import utilityClasses.MyAlerts;
 
 public class RandomAssignment_Dialog extends Splat_Dialog {
     // POJOs
-    private boolean quantLabelCheckedAlready; 
+
     
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
@@ -38,8 +39,7 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
     private int varIndex, varIndexForX, varIndexForY, variableNowChecking; 
     protected int nCheckBoxes;
     
-    private String /*callingProc,*/ strSelected;
-    private String subTitle;
+    private String callingProc, strSelected, subTitle;
     
     public String wtf_NullChangeQuery;
     private ArrayList<String> strVarLabels;
@@ -49,8 +49,8 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
     protected Var_List listOfVars;    
     
     // POJOs / FX
-    private final Button selectXVariable, selectYVariable;
-    protected Button resetButton;
+    private final Button btnSelectX_Arrow, btnSelectY_Arrow;
+    protected Button btnReset;
     protected CheckBox[] dashBoardOptions;
     protected GridPane gridChoicesMade;
     private final HBox middlePanel; //, dataDescriptions;
@@ -64,19 +64,19 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
     public RandomAssignment_Dialog(Data_Manager dm, String callingProc) {
         super(dm);
         this.dm = dm;
+        this.callingProc = callingProc;
         if (printTheStuff) {
-            System.out.println("*** 68 RandomAssignment_Dialog, Constructing");
+            System.out.println("*** 69 RandomAssignment_Dialog, Constructing");
+            System.out.println("... 70 RandomAssignment_Dialog, callingProc = " + callingProc);
         }
-        strReturnStatus = "OK";
-        quantLabelCheckedAlready = false;
+        setStrReturnStatus("OK");
+        
         boolGoodToGo = true;
         al_OfColumns = new ArrayList<>();   
         strVarLabels = new ArrayList<>();
         lbl_Title = new Label("RandomAssignment_Dialog");
         lbl_Title.getStyleClass().add("dialogTitle");
         lbl_Title.setPadding(new Insets(10, 10, 10, 10));
-
-        quantLabelCheckedAlready = false;
         
         vBoxVars2ChooseFrom = new VBox();
         vBoxVars2ChooseFrom.setAlignment(Pos.TOP_LEFT);
@@ -87,8 +87,8 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
         vBoxVars2ChooseFrom.getChildren().add(listOfVars.getPane());
         vBoxVars2ChooseFrom.setPadding(new Insets(0, 10, 0, 10));
         
-        selectXVariable = new Button("===>");
-        selectYVariable = new Button("===>");
+        btnSelectX_Arrow = new Button("===>");
+        btnSelectY_Arrow = new Button("===>");
 
         vBoxXVarChoices = new VBox();
         vBoxXVarChoices.setAlignment(Pos.TOP_LEFT);
@@ -105,24 +105,24 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
         tf_SecondVarLabel = new TextField("");
         tf_SecondVarLabel.setPrefWidth(125.0);
         
-        if (!callingProc.equals("RandAssign_CRD")) {
+        if (callingProc.equals("RandomAssign_RBD")) {
             vBoxYVarChoices.getChildren().addAll(lblSecondVar, tf_SecondVarLabel);
         }
 
         gridChoicesMade = new GridPane();
         gridChoicesMade.setHgap(10);
         gridChoicesMade.setVgap(15);
-        gridChoicesMade.add(selectXVariable, 0, 0);
+        gridChoicesMade.add(btnSelectX_Arrow, 0, 0);
         gridChoicesMade.add(vBoxXVarChoices, 1, 0);
         
-        if (!callingProc.equals("RandAssign_CRD")) {
-            gridChoicesMade.add(selectYVariable, 0, 1);
+        if (callingProc.equals("RandomAssign_RBD")) {
+            gridChoicesMade.add(btnSelectY_Arrow, 0, 1);
         }
         
         gridChoicesMade.add(vBoxYVarChoices, 1, 1);
         
-        GridPane.setValignment(selectXVariable, VPos.BOTTOM);
-        GridPane.setValignment(selectYVariable, VPos.BOTTOM);
+        GridPane.setValignment(btnSelectX_Arrow, VPos.BOTTOM);
+        GridPane.setValignment(btnSelectY_Arrow, VPos.BOTTOM);
         gridChoicesMade.setPadding(new Insets(0, 10, 0, 0));
 
         leftPanel = new VBox(10);
@@ -147,8 +147,8 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
 
         btnOK.setText("Assign");
         btnCancel.setText("Cancel");
-        resetButton = new Button("Reset");
-        buttonPanel.getChildren().addAll(btnOK, btnCancel, resetButton);
+        btnReset = new Button("Reset");
+        buttonPanel.getChildren().addAll(btnOK, btnCancel, btnReset);
         
         mainPanel = new VBox();
         mainPanel.setAlignment(Pos.CENTER);    
@@ -162,14 +162,36 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
         Scene myScene = new Scene(mainPanel);
         myScene.getStylesheets().add(strCSS);
         setScene(myScene);
+        
+        setOnCloseRequest((WindowEvent we) -> {
+            if (printTheStuff) {
+                System.out.println("... 168 RandomAssignment_Dialog, setOnCloseRequest((WindowEvent we)");
+            }
+            btnCancel.fire();
+        });
+        
+        btnCancel.setOnAction((ActionEvent event) -> {
+            if (printTheStuff) {
+                System.out.println("... 175 RandomAssignment_Dialog, btnCancel.setOnAction");
+            }
+            setStrReturnStatus("Cancel");
+            hide();
+        });
 
-        resetButton.setOnAction((ActionEvent event) -> {
+        btnReset.setOnAction((ActionEvent event) -> {
+            if (printTheStuff) {
+                System.out.println("... 183 RandomAssignment_Dialog, btnReset.setOnAction");
+            }
             listOfVars.resetList();
             tf_FirstVarLabel.setText("");
             tf_SecondVarLabel.setText("");
         });
 
-        selectXVariable.setOnAction((ActionEvent event) -> {
+        btnSelectX_Arrow.setOnAction((ActionEvent event) -> {
+        if (printTheStuff) {
+            System.out.println("... 192 RandomAssignment_Dialog, btnSelectX_Arrow.setOnAction");
+        }
+
             variableNowChecking = 1;
             
             if (listOfVars.getNamesSelected().size() == 1) {
@@ -184,18 +206,18 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
             }
         });
 
-        selectYVariable.setOnAction((ActionEvent event) -> {
+        btnSelectY_Arrow.setOnAction((ActionEvent event) -> {
+        if (printTheStuff) {
+            System.out.println("... 211 RandomAssignment_Dialog, btnSelectY_Arrow.setOnAction");
+        }
             variableNowChecking = 2;
             
             if (listOfVars.getNamesSelected().size() == 1) {
                 String tempIndicator = listOfVars.getNamesSelected().get(0);
                 tf_SecondVarLabel.setText(tempIndicator);
                 listOfVars.delVarName(listOfVars.getNamesSelected());
-                
-                //boolean yVarType_Ok = true;
                 strSelected = tf_SecondVarLabel.getText();
                 varIndexForY = dm.getVariableIndex(strSelected);                
-                //yVarType_Ok = checkVarForCorrectType("Categorical");
             }
         });
 
@@ -206,63 +228,57 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
 
             //  Check that both variables have been selected
             if (varIndexForX == -1) {
-                System.out.println("207 RandAssignDialog");
+                //System.out.println("230 RandAssignDialog");
                 MyAlerts.showNoSubjectsChosenAlert();
-                //resetButton.fire();
                 boolGoodToGo = false;
             }
             
-            if (boolGoodToGo == true) {
+            if (boolGoodToGo) {
                 strSelected = tf_SecondVarLabel.getText();
                 varIndexForY = dm.getVariableIndex(strSelected);
 
-                if ((varIndexForY == -1) && !callingProc.equals("RandAssign_CRD")){
-                   System.out.println("217 RandAssignDialog");
+                if ((varIndexForY == -1) && callingProc.equals("RandomAssign_RBD")){
                    MyAlerts.showNoBlockingVariableChosenAlert();
-                   resetButton.fire();
+                   btnReset.fire();
                    boolGoodToGo = false;
                 }
             }
 
-            if (boolGoodToGo) {
-                //if (strDataType_1.equals("Categorical")) {
-                    ColumnOfData col_x = dm.getAllTheColumns().get(varIndexForX);
-                    col_x.cleanTheColumn(dm, varIndexForX);
-                //}
-
-                if (!callingProc.equals("RandAssign_CRD")) {
-                    ColumnOfData col_y = dm.getAllTheColumns().get(varIndexForY);
-                    col_y.cleanTheColumn(dm, varIndexForY);
-                }  
-            } 
-            
             if ((varIndexForX > -1 && varIndexForY > -1) 
                || (varIndexForX > -1 && callingProc.equals("RandAssign_CRD"))){
                 strVarLabels.add(dm.getVariableName(varIndexForX));
                 al_OfColumns.add(dm.getSpreadsheetColumn(varIndexForX));
                 
-                if (!callingProc.equals("RandAssign_CRD")) {
+                if (callingProc.equals("RandomAssign_RBD")) {
                     strVarLabels.add(dm.getVariableName(varIndexForY));
                     al_OfColumns.add(dm.getSpreadsheetColumn(varIndexForY));
                 }
-            }
-            else { boolGoodToGo = false; }
-            
-            if (!boolGoodToGo) { strReturnStatus = "Cancel";
-            } else { strReturnStatus = "OK"; }
+            }   // end from 289
+            else { boolGoodToGo = false; 
+            }            
+            if (!boolGoodToGo) { 
+                setStrReturnStatus("Cancel");              
 
+            } else { 
+                setStrReturnStatus("OK");   // ###############################
+            }
             if(boolGoodToGo) {
                 subTitle = "SubTitle";
-                strReturnStatus = "OK";
+                setStrReturnStatus("OK");   // ################################
                 close();
             }
+            if (printTheStuff) {
+                System.out.println("... 275 RandomAssignment_Dialog, bailed!!! strReturnStatus = " + getStrReturnStatus());
+            }
         });       
-    }
+    }  
     
     public boolean checkVarForCorrectType(String daCorrectType) {
+        if (printTheStuff) {
+            System.out.println("--- 278 RandomAssignment_Dialog, checkVarForCorrectType");
+        }
         boolean isCorrectType = true;
-        strReturnStatus = "OK";
-        
+        setStrReturnStatus("OK");   // ################################
         switch (variableNowChecking) {
             case 1:
                 strSelected = tf_FirstVarLabel.getText();
@@ -273,7 +289,7 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
                 break;
                 
             default:
-                String switchFailure = "Switch failure: TwovarsDial 276 " + variableNowChecking;
+                String switchFailure = "Switch failure: TwovarsDial 292 " + variableNowChecking;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);
         }
         
@@ -282,7 +298,7 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
         switch (daCorrectType) {
             case "Quantitative":
                 
-                if(dm.getAllTheColumns().get(varIndex).getDataType().equals("Quantitative")) {
+                if(dm.getAllTheColumns().get(varIndex).getStrDataType().equals("Quantitative")) {
                     isCorrectType = true;
                 }
                 else {
@@ -292,7 +308,7 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
                 break;
                 
             case "Categorical":
-                if(!dm.getAllTheColumns().get(varIndex).getDataType().equals("Quantitative")) {
+                if(!dm.getAllTheColumns().get(varIndex).getStrDataType().equals("Quantitative")) {
                     isCorrectType = true;
                 }
                 else {
@@ -310,19 +326,48 @@ public class RandomAssignment_Dialog extends Splat_Dialog {
                         
                     } else {
                         isCorrectType = false;
-                        strReturnStatus = "NumericValueDetected";
+                        strReturnStatus = "NumericValueDetected";   // ################################
                     }
-                }   quantLabelCheckedAlready = true;
+                }   
                 break;
                 
             default:
-                String switchFailure = "Switch failure: 319 RandomAssignment_Dialog " + daCorrectType;
+                String switchFailure = "Switch failure: 335 RandomAssignment_Dialog " + daCorrectType;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure);  
         }
         return isCorrectType;
     }
     
-    public ArrayList<ColumnOfData> getData() { return al_OfColumns; }   
+    public ArrayList<ColumnOfData> getData() { return al_OfColumns; } 
+
     public String getSubTitle() { return subTitle; }    
     public CheckBox[] getCheckBoxes() { return dashBoardOptions; }
+    
+    /*
+    public String getStrReturnStatus() { 
+        if (printTheStuff) {
+            System.out.println("... 359 RandomAssignment_Dialog, getting StrReturnStatus: " + strReturnStatus);
+        }    
+        return strReturnStatus; 
+    }  
+    public void setStrReturnStatus(String toThis) { 
+        if (printTheStuff) {
+            System.out.println("... 365 RandomAssignment_Dialog, settingStrReturnStatus to " + toThis);
+        }    
+        strReturnStatus = toThis; 
+    }
+    
+    public boolean getBoolReturnStatus() { 
+        if (printTheStuff) {
+            System.out.println("... 372 RandomAssignment_Dialog, getting StrReturnStatus: " + boolReturnStatus);
+        }     
+        return boolReturnStatus; }  
+    
+    public void setBoolReturnStatus(boolean toThis) { 
+        if (printTheStuff) {
+            System.out.println("... 378 RandomAssignment_Dialog, settingBoolReturnStatus to " + toThis);
+        }
+        boolReturnStatus = toThis; 
+    }
+*/
 }

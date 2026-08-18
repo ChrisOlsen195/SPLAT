@@ -59,8 +59,8 @@ public class OneProp_Exact_PDFView extends BivariateScale_W_CheckBoxes_View {
             double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("63 *** OneProp_Exact_PDFView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 63 OneProp_Exact_PDFView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;

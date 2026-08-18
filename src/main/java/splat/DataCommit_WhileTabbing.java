@@ -17,7 +17,7 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
             
     public DataCommit_WhileTabbing( PositionTracker tracker, Data_Grid dg, Data_Manager dm) {
         super( tracker, dg, dm);
-        dm.whereIsWaldo(20, waldoFile, "DataCommit_WhileTabbing, Constructing");
+        dm.whereIsWaldo(20, waldoFile, " *** DataCommit_WhileTabbing, Constructing");
         printTheCellStuff = false; printTheInfo = false;
         this.tracker = tracker;
         this.dataGrid = dg;
@@ -34,7 +34,7 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
     }
     
     public void handleTheTabbingCommit (String theStringEntered) {
-        dm.whereIsWaldo(37, waldoFile, "DataCommit_WhileTabbing, handleTheTabbingCommit ");
+        dm.whereIsWaldo(37, waldoFile, " --- DataCommit_WhileTabbing, handleTheTabbingCommit ");
         tabOrEnter = dataGrid.getTabOrEnter();
         fixedString = theStringEntered;  //  Initialize
         ehGridCol = tracker.getCurrentGridColumn();
@@ -52,7 +52,7 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
 
         if (nCasesInStruct > 0) { firstEntryDone = true; }
         
-        dm.whereIsWaldo(55, waldoFile, "DataCommit_WhileTabbing, handleTheTabbingCommit ");    
+        dm.whereIsWaldo(55, waldoFile, " --- DataCommit_WhileTabbing, handleTheTabbingCommit ");    
         String eval = handleCommit_ParseTheString();
         if(DataUtilities.strIsADouble(theEntry)) {
             fixedString = eval;
@@ -97,7 +97,7 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
 }   //  handleTheCommit
     
     public void handleTabbingCommit_RightAndDown() {
-        dm.whereIsWaldo(100, waldoFile, "DataCommit_WhileTabbing, handleTabbingCommit_RightAndDown()");
+        dm.whereIsWaldo(100, waldoFile, " --- DataCommit_WhileTabbing, handleTabbingCommit_RightAndDown()");
         handlingRightAndDown = true;  
         handleTabbingCommit_ToRight();
         handleTabbingCommit_Below();
@@ -106,7 +106,7 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
 
     
     private void handleTabbingCommit_ToRight() {
-        dm.whereIsWaldo(109, waldoFile, "DataCommit_WhileTabbing, handleTabbingCommit_ToRight()");       
+        dm.whereIsWaldo(109, waldoFile, " --- DataCommit_WhileTabbing, handleTabbingCommit_ToRight()");       
         if (!handlingRightAndDown) {
             parsedString = handleCommit_ParseTheString();
             dataGrid.setCurrentCellContents(fixedString);
@@ -131,11 +131,11 @@ public class DataCommit_WhileTabbing extends DataCommit_Handler {
     }
     
     private void handleTabbingCommit_Below() {
-        dm.whereIsWaldo(134, waldoFile, "DataCommit_WhileTabbing, handleTabbingCommit_Below()");
+        dm.whereIsWaldo(134, waldoFile, " --- DataCommit_WhileTabbing, handleTabbingCommit_Below()");
     }   
     
     private void setFromGridToStruct(String message, String toThisValue) {
-        dm.whereIsWaldo(138, waldoFile, "DataCommit_WhileTabbing, setFromGridToStruct(String message, String toThisValue) ");
+        dm.whereIsWaldo(138, waldoFile, " --- DataCommit_WhileTabbing, setFromGridToStruct(String message, String toThisValue) ");
         structCol = ehStructCol;
         structRow = ehStructRow;
         dm.setDataInStruct(message, structCol, structRow, toThisValue);

@@ -37,7 +37,7 @@ public class BivCat_BoxCircleInterActView extends BivCat_Views_Super {
         super();
         this.bivCat_Model = bivCat_Model;
         dm = bivCat_Model.getDataManager();
-        dm.whereIsWaldo(42, waldoFile, " *** Constructing");
+        dm.whereIsWaldo(40, waldoFile, " *** Constructing");
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight; 
         graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm();
@@ -52,15 +52,15 @@ public class BivCat_BoxCircleInterActView extends BivCat_Views_Super {
         nLeftLabels = strLeftLabels.length;
         
         /*
-        dm.whereIsWaldo(62, waldoFile, " --- Constructing, nTopLabels = " + nTopLabels);
-        dm.whereIsWaldo(63, waldoFile, " --- Constructing, nLeftLabels = " + nLeftLabels);
+        dm.whereIsWaldo(55, waldoFile, " --- Constructing, nTopLabels = " + nTopLabels);
+        dm.whereIsWaldo(56, waldoFile, " --- Constructing, nLeftLabels = " + nLeftLabels);
         
         for (int ithLeftLabel = 0; ithLeftLabel < nLeftLabels; ithLeftLabel++){
-            System.out.println("68 BivCat_BoxCircle, ithLabel = " + strLeftLabels[ithLeftLabel]);
+            System.out.println("59 BivCat_BoxCircle, ithLabel = " + strLeftLabels[ithLeftLabel]);
         }
         
         for (int ithTopLabel = 0; ithTopLabel < nTopLabels; ithTopLabel++){
-            System.out.println("72 BivCat_BoxCircle,, ithLabel = " + strTopLabels[ithTopLabel]);
+            System.out.println("63 BivCat_BoxCircle,, ithLabel = " + strTopLabels[ithTopLabel]);
         }
         */
         
@@ -69,8 +69,8 @@ public class BivCat_BoxCircleInterActView extends BivCat_Views_Super {
         strFactorA = bivCat_Model.getTopVariable();
         strFactorB = bivCat_Model.getLeftVariable();
         
-        //System.out.println("80 strFactorA = " + strFactorA);
-        //System.out.println("81 strFactorB = " + strFactorB);
+        //System.out.println("72 strFactorA = " + strFactorA);
+        //System.out.println("73 strFactorB = " + strFactorB);
         
         strTitle1 = strFactorA + " & " + strFactorB;
         strTitle2 = " ";

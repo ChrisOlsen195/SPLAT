@@ -47,7 +47,7 @@ public class BivCat_Dashboard extends Dashboard {
       
     public BivCat_Dashboard(BivCat_Controller bivCat_Controller, BivCat_Model bivCat_Model) {
         super(5);
-        //System.out.println(*** 50 BivCat_Dashboard, Constructing");
+        //System.out.println( *** 50 BivCat_Dashboard, Constructing");
         setTitle("Bivariate Categorical Association dashboard");  
         this.bivCat_Model = bivCat_Model;  
         assocType = bivCat_Model.getAssociationType();

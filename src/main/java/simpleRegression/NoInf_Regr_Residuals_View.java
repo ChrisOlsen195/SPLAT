@@ -52,7 +52,7 @@ public class NoInf_Regr_Residuals_View extends BivariateScale_W_CheckBoxes_View 
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);   
         dm = noInf_Regression_Model.getDataManager();
-        dm.whereIsWaldo(55, waldoFile, "Constructing");         
+        dm.whereIsWaldo(55, waldoFile, " *** Constructing");         
         X = noInf_Regression_Model.getXVar(); 
         Y = noInf_Regression_Model.getResids();
         slope = 0.0;
@@ -278,7 +278,7 @@ public class NoInf_Regr_Residuals_View extends BivariateScale_W_CheckBoxes_View 
             KeyCode keyCode = ke.getCode();
             boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
             if (doIt) {
-                //System.out.println("Doing it -- Residual plot");
+                //System.out.println("--- 281 Do the graph");
                 WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
                 ImageView iv = new ImageView(writableImage);
                 Clipboard clipboard = Clipboard.getSystemClipboard();

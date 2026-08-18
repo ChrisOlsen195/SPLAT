@@ -48,7 +48,7 @@ public class Regr_Compare_Controller {
             
     public Regr_Compare_Controller (Data_Manager dm) {
         this.dm = dm; 
-        dm.whereIsWaldo(51, waldoFile, "Constructing");
+        dm.whereIsWaldo(51, waldoFile, " *** Constructing");
         ancova_Dialog = new Regr_Compare_Dialog(dm);
         ancova_Dialog.doTheDialog();
         categoryLabels = FXCollections.observableArrayList();
@@ -58,7 +58,7 @@ public class Regr_Compare_Controller {
     }
         
 public String doTheRegr_Compare() {
-        dm.whereIsWaldo(61, waldoFile, "doTheANCOVA()");
+        dm.whereIsWaldo(61, waldoFile, " --- doTheANCOVA()");
         returnStatus = "OK";
 
         if (ancova_Dialog.getStrReturnStatus().equals("Cancel")) {

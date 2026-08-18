@@ -1,7 +1,7 @@
 /*******************************************************************************
  *                 Define_Treatments_Dialog                                    *
- *                        01/15/25                                             *
- *                         15:00                                               *
+ *                        05/07/26                                             *
+ *                         12:00                                               *
  ******************************************************************************/
 package dialogs;
 
@@ -58,7 +58,7 @@ public class Define_Treatments_Dialog extends Splat_Dialog {    //  which extend
     
     public Define_Treatments_Dialog(RandomAssignment_Controller randomAssignmentController) {
         super();
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("62 *** Define_Treatments_Dialog, Constructing");
         }
         this.randomAssignment_Controller = randomAssignmentController;
@@ -275,7 +275,7 @@ public class Define_Treatments_Dialog extends Splat_Dialog {    //  which extend
     }
     
     private void closeTheDialog() {
-        randomAssignment_Controller.setReturnStatusTo (strReturnStatus);
+        randomAssignment_Controller.setStrReturnStatus (strReturnStatus);
         stage.close();
     }
      

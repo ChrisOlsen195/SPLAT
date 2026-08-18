@@ -23,7 +23,7 @@ public class Single_t_SumStats_Controller {
 
     public Single_t_SumStats_Controller(/* Data_Manager dataManager */) {
         if (printTheStuff) {
-            System.out.println("26 *** Single_t_SumStats_Controller, Constructing");
+            System.out.println("*** 26 Single_t_SumStats_Controller, Constructing");
         }
         myYesNoAlerts = new MyYesNoAlerts();
         strReturnStatus = "OK";
@@ -31,7 +31,7 @@ public class Single_t_SumStats_Controller {
     
     public String doTheControllerThing() {
         if (printTheStuff) {
-            System.out.println("34 *** Single_t_SumStats_Controller, doTheControllerThing()");
+            System.out.println("--- 34 Single_t_SumStats_Controller, doTheControllerThing()");
         }
         yesOrNo = "Yes";
         
@@ -58,7 +58,7 @@ public class Single_t_SumStats_Controller {
     
     public String showTheDashboard() {
         if (printTheStuff) {
-            System.out.println("61 *** Single_t_SumStats_Controller, showTheDashboard()");
+            System.out.println("--- 61 Single_t_SumStats_Controller, showTheDashboard()");
         }
         strReturnStatus = "OK";
         single_t_SumStats_Dashboard.populateTheBackGround();

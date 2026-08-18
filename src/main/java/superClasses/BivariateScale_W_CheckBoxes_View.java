@@ -67,7 +67,7 @@ public abstract class BivariateScale_W_CheckBoxes_View extends BivariateScale_Vi
     public NoInf_Regr_Model noInf_RegrModel;     
     public QuadReg_Dashboard quadReg_Dashboard;
     public QuadReg_Model quadReg_Model;    
-    public Regr_Dashboard regrDashboard;
+    public Inf_Regr_Dashboard regrDashboard;
 
     //  POJO / FX
     public AnchorPane anchorPane;

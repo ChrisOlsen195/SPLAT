@@ -79,7 +79,7 @@ public class Explore_2Ind_Controller {
         if (tidyOrTI8x == null) { return "Cancel"; }
         if (tidyOrTI8x.equals("Yes")) { 
             strReturnStatus = doTidy(); }
-            dm.whereIsWaldo(82, waldoFile, " --- strReturnStatus = " + strReturnStatus);
+            dm.whereIsWaldo(82, waldoFile, " --- doTidyOrTI8x() ");
             if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
         if (tidyOrTI8x.equals("No")) { 
             doTI8x(); } 
@@ -137,7 +137,7 @@ public class Explore_2Ind_Controller {
             goodToGo = false;
             return "Cancel";
         }
-        dm.whereIsWaldo(140, waldoFile, " --- strReturnStatus = " + strReturnStatus);
+        dm.whereIsWaldo(140, waldoFile, " ... strReturnStatus = " + strReturnStatus);
         // else...
         explore_2Ind_ColsOfData = explore_2Ind_TI8x_Dialog.getData();
         incomingQDVs = new ArrayList();
@@ -153,7 +153,7 @@ public class Explore_2Ind_Controller {
         if (strReturnStatus.equals("Cancel")) { return "Cancel"; }
         doTheExplore2Ind();
 
-        dm.whereIsWaldo(156, waldoFile, " --- END doTI8x()");
+        dm.whereIsWaldo(156, waldoFile, " ... END doTI8x()");
         return strReturnStatus;
     }
     
@@ -208,15 +208,15 @@ public class Explore_2Ind_Controller {
 
             collectAllTheLabels();
             doTheExplore2Ind();
-            dm.whereIsWaldo(214, waldoFile, " --- END doTidy()");
+            dm.whereIsWaldo(211, waldoFile, " ... END doTidy()");
             return "OK";
         }
-        dm.whereIsWaldo(217, waldoFile, " --- END doTidy()");
+        dm.whereIsWaldo(214, waldoFile, " ... END doTidy()");
         return "Cancel";
     }
     
     protected boolean doTheExplore2Ind() {
-        dm.whereIsWaldo(222, waldoFile, " --- doTheExplore2Ind()");
+        dm.whereIsWaldo(219, waldoFile, " --- doTheExplore2Ind()");
         allTheLabels = new ArrayList<>();
         for (int iVars = 0; iVars < n_QDVs; iVars++) {
             allTheLabels.add(allTheQDVs.get(iVars).getTheVarLabel());
@@ -241,12 +241,12 @@ public class Explore_2Ind_Controller {
         explore_2Ind_Dashboard.showAndWait();
         strReturnStatus = explore_2Ind_Dashboard.getStrReturnStatus();
         strReturnStatus = "OK";
-        dm.whereIsWaldo(247, waldoFile, " END doTheExplore2Ind()");
+        dm.whereIsWaldo(244, waldoFile, " ... END doTheExplore2Ind()");
         return true;        
     } 
        
     private String askAboutReOrdering() {
-        dm.whereIsWaldo(252, waldoFile, "  --- askAboutReOrdering()");
+        dm.whereIsWaldo(249, waldoFile, "  --- askAboutReOrdering()");
         n_QDVs = incomingQDVs.size();
         theNewOrder = new int[n_QDVs];
         // Default
@@ -272,7 +272,7 @@ public class Explore_2Ind_Controller {
     }
     
     private void collectAllTheLabels() {
-        dm.whereIsWaldo(278, waldoFile, "  --- collectAllTheLabels()");
+        dm.whereIsWaldo(275, waldoFile, "  --- collectAllTheLabels()");
         categoryLabels = FXCollections.observableArrayList();         
         for (int iVars = 0; iVars < n_QDVs; iVars++) {
             String tempVarLabel = allTheQDVs.get(iVars).getTheVarLabel();
@@ -286,10 +286,10 @@ public class Explore_2Ind_Controller {
     } 
     
     private boolean validateTidyChoices() {
-        dm.whereIsWaldo(292, waldoFile, " --- validateStackChoices()");
+        dm.whereIsWaldo(289, waldoFile, " --- validateStackChoices()");
         theStrIsNumeric = new boolean[TWO];        
         for (int ithCol = 0; ithCol < TWO; ithCol++){
-            theStrIsNumeric[ithCol] = explore_2Ind_ColsOfData.get(ithCol).getDataType().equals("Quantitative");  
+            theStrIsNumeric[ithCol] = explore_2Ind_ColsOfData.get(ithCol).getStrDataType().equals("Quantitative");  
         }
         return true;
     }

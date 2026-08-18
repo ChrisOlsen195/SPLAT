@@ -77,8 +77,8 @@ public abstract class ProbCalc_DialogView extends BivariateScale_W_CheckBoxes_Vi
     ProbCalc_DialogView(double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("81 *** ProbCalc_DialogView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 81 ProbCalc_DialogView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;         

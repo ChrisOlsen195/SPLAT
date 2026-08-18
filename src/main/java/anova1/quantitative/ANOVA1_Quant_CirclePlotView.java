@@ -37,7 +37,7 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
         super(anova1_Quant_Model, anova1_Quant_Dashboard, "CirclePlot",
               placeHoriz, placeVert,  withThisWidth, withThisHeight);   
         dm = anova1_Quant_Model.getDataManager();
-        dm.whereIsWaldo(40, waldoFile, "Contstrucing...");
+        dm.whereIsWaldo(40, waldoFile, " *** Contstrucing...");
         nCheckBoxes = 0;     
         initHoriz = placeHoriz; initVert = placeVert;
         initWidth = withThisWidth; initHeight = withThisHeight;
@@ -58,7 +58,7 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
     public void makeTheCheckBoxes() {}
     
         public void setUpAnchorPane() {
-        dm.whereIsWaldo(61, waldoFile, "  *** setUpAnchorPane()");
+        dm.whereIsWaldo(61, waldoFile, " *** setUpAnchorPane()");
         dragableAnchorPane = new DragableAnchorPane();
         anova1_Quant_Canvas.heightProperty().bind(dragableAnchorPane.heightProperty().multiply(.70));
         anova1_Quant_Canvas.widthProperty().bind(dragableAnchorPane.widthProperty().multiply(.90));
@@ -74,7 +74,7 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
     }
    
     public void doTheGraph() {
-        dm.whereIsWaldo(77, waldoFile, "doTheGraph()");
+        dm.whereIsWaldo(77, waldoFile, " *** doTheGraph()");
         double daXPosition, text1Width, text2Width, paneWidth,
                txt1Edge, txt2Edge, downShift;
         
@@ -151,7 +151,6 @@ public class ANOVA1_Quant_CirclePlotView extends ANOVA1_Quant_View {
             KeyCode keyCode = ke.getCode();
             boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
             if (doIt) {
-                //System.out.println("Doing it -- Best Fit");
                 WritableImage writableImage = qanova1_ContainingPane.snapshot(new SnapshotParameters(), null);
                 ImageView iv = new ImageView(writableImage);
                 Clipboard clipboard = Clipboard.getSystemClipboard();

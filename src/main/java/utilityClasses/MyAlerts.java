@@ -1,7 +1,7 @@
 /****************************************************************************
  *                            MyAlerts                                      *
- *                            02/15/26                                      *
- *                             00:00                                        *
+ *                            06/23/26                                      *
+ *                             15:00                                        *
  ***************************************************************************/
 /****************************************************************************
  *   The showingAnAlert variable is to remind SPLAT to eat the additional   *
@@ -24,12 +24,29 @@ public class MyAlerts {
     
     static SplatAlert splatAlert;
     
+    private static MyAlerts myAlerts;
+    
     static String alertTitle, alertHeader, alertContext, imagePath;
     
-   public MyAlerts() { 
+    private MyAlerts() { }
+    
+    public static synchronized MyAlerts getMyAlerts() { 
+       //System.out.println("30 MyAlerts, Constructing *************************");
+       
+       // Lazy initialization
+       if (myAlerts == null) {
+           myAlerts = new MyAlerts();
+           //System.out.println("New MyAlerts!!!!!!!!!!!!!");
+       }
+       else {
+           //System.out.println("Hey -- You already have a MyAlerts!!!!");
+       }
+       
        fourProbsAlreadyShown = false;
        showingAnAlert = false;
-   }
+       
+       return myAlerts;
+    }
    
 
     public static void showBinomialDaredevilAlert() { 

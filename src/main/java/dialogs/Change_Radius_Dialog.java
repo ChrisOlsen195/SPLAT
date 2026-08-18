@@ -44,7 +44,7 @@ public class Change_Radius_Dialog extends Stage {
     // My classes
     DotPlot_View dotPlot_View;
     MultUni_DotPlotView multUni_DotPlotView;
-    ChooseStats_DotPlot_DistrView chooseStats_DotPlot_DistrView; 
+    DotPlot_DistrView dotPlot_DistrView; 
     X2Assoc_PieChartView x2Assoc_PieChart_View;
     BivCat_PieChartView bivCat_PieChart_View;
     Epi_PieChartView epi_PieChart_View;
@@ -60,8 +60,8 @@ public class Change_Radius_Dialog extends Stage {
     Scene scene; 
     
     public Change_Radius_Dialog(X2Assoc_PieChartView x2Assoc_PieChart_View) {
-        if (printTheStuff == true) {
-            System.out.println("64 *** Change_Radius_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 64 Change_Radius_Dialog, Constructing");
         }
         this.x2Assoc_PieChart_View = x2Assoc_PieChart_View;
         strDotOrPie = "PIE";
@@ -96,8 +96,8 @@ public class Change_Radius_Dialog extends Stage {
     } 
     
     public Change_Radius_Dialog(BivCat_PieChartView bivCat_PieChart_View) {
-        if (printTheStuff == true) {
-            System.out.println("100 *** Change_Radius_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("--- 100 Change_Radius_Dialog, Constructing");
         }
         this.bivCat_PieChart_View = bivCat_PieChart_View;
         strDotOrPie = "EPI";
@@ -132,8 +132,8 @@ public class Change_Radius_Dialog extends Stage {
     } 
     
     public Change_Radius_Dialog(Epi_PieChartView epi_PieChart_View) {
-        if (printTheStuff == true) {
-            System.out.println("136 *** Change_Radius_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("--- 136 Change_Radius_Dialog, Constructing");
         }
         this.epi_PieChart_View = epi_PieChart_View;
         strDotOrPie = "EPI";
@@ -168,8 +168,8 @@ public class Change_Radius_Dialog extends Stage {
     } 
     
     public Change_Radius_Dialog(DotPlot_View dotPlot_View) {
-        if (printTheStuff == true) {
-            System.out.println("172 *** Change_Radius_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("--- 172 Change_Radius_Dialog, Constructing");
         }
         this.dotPlot_View = dotPlot_View;
         strDotOrPie = "DOT";
@@ -202,11 +202,11 @@ public class Change_Radius_Dialog extends Stage {
         setScene(scene);
     } 
     
-    public Change_Radius_Dialog(ChooseStats_DotPlot_DistrView boot_ChooseStats_DotPlot_DistrView) {
-        if (printTheStuff == true) {
-            System.out.println("207 *** Change_Radius_Dialog, Constructing");
+    public Change_Radius_Dialog(DotPlot_DistrView boot_ChooseStats_DotPlot_DistrView) {
+        if (printTheStuff) {
+            System.out.println("*** 207 Change_Radius_Dialog, Constructing");
         }
-        this.chooseStats_DotPlot_DistrView = boot_ChooseStats_DotPlot_DistrView;
+        this.dotPlot_DistrView = boot_ChooseStats_DotPlot_DistrView;
         strDotOrPie = "CHOOSEVAR";
         strReturnStatus = "OK";
         root = new VBox();
@@ -238,8 +238,8 @@ public class Change_Radius_Dialog extends Stage {
     }
     
     public Change_Radius_Dialog(MultUni_DotPlotView multUni_DotPlotView) {
-        if (printTheStuff == true) {
-            System.out.println("242 *** Change_Radius_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 242 Change_Radius_Dialog, Constructing");
         }
         this.multUni_DotPlotView = multUni_DotPlotView;
         strDotOrPie = "MULT_DOT";
@@ -273,8 +273,8 @@ public class Change_Radius_Dialog extends Stage {
     }
     
     public Change_Radius_Dialog(DotPlot_View_For2Ind dotPlot_View_For2Ind) {
-        if (printTheStuff == true) {
-            System.out.println("277 *** Change_Radius_Dialog, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 277 Change_Radius_Dialog, Constructing");
         }
         strReturnStatus = "OK";
         root = new VBox();
@@ -346,8 +346,8 @@ public class Change_Radius_Dialog extends Stage {
                             dotPlot_View.doTheGraph();
                             break;
                         case "CHOOSEVAR":
-                            chooseStats_DotPlot_DistrView.setRelRad(relRad);
-                            chooseStats_DotPlot_DistrView.doTheGraph();
+                            dotPlot_DistrView.setRelRad(relRad);
+                            dotPlot_DistrView.doTheGraph();
                             break;
                         case "MULT_DOT":
                             multUni_DotPlotView.setRelRad(relRad);

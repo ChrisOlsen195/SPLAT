@@ -22,4 +22,8 @@ public class Indep_t_Tidy_Dialog extends Two_Variables_Dialog{
         lblResponseVar.setText("        Response Variable:");
         setTitle("Independent Samples");
     }    
+
+    public double getHypothesizedDifferenceInMeans() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

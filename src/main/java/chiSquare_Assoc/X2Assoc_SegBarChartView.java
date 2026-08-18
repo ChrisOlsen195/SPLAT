@@ -1,7 +1,7 @@
 /**************************************************
  *          X2Assoc_SegmentedBarChartView         *
- *                    09/20/25                    *
- *                     12:00                      *
+ *                    06/27/26                    *
+ *                     15:00                      *
  *************************************************/
 package chiSquare_Assoc;
 
@@ -78,7 +78,7 @@ public class X2Assoc_SegBarChartView  {
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) 
     {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("82 *** X2Assoc_SegBarChartView, Constructing");
         }
         initHoriz = placeHoriz; initVert = placeVert;
@@ -90,8 +90,8 @@ public class X2Assoc_SegBarChartView  {
     }
     
     public void completeTheDeal() {
-        if (printTheStuff == true) {
-            System.out.println("94 *** X2Assoc_SegBarChartView, completeTheDeal()");
+        if (printTheStuff) {
+            System.out.println("94 --- X2Assoc_SegBarChartView, completeTheDeal()");
         }
         constructSegBarInfo(); 
         txtTitle1 = new Text("Segmented Bar Chart"); 
@@ -261,20 +261,6 @@ public class X2Assoc_SegBarChartView  {
         segBarGC.setStroke(Color.BLACK);
         doTheYAxis();
         doTheXAxis();
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));
         
     }   //  End doThePlot
 

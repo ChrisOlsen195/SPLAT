@@ -1,7 +1,7 @@
 /****************************************************************************
  *                     X2Assoc_PrintAdvStats                                *
- *                           09/20/25                                       *
- *                             12:00                                        *
+ *                           08/16/26                                       *
+ *                             06:00                                        *
  ***************************************************************************/
 package chiSquare_Assoc;
 
@@ -21,10 +21,11 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
     double[][] obsVals, expVals, x2Contribution, standResids, proportions, 
                cumProps;
     
-    int nRows, nCols, df, spacesAvailableForTitle,
-        spacesAvailableInTotal, nCellsBelow5, iRow, jCol;
+    int nRows, nCols, df, spacesBeforePrintedTitle, 
+        spacesAvailableInTotal, nCellsBelow5; 
 
-    String strTopVar, strLeftVar, titleString, tempString, categoryAxisLabel;
+    String strTopVar, strLeftVar, strInitial_Title, categoryAxisLabel,
+           strPrinted_Title;
     String[] strTopLabels, strLeftLabels; 
     
     // My classes 
@@ -36,14 +37,14 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
             double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("40 *** X2Assoc_PrintAdvStats, Constructing");
         }
         this.x2Assoc_Model = x2_Assoc_Model;    
         categoryAxisLabel = " "; 
         strTopVar = x2_Assoc_Model.getTopVariable();
         strLeftVar = x2_Assoc_Model.getLeftVariable();
-        titleString = strLeftVar + " vs. " + strTopVar;    
+        strInitial_Title = strLeftVar + " vs. " + strTopVar;     
         nRows = x2_Assoc_Model.getNumberOfRows();  // Rows of observed
         nCols = x2_Assoc_Model.getNumberOfColumns();  // Cols of observed
         obsVals = new double[nRows][nCols];
@@ -84,25 +85,24 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
     
   
     public void constructPrintLines() {
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("88 --- X2Assoc_PrintAdvStats, constructPrintLines()");
         }
-        int leftPadSpaces;
+        int leftPadTitleSpaces, leftPadLabelSpaces;
+        String tempString, leftFillTitle, leftFillLabels;
         String leftFill;
         addNBlankLines(2);
-        titleString = "Association between: " + titleString;
-        spacesAvailableInTotal = 23 + 12 * nCols;  //  12 spaces for each col
+        strPrinted_Title = "Association between: " + strInitial_Title;
+        spacesAvailableInTotal = 15 + 12 * nCols;  //  12 spaces for each col
+        leftPadTitleSpaces = 6 + 6 * nCols - strPrinted_Title.length();
+        leftFillTitle = StringUtilities.getStringOfNSpaces(leftPadTitleSpaces);
+        spacesBeforePrintedTitle = spacesAvailableInTotal - leftPadTitleSpaces;
+        String centeredTitle = StringUtilities.centerTextInString(strPrinted_Title, spacesBeforePrintedTitle) + "\n";
+        stringsToPrint.add(leftFillTitle + centeredTitle + "\n");
+        leftPadLabelSpaces = 23;
+        leftFillLabels = StringUtilities.getStringOfNSpaces(leftPadLabelSpaces);
         
-        leftPadSpaces = 23;
-        leftFill = StringUtilities.getStringOfNSpaces(leftPadSpaces);
-        spacesAvailableForTitle = spacesAvailableInTotal - leftPadSpaces;
-        String centeredTitle = StringUtilities.centerTextInString(titleString, spacesAvailableForTitle);
-        stringsToPrint.add(leftFill + centeredTitle);
-        addNBlankLines(2);
-        leftPadSpaces = 23;
-        leftFill = StringUtilities.getStringOfNSpaces(leftPadSpaces);
-        
-        tempString = "\n" + leftFill;        
+        tempString = "\n" + leftFillLabels;        
         for (int col = 0; col < nCols; col++) {  
             String smallTop = StringUtilities.getleftMostNChars(strTopLabels[col], 12);
             tempString += StringUtilities.centerTextInString(smallTop, 12);   
@@ -111,7 +111,7 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
         stringsToPrint.add(tempString);
         addNBlankLines(1);
 
-        for (iRow = 0; iRow < nRows; iRow ++)  {
+        for (int iRow = 0; iRow < nRows; iRow ++)  {
             addNBlankLines(2);
             tempString = ""; 
             tempString += StringUtilities.centerTextInString(strLeftLabels[iRow], 15);
@@ -122,7 +122,7 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
             tempString = "";
             tempString += String.format(StringUtilities.getleftMostNChars("Observed values", 20));
             
-            for (jCol = 0; jCol < nCols; jCol++) {
+            for (int jCol = 0; jCol < nCols; jCol++) {
                 tempString += String.format(" %11.2f", obsVals[iRow][jCol]);
             }
             
@@ -134,7 +134,7 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
             tempString = "";
             tempString += String.format(StringUtilities.getleftMostNChars("Percent of Total", 20));
             
-            for (jCol = 0; jCol < nCols; jCol++) {
+            for (int jCol = 0; jCol < nCols; jCol++) {
                 tempString += String.format(" %11.2f", 100. * proportions[iRow][jCol]);
             }
  
@@ -213,7 +213,7 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
         tempString = "";
         tempString += String.format(StringUtilities.getleftMostNChars("Percent", 20));
         
-        for (jCol = 0; jCol < nCols; jCol++) {
+        for (int jCol = 0; jCol < nCols; jCol++) {
             tempString += String.format(" %11.2f", 100. * x2ColProps[jCol]);
         }
         
@@ -222,6 +222,7 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
         
         df = (nRows - 1)*(nCols - 1);
         double cramersV = x2Assoc_Model.getCramersV();
+        double unbiasedCramersV = x2Assoc_Model.getUnbiasedCramersV();
         addNBlankLines(1);
         stringsToPrint.add(String.format("                Chi Square = %7.3f", chiSquare));
         addNBlankLines(1);
@@ -230,6 +231,8 @@ public class X2Assoc_PrintAdvStats extends PrintTextReport_View {
         stringsToPrint.add(String.format("                   p-Value = %7.3f", pValue));
         addNBlankLines(1);
         stringsToPrint.add(String.format("                Cramer's V = %7.3f", cramersV));
+        addNBlankLines(1);
+        stringsToPrint.add(String.format("       Unbiased Cramer's V = %7.3f", unbiasedCramersV));
         
         nCellsBelow5 = x2Assoc_Model.getNumberOfCellsBelow5();
         if (nCellsBelow5 > 0) {

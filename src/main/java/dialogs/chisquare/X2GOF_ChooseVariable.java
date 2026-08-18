@@ -1,6 +1,6 @@
 /************************************************************
- *                        X2GOF_Dialog                      *
- *                          01/15/25                        *
+ *                      X2GOF_ChooseVariable                *
+ *                          06/27/26                        *
  *                            15:00                         *
  ***********************************************************/
 package dialogs.chisquare;
@@ -16,7 +16,7 @@ public class X2GOF_ChooseVariable extends One_Variable_Dialog{
     
     public X2GOF_ChooseVariable(Data_Manager myData, String variableType) {
         super(myData, "Categorical"); 
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("20 *** X2GOF_ChooseVariable, Constructing");
         }
         lbl_Title.setText("Chi square Goodness Of Fit");

@@ -1,167 +1,51 @@
 /**************************************************
  *             OneProp_Power_Model                *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/21/26                      *
+ *                    18:00                       *
  *************************************************/
 package power_OneProp;
 
-import genericClasses.Point_2D;
-import noncentrals.JDistr_Noncentrals.*;
 import java.util.ArrayList;
-import utilityClasses.*;
+import superClasses.*;
 
-public class OneProp_Power_Model {
+public class OneProp_Power_Model extends OneParam_Power_Model {
     // POJOs
     //boolean printTheStuff = true;
     boolean printTheStuff = false;
-    
-    int sampleSize, archivedSampleSize;
-    double alpha, altProp, effectSize, standErr_PNull, standErr_PAlt, 
-           nullProp, power, lowerLimit, upperLimit, loCum, hiCum, 
-           archivedNullProp, archivedAltProp, archivedAlpha, archivedEffectSize; 
 
-    Point_2D nonRejectionRegion;
-    String strRejectionCriterion, strSourceString, strPrinted_NullHypoth, strPrinted_AltHypoth;    
-    
-    ArrayList<String> str_al_PowerReport;
-    
     OneProp_Power_Controller oneProp_Power_Controller;
     
     public OneProp_Power_Model(OneProp_Power_Controller oneProp_Power_Controller) {
-        if (printTheStuff == true) {
-            System.out.println("32 *** OneProp_Power_Model, Constructing");
+        //super();
+        if (printTheStuff) {
+            System.out.println("21 *** OneProp_Power_Model, Constructing");
         }
         this.oneProp_Power_Controller = oneProp_Power_Controller;
         str_al_PowerReport = new ArrayList();
         lowerLimit = 0.0; upperLimit = 0.0;//  Happy compiler, happy runs
-        nullProp = oneProp_Power_Controller.getNullProp();
-        altProp = oneProp_Power_Controller.getAltProp();
+        nullParam = oneProp_Power_Controller.getNullProp();
+        altParam = oneProp_Power_Controller.getAltProp();
         sampleSize = oneProp_Power_Controller.getSampleSize();
-        standErr_PNull = Math.sqrt(nullProp * (1.0 - nullProp) / sampleSize);
-        standErr_PAlt = Math.sqrt(altProp * (1.0 - altProp) / sampleSize);
-    }
-    
-    public void constructNonRejectionRegion() {
-        lowerLimit = 0.0; upperLimit = 0.0;
-        standErr_PNull = Math.sqrt(nullProp * (1.0 - nullProp) / sampleSize);
-        standErr_PAlt = Math.sqrt(altProp * (1.0 - altProp) / sampleSize);
         
-        switch (strRejectionCriterion) {
-            case "LessThan":
-                lowerLimit = Normal.quantile(alpha, nullProp, 
-                                             standErr_PNull, true, false);
-                upperLimit = Double.POSITIVE_INFINITY; 
-                break;
-                    
-            case "NotEqual":
-                lowerLimit = Normal.quantile(alpha / 2., nullProp, 
-                                             standErr_PNull, true, false);
-                upperLimit = Normal.quantile(1.0 - alpha / 2., nullProp, 
-                                               standErr_PNull, true, false);  
-                break;
-                            
-            case "GreaterThan":
-                lowerLimit = Double.NEGATIVE_INFINITY;
-                upperLimit = Normal.quantile(1.0 - alpha, nullProp, 
-                                             standErr_PNull, true, false); 
-                break;
-            
-            default:
-                String switchFailure = "Switch failure: OneProp_Power_Model 64 " + strRejectionCriterion;
-                MyAlerts.showUnexpectedErrorAlert(switchFailure); 
-        }
-        nonRejectionRegion = new Point_2D(lowerLimit, upperLimit);
-    }
-    
-    public double calculatePower() {
-        constructNonRejectionRegion();
-        switch(strRejectionCriterion) {
-            case "LessThan": 
-                loCum = Normal.cumulative(lowerLimit, altProp, standErr_PAlt, true, false);
-                power = loCum;
-                break;
-                
-            case "NotEqual":     
-                loCum = Normal.cumulative(lowerLimit, altProp, standErr_PAlt, true, false);
-                hiCum = 1.0 - Normal.cumulative(upperLimit, altProp, standErr_PAlt, true, false);
-                power = loCum + hiCum;
-                break;
-                
-            case "GreaterThan":
-                hiCum = 1.0 - Normal.cumulative(upperLimit, altProp, standErr_PAlt, true, false); 
-                power = hiCum;
-                break;   
-                
-            default:
-                String switchFailure = "Switch failure: OneProp_Power_Model 96 " + strRejectionCriterion;
-                MyAlerts.showUnexpectedErrorAlert(switchFailure); 
-        }
-
-        return power;        
-    }
-    
-    public int getSampleSize() { return sampleSize; }
-    public void setSampleSize(int toThis) { sampleSize = toThis; }
-    
-    public double getStErr_PNull() {return standErr_PNull; }
-    public void setStErr_PNull(double toThis) {standErr_PNull = toThis; }
-    
-    public double getStandErr_PAlt() { return standErr_PAlt; }
-    public void setStandErr_PAlt(double toThis) { standErr_PAlt = toThis; }
-    
-    public double getNullProp() { return nullProp; }
-    public void setNullProp(double toThis) { nullProp = toThis; }
-    
-    public double getAltProp() { return altProp; }
-    public void setAltProp(double toThis) { 
-        altProp = toThis;
-        standErr_PAlt = Math.sqrt(altProp * (1.0 - altProp) / sampleSize);
-        effectSize = Math.abs(altProp - nullProp);
-    }
- 
-    public double getAlpha() { return alpha; }
-    public void setAlpha(double toThis) { alpha = toThis; }
-    
-    public String getPrintedNullHypothesis() { return strPrinted_NullHypoth;}
-    public void setPrintedNullHypothesis(String toThis) {
-        strPrinted_NullHypoth = toThis;
-    }
-    
-    public String getPrintedAltHypothesis() { return strPrinted_AltHypoth;}
-    public void setPrintedAltHypothesis(String toThis) {
-        strPrinted_AltHypoth = toThis;
-    }
-    
-    public double getPower() { return power; }
-    
-    public String getRejectionCriterion() { return strRejectionCriterion; }
-    public void setRejectionCriterion(String toThis) {
-        strRejectionCriterion = toThis;
-    }
-    
-    public double getEffectSize() { return effectSize; }
-    public void setEffectSize(double toThis) {
-        effectSize = toThis;
-        if (strRejectionCriterion.equals("LessThan")) {
-            altProp = nullProp - effectSize;
-        }  else {
-            altProp = nullProp + effectSize;   
+        if (printTheStuff) {
+            //System.out.println( "31 OneProp_Power_Model, nullParam = " +  nullParam);
+            //System.out.println( "31 OneProp_Power_Model, altParam = " +  altParam);
+            //System.out.println( "31 OneProp_Power_Model, effectSize = " +  effectSize);
+            //System.out.println( "31 OneProp_Power_Model, strRejectionCriterion = " +  strRejectionCriterion);
         }
     }
-    
-    public Point_2D getNonRejectionRegion() { return nonRejectionRegion; }
  
     public void archiveNullValues() {
-        archivedNullProp = nullProp;
-        archivedAltProp = altProp;
+        archivedNullParam = nullParam;
+        archivedAltParam = altParam;
         archivedSampleSize = sampleSize;
         archivedAlpha = alpha;
         archivedEffectSize = effectSize;
     }    
     
     public void restoreNullValues() {
-        nullProp = archivedNullProp;
-        altProp = archivedAltProp ;
+        nullParam = archivedNullParam;
+        altParam = archivedAltParam ;
         sampleSize = archivedSampleSize;
         alpha  = archivedAlpha; 
         effectSize = archivedEffectSize;
@@ -184,22 +68,16 @@ public class OneProp_Power_Model {
         str_al_PowerReport.add(String.format("%20s %4d", strSourceString, sampleSize));
         addNBlankLinesToPowerReport(1);
         strSourceString = "Standard error =";
-        str_al_PowerReport.add(String.format("%20s %8.3f", strSourceString,standErr_PNull));
+        str_al_PowerReport.add(String.format("%20s %8.3f", strSourceString, stErr_NullParam));
         addNBlankLinesToPowerReport(1);
         strSourceString = "Effect Size =";
-        str_al_PowerReport.add(String.format("%20s %8.3f", strSourceString,effectSize));        
+        str_al_PowerReport.add(String.format("%20s %8.3f", strSourceString, effectSize));        
         addNBlankLinesToPowerReport(1);
         strSourceString = "Power =";
         str_al_PowerReport.add(String.format("%20s %8.3f", strSourceString, power));
         addNBlankLinesToPowerReport(1);
    }    
    
-    private void addNBlankLinesToPowerReport(int thisMany) {
-        StringUtilities.addNLinesToArrayList(str_al_PowerReport, thisMany);
-    }
-    
-    public ArrayList<String> getPowerReport() { return str_al_PowerReport; }
-
     public OneProp_Power_Controller getController() { return oneProp_Power_Controller; }
     
     public void printModelStuff() {

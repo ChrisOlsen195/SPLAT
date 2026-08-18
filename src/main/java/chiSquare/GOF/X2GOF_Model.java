@@ -1,7 +1,7 @@
 /****************************************************************************
  *                         X2GOF_Model                                      *
- *                          02/12/25                                        *
- *                           18:00                                          *
+ *                          06/27/26                                        *
+ *                           15:00                                          *
  ***************************************************************************/
 package chiSquare.GOF;
 
@@ -24,7 +24,7 @@ public class X2GOF_Model {
     int df, nCategories, nCellsBelow_5, n_QDVs;
     int[] pre_ObservedCounts, observedCounts, theNewOrder;
     
-    double chiSquare, pValue, observedTotal, propTotal, expectedTotal, 
+    double chiSquare, pValue, observedTotal, totalExpProps, expectedTotal, 
            contribTotal, cohens_W;
     double[] expectedValues, chiSquareContribution, resids, standResids, 
              pre_ExpectedProportions, expectedProportions;
@@ -48,14 +48,14 @@ public class X2GOF_Model {
  ******************************************************************************/
     
     public X2GOF_Model( ) {
-        if (printTheStuff == true) {
-            System.out.println("52 *** X2GOF_Model, constructing");
+        if (printTheStuff) {
+            System.out.println(" *** 52 X2GOF_Model, constructing");
         }
     }
     
     public String analyzeGOF_DataFromFile(X2GOF_Controller x2GOF_controller) {
-        if (printTheStuff == true) {
-            System.out.println("58 --- X2GOF_Model, analyzeGOF_DataFromFile");
+        if (printTheStuff) {
+            System.out.println(" --- 58 X2GOF_Model, analyzeGOF_DataFromFile");
         }
         strReturnStatus = "OK";
         colOfData  = new ColumnOfData(x2GOF_controller.getColumnOfData());
@@ -85,8 +85,8 @@ public class X2GOF_Model {
     }  
     
     public String analyzeGOF_DataByHand() {
-        if (printTheStuff == true) {
-            System.out.println("89 --- X2GOF_Model, analyzeGOF_DataByHand()");
+        if (printTheStuff) {
+            System.out.println(" --- 89 X2GOF_Model, analyzeGOF_DataByHand()");
         }       
         strReturnStatus = gofByHand_Dlg();  
         
@@ -103,8 +103,8 @@ public class X2GOF_Model {
 ******************************************************************************/ 
     // GOF information added manually
     private String gofByHand_Dlg() {
-        if (printTheStuff == true) {
-            System.out.println("107 --- X2GOF_Model, gofByHand_Dlg()");
+        if (printTheStuff) {
+            System.out.println(" --- 107 X2GOF_Model, gofByHand_Dlg()");
         } 
         x2GOF_DataByHand_Dialog = new X2GOF_DataByHand_Dialog(this);
         x2GOF_DataByHand_Dialog.constructDialogGuts();
@@ -143,8 +143,8 @@ public class X2GOF_Model {
     }
     
     private String gofFromFile_Dlg() {  
-        if (printTheStuff == true) {
-            System.out.println("147 --- X2GOF_Model, gofFromFile_Dlg()");
+        if (printTheStuff) {
+            System.out.println(" --- 147 X2GOF_Model, gofFromFile_Dlg()");
         } 
         x2GOF_DataFromFile_Dialog = new X2GOF_DataFromFile_Dialog(this);
         x2GOF_DataFromFile_Dialog.x2FileDialog_Step1();
@@ -188,7 +188,9 @@ public class X2GOF_Model {
      *         This is different from the ordering method in, e.g., ANOVA   *
      ***********************************************************************/
     private void askAboutGOFReOrdering() {
-        //System.out.println("181  ***  X2GOF_Model, askAboutGOFReOrdering()");
+        if (printTheStuff) {
+            System.out.println(" --- 192 X2GOF_Model, askAboutGOFReOrdering()");
+        }
         n_QDVs = nCategories;
 
         // Default
@@ -207,8 +209,8 @@ public class X2GOF_Model {
     }
     
     private void initializeTheArrays() {
-        if (printTheStuff == true) {
-            System.out.println("212 --- X2GOF_Model, initializeTheArrays()");
+        if (printTheStuff) {
+            System.out.println(" --- 213 X2GOF_Model, initializeTheArrays()");
         } 
         pre_StrCategoriesAsStrings = new String[nCategories]; 
         pre_ObservedCounts = new int[nCategories];
@@ -226,16 +228,16 @@ public class X2GOF_Model {
     }
     
     private void performChiSqGOFCalculations() {
-        if (printTheStuff == true) {
-            System.out.println("231 --- X2GOF_Model, performChiSqGOFCalculations()");
+        if (printTheStuff) {
+            System.out.println(" --- 232 X2GOF_Model, performChiSqGOFCalculations()");
         }
-        observedTotal = 0.0;  expectedTotal = 0.0; propTotal = 0.0;
+        observedTotal = 0.0;  expectedTotal = 0.0; totalExpProps = 0.0;
         chiSquare = 0.0; contribTotal = 0.0;
         nCellsBelow_5 = 0;
         
         for (int ithCat = 0; ithCat < nCategories; ithCat++) {  
             observedTotal += observedCounts[ithCat]; 
-            propTotal += expectedProportions[ithCat]; 
+            totalExpProps += expectedProportions[ithCat]; 
         }   
         
         for (int ithCat = 0; ithCat < nCategories; ithCat++) {           
@@ -281,7 +283,7 @@ public class X2GOF_Model {
     public double[] getStandResids () { return standResids; }     
     public double getX2() { return chiSquare; }
     public double getObservedTotal() { return observedTotal; }
-    public double getPropTotal() { return propTotal; }
+    public double getTotalExpProps() { return totalExpProps; }
     public double getExpectedTotal() { return expectedTotal; }
     public double getContribTotal() { return contribTotal; }
     public double getPValue() {return pValue; }

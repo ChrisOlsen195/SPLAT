@@ -26,7 +26,7 @@ import javafx.scene.text.TextAlignment;
 import smarttextfield.*;
 import javafx.stage.WindowEvent;
 
-public class Power_SingleMean_Dialog extends Power_Dialog { 
+public class Power_OneMean_Dialog extends Power_Dialog { 
     
     // POJOs
     //boolean printTheStuff = true;
@@ -74,7 +74,7 @@ public class Power_SingleMean_Dialog extends Power_Dialog {
     Label lbl_Group_Title, lbl_Group_SumInfo, lbl_Mean, lbl_Sigma,
          lbl_EffectSize, lbl_SampleSize;
 
-    public Power_SingleMean_Dialog() {
+    public Power_OneMean_Dialog() {
         super("Quantitative");
         if (printTheStuff) {
             System.out.println("*** 80 Power_SingleMean_Dialog, Constructing");

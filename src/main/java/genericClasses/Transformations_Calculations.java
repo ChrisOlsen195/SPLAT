@@ -41,14 +41,14 @@ public class Transformations_Calculations {
     
    public Transformations_Calculations() { 
         if (printTheStuff) {
-            System.out.println("44 *** Transformations_Calculations, Constructing");
+            System.out.println("*** 44 Transformations_Calculations, Constructing");
         }
         missingData = "*";
    }
    
    public String[] linearTransformation(ArrayList<String> var_1_Data, double alphaValue, double betaValue) {
         if (printTheStuff) {
-            System.out.println("51 --- Transformations_Calculations, linearTransformation");
+            System.out.println("--- 51 Transformations_Calculations, linearTransformation");
         }
         nOriginalDataPoints =  var_1_Data.size();
         strTransformedData = new String[nOriginalDataPoints];
@@ -71,7 +71,7 @@ public class Transformations_Calculations {
                                      String chosenProcedure,
                                      double alphaValue, double betaValue) {
         if (printTheStuff) {
-            System.out.println("74 --- Transformations_Calculations, linTransWithFunc");
+            System.out.println("--- 74 Transformations_Calculations, linTransWithFunc");
         }
         nOriginalDataPoints =  alStr_Var_1_Data.size();
         strTransformedData = new String[nOriginalDataPoints];
@@ -117,7 +117,7 @@ public class Transformations_Calculations {
     public String[] unaryOpsOfVars(double[]  double_1_Data,
                                    String chosenProcedure)    {
         if (printTheStuff) {
-            System.out.println("120 --- Transformations_Calculations, unaryOpsOfVars");
+            System.out.println("--- 120 Transformations_Calculations, unaryOpsOfVars");
         }
         tempAlString = convertArrayOfDouble_To_alStrArrayList(double_1_Data);
         return unaryOpsOfVars(tempAlString, chosenProcedure);   
@@ -126,7 +126,7 @@ public class Transformations_Calculations {
    public String[] unaryOpsOfVars(String[]  strVar_1_Data,
                                    String chosenProcedure)    {
        if (printTheStuff) {
-            System.out.println("129 --- Transformations_Calculations, unaryOpsOfVars");
+            System.out.println("--- 129 Transformations_Calculations, unaryOpsOfVars");
         }
        tempAlString = convertStrArray_To_alStrArrayList(strVar_1_Data);
        return unaryOpsOfVars(tempAlString, chosenProcedure);   
@@ -135,7 +135,7 @@ public class Transformations_Calculations {
    public String[] unaryOpsOfVars(ArrayList<String>  alStr_Var_1_Data,
                                    String uOpProcedure) {
        if (printTheStuff) {
-            System.out.println("138 --- Transformations_Calculations, unaryOpsOfVars");
+            System.out.println("--- 138 Transformations_Calculations, unaryOpsOfVars");
         }
         alStr_Var_1_Data.toString();
         String strDataPoint;
@@ -151,7 +151,7 @@ public class Transformations_Calculations {
         switch (uOpProcedure) {
             case "percentile rank":
                 if (printTheStuff) {
-                    System.out.println("154 TramsCalc, case percentile");
+                    System.out.println("... 154 TramsCalc, case percentile");
                 }
                 
                 for (int dataPoint = 0; dataPoint < nOriginalDataPoints; dataPoint++) {    
@@ -169,7 +169,7 @@ public class Transformations_Calculations {
                 
             case "z-score":
                 if (printTheStuff) {
-                    System.out.println("172 TramsCalc, case z-score");
+                    System.out.println("... 172 TramsCalc, case z-score");
                 }
                 double mean, stDev, zScore;
                 mean = qdv.getTheMean();
@@ -193,7 +193,7 @@ public class Transformations_Calculations {
                 
             case "rank":
                 if (printTheStuff) {
-                    System.out.println("196 TransCalc, case rank");
+                    System.out.println("... 196 TransCalc, case rank");
                 }
                 boolean endOfStory;
                 int startOfTie, endOfTie;
@@ -257,7 +257,7 @@ public class Transformations_Calculations {
                 // System.out.println("240 T_C, doing Rankits");
                 // ?????????  Can this be simplified  ???????????????
                 if (printTheStuff) {
-                    System.out.println("260 TransCalc, case rankits");
+                    System.out.println("... 260 TransCalc, case rankits");
                 }
                 theLegalData = new ArrayList<>();
                 theLegalData = qdv.getLegalCases_AsALStrings();
@@ -296,7 +296,7 @@ public class Transformations_Calculations {
                 break;                
                 
             default:
-                String switchFailure = "Switch failure: Transformations_Calculations 277 " + uOpProcedure;
+                String switchFailure = "Switch failure: Transformations_Calculations 299 " + uOpProcedure;
                 MyAlerts.showUnexpectedErrorAlert(switchFailure); 
         }
         return strTransformedData; 

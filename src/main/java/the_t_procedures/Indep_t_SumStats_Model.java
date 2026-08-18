@@ -1,7 +1,7 @@
 /**************************************************
  *              Indep_t_SumStats_Model            *
- *                    12/02/25                    *
- *                      18:00                     *
+ *                    02/27/26                    *
+ *                      15:00                     *
  *************************************************/
 package the_t_procedures;
 
@@ -57,7 +57,7 @@ public class Indep_t_SumStats_Model {
     
      public String doIndepTAnalysis() {
         if (printTheStuff) {
-            System.out.println("*** 60 Indep_t_SumStats_Model, doIndepTAnalysis()");
+            System.out.println("--- 60 Indep_t_SumStats_Model, doIndepTAnalysis()");
         }
         altHypothesis =  indep_t_SumStats_Dialog.getAltHypothesis();
         hypothDiff = indep_t_SumStats_Dialog.getHypothesizedDiff();
@@ -158,7 +158,7 @@ public class Indep_t_SumStats_Model {
     
     public void printStatistics() {
         if (printTheStuff) {
-            System.out.println("*** 161 Indep_t_SumStats_Model, printStatistics()");
+            System.out.println("--- 161 Indep_t_SumStats_Model, printStatistics()");
         }       
         sumStatsIndTReport = new ArrayList();
         if (printTheStuff) {
@@ -237,15 +237,15 @@ public class Indep_t_SumStats_Model {
     
     private void printDescriptiveStatistics() {
         if (printTheStuff) {
-            System.out.println("*** 240 Indep_t_SumStats_Model, printDescriptiveStatistics()");
+            System.out.println("--- 240 Indep_t_SumStats_Model, printDescriptiveStatistics()");
         }
         addNBlankLinesToSumStatsReport(1);
         sumStatsIndTReport.add("                 *****   Descriptive statistics and confidence intervals   *****");
-        addNBlankLinesToSumStatsReport(2);
-        sumStatsIndTReport.add("                    NSize      Mean       StDev        StErr      CI_Low    CI_High");
         addNBlankLinesToSumStatsReport(1);
         strCITitle = "                             ***  " + String.valueOf(confidenceLevel) + "% Confidence intervals for \u03BC\u2081 , \u03BC\u2082 ***";
         sumStatsIndTReport.add(strCITitle);
+        addNBlankLinesToSumStatsReport(2);
+        sumStatsIndTReport.add("                    NSize      Mean       StDev        StErr      CI_Low    CI_High"); 
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add(String.format("   %10s      %4d        %6.3f      %6.3f      %6.3f     %6.3f    %6.3f",     short_descr_1, 
                                                                                                                 n1,
@@ -276,11 +276,7 @@ public class Indep_t_SumStats_Model {
         addNBlankLinesToSumStatsReport(1);
         sumStatsIndTReport.add(String.format("  %30s %5.3f", "Alternative hypothesis: \u03BC\u2081 - \u03BC\u2082  \u2260 ", hypothDiff));
         addNBlankLinesToSumStatsReport(2);
-        strCITitle = "                        ***  " + String.valueOf(confidenceLevel) + "% Confidence intervals for \u03BC\u2081 - \u03BC\u2082 ***";
-        sumStatsIndTReport.add(strCITitle);
-        addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add("          Method       DiffMeans      St Err       df         t-stat      p-Value");
-        addNBlankLinesToSumStatsReport(1);
 
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add(String.format("      %13s    %8.3f     %8.3f   %8.3f     %8.3f    %8.3f",
@@ -309,9 +305,6 @@ public class Indep_t_SumStats_Model {
         sumStatsIndTReport.add(strCITitle);
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add("          Method       DiffMeans     StErr         df         ciLow      ciHigh");
-        addNBlankLinesToSumStatsReport(1);
-        strCITitle = "                        ***  " + String.valueOf(confidenceLevel) + "% Confidence intervals for \u03BC\u2081 - \u03BC\u2082 ***";
-        sumStatsIndTReport.add(strCITitle);
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add(String.format("      %13s   %8.3f     %8.3f    %8.3f     %8.3f   %8.3f",
                                                                                         "Satterthwaite",
@@ -334,7 +327,7 @@ public class Indep_t_SumStats_Model {
     
     private void printLessThan() {
         if (printTheStuff) {
-            System.out.println("--- 337 Indep_t_SumStats_Model, printLessThan()");
+            System.out.println("--- 330 Indep_t_SumStats_Model, printLessThan()");
         }
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add("          *****   Hypothesis test:    *****");
@@ -343,11 +336,7 @@ public class Indep_t_SumStats_Model {
         addNBlankLinesToSumStatsReport(1);
         sumStatsIndTReport.add(String.format("  %30s %5.3f", "Alternative hypothesis: \u03BC\u2081 - \u03BC\u2082  < ", hypothDiff));
         addNBlankLinesToSumStatsReport(2);
-        strCITitle = "                        ***  " + String.valueOf(confidenceLevel) + "% Confidence intervals for \u03BC\u2081 - \u03BC\u2082 ***";
-        sumStatsIndTReport.add(strCITitle);
-        addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add("          Method       DiffMeans      St Err       df       t-stat      p-Value");
-        addNBlankLinesToSumStatsReport(1);
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add(String.format("      %13s    %8.3f     %8.3f   %8.3f   %8.3f    %8.3f",
                                                                            "Satterthwaite",
@@ -372,7 +361,6 @@ public class Indep_t_SumStats_Model {
         sumStatsIndTReport.add(strCITitle);
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add(String.format("          Method       DiffMeans     StandErr      df       ciLow      ciHigh"));
-        addNBlankLinesToSumStatsReport(1);
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add(String.format("      %13s   %8.3f     %8.3f    %8.3f    %8.3f      %2s ",
                                                                            "Satterthwaite",
@@ -400,7 +388,7 @@ public class Indep_t_SumStats_Model {
     
     private void printGreaterThan() {
         if (printTheStuff) {
-            System.out.println("--- 403 Indep_t_SumStats_Model, printGreaterThan()");
+            System.out.println("--- 391 Indep_t_SumStats_Model, printGreaterThan()");
         }
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add("          *****   Hypothesis test:    *****");
@@ -410,6 +398,7 @@ public class Indep_t_SumStats_Model {
         sumStatsIndTReport.add(String.format("  %30s %5.3f", "Alternative hypothesis: \u03BC\u2081 - \u03BC\u2082  > ", hypothDiff));
         addNBlankLinesToSumStatsReport(2);
         sumStatsIndTReport.add("          Method       DiffMeans      St Err       df      t-stat      p-Value");
+         addNBlankLinesToSumStatsReport(1);
         sumStatsIndTReport.add(String.format("\n      %13s    %8.3f     %8.3f   %8.3f  %8.3f    %8.3f",
                                                                             "Satterthwaite",
                                                                             diffXBar,
@@ -424,8 +413,7 @@ public class Indep_t_SumStats_Model {
                                                                             stErr_Pooled,
                                                                             pooled_df,
                                                                             t_Pooled,
-                                                                            pValueDiff_Pooled));
-        addNBlankLinesToSumStatsReport(2);               
+                                                                            pValueDiff_Pooled));             
         addNBlankLinesToSumStatsReport(2);  
         strCITitle = "                        ***  " + String.valueOf(confidenceLevel) + "% Confidence intervals for \u03BC\u2081 - \u03BC\u2082 ***";
         sumStatsIndTReport.add(strCITitle);
@@ -439,7 +427,7 @@ public class Indep_t_SumStats_Model {
                                                                             satterthwaite_df,
                                                                             "-\u221E",
                                                                             ciDiff_High_Unpooled));
-        addNBlankLinesToSumStatsReport(2); 
+        addNBlankLinesToSumStatsReport(1); 
         sumStatsIndTReport.add(String.format("   %13s       %8.3f     %8.3f       %4d        %2s      %8.3f",
                                                                             "Pooled",
                                                                             diffXBar,

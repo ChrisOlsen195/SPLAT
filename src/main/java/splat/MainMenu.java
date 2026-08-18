@@ -1,7 +1,7 @@
 /************************************************************
  *                       Splat_MainMenu                     *
- *                          12/13/25                        *
- *                            15:00                         *
+ *                          05/18/26                        *
+ *                            03:00                         *
  ***********************************************************/
 package splat;
 
@@ -31,11 +31,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import noInterceptRegression.NoIntercept_Regr_Controller;
 import the_t_procedures.*;
 import the_z_procedures.*;
 import quadraticRegression.*;
 import power_OneProp.OneProp_Power_Controller;
+import power_LinReg.LinReg_Power_Controller;
 import probabilityCalculators.*;
 import univariateProcedures_Categorical.UnivCat_Controller;
 import utilityClasses.MyAlerts;
@@ -74,9 +74,10 @@ public class MainMenu extends MenuBar {
     File_Ops myFileOps;
     Edit_Ops myEditOps;
     Label fileLabel;
+    LinReg_Power_Controller LinReg_Power_Controller;
 
     public MainMenu(Application splat, Data_Manager dm, Label fileLabel) {
-        dm.whereIsWaldo(79, waldoFile, " *** Constructing");
+        dm.whereIsWaldo(80, waldoFile, " *** Constructing");
         this.fileLabel = fileLabel;
         this.dm = dm;
         dm.setMainMenu(this);
@@ -169,12 +170,14 @@ public class MainMenu extends MenuBar {
         MenuItem powerTwoMeans = new MenuItem("Power: ind means");
         MenuItem powerSingleProp = new MenuItem("Power: single prop");
         MenuItem powerTwoProps = new MenuItem("Power: two props");
+        MenuItem powerLinReg = new MenuItem("Power: Regression");
         planningAStudyMenu.getItems().addAll(randomAssignmentCRD,
                                     randomAssignmentRBD,
                                     powerSingleMean, 
                                     powerTwoMeans,
                                     powerSingleProp,
-                                    powerTwoProps);        
+                                    powerTwoProps,
+                                    powerLinReg);        
 
         Menu probabilityMenu = new Menu("Probability");
         MenuItem probDistCalculations = new MenuItem("Probability Distributions");
@@ -238,10 +241,8 @@ public class MainMenu extends MenuBar {
         Menu advancedRegression = new Menu("Advanced regression");
         MenuItem multLinRegression = new MenuItem("Multiple Regression");
         MenuItem logisticRegression = new MenuItem("Logistic regression");
-        MenuItem noInterceptSimpleRegression = new MenuItem("One parameter linear regression");
         advancedRegression.getItems().addAll(multLinRegression,
-                                             logisticRegression,
-                                             noInterceptSimpleRegression);  
+                                             logisticRegression);
         Menu analysisOfCovariance = new Menu("One-Factor Analysis of Covariance");
         baps.getItems().addAll(anova, advancedRegression, analysisOfCovariance);
         
@@ -256,7 +257,7 @@ public class MainMenu extends MenuBar {
                                 );
 
         clearData.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(257, waldoFile, "clearData.setOnAction((ActionEvent event)");
+            dm.whereIsWaldo(260, waldoFile, "clearData.setOnAction((ActionEvent event)");
             dm.getDataGrid().goHome(); 
             myFileOps.ClearTable();
  
@@ -267,19 +268,19 @@ public class MainMenu extends MenuBar {
         // *                    File Menu                               *
         // **************************************************************        
         openFile.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(268, waldoFile, "openFile.setOnAction((ActionEvent event)");
+            dm.whereIsWaldo(271, waldoFile, "openFile.setOnAction((ActionEvent event)");
             boolean yikesException = false;
             myFileOps.ClearTable();
             try {
                 strReturnStatus = myFileOps.getDataFromFile(0);
             }
             catch(Exception ex) {
-               dm.whereIsWaldo(275, waldoFile, "catch(Exception ex)");
+               dm.whereIsWaldo(278, waldoFile, "catch(Exception ex)");
                yikesException = true; 
                PrintExceptionInfo pei = new PrintExceptionInfo(ex, "FileMenu.openFile.setOnAction");
             } 
             if (yikesException) {
-                dm.whereIsWaldo(280, waldoFile, "yikesException");
+                dm.whereIsWaldo(283, waldoFile, "yikesException");
                 fileLabel.setText("File: " + dm.getTheFile());
                 dm.sendDataStructToGrid(0, 0);
                 if (myFileOps.getDuplicateLabelsExist()) {
@@ -287,7 +288,7 @@ public class MainMenu extends MenuBar {
                 }
                 dm.setDataAreClean(true);
             }
-            dm.whereIsWaldo(288, waldoFile, "dm.getFileName() = " + dm.getTheFile());            
+            dm.whereIsWaldo(291, waldoFile, "dm.getFileName() = " + dm.getTheFile());            
             fileLabel.setText("File: " + dm.getTheFile());
             CheckForDuplicateStrings check4DupLabels = new CheckForDuplicateStrings(dm.getVariableNames());
             String haveDups = check4DupLabels.CheckTheStrings();
@@ -297,7 +298,7 @@ public class MainMenu extends MenuBar {
         });
         
         saveData.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(298, waldoFile, "saveData.setOnAction((ActionEvent event)");
+            dm.whereIsWaldo(301, waldoFile, "saveData.setOnAction((ActionEvent event)");
             myFileOps.SaveData(dm, false);
             dm.setDataAreClean(true);
             dm.whereIsWaldo(301, waldoFile, "dm.getFileName() = " + dm.getTheFile()); 
@@ -305,19 +306,19 @@ public class MainMenu extends MenuBar {
         });
 
         saveDataAs.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(306, waldoFile, "saveDataAs.setOnAction((ActionEvent event)");
+            dm.whereIsWaldo(309, waldoFile, "saveDataAs.setOnAction((ActionEvent event)");
             myFileOps.SaveData(dm, true);
             dm.setDataAreClean(true);
             fileLabel.setText("File: " + dm.getTheFile());
         });
         
         printFile.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(313, waldoFile, "saveDataAs.setOnAction((ActionEvent event)");
+            dm.whereIsWaldo(316, waldoFile, "saveDataAs.setOnAction((ActionEvent event)");
             myFileOps.PrintFile(dm);
         });
 
         exitProgram.setOnAction((ActionEvent event) -> {
-            dm.whereIsWaldo(318, waldoFile, "exitProgram.setOnAction((ActionEvent event)");
+            dm.whereIsWaldo(321, waldoFile, "exitProgram.setOnAction((ActionEvent event)");
             myFileOps.ExitProgram(dm);
         });
 
@@ -326,7 +327,7 @@ public class MainMenu extends MenuBar {
         // **************************************************************        
         insertRow.setOnAction((ActionEvent event) -> {
             if (checkForExistenceOfData())  {
-                dm.whereIsWaldo(327, waldoFile, "insertRow.setOnAction((ActionEvent event)");
+                dm.whereIsWaldo(330, waldoFile, "insertRow.setOnAction((ActionEvent event)");
                 myEditOps.insertRow();
             }
         });
@@ -334,14 +335,14 @@ public class MainMenu extends MenuBar {
         //  This is not implemented!!!
         deleteRow.setOnAction((ActionEvent event) -> {
             if (checkForExistenceOfData())  {
-                dm.whereIsWaldo(335, waldoFile, "deleteRow.setOnAction((ActionEvent event)");
+                dm.whereIsWaldo(338, waldoFile, "deleteRow.setOnAction((ActionEvent event)");
                 myEditOps.deleteRow();
             }
         });
 
         insertCol.setOnAction((ActionEvent event) -> {
             if (checkForExistenceOfData())  {
-                dm.whereIsWaldo(342, waldoFile, "insertCol.setOnAction((ActionEvent event)");
+                dm.whereIsWaldo(345, waldoFile, "insertCol.setOnAction((ActionEvent event)");
                 myEditOps.insertColumn();
             }
         });
@@ -430,18 +431,18 @@ public class MainMenu extends MenuBar {
         // **************************************************************   
         randomAssignmentCRD.setOnAction((ActionEvent event) -> {
             RandomAssignment_Controller randomAssignmentController = new RandomAssignment_Controller(dm, "CRD");
-            if (randomAssignmentController.getReturnStatus().equals("OK")) {
+            if (randomAssignmentController.getStrReturnStatus().equals("OK")) {
                 randomAssignmentController.doTheProcedure();
             }
-            strReturnStatus = randomAssignmentController.getReturnStatus();
+            strReturnStatus = randomAssignmentController.getStrReturnStatus();
         }); 
 
         randomAssignmentRBD.setOnAction((ActionEvent event) -> {
             RandomAssignment_Controller randomAssignmentController = new RandomAssignment_Controller(dm, "RBD");
-            if (randomAssignmentController.getReturnStatus().equals("OK")) {
+            if (randomAssignmentController.getStrReturnStatus().equals("OK")) {
                 randomAssignmentController.doTheProcedure();
             }
-            strReturnStatus = randomAssignmentController.getReturnStatus();
+            strReturnStatus = randomAssignmentController.getStrReturnStatus();
         });         
         
         powerSingleMean.setOnAction((ActionEvent event) -> {
@@ -516,7 +517,7 @@ public class MainMenu extends MenuBar {
             strReturnStatus = singleT_Controller.chooseDataOrSummary();
             if (strReturnStatus.equals("Cancel")) { dm.setRawOrSummary("NULL"); }
             if (printTheStuff) {
-                System.out.println("--- 517 MainMenu, strReturnStatus = " + strReturnStatus);
+                System.out.println("--- 520 MainMenu, strReturnStatus = " + strReturnStatus);
             }
         });
         
@@ -526,7 +527,7 @@ public class MainMenu extends MenuBar {
             strReturnStatus = indep_t_Controller.doTidyOrNot();
             if (strReturnStatus.equals("Cancel")) { dm.setRawOrSummary("NULL"); }
             if (printTheStuff) {
-                System.out.println("--- 527 MainMenu, strReturnStatus = " + strReturnStatus);
+                System.out.println("--- 530 MainMenu, strReturnStatus = " + strReturnStatus);
             }
         });
 
@@ -534,7 +535,7 @@ public class MainMenu extends MenuBar {
             Matched_t_Controller matchedT_Controller = new Matched_t_Controller(dm);
             strReturnStatus = matchedT_Controller.prepColumns();
             if (printTheStuff) {
-                System.out.println("--- 537 MainMenu, strReturnStatus = " + strReturnStatus);
+                System.out.println("--- 538 MainMenu, strReturnStatus = " + strReturnStatus);
             }
             if (strReturnStatus.equals("Cancel")) { dm.setRawOrSummary("NULL"); }
         });
@@ -598,11 +599,6 @@ public class MainMenu extends MenuBar {
             }
         });
         
-        noInterceptSimpleRegression.setOnAction((ActionEvent event) -> {
-                NoIntercept_Regr_Controller noInt_RegrProc = new NoIntercept_Regr_Controller(dm);
-                strReturnStatus = noInt_RegrProc.doTheProcedure();
-        });
-        
         quadraticRegression.setOnAction((ActionEvent event) -> {
                 QuadReg_Controller quadRegrProc = new QuadReg_Controller (dm);
                 strReturnStatus = quadRegrProc.doTheProcedure();
@@ -664,7 +660,7 @@ public class MainMenu extends MenuBar {
 
                 case ESCAPE: break;
                 default:
-                    String switchFailure = "Switch failure: MainMenu.chiSquareFileData, 662";
+                    String switchFailure = "Switch failure: MainMenu.chiSquareFileData, 663";
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
             }
         });
@@ -687,7 +683,7 @@ public class MainMenu extends MenuBar {
                     break;
                 case ESCAPE: break;
                 default:
-                    String switchFailure = "Switch failure: MainMenu.chiSquareFileData, 685";
+                    String switchFailure = "Switch failure: MainMenu.chiSquareFileData, 686";
                     MyAlerts.showUnexpectedErrorAlert(switchFailure);
             }
         });
@@ -698,21 +694,21 @@ public class MainMenu extends MenuBar {
         
         bootOneVar.setOnAction((ActionEvent event) -> {
             String whichBoot = "ChooseUnivStat";
-            ChooseStats_Controller boot_Controller = new ChooseStats_Controller(dm, whichBoot);
+            Boot_Controller boot_Controller = new Boot_Controller(dm, whichBoot);
             boot_Controller.doTheControllerThing();
             strReturnStatus = boot_Controller.getStrReturnStatus();  
         });
         
         bootTwoVar.setOnAction((ActionEvent event) -> {
             String whichBoot = "ChooseTwoStat";
-            ChooseStats_Controller boot_Controller = new ChooseStats_Controller(dm, whichBoot);
+            Boot_Controller boot_Controller = new Boot_Controller(dm, whichBoot);
             boot_Controller.doTheControllerThing();
             strReturnStatus = boot_Controller.getStrReturnStatus();  
         });
         
         bootRegression.setOnAction((ActionEvent event) -> {
             String whichBoot = "ChooseRegression";
-            ChooseStats_Controller boot_Controller = new ChooseStats_Controller(dm, whichBoot);
+            Boot_Controller boot_Controller = new Boot_Controller(dm, whichBoot);
             boot_Controller.doTheControllerThing();
             strReturnStatus = boot_Controller.getStrReturnStatus();  
         });
@@ -760,6 +756,6 @@ public class MainMenu extends MenuBar {
     
     public String toString() { // new Exception().printStackTrace();
         // new Exception().printStackTrace(); 
-        return "MainMinu, not printing toString";
+        return "MainMinu, Cogito Ergo Sum";
     }
 } 

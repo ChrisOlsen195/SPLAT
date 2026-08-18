@@ -13,7 +13,7 @@ public class UnivCat_OneVar_Dialog extends One_Variable_Dialog{
     
     public UnivCat_OneVar_Dialog(Data_Manager myData, String variableType) {
         super(myData, "CATEGORICAL"); 
-        //System.out.println("16 UnivCatOneVar_Dialog, constructing");
+        //System.out.println("*** 16 UnivCatOneVar_Dialog, constructing");
         minSampleSize = 3;
         lbl_Title.setText("Univariate Categorical Analysis");
         lblFirstVar.setText("X Variable:");

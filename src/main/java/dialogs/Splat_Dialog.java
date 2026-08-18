@@ -1,7 +1,7 @@
 /************************************************************
  *                        Splat_Dialog                      *
- *                          02/15/25                        *
- *                            00:00                         *
+ *                          08/14/26                        *
+ *                            12:00                         *
  ***********************************************************/
 
 package dialogs;
@@ -14,7 +14,7 @@ import javafx.stage.WindowEvent;
 import splat.Data_Manager;
 
 public class Splat_Dialog extends Stage {
-    public boolean boolGoodToGo;
+    public boolean boolGoodToGo, boolReturnStatus;
     public Button btnOK, btnCancel;
     public String strCSS, strReturnStatus;
     
@@ -67,4 +67,7 @@ public class Splat_Dialog extends Stage {
     
     public boolean getGoodToGO() { return boolGoodToGo; }
     public String getStrReturnStatus() { return strReturnStatus; }  
+    public void setStrReturnStatus(String toThis) { strReturnStatus = toThis; }
+    public boolean getBoolReturnStatus() { return boolReturnStatus; }  
+    public void setBoolReturnStatus(String toThis) { strReturnStatus = toThis; }
 }

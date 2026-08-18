@@ -8,8 +8,8 @@ package dialogs;
 import splat.Data_Manager;
 
 public class CleanAColumn_Dialog extends One_Variable_Dialog {
-    boolean printTheStuff = true;
-    //boolean printTheStuff = false;
+    //boolean printTheStuff = true;
+    boolean printTheStuff = false;
         
     public CleanAColumn_Dialog(Data_Manager dm, String dataType) {
         super(dm, dataType);

@@ -1,7 +1,7 @@
 /**************************************************
  *       OneMean_Power_VsEffectSizeView           *
- *                 01/15/25                       *
- *                    21:00                       *
+ *                 05/21/26                       *
+ *                  18:00                         *
  *************************************************/
 package power_OneMean;
 
@@ -16,13 +16,6 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.AnchorPane;
 import superClasses.*;
 import genericClasses.*;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 
 public class OneMean_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
@@ -31,7 +24,7 @@ public class OneMean_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
     
     int sampleSize;
 
-    double yMin, yMax, nullMean, nullSigma;
+    double yMin, yMax, nullMean, nullSigma, dbl_daN;
 
     //  FX 
     Pane theContainingPane;
@@ -45,8 +38,8 @@ public class OneMean_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
                          double placeHoriz, double placeVert,
                          double withThisWidth, double withThisHeight) {    
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("49 *** OneMean_Power_VsEffectSizeView, Constructing");
+        if (printTheStuff) {
+            System.out.println("42 *** OneMean_Power_VsEffectSizeView, Constructing");
         }
         this.oneMean_Power_Model = oneMean_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
@@ -54,7 +47,8 @@ public class OneMean_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
         graphsCSS = getClass().getClassLoader().getResource("Graphs.css").toExternalForm(); 
         oneMean_Power_Model.restoreNullValues();
         sampleSize = oneMean_Power_Model.getSampleSize();
-        nullMean = oneMean_Power_Model.getNullMu();
+        dbl_daN = sampleSize;
+        nullMean = oneMean_Power_Model.getNullParam();
         nullSigma = oneMean_Power_Model.getNullSigma();
         fromHere = -3.25 * nullSigma; 
         toThere = 3.25 * nullSigma; 
@@ -171,7 +165,6 @@ public class OneMean_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
         AnchorPane.setBottomAnchor(graphCanvas, 0.1 * dragHeight);
         
         gc.clearRect(0, 0, graphCanvas.getWidth(), graphCanvas.getHeight());
-        
         gc.setLineWidth(2);
         gc.setStroke(Color.BLACK);  
         
@@ -183,41 +176,37 @@ public class OneMean_Power_VsEffectSizeView extends BivariateScale_W_CheckBoxes_
         
         // Set initial yValue, and get the power there
         xx0 = xGraphLeft; 
-        oneMean_Power_Model.setAltMu(xx0 + nullMean); // xx0 is effect size
+        oneMean_Power_Model.setAltParam(xx0 + nullMean); // xx0 is effect size
         power = oneMean_Power_Model.calculatePower();
         yy0 = power;
         
         for (double x = xGraphLeft; x <= xGraphRight; x += delta) {
             xx1 = x; 
-            oneMean_Power_Model.setAltMu(xx1 + nullMean); // xx1 is effect size
+            oneMean_Power_Model.setAltParam(xx1 + nullMean); // xx1 is effect size
+            double tempEffectSize = xx1; 
+            // Get needed current values for restoration
+            double forRestorationAltProp = oneMean_Power_Model.getAltParam();   //  Move out of loop?
+            double forRestorationAltStErr = oneMean_Power_Model.getStErr_AltParam();    //  Move out of loop?
+            double tempAltProp = tempEffectSize + oneMean_Power_Model.getNullParam();        
+            double tempStErrNull = oneMean_Power_Model.getNullSigma()/ Math.sqrt(dbl_daN);
+            double tempStErrAlt = tempStErrNull;
+            oneMean_Power_Model.setAltParam(tempAltProp);
+            oneMean_Power_Model.setStErr_AltParam(tempStErrAlt);        
             power = oneMean_Power_Model.calculatePower();
+            // restore to prior values
+            oneMean_Power_Model.setAltParam(forRestorationAltProp);
+            oneMean_Power_Model.setStErr_AltParam(forRestorationAltStErr);
             yy1 = power;            
             xStart = xAxis.getDisplayPosition(xx1); 
             yStart = yAxis.getDisplayPosition(yy0); 
             xStop = xAxis.getDisplayPosition(xx1);
             yStop = yAxis.getDisplayPosition(yy1);
-            
             gc.setLineWidth(2);
             gc.setStroke(Color.BLUE);
             gc.strokeLine(xStart, yStart, xStop, yStop);            
             xx0 = xx1; yy0 = yy1;   //  Next start point for line segment
         }  
-        
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        })); 
-        
-    }   //  end doTheGraph     
+    }    
     
    public Pane getTheContainingPane() { return theContainingPane; }
 }

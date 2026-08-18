@@ -23,8 +23,7 @@ import javafx.scene.text.Text;
 
 public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View { 
     // POJOs
-    
-    // Make empty if no-print
+
     //String waldoFile = "ANOVA1_Quant_BoxPlotView";
     String waldoFile = "";
     
@@ -44,7 +43,7 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
         super(qanova1Model, qanova1Dashboard, "BoxPlot",
               placeHoriz, placeVert,  withThisWidth, withThisHeight);
         dm = qanova1Model.getDataManager();
-        dm.whereIsWaldo(47, waldoFile, "Constructing");
+        dm.whereIsWaldo(46, waldoFile, " *** Constructing");
         nCheckBoxes = 2;
         strCheckBoxDescriptions = new String[3];
         strCheckBoxDescriptions[0] = " Means diamond ";
@@ -223,9 +222,7 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
                         gc_Quant_ANOVA1.fillOval(xx - 3, yy - 3, 6, 6);   
                     }
                 }
-                
             }
-            
         }   //  Loop through batches
         
         qanova1_ContainingPane.requestFocus();
@@ -233,7 +230,6 @@ public class ANOVA1_Quant_BoxPlotView extends ANOVA1_Quant_View {
             KeyCode keyCode = ke.getCode();
             boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
             if (doIt) {
-                //System.out.println("Doing it -- Best Fit");
                 WritableImage writableImage = qanova1_ContainingPane.snapshot(new SnapshotParameters(), null);
                 ImageView iv = new ImageView(writableImage);
                 Clipboard clipboard = Clipboard.getSystemClipboard();

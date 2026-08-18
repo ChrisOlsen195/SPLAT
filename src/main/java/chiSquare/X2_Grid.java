@@ -1,7 +1,7 @@
 /**************************************************
  *                     X2Grid                     *
- *                    01/15/25                    *
- *                     12:00                      *
+ *                    06/27/26                    *
+ *                     15:00                      *
  *************************************************/
 
 package chiSquare;
@@ -36,10 +36,10 @@ public class X2_Grid extends Control {
     GridPane gridPane;
     Object tfObject; 
     ScrollBar sbHorizontal, sbVertical;
-    TextField tf[][];
+    public TextField tf[][];
 
     public X2_Grid (int numberOfRows, int numberOfColumns){
-        if (printTheStuff == true) {
+        if (printTheStuff) {
             System.out.println("43 *** X2Grid, Constructing");
         }
         this.numberOfRows = numberOfRows;
@@ -89,8 +89,6 @@ public class X2_Grid extends Control {
                 gridPane.add(tf[ithCol][jthRow], ithCol, jthRow);
             }
         }
-
-        tf[1][1].requestFocus();
     }   // end constructor
     
     public BorderPane getGridPane () {return borderPane; }
@@ -115,7 +113,10 @@ public class X2_Grid extends Control {
     public void updateHorzBar(int toHere) { }
     
     EventHandler<KeyEvent> x2Grid_KeyEventHandler = new EventHandler<KeyEvent>()  {
-        public void handle(KeyEvent ke) {           
+        public void handle(KeyEvent ke) {   
+        if (printTheStuff) {
+            System.out.println("120 ... X2Grid, x2Grid_KeyEventHandler");
+        }
             KeyCode keyCode = ke.getCode();  
             tfObject = ke.getSource();
             int row = GridPane.getRowIndex((TextField)tfObject);

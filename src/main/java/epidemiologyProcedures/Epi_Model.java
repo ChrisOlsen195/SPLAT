@@ -37,8 +37,8 @@ public class Epi_Model {
     String tempTopDataPt, tempLeftDataPt;
     
     // Make empty if no-print
-    String waldoFile = "Epi_Model";
-    //String waldoFile = "";
+    //String waldoFile = "Epi_Model";
+    String waldoFile = "";
 
 //  My classes   
     ArrayList<ColumnOfData> al_ColumnsOfData;

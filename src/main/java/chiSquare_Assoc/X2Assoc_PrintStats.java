@@ -1,7 +1,7 @@
 /****************************************************************************
  *                      X2Assoc_PrintStats                                  *
- *                           09/20/25                                       *
- *                             12:00                                        *
+ *                           08/16/26                                       *
+ *                             06:00                                        *
  ***************************************************************************/
 package chiSquare_Assoc;
 
@@ -20,10 +20,11 @@ public class X2Assoc_PrintStats extends PrintTextReport_View {
     double[][] obsVals, expVals, x2Contribution,
                standResids, cumProps;
     
-    int nRows, nCols, df, spacesAvailableForTitle,
-        spacesAvailableInTotal, nCellsBelow5;
+    int nRows, nCols, df, spacesBeforePrintedTitle, 
+        spacesAvailableInTotal, nCellsBelow5; 
 
-    String strTopVar, strLeftVar, strTitle, categoryAxisLabel;
+    String strTopVar, strLeftVar, strInitial_Title, categoryAxisLabel,
+           strPrinted_Title;
     String[] strTopLabels, strLeftLabels;
     
     // My classes
@@ -35,14 +36,14 @@ public class X2Assoc_PrintStats extends PrintTextReport_View {
             double placeHoriz, double placeVert,
             double withThisWidth, double withThisHeight) {
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("39 *** X2Assoc_PrintStats, Constructing");
+        if (printTheStuff) {
+            System.out.println("40 *** X2Assoc_PrintStats, Constructing");
         }
         this.x2Assoc_Model = x2Assoc_Model;
         stringsToPrint = new ArrayList<>();          
         strTopVar = x2Assoc_Model.getTopVariable();
         strLeftVar = x2Assoc_Model.getLeftVariable();
-        strTitle = strLeftVar + " and " + strTopVar;    
+        strInitial_Title = strLeftVar + " vs. " + strTopVar;    
         nRows = x2Assoc_Model.getNumberOfRows();  // Rows of observed
         nCols = x2Assoc_Model.getNumberOfColumns();  // Cols of observed
         obsVals = new double[nRows][nCols];
@@ -71,23 +72,23 @@ public class X2Assoc_PrintStats extends PrintTextReport_View {
     }
     
     public void constructPrintLines() {
-        if (printTheStuff == true) {
-            System.out.println("75 --- X2Assoc_PrintStats, constructPrintLines()");
+        if (printTheStuff) {
+            System.out.println("76 --- X2Assoc_PrintStats, constructPrintLines()");
         }
-        int leftPadSpaces;
-        String tempString, leftFill;
+        int leftPadTitleSpaces, leftPadLabelSpaces;
+        String tempString, leftFillTitle, leftFillLabels;
         stringsToPrint.add("\n\n");
-        strTitle = "Association between: " + strTitle; //  Center this!
-        spacesAvailableInTotal = 50 + 12 * nCols;  //  12 spaces for each col
-        leftPadSpaces = 23;
-        leftFill = StringUtilities.getStringOfNSpaces(leftPadSpaces);
-        spacesAvailableForTitle = spacesAvailableInTotal - leftPadSpaces;
-        String centeredTitle = StringUtilities.centerTextInString(strTitle, spacesAvailableForTitle) + "\n";
-        stringsToPrint.add(leftFill + centeredTitle + "\n");
-        leftPadSpaces = 23;
-        leftFill = StringUtilities.getStringOfNSpaces(leftPadSpaces);
+        strPrinted_Title = "Association between: " + strInitial_Title;
+        spacesAvailableInTotal = 15 + 12 * nCols;  //  12 spaces for each col
+        leftPadTitleSpaces = 6 + 6 * nCols - strPrinted_Title.length();
+        leftFillTitle = StringUtilities.getStringOfNSpaces(leftPadTitleSpaces);
+        spacesBeforePrintedTitle = spacesAvailableInTotal - leftPadTitleSpaces;
+        String centeredTitle = StringUtilities.centerTextInString(strPrinted_Title, spacesBeforePrintedTitle) + "\n";
+        stringsToPrint.add(leftFillTitle + centeredTitle + "\n");
+        leftPadLabelSpaces = 23;
+        leftFillLabels = StringUtilities.getStringOfNSpaces(leftPadLabelSpaces);
         
-        tempString = "\n" + leftFill;        
+        tempString = "\n" + leftFillLabels;        
         for (int col = 0; col < nCols; col++) {  
             String smallTop = StringUtilities.getleftMostNChars(strTopLabels[col], 12);
             tempString += StringUtilities.centerTextInString(smallTop, 12);   

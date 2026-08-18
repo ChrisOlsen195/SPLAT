@@ -1,7 +1,7 @@
 /**************************************************
  *             X2Assoc_MosaicPlotView             *
- *                    11/24/25                    *
- *                      00:00                     *
+ *                    06/27/26                    *
+ *                      15:00                     *
  *************************************************/
 package chiSquare_Assoc; 
 
@@ -83,7 +83,7 @@ public class X2Assoc_MosaicPlotView {
                       double placeHoriz, double placeVert,
                       double withThisWidth, double withThisHeight) {
         if (printTheStuff) {
-            System.out.println("86 *** BivCat_MosaicPlotView, Constructing");
+            System.out.println("86 *** X2Assoc_MosaicPlotView, Constructing");
         }
         pxMPVHeight = withThisHeight;
         pxMPVWidth = withThisWidth;
@@ -99,7 +99,7 @@ public class X2Assoc_MosaicPlotView {
     
     public void completeTheDeal() {
         if (printTheStuff) {
-            System.out.println("102 *** BivCat_MosaicPlotView, completeTheDeal()");
+            System.out.println("102 --- X2Assoc_MosaicPlotView, completeTheDeal()");
         }
         strTopLabels = new String[nColsCat];
         strLeftLabels = new String[nRowsCat];
@@ -158,7 +158,7 @@ public class X2Assoc_MosaicPlotView {
     
     private void setUpViewParams() {
         if (printTheStuff) {
-            System.out.println("\n161 *** BivCat_MosaicPlotView, setUpViewParams()");
+            System.out.println("161 --- X2Assoc_MosaicPlotView, setUpViewParams()");
         }        
         pxVertScaleWidth = 90;
         pxViewHeight = 0.95 * pxMPVHeight;
@@ -199,7 +199,7 @@ public class X2Assoc_MosaicPlotView {
     
     private void setUpLittleSquares() {
         if (printTheStuff) {
-            //System.out.println("202 *** BivCat_MosaicPlotView, setUpLittleSquares()");
+            //System.out.println("202 --- X2Assoc_MosaicPlotView, setUpLittleSquares()");
         }  
         mosaicPane = new Pane();
         mosaicPane.setPrefSize(0.95 * initWidth, 0.8 * initHeight);
@@ -245,7 +245,7 @@ public class X2Assoc_MosaicPlotView {
     
     private void setUpAnchorPane() {
         if (printTheStuff) {
-            //System.out.println("248 *** BivCat_MosaicPlotView, setUpAnchorPane()");
+            //System.out.println("248 --- X2Assoc_MosaicPlotView, setUpAnchorPane()");
         }
         dragableAnchorPane = new DragableAnchorPane();
         ex_AnchorPane = dragableAnchorPane.getTheAP();
@@ -275,7 +275,7 @@ public class X2Assoc_MosaicPlotView {
     
     public void doThePlot() { 
         if (printTheStuff) {
-            //System.out.println("\n\n278 *** BivCat_MosaicPlotView, doThePlot()");
+            //System.out.println("278 --- X2Assoc_MosaicPlotView, doThePlot()");
         }
         double x1, y1, x2, y2;
 
@@ -306,7 +306,7 @@ public class X2Assoc_MosaicPlotView {
     
     private void doTheMarginalPlot() {
         if (printTheStuff) {
-            //System.out.println("309 *** BivCat_MosaicPlotView, doTheMarginalPlot()");
+            //System.out.println("309 --- X2Assoc_MosaicPlotView, doTheMarginalPlot()");
         }
         double marginalCumulativeProp_1, marginalCumulativeProp_2;
 
@@ -349,8 +349,8 @@ public class X2Assoc_MosaicPlotView {
                                 double pxHighX, double pxHighY,
                                 Color daColor) {
         if (printTheStuff) {
-            //System.out.println("361 --- BivCat_MosaicPlotView, gimmeARect, pxPoint1 = " + pxLowX + " / " + pxLowY);
-            //System.out.println("362 --- BivCat_MosaicPlotView, gimmeARect pxPoint2 = " + pxHighX + " / " + pxHighY);
+            //System.out.println("352 --- X2Assoc_MosaicPlotView, gimmeARect, pxPoint1 = " + pxLowX + " / " + pxLowY);
+            //System.out.println("353 --- X2Assoc_MosaicPlotView, gimmeARect pxPoint2 = " + pxHighX + " / " + pxHighY);
         }
 
         Rectangle rect;

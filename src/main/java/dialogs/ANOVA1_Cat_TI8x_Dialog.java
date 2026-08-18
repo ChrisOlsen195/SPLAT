@@ -68,7 +68,7 @@ public class ANOVA1_Cat_TI8x_Dialog extends Splat_Dialog {
 
     private void createANOVA_TI8x_Dialog() {
         if (printTheStuff) {
-            System.out.println("*** 71 ANOVA1_Cat_TI8x_Dialog, createANOVA_TI8x_Dialog()");
+            System.out.println("--- 71 ANOVA1_Cat_TI8x_Dialog, createANOVA_TI8x_Dialog()");
         }
         boolGoodToGo = true;
         strReturnStatus = "OK";

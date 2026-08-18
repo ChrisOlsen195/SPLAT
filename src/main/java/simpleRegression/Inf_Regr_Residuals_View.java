@@ -1,7 +1,7 @@
 /**************************************************
- *                 Residuals_View                 *
- *                    01/16/25                    *
- *                      12:00                     *
+ *             Inf_Regr_Residuals_View            *
+ *                    06/04/26                    *
+ *                      09:00                     *
  *************************************************/
 package simpleRegression;
 
@@ -24,7 +24,7 @@ import javafx.scene.text.Text;
 import matrixProcedures.Matrix;
 import probabilityDistributions.FDistribution;
 
-public class Regr_Residuals_View extends BivariateScale_W_CheckBoxes_View
+public class Inf_Regr_Residuals_View extends BivariateScale_W_CheckBoxes_View
 {
     // POJOs
     //boolean printTheStuff = true;
@@ -46,12 +46,12 @@ public class Regr_Residuals_View extends BivariateScale_W_CheckBoxes_View
     //  POJO / FX
     Pane theContainingPane;
     
-    public Regr_Residuals_View(Inf_Regr_Model regModel, Regr_Dashboard regDashboard,
+    public Inf_Regr_Residuals_View(Inf_Regr_Model regModel, Inf_Regr_Dashboard regDashboard,
                         double placeHoriz, double placeVert,
                         double withThisWidth, double withThisHeight) {        
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);   
         if (printTheStuff == true) {
-            System.out.println("54 *** Regression_Residuals_View, Constructing");
+            System.out.println("54 *** Inf_Regression_Residuals_View, Constructing");
         }
         X = regModel.getXVar(); 
         Y = regModel.getResids();

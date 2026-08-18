@@ -1,7 +1,7 @@
 /**************************************************
  *          OneMean_Power_VsAlphaView             *
- *                  01/15/25                      *
- *                    21:00                       *
+ *                  05/21/26                      *
+ *                    18:00                       *
  *************************************************/
 package power_OneMean;
 
@@ -16,13 +16,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import superClasses.*;
 import genericClasses.*;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.KeyCode;
 
 public class OneMean_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View {
     // POJOs
@@ -46,8 +39,8 @@ public class OneMean_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight);
-        if (printTheStuff == true) {
-            System.out.println("50 *** OneMean_Power_VsAlphaView, Constructing");
+        if (printTheStuff) {
+            System.out.println("43 *** OneMean_Power_VsAlphaView, Constructing");
         }
         this.oneMean_Power_Model = oneMean_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
@@ -198,22 +191,7 @@ public class OneMean_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_View 
             gc.strokeLine(xStart, yStart, xStop, yStop);            
 
             xx0 = xx1; yy0 = yy1;   //  Next start point for line segment
-        }     
-
-        theContainingPane.requestFocus();
-        theContainingPane.setOnKeyPressed((ke -> {
-            KeyCode keyCode = ke.getCode();
-            boolean doIt = ke.isControlDown() && (ke.getCode() == KeyCode.C);
-            if (doIt) {
-                WritableImage writableImage = theContainingPane.snapshot(new SnapshotParameters(), null);
-                ImageView iv = new ImageView(writableImage);
-                clipboard = Clipboard.getSystemClipboard();
-                content = new ClipboardContent();
-                content.put(DataFormat.IMAGE, writableImage);
-                clipboard.setContent(content);
-            }
-        }));
-        
+        }       
     }   //  end doTheGraph    
     
    public Pane getTheContainingPane() {  return theContainingPane; }

@@ -36,7 +36,7 @@ public class RandAssgn {
             this.design = design;            
             if (design.equals("RBD")) {
                 column_BlockingVariable = new ColumnOfData(data.get(1));
-                blockVarIsNumeric = data.get(1).getDataType().equals("Quantitative");
+                blockVarIsNumeric = data.get(1).getStrDataType().equals("Quantitative");
                 //System.out.println("40 RandAssign, blockVarIsNumeric = " + blockVarIsNumeric);
             }
             
@@ -126,7 +126,6 @@ public class RandAssgn {
             }
         }
     }
-    
     
     private void bubbleSortByBlockByValue() {
         

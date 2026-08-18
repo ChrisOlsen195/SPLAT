@@ -9,6 +9,7 @@
 **************************************************/
 package superClasses;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import splat.Data_Manager;
 
 public abstract class Dashboard extends Stage {
@@ -82,6 +84,14 @@ public abstract class Dashboard extends Stage {
         upperLeftY = 0.025 * visualBounds.getMaxY();
         lowerRightX = 0.975 * visualBounds.getMaxX();
         lowerRightY = 0.975 * visualBounds.getMaxY(); 
+        
+        /*
+        addEventHandler(WindowEvent.ANY, new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent event) {
+                System.out.println("In (super)Dashboard, event type = " + event.getEventType());
+            }
+        });
+        */
         
         nCheckBoxes = numberOfCheckBoxes;
         nSpacers = numberOfCheckBoxes + 1;

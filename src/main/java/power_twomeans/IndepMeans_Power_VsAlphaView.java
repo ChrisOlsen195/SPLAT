@@ -47,8 +47,8 @@ public class IndepMeans_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_Vi
                          double withThisWidth, double withThisHeight) {
         
         super(placeHoriz, placeVert, withThisWidth, withThisHeight); 
-        if (printTheStuff == true) {
-            System.out.println("51 *** IndepMeans_Power_VsAlphaView, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 51 IndepMeans_Power_VsAlphaView, Constructing");
         }
         this.indepMeans_Power_Model = indepMeans_Power_Model;
         initHoriz = placeHoriz; initVert = placeVert;
@@ -117,8 +117,7 @@ public class IndepMeans_Power_VsAlphaView extends BivariateScale_W_CheckBoxes_Vi
         yAxis.setUpperBound(newY_Upper );          
     }
 
-    private void prepareTheDensityAxis()
-    {     
+    private void prepareTheDensityAxis() {     
         xGraphLeft = fromHere;
         xAxis.forceLowScaleEndToBe(0.0); 
         xAxis.forceHighScaleEndToBe(0.200);

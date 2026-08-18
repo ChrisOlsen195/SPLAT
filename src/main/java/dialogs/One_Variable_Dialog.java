@@ -85,7 +85,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
     
     private String proceed() {
         if (printTheStuff) {
-            System.out.println("*** 88 One_Variable_Dialog, proceed()");
+            System.out.println("--- 88 One_Variable_Dialog, proceed()");
         }
         strReturnStatus = "OK";
         boolGoodToGo = true;
@@ -95,7 +95,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
 
         if (dmIsPresent) {
             if (printTheStuff) {
-                System.out.println("--- 98 One_Variable_Dialog, proceed()");
+                System.out.println("... 98 One_Variable_Dialog, proceed()");
             }
             selectionDirections = new Label("Please select the variable of interest below...");
             selectionDirections.setPadding(new Insets(25, 0, 0, 0));      
@@ -125,7 +125,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
         tf_DescriptionOfVarSelected.setPrefColumnCount(15);
         tf_DescriptionOfVarSelected.textProperty().addListener(this::changeExplanVar);     
         if (printTheStuff) {
-            System.out.println("--- 128 One_Variable_Dialog, proceed()");
+            System.out.println("... 128 One_Variable_Dialog, proceed()");
         }
         if(dmIsPresent) {
             gridChoicesMade = new GridPane();
@@ -156,7 +156,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
         middlePanel.setAlignment(Pos.CENTER);
         middlePanel.getChildren().add(leftPanel);    
         if (printTheStuff) {
-            System.out.println("--- 159 One_Variable_Dialog, proceed()");
+            System.out.println("... 159 One_Variable_Dialog, proceed()");
         }
         if (dmIsPresent) {
             middlePanel.getChildren().add(vBoxVars2ChooseFrom);
@@ -192,7 +192,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
         setOnCloseRequest((WindowEvent event) -> {
             strReturnStatus = "Cancel";
             if (printTheStuff == true) {
-                System.out.println("--- 195 One_Variable_Dialog, setOnCloseRequest");
+                System.out.println("... 195 One_Variable_Dialog, setOnCloseRequest");
             }
             hide();
         });
@@ -207,7 +207,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
             hide();
         });        
         if (printTheStuff) {
-            System.out.println("--- 210 One_Variable_Dialog, btnCancel.setOnAction");
+            System.out.println("... 210 One_Variable_Dialog, btnCancel.setOnAction");
         }
         if (dmIsPresent) {
             selectVariable.setOnAction((ActionEvent event) -> {                
@@ -267,7 +267,7 @@ public class One_Variable_Dialog extends Splat_Dialog {
         strVarLabel = tf_labelOfVarSelected.getText();
         varIndex = dm.getVariableIndex(strVarLabel);   
 
-        boolean varIsNumeric = dm.getAllTheColumns().get(varIndex).getDataType().equals("Quantitative");
+        boolean varIsNumeric = dm.getAllTheColumns().get(varIndex).getStrDataType().equals("Quantitative");
         if (daCorrectType.equals("Quantitative") && !varIsNumeric) {
             isCorrectType = false;
             MyAlerts.showInappropriateNonNumericVariableAlert();

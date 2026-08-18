@@ -33,12 +33,12 @@ public class Single_t_Controller {
     // ******  Constructor called from Main Menu  ******
     public Single_t_Controller(Data_Manager dm) {
         this.dm = dm; 
-        dm.whereIsWaldo(36, waldoFile, "*** Constructing from Data_Manager");
-        dm.whereIsWaldo(37, waldoFile, "... Constructing from Data_Manager, dm = " + dm.getTheFileName());
+        dm.whereIsWaldo(36, waldoFile, " *** Constructing from Data_Manager");
+        dm.whereIsWaldo(37, waldoFile, " ... Constructing from Data_Manager, dm = " + dm.getTheFileName());
     }
 
     public String chooseDataOrSummary() {
-        dm.whereIsWaldo(41, waldoFile, "--- chooseDataOrSummary()");
+        dm.whereIsWaldo(41, waldoFile, " --- chooseDataOrSummary()");
         DataStructChoice_Dialog_t_Single_Mean sed = new DataStructChoice_Dialog_t_Single_Mean(this);
         
         if (dataOrSummary.equals("Raw data")) { doHaveData(); }
@@ -58,9 +58,9 @@ public class Single_t_Controller {
     
     // Have data
     public String doHaveData() {
-        dm.whereIsWaldo(61, waldoFile, "--- doHaveData()");
+        dm.whereIsWaldo(61, waldoFile, " --- doHaveData()");
         String tempFileName = dm.getTheFileName();
-        dm.whereIsWaldo(63, waldoFile, "... doHaveData(), file = " + tempFileName);
+        dm.whereIsWaldo(63, waldoFile, " ... doHaveData(), file = " + tempFileName);
         returnStatus = "OK";
         int casesInStruct = dm.getNCasesInStruct();
         
@@ -86,7 +86,7 @@ public class Single_t_Controller {
     } 
     
     private String doTheProcedure() {
-        dm.whereIsWaldo(89, waldoFile, "--- doTheProcedure()");
+        dm.whereIsWaldo(89, waldoFile, " --- doTheProcedure()");
         returnStatus = "OK";
         single_t_Model = new Single_t_Model(this, theQDV);
         single_t_Model.doTAnalysis();

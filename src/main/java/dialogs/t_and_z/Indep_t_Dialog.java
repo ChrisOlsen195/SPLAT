@@ -276,8 +276,7 @@ public class Indep_t_Dialog extends Two_Variables_Dialog{
  
     public double getInd_t_Alpha() {  return alpha; }
     public String getAltHypothesis() { return strAltHypothesis; }
-    public double getHypothesizedDiffInMeans() { return hypothesizedDifference; }
-    
+    public double getTheHypothesizedDiff() { return hypothesizedDifference; }
     public String toString() { return "Indep_t_Dialog.toString() called"; }
 }
 

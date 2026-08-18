@@ -39,14 +39,14 @@ public class PrintFile_Model {
 
     public PrintFile_Model(Data_Manager dm, PrintFile_Controller printFile_Controller) {   
         this.dm = dm;
-        dm.whereIsWaldo(42, waldoFile, "Constructing");
+        dm.whereIsWaldo(42, waldoFile, " *** Constructing");
         this.printFile_Controller = printFile_Controller;
         fileName = dm.getTheFile();
         prtFile_Report = new ArrayList();
     }
    
    public void printFile() {
-        dm.whereIsWaldo(49, waldoFile, "printFile()");
+        dm.whereIsWaldo(49, waldoFile, " --- printFile()");
         setTheTable();
         constructVariableFormats();
         
@@ -77,14 +77,14 @@ public class PrintFile_Model {
         varIsNumeric = new boolean[nVarsChosen]; 
         varIsInteger = new boolean[nVarsChosen]; 
         for (int ithVar = 0; ithVar < nVarsChosen; ithVar++) {
-            varIsNumeric[ithVar] = data.get(ithVar).getDataType().equals("Quantitative");
+            varIsNumeric[ithVar] = data.get(ithVar).getStrDataType().equals("Quantitative");
             varIsInteger[ithVar] = true;
         }
         sbVarsLine = new StringBuilder();
    }
    
    private void constructVariableFormats() {
-        dm.whereIsWaldo(87, waldoFile, "constructVariableFormats()");
+        dm.whereIsWaldo(87, waldoFile, " --- constructVariableFormats()");
         // Determine the format for this variable
         for (int ithVar = 0; ithVar < nVarsChosen; ithVar++) {
             maxDataStringLen[ithVar] = data.get(ithVar).getVarLabel().length();
@@ -142,7 +142,7 @@ public class PrintFile_Model {
    }    // constructVariableFormats()
    
    private void constructDataLineFormats() {
-        dm.whereIsWaldo(145, waldoFile, "constructDataLineFormats()");
+        dm.whereIsWaldo(145, waldoFile, " --- constructDataLineFormats()");
         // Create data line format
         for (int ithVar = 0; ithVar < nVarsChosen; ithVar++) {
             if (varIsNumeric[ithVar]) {
@@ -166,7 +166,7 @@ public class PrintFile_Model {
    }
    
    private void processDataLines() {
-        dm.whereIsWaldo(169, waldoFile, "processDataLines()");
+        dm.whereIsWaldo(169, waldoFile, " --- processDataLines()");
         for (int ithRow = 0; ithRow < nRows; ithRow++) {
             
             sbDataLine = new StringBuilder();

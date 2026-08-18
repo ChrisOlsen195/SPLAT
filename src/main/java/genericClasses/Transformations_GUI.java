@@ -144,7 +144,7 @@ public class Transformations_GUI {
             boolean columnIsEmpty = dm.getAllTheColumns().get(i).getColumnOfData().getColumnIsEmpty();            
             if (columnIsEmpty) { isNumeric = false; }   // Must be SOME reason for this repeat ?????????????????
             
-            isNumeric = dm.getAllTheColumns().get(i).getDataType().equals("Quantitative");             
+            isNumeric = dm.getAllTheColumns().get(i).getStrDataType().equals("Quantitative");             
             if (columnIsEmpty) { isNumeric = false; }   // Must be SOME reason for this repeat  ????????????????
             
             if ((firstNumericVariable == -1) && (isNumeric)) {
@@ -218,7 +218,7 @@ public class Transformations_GUI {
     }
     
     public void linearCombOfVariables() {
-        dm.whereIsWaldo(220, waldoFile, " --- linearCombOfVariables()");
+        dm.whereIsWaldo(221, waldoFile, " --- linearCombOfVariables()");
         linCombVarsParams = new String[] {newVarName, "1.0", "1.0"};
         strAlphaValue = linCombVarsParams[1];
         strBetaValue = linCombVarsParams[2];
@@ -261,7 +261,7 @@ public class Transformations_GUI {
     }
     
     public void linTransFuncs() {
-        dm.whereIsWaldo(262, waldoFile, "--- linTransFuncs()");        
+        dm.whereIsWaldo(264, waldoFile, " --- linTransFuncs()");        
         linTransFuncsParams = new String[] {newVarName, "0.0", "1.0"}; 
         strAlphaValue = linTransFuncsParams[1];
         strBetaValue = linTransFuncsParams[2];
@@ -304,7 +304,7 @@ public class Transformations_GUI {
     }
     
     public void unaryOperationOnVar() {
-        dm.whereIsWaldo(304, waldoFile, "--- unaryOperationOnVar()");
+        dm.whereIsWaldo(307, waldoFile, " --- unaryOperationOnVar()");
         nUnaryFuncsParams = unaryOpNames.length;   // Names in 598
         stfUnaryOp = new SmartTextField();
         stfUnaryOp.getTextField().setText(newVarName);   
@@ -329,7 +329,7 @@ public class Transformations_GUI {
     }    
     
     public void binaryOpsWithVariables() {
-        dm.whereIsWaldo(328, waldoFile, " --- binaryOpsWithVariables()");
+        dm.whereIsWaldo(332, waldoFile, " --- binaryOpsWithVariables()");
         nBinaryFuncsParams = unaryOpNames.length;   // Names in 598
         stfBinaryOp = new SmartTextField();
         stfBinaryOp.getTextField().setText(newVarName); 
@@ -775,7 +775,7 @@ public class Transformations_GUI {
         numVars = tracker.getNVarsInStruct();
         col++;
         dm.setVariableNameInStruct(col - 1, tfNewVariable.getText());
-        dm.getAllTheColumns().get(col - 1).setDataType("Quantitative");
+        dm.getAllTheColumns().get(col - 1).setStrDataType("Quantitative");
         theNewColumn = dm.getAllTheColumns().get(col - 1);
         int columnSize = theNewColumn.getColumnSize();
         

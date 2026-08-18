@@ -1,7 +1,7 @@
 /**********************************************************************
- *                           BootedTwoStat                            *
- *                             12/31/25                               *
- *                               18:00                                *
+ *                           Boot_TwoStats                            *
+ *                             08/02/26                               *
+ *                               15:00                                *
  *********************************************************************/
 package bootstrapping;
 
@@ -12,7 +12,7 @@ import utilityClasses.MyAlerts;
 import dataObjects.*;
 import utilityClasses.DataUtilities;
 
-public class BootedTwoStat {
+public class Boot_TwoStats {
     Boolean statChosen;
     Boolean[] checkBoxValues;
     
@@ -21,7 +21,7 @@ public class BootedTwoStat {
 
     double[] ar_DataFirst, ar_DataSecond, ar_OriginalDataCombined, ar_bootstrappedStat;
     double[] ar_slicedSample_First, ar_slicedSample_Second;
-    String returnStatus, chosenStat, tidyOrTI8x, theStatLabel;
+    String returnStatus, chosenStat, tidyOrTI8x; //, theStatLabel;
     String[] cbArrStatDescriptions;
     
     // Make empty if no-print
@@ -32,14 +32,14 @@ public class BootedTwoStat {
     ArrayList<String> theLabels;
 
     Data_Manager dm;
-    QuantitativeDataVariable qdv_FirstSlice, qdv_SecondSlice, qdv_CombinedData,
+    QuantitativeDataVariable qdv_FirstSlice, qdv_SecondSlice, //qdv_CombinedData,
                              qdv_bootstrappedStats;
     
-    public BootedTwoStat(ChooseStats_Controller chooseStats_Controller, ArrayList <ColumnOfData> alCol_twoVars) {
-        dm = chooseStats_Controller.getTheDataManager();
+    public Boot_TwoStats(Boot_Controller boot_Controller, ArrayList <ColumnOfData> alCol_twoVars) {
+        dm = boot_Controller.getTheDataManager();
         dm.whereIsWaldo(40, waldoFile, "***  Constructing"); 
         returnStatus = "OK";
-        tidyOrTI8x = chooseStats_Controller.getTidyOrTI8x();
+        tidyOrTI8x = boot_Controller.getTidyOrTI8x();
         if (tidyOrTI8x.equals("TI8x")) {
             //alCol_twoVars.get(0).toString();
             //alCol_twoVars.get(1).toString();
@@ -88,14 +88,14 @@ public class BootedTwoStat {
         
         //DataUtilities.printArrayOfDoubles("89 BootedTwoStat, ar_DataCombined", ar_OriginalDataCombined);
         
-        cbArrStatDescriptions = chooseStats_Controller.getRepAndStatCheckBoxDescriptions();      
-        cbArrStatDescriptions = chooseStats_Controller.getRepAndStatCheckBoxDescriptions();
-        nCheckBoxes = chooseStats_Controller.getNCheckBoxes();
+        cbArrStatDescriptions = boot_Controller.getRepAndStatCheckBoxDescriptions();      
+        cbArrStatDescriptions = boot_Controller.getRepAndStatCheckBoxDescriptions();
+        nCheckBoxes = boot_Controller.getNCheckBoxes();
         checkBoxValues = new Boolean[nCheckBoxes];
-        checkBoxValues = chooseStats_Controller.getRepAndStatCheckBoxValues();
+        checkBoxValues = boot_Controller.getRepAndStatCheckBoxValues();
         nCheckBoxes = checkBoxValues.length;
-        qdv_CombinedData = new QuantitativeDataVariable("BootedStat", "BootedStat", ar_OriginalDataCombined);
-        nReplications = chooseStats_Controller.getNReps();        
+        //qdv_CombinedData = new QuantitativeDataVariable("BootedStat", "BootedStat", ar_OriginalDataCombined);
+        nReplications = boot_Controller.getNReps();        
     }
     
     // Called from Controller
@@ -125,7 +125,7 @@ public class BootedTwoStat {
         for (int ithCBox = 0; ithCBox < nCheckBoxes; ithCBox++) {
             if (checkBoxValues[ithCBox] == true) {  //  If this statistic is desired
                 theStatisticToCalculate = ithCBox;
-                theStatLabel = cbArrStatDescriptions[ithCBox]; 
+                //theStatLabel = cbArrStatDescriptions[ithCBox]; 
                 statChosen = true;
             }
         }   
@@ -133,7 +133,7 @@ public class BootedTwoStat {
     }
     
     private void sliceTheData() {
-        dm.whereIsWaldo(136, waldoFile, "--- sliceTheData()");
+        //dm.whereIsWaldo(136, waldoFile, "--- sliceTheData()");
         DataUtilities.arrayShuffle(ar_OriginalDataCombined);
         //DataUtilities.printArrayOfDoubles("Sliced original combined", ar_OriginalDataCombined);
         ar_slicedSample_First = new double[nLegalFirst];
@@ -151,7 +151,7 @@ public class BootedTwoStat {
         
         qdv_FirstSlice = new QuantitativeDataVariable("FirstSlice", "FirstSlice", ar_slicedSample_First);
         qdv_SecondSlice = new QuantitativeDataVariable("SecondSlice", "SecondSlice", ar_slicedSample_Second);     
-        dm.whereIsWaldo(154, waldoFile, "--- End sliceTheData()");
+        //dm.whereIsWaldo(154, waldoFile, "--- End sliceTheData()");
     }
     
     private double calculateTheStatistic() {

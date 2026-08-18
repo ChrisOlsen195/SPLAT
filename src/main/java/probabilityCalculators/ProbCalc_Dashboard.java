@@ -51,8 +51,8 @@ public class ProbCalc_Dashboard extends Dashboard {
             
     public ProbCalc_Dashboard(ProbCalc_Controller probCalc_Controller) {
         super(5);  // nCheckBoxes = 5;
-        if (printTheStuff == true) {
-            System.out.println("55 *** ProbCalc_Dashboard, Constructing");
+        if (printTheStuff) {
+            System.out.println("*** 55 ProbCalc_Dashboard, Constructing");
         }
         checkBoxDescr = new String[nCheckBoxes];
         
